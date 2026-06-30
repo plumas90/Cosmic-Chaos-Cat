@@ -1,0 +1,1287 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14cb942338d42be43bbd4caae1780dc6, type: 3}
+  m_Name: CardCatalog
+  m_EditorClassIdentifier: 
+  cards:
+  - Id: cat-tophat
+    DisplayName: "\uC911\uC808\uBAA8\uC4F4 \uD770\uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-calico
+    DisplayName: "\uC0BC\uC0C9\uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-cheese
+    DisplayName: "\uCE58\uC988\uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-black
+    DisplayName: "\uAC80\uC815\uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-thunder
+    DisplayName: "\uC36C\uB354\uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-chimera
+    DisplayName: "\uD0A4\uBA54\uB77C \uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-puss-in-boots
+    DisplayName: "\uC7A5\uD654\uC2E0\uC740\uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-cerberus
+    DisplayName: "\uCF00\uB85C\uBCA0\uB85C\uC2A4 \uC170\uBC84"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-chapi-chapo
+    DisplayName: "\uCE58\uD53C\uCE58\uD53C\uCC28\uD30C\uCC28\uD30C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-popcat
+    DisplayName: "\uD31D\uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-nyancat
+    DisplayName: "\uB0E5\uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-nabitang
+    DisplayName: "\uB098\uBE44\uD0D5"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-nyanpunch
+    DisplayName: "\uB0E5\uB0E5 \uD380\uCE58"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bongocat
+    DisplayName: "\uBD09\uACE0\uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-gaejugi
+    DisplayName: "\uAC1C\uC8FD\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-buttertoast
+    DisplayName: "\uBC84\uD130\uD1A0\uC2A4\uD2B8 \uBB34\uD55C\uB3D9\uB825"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-loaf
+    DisplayName: "\uC2DD\uBE75"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-breadcat
+    DisplayName: "\uC2DD\uBE75\uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-spinning
+    DisplayName: Flying Spinning Cat
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-crying
+    DisplayName: "\uC6B0\uB294 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-sad-dance
+    DisplayName: "\uC2AC\uD508 \uACE0\uC591\uC774 \uB304\uC2A4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-woman-yelling
+    DisplayName: Woman Yelling at a Cat
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-meowl
+    DisplayName: Meowl
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-frozen-river
+    DisplayName: "\uAF41\uAF41\uC5BC\uC5B4\uBD99\uC740\uD56D\uAC15\uC704\uB85C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-minecraft
+    DisplayName: "\uB9C8\uD06C \uB124\uBAA8\uB124\uBAA8 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-round
+    DisplayName: "\uB3D9\uAE00\uB3D9\uAE00\uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-hug
+    DisplayName: "\uC548\uC544\uC918\uC694 \uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-desert-frog
+    DisplayName: "\uC0AC\uB9C9\uBE44\uAC1C\uAD6C\uB9AC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-thunder2
+    DisplayName: "\uACE0\uC591\uC774\uC36C\uB354"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-person-costume
+    DisplayName: "\uACE0\uC591\uC774 \uD0C8 \uC0AC\uB78C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-dark-eyes
+    DisplayName: "\uAC80\uC815 \uB208\uB9CC \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-murphy
+    DisplayName: "\uBA38\uD53C\uC758 \uBC95\uCE59 \uC0AC\uB2E4\uB9AC \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-martial-arts
+    DisplayName: "AI \uBB34\uC220 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-cone
+    DisplayName: "\uB3D9\uBB3C\uBCD1\uC6D0 \uCF58 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-littleprince-box
+    DisplayName: "\uC5B4\uB9B0 \uC655\uC790 \uC0C1\uC790"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-littleprince-hat
+    DisplayName: "\uC5B4\uB9B0 \uC655\uC790 \uBAA8\uC790"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-snowleopard-tail
+    DisplayName: "\uC790\uAE30 \uAF2C\uB9AC \uBB38 \uC124\uD45C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-box-full
+    DisplayName: "\uBC15\uC2A4 \uAF49 \uCC44\uC6B4 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-glass-bottom
+    DisplayName: "\uC720\uB9AC \uBC11\uC5D0\uC11C \uBCF8 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-tiger-shadow
+    DisplayName: "\uD638\uB791\uC774 \uADF8\uB9BC\uC790 \uC9E4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-spiky
+    DisplayName: "\uC2A4\uD53C\uD0A4\uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-idw
+    DisplayName: "\uC544\uC774\uB514\uB2E4\uBE0C\uB958"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-letters
+    DisplayName: "CAT \uAE00\uC790 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-lonely-person
+    DisplayName: "\uC591\uC606 \uACE0\uC591\uC774 \uD63C\uC790\uC778 \uC0AC\uB78C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-glass-push
+    DisplayName: "\uC2DD\uD0C1 \uC720\uB9AC\uCEF5 \uB5A8\uAD6C\uAE30"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-drawn
+    DisplayName: "\uB0B4\uAC00 \uADF8\uB9B0 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-broad-shoulders
+    DisplayName: "\uC5B4\uAE68 \uB113\uC740 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bus
+    DisplayName: "\uACE0\uC591\uC774 \uBC84\uC2A4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-trojan
+    DisplayName: "\uD2B8\uB85C\uC774 \uBAA9\uB9C8 \uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-constellation
+    DisplayName: "\uC6B0\uC8FC \uBCC4\uC790\uB9AC \uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-four-monster
+    DisplayName: Four Cat Monster
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-food-countries
+    DisplayName: "\uB098\uB77C\uBCC4 \uC74C\uC2DD \uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-hotdog
+    DisplayName: "\uD1B5\uBAA8\uC9DC\uD56B\uB3C4\uADF8"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-sleeping-cool
+    DisplayName: "\uC694\uC998\uC798\uC790\uCFE8\uB0E5\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-maneki-neko
+    DisplayName: "\uB9C8\uB124\uD0A4\uB124\uCF54"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-burger
+    DisplayName: "\uD584\uBC84\uAC70 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-sofa
+    DisplayName: "\uC1FC\uD30C\uC5D0 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-product
+    DisplayName: "\uACE0\uC591\uC774 \uC81C\uD488"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-river-bag
+    DisplayName: "\uAC15\uC5D0 \uBC84\uB9AC\uB294 \uC790\uB8E8 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-box-paws
+    DisplayName: "\uBC15\uC2A4 \uBC1C\uB9CC \uD280\uC5B4\uB098\uC628 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-mural
+    DisplayName: "\uACE0\uC591\uC774 \uBCBD\uD654"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-anubis
+    DisplayName: "\uC544\uB204\uBE44\uC2A4 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-roomba
+    DisplayName: "\uB85C\uBD07 \uCCAD\uC18C\uAE30 \uC704 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-rainbow-monitor
+    DisplayName: "\uBB34\uC9C0\uAC1C \uBAA8\uB2C8\uD130 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bonobono-rainbow
+    DisplayName: "\uBCF4\uB178\uBCF4\uB178 \uBB34\uC9C0\uAC1C \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-pawprints
+    DisplayName: "\uACE0\uC591\uC774 \uBC1C\uC790\uAD6D"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-yuno
+    DisplayName: "\uBBF8\uB798\uC77C\uAE30 \uC720\uB178\uC9E4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bremen
+    DisplayName: "\uBE0C\uB808\uBA58\uC74C\uC545\uB300"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bell
+    DisplayName: "\uACE0\uC591\uC774 \uBAA9\uC5D0 \uBC29\uC6B8 \uB2EC\uAE30"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-liquid
+    DisplayName: "\uACE0\uC591\uC774 \uC561\uCCB4\uC124"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-witch
+    DisplayName: "\uB9C8\uB140\uC640 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-scratch-move
+    DisplayName: "\uACE0\uC591\uC774 \uAE01\uAE30 \uBC1C\uC790\uAD6D"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-tower
+    DisplayName: "\uCEA3\uD0C0\uC6CC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-microwave
+    DisplayName: "\uACE0\uC591\uC774 \uC804\uC790\uB808\uC778\uC9C0"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-yugioh
+    DisplayName: "\uC720\uD76C\uC655 \uCE74\uB4DC \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-emergency-exit
+    DisplayName: "\uBE44\uC0C1\uD0C8\uCD9C\uAD6C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-sleeping-chess
+    DisplayName: "\uC7A0\uC790\uB294 \uCCB4\uC2A4 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-gingerbread
+    DisplayName: "\uC9C4\uC800\uBE0C\uB808\uB4DC \uCFE0\uD0A4 \uCEA3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: food
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-hwatu
+    DisplayName: "\uD654\uD22C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-tarot
+    DisplayName: "\uD0C0\uB85C"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-wheel
+    DisplayName: "\uACE0\uC591\uC774 \uCEA3\uD720"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-tail-chase
+    DisplayName: "\uAF2C\uB9AC \uC7A1\uC73C\uB824\uB294 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-miku
+    DisplayName: "\uBBF8\uCFE0 \uBAA8\uB2C8\uD130\uB9C1"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-sprigatito
+    DisplayName: "\uB0D0\uC624\uD558"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-gurren-lagann
+    DisplayName: "\uADF8\uB80C\uB77C\uAC04 \uC120\uAE00\uB77C\uC2A4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-digimon-goggles
+    DisplayName: "\uB514\uC9C0\uBAAC \uACE0\uAE00"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-demian-eyepatch
+    DisplayName: "\uB370\uBBF8\uC548 \uC548\uB300"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-scouter
+    DisplayName: "\uC2A4\uCE74\uC6B0\uD130 \uB4DC\uB798\uACE4\uBCFC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-monocle
+    DisplayName: "\uBAA8\uB178\uD074"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-isaac-tech
+    DisplayName: "\uC544\uC774\uC791 \uD14C\uD06C X"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: game
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-eyepatch
+    DisplayName: "\uC548\uB300"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-red-riding-hood
+    DisplayName: "\uBE68\uAC04\uB9DD\uD1A0 \uB450\uAC74"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-robin-hood
+    DisplayName: "\uB85C\uBE48 \uD6C4\uB4DC \uAE43\uD138\uBAA8\uC790"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-bandage
+    DisplayName: "\uBC18\uCC3D\uACE0 \uBD99\uC774\uAE30"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-mermaid
+    DisplayName: "\uC778\uC5B4\uACF5\uC8FC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-genie
+    DisplayName: "\uB7A8\uD504\uC758\uC694\uC815"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-cannon
+    DisplayName: "\uACE0\uC591\uC774\uB300\uD3EC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-human-tower
+    DisplayName: "\uC778\uAC04\uD0D1"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-eaten
+    DisplayName: "\uBA39\uD788\uB294 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: meme
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-hairball
+    DisplayName: "\uD138\uBB49\uCE58"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-fish-tank
+    DisplayName: "\uC5B4\uD56D\uC5D0 \uBE44\uCE5C \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: basic
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-stretch
+    DisplayName: "\uB298\uC5B4\uB098\uB294 \uACE0\uC591\uC774"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-furry-stages
+    DisplayName: "\uD37C\uB9AC\uC758 5\uB2E8\uACC4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-rich-furry
+    DisplayName: "\uC218\uC0C1\uD558\uAC8C \uB3C8\uC774 \uB9CE\uC740 \uD37C\uB9AC"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: internet
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: hidden-speed
+    DisplayName: "\uCD08\uACE0\uC18D \uB0E5\uC774"
+    Rarity: 2
+    BaseWeight: 0
+    ClickMultiplier: 2
+    ShardValue: 10
+    MaxStacks: 1
+    SetId: 
+    IsHidden: 1
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: hidden-veteran
+    DisplayName: "\uBCA0\uD14C\uB791 \uB0E5\uC774"
+    Rarity: 2
+    BaseWeight: 0
+    ClickMultiplier: 2
+    ShardValue: 10
+    MaxStacks: 1
+    SetId: 
+    IsHidden: 1
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0

@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SetCatalog
+  m_EditorClassIdentifier: Assembly-CSharp:CosmicChaosCat:SetCatalogSO
+  sets:
+  - SetId: basic
+    SetName: "\uAE30\uBCF8 \uB0E5\uC774 \uC138\uD2B8"
+    CardIds:
+    - cat-calico
+    - cat-black
+    - cat-round
+    - cat-hug
+    - cat-cone
+    - cat-dark-eyes
+    - cat-snowleopard-tail
+    - cat-box-full
+    - cat-glass-bottom
+    - cat-glass-push
+    - cat-sofa
+    - cat-box-paws
+    - cat-pawprints
+    - cat-scratch-move
+    - cat-tower
+    - cat-wheel
+    - cat-tail-chase
+    - cat-monocle
+    - cat-eyepatch
+    - cat-bandage
+    - cat-hairball
+    - cat-fish-tank
+    - cat-loaf
+    SetCardWeightBonus: 1.15
+    StackEffectBonus: 0.3
+    ShardBonusMultiplier: 1.2
+  - SetId: internet
+    SetName: "\uC778\uD130\uB137 \uBC08 \uC138\uD2B8"
+    CardIds:
+    - cat-nyancat
+    - cat-nyanpunch
+    - cat-bongocat
+    - cat-buttertoast
+    - cat-spinning
+    - cat-spiky
+    - cat-idw
+    - cat-letters
+    - cat-liquid
+    - cat-rainbow-monitor
+    - cat-bonobono-rainbow
+    - cat-stretch
+    - cat-mural
+    - cat-product
+    - cat-furry-stages
+    - cat-rich-furry
+    - cat-miku
+    - cat-sleeping-cool
+    SetCardWeightBonus: 1.2
+    StackEffectBonus: 0.4
+    ShardBonusMultiplier: 1.2
+  - SetId: meme
+    SetName: "\uBC08 \uCE74\uB4DC \uC138\uD2B8"
+    CardIds:
+    - cat-popcat
+    - cat-chapi-chapo
+    - cat-nabitang
+    - cat-gaejugi
+    - cat-crying
+    - cat-sad-dance
+    - cat-woman-yelling
+    - cat-frozen-river
+    - cat-person-costume
+    - cat-murphy
+    - cat-lonely-person
+    - cat-drawn
+    - cat-broad-shoulders
+    - cat-river-bag
+    - cat-yuno
+    - cat-bell
+    - cat-microwave
+    - cat-emergency-exit
+    - cat-human-tower
+    - cat-eaten
+    - cat-desktop-frog
+    - cat-tiger-shadow
+    SetCardWeightBonus: 1.2
+    StackEffectBonus: 0.4
+    ShardBonusMultiplier: 1.2
+  - SetId: food
+    SetName: "\uC74C\uC2DD \uACE0\uC591\uC774 \uC138\uD2B8"
+    CardIds:
+    - cat-cheese
+    - cat-breadcat
+    - cat-food-countries
+    - cat-hotdog
+    - cat-burger
+    - cat-gingerbread
+    SetCardWeightBonus: 1.15
+    StackEffectBonus: 0.3
+    ShardBonusMultiplier: 1.2
+  - SetId: fantasy
+    SetName: "\uD310\uD0C0\uC9C0 \uB0E5\uC774 \uC138\uD2B8"
+    CardIds:
+    - cat-thunder
+    - cat-chimera
+    - cat-puss-in-boots
+    - cat-cerberus
+    - cat-littleprince-box
+    - cat-littleprince-hat
+    - cat-bus
+    - cat-trojan
+    - cat-constellation
+    - cat-four-monster
+    - cat-maneki-neko
+    - cat-anubis
+    - cat-bremen
+    - cat-witch
+    - cat-red-riding-hood
+    - cat-robin-hood
+    - cat-mermaid
+    - cat-genie
+    - cat-cannon
+    SetCardWeightBonus: 1.25
+    StackEffectBonus: 0.5
+    ShardBonusMultiplier: 1.2
+  - SetId: game
+    SetName: "\uAC8C\uC784 \uBC08 \uC138\uD2B8"
+    CardIds:
+    - cat-minecraft
+    - cat-yugioh
+    - cat-sleeping-chess
+    - cat-hwatu
+    - cat-tarot
+    - cat-sprigatito
+    - cat-gurren-lagann
+    - cat-digimon-goggles
+    - cat-demian-eyepatch
+    - cat-scouter
+    - cat-isaac-tech
+    SetCardWeightBonus: 1.2
+    StackEffectBonus: 0.4
+    ShardBonusMultiplier: 1.2
+  - SetId: internet2
+    SetName: "\uC778\uD130\uB137 \uC774\uB984 \uC138\uD2B8"
+    CardIds:
+    - cat-desert-frog
+    - cat-thunder2
+    - cat-meowl
+    - cat-martial-arts
+    - cat-mural
+    - cat-roomba
+    SetCardWeightBonus: 1.15
+    StackEffectBonus: 0.3
+    ShardBonusMultiplier: 1.2

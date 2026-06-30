@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: UpgradeCatalog
+  m_EditorClassIdentifier: Assembly-CSharp:CosmicChaosCat:UpgradeCatalogSO
+  upgrades:
+  - UpgradeId: upg-crit-chance
+    DisplayName: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 \uC99D\uAC00"
+    Description: "\uD074\uB9AD \uD06C\uB9AC\uD2F0\uCEEC \uBC1C\uB3D9 \uD655\uB960\uC744
+      \uB192\uC785\uB2C8\uB2E4."
+    Category: 0
+    MaxLevel: 3
+    CostPerLevel:
+    - 100
+    - 300
+    - 800
+    EffectType: 0
+    EffectValuePerLevel:
+    - 0.05
+    - 0.1
+    - 0.15
+  - UpgradeId: upg-crit-mult
+    DisplayName: "\uD06C\uB9AC\uD2F0\uCEEC \uBC30\uC728 \uC99D\uAC00"
+    Description: "\uD06C\uB9AC\uD2F0\uCEEC \uBC1C\uB3D9 \uC2DC \uC218\uC775 \uBC30\uC728\uC744
+      \uB192\uC785\uB2C8\uB2E4."
+    Category: 0
+    MaxLevel: 3
+    CostPerLevel:
+    - 200
+    - 600
+    - 2000
+    EffectType: 1
+    EffectValuePerLevel:
+    - 1
+    - 2
+    - 4
+  - UpgradeId: upg-combo
+    DisplayName: "\uC5F0\uD0C0 \uBCF4\uB108\uC2A4 \uAC15\uD654"
+    Description: "\uC5F0\uC18D \uD074\uB9AD \uCF64\uBCF4 \uC218\uC775 \uBCF4\uB108\uC2A4\uB97C
+      \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+    Category: 0
+    MaxLevel: 3
+    CostPerLevel:
+    - 150
+    - 500
+    - 1500
+    EffectType: 2
+    EffectValuePerLevel:
+    - 0.2
+    - 0.5
+    - 1
+  - UpgradeId: upg-n-weight
+    DisplayName: "N\uB4F1\uAE09 \uD655\uB960 \uAC10\uC18C I"
+    Description: "N\uB4F1\uAE09 \uCE74\uB4DC \uB4F1\uC7A5 \uAC00\uC911\uCE58\uB97C
+      \uC904\uC5EC \uC0C1\uC704 \uB4F1\uAE09 \uD655\uB960\uC744 \uC62C\uB9BD\uB2C8\uB2E4."
+    Category: 1
+    MaxLevel: 3
+    CostPerLevel:
+    - 500
+    - 2000
+    - 8000
+    EffectType: 3
+    EffectValuePerLevel:
+    - 0.01
+    - 0.03
+    - 0.05
+  - UpgradeId: upg-r-weight
+    DisplayName: "R\uB4F1\uAE09 \uD655\uB960 \uAC10\uC18C I"
+    Description: "R\uB4F1\uAE09 \uCE74\uB4DC \uB4F1\uC7A5 \uAC00\uC911\uCE58\uB97C
+      \uC904\uC5EC SR \uC774\uC0C1 \uD655\uB960\uC744 \uC62C\uB9BD\uB2C8\uB2E4."
+    Category: 1
+    MaxLevel: 3
+    CostPerLevel:
+    - 1000
+    - 4000
+    - 15000
+    EffectType: 4
+    EffectValuePerLevel:
+    - 0.01
+    - 0.03
+    - 0.05
+  - UpgradeId: upg-extra-pull
+    DisplayName: "10+1 \uBF51\uAE30 \uD574\uAE08"
+    Description: "10\uD68C \uBF51\uAE30 \uC2DC 1\uD68C\uB97C \uCD94\uAC00\uB85C \uBF51\uC2B5\uB2C8\uB2E4
+      (11\uC5F0\uCC28)."
+    Category: 1
+    MaxLevel: 1
+    CostPerLevel:
+    - 3000
+    EffectType: 6
+    EffectValuePerLevel:
+    - 1
+  - UpgradeId: upg-gacha-disc
+    DisplayName: "\uAC00\uCC60 \uBE44\uC6A9 \uD560\uC778"
+    Description: "\uAC00\uCC60 \uBE44\uC6A9\uC744 \uB2E8\uACC4\uC801\uC73C\uB85C
+      \uD560\uC778\uD569\uB2C8\uB2E4."
+    Category: 1
+    MaxLevel: 3
+    CostPerLevel:
+    - 800
+    - 3000
+    - 10000
+    EffectType: 7
+    EffectValuePerLevel:
+    - 0.01
+    - 0.03
+    - 0.05
+  - UpgradeId: upg-shard-refund
+    DisplayName: "\uCE74\uB4DC \uC870\uAC01 \uD658\uAE09 \uC99D\uAC00"
+    Description: "\uC911\uBCF5 \uCE74\uB4DC \uBD84\uD574 \uC2DC \uD68D\uB4DD\uD558\uB294
+      \uC870\uAC01 \uC218\uB97C \uB298\uB9BD\uB2C8\uB2E4."
+    Category: 2
+    MaxLevel: 3
+    CostPerLevel:
+    - 400
+    - 1500
+    - 5000
+    EffectType: 5
+    EffectValuePerLevel:
+    - 0.2
+    - 0.5
+    - 1

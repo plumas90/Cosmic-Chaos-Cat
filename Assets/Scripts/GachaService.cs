@@ -5,59 +5,61 @@ namespace CosmicChaosCat
 {
     public sealed class GachaService
     {
-        public CardDefinition DrawCard(List<CardDefinition> cards, Dictionary<string, CardProgress> stateById, float completion01)
+        // Soft pity: SSR/UR weight starts boosting after this many consecutive non-SSR pulls
+        private const int SoftPityStart = 80;
+        private const float SoftPityBoostPerRoll = 0.1f;
+
+        public CardEntry DrawCard(
+            IReadOnlyList<CardEntry> allCards,
+            Dictionary<string, CardProgress> stateById,
+            float completion01,
+            int pityCounter,
+            float nWeightReduction = 0f,
+            float rWeightReduction = 0f)
         {
-            var candidates = new List<CardDefinition>();
-            var weights = new List<float>();
-            var totalWeight = 0f;
+            var candidates = new List<CardEntry>(allCards.Count);
+            var weights = new List<float>(allCards.Count);
+            float totalWeight = 0f;
 
-            for (var i = 0; i < cards.Count; i++)
+            for (int i = 0; i < allCards.Count; i++)
             {
-                var card = cards[i];
-                if (!IsRarityUnlocked(card.Rarity, completion01))
-                {
-                    continue;
-                }
+                var card = allCards[i];
+                if (card == null || card.IsHidden) continue;
+                if (!IsRarityUnlocked(card.Rarity, completion01)) continue;
+                if (!stateById.TryGetValue(card.Id, out var progress)) continue;
 
-                if (!stateById.TryGetValue(card.Id, out var progress))
-                {
-                    continue;
-                }
+                float weight = card.BaseWeight;
 
-                var weight = card.BaseWeight;
-                if (!progress.Unlocked)
-                {
-                    weight *= 1.5f;
-                }
-                else if (progress.Copies >= card.MaxStacks)
-                {
+                // Rarity-specific weight reductions from upgrades
+                if (card.Rarity == CardRarity.N) weight *= Mathf.Max(0.01f, 1f - nWeightReduction);
+                if (card.Rarity == CardRarity.R) weight *= Mathf.Max(0.01f, 1f - rWeightReduction);
+
+                // 5중첩 초과 카드는 등장 가중치 감소 (이미 조각 교환 가능하므로)
+                if (progress.Copies >= card.MaxStacks)
                     weight *= 0.3f;
+
+                // Soft pity: boost SSR/UR after many dry pulls
+                if (pityCounter >= SoftPityStart && (card.Rarity == CardRarity.SSR || card.Rarity == CardRarity.UR))
+                {
+                    float boost = 1f + (pityCounter - SoftPityStart) * SoftPityBoostPerRoll;
+                    weight *= boost;
                 }
 
-                if (weight <= 0f)
-                {
-                    continue;
-                }
+                if (weight <= 0f) continue;
 
                 candidates.Add(card);
                 weights.Add(weight);
                 totalWeight += weight;
             }
 
-            if (totalWeight <= 0f || candidates.Count == 0)
-            {
-                return null;
-            }
+            if (totalWeight <= 0f || candidates.Count == 0) return null;
 
-            var pick = Random.value * totalWeight;
-            var cursor = 0f;
-            for (var i = 0; i < candidates.Count; i++)
+            float pick = Random.value * totalWeight;
+            float cursor = 0f;
+            for (int i = 0; i < candidates.Count; i++)
             {
                 cursor += weights[i];
-                if (pick <= cursor)
-                {
-                    return candidates[i];
-                }
+                if (pick <= cursor) return candidates[i];
             }
 
             return candidates[candidates.Count - 1];
@@ -68,16 +70,11 @@ namespace CosmicChaosCat
             switch (rarity)
             {
                 case CardRarity.N:
-                case CardRarity.R:
-                    return true;
-                case CardRarity.SR:
-                    return completion01 >= 0.2f;
-                case CardRarity.SSR:
-                    return completion01 >= 0.5f;
-                case CardRarity.UR:
-                    return completion01 >= 0.8f;
-                default:
-                    return false;
+                case CardRarity.R:   return true;
+                case CardRarity.SR:  return completion01 >= 0.2f;
+                case CardRarity.SSR: return completion01 >= 0.5f;
+                case CardRarity.UR:  return completion01 >= 0.8f;
+                default:             return false;
             }
         }
     }

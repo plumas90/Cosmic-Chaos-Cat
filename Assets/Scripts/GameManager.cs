@@ -6,359 +6,575 @@ namespace CosmicChaosCat
 {
     public sealed class GameManager : MonoBehaviour
     {
-        private const string SaveKey = "cosmic_chaos_cat_save_v2";
-        private const double BaseClickIncome = 1d;
-        private const double BaseGachaCost = 10d;
-        private const float ComboWindowSeconds = 0.8f;
+        // ── Constants ──────────────────────────────────────────────────────────
+        private const string SaveKey            = "ccc_save_v3";
+        private const double BaseClickIncome    = 1d;
+        private const double BaseGachaCost      = 10d;
+        private const float  ComboWindowSeconds = 0.8f;
+        private const float  ClickWindowSeconds = 1f;
+        private const int    SoftPityStart      = 80;
+        private const int    HardPityAt         = 100;   // 100연 보장
 
+        // Upgrade IDs — must match UpgradeCatalogSO entries
+        private const string UPG_CRIT_CHANCE  = "upg-crit-chance";
+        private const string UPG_CRIT_MULT    = "upg-crit-mult";
+        private const string UPG_COMBO        = "upg-combo";
+        private const string UPG_N_WEIGHT     = "upg-n-weight";
+        private const string UPG_R_WEIGHT     = "upg-r-weight";
+        private const string UPG_SHARD_REFUND = "upg-shard-refund";
+        private const string UPG_EXTRA_PULL   = "upg-extra-pull";
+        private const string UPG_GACHA_DISC   = "upg-gacha-disc";
+
+        // Hidden card IDs — must match CardCatalog entries
+        private const string HIDDEN_SPEED   = "hidden-speed";
+        private const string HIDDEN_VETERAN = "hidden-veteran";
+
+        // ── Inspector ──────────────────────────────────────────────────────────
+        [Header("Data — assign in Inspector")]
+        [SerializeField] private CardCatalogSO    cardCatalog;
+        [SerializeField] private SetCatalogSO     setCatalog;
+        [SerializeField] private UpgradeCatalogSO upgradeCatalog;
+
+        [Header("Base Settings")]
+        [SerializeField] private float baseCriticalChance     = 0.1f;
+        [SerializeField] private float baseCriticalMultiplier = 3f;
+
+        // ── Private State ──────────────────────────────────────────────────────
         private readonly GachaService gachaService = new GachaService();
-        private readonly Dictionary<string, CardProgress> cardStateById = new Dictionary<string, CardProgress>();
+        private readonly Dictionary<string, CardProgress>    cardState    = new Dictionary<string, CardProgress>();
+        private readonly Dictionary<string, UpgradeProgress> upgradeState = new Dictionary<string, UpgradeProgress>();
+        private readonly HashSet<string> completedSets       = new HashSet<string>();
+        private readonly HashSet<string> unlockedHiddenCards = new HashSet<string>();
 
-        [SerializeField] private float criticalChance = 0.1f;
-        [SerializeField] private float criticalMultiplier = 3f;
-
-        private List<CardDefinition> cardDefinitions = new List<CardDefinition>();
         private float lastClickTime = -999f;
-        private int comboCount;
+        private int   comboCount;
+        private float clickWindowTimer;
+        private int   clicksInWindow;
+        private int   pityCounter;
 
-        public event Action StateChanged;
-        public event Action<string> LogUpdated;
-
-        public double Money { get; private set; }
-        public int Shards { get; private set; }
-        public float ElapsedSeconds { get; private set; }
-        public int TotalRolls { get; private set; }
-        public bool IsGameEnded { get; private set; }
+        // ── Public State ───────────────────────────────────────────────────────
+        public double Money          { get; private set; }
+        public int    Shards         { get; private set; }
+        public float  ElapsedSeconds { get; private set; }
+        public int    TotalRolls     { get; private set; }
+        public long   TotalClicks    { get; private set; }
+        public bool   IsGameEnded    { get; private set; }
         public string EquippedCardId { get; private set; }
-        public int ComboCount => comboCount;
+        public int    ComboCount     => comboCount;
+        public int    ClicksPerSecond => clicksInWindow;
+        public int    PityCounter    => pityCounter;
+        public int    HardPityThreshold => HardPityAt;
+
+        public CardCatalogSO    CardCatalog    => cardCatalog;
+        public SetCatalogSO     SetCatalog     => setCatalog;
+        public UpgradeCatalogSO UpgradeCatalog => upgradeCatalog;
 
         public float Completion01
         {
             get
             {
-                if (cardDefinitions.Count == 0)
-                {
-                    return 0f;
-                }
-
-                var unlocked = 0;
-                for (var i = 0; i < cardDefinitions.Count; i++)
-                {
-                    var card = cardDefinitions[i];
-                    if (cardStateById.TryGetValue(card.Id, out var state) && state.Unlocked)
-                    {
+                if (cardCatalog == null || cardCatalog.Cards.Count == 0) return 0f;
+                int unlocked = 0;
+                for (int i = 0; i < cardCatalog.Cards.Count; i++)
+                    if (cardState.TryGetValue(cardCatalog.Cards[i].Id, out var s) && s.Unlocked)
                         unlocked++;
-                    }
-                }
-
-                return unlocked / (float)cardDefinitions.Count;
+                return unlocked / (float)cardCatalog.Cards.Count;
             }
         }
 
-        public int UnlockedCards
+        public int UnlockedCount
         {
-            get { return Mathf.RoundToInt(Completion01 * cardDefinitions.Count); }
+            get { int n = 0; foreach (var s in cardState.Values) if (s.Unlocked) n++; return n; }
         }
 
-        public int TotalCards
-        {
-            get { return cardDefinitions.Count; }
-        }
+        public int TotalCardCount => cardCatalog != null ? cardCatalog.Cards.Count : 0;
 
+        // ── Events ─────────────────────────────────────────────────────────────
+        public event Action          StateChanged;
+        public event Action<string>  LogUpdated;
+        public event Action<string, CardRarity> CardDrawn;   // (cardId, rarity)
+        public event Action          CriticalHit;
+        public event Action<string>  SetCompleted;           // setId
+        public event Action          GameEnded;
+        public event Action          HardPityFired;          // 100연 보장 발동
+
+        // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
         {
-            cardDefinitions = DefaultCardCatalog.Create();
-            InitializeCardState();
+            if (cardCatalog == null)
+            {
+                Debug.LogError("[GameManager] CardCatalogSO가 연결되지 않았습니다!");
+                return;
+            }
+            InitCardState();
             Load();
+            RebuildSetState();
             NotifyState();
         }
 
         private void Update()
         {
-            if (IsGameEnded)
+            if (IsGameEnded) return;
+            ElapsedSeconds += Time.unscaledDeltaTime;
+
+            clickWindowTimer += Time.unscaledDeltaTime;
+            if (clickWindowTimer >= ClickWindowSeconds)
             {
-                return;
+                clickWindowTimer = 0f;
+                clicksInWindow   = 0;
             }
 
-            ElapsedSeconds += Time.unscaledDeltaTime;
             NotifyState();
         }
 
+        // ── Public Actions ─────────────────────────────────────────────────────
+
         public void HandleCardClicked()
         {
-            if (IsGameEnded)
-            {
-                return;
-            }
+            if (IsGameEnded) return;
 
             if (Time.unscaledTime - lastClickTime <= ComboWindowSeconds)
-            {
                 comboCount++;
-            }
             else
-            {
                 comboCount = 1;
-            }
-
             lastClickTime = Time.unscaledTime;
 
-            var comboMultiplier = 1d + Math.Log(comboCount + 1d);
-            var critBonus = UnityEngine.Random.value <= criticalChance ? criticalMultiplier : 1f;
-            var income = BaseClickIncome * GetEquippedIncomeMultiplier() * comboMultiplier * critBonus;
+            TotalClicks++;
+            clicksInWindow++;
+
+            double comboBonus = GetUpgradeEffectValue(UPG_COMBO);
+            double comboMult  = 1d + Math.Log(comboCount + 1d) * (1d + comboBonus);
+            bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
+            float  critMult   = isCrit ? GetEffectiveCritMult() : 1f;
+            double income     = BaseClickIncome * GetEquippedIncomeMultiplier() * comboMult * critMult;
 
             Money += income;
+            if (isCrit) CriticalHit?.Invoke();
+
+            CheckHiddenConditions();
             Save();
             NotifyState();
         }
 
         public void RollOnce()
         {
-            if (IsGameEnded)
-            {
-                return;
-            }
-
-            var cost = GetCurrentGachaCost();
-            if (Money < cost)
-            {
-                PublishLog("돈이 부족해요.");
-                return;
-            }
-
-            var card = gachaService.DrawCard(cardDefinitions, cardStateById, Completion01);
-            if (card == null)
-            {
-                PublishLog("가챠 대상 카드가 없어요.");
-                return;
-            }
+            if (IsGameEnded) return;
+            double cost = GetCurrentGachaCost();
+            if (Money < cost) { Log("돈이 부족해요."); return; }
 
             Money -= cost;
             TotalRolls++;
+
+            // ── 하드 피티: 100연마다 최고 등급 보장 ──────────────────────────
+            if (pityCounter >= HardPityAt)
+            {
+                pityCounter = 0;
+                var pityCard = GetHardPityCard();
+                if (pityCard != null)
+                {
+                    Log($"⭐ 100연 보장 발동! {pityCard.DisplayName}");
+                    HardPityFired?.Invoke();
+                    ApplyDraw(pityCard);
+                    CheckEnding();
+                    Save();
+                    NotifyState();
+                    return;
+                }
+            }
+
+            var card = DrawOneCard();
+            if (card == null) { Log("뽑을 카드가 없어요."); Save(); NotifyState(); return; }
+
             ApplyDraw(card);
             CheckEnding();
             Save();
             NotifyState();
         }
 
-        public string GetTimerText()
+        public void RollTen()
         {
-            var time = TimeSpan.FromSeconds(ElapsedSeconds);
-            return $"{time.Hours:00}:{time.Minutes:00}:{time.Seconds:00}";
-        }
+            if (IsGameEnded) return;
+            double cost      = GetCurrentGachaCost();
+            int    extraPull = Mathf.RoundToInt(GetUpgradeEffectValue(UPG_EXTRA_PULL));
+            int    pullCount = 10 + extraPull;
+            float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
+            double totalCost = cost * (pullCount - 1) * (1f - discount);   // 1장 무료
 
-        public string GetMoneyText()
-        {
-            return $"돈 {Money:0} | 조각 {Shards}";
-        }
+            if (Money < totalCost) { Log("돈이 부족해요."); return; }
 
-        public string GetProgressText()
-        {
-            return $"도감 {UnlockedCards}/{TotalCards} ({Completion01 * 100f:0.0}%)";
-        }
+            Money -= totalCost;
+            TotalRolls += pullCount;
 
-        public string GetEquippedCardText()
-        {
-            if (string.IsNullOrEmpty(EquippedCardId))
+            for (int i = 0; i < pullCount; i++)
             {
-                return "기본 카드";
+                // 하드 피티 체크 (10연 도중 발동 가능)
+                if (pityCounter >= HardPityAt)
+                {
+                    pityCounter = 0;
+                    var pityCard = GetHardPityCard();
+                    if (pityCard != null)
+                    {
+                        Log($"⭐ 100연 보장 발동! {pityCard.DisplayName}");
+                        HardPityFired?.Invoke();
+                        ApplyDraw(pityCard);
+                        continue;
+                    }
+                }
+
+                var card = DrawOneCard();
+                if (card != null) ApplyDraw(card);
             }
 
-            var card = FindCard(EquippedCardId);
-            if (card == null || !cardStateById.TryGetValue(EquippedCardId, out var state))
+            CheckEnding();
+            Save();
+            NotifyState();
+        }
+
+        /// <summary>조각을 소모해 특정 카드를 확정 획득합니다.</summary>
+        public void ExchangeWithShards(string cardId)
+        {
+            if (IsGameEnded) return;
+            var card = cardCatalog?.FindById(cardId);
+            if (card == null || card.IsHidden) { Log("교환할 수 없는 카드입니다."); return; }
+
+            int cost = GetShardExchangeCost(card.Rarity);
+            if (Shards < cost) { Log($"조각이 부족해요. (필요: {cost})"); return; }
+
+            Shards -= cost;
+            ApplyDraw(card);
+            CheckEnding();
+            Save();
+            NotifyState();
+        }
+
+        /// <summary>등급별 조각 교환 비용 (분해 가치의 10배)</summary>
+        public static int GetShardExchangeCost(CardRarity rarity)
+        {
+            switch (rarity)
             {
-                return "기본 카드";
+                case CardRarity.N:   return 10;
+                case CardRarity.R:   return 30;
+                case CardRarity.SR:  return 100;
+                case CardRarity.SSR: return 300;
+                case CardRarity.UR:  return 1000;
+                default:             return 30;
+            }
+        }
+
+        public void BuyUpgrade(string upgradeId)
+        {
+            if (upgradeCatalog == null) return;
+            var entry = upgradeCatalog.FindById(upgradeId);
+            if (entry == null) return;
+
+            if (!upgradeState.TryGetValue(upgradeId, out var progress))
+            {
+                progress = new UpgradeProgress { UpgradeId = upgradeId, Level = 0 };
+                upgradeState[upgradeId] = progress;
             }
 
-            return $"{card.Name} x{Mathf.Max(state.Copies, 1)}";
+            if (progress.Level >= entry.MaxLevel) { Log("이미 최대 레벨입니다."); return; }
+            if (entry.CostPerLevel == null || progress.Level >= entry.CostPerLevel.Length) return;
+
+            double cost = entry.CostPerLevel[progress.Level];
+            if (Money < cost) { Log("돈이 부족해요."); return; }
+
+            Money -= cost;
+            progress.Level++;
+            Log($"{entry.DisplayName} Lv.{progress.Level} 업그레이드!");
+            Save();
+            NotifyState();
         }
+
+        public void EquipCard(string cardId)
+        {
+            if (string.IsNullOrEmpty(cardId)) return;
+            if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked) return;
+            EquippedCardId = cardId;
+            Save();
+            NotifyState();
+        }
+
+        // ── Queries ────────────────────────────────────────────────────────────
+
+        public int  GetUpgradeLevel(string upgradeId) =>
+            upgradeState.TryGetValue(upgradeId, out var p) ? p.Level : 0;
+
+        public bool CanAffordUpgrade(string upgradeId)
+        {
+            var entry = upgradeCatalog?.FindById(upgradeId);
+            if (entry == null) return false;
+            int lv = GetUpgradeLevel(upgradeId);
+            if (lv >= entry.MaxLevel) return false;
+            if (entry.CostPerLevel == null || lv >= entry.CostPerLevel.Length) return false;
+            return Money >= entry.CostPerLevel[lv];
+        }
+
+        public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);
+        public IReadOnlyDictionary<string, CardProgress> GetCardStates() => cardState;
+
+        public CardEntry GetEquippedCard() =>
+            string.IsNullOrEmpty(EquippedCardId) ? null : cardCatalog?.FindById(EquippedCardId);
 
         public double GetCurrentGachaCost()
         {
-            var stage = Mathf.FloorToInt(Completion01 * 20f);
-            var scaled = BaseGachaCost * Math.Pow(1.15d, stage);
-            var milestone = 0d;
-
-            if (Completion01 >= 0.1f)
-            {
-                milestone += 5d;
-            }
-
-            if (Completion01 >= 0.3f)
-            {
-                milestone += 20d;
-            }
-
-            if (Completion01 >= 0.6f)
-            {
-                milestone += 100d;
-            }
-
-            return Math.Round(scaled + milestone, 0, MidpointRounding.AwayFromZero);
+            int    stage     = Mathf.FloorToInt(Completion01 * 20f);
+            double scaled    = BaseGachaCost * Math.Pow(1.15d, stage);
+            double milestone = 0;
+            if (Completion01 >= 0.1f) milestone += 5;
+            if (Completion01 >= 0.3f) milestone += 20;
+            if (Completion01 >= 0.6f) milestone += 100;
+            float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
+            return Math.Round((scaled + milestone) * (1f - discount), 0, MidpointRounding.AwayFromZero);
         }
 
-        private void InitializeCardState()
+        public string GetTimerText()
         {
-            cardStateById.Clear();
-            for (var i = 0; i < cardDefinitions.Count; i++)
+            var t = TimeSpan.FromSeconds(ElapsedSeconds);
+            return $"{t.Hours:00}:{t.Minutes:00}:{t.Seconds:00}";
+        }
+
+        public int GetClicksInLastSecond() => clicksInWindow;
+
+        // ── Private Helpers ────────────────────────────────────────────────────
+
+        private CardEntry DrawOneCard()
+        {
+            float nRed = GetUpgradeEffectValue(UPG_N_WEIGHT);
+            float rRed = GetUpgradeEffectValue(UPG_R_WEIGHT);
+            var   card = gachaService.DrawCard(cardCatalog.Cards, cardState, Completion01,
+                                               pityCounter, nRed, rRed);
+            if (card == null) return null;
+
+            if (card.Rarity >= CardRarity.SSR) pityCounter = 0;
+            else                               pityCounter++;
+
+            return card;
+        }
+
+        /// <summary>100연 보장: 현재 해금된 가장 높은 등급의 카드 중 랜덤 반환.</summary>
+        private CardEntry GetHardPityCard()
+        {
+            CardRarity best;
+            if      (Completion01 >= 0.8f) best = CardRarity.UR;
+            else if (Completion01 >= 0.5f) best = CardRarity.SSR;
+            else if (Completion01 >= 0.2f) best = CardRarity.SR;
+            else                           best = CardRarity.R;
+
+            var candidates = new List<CardEntry>();
+            for (int i = 0; i < cardCatalog.Cards.Count; i++)
             {
-                var card = cardDefinitions[i];
-                cardStateById[card.Id] = new CardProgress
+                var c = cardCatalog.Cards[i];
+                if (c == null || c.IsHidden || c.Rarity != best) continue;
+                if (cardState.TryGetValue(c.Id, out var state) && state.Copies < c.MaxStacks)
+                    candidates.Add(c);
+            }
+
+            if (candidates.Count == 0)
+            {
+                // 만약 최고 등급이 다 꽉 찼으면 아래 등급으로 내려감
+                for (int i = 0; i < cardCatalog.Cards.Count; i++)
                 {
-                    CardId = card.Id,
-                    Copies = 0,
-                    Unlocked = false
-                };
+                    var c = cardCatalog.Cards[i];
+                    if (c == null || c.IsHidden) continue;
+                    if (cardState.TryGetValue(c.Id, out var state) && state.Copies < c.MaxStacks)
+                        candidates.Add(c);
+                }
             }
+
+            if (candidates.Count == 0) return null;
+            return candidates[UnityEngine.Random.Range(0, candidates.Count)];
         }
 
-        private void ApplyDraw(CardDefinition card)
+        private void ApplyDraw(CardEntry card)
         {
-            var state = cardStateById[card.Id];
+            if (!cardState.TryGetValue(card.Id, out var state)) return;
+
             state.Unlocked = true;
             state.Copies++;
+
+            CardDrawn?.Invoke(card.Id, card.Rarity);
 
             if (state.Copies > card.MaxStacks)
             {
                 state.Copies = card.MaxStacks;
-                var shards = Mathf.RoundToInt(card.ShardValue * 1.5f);
+                float shardMult = 1.5f + GetUpgradeEffectValue(UPG_SHARD_REFUND);
+                int   shards    = Mathf.RoundToInt(card.ShardValue * shardMult);
                 Shards += shards;
-                PublishLog($"{card.Name} 초과 중복! 카드 조각 +{shards}");
+                Log($"{card.DisplayName} 초과 중복! 조각 +{shards}");
             }
             else if (state.Copies == 1)
             {
-                PublishLog($"신규 카드 획득: {card.Name} [{card.Rarity}]");
+                Log($"✨ 신규 카드 획득! {card.DisplayName} [{card.Rarity}]");
+                CheckSetCompletion(card);
             }
             else
             {
-                PublishLog($"중복 강화: {card.Name} x{state.Copies}");
+                Log($"💪 중복 강화: {card.DisplayName} x{state.Copies}");
             }
 
             EquippedCardId = card.Id;
         }
 
-        private double GetEquippedIncomeMultiplier()
+        private void CheckSetCompletion(CardEntry newCard)
         {
-            if (string.IsNullOrEmpty(EquippedCardId))
-            {
-                return 1d;
-            }
+            if (setCatalog == null || string.IsNullOrEmpty(newCard.SetId)) return;
+            var set = setCatalog.FindById(newCard.SetId);
+            if (set == null || completedSets.Contains(set.SetId)) return;
 
-            if (!cardStateById.TryGetValue(EquippedCardId, out var state))
-            {
-                return 1d;
-            }
+            foreach (var cardId in set.CardIds)
+                if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked) return;
 
-            var card = FindCard(EquippedCardId);
-            if (card == null)
-            {
-                return 1d;
-            }
-
-            var stack = Mathf.Max(1, state.Copies);
-            var enhancement = 1d + Math.Pow(stack, 1.3d);
-            return card.ClickMultiplier * enhancement;
+            completedSets.Add(set.SetId);
+            Log($"🎉 세트 완성! [{set.SetName}]");
+            SetCompleted?.Invoke(set.SetId);
         }
 
-        private CardDefinition FindCard(string cardId)
+        private void RebuildSetState()
         {
-            for (var i = 0; i < cardDefinitions.Count; i++)
+            if (setCatalog == null) return;
+            for (int i = 0; i < setCatalog.Sets.Count; i++)
             {
-                if (cardDefinitions[i].Id == cardId)
-                {
-                    return cardDefinitions[i];
-                }
+                var set = setCatalog.Sets[i];
+                if (completedSets.Contains(set.SetId)) continue;
+                bool allOwned = true;
+                foreach (var cardId in set.CardIds)
+                    if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked)
+                    { allOwned = false; break; }
+                if (allOwned) completedSets.Add(set.SetId);
+            }
+        }
+
+        private void CheckHiddenConditions()
+        {
+            if (clicksInWindow >= 20 && !unlockedHiddenCards.Contains(HIDDEN_SPEED))
+                UnlockHiddenCard(HIDDEN_SPEED);
+            if (TotalClicks >= 1000 && !unlockedHiddenCards.Contains(HIDDEN_VETERAN))
+                UnlockHiddenCard(HIDDEN_VETERAN);
+        }
+
+        private void UnlockHiddenCard(string cardId)
+        {
+            var card = cardCatalog?.FindById(cardId);
+            if (card == null) return;
+
+            unlockedHiddenCards.Add(cardId);
+            if (cardState.TryGetValue(cardId, out var state))
+            {
+                state.Unlocked = true;
+                state.Copies   = Mathf.Max(state.Copies, 1);
             }
 
-            return null;
+            Log($"🔓 숨겨진 카드 해금! {card.DisplayName}");
+            CardDrawn?.Invoke(cardId, card.Rarity);
+            CheckEnding();
         }
 
         private void CheckEnding()
         {
-            if (Completion01 < 1f || IsGameEnded)
-            {
-                return;
-            }
-
+            if (IsGameEnded || Completion01 < 1f) return;
             IsGameEnded = true;
-            PublishLog($"도감 100% 달성! 최종 플레이 타임 {GetTimerText()}");
+            Log($"🏆 도감 100% 달성! 최종 타임: {GetTimerText()}");
+            GameEnded?.Invoke();
         }
 
-        private void PublishLog(string message)
+        private double GetEquippedIncomeMultiplier()
         {
-            LogUpdated?.Invoke(message);
+            var card = GetEquippedCard();
+            if (card == null) return 1d;
+            if (!cardState.TryGetValue(card.Id, out var state)) return 1d;
+
+            int    stack       = Mathf.Max(1, state.Copies);
+            double enhancement = 1d + Math.Pow(stack, 1.3d);
+            double multiplier  = card.ClickMultiplier * enhancement;
+
+            if (card.SpecialEffect == CardSpecialEffect.DuplicateBonusBonus)
+                multiplier *= (1f + card.SpecialEffectValue);
+
+            return multiplier;
         }
 
-        private void NotifyState()
+        private float GetEffectiveCritChance() => baseCriticalChance  + GetUpgradeEffectValue(UPG_CRIT_CHANCE);
+        private float GetEffectiveCritMult()   => baseCriticalMultiplier + GetUpgradeEffectValue(UPG_CRIT_MULT);
+
+        private float GetUpgradeEffectValue(string upgradeId)
         {
-            StateChanged?.Invoke();
+            if (upgradeCatalog == null) return 0f;
+            var entry = upgradeCatalog.FindById(upgradeId);
+            if (entry == null) return 0f;
+            int lv = GetUpgradeLevel(upgradeId);
+            if (lv <= 0 || entry.EffectValuePerLevel == null || lv > entry.EffectValuePerLevel.Length) return 0f;
+            return entry.EffectValuePerLevel[lv - 1];
         }
+
+        private void InitCardState()
+        {
+            cardState.Clear();
+            for (int i = 0; i < cardCatalog.Cards.Count; i++)
+            {
+                var card = cardCatalog.Cards[i];
+                if (card == null) continue;
+                cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 0, Unlocked = false };
+            }
+        }
+
+        private void Log(string msg)  => LogUpdated?.Invoke(msg);
+        private void NotifyState()    => StateChanged?.Invoke();
+
+        // ── Save / Load ────────────────────────────────────────────────────────
 
         private void Save()
         {
-            var saveData = new GameSaveData
+            var data = new GameSaveData
             {
-                Money = Money,
-                Shards = Shards,
-                ElapsedSeconds = ElapsedSeconds,
-                EquippedCardId = EquippedCardId,
-                TotalRolls = TotalRolls
+                Money = Money, Shards = Shards, ElapsedSeconds = ElapsedSeconds,
+                EquippedCardId = EquippedCardId, TotalRolls = TotalRolls,
+                PityCounter = pityCounter, TotalClicks = TotalClicks
             };
+            foreach (var kv in cardState)
+                data.Cards.Add(new CardProgress
+                    { CardId = kv.Value.CardId, Copies = kv.Value.Copies, Unlocked = kv.Value.Unlocked });
+            foreach (var kv in upgradeState)
+                data.Upgrades.Add(new UpgradeProgress
+                    { UpgradeId = kv.Value.UpgradeId, Level = kv.Value.Level });
+            data.UnlockedHiddenCards.AddRange(unlockedHiddenCards);
+            data.CompletedSets.AddRange(completedSets);
 
-            foreach (var entry in cardStateById)
-            {
-                saveData.Cards.Add(new CardProgress
-                {
-                    CardId = entry.Value.CardId,
-                    Copies = entry.Value.Copies,
-                    Unlocked = entry.Value.Unlocked
-                });
-            }
-
-            PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(saveData));
+            PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(data));
             PlayerPrefs.Save();
         }
 
         private void Load()
         {
-            if (!PlayerPrefs.HasKey(SaveKey))
-            {
-                return;
-            }
+            if (!PlayerPrefs.HasKey(SaveKey)) return;
+            string raw = PlayerPrefs.GetString(SaveKey, string.Empty);
+            if (string.IsNullOrEmpty(raw)) return;
+            var data = JsonUtility.FromJson<GameSaveData>(raw);
+            if (data == null) return;
 
-            var raw = PlayerPrefs.GetString(SaveKey, string.Empty);
-            if (string.IsNullOrEmpty(raw))
-            {
-                return;
-            }
+            Money          = Math.Max(0d, data.Money);
+            Shards         = Math.Max(0, data.Shards);
+            ElapsedSeconds = Math.Max(0f, data.ElapsedSeconds);
+            EquippedCardId = data.EquippedCardId;
+            TotalRolls     = Math.Max(0, data.TotalRolls);
+            pityCounter    = Math.Max(0, data.PityCounter);
+            TotalClicks    = Math.Max(0, data.TotalClicks);
 
-            var saveData = JsonUtility.FromJson<GameSaveData>(raw);
-            if (saveData == null)
-            {
-                return;
-            }
-
-            Money = Math.Max(0d, saveData.Money);
-            Shards = Math.Max(0, saveData.Shards);
-            ElapsedSeconds = Math.Max(0f, saveData.ElapsedSeconds);
-            EquippedCardId = saveData.EquippedCardId;
-            TotalRolls = Math.Max(0, saveData.TotalRolls);
-
-            if (saveData.Cards == null)
-            {
-                return;
-            }
-
-            for (var i = 0; i < saveData.Cards.Count; i++)
-            {
-                var saved = saveData.Cards[i];
-                if (saved == null || string.IsNullOrEmpty(saved.CardId) || !cardStateById.ContainsKey(saved.CardId))
+            if (data.Cards != null)
+                foreach (var c in data.Cards)
                 {
-                    continue;
+                    if (c == null || !cardState.ContainsKey(c.CardId)) continue;
+                    cardState[c.CardId].Copies   = Math.Max(0, c.Copies);
+                    cardState[c.CardId].Unlocked = c.Unlocked;
                 }
-
-                cardStateById[saved.CardId].Copies = Math.Max(0, saved.Copies);
-                cardStateById[saved.CardId].Unlocked = saved.Unlocked;
-            }
+            if (data.Upgrades != null)
+                foreach (var u in data.Upgrades)
+                {
+                    if (u == null || string.IsNullOrEmpty(u.UpgradeId)) continue;
+                    upgradeState[u.UpgradeId] = new UpgradeProgress { UpgradeId = u.UpgradeId, Level = u.Level };
+                }
+            if (data.UnlockedHiddenCards != null) unlockedHiddenCards.UnionWith(data.UnlockedHiddenCards);
+            if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
         }
     }
 }
