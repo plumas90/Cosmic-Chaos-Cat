@@ -12,8 +12,6 @@ namespace CosmicChaosCat
         private const double BaseGachaCost      = 10d;
         private const float  ComboWindowSeconds = 0.8f;
         private const float  ClickWindowSeconds = 1f;
-        private const int    SoftPityStart      = 80;
-        private const int    HardPityAt         = 100;   // 100연 보장
 
         // Upgrade IDs — must match UpgradeCatalogSO entries
         private const string UPG_CRIT_CHANCE  = "upg-crit-chance";
@@ -36,7 +34,7 @@ namespace CosmicChaosCat
         [SerializeField] private UpgradeCatalogSO upgradeCatalog;
 
         [Header("Base Settings")]
-        [SerializeField] private float baseCriticalChance     = 0.1f;
+        [SerializeField] private float baseCriticalChance     = 0f;
         [SerializeField] private float baseCriticalMultiplier = 3f;
 
         // ── Private State ──────────────────────────────────────────────────────
@@ -50,7 +48,6 @@ namespace CosmicChaosCat
         private int   comboCount;
         private float clickWindowTimer;
         private int   clicksInWindow;
-        private int   pityCounter;
 
         // ── Public State ───────────────────────────────────────────────────────
         public double Money          { get; private set; }
@@ -59,11 +56,11 @@ namespace CosmicChaosCat
         public int    TotalRolls     { get; private set; }
         public long   TotalClicks    { get; private set; }
         public bool   IsGameEnded    { get; private set; }
+        public bool   UnlockedRareGacha  { get; private set; }
+        public bool   UnlockedSuperGacha { get; private set; }
         public string EquippedCardId { get; private set; }
         public int    ComboCount     => comboCount;
         public int    ClicksPerSecond => clicksInWindow;
-        public int    PityCounter    => pityCounter;
-        public int    HardPityThreshold => HardPityAt;
 
         public CardCatalogSO    CardCatalog    => cardCatalog;
         public SetCatalogSO     SetCatalog     => setCatalog;
@@ -96,20 +93,94 @@ namespace CosmicChaosCat
         public event Action          CriticalHit;
         public event Action<string>  SetCompleted;           // setId
         public event Action          GameEnded;
-        public event Action          HardPityFired;          // 100연 보장 발동
 
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
         {
+#if UNITY_EDITOR
+            // 인스펙터에 깨진 바인딩이 들어있을 수 있으므로 에디터 환경에서는 무조건 강제 새로고침
+            cardCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<CardCatalogSO>("Assets/ScriptableObjects/CardCatalog.asset");
+            setCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<SetCatalogSO>("Assets/ScriptableObjects/SetCatalog.asset");
+            upgradeCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<UpgradeCatalogSO>("Assets/ScriptableObjects/UpgradeCatalog.asset");
+#endif
+
             if (cardCatalog == null)
             {
                 Debug.LogError("[GameManager] CardCatalogSO가 연결되지 않았습니다!");
                 return;
             }
+            EnsureTestCards();
+            EnsureTestSets();
             InitCardState();
             Load();
             RebuildSetState();
             NotifyState();
+        }
+
+        private void EnsureTestCards()
+        {
+            var field = typeof(CardCatalogSO).GetField("cards", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field == null) return;
+            var list = field.GetValue(cardCatalog) as List<CardEntry>;
+            if (list == null) return;
+
+            list.Clear();
+            var tex = Texture2D.whiteTexture;
+            var defaultSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+            for (int i = 1; i <= 10; i++)
+            {
+                CardRarity rarity = CardRarity.N;
+                if (i >= 5 && i <= 7)       rarity = CardRarity.R;
+                else if (i >= 8 && i <= 9)  rarity = CardRarity.SR;
+                else if (i == 10)           rarity = CardRarity.SSR;
+
+                list.Add(new CardEntry
+                {
+                    Id = $"cat-{i}",
+                    DisplayName = $"고양이 {i}",
+                    Description = $"고양이{i} 상세 설명입니다.",
+                    Rarity = rarity,
+                    BaseWeight = i == 10 ? 10f : (i >= 8 ? 30f : (i >= 5 ? 100f : 500f)),
+                    ClickMultiplier = i,
+                    ShardValue = rarity == CardRarity.SSR ? 30 : (rarity == CardRarity.SR ? 10 : (rarity == CardRarity.R ? 3 : 1)),
+                    MaxStacks = 6,
+                    SetId = i <= 5 ? "set-cat-a" : "set-cat-b",
+                    IsHidden = false,
+                    CardSprite = defaultSprite,
+                    SpecialEffect = i % 3 == 1 ? CardSpecialEffect.CriticalChanceBonus : CardSpecialEffect.None,
+                    SpecialEffectValue = 0.05f
+                });
+            }
+        }
+
+        private void EnsureTestSets()
+        {
+            if (setCatalog == null) return;
+            var field = typeof(SetCatalogSO).GetField("sets", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field == null) return;
+            var list = field.GetValue(setCatalog) as List<SetEntry>;
+            if (list == null) return;
+
+            list.Clear();
+            list.Add(new SetEntry
+            {
+                SetId = "set-cat-a",
+                SetName = "고양이 A 세트 (1~5)",
+                CardIds = new List<string> { "cat-1", "cat-2", "cat-3", "cat-4", "cat-5" },
+                SetCardWeightBonus = 1.2f,
+                StackEffectBonus = 0.5f,
+                ShardBonusMultiplier = 1.2f
+            });
+            list.Add(new SetEntry
+            {
+                SetId = "set-cat-b",
+                SetName = "고양이 B 세트 (6~10)",
+                CardIds = new List<string> { "cat-6", "cat-7", "cat-8", "cat-9", "cat-10" },
+                SetCardWeightBonus = 1.2f,
+                StackEffectBonus = 0.5f,
+                ShardBonusMultiplier = 1.2f
+            });
         }
 
         private void Update()
@@ -143,7 +214,11 @@ namespace CosmicChaosCat
             clicksInWindow++;
 
             double comboBonus = GetUpgradeEffectValue(UPG_COMBO);
-            double comboMult  = 1d + Math.Log(comboCount + 1d) * (1d + comboBonus);
+            double comboMult  = 1.0;
+            if (comboCount >= 100)
+            {
+                comboMult = 1.0 + (comboCount / 100.0) * 0.1 * (1.0 + comboBonus);
+            }
             bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
             float  critMult   = isCrit ? GetEffectiveCritMult() : 1f;
             double income     = BaseClickIncome * GetEquippedIncomeMultiplier() * comboMult * critMult;
@@ -156,78 +231,53 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
-        public void RollOnce()
+        public CardEntry RollOnce(GachaType type = GachaType.Normal)
         {
-            if (IsGameEnded) return;
-            double cost = GetCurrentGachaCost();
-            if (Money < cost) { Log("돈이 부족해요."); return; }
+            if (IsGameEnded) return null;
+            double cost = GetCurrentGachaCost(type);
+            if (Money < cost) { Log("돈이 부족해요."); return null; }
 
             Money -= cost;
             TotalRolls++;
 
-            // ── 하드 피티: 100연마다 최고 등급 보장 ──────────────────────────
-            if (pityCounter >= HardPityAt)
-            {
-                pityCounter = 0;
-                var pityCard = GetHardPityCard();
-                if (pityCard != null)
-                {
-                    Log($"⭐ 100연 보장 발동! {pityCard.DisplayName}");
-                    HardPityFired?.Invoke();
-                    ApplyDraw(pityCard);
-                    CheckEnding();
-                    Save();
-                    NotifyState();
-                    return;
-                }
-            }
-
-            var card = DrawOneCard();
-            if (card == null) { Log("뽑을 카드가 없어요."); Save(); NotifyState(); return; }
+            var card = DrawOneCard(type);
+            if (card == null) { Log("뽑을 카드가 없어요."); Save(); NotifyState(); return null; }
 
             ApplyDraw(card);
             CheckEnding();
             Save();
             NotifyState();
+            return card;
         }
 
-        public void RollTen()
+        public List<CardEntry> RollTen(GachaType type = GachaType.Normal)
         {
-            if (IsGameEnded) return;
-            double cost      = GetCurrentGachaCost();
-            int    extraPull = Mathf.RoundToInt(GetUpgradeEffectValue(UPG_EXTRA_PULL));
-            int    pullCount = 10 + extraPull;
+            if (IsGameEnded) return null;
+            double cost      = GetCurrentGachaCost(type);
+            int    pullCount = 10;
             float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
-            double totalCost = cost * (pullCount - 1) * (1f - discount);   // 1장 무료
+            double totalCost = cost * 10f * (1f - discount);
 
-            if (Money < totalCost) { Log("돈이 부족해요."); return; }
+            if (Money < totalCost) { Log("돈이 부족해요."); return null; }
 
             Money -= totalCost;
             TotalRolls += pullCount;
 
+            var drawnCards = new List<CardEntry>();
             for (int i = 0; i < pullCount; i++)
             {
-                // 하드 피티 체크 (10연 도중 발동 가능)
-                if (pityCounter >= HardPityAt)
+                var card = DrawOneCard(type);
+                if (card != null) 
                 {
-                    pityCounter = 0;
-                    var pityCard = GetHardPityCard();
-                    if (pityCard != null)
-                    {
-                        Log($"⭐ 100연 보장 발동! {pityCard.DisplayName}");
-                        HardPityFired?.Invoke();
-                        ApplyDraw(pityCard);
-                        continue;
-                    }
+                    ApplyDraw(card);
+                    drawnCards.Add(card);
                 }
-
-                var card = DrawOneCard();
-                if (card != null) ApplyDraw(card);
             }
 
             CheckEnding();
             Save();
             NotifyState();
+            return drawnCards;
         }
 
         /// <summary>조각을 소모해 특정 카드를 확정 획득합니다.</summary>
@@ -295,6 +345,25 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
+        public bool BreakthroughCard(string cardId)
+        {
+            if (string.IsNullOrEmpty(cardId)) return false;
+            if (cardCatalog == null) return false;
+            var card = cardCatalog.FindById(cardId);
+            if (card == null) return false;
+            if (!cardState.TryGetValue(cardId, out var state) || !state.Unlocked) return false;
+
+            if (state.BreakthroughCount >= 5) return false;
+            if (state.Copies <= state.BreakthroughCount + 1) return false;
+
+            state.BreakthroughCount++;
+            Log($"🌟 {card.DisplayName} 한계 돌파! ({state.BreakthroughCount}강 달성)");
+            
+            Save();
+            NotifyState();
+            return true;
+        }
+
         // ── Queries ────────────────────────────────────────────────────────────
 
         public int  GetUpgradeLevel(string upgradeId) =>
@@ -316,7 +385,7 @@ namespace CosmicChaosCat
         public CardEntry GetEquippedCard() =>
             string.IsNullOrEmpty(EquippedCardId) ? null : cardCatalog?.FindById(EquippedCardId);
 
-        public double GetCurrentGachaCost()
+        public double GetCurrentGachaCost(GachaType type = GachaType.Normal)
         {
             int    stage     = Mathf.FloorToInt(Completion01 * 20f);
             double scaled    = BaseGachaCost * Math.Pow(1.15d, stage);
@@ -325,7 +394,27 @@ namespace CosmicChaosCat
             if (Completion01 >= 0.3f) milestone += 20;
             if (Completion01 >= 0.6f) milestone += 100;
             float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
-            return Math.Round((scaled + milestone) * (1f - discount), 0, MidpointRounding.AwayFromZero);
+            
+            double baseTypeCost = scaled + milestone;
+            if (type == GachaType.Rare) baseTypeCost *= 5; // 레어가챠는 5배 비쌈
+            if (type == GachaType.Super) baseTypeCost *= 20; // 슈퍼가챠는 20배 비쌈
+
+            return Math.Round(baseTypeCost * (1f - discount), 0, MidpointRounding.AwayFromZero);
+        }
+
+        public void UnlockGachaType(GachaType type, double cost)
+        {
+            if (Money < cost) { Log("돈이 부족해요."); return; }
+            if (type == GachaType.Rare && UnlockedRareGacha) return;
+            if (type == GachaType.Super && UnlockedSuperGacha) return;
+
+            Money -= cost;
+            if (type == GachaType.Rare) UnlockedRareGacha = true;
+            if (type == GachaType.Super) UnlockedSuperGacha = true;
+            
+            Log($"{type} 가챠가 해금되었습니다!");
+            Save();
+            NotifyState();
         }
 
         public string GetTimerText()
@@ -338,52 +427,13 @@ namespace CosmicChaosCat
 
         // ── Private Helpers ────────────────────────────────────────────────────
 
-        private CardEntry DrawOneCard()
+        private CardEntry DrawOneCard(GachaType type)
         {
             float nRed = GetUpgradeEffectValue(UPG_N_WEIGHT);
             float rRed = GetUpgradeEffectValue(UPG_R_WEIGHT);
             var   card = gachaService.DrawCard(cardCatalog.Cards, cardState, Completion01,
-                                               pityCounter, nRed, rRed);
-            if (card == null) return null;
-
-            if (card.Rarity >= CardRarity.SSR) pityCounter = 0;
-            else                               pityCounter++;
-
+                                               nRed, rRed, type);
             return card;
-        }
-
-        /// <summary>100연 보장: 현재 해금된 가장 높은 등급의 카드 중 랜덤 반환.</summary>
-        private CardEntry GetHardPityCard()
-        {
-            CardRarity best;
-            if      (Completion01 >= 0.8f) best = CardRarity.UR;
-            else if (Completion01 >= 0.5f) best = CardRarity.SSR;
-            else if (Completion01 >= 0.2f) best = CardRarity.SR;
-            else                           best = CardRarity.R;
-
-            var candidates = new List<CardEntry>();
-            for (int i = 0; i < cardCatalog.Cards.Count; i++)
-            {
-                var c = cardCatalog.Cards[i];
-                if (c == null || c.IsHidden || c.Rarity != best) continue;
-                if (cardState.TryGetValue(c.Id, out var state) && state.Copies < c.MaxStacks)
-                    candidates.Add(c);
-            }
-
-            if (candidates.Count == 0)
-            {
-                // 만약 최고 등급이 다 꽉 찼으면 아래 등급으로 내려감
-                for (int i = 0; i < cardCatalog.Cards.Count; i++)
-                {
-                    var c = cardCatalog.Cards[i];
-                    if (c == null || c.IsHidden) continue;
-                    if (cardState.TryGetValue(c.Id, out var state) && state.Copies < c.MaxStacks)
-                        candidates.Add(c);
-                }
-            }
-
-            if (candidates.Count == 0) return null;
-            return candidates[UnityEngine.Random.Range(0, candidates.Count)];
         }
 
         private void ApplyDraw(CardEntry card)
@@ -395,9 +445,10 @@ namespace CosmicChaosCat
 
             CardDrawn?.Invoke(card.Id, card.Rarity);
 
-            if (state.Copies > card.MaxStacks)
+            int maxStacks = card.MaxStacks;
+            if (state.Copies > maxStacks)
             {
-                state.Copies = card.MaxStacks;
+                state.Copies = maxStacks;
                 float shardMult = 1.5f + GetUpgradeEffectValue(UPG_SHARD_REFUND);
                 int   shards    = Mathf.RoundToInt(card.ShardValue * shardMult);
                 Shards += shards;
@@ -484,9 +535,11 @@ namespace CosmicChaosCat
             if (card == null) return 1d;
             if (!cardState.TryGetValue(card.Id, out var state)) return 1d;
 
-            int    stack       = Mathf.Max(1, state.Copies);
-            double enhancement = 1d + Math.Pow(stack, 1.3d);
-            double multiplier  = card.ClickMultiplier * enhancement;
+            double multiplier = card.ClickMultiplier * (1 + state.BreakthroughCount);
+            if (state.BreakthroughCount >= 5)
+            {
+                multiplier += card.ClickMultiplier;
+            }
 
             if (card.SpecialEffect == CardSpecialEffect.DuplicateBonusBonus)
                 multiplier *= (1f + card.SpecialEffectValue);
@@ -497,7 +550,7 @@ namespace CosmicChaosCat
         private float GetEffectiveCritChance() => baseCriticalChance  + GetUpgradeEffectValue(UPG_CRIT_CHANCE);
         private float GetEffectiveCritMult()   => baseCriticalMultiplier + GetUpgradeEffectValue(UPG_CRIT_MULT);
 
-        private float GetUpgradeEffectValue(string upgradeId)
+        public float GetUpgradeEffectValue(string upgradeId)
         {
             if (upgradeCatalog == null) return 0f;
             var entry = upgradeCatalog.FindById(upgradeId);
@@ -521,7 +574,12 @@ namespace CosmicChaosCat
         private void Log(string msg)  => LogUpdated?.Invoke(msg);
         private void NotifyState()    => StateChanged?.Invoke();
 
-        // ── Save / Load ────────────────────────────────────────────────────────
+        // ── Public Save Hook ────────────────────────────────────────────────────
+        /// <summary>외부(GameHud 등)에서 명시적으로 저장을 호출할 때 사용합니다.</summary>
+        public void SaveGame() => Save();
+
+        private void OnApplicationQuit()    => Save();
+        private void OnApplicationPause(bool pausing) { if (pausing) Save(); }
 
         private void Save()
         {
@@ -529,7 +587,9 @@ namespace CosmicChaosCat
             {
                 Money = Money, Shards = Shards, ElapsedSeconds = ElapsedSeconds,
                 EquippedCardId = EquippedCardId, TotalRolls = TotalRolls,
-                PityCounter = pityCounter, TotalClicks = TotalClicks
+                TotalClicks = TotalClicks,
+                UnlockedRareGacha = UnlockedRareGacha,
+                UnlockedSuperGacha = UnlockedSuperGacha
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
@@ -546,7 +606,18 @@ namespace CosmicChaosCat
 
         private void Load()
         {
-            if (!PlayerPrefs.HasKey(SaveKey)) return;
+            if (!PlayerPrefs.HasKey(SaveKey))
+            {
+                Money = 1000d;
+                EquippedCardId = "cat-1";
+                if (cardState.ContainsKey("cat-1"))
+                {
+                    cardState["cat-1"].Unlocked = true;
+                    cardState["cat-1"].Copies = 1;
+                }
+                Save();
+                return;
+            }
             string raw = PlayerPrefs.GetString(SaveKey, string.Empty);
             if (string.IsNullOrEmpty(raw)) return;
             var data = JsonUtility.FromJson<GameSaveData>(raw);
@@ -557,8 +628,9 @@ namespace CosmicChaosCat
             ElapsedSeconds = Math.Max(0f, data.ElapsedSeconds);
             EquippedCardId = data.EquippedCardId;
             TotalRolls     = Math.Max(0, data.TotalRolls);
-            pityCounter    = Math.Max(0, data.PityCounter);
             TotalClicks    = Math.Max(0, data.TotalClicks);
+            UnlockedRareGacha  = data.UnlockedRareGacha;
+            UnlockedSuperGacha = data.UnlockedSuperGacha;
 
             if (data.Cards != null)
                 foreach (var c in data.Cards)
@@ -575,6 +647,17 @@ namespace CosmicChaosCat
                 }
             if (data.UnlockedHiddenCards != null) unlockedHiddenCards.UnionWith(data.UnlockedHiddenCards);
             if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
+
+            // 기본 장착 보장
+            if (string.IsNullOrEmpty(EquippedCardId) || !cardState.ContainsKey(EquippedCardId) || !cardState[EquippedCardId].Unlocked)
+            {
+                EquippedCardId = "cat-1";
+                if (cardState.ContainsKey("cat-1"))
+                {
+                    cardState["cat-1"].Unlocked = true;
+                    if (cardState["cat-1"].Copies == 0) cardState["cat-1"].Copies = 1;
+                }
+            }
         }
     }
 }

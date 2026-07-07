@@ -5,16 +5,6 @@ using UnityEngine;
 namespace CosmicChaosCat
 {
     [Serializable]
-    public sealed class SetEntry
-    {
-        public string SetId;
-        public string SetName;
-        public List<string> CardIds = new List<string>();
-        public float SetCardWeightBonus = 1.2f;
-        public float StackEffectBonus = 0.5f;
-        public float ShardBonusMultiplier = 1.2f;
-    }
-
     [CreateAssetMenu(fileName = "SetCatalog", menuName = "CosmicChaosCat/Set Catalog")]
     public sealed class SetCatalogSO : ScriptableObject
     {
@@ -28,5 +18,16 @@ namespace CosmicChaosCat
                 if (sets[i] != null && sets[i].SetId == setId) return sets[i];
             return null;
         }
+    }
+
+    [Serializable]
+    public sealed class SetEntry
+    {
+        public string SetId;
+        public string SetName;
+        public List<string> CardIds = new List<string>();
+        public float SetCardWeightBonus = 1.2f;
+        public float StackEffectBonus = 0.5f;
+        public float ShardBonusMultiplier = 1.2f;
     }
 }

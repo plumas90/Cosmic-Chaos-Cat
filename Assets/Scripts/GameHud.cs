@@ -7,8 +7,7 @@ namespace CosmicChaosCat
 {
     /// <summary>
     /// 게임 씬 메인 HUD.
-    /// 모든 UI 요소를 인스펙터에서 미리 배치하고 연결합니다.
-    /// 런타임 오브젝트 생성 없음.
+    /// 메뉴 버튼은 좌측 상단에 배치. 눌렀을 때 저장 후 메인메뉴 이동 확인 다이얼로그를 코드로 생성.
     /// </summary>
     public sealed class GameHud : MonoBehaviour
     {
@@ -24,13 +23,12 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text comboText;
         [SerializeField] private TMP_Text equippedText;
         [SerializeField] private TMP_Text logText;
-        [SerializeField] private TMP_Text pityText;       // "피티 XX / 100"
 
         [Header("Navigation Buttons")]
         [SerializeField] private Button gachaButton;
         [SerializeField] private Button encyclopediaButton;
         [SerializeField] private Button upgradeButton;
-        [SerializeField] private Button exchangeButton;   // 조각 교환
+        [SerializeField] private Button exchangeButton;
         [SerializeField] private Button menuButton;
 
         [Header("Panels — pre-placed, start inactive")]
@@ -38,140 +36,342 @@ namespace CosmicChaosCat
         [SerializeField] private EncyclopediaPanel  encyclopediaPanel;
         [SerializeField] private UpgradePanel       upgradePanel;
         [SerializeField] private ShardExchangePanel exchangePanel;
+        [SerializeField] private ShopPanel          shopPanel;
 
         [Header("Ending Screen — pre-placed, starts inactive")]
         [SerializeField] private GameObject endingScreen;
         [SerializeField] private TMP_Text   endingTimerText;
         [SerializeField] private TMP_Text   endingMessageText;
 
-        [Header("Hard Pity Notification — pre-placed, starts inactive")]
-        [SerializeField] private GameObject pityNotification;   // "100연 보장 발동!" 팝업
+        // 확인 다이얼로그 (코드로 생성)
+        private GameObject confirmDialog;
 
+        // ─── Style constants ───────────────────────────────────────────────
+        private static readonly Color DlgBG     = new Color(0.07f, 0.09f, 0.15f, 0.97f);
+        private static readonly Color BtnYes    = new Color(0.18f, 0.52f, 0.28f, 1.00f);
+        private static readonly Color BtnNo     = new Color(0.50f, 0.15f, 0.15f, 1.00f);
+
+        // ─── Lifecycle ─────────────────────────────────────────────────────
         private void Awake()
         {
-            // 씬 로드 시 모든 패널 비활성화 보장
-            SetPanelActive(gachaPanel,         false);
-            SetPanelActive(encyclopediaPanel,  false);
-            SetPanelActive(upgradePanel,       false);
-            SetPanelActive(exchangePanel,      false);
-            if (endingScreen      != null) endingScreen.SetActive(false);
-            if (pityNotification  != null) pityNotification.SetActive(false);
+            Debug.Log("[GameHud] Awake started");
+            try
+            {
+                var encys = FindObjectsOfType<EncyclopediaPanel>(true);
+                Debug.Log($"[GameHud] Found {encys.Length} EncyclopediaPanels in the scene!");
+                for (int i = 0; i < encys.Length; i++)
+                {
+                    Debug.Log($"[GameHud] Ency {i}: name={encys[i].name}, path={GetGameObjectPath(encys[i].gameObject)}, active={encys[i].gameObject.activeSelf}");
+                }
+
+                if (!IsSceneInstance(gachaPanel))        gachaPanel        = FindObjectOfType<GachaPanel>(true);
+                if (!IsSceneInstance(encyclopediaPanel)) encyclopediaPanel = FindObjectOfType<EncyclopediaPanel>(true);
+                if (!IsSceneInstance(upgradePanel))      upgradePanel      = FindObjectOfType<UpgradePanel>(true);
+                if (!IsSceneInstance(exchangePanel))     exchangePanel     = FindObjectOfType<ShardExchangePanel>(true);
+                if (!IsSceneInstance(shopPanel))         shopPanel         = FindObjectOfType<ShopPanel>(true);
+                if (!IsSceneInstance(gameManager))       gameManager       = FindObjectOfType<GameManager>(true);
+
+                if (!IsSceneInstance(gachaButton) || !IsSceneInstance(encyclopediaButton) || !IsSceneInstance(upgradeButton) || !IsSceneInstance(exchangeButton) || !IsSceneInstance(menuButton))
+                {
+                    TryAssignButtons();
+                }
+
+                Debug.Log($"[GameHud] Panels: gacha={gachaPanel!=null}, ency={encyclopediaPanel!=null}, shop={shopPanel!=null}, mgr={gameManager!=null}");
+
+                SetPanelActive(gachaPanel,         false);
+                SetPanelActive(encyclopediaPanel,  false);
+                SetPanelActive(upgradePanel,       false);
+                SetPanelActive(exchangePanel,      false);
+                SetPanelActive(shopPanel,          false);
+                if (endingScreen != null) endingScreen.SetActive(false);
+
+                BuildConfirmDialog();
+                Debug.Log($"[GameHud] Confirm dialog: {confirmDialog!=null}");
+
+                if (gachaButton != null) { gachaButton.onClick.RemoveAllListeners(); gachaButton.onClick.AddListener(OpenGacha); }
+                if (encyclopediaButton != null) { encyclopediaButton.onClick.RemoveAllListeners(); encyclopediaButton.onClick.AddListener(ToggleEncyclopedia); }
+                if (upgradeButton != null) { upgradeButton.onClick.RemoveAllListeners(); upgradeButton.onClick.AddListener(ToggleUpgrade); }
+                if (exchangeButton != null) { exchangeButton.onClick.RemoveAllListeners(); exchangeButton.onClick.AddListener(ToggleExchange); }
+                if (menuButton != null) { menuButton.onClick.RemoveAllListeners(); menuButton.onClick.AddListener(GoToMenu); }
+
+                Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, menu={menuButton!=null}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[GameHud] Exception in Awake: {e}");
+            }
+        }
+        private static bool IsSceneInstance(Component comp)
+        {
+            return comp != null && comp.gameObject != null && comp.gameObject.scene.IsValid();
         }
 
+        private static string GetGameObjectPath(GameObject obj)
+        {
+            if (obj == null) return "null";
+            string path = "/" + obj.name;
+            while (obj.transform.parent != null)
+            {
+                obj = obj.transform.parent.gameObject;
+                path = "/" + obj.name + path;
+            }
+            return path;
+        }
+
+        private void TryAssignButtons()
+        {
+            var buttons = GetComponentsInChildren<Button>(true);
+            foreach (var btn in buttons)
+            {
+                string n = btn.name.ToLower();
+                if (n.Contains("gacha") || n.Contains("가챠")) gachaButton = btn;
+                else if (n.Contains("encyclopedia") || n.Contains("book") || n.Contains("도감")) encyclopediaButton = btn;
+                else if (n.Contains("upgrade") || n.Contains("업그레이드")) upgradeButton = btn;
+                else if (n.Contains("exchange") || n.Contains("교환")) exchangeButton = btn;
+                else if (n.Contains("menu") || n.Contains("메뉴")) menuButton = btn;
+            }
+        }
         private void OnEnable()
         {
             if (gameManager == null) return;
-
-            gameManager.StateChanged  += Refresh;
-            gameManager.LogUpdated    += OnLog;
-            gameManager.CriticalHit   += OnCriticalHit;
-            gameManager.GameEnded     += OnGameEnded;
-            gameManager.HardPityFired += OnHardPityFired;
-
-            if (gachaButton       != null) gachaButton.onClick.AddListener(OpenGacha);
-            if (encyclopediaButton != null) encyclopediaButton.onClick.AddListener(ToggleEncyclopedia);
-            if (upgradeButton     != null) upgradeButton.onClick.AddListener(ToggleUpgrade);
-            if (exchangeButton    != null) exchangeButton.onClick.AddListener(ToggleExchange);
-            if (menuButton        != null) menuButton.onClick.AddListener(GoToMenu);
-
+            gameManager.StateChanged += Refresh;
+            gameManager.LogUpdated   += OnLog;
+            gameManager.CriticalHit  += OnCriticalHit;
+            gameManager.GameEnded    += OnGameEnded;
             Refresh();
         }
 
         private void OnDisable()
         {
             if (gameManager == null) return;
-
-            gameManager.StateChanged  -= Refresh;
-            gameManager.LogUpdated    -= OnLog;
-            gameManager.CriticalHit   -= OnCriticalHit;
-            gameManager.GameEnded     -= OnGameEnded;
-            gameManager.HardPityFired -= OnHardPityFired;
-
-            if (gachaButton       != null) gachaButton.onClick.RemoveListener(OpenGacha);
-            if (encyclopediaButton != null) encyclopediaButton.onClick.RemoveListener(ToggleEncyclopedia);
-            if (upgradeButton     != null) upgradeButton.onClick.RemoveListener(ToggleUpgrade);
-            if (exchangeButton    != null) exchangeButton.onClick.RemoveListener(ToggleExchange);
-            if (menuButton        != null) menuButton.onClick.RemoveListener(GoToMenu);
+            gameManager.StateChanged -= Refresh;
+            gameManager.LogUpdated   -= OnLog;
+            gameManager.CriticalHit  -= OnCriticalHit;
+            gameManager.GameEnded    -= OnGameEnded;
         }
 
+        // ─── Refresh ───────────────────────────────────────────────────────
         private void Refresh()
         {
             if (gameManager == null) return;
 
             if (timerText    != null) timerText.text    = gameManager.GetTimerText();
-            if (coinText     != null) coinText.text     = $"💰  {gameManager.Money:0}";
-            if (shardText    != null) shardText.text    = $"🔷  {gameManager.Shards}";
+            if (coinText     != null) coinText.text     = $"돈  {gameManager.Money:F1}";
+            if (shardText    != null) shardText.text    = $"조각  {gameManager.Shards}";
             if (progressText != null) progressText.text =
-                $"📖  {gameManager.UnlockedCount} / {gameManager.TotalCardCount}" +
+                $"도감  {gameManager.UnlockedCount} / {gameManager.TotalCardCount}" +
                 $"  ({gameManager.Completion01 * 100f:0.0}%)";
 
-            // 콤보
             if (comboText != null)
                 comboText.text = gameManager.ComboCount > 1
-                    ? $"🔥  ×{gameManager.ComboCount} 콤보!"
+                    ? $"×{gameManager.ComboCount} 콤보!"
                     : string.Empty;
 
-            // 장착 카드
             var card = gameManager.GetEquippedCard();
             if (equippedText != null)
                 equippedText.text = card != null
                     ? $"장착: {card.DisplayName}  [{card.Rarity}]"
                     : "장착: 기본";
-
-            // 피티 카운터
-            if (pityText != null)
-            {
-                int pity  = gameManager.PityCounter;
-                int total = gameManager.HardPityThreshold;
-                pityText.text = $"⭐ 피티  {pity} / {total}";
-                // 80연 이상이면 강조 색상
-                if (pity >= 80)
-                    pityText.color = new Color(1f, 0.8f, 0f);
-                else
-                    pityText.color = Color.white;
-            }
         }
 
-        private void OnLog(string msg)
-        {
-            if (logText != null) logText.text = msg;
-        }
-
-        private void OnCriticalHit()
-        {
-            effectPlayer?.PlayCriticalEffect();
-        }
+        private void OnLog(string msg)           { if (logText != null) logText.text = msg; }
+        private void OnCriticalHit()             => effectPlayer?.PlayCriticalEffect();
 
         private void OnGameEnded()
         {
-            if (endingScreen != null) endingScreen.SetActive(true);
-            if (endingTimerText != null)
-                endingTimerText.text = $"클리어 타임\n{gameManager.GetTimerText()}";
-            if (endingMessageText != null)
-                endingMessageText.text =
-                    $"총 뽑기 {gameManager.TotalRolls}회\n총 클릭 {gameManager.TotalClicks}번";
+            if (endingScreen     != null) endingScreen.SetActive(true);
+            if (endingTimerText  != null) endingTimerText.text  = $"클리어 타임\n{gameManager.GetTimerText()}";
+            if (endingMessageText!= null) endingMessageText.text=
+                $"총 뽑기 {gameManager.TotalRolls}회\n총 클릭 {gameManager.TotalClicks}번";
         }
 
-        private void OnHardPityFired()
+        // ─── Confirm Dialog UI Builder ──────────────────────────────────────
+        private void BuildConfirmDialog()
         {
-            if (pityNotification == null) return;
-            pityNotification.SetActive(true);
-            // 3초 후 자동으로 닫기
-            Invoke(nameof(HidePityNotification), 3f);
+            // 최상위 캔버스를 찾아서 다이얼로그를 붙임
+            var canvas = GetComponentInParent<Canvas>();
+            if (canvas == null) canvas = FindObjectOfType<Canvas>();
+            Transform dialogParent = canvas != null ? canvas.transform : transform;
+
+            // 어두운 오버레이
+            confirmDialog = new GameObject("MenuConfirmDialog");
+            confirmDialog.transform.SetParent(dialogParent, false);
+            var rt = confirmDialog.AddComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+            confirmDialog.transform.localPosition = Vector3.zero;
+            confirmDialog.transform.localScale = Vector3.one;
+
+            // 클릭 블로커
+            var blocker = confirmDialog.AddComponent<Image>();
+            blocker.color = new Color(0, 0, 0, 0.55f);
+
+            // 다이얼로그 패널
+            var panel = new GameObject("DlgPanel");
+            panel.transform.SetParent(confirmDialog.transform, false);
+            var prt = panel.AddComponent<RectTransform>();
+            prt.anchoredPosition = Vector2.zero;
+            prt.sizeDelta        = new Vector2(420, 200);
+            panel.transform.localPosition = Vector3.zero;
+            panel.transform.localScale = Vector3.one;
+            panel.AddComponent<Image>().color = DlgBG;
+
+            // 폰트 찾기
+            var font = FindObjectOfType<TextMeshProUGUI>()?.font;
+
+            // 메시지
+            var msgGO = new GameObject("Msg");
+            msgGO.transform.SetParent(panel.transform, false);
+            var mrt = msgGO.AddComponent<RectTransform>();
+            mrt.anchoredPosition = new Vector2(0, 45);
+            mrt.sizeDelta        = new Vector2(380, 80);
+            msgGO.transform.localPosition = new Vector3(0, 45, 0);
+            msgGO.transform.localScale = Vector3.one;
+            var msg = msgGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) msg.font = font;
+            msg.text      = "메인 메뉴로 돌아가시겠습니까?\n현재 게임이 저장됩니다.";
+            msg.fontSize  = 17;
+            msg.color     = Color.white;
+            msg.alignment = TextAlignmentOptions.Center;
+
+            // 예 버튼
+            MakeDlgButton(panel.transform, "예", new Vector2(-90, -55), BtnYes, OnConfirmYes, font);
+            // 아니오 버튼
+            MakeDlgButton(panel.transform, "아니오", new Vector2(90, -55), BtnNo, OnConfirmNo, font);
+
+            confirmDialog.SetActive(false);
         }
 
-        private void HidePityNotification()
+        private static void MakeDlgButton(Transform parent, string label, Vector2 pos, Color bg,
+            UnityEngine.Events.UnityAction onClick, TMP_FontAsset font)
         {
-            if (pityNotification != null) pityNotification.SetActive(false);
+            var go = new GameObject("DlgBtn_" + label);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = new Vector2(155, 48);
+            go.transform.localPosition = new Vector3(pos.x, pos.y, 0f);
+            go.transform.localScale = Vector3.one;
+
+            var img = go.AddComponent<Image>();
+            img.color = bg;
+
+            var btn = go.AddComponent<Button>();
+            var cs  = btn.colors;
+            cs.highlightedColor = bg * 1.3f;
+            cs.pressedColor     = bg * 0.7f;
+            btn.colors          = cs;
+            btn.onClick.AddListener(onClick);
+
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+            labelGO.transform.localPosition = Vector3.zero;
+            labelGO.transform.localScale = Vector3.one;
+            var tx  = labelGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) tx.font = font;
+            tx.text      = label;
+            tx.fontSize  = 16;
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color     = Color.white;
         }
 
-        private void OpenGacha()        => SetPanelActive(gachaPanel,        true);
-        private void ToggleEncyclopedia() => Toggle(encyclopediaPanel);
-        private void ToggleUpgrade()    => Toggle(upgradePanel);
-        private void ToggleExchange()   => Toggle(exchangePanel);
+        private int lastGachaFrame = -1;
+        private int lastEncyFrame = -1;
+        private int lastUpgradeFrame = -1;
+        private int lastExchangeFrame = -1;
+        private int lastShopFrame = -1;
+        private int lastMenuFrame = -1;
 
-        private static void GoToMenu() => SceneManager.LoadScene("MainMenuScene");
+        // ─── Button Callbacks ──────────────────────────────────────────────
+        public void OpenGacha()
+        {
+            if (Time.frameCount == lastGachaFrame) return;
+            lastGachaFrame = Time.frameCount;
+            Debug.Log("[GameHud] OpenGacha"); SetPanelActive(gachaPanel, true);
+        }
+        public void ToggleEncyclopedia()
+        {
+            if (Time.frameCount == lastEncyFrame) return;
+            lastEncyFrame = Time.frameCount;
 
+            Debug.Log($"[GameHud] ToggleEncyclopedia clicked. Panel null?={encyclopediaPanel==null}");
+            if (encyclopediaPanel != null)
+            {
+                var go = encyclopediaPanel.gameObject;
+                var rt = go.GetComponent<RectTransform>();
+                Debug.Log($"[GameHud] EncyPanel state: activeSelf={go.activeSelf}, activeInH={go.activeInHierarchy}");
+                if (rt != null) Debug.Log($"[GameHud] EncyPanel Rect: pos3D={rt.anchoredPosition3D}, size={rt.sizeDelta}, scale={rt.localScale}");
+                foreach (Transform child in go.transform)
+                {
+                    Debug.Log($"[GameHud] EncyPanel Child: {child.name}, active={child.gameObject.activeSelf}, scale={child.localScale}");
+                }
+            }
+            Toggle(encyclopediaPanel);
+        }
+        public void ToggleUpgrade()
+        {
+            if (Time.frameCount == lastUpgradeFrame) return;
+            lastUpgradeFrame = Time.frameCount;
+            Debug.Log("[GameHud] ToggleUpgrade"); Toggle(upgradePanel);
+        }
+        public void ToggleExchange()
+        {
+            if (Time.frameCount == lastExchangeFrame) return;
+            lastExchangeFrame = Time.frameCount;
+            Debug.Log("[GameHud] ToggleExchange"); Toggle(exchangePanel);
+        }
+        public void ToggleShop()
+        {
+            if (Time.frameCount == lastShopFrame) return;
+            lastShopFrame = Time.frameCount;
+            Debug.Log("[GameHud] ToggleShop"); Toggle(shopPanel);
+        }
+ 
+        /// <summary>메뉴 버튼 클릭 → 확인 다이얼로그 표시.</summary>
+        public void GoToMenu()
+        {
+            if (Time.frameCount == lastMenuFrame) return;
+            lastMenuFrame = Time.frameCount;
+
+            Debug.Log($"[GameHud] GoToMenu clicked. Dialog null?={confirmDialog==null}");
+            if (confirmDialog != null)
+            {
+                confirmDialog.transform.SetAsLastSibling();
+                LogHierarchy(confirmDialog, 0);
+                confirmDialog.SetActive(true);
+            }
+        }
+
+        private void LogHierarchy(GameObject go, int depth)
+        {
+            var rt = go.GetComponent<RectTransform>();
+            string indent = new string(' ', depth * 2);
+            Debug.Log($"{indent}[GameHud] {go.name}: activeSelf={go.activeSelf}, scale={rt?.localScale}, size={rt?.sizeDelta}, pos3D={rt?.anchoredPosition3D}, path={GetGameObjectPath(go)}");
+            foreach (Transform child in go.transform)
+            {
+                LogHierarchy(child.gameObject, depth + 1);
+            }
+        }
+
+        private void OnConfirmYes()
+        {
+            // 저장 후 씬 전환
+            gameManager?.SaveGame();
+            SceneManager.LoadScene("MainMenuScene");
+        }
+
+        private void OnConfirmNo()
+        {
+            if (confirmDialog != null)
+                confirmDialog.SetActive(false);
+        }
+
+        // ─── Helpers ───────────────────────────────────────────────────────
         private static void Toggle(MonoBehaviour panel)
         {
             if (panel == null) return;

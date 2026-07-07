@@ -3,12 +3,20 @@ using System.Collections.Generic;
 
 namespace CosmicChaosCat
 {
+    public enum GachaType
+    {
+        Normal,
+        Rare,
+        Super
+    }
+
     [Serializable]
     public sealed class CardProgress
     {
         public string CardId;
         public int Copies;
         public bool Unlocked;
+        public int BreakthroughCount;
     }
 
     [Serializable]
@@ -26,11 +34,13 @@ namespace CosmicChaosCat
         public float ElapsedSeconds;
         public string EquippedCardId;
         public int TotalRolls;
-        public int PityCounter;
         public long TotalClicks;
         public List<CardProgress> Cards = new List<CardProgress>();
         public List<UpgradeProgress> Upgrades = new List<UpgradeProgress>();
         public List<string> UnlockedHiddenCards = new List<string>();
         public List<string> CompletedSets = new List<string>();
+
+        public bool UnlockedRareGacha;
+        public bool UnlockedSuperGacha;
     }
 }

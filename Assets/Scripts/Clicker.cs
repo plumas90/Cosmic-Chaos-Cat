@@ -15,6 +15,12 @@ namespace CosmicChaosCat
 
         public event Action Clicked;
 
+        private void Awake()
+        {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
+            if (effectPlayer == null) effectPlayer = FindObjectOfType<ClickEffectPlayer>(true);
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             gameManager?.HandleCardClicked();

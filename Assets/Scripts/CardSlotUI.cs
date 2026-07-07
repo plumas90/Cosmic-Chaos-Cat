@@ -28,7 +28,7 @@ namespace CosmicChaosCat
         private GameManager gm;
         private string      cardId;
 
-        public void SetData(CardEntry card, CardProgress progress, GameManager gameManager)
+        public void SetData(CardEntry card, int cardIndex, CardProgress progress, GameManager gameManager, System.Action<string> onSlotClicked)
         {
             gm     = gameManager;
             cardId = card.Id;
@@ -37,7 +37,7 @@ namespace CosmicChaosCat
 
             if (unknownOverlay != null) unknownOverlay.SetActive(!unlocked);
 
-            if (nameText  != null) nameText.text  = unlocked ? card.DisplayName : "???";
+            if (nameText  != null) nameText.text  = unlocked ? $"No.{cardIndex}. {card.DisplayName}" : $"No.{cardIndex}. ???";
             if (rarityText != null) rarityText.text = unlocked ? card.Rarity.ToString() : "?";
             if (stackText  != null)
                 stackText.text = (unlocked && progress != null && progress.Copies > 1)
@@ -62,16 +62,28 @@ namespace CosmicChaosCat
             if (frameImage != null)
                 frameImage.color = unlocked ? (Color)RarityToColor(card.Rarity) : (Color)ColN;
 
-            // Equip button
+            // Hide direct equip button since it's moved to details popup
             if (equipButton != null)
-            {
-                equipButton.gameObject.SetActive(unlocked);
-                equipButton.onClick.RemoveAllListeners();
-                if (unlocked) equipButton.onClick.AddListener(OnEquip);
-            }
+                equipButton.gameObject.SetActive(false);
+
+            // Add full slot click trigger
+            var slotBtn = GetComponent<Button>();
+            if (slotBtn == null) slotBtn = gameObject.AddComponent<Button>();
+            slotBtn.onClick.RemoveAllListeners();
+            slotBtn.onClick.AddListener(() => onSlotClicked?.Invoke(cardId));
         }
 
         private void OnEquip() => gm?.EquipCard(cardId);
+
+        public void InitUI(Image frame, Image art, TMP_Text nameTx, TMP_Text rarityTx, TMP_Text stackTx, GameObject unknown)
+        {
+            frameImage = frame;
+            cardArtImage = art;
+            nameText = nameTx;
+            rarityText = rarityTx;
+            stackText = stackTx;
+            unknownOverlay = unknown;
+        }
 
         private static Color32 RarityToColor(CardRarity r)
         {
