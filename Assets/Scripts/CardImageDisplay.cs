@@ -41,6 +41,7 @@ namespace CosmicChaosCat
 
         private void Awake()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             originalScale = transform.localScale;
         }
 

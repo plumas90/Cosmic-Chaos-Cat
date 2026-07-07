@@ -36,6 +36,7 @@ namespace CosmicChaosCat.Editor
             if (encyPanel != null)
             {
                 encyPanel.EnsureBreakthroughButtonBuilt();
+                encyPanel.EnsureShopButtonBuilt();
                 EditorUtility.SetDirty(encyPanel);
             }
             if (gachaPanel != null)

@@ -28,7 +28,10 @@ namespace CosmicChaosCat
         private RectTransform conveyor;
         private GameObject skipBtn;
         private GameObject confirmBtn;
+        private GameObject closeBtn;
         private bool isAnimSkipped;
+        private readonly List<bool> currentIsShardDraw = new List<bool>();
+        private readonly List<int> currentShardsGained = new List<int>();
 
         private GachaType currentType = GachaType.Normal;
         
@@ -74,6 +77,7 @@ namespace CosmicChaosCat
             SelectType(GachaType.Normal);
             if (resultObj != null) resultObj.SetActive(false);
             if (typeSelectionObj != null) typeSelectionObj.SetActive(true);
+            if (closeBtn != null) closeBtn.SetActive(true);
         }
 
         private void OnDisable()
@@ -205,6 +209,17 @@ namespace CosmicChaosCat
                     if (txt != null) txt.font = font;
                 }
             }
+
+            // Find close button from legacy panel or new parent
+            if (closeBtn == null)
+            {
+                var panelTrans = transform.Find("Panel");
+                if (panelTrans != null)
+                {
+                    var cbTrans = panelTrans.Find("Btn_✕ 닫기");
+                    if (cbTrans != null) closeBtn = cbTrans.gameObject;
+                }
+            }
         }
 
         private void BuildUI()
@@ -242,7 +257,7 @@ namespace CosmicChaosCat
             rollTenCostText.text = "10회 뽑기\n0 코인";
             rollTenCostText.fontSize = 16;
 
-            MakeButton(typeSelectionObj.transform, "✕ 닫기", new Vector2(0, -220), new Vector2(150, 40), BtnClose, () => gameObject.SetActive(false));
+            closeBtn = MakeButton(typeSelectionObj.transform, "✕ 닫기", new Vector2(0, -220), new Vector2(150, 40), BtnClose, () => gameObject.SetActive(false));
 
             // Result UI
             resultObj = new GameObject("ResultUI");
@@ -278,8 +293,7 @@ namespace CosmicChaosCat
             superBtn.GetComponent<Image>().color = gm.UnlockedSuperGacha ? (currentType == GachaType.Super ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
 
             double single = gm.GetCurrentGachaCost(currentType);
-            float  discount  = gm.GetUpgradeEffectValue("upg-gacha-disc");
-            double ten = single * 10f * (1f - discount);
+            double ten = single * 10f;
 
             if (rollOnceCostText != null) rollOnceCostText.text = $"1회 뽑기\n{single:0} 코인";
             if (rollTenCostText != null) rollTenCostText.text = $"10회 뽑기\n{ten:0} 코인";
@@ -304,8 +318,7 @@ namespace CosmicChaosCat
         {
             if (gm == null) return;
             double cost = gm.GetCurrentGachaCost(currentType);
-            float  discount  = gm.GetUpgradeEffectValue("upg-gacha-disc");
-            double totalCost = cost * 10f * (1f - discount);
+            double totalCost = cost * 10f;
             if (gm.Money < totalCost) return;
 
             var drawnCards = gm.RollTen(currentType);
@@ -325,6 +338,7 @@ namespace CosmicChaosCat
         {
             resultObj.SetActive(false);
             typeSelectionObj.SetActive(true);
+            if (closeBtn != null) closeBtn.SetActive(true);
         }
 
         public void ShowResult(List<CardEntry> drawnCards)
@@ -332,10 +346,51 @@ namespace CosmicChaosCat
             EnsureGachaUIPartsBuilt();
             typeSelectionObj.SetActive(false);
             resultObj.SetActive(true);
+            if (closeBtn != null) closeBtn.SetActive(false);
 
             animContainer.SetActive(true);
             summaryContainer.SetActive(false);
             isAnimSkipped = false;
+
+            currentIsShardDraw.Clear();
+            currentShardsGained.Clear();
+
+            var localCopies = new Dictionary<string, int>();
+            var states = gm?.GetCardStates();
+            if (states != null)
+            {
+                foreach (var kv in states)
+                {
+                    localCopies[kv.Key] = kv.Value.Copies;
+                }
+            }
+
+            foreach (var card in drawnCards)
+            {
+                if (card == null) continue;
+                if (!localCopies.ContainsKey(card.Id)) localCopies[card.Id] = 0;
+                
+                localCopies[card.Id]++;
+                if (localCopies[card.Id] > card.MaxStacks)
+                {
+                    currentIsShardDraw.Add(true);
+                    float shardMult = 1.5f + (gm != null ? gm.GetUpgradeEffectValue("upg-gacha-disc") : 0f); // wait, upg-shard-refund!
+                    if (gm != null)
+                    {
+                        float refund = 1.5f + gm.GetUpgradeEffectValue("upg-shard-refund");
+                        currentShardsGained.Add(Mathf.RoundToInt(card.ShardValue * refund));
+                    }
+                    else
+                    {
+                        currentShardsGained.Add(card.ShardValue);
+                    }
+                }
+                else
+                {
+                    currentIsShardDraw.Add(false);
+                    currentShardsGained.Add(0);
+                }
+            }
 
             // Clear old children
             if (conveyor != null)
@@ -520,9 +575,12 @@ namespace CosmicChaosCat
             animContainer.SetActive(false);
             summaryContainer.SetActive(true);
 
+            var spawnedCards = new List<GameObject>();
+
             if (cards.Count == 1)
             {
-                CreateSummaryCard(summaryContainer.transform, cards[0], Vector2.zero, new Vector2(150, 220), 13);
+                var cardGo = CreateSummaryCard(summaryContainer.transform, cards[0], Vector2.zero, new Vector2(150, 220), 13);
+                spawnedCards.Add(cardGo);
             }
             else
             {
@@ -541,15 +599,18 @@ namespace CosmicChaosCat
 
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    CreateSummaryCard(gridGo.transform, cards[i], Vector2.zero, new Vector2(110, 160), 10);
+                    var cardGo = CreateSummaryCard(gridGo.transform, cards[i], Vector2.zero, new Vector2(110, 160), 10);
+                    spawnedCards.Add(cardGo);
                 }
             }
 
             confirmBtn.SetActive(true);
             confirmBtn.transform.SetAsLastSibling();
+
+            StartCoroutine(PlayShardConversionAnim(spawnedCards, currentIsShardDraw, currentShardsGained));
         }
 
-        private void CreateSummaryCard(Transform parent, CardEntry card, Vector2 pos, Vector2 size, int fontSize)
+        private GameObject CreateSummaryCard(Transform parent, CardEntry card, Vector2 pos, Vector2 size, int fontSize)
         {
             var cardGo = new GameObject("SummaryCard");
             cardGo.transform.SetParent(parent, false);
@@ -562,6 +623,7 @@ namespace CosmicChaosCat
 
             var artGo = new GameObject("Art");
             artGo.transform.SetParent(cardGo.transform, false);
+            artGo.name = "Art";
             var artRt = artGo.AddComponent<RectTransform>();
             artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
             
@@ -579,6 +641,84 @@ namespace CosmicChaosCat
                 new Vector2(size.x - 10f, padTop), fontSize, Color.white);
             nameText.alignment = TextAlignmentOptions.Center;
             if (font != null) nameText.font = font;
+
+            return cardGo;
+        }
+
+        private IEnumerator PlayShardConversionAnim(List<GameObject> summaryCards, List<bool> isShardDraw, List<int> shardsGained)
+        {
+            yield return new WaitForSeconds(0.8f);
+
+            for (int i = 0; i < summaryCards.Count; i++)
+            {
+                if (i >= isShardDraw.Count || !isShardDraw[i]) continue;
+
+                var cardGo = summaryCards[i];
+                var cardRT = cardGo.GetComponent<RectTransform>();
+                int gained = shardsGained[i];
+
+                // Flip shrink
+                float t = 0f;
+                while (t < 0.15f)
+                {
+                    t += Time.deltaTime;
+                    float s = Mathf.Lerp(1f, 0f, t / 0.15f);
+                    cardRT.localScale = new Vector3(s, 1f, 1f);
+                    yield return null;
+                }
+                cardRT.localScale = new Vector3(0f, 1f, 1f);
+
+                // Morph to Shard representation
+                var art = cardGo.transform.Find("Art");
+                if (art != null) Destroy(art.gameObject);
+                
+                var nameText = cardGo.transform.Find("Text");
+                if (nameText != null) Destroy(nameText.gameObject);
+
+                var bgImg = cardGo.GetComponent<Image>();
+                bgImg.color = new Color(0.12f, 0.14f, 0.20f);
+
+                var glowBorder = new GameObject("GlowBorder");
+                glowBorder.transform.SetParent(cardGo.transform, false);
+                var gbRt = glowBorder.AddComponent<RectTransform>();
+                gbRt.anchorMin = Vector2.zero; gbRt.anchorMax = Vector2.one;
+                gbRt.offsetMin = new Vector2(3, 3); gbRt.offsetMax = new Vector2(-3, -3);
+                var glowImg = glowBorder.AddComponent<Image>();
+                glowImg.color = new Color(0.12f, 0.14f, 0.20f);
+                
+                var outerGlow = cardGo.AddComponent<Outline>();
+                if (outerGlow != null)
+                {
+                    outerGlow.effectColor = new Color(0.3f, 0.8f, 1f, 0.8f);
+                    outerGlow.effectDistance = new Vector2(3, 3);
+                }
+
+                var font = moneyText?.font;
+                var shardIcon = MakeText(cardGo.transform, "✦", new Vector2(0, 15), new Vector2(80, 80), 32, new Color(0.3f, 0.8f, 1f));
+                shardIcon.alignment = TextAlignmentOptions.Center;
+                shardIcon.fontStyle = FontStyles.Bold;
+                if (font != null) shardIcon.font = font;
+
+                var shardValueText = MakeText(cardGo.transform, $"+{gained}", new Vector2(0, -40), new Vector2(100, 30), 14, new Color(0.4f, 0.9f, 1f));
+                shardValueText.alignment = TextAlignmentOptions.Center;
+                shardValueText.fontStyle = FontStyles.Bold;
+                if (font != null) shardValueText.font = font;
+
+                // Flip back
+                t = 0f;
+                while (t < 0.15f)
+                {
+                    t += Time.deltaTime;
+                    float s = Mathf.Lerp(0f, 1f, t / 0.15f);
+                    cardRT.localScale = new Vector3(s, 1f, 1f);
+                    yield return null;
+                }
+                cardRT.localScale = Vector3.one;
+
+                effectPlayer?.PlayGachaEffect(CardRarity.N);
+
+                yield return new WaitForSeconds(0.15f);
+            }
         }
 
         private IEnumerator FlashScreen(Color col)

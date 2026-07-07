@@ -24,6 +24,12 @@ namespace CosmicChaosCat
         private static readonly Color BtnLocked = new Color(0.40f, 0.40f, 0.40f);
 
         private readonly List<GameObject> upgradeRows = new List<GameObject>();
+        private Button buyNBtn;
+        private Button buyRBtn;
+        private Button buySRBtn;
+        private TMP_Text buyNText;
+        private TMP_Text buyRText;
+        private TMP_Text buySRText;
 
         private void Awake()
         {
@@ -228,11 +234,19 @@ namespace CosmicChaosCat
 
         private void BuildShardTab()
         {
-            MakeText(shardContent.transform, "조각으로 랜덤 카드 뽑기", new Vector2(0, 120), new Vector2(400, 30), 18, Color.white);
+            MakeText(shardContent.transform, "조각으로 미획득 카드 뽑기", new Vector2(0, 120), new Vector2(400, 30), 18, Color.white);
             
-            MakeButton(shardContent.transform, "N급 뽑기\n(5 조각)", new Vector2(-150, 0), new Vector2(120, 80), new Color(0.4f, 0.4f, 0.4f), () => BuyRandomCard(CardRarity.N, 5));
-            MakeButton(shardContent.transform, "R급 뽑기\n(15 조각)", new Vector2(0, 0), new Vector2(120, 80), new Color(0.2f, 0.4f, 0.8f), () => BuyRandomCard(CardRarity.R, 15));
-            MakeButton(shardContent.transform, "SR급 뽑기\n(50 조각)", new Vector2(150, 0), new Vector2(120, 80), new Color(0.6f, 0.2f, 0.8f), () => BuyRandomCard(CardRarity.SR, 50));
+            var nGo = MakeButton(shardContent.transform, "N급 뽑기\n(5 조각)", new Vector2(-150, 0), new Vector2(120, 80), new Color(0.4f, 0.4f, 0.4f), () => BuyRandomCard(CardRarity.N, 5));
+            buyNBtn = nGo.GetComponent<Button>();
+            buyNText = nGo.GetComponentInChildren<TMP_Text>();
+
+            var rGo = MakeButton(shardContent.transform, "R급 뽑기\n(15 조각)", new Vector2(0, 0), new Vector2(120, 80), new Color(0.2f, 0.4f, 0.8f), () => BuyRandomCard(CardRarity.R, 15));
+            buyRBtn = rGo.GetComponent<Button>();
+            buyRText = rGo.GetComponentInChildren<TMP_Text>();
+
+            var srGo = MakeButton(shardContent.transform, "SR급 뽑기\n(50 조각)", new Vector2(150, 0), new Vector2(120, 80), new Color(0.6f, 0.2f, 0.8f), () => BuyRandomCard(CardRarity.SR, 50));
+            buySRBtn = srGo.GetComponent<Button>();
+            buySRText = srGo.GetComponentInChildren<TMP_Text>();
         }
 
         private void BuildGachaUnlockTab()
@@ -261,8 +275,8 @@ namespace CosmicChaosCat
         {
             if (gm == null) return;
 
-            if (coinText != null) coinText.text = $"코인: {gm.Money:F1}";
-            if (shardText != null) shardText.text = $"조각: {gm.Shards}";
+            if (coinText != null) coinText.text = $"{gm.Money:F1}";
+            if (shardText != null) shardText.text = $"{gm.Shards}";
 
             // Refresh Upgrades
             if (upgradesContent.activeSelf)
@@ -301,6 +315,46 @@ namespace CosmicChaosCat
                 var updater = gachaUnlockContent.GetComponent<GachaUnlockUpdater>();
                 if (updater != null) updater.Refresh();
             }
+
+            // Refresh Shard Tab Buttons
+            if (shardContent.activeSelf)
+            {
+                RefreshShardButton(CardRarity.N, buyNBtn, buyNText, 5);
+                RefreshShardButton(CardRarity.R, buyRBtn, buyRText, 15);
+                RefreshShardButton(CardRarity.SR, buySRBtn, buySRText, 50);
+            }
+        }
+
+        private void RefreshShardButton(CardRarity rarity, Button btn, TMP_Text txt, int cost)
+        {
+            if (btn == null || txt == null || gm == null) return;
+
+            int lockedCount = 0;
+            var states = gm.GetCardStates();
+            foreach (var card in gm.CardCatalog.Cards)
+            {
+                if (card != null && !card.IsHidden && card.Rarity == rarity)
+                {
+                    bool owned = states.TryGetValue(card.Id, out var state) && state.Unlocked;
+                    if (!owned) lockedCount++;
+                }
+            }
+
+            if (lockedCount == 0)
+            {
+                btn.interactable = false;
+                txt.text = $"{rarity}급\n보유 완료";
+                btn.GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f);
+            }
+            else
+            {
+                bool afford = gm.Shards >= cost;
+                btn.interactable = afford;
+                txt.text = $"{rarity}급 뽑기\n({cost} 조각)";
+                
+                Color baseColor = rarity == CardRarity.SR ? new Color(0.6f, 0.2f, 0.8f) : (rarity == CardRarity.R ? new Color(0.2f, 0.4f, 0.8f) : new Color(0.4f, 0.4f, 0.4f));
+                btn.GetComponent<Image>().color = afford ? baseColor : new Color(0.3f, 0.3f, 0.3f);
+            }
         }
 
         private void BuyRandomCard(CardRarity rarity, int cost)
@@ -309,29 +363,38 @@ namespace CosmicChaosCat
             if (gm.Shards < cost) { Debug.Log("조각이 부족합니다."); return; }
 
             var candidates = new List<CardEntry>();
+            var states = gm.GetCardStates();
             foreach (var card in gm.CardCatalog.Cards)
             {
                 if (card != null && !card.IsHidden && card.Rarity == rarity)
-                    candidates.Add(card);
+                {
+                    bool owned = states.TryGetValue(card.Id, out var state) && state.Unlocked;
+                    if (!owned)
+                    {
+                        candidates.Add(card);
+                    }
+                }
             }
 
-            if (candidates.Count == 0) return;
+            if (candidates.Count == 0)
+            {
+                Debug.Log($"이미 모든 {rarity}급 카드를 보유하고 있습니다!");
+                return;
+            }
 
             var chosen = candidates[Random.Range(0, candidates.Count)];
-            // Directly subtract shards and give card via ExchangeWithShards using card ID
-            // Wait, GameManager.ExchangeWithShards costs predetermined shards by rarity (10,30,100).
-            // Let's modify Money/Shards directly via Reflection or just add a helper in GameManager.
-            // Actually, we can just use Reflection since Money/Shards have private setters.
+            
+            // Deduct shards
             var type = gm.GetType();
             type.GetProperty("Shards").SetValue(gm, gm.Shards - cost);
             
-            // Invoke ApplyDraw privately
+            // Apply Draw
             var applyDraw = type.GetMethod("ApplyDraw", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (applyDraw != null) applyDraw.Invoke(gm, new object[] { chosen });
 
             gm.SaveGame();
             
-            // Notify via Reflection NotifyState
+            // Notify state
             var notify = type.GetMethod("NotifyState", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (notify != null) notify.Invoke(gm, null);
         }

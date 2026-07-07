@@ -255,8 +255,7 @@ namespace CosmicChaosCat
             if (IsGameEnded) return null;
             double cost      = GetCurrentGachaCost(type);
             int    pullCount = 10;
-            float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
-            double totalCost = cost * 10f * (1f - discount);
+            double totalCost = cost * 10f;
 
             if (Money < totalCost) { Log("돈이 부족해요."); return null; }
 
@@ -387,18 +386,12 @@ namespace CosmicChaosCat
 
         public double GetCurrentGachaCost(GachaType type = GachaType.Normal)
         {
-            int    stage     = Mathf.FloorToInt(Completion01 * 20f);
-            double scaled    = BaseGachaCost * Math.Pow(1.15d, stage);
-            double milestone = 0;
-            if (Completion01 >= 0.1f) milestone += 5;
-            if (Completion01 >= 0.3f) milestone += 20;
-            if (Completion01 >= 0.6f) milestone += 100;
+            double baseTypeCost = 100d;
+            if (type == GachaType.Rare) baseTypeCost = 1000d;
+            if (type == GachaType.Super) baseTypeCost = 10000d;
+
             float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
             
-            double baseTypeCost = scaled + milestone;
-            if (type == GachaType.Rare) baseTypeCost *= 5; // 레어가챠는 5배 비쌈
-            if (type == GachaType.Super) baseTypeCost *= 20; // 슈퍼가챠는 20배 비쌈
-
             return Math.Round(baseTypeCost * (1f - discount), 0, MidpointRounding.AwayFromZero);
         }
 
@@ -593,7 +586,12 @@ namespace CosmicChaosCat
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
-                    { CardId = kv.Value.CardId, Copies = kv.Value.Copies, Unlocked = kv.Value.Unlocked });
+                {
+                    CardId = kv.Value.CardId,
+                    Copies = kv.Value.Copies,
+                    Unlocked = kv.Value.Unlocked,
+                    BreakthroughCount = kv.Value.BreakthroughCount
+                });
             foreach (var kv in upgradeState)
                 data.Upgrades.Add(new UpgradeProgress
                     { UpgradeId = kv.Value.UpgradeId, Level = kv.Value.Level });
@@ -636,8 +634,9 @@ namespace CosmicChaosCat
                 foreach (var c in data.Cards)
                 {
                     if (c == null || !cardState.ContainsKey(c.CardId)) continue;
-                    cardState[c.CardId].Copies   = Math.Max(0, c.Copies);
-                    cardState[c.CardId].Unlocked = c.Unlocked;
+                    cardState[c.CardId].Copies            = Math.Max(0, c.Copies);
+                    cardState[c.CardId].Unlocked          = c.Unlocked;
+                    cardState[c.CardId].BreakthroughCount = c.BreakthroughCount;
                 }
             if (data.Upgrades != null)
                 foreach (var u in data.Upgrades)
@@ -658,6 +657,8 @@ namespace CosmicChaosCat
                     if (cardState["cat-1"].Copies == 0) cardState["cat-1"].Copies = 1;
                 }
             }
+
+            NotifyState();
         }
     }
 }
