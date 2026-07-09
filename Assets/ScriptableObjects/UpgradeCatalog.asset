@@ -58,10 +58,49 @@ MonoBehaviour:
     - 0.2
     - 0.5
     - 1
+  - UpgradeId: upg-unlock-r
+    DisplayName: "R등급 등장 해금"
+    Description: "가챠에서 R등급 고양이 카드가 등장하도록 해금합니다."
+    Category: 1
+    MaxLevel: 1
+    CostPerLevel:
+    - 15
+    EffectType: 8
+    EffectValuePerLevel:
+    - 1
+  - UpgradeId: upg-unlock-sr
+    DisplayName: "SR등급 등장 해금"
+    Description: "가챠에서 SR등급 고양이 카드가 등장하도록 해금합니다."
+    Category: 1
+    MaxLevel: 1
+    CostPerLevel:
+    - 50
+    EffectType: 9
+    EffectValuePerLevel:
+    - 1
+  - UpgradeId: upg-unlock-ssr
+    DisplayName: "SSR등급 등장 해금"
+    Description: "가챠에서 SSR등급 고양이 카드가 등장하도록 해금합니다."
+    Category: 1
+    MaxLevel: 1
+    CostPerLevel:
+    - 200
+    EffectType: 10
+    EffectValuePerLevel:
+    - 1
+  - UpgradeId: upg-unlock-ur
+    DisplayName: "UR등급 등장 해금"
+    Description: "가챠에서 UR등급 고양이 카드가 등장하도록 해금합니다."
+    Category: 1
+    MaxLevel: 1
+    CostPerLevel:
+    - 500
+    EffectType: 11
+    EffectValuePerLevel:
+    - 1
   - UpgradeId: upg-n-weight
-    DisplayName: "N\uB4F1\uAE09 \uD655\uB960 \uAC10\uC18C I"
-    Description: "N\uB4F1\uAE09 \uCE74\uB4DC \uB4F1\uC7A5 \uAC00\uC911\uCE58\uB97C
-      \uC904\uC5EC \uC0C1\uC704 \uB4F1\uAE09 \uD655\uB960\uC744 \uC62C\uB9BD\uB2C8\uB2E4."
+    DisplayName: "N등급 등장 확률 감소"
+    Description: "가챠 시 N등급 확률을 낮추고 그만큼 R등급의 등장 확률을 높입니다."
     Category: 1
     MaxLevel: 3
     CostPerLevel:
@@ -70,13 +109,12 @@ MonoBehaviour:
     - 8000
     EffectType: 3
     EffectValuePerLevel:
-    - 0.01
-    - 0.03
+    - 0.02
     - 0.05
+    - 0.1
   - UpgradeId: upg-r-weight
-    DisplayName: "R\uB4F1\uAE09 \uD655\uB960 \uAC10\uC18C I"
-    Description: "R\uB4F1\uAE09 \uCE74\uB4DC \uB4F1\uC7A5 \uAC00\uC911\uCE58\uB97C
-      \uC904\uC5EC SR \uC774\uC0C1 \uD655\uB960\uC744 \uC62C\uB9BD\uB2C8\uB2E4."
+    DisplayName: "R등급 등장 확률 감소"
+    Description: "가챠 시 R등급 확률을 낮추고 그만큼 SR등급의 등장 확률을 높입니다."
     Category: 1
     MaxLevel: 3
     CostPerLevel:
@@ -85,9 +123,9 @@ MonoBehaviour:
     - 15000
     EffectType: 4
     EffectValuePerLevel:
-    - 0.01
-    - 0.03
+    - 0.02
     - 0.05
+    - 0.1
   - UpgradeId: upg-extra-pull
     DisplayName: "10+1 \uBF51\uAE30 \uD574\uAE08"
     Description: "10\uD68C \uBF51\uAE30 \uC2DC 1\uD68C\uB97C \uCD94\uAC00\uB85C \uBF51\uC2B5\uB2C8\uB2E4

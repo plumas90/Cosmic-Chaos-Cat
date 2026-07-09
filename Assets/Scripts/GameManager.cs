@@ -326,9 +326,19 @@ namespace CosmicChaosCat
             if (entry.CostPerLevel == null || progress.Level >= entry.CostPerLevel.Length) return;
 
             double cost = entry.CostPerLevel[progress.Level];
-            if (Money < cost) { Log("돈이 부족해요."); return; }
+            bool isShardUpgrade = entry.UpgradeId.StartsWith("upg-unlock-");
 
-            Money -= cost;
+            if (isShardUpgrade)
+            {
+                if (Shards < (int)cost) { Log("조각이 부족해요."); return; }
+                Shards -= (int)cost;
+            }
+            else
+            {
+                if (Money < cost) { Log("돈이 부족해요."); return; }
+                Money -= cost;
+            }
+
             progress.Level++;
             Log($"{entry.DisplayName} Lv.{progress.Level} 업그레이드!");
             Save();
@@ -424,8 +434,14 @@ namespace CosmicChaosCat
         {
             float nRed = GetUpgradeEffectValue(UPG_N_WEIGHT);
             float rRed = GetUpgradeEffectValue(UPG_R_WEIGHT);
-            var   card = gachaService.DrawCard(cardCatalog.Cards, cardState, Completion01,
-                                               nRed, rRed, type);
+            bool rUnlocked = GetUpgradeLevel("upg-unlock-r") >= 1;
+            bool srUnlocked = GetUpgradeLevel("upg-unlock-sr") >= 1;
+            bool ssrUnlocked = GetUpgradeLevel("upg-unlock-ssr") >= 1;
+            bool urUnlocked = GetUpgradeLevel("upg-unlock-ur") >= 1;
+
+            var card = gachaService.DrawCard(cardCatalog.Cards, cardState,
+                                             nRed, rRed,
+                                             rUnlocked, srUnlocked, ssrUnlocked, urUnlocked, type);
             return card;
         }
 

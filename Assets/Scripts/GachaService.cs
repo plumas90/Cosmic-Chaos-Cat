@@ -8,80 +8,109 @@ namespace CosmicChaosCat
         public CardEntry DrawCard(
             IReadOnlyList<CardEntry> allCards,
             Dictionary<string, CardProgress> stateById,
-            float completion01,
-            float nWeightReduction = 0f,
-            float rWeightReduction = 0f,
+            float nWeightReduction,
+            float rWeightReduction,
+            bool rUnlocked,
+            bool srUnlocked,
+            bool ssrUnlocked,
+            bool urUnlocked,
             GachaType type = GachaType.Normal)
         {
-            var candidates = new List<CardEntry>(allCards.Count);
-            var weights = new List<float>(allCards.Count);
-            float totalWeight = 0f;
+            // ── Step 1: Draw Rarity Tier based on gacha parameters & rate upgrades ──
+            CardRarity chosenRarity = ChooseRarityTier(type, nWeightReduction, rWeightReduction);
 
+            // ── Step 2: Fallback checks for locked tiers ──────────────────────────
+            // If the rolled rarity tier isn't unlocked in the shop, fall back to N tier
+            if (!IsRarityUnlocked(chosenRarity, rUnlocked, srUnlocked, ssrUnlocked, urUnlocked))
+            {
+                chosenRarity = CardRarity.N;
+            }
+
+            // ── Step 3: Draw card from the chosen tier pool flatly ─────────────────
+            var candidates = new List<CardEntry>();
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
                 if (card == null || card.IsHidden) continue;
-                if (!IsRarityUnlocked(card.Rarity, completion01, type)) continue;
+                if (card.Rarity != chosenRarity) continue;
                 if (!stateById.TryGetValue(card.Id, out var progress)) continue;
 
-                float weight = card.BaseWeight;
-
-                // Rarity-specific weight reductions from upgrades
-                if (card.Rarity == CardRarity.N) weight *= Mathf.Max(0.01f, 1f - nWeightReduction);
-                if (card.Rarity == CardRarity.R) weight *= Mathf.Max(0.01f, 1f - rWeightReduction);
-
-                // 가챠 타입별 가중치 조절
-                if (type == GachaType.Rare)
-                {
-                    if (card.Rarity == CardRarity.N) weight *= 0.5f;
-                    if (card.Rarity == CardRarity.SR) weight *= 2.0f;
-                }
-                else if (type == GachaType.Super)
-                {
-                    if (card.Rarity == CardRarity.N) weight *= 0.1f;
-                    if (card.Rarity == CardRarity.R) weight *= 0.5f;
-                    if (card.Rarity == CardRarity.SR) weight *= 2.0f;
-                    if (card.Rarity == CardRarity.SSR) weight *= 3.0f;
-                    if (card.Rarity == CardRarity.UR) weight *= 1.5f;
-                }
-
-                // 5중첩 초과 카드는 등장 가중치 감소 (이미 조각 교환 가능하므로)
-                if (progress.Copies >= card.MaxStacks)
-                    weight *= 0.3f;
-
-
-                if (weight <= 0f) continue;
-
                 candidates.Add(card);
-                weights.Add(weight);
-                totalWeight += weight;
             }
 
-            if (totalWeight <= 0f || candidates.Count == 0) return null;
-
-            float pick = Random.value * totalWeight;
-            float cursor = 0f;
-            for (int i = 0; i < candidates.Count; i++)
+            // If selected pool is empty, fall back to N pool as safety guard
+            if (candidates.Count == 0 && chosenRarity != CardRarity.N)
             {
-                cursor += weights[i];
-                if (pick <= cursor) return candidates[i];
+                chosenRarity = CardRarity.N;
+                for (int i = 0; i < allCards.Count; i++)
+                {
+                    var card = allCards[i];
+                    if (card == null || card.IsHidden) continue;
+                    if (card.Rarity != chosenRarity) continue;
+                    if (!stateById.TryGetValue(card.Id, out var progress)) continue;
+
+                    candidates.Add(card);
+                }
             }
 
-            return candidates[candidates.Count - 1];
+            if (candidates.Count == 0) return null;
+
+            // Equal probability flat selection (no base weights bias)
+            int randomIndex = Random.Range(0, candidates.Count);
+            return candidates[randomIndex];
         }
 
-        private static bool IsRarityUnlocked(CardRarity rarity, float completion01, GachaType type)
+        private static CardRarity ChooseRarityTier(GachaType type, float nRed, float rRed)
         {
-            float bonus = type == GachaType.Super ? 0.3f : (type == GachaType.Rare ? 0.1f : 0f);
-            float comp = completion01 + bonus;
+            // Base Rarity Drop Rates per Gacha Type
+            float pN = 0.90f, pR = 0.09f, pSR = 0.01f, pSSR = 0f, pUR = 0f;
 
+            if (type == GachaType.Rare)
+            {
+                pN = 0.50f; pR = 0.40f; pSR = 0.08f; pSSR = 0.02f; pUR = 0f;
+            }
+            else if (type == GachaType.Super)
+            {
+                pN = 0.10f; pR = 0.30f; pSR = 0.40f; pSSR = 0.15f; pUR = 0.05f;
+            }
+
+            // Apply upg-n-weight (reduces N, adds to R)
+            if (nRed > 0f)
+            {
+                float deduct = Mathf.Min(pN, nRed);
+                pN -= deduct;
+                pR += deduct;
+            }
+
+            // Apply upg-r-weight (reduces R, adds to SR)
+            if (rRed > 0f)
+            {
+                float deduct = Mathf.Min(pR, rRed);
+                pR -= deduct;
+                pSR += deduct;
+            }
+
+            // Roulette wheel selection
+            float total = pN + pR + pSR + pSSR + pUR;
+            float roll = Random.value * total;
+            float cursor = 0f;
+
+            cursor += pN;   if (roll <= cursor) return CardRarity.N;
+            cursor += pR;   if (roll <= cursor) return CardRarity.R;
+            cursor += pSR;  if (roll <= cursor) return CardRarity.SR;
+            cursor += pSSR; if (roll <= cursor) return CardRarity.SSR;
+            return CardRarity.UR;
+        }
+
+        private static bool IsRarityUnlocked(CardRarity rarity, bool rUnlocked, bool srUnlocked, bool ssrUnlocked, bool urUnlocked)
+        {
             switch (rarity)
             {
-                case CardRarity.N:
-                case CardRarity.R:   return true;
-                case CardRarity.SR:  return comp >= 0.2f;
-                case CardRarity.SSR: return comp >= 0.5f;
-                case CardRarity.UR:  return comp >= 0.8f;
+                case CardRarity.N:   return true;
+                case CardRarity.R:   return rUnlocked;
+                case CardRarity.SR:  return srUnlocked;
+                case CardRarity.SSR: return ssrUnlocked;
+                case CardRarity.UR:  return urUnlocked;
                 default:             return false;
             }
         }

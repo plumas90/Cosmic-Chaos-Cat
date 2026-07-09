@@ -30,7 +30,11 @@ namespace CosmicChaosCat
         RWeightReduction,
         ShardRefundBonus,
         ExtraGachaPull,
-        GachaDiscount
+        GachaDiscount,
+        UnlockRCard,
+        UnlockSRCard,
+        UnlockSSRCard,
+        UnlockURCard
     }
 
     [Serializable]

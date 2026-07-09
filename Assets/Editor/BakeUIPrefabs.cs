@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
+using System.Reflection;
 using TMPro;
+using UnityEngine.UI;
 
 namespace CosmicChaosCat.Editor
 {
@@ -17,17 +19,25 @@ namespace CosmicChaosCat.Editor
                 return;
             }
 
+            // ── Load GameManager and its catalogs ────────────────────────────
             var gm = Object.FindObjectOfType<GameManager>(true);
             if (gm != null)
             {
-                var awakeMethod = gm.GetType().GetMethod("Awake", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var awakeMethod = gm.GetType().GetMethod("Awake",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
                 if (awakeMethod != null) awakeMethod.Invoke(gm, null);
             }
 
             var gachaPanel = Object.FindObjectOfType<GachaPanel>(true);
-            var shopPanel = Object.FindObjectOfType<ShopPanel>(true);
-            var encyPanel = Object.FindObjectOfType<EncyclopediaPanel>(true);
+            var shopPanel  = Object.FindObjectOfType<ShopPanel>(true);
+            var encyPanel  = Object.FindObjectOfType<EncyclopediaPanel>(true);
 
+            // ── Unpack existing prefabs to avoid recursive nested self-references ──
+            UnpackIfPrefab(gachaPanel);
+            UnpackIfPrefab(shopPanel);
+            UnpackIfPrefab(encyPanel);
+
+            // ── Create ShopPanel if missing ──────────────────────────────────
             if (shopPanel == null)
             {
                 var hud = Object.FindObjectOfType<GameHud>(true);
@@ -40,21 +50,72 @@ namespace CosmicChaosCat.Editor
                         var go = new GameObject("ShopPanel", typeof(RectTransform));
                         go.transform.SetParent(canvas.transform, false);
                         shopPanel = go.AddComponent<ShopPanel>();
-                        
+
                         var so = new SerializedObject(hud);
                         so.Update();
                         so.FindProperty("shopPanel").objectReferenceValue = shopPanel;
                         so.ApplyModifiedProperties();
-                        
+
                         Debug.Log("[BakeUIPrefabs] Created and linked ShopPanel in scene dynamically.");
                     }
                 }
             }
 
-            // Force build UI for each
+            // ── Inject GameManager into ShopPanel BEFORE building ────────────
+            // This is critical: BuildUI() -> BuildUpgradesTab() needs gm to be set
+            // because Awake() is not called in Edit Mode.
+            if (shopPanel != null && gm != null)
+            {
+                var gmField = typeof(ShopPanel).GetField("gm",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
+                gmField?.SetValue(shopPanel, gm);
+            }
+
+            // ── Force build UI for each ──────────────────────────────────────
             ForceBuildUI(gachaPanel);
-            ForceBuildUI(shopPanel);
             ForceBuildUI(encyPanel);
+
+            // ── Build Shop Button inside GameHud ─────────────────────────────
+            var gameHud = Object.FindObjectOfType<GameHud>(true);
+            if (gameHud != null)
+            {
+                var buildMethod = gameHud.GetType().GetMethod("EnsureShopButtonBuilt",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
+                if (buildMethod != null)
+                {
+                    buildMethod.Invoke(gameHud, null);
+                    // Also bind button click to gameHud.ToggleShop for edit-time serialization
+                    var shopBtnField = gameHud.GetType().GetField("shopButton",
+                        BindingFlags.NonPublic | BindingFlags.Instance);
+                    var shopBtn = shopBtnField?.GetValue(gameHud) as Button;
+                    if (shopBtn != null)
+                    {
+                        shopBtn.onClick.RemoveAllListeners();
+                        shopBtn.onClick.AddListener(gameHud.ToggleShop);
+                        EditorUtility.SetDirty(shopBtn.gameObject);
+                    }
+                    EditorUtility.SetDirty(gameHud);
+                    Debug.Log("[BakeUIPrefabs] ShopButton dynamically baked and saved into GameHud.");
+                }
+            }
+
+            // ── Set ShopPanel Panel scale at bake time ───────────────────────
+            // The Panel child holds the shop window. Scale is 1.5x so the shop
+            // appears larger. Setting it here avoids any runtime scale changes.
+            if (shopPanel != null)
+            {
+                var panelTrans = shopPanel.transform.Find("Panel");
+                if (panelTrans != null)
+                {
+                    panelTrans.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                    EditorUtility.SetDirty(panelTrans.gameObject);
+                    Debug.Log("[BakeUIPrefabs] ShopPanel.Panel scale set to 1.5x.");
+                }
+                else
+                {
+                    Debug.LogWarning("[BakeUIPrefabs] ShopPanel 'Panel' child not found.");
+                }
+            }
 
             if (encyPanel != null)
             {
@@ -68,7 +129,7 @@ namespace CosmicChaosCat.Editor
                 EditorUtility.SetDirty(gachaPanel);
             }
 
-            // Apply font to everything in the active scene
+            // ── Apply Galmuri9 font to all TMP texts in scene ────────────────
             var allTexts = Object.FindObjectsOfType<TextMeshProUGUI>(true);
             foreach (var txt in allTexts)
             {
@@ -76,15 +137,16 @@ namespace CosmicChaosCat.Editor
                 EditorUtility.SetDirty(txt);
             }
 
-            // Save as Prefabs
+            // ── Save as Prefabs ───────────────────────────────────────────────
             if (!AssetDatabase.IsValidFolder("Assets/Prefabs"))
                 AssetDatabase.CreateFolder("Assets", "Prefabs");
 
             SaveAsPrefab(gachaPanel?.gameObject, "Assets/Prefabs/GachaPanel.prefab");
-            SaveAsPrefab(shopPanel?.gameObject, "Assets/Prefabs/ShopPanel.prefab");
-            SaveAsPrefab(encyPanel?.gameObject, "Assets/Prefabs/EncyclopediaPanel.prefab");
+            SaveAsPrefab(shopPanel?.gameObject,  "Assets/Prefabs/ShopPanel.prefab");
+            SaveAsPrefab(encyPanel?.gameObject,  "Assets/Prefabs/EncyclopediaPanel.prefab");
 
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
             UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
             AssetDatabase.SaveAssets();
 
@@ -94,15 +156,11 @@ namespace CosmicChaosCat.Editor
         private static void ForceBuildUI(MonoBehaviour panel)
         {
             if (panel == null) return;
-            var buildMethod = panel.GetType().GetMethod("BuildUI", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var buildMethod = panel.GetType().GetMethod("BuildUI",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             if (buildMethod != null)
             {
                 buildMethod.Invoke(panel, null);
-                
-                // Now serialize the references using reflection, but wait!
-                // It's much easier to just leave it as is. 
-                // The fields are automatically serialized because we added [SerializeField], 
-                // but since we assigned them via code, Unity might lose them if we don't mark dirty.
                 EditorUtility.SetDirty(panel);
             }
         }
@@ -111,6 +169,16 @@ namespace CosmicChaosCat.Editor
         {
             if (go == null) return;
             PrefabUtility.SaveAsPrefabAssetAndConnect(go, path, InteractionMode.AutomatedAction);
+        }
+
+        private static void UnpackIfPrefab(MonoBehaviour panel)
+        {
+            if (panel == null) return;
+            if (PrefabUtility.IsPartOfAnyPrefab(panel.gameObject))
+            {
+                PrefabUtility.UnpackPrefabInstance(panel.gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                Debug.Log($"[BakeUIPrefabs] Unpacked {panel.gameObject.name} prefab instance to prevent nested corruption.");
+            }
         }
     }
 }

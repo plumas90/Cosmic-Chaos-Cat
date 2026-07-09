@@ -20,6 +20,7 @@ namespace CosmicChaosCat
         private readonly List<GameObject> upgradeRows = new List<GameObject>();
         private int activeTab = 0;
         private static TMP_FontAsset customFont;
+        private Transform upgradeScrollContent;   // kept for lazy-rebuild
 
         // ── Colors ──────────────────────────────────────────────────────────
         private static readonly Color BG          = new Color(0.06f, 0.08f, 0.13f, 0.97f);
@@ -43,16 +44,51 @@ namespace CosmicChaosCat
         private void Awake()
         {
             EnsureParentedToCanvas();
+            EnsureReferencesResolved();
             gm = FindObjectOfType<GameManager>(true);
-            BuildUI();
+            if (!Application.isPlaying || coinText == null)
+            {
+                BuildUI();
+            }
             BindListeners();
+        }
+
+        // Start() runs after ALL Awake()s — guarantees UpgradeCatalog is loaded
+        private void Start()
+        {
+            EnsureReferencesResolved();
+            if (upgradeScrollContent == null || upgradeScrollContent.childCount == 0)
+            {
+                if (gm == null) gm = FindObjectOfType<GameManager>(true);
+                if (gm != null && gm.UpgradeCatalog != null)
+                {
+                    // Reset guard so BuildUpgradesTab can proceed
+                    upgradeScrollContent = null;
+                    BuildUpgradesTab();
+                    BindListeners();
+                    Refresh();
+                }
+            }
         }
 
         private void OnEnable()
         {
+            EnsureReferencesResolved();
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
             if (gm != null) gm.StateChanged += Refresh;
-            BindListeners();
+
+            // Lazy-build upgrade rows if catalog wasn't ready at Awake/Start
+            if ((upgradeScrollContent == null || upgradeScrollContent.childCount == 0)
+                && gm != null && gm.UpgradeCatalog != null)
+            {
+                upgradeScrollContent = null;
+                BuildUpgradesTab();
+                BindListeners();
+            }
+            else
+            {
+                BindListeners();
+            }
             Refresh();
         }
 
@@ -74,26 +110,80 @@ namespace CosmicChaosCat
             rt.offsetMin = rt.offsetMax = Vector2.zero;
             rt.anchoredPosition3D = Vector3.zero;
             rt.localScale = Vector3.one;
-
-            var panelTrans = transform.Find("Panel");
-            if (panelTrans != null)
-            {
-                panelTrans.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-            }
+            // Scale is set at bake time — do NOT override at runtime
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Reset UI Layout")]
+        private void ResetUILayout()
+        {
+            coinText = null;
+            var children = new List<GameObject>();
+            foreach (Transform child in transform)
+            {
+                children.Add(child.gameObject);
+            }
+            foreach (var child in children)
+            {
+                SafeDestroy(child);
+            }
+            BuildUI();
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log("[ShopPanel] UI layout has been successfully reset to default coordinates.");
+        }
+#endif
 
         private void BuildUI()
         {
+            EnsureReferencesResolved();
+
+            // If UI elements already exist in the hierarchy, do NOT destroy or rebuild them.
+            // This preserves all manual hierarchy/design changes made by the user in the Scene editor!
             if (coinText != null) return;
 
+            // Clear existing UI elements to prevent duplication only during Editor baking
+            if (!Application.isPlaying)
+            {
+                var children = new List<GameObject>();
+                foreach (Transform child in transform)
+                {
+                    children.Add(child.gameObject);
+                }
+                foreach (var child in children)
+                {
+                    SafeDestroy(child);
+                }
+            }
+
+            // Reset references (only in editor mode rebuilds)
+            if (!Application.isPlaying)
+            {
+                coinText = null;
+                shardText = null;
+                upgradesContent = null;
+                shardContent = null;
+                gachaUnlockContent = null;
+                buyNBtn = null; buyRBtn = null; buySRBtn = null;
+                buyNText = null; buyRText = null; buySRText = null;
+                upgradeRows.Clear();
+                upgradeScrollContent = null;
+            }
+
+            // Resolve font: try scene first, then AssetDatabase (for Edit Mode / baking)
             var anyText = FindObjectOfType<TextMeshProUGUI>(true);
             if (anyText != null) customFont = anyText.font;
+#if UNITY_EDITOR
+            if (customFont == null)
+                customFont = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
+                    "Assets/Font/Galmuri9 SDF.asset");
+#endif
 
             // Dim overlay
             var overlay = GetComponent<Image>() ?? gameObject.AddComponent<Image>();
             overlay.color = new Color(0f, 0f, 0f, 0.72f);
 
-            // Outer border panel
+            // Outer border panel  (scale is explicitly set to 1.5x)
             var panel = MakeRT("Panel", transform, Vector2.zero, new Vector2(740, 570));
             panel.gameObject.AddComponent<Image>().color = PanelBorder;
             panel.localScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -116,15 +206,18 @@ namespace CosmicChaosCat
 
             // Coin (left)
             coinText = MakeLabel(inner.transform, "0", new Vector2(-280, 249), new Vector2(170, 36), 14, GoldColor);
+            coinText.gameObject.name = "CoinText";
             coinText.alignment = TextAlignmentOptions.Left;
 
             // Shard (right)
             shardText = MakeLabel(inner.transform, "0", new Vector2(210, 249), new Vector2(130, 36), 14, ShardColor);
+            shardText.gameObject.name = "ShardText";
             shardText.alignment = TextAlignmentOptions.Left;
 
             // Close button
-            MakeButton(inner.transform, "✕", new Vector2(330, 249), new Vector2(40, 36),
+            var closeGO = MakeButton(inner.transform, "✕", new Vector2(330, 249), new Vector2(40, 36),
                 new Color(0.55f,0.12f,0.12f), () => gameObject.SetActive(false), 16);
+            closeGO.name = "CloseButton";
 
             // ── Tab Bar ──────────────────────────────────────────────────────
             float[] tabX = { -240f, 0f, 240f };
@@ -175,37 +268,115 @@ namespace CosmicChaosCat
         // ── Upgrades Tab ─────────────────────────────────────────────────────
         private void BuildUpgradesTab()
         {
-            if (gm == null || gm.UpgradeCatalog == null) return;
+            // Resolve catalog: accept this.gm OR search scene (works in both Edit & Play mode)
+            UpgradeCatalogSO catalog = gm?.UpgradeCatalog;
+            if (catalog == null)
+            {
+#if UNITY_EDITOR
+                catalog = UnityEditor.AssetDatabase.LoadAssetAtPath<UpgradeCatalogSO>(
+                    "Assets/ScriptableObjects/UpgradeCatalog.asset");
+#endif
+                if (catalog == null)
+                {
+                    var fallbackGm = FindObjectOfType<GameManager>(true);
+                    if (fallbackGm != null) { gm = fallbackGm; catalog = fallbackGm.UpgradeCatalog; }
+                }
+            }
+            if (catalog == null)
+            {
+                Debug.LogWarning("[ShopPanel] BuildUpgradesTab skipped – UpgradeCatalog not ready.");
+                return;
+            }
+            if (upgradeScrollContent == null && upgradesContent != null)
+            {
+                var contentTrans = upgradesContent.transform.Find("Scroll/Viewport/Content");
+                if (contentTrans != null) upgradeScrollContent = contentTrans;
+            }
 
-            // ScrollRect setup
-            var scroll = MakeRT("Scroll", upgradesContent.transform, Vector2.zero, Vector2.zero);
-            scroll.anchorMin = Vector2.zero; scroll.anchorMax = Vector2.one;
-            scroll.offsetMin = Vector2.zero; scroll.offsetMax = Vector2.zero;
-            scroll.gameObject.AddComponent<Image>().color = new Color(0,0,0,0.2f);
-            var sr = scroll.gameObject.AddComponent<ScrollRect>();
-            sr.horizontal = false;
-            sr.movementType = ScrollRect.MovementType.Elastic;
-            sr.elasticity = 0.1f;
-            sr.scrollSensitivity = 25f;
+            // Clean up old Mask / Image components from existing Viewport to avoid transparent alpha masking bugs
+            if (upgradesContent != null)
+            {
+                var vpTrans = upgradesContent.transform.Find("Scroll/Viewport");
+                if (vpTrans != null)
+                {
+                    var oldMask = vpTrans.GetComponent<Mask>();
+                    if (oldMask != null) SafeDestroy(oldMask);
+                    var oldImg = vpTrans.GetComponent<Image>();
+                    if (oldImg != null) SafeDestroy(oldImg);
 
-            var vp = MakeRT("Viewport", scroll, Vector2.zero, Vector2.zero);
-            vp.anchorMin = Vector2.zero; vp.anchorMax = Vector2.one;
-            vp.offsetMin = Vector2.zero; vp.offsetMax = Vector2.zero;
-            vp.gameObject.AddComponent<Image>().color = Color.clear;
-            vp.gameObject.AddComponent<Mask>().showMaskGraphic = false;
-            sr.viewport = vp;
+                    if (vpTrans.GetComponent<RectMask2D>() == null)
+                    {
+                        vpTrans.gameObject.AddComponent<RectMask2D>();
+                    }
+                }
+            }
 
-            var ct = MakeRT("Content", vp, Vector2.zero, Vector2.zero);
-            ct.anchorMin = new Vector2(0,1); ct.anchorMax = new Vector2(1,1);
-            ct.pivot = new Vector2(0.5f,1);
-            ct.offsetMin = ct.offsetMax = Vector2.zero;
-            sr.content = ct;
+            // Enforce Clamped movement type on existing ScrollRect component to prevent elastic bounce/shakes
+            if (upgradesContent != null)
+            {
+                var scrollTrans = upgradesContent.transform.Find("Scroll");
+                if (scrollTrans != null)
+                {
+                    var sr = scrollTrans.GetComponent<ScrollRect>();
+                    if (sr != null)
+                    {
+                        sr.movementType = ScrollRect.MovementType.Clamped;
+                    }
+                }
+            }
 
-            var vlg = ct.gameObject.AddComponent<VerticalLayoutGroup>();
-            vlg.spacing = 4; vlg.padding = new RectOffset(6,6,6,6);
-            vlg.childControlHeight = false; vlg.childControlWidth = true;
-            vlg.childForceExpandHeight = false; vlg.childForceExpandWidth = true;
-            ct.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            // Don't rebuild ScrollRect structure if it already exists
+            bool hasScroll = upgradeScrollContent != null;
+            if (!hasScroll)
+            {
+                if (upgradesContent == null) return;
+
+                // ScrollRect setup
+                var scroll = MakeRT("Scroll", upgradesContent.transform, Vector2.zero, Vector2.zero);
+                scroll.anchorMin = Vector2.zero; scroll.anchorMax = Vector2.one;
+                scroll.offsetMin = Vector2.zero; scroll.offsetMax = Vector2.zero;
+                scroll.gameObject.AddComponent<Image>().color = new Color(0,0,0,0.2f);
+                var sr = scroll.gameObject.AddComponent<ScrollRect>();
+                sr.horizontal = false;
+                sr.movementType = ScrollRect.MovementType.Clamped;
+                sr.scrollSensitivity = 25f;
+
+                var vp = MakeRT("Viewport", scroll, Vector2.zero, Vector2.zero);
+                vp.anchorMin = Vector2.zero; vp.anchorMax = Vector2.one;
+                vp.offsetMin = Vector2.zero; vp.offsetMax = Vector2.zero;
+                // RectMask2D avoids alpha rendering bugs and keeps scroll viewport visible
+                vp.gameObject.AddComponent<RectMask2D>();
+                sr.viewport = vp;
+
+                var ct = MakeRT("Content", vp, Vector2.zero, Vector2.zero);
+                ct.anchorMin = new Vector2(0,1); ct.anchorMax = new Vector2(1,1);
+                ct.pivot = new Vector2(0.5f,1);
+                ct.offsetMin = ct.offsetMax = Vector2.zero;
+                sr.content = ct;
+                upgradeScrollContent = ct;   // save reference for lazy rebuild
+
+                var vlg = ct.gameObject.AddComponent<VerticalLayoutGroup>();
+                vlg.spacing = 4; vlg.padding = new RectOffset(6,6,6,6);
+                vlg.childControlHeight = false; vlg.childControlWidth = true;
+                vlg.childForceExpandHeight = false; vlg.childForceExpandWidth = true;
+                ct.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            }
+
+            // Bake time: only generate the Scroll/Viewport/Content structure
+            // Runtime (isPlaying): generate actual dynamic items
+            if (!Application.isPlaying) return;
+
+            // Clear any previously instantiated dynamic rows during playmode to prevent duplication
+            var oldRows = new List<GameObject>();
+            foreach (Transform child in upgradeScrollContent)
+            {
+                oldRows.Add(child.gameObject);
+            }
+            foreach (var r in oldRows)
+            {
+                SafeDestroy(r);
+            }
+            upgradeRows.Clear();
 
             // Category groups
             var cats  = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
@@ -216,36 +387,33 @@ namespace CosmicChaosCat
             {
                 int ci = System.Array.IndexOf(cats, cat);
                 bool anyInCat = false;
-                foreach (var u in gm.UpgradeCatalog.Upgrades)
+                foreach (var u in catalog.Upgrades)
                     if (u != null && u.Category == cat) { anyInCat = true; break; }
                 if (!anyInCat) continue;
 
                 // Section header
-                var hdrGO = new GameObject("SecHdr_" + cat);
-                hdrGO.transform.SetParent(ct, false);
-                var hdrRT = hdrGO.AddComponent<RectTransform>();
+                var hdrGO = new GameObject("SecHdr_" + cat, typeof(RectTransform));
+                hdrGO.transform.SetParent(upgradeScrollContent, false);
+                var hdrRT = hdrGO.GetComponent<RectTransform>();
                 hdrRT.sizeDelta = new Vector2(0, 26);
                 hdrGO.AddComponent<Image>().color = cCols[ci] * new Color(1,1,1,0.45f);
-                var hdrTxt = hdrGO.AddComponent<TextMeshProUGUI>();
-                if (customFont != null) hdrTxt.font = customFont;
-                hdrTxt.text = cNames[ci];
-                hdrTxt.fontSize = 13;
-                hdrTxt.fontStyle = FontStyles.Bold;
-                hdrTxt.color = Color.white;
-                hdrTxt.alignment = TextAlignmentOptions.Left;
-                var hRt = hdrGO.GetComponent<RectTransform>();
-                hRt.anchorMin = Vector2.zero; hRt.anchorMax = Vector2.one;
-                // offset the text manually using padding:
-                // We re-add a child label with padding instead
-                hdrTxt.margin = new Vector4(10, 0, 0, 0);
 
-                foreach (var upg in gm.UpgradeCatalog.Upgrades)
+                // Use the stable MakeLabel helper to create the label text
+                var hdrTxt = MakeLabel(hdrGO.transform, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
+                hdrTxt.alignment = TextAlignmentOptions.Left;
+                hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                
+                var hRt = hdrTxt.GetComponent<RectTransform>();
+                hRt.anchorMin = Vector2.zero; hRt.anchorMax = Vector2.one;
+                hRt.offsetMin = Vector2.zero; hRt.offsetMax = Vector2.zero;
+
+                foreach (var upg in catalog.Upgrades)
                 {
                     if (upg == null || upg.Category != cat) continue;
 
-                    var row = new GameObject("Row_" + upg.UpgradeId);
-                    row.transform.SetParent(ct, false);
-                    var rRT = row.AddComponent<RectTransform>();
+                    var row = new GameObject("Row_" + upg.UpgradeId, typeof(RectTransform));
+                    row.transform.SetParent(upgradeScrollContent, false);
+                    var rRT = row.GetComponent<RectTransform>();
                     rRT.sizeDelta = new Vector2(0, 60);
                     row.AddComponent<Image>().color = new Color(0.10f, 0.13f, 0.20f, 1f);
 
@@ -441,6 +609,7 @@ namespace CosmicChaosCat
         // ── Refresh ───────────────────────────────────────────────────────────
         private void Refresh()
         {
+            EnsureReferencesResolved();
             if (gm == null) return;
             if (coinText  != null) coinText.text  = $"{gm.Money:F1}";
             if (shardText != null) shardText.text = $"{gm.Shards}";
@@ -461,7 +630,7 @@ namespace CosmicChaosCat
 
         private void RefreshUpgrades()
         {
-            if (gm.UpgradeCatalog == null) return;
+            if (gm == null || gm.UpgradeCatalog == null) return;
             foreach (var row in upgradeRows)
             {
                 if (row == null) continue;
@@ -474,7 +643,11 @@ namespace CosmicChaosCat
                 if (info.LevelText != null) info.LevelText.text = $"Lv.{level}/{entry.MaxLevel}";
                 if (maxed)
                 {
-                    if (info.CostText  != null) info.CostText.text = "MAX";
+                    if (info.CostText  != null)
+                    {
+                        info.CostText.text = "MAX";
+                        info.CostText.color = Color.white;
+                    }
                     if (info.BuyButton != null) info.BuyButton.interactable = false;
                     if (info.BgImage   != null) info.BgImage.color = new Color(0.70f,0.55f,0.10f);
                 }
@@ -482,8 +655,23 @@ namespace CosmicChaosCat
                 {
                     double cost = (entry.CostPerLevel != null && level < entry.CostPerLevel.Length)
                         ? entry.CostPerLevel[level] : 0;
-                    bool afford = gm.Money >= cost;
-                    if (info.CostText  != null) info.CostText.text = cost >= 1000 ? $"{cost/1000:0.#}K" : $"{cost:0}";
+                    bool isShardUpgrade = entry.UpgradeId.StartsWith("upg-unlock-");
+                    bool afford = isShardUpgrade ? (gm.Shards >= (int)cost) : (gm.Money >= cost);
+                    
+                    if (info.CostText != null)
+                    {
+                        if (isShardUpgrade)
+                        {
+                            info.CostText.text = $"{cost} 조각";
+                            info.CostText.color = ShardColor;
+                        }
+                        else
+                        {
+                            info.CostText.text = cost >= 1000 ? $"{cost/1000:0.#}K" : $"{cost:0}";
+                            info.CostText.color = Color.white;
+                        }
+                    }
+
                     if (info.BuyButton != null) info.BuyButton.interactable = afford;
                     if (info.BgImage   != null) info.BgImage.color = afford ? BtnBuy : BtnDisabled;
                 }
@@ -548,6 +736,17 @@ namespace CosmicChaosCat
         private static TMP_Text MakeLabel(Transform parent, string text, Vector2 pos, Vector2 size,
             int fs, Color col, FontStyles style = FontStyles.Normal)
         {
+            if (customFont == null)
+            {
+                var anyText = FindObjectOfType<TextMeshProUGUI>(true);
+                if (anyText != null) customFont = anyText.font;
+#if UNITY_EDITOR
+                if (customFont == null)
+                    customFont = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
+                        "Assets/Font/Galmuri9 SDF.asset");
+#endif
+            }
+
             var go = new GameObject("Lbl", typeof(RectTransform));
             go.transform.SetParent(parent, false);
             var rt = go.GetComponent<RectTransform>();
@@ -579,6 +778,16 @@ namespace CosmicChaosCat
             lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
             lrt.offsetMin = lrt.offsetMax = Vector2.zero;
             var tx = lgo.AddComponent<TextMeshProUGUI>();
+            if (customFont == null)
+            {
+                var anyText = FindObjectOfType<TextMeshProUGUI>(true);
+                if (anyText != null) customFont = anyText.font;
+#if UNITY_EDITOR
+                if (customFont == null)
+                    customFont = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
+                        "Assets/Font/Galmuri9 SDF.asset");
+#endif
+            }
             if (customFont != null) tx.font = customFont;
             tx.text = label; tx.fontSize = fs; tx.alignment = TextAlignmentOptions.Center; tx.color = Color.white;
             return go;
@@ -650,7 +859,7 @@ namespace CosmicChaosCat
                 {
                     btn.onClick.AddListener(() => ShowTab(2));
                 }
-                else if (t == "✕")
+                else if (btn.gameObject.name == "CloseButton" || btn.gameObject.name.StartsWith("Btn_✕") || t == "✕" || t.ToLower() == "x")
                 {
                     btn.onClick.AddListener(() => gameObject.SetActive(false));
                 }
@@ -683,44 +892,52 @@ namespace CosmicChaosCat
                 }
             }
         }
-    }
 
-    // ── Helper components ────────────────────────────────────────────────────
-
-    public class UpgradeRowInfo : MonoBehaviour
-    {
-        public string   UpgradeId;
-        public TMP_Text LevelText;
-        public Button   BuyButton;
-        public TMP_Text CostText;
-        public Image    BgImage;
-    }
-
-    public class GachaUnlockCardUpdater : MonoBehaviour
-    {
-        public GachaType GachaType;
-        public Button    BuyButton;
-        public TMP_Text  BtnText;
-        public Color     LockedColor;
-        public Color     UnlockedColor;
-
-        public void Refresh(GameManager gm)
+        private static void SafeDestroy(UnityEngine.Object obj)
         {
-            if (gm == null || BuyButton == null) return;
-            bool unlocked = GachaType == GachaType.Rare ? gm.UnlockedRareGacha : gm.UnlockedSuperGacha;
-            double cost   = GachaType == GachaType.Rare ? 5000 : 20000;
-            if (unlocked)
+            if (obj == null) return;
+            if (Application.isPlaying)
             {
-                BuyButton.interactable = false;
-                if (BtnText != null) BtnText.text = "해금됨";
-                BuyButton.GetComponent<Image>().color = UnlockedColor;
+                Destroy(obj);
             }
             else
             {
-                bool afford = gm.Money >= cost;
-                BuyButton.interactable = afford;
-                if (BtnText != null) BtnText.text = afford ? "해금하기" : "골드 부족";
-                BuyButton.GetComponent<Image>().color = afford ? LockedColor : new Color(0.22f,0.25f,0.30f);
+                DestroyImmediate(obj, true);
+            }
+        }
+
+        private void EnsureReferencesResolved()
+        {
+            var panelTrans = transform.Find("Panel");
+            if (panelTrans == null) return;
+            var innerTrans = panelTrans.Find("Inner");
+            if (innerTrans == null) return;
+
+            if (upgradesContent == null)
+            {
+                var t = innerTrans.Find("UpgradesContent");
+                if (t != null) upgradesContent = t.gameObject;
+            }
+            if (shardContent == null)
+            {
+                var t = innerTrans.Find("ShardContent");
+                if (t != null) shardContent = t.gameObject;
+            }
+            if (gachaUnlockContent == null)
+            {
+                var t = innerTrans.Find("GachaUnlockContent");
+                if (t != null) gachaUnlockContent = t.gameObject;
+            }
+
+            if (coinText == null)
+            {
+                var t = innerTrans.Find("CoinText");
+                if (t != null) coinText = t.GetComponent<TMP_Text>();
+            }
+            if (shardText == null)
+            {
+                var t = innerTrans.Find("ShardText");
+                if (t != null) shardText = t.GetComponent<TMP_Text>();
             }
         }
     }
