@@ -42,5 +42,11 @@ namespace CosmicChaosCat
 
         public bool UnlockedRareGacha;
         public bool UnlockedSuperGacha;
+
+        public int nExchangeCount;
+        public int rExchangeCount;
+        public int srExchangeCount;
+        public int ssrExchangeCount;
+        public int urExchangeCount;
     }
 }

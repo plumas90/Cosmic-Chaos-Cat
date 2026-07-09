@@ -411,6 +411,11 @@ namespace CosmicChaosCat
                 {
                     if (upg == null || upg.Category != cat) continue;
 
+                    // Unlock dependency check: tier-2 upgrades are only shown when tier-1 is at max level (5)
+                    if (upg.UpgradeId == "upg-normal-prob-2" && gm.GetUpgradeLevel("upg-normal-prob-1") < 5) continue;
+                    if (upg.UpgradeId == "upg-rare-prob-2" && gm.GetUpgradeLevel("upg-rare-prob-1") < 5) continue;
+                    if (upg.UpgradeId == "upg-super-prob-2" && gm.GetUpgradeLevel("upg-super-prob-1") < 5) continue;
+
                     var row = new GameObject("Row_" + upg.UpgradeId, typeof(RectTransform));
                     row.transform.SetParent(upgradeScrollContent, false);
                     var rRT = row.GetComponent<RectTransform>();
@@ -431,7 +436,8 @@ namespace CosmicChaosCat
                     nm.alignment = TextAlignmentOptions.Left;
 
                     // Desc text
-                    var dc = MakeLabel(row.transform, upg.Description, Vector2.zero, Vector2.zero, 11, new Color(0.60f,0.65f,0.75f));
+                    string descText = upg.Description + GetUpgradeValuesString(upg);
+                    var dc = MakeLabel(row.transform, descText, Vector2.zero, Vector2.zero, 11, new Color(0.60f,0.65f,0.75f));
                     var dcRT = dc.GetComponent<RectTransform>();
                     dcRT.anchorMin = new Vector2(0,0); dcRT.anchorMax = new Vector2(0.58f,0.5f);
                     dcRT.offsetMin = new Vector2(14,2); dcRT.offsetMax = Vector2.zero;
@@ -481,9 +487,9 @@ namespace CosmicChaosCat
             MakeLabel(shardContent.transform, "이미 보유한 카드는 뽑기 대상에서 제외됩니다",
                 new Vector2(0, 115), new Vector2(500,20), 11, new Color(0.50f,0.55f,0.65f));
 
-            BuildShardCard(CardRarity.N,  "N 등급", "일반 카드",   5,  ColN,  -205f);
-            BuildShardCard(CardRarity.R,  "R 등급", "레어 카드",  15,  ColR,    0f);
-            BuildShardCard(CardRarity.SR, "SR 등급","슈퍼레어",   50, ColSR,  205f);
+            BuildShardCard(CardRarity.N,  "N 등급", "일반 카드",   500,  ColN,  -205f);
+            BuildShardCard(CardRarity.R,  "R 등급", "레어 카드",  5000,  ColR,    0f);
+            BuildShardCard(CardRarity.SR, "SR 등급","슈퍼레어",   25000, ColSR,  205f);
         }
 
         private void BuildShardCard(CardRarity rarity, string label, string sub, int cost, Color col, float xPos)
@@ -618,9 +624,9 @@ namespace CosmicChaosCat
 
             if (shardContent != null && shardContent.activeSelf)
             {
-                RefreshShardButton(CardRarity.N,  buyNBtn,  buyNText,   5);
-                RefreshShardButton(CardRarity.R,  buyRBtn,  buyRText,  15);
-                RefreshShardButton(CardRarity.SR, buySRBtn, buySRText, 50);
+                RefreshShardButton(CardRarity.N,  buyNBtn,  buyNText,   500);
+                RefreshShardButton(CardRarity.R,  buyRBtn,  buyRText,  5000);
+                RefreshShardButton(CardRarity.SR, buySRBtn, buySRText, 25000);
             }
 
             if (gachaUnlockContent != null && gachaUnlockContent.activeSelf)
@@ -872,9 +878,9 @@ namespace CosmicChaosCat
                     }
                     if (card != null)
                     {
-                        if (card.name == "Card_N")       btn.onClick.AddListener(() => BuyRandomCard(CardRarity.N, 5));
-                        else if (card.name == "Card_R")  btn.onClick.AddListener(() => BuyRandomCard(CardRarity.R, 15));
-                        else if (card.name == "Card_SR") btn.onClick.AddListener(() => BuyRandomCard(CardRarity.SR, 50));
+                        if (card.name == "Card_N")       btn.onClick.AddListener(() => BuyRandomCard(CardRarity.N, 500));
+                        else if (card.name == "Card_R")  btn.onClick.AddListener(() => BuyRandomCard(CardRarity.R, 5000));
+                        else if (card.name == "Card_SR") btn.onClick.AddListener(() => BuyRandomCard(CardRarity.SR, 25000));
                     }
                 }
                 else if (t == "해금하기")
@@ -939,6 +945,44 @@ namespace CosmicChaosCat
                 var t = innerTrans.Find("ShardText");
                 if (t != null) shardText = t.GetComponent<TMP_Text>();
             }
+        }
+
+        private string GetUpgradeValuesString(UpgradeEntry entry)
+        {
+            if (entry == null || entry.EffectValuePerLevel == null || entry.EffectValuePerLevel.Length <= 1)
+                return string.Empty;
+
+            var parts = new List<string>();
+            for (int i = 0; i < entry.EffectValuePerLevel.Length; i++)
+            {
+                float val = entry.EffectValuePerLevel[i];
+                string formatted;
+
+                switch (entry.EffectType)
+                {
+                    case UpgradeEffectType.CriticalChance:
+                    case UpgradeEffectType.ComboBonus:
+                    case UpgradeEffectType.ShardRefundBonus:
+                        formatted = $"{Mathf.RoundToInt(val * 100f)}%";
+                        break;
+                    case UpgradeEffectType.NWeightReduction:
+                    case UpgradeEffectType.RWeightReduction:
+                        formatted = $"{Mathf.RoundToInt(val * 100f)}%";
+                        break;
+                    case UpgradeEffectType.GachaDiscount:
+                        formatted = $"{Mathf.RoundToInt(val * 100f)}%";
+                        break;
+                    case UpgradeEffectType.CriticalMultiplier:
+                        formatted = $"+{Mathf.RoundToInt(val * 100f)}%";
+                        break;
+                    default:
+                        formatted = $"{val:0.#}";
+                        break;
+                }
+                parts.Add(formatted);
+            }
+
+            return " (" + string.Join(", ", parts) + ")";
         }
     }
 }

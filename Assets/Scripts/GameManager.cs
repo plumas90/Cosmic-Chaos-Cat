@@ -58,6 +58,11 @@ namespace CosmicChaosCat
         public bool   IsGameEnded    { get; private set; }
         public bool   UnlockedRareGacha  { get; private set; }
         public bool   UnlockedSuperGacha { get; private set; }
+        public int    NExchangeCount     { get; private set; }
+        public int    RExchangeCount     { get; private set; }
+        public int    SRExchangeCount    { get; private set; }
+        public int    SSRExchangeCount   { get; private set; }
+        public int    URExchangeCount    { get; private set; }
         public string EquippedCardId { get; private set; }
         public int    ComboCount     => comboCount;
         public int    ClicksPerSecond => clicksInWindow;
@@ -290,24 +295,54 @@ namespace CosmicChaosCat
             if (Shards < cost) { Log($"조각이 부족해요. (필요: {cost})"); return; }
 
             Shards -= cost;
+            
+            // Increment the purchase count for this rarity tier
+            if (card.Rarity == CardRarity.N) NExchangeCount++;
+            else if (card.Rarity == CardRarity.R) RExchangeCount++;
+            else if (card.Rarity == CardRarity.SR) SRExchangeCount++;
+            else if (card.Rarity == CardRarity.SSR) SSRExchangeCount++;
+            else if (card.Rarity == CardRarity.UR) URExchangeCount++;
+
             ApplyDraw(card);
             CheckEnding();
             Save();
             NotifyState();
         }
 
-        /// <summary>등급별 조각 교환 비용 (분해 가치의 10배)</summary>
-        public static int GetShardExchangeCost(CardRarity rarity)
+        public int GetShardExchangeCost(CardRarity rarity)
         {
+            int baseCost;
+            int count = 0;
             switch (rarity)
             {
-                case CardRarity.N:   return 10;
-                case CardRarity.R:   return 30;
-                case CardRarity.SR:  return 100;
-                case CardRarity.SSR: return 300;
-                case CardRarity.UR:  return 1000;
-                default:             return 30;
+                case CardRarity.N:
+                    baseCost = 500;
+                    count = NExchangeCount;
+                    break;
+                case CardRarity.R:
+                    baseCost = 5000;
+                    count = RExchangeCount;
+                    break;
+                case CardRarity.SR:
+                    baseCost = 25000;
+                    count = SRExchangeCount;
+                    break;
+                case CardRarity.SSR:
+                    baseCost = 125000;
+                    count = SSRExchangeCount;
+                    break;
+                case CardRarity.UR:
+                    baseCost = 625000;
+                    count = URExchangeCount;
+                    break;
+                default:
+                    baseCost = 5000;
+                    break;
             }
+
+            // Price scales exponentially: BaseCost * 5 ^ PurchaseCount
+            double multiplier = Math.Pow(5, count);
+            return (int)Math.Min(int.MaxValue, baseCost * multiplier);
         }
 
         public void BuyUpgrade(string upgradeId)
@@ -432,15 +467,32 @@ namespace CosmicChaosCat
 
         private CardEntry DrawOneCard(GachaType type)
         {
-            float nRed = GetUpgradeEffectValue(UPG_N_WEIGHT);
-            float rRed = GetUpgradeEffectValue(UPG_R_WEIGHT);
+            float nToRMod = 0f;
+            float rToSRMod = 0f;
+
+            if (type == GachaType.Normal)
+            {
+                nToRMod = GetUpgradeEffectValue("upg-normal-prob-1");
+                rToSRMod = GetUpgradeEffectValue("upg-normal-prob-2");
+            }
+            else if (type == GachaType.Rare)
+            {
+                nToRMod = GetUpgradeEffectValue("upg-rare-prob-1");
+                rToSRMod = GetUpgradeEffectValue("upg-rare-prob-2");
+            }
+            else if (type == GachaType.Super)
+            {
+                nToRMod = GetUpgradeEffectValue("upg-super-prob-1");
+                rToSRMod = GetUpgradeEffectValue("upg-super-prob-2");
+            }
+
             bool rUnlocked = GetUpgradeLevel("upg-unlock-r") >= 1;
             bool srUnlocked = GetUpgradeLevel("upg-unlock-sr") >= 1;
             bool ssrUnlocked = GetUpgradeLevel("upg-unlock-ssr") >= 1;
             bool urUnlocked = GetUpgradeLevel("upg-unlock-ur") >= 1;
 
             var card = gachaService.DrawCard(cardCatalog.Cards, cardState,
-                                             nRed, rRed,
+                                             nToRMod, rToSRMod,
                                              rUnlocked, srUnlocked, ssrUnlocked, urUnlocked, type);
             return card;
         }
@@ -557,7 +609,7 @@ namespace CosmicChaosCat
         }
 
         private float GetEffectiveCritChance() => baseCriticalChance  + GetUpgradeEffectValue(UPG_CRIT_CHANCE);
-        private float GetEffectiveCritMult()   => baseCriticalMultiplier + GetUpgradeEffectValue(UPG_CRIT_MULT);
+        private float GetEffectiveCritMult()   => baseCriticalMultiplier * (1f + GetUpgradeEffectValue(UPG_CRIT_MULT));
 
         public float GetUpgradeEffectValue(string upgradeId)
         {
@@ -598,7 +650,12 @@ namespace CosmicChaosCat
                 EquippedCardId = EquippedCardId, TotalRolls = TotalRolls,
                 TotalClicks = TotalClicks,
                 UnlockedRareGacha = UnlockedRareGacha,
-                UnlockedSuperGacha = UnlockedSuperGacha
+                UnlockedSuperGacha = UnlockedSuperGacha,
+                nExchangeCount = NExchangeCount,
+                rExchangeCount = RExchangeCount,
+                srExchangeCount = SRExchangeCount,
+                ssrExchangeCount = SSRExchangeCount,
+                urExchangeCount = URExchangeCount
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
@@ -645,6 +702,11 @@ namespace CosmicChaosCat
             TotalClicks    = Math.Max(0, data.TotalClicks);
             UnlockedRareGacha  = data.UnlockedRareGacha;
             UnlockedSuperGacha = data.UnlockedSuperGacha;
+            NExchangeCount     = Math.Max(0, data.nExchangeCount);
+            RExchangeCount     = Math.Max(0, data.rExchangeCount);
+            SRExchangeCount    = Math.Max(0, data.srExchangeCount);
+            SSRExchangeCount   = Math.Max(0, data.ssrExchangeCount);
+            URExchangeCount    = Math.Max(0, data.urExchangeCount);
 
             if (data.Cards != null)
                 foreach (var c in data.Cards)

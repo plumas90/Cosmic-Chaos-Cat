@@ -37,7 +37,7 @@ namespace CosmicChaosCat
             bool owned   = progress != null && progress.Unlocked;
             int currentMax = progress != null ? card.MaxStacks + (progress.BreakthroughCount * 5) : card.MaxStacks;
             bool maxed   = owned && progress != null && progress.Copies >= currentMax;
-            int  cost    = GameManager.GetShardExchangeCost(card.Rarity);
+            int cost = gameManager != null ? gameManager.GetShardExchangeCost(card.Rarity) : 500;
             bool canBuy  = !maxed && gameManager.Shards >= cost;
 
             // 이름 / 등급

@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:CosmicChaosCat:UpgradeCatalogSO
   upgrades:
   - UpgradeId: upg-crit-chance
-    DisplayName: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 \uC99D\uAC00"
-    Description: "\uD074\uB9AD \uD06C\uB9AC\uD2F0\uCEEC \uBC1C\uB3D9 \uD655\uB960\uC744
-      \uB192\uC785\uB2C8\uB2E4."
+    DisplayName: "크리티컬 확률 증가"
+    Description: "클릭 크리티컬 발동 확률을 높입니다."
     Category: 0
     MaxLevel: 3
     CostPerLevel:
@@ -29,9 +28,8 @@ MonoBehaviour:
     - 0.1
     - 0.15
   - UpgradeId: upg-crit-mult
-    DisplayName: "\uD06C\uB9AC\uD2F0\uCEEC \uBC30\uC728 \uC99D\uAC00"
-    Description: "\uD06C\uB9AC\uD2F0\uCEEC \uBC1C\uB3D9 \uC2DC \uC218\uC775 \uBC30\uC728\uC744
-      \uB192\uC785\uB2C8\uB2E4."
+    DisplayName: "크리티컬 배율 증가"
+    Description: "크리티컬 발동 시 수익 배율을 높입니다."
     Category: 0
     MaxLevel: 3
     CostPerLevel:
@@ -40,13 +38,12 @@ MonoBehaviour:
     - 2000
     EffectType: 1
     EffectValuePerLevel:
+    - 0.25
+    - 0.5
     - 1
-    - 2
-    - 4
   - UpgradeId: upg-combo
-    DisplayName: "\uC5F0\uD0C0 \uBCF4\uB108\uC2A4 \uAC15\uD654"
-    Description: "\uC5F0\uC18D \uD074\uB9AD \uCF64\uBCF4 \uC218\uC775 \uBCF4\uB108\uC2A4\uB97C
-      \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+    DisplayName: "연타 보너스 강화"
+    Description: "연속 클릭 콤보 수익 보너스를 증가시킵니다."
     Category: 0
     MaxLevel: 3
     CostPerLevel:
@@ -59,8 +56,8 @@ MonoBehaviour:
     - 0.5
     - 1
   - UpgradeId: upg-unlock-r
-    DisplayName: "R등급 등장 해금"
-    Description: "가챠에서 R등급 고양이 카드가 등장하도록 해금합니다."
+    DisplayName: "더 많은 고양이"
+    Description: "N 등급 가챠에서 더 다양한 종류의 고양이가 등장하도록 해금합니다."
     Category: 1
     MaxLevel: 1
     CostPerLevel:
@@ -69,8 +66,8 @@ MonoBehaviour:
     EffectValuePerLevel:
     - 1
   - UpgradeId: upg-unlock-sr
-    DisplayName: "SR등급 등장 해금"
-    Description: "가챠에서 SR등급 고양이 카드가 등장하도록 해금합니다."
+    DisplayName: "더 더 많은 고양이"
+    Description: "R 등급 가챠에서 더 다양한 종류의 고양이가 등장하도록 해금합니다."
     Category: 1
     MaxLevel: 1
     CostPerLevel:
@@ -79,8 +76,8 @@ MonoBehaviour:
     EffectValuePerLevel:
     - 1
   - UpgradeId: upg-unlock-ssr
-    DisplayName: "SSR등급 등장 해금"
-    Description: "가챠에서 SSR등급 고양이 카드가 등장하도록 해금합니다."
+    DisplayName: "더 더 더 많은 고양이"
+    Description: "SR 등급 가챠에서 더 다양한 종류의 고양이가 등장하도록 해금합니다."
     Category: 1
     MaxLevel: 1
     CostPerLevel:
@@ -89,8 +86,8 @@ MonoBehaviour:
     EffectValuePerLevel:
     - 1
   - UpgradeId: upg-unlock-ur
-    DisplayName: "UR등급 등장 해금"
-    Description: "가챠에서 UR등급 고양이 카드가 등장하도록 해금합니다."
+    DisplayName: "더 더 더 더 많은 고양이"
+    Description: "SSR 등급 가챠에서 전설적인 종류의 고양이가 등장하도록 해금합니다."
     Category: 1
     MaxLevel: 1
     CostPerLevel:
@@ -98,38 +95,117 @@ MonoBehaviour:
     EffectType: 11
     EffectValuePerLevel:
     - 1
-  - UpgradeId: upg-n-weight
-    DisplayName: "N등급 등장 확률 감소"
-    Description: "가챠 시 N등급 확률을 낮추고 그만큼 R등급의 등장 확률을 높입니다."
+  - UpgradeId: upg-normal-prob-1
+    DisplayName: "일반 가챠 확률 업그레이드"
+    Description: "일반 가챠의 N등급 확률을 낮추고 R등급 확률을 높입니다."
     Category: 1
-    MaxLevel: 3
+    MaxLevel: 5
     CostPerLevel:
     - 500
-    - 2000
+    - 1200
+    - 3000
     - 8000
+    - 20000
     EffectType: 3
     EffectValuePerLevel:
+    - 0.01
     - 0.02
+    - 0.03
+    - 0.04
     - 0.05
-    - 0.1
-  - UpgradeId: upg-r-weight
-    DisplayName: "R등급 등장 확률 감소"
-    Description: "가챠 시 R등급 확률을 낮추고 그만큼 SR등급의 등장 확률을 높입니다."
+  - UpgradeId: upg-normal-prob-2
+    DisplayName: "일반 가챠 확률 더 더 더 업그레이드"
+    Description: "일반 가챠의 R등급 확률을 낮추고 SR등급 확률을 높입니다."
     Category: 1
-    MaxLevel: 3
+    MaxLevel: 5
     CostPerLevel:
-    - 1000
-    - 4000
-    - 15000
+    - 2000
+    - 5000
+    - 12000
+    - 30000
+    - 80000
     EffectType: 4
     EffectValuePerLevel:
+    - 0.01
     - 0.02
+    - 0.03
+    - 0.04
     - 0.05
-    - 0.1
+  - UpgradeId: upg-rare-prob-1
+    DisplayName: "레어 가챠 확률 업그레이드"
+    Description: "레어 가챠의 N등급 확률을 낮추고 R등급 확률을 높입니다."
+    Category: 1
+    MaxLevel: 5
+    CostPerLevel:
+    - 1000
+    - 2500
+    - 6000
+    - 15000
+    - 40000
+    EffectType: 3
+    EffectValuePerLevel:
+    - 0.01
+    - 0.02
+    - 0.03
+    - 0.04
+    - 0.05
+  - UpgradeId: upg-rare-prob-2
+    DisplayName: "레어 가챠 확률 더 더 더 업그레이드"
+    Description: "레어 가챠의 R등급 확률을 낮추고 SR등급 확률을 높입니다."
+    Category: 1
+    MaxLevel: 5
+    CostPerLevel:
+    - 4000
+    - 10000
+    - 24000
+    - 60000
+    - 150000
+    EffectType: 4
+    EffectValuePerLevel:
+    - 0.01
+    - 0.02
+    - 0.03
+    - 0.04
+    - 0.05
+  - UpgradeId: upg-super-prob-1
+    DisplayName: "슈퍼 가챠 확률 업그레이드"
+    Description: "슈퍼 가챠의 N등급 확률을 낮추고 R등급 확률을 높입니다."
+    Category: 1
+    MaxLevel: 5
+    CostPerLevel:
+    - 2000
+    - 5000
+    - 12000
+    - 30000
+    - 80000
+    EffectType: 3
+    EffectValuePerLevel:
+    - 0.01
+    - 0.02
+    - 0.03
+    - 0.04
+    - 0.05
+  - UpgradeId: upg-super-prob-2
+    DisplayName: "슈퍼 가챠 확률 더 더 더 업그레이드"
+    Description: "슈퍼 가챠의 R등급 확률을 낮추고 SR등급 확률을 높입니다."
+    Category: 1
+    MaxLevel: 5
+    CostPerLevel:
+    - 8000
+    - 20000
+    - 48000
+    - 120000
+    - 300000
+    EffectType: 4
+    EffectValuePerLevel:
+    - 0.01
+    - 0.02
+    - 0.03
+    - 0.04
+    - 0.05
   - UpgradeId: upg-extra-pull
-    DisplayName: "10+1 \uBF51\uAE30 \uD574\uAE08"
-    Description: "10\uD68C \uBF51\uAE30 \uC2DC 1\uD68C\uB97C \uCD94\uAC00\uB85C \uBF51\uC2B5\uB2C8\uB2E4
-      (11\uC5F0\uCC28)."
+    DisplayName: "10+1 뽑기 해금"
+    Description: "10회 뽑기 시 1회를 추가로 뽑습니다 (11연차)."
     Category: 1
     MaxLevel: 1
     CostPerLevel:
@@ -138,9 +214,8 @@ MonoBehaviour:
     EffectValuePerLevel:
     - 1
   - UpgradeId: upg-gacha-disc
-    DisplayName: "\uAC00\uCC60 \uBE44\uC6A9 \uD560\uC778"
-    Description: "\uAC00\uCC60 \uBE44\uC6A9\uC744 \uB2E8\uACC4\uC801\uC73C\uB85C
-      \uD560\uC778\uD569\uB2C8\uB2E4."
+    DisplayName: "가챠 비용 할인"
+    Description: "가챠 비용을 단계적으로 할인합니다."
     Category: 1
     MaxLevel: 3
     CostPerLevel:
@@ -153,17 +228,20 @@ MonoBehaviour:
     - 0.03
     - 0.05
   - UpgradeId: upg-shard-refund
-    DisplayName: "\uCE74\uB4DC \uC870\uAC01 \uD658\uAE09 \uC99D\uAC00"
-    Description: "\uC911\uBCF5 \uCE74\uB4DC \uBD84\uD574 \uC2DC \uD68D\uB4DD\uD558\uB294
-      \uC870\uAC01 \uC218\uB97C \uB298\uB9BD\uB2C8\uB2E4."
+    DisplayName: "카드 조각 환급 증가"
+    Description: "중복 카드 분해 시 획득하는 조각 수를 늘립니다."
     Category: 2
-    MaxLevel: 3
+    MaxLevel: 5
     CostPerLevel:
     - 400
     - 1500
     - 5000
+    - 12000
+    - 30000
     EffectType: 5
     EffectValuePerLevel:
+    - 0.1
     - 0.2
+    - 0.3
+    - 0.4
     - 0.5
-    - 1

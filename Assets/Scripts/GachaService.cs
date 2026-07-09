@@ -8,8 +8,8 @@ namespace CosmicChaosCat
         public CardEntry DrawCard(
             IReadOnlyList<CardEntry> allCards,
             Dictionary<string, CardProgress> stateById,
-            float nWeightReduction,
-            float rWeightReduction,
+            float nToRMod,
+            float rToSRMod,
             bool rUnlocked,
             bool srUnlocked,
             bool ssrUnlocked,
@@ -17,7 +17,7 @@ namespace CosmicChaosCat
             GachaType type = GachaType.Normal)
         {
             // ── Step 1: Draw Rarity Tier based on gacha parameters & rate upgrades ──
-            CardRarity chosenRarity = ChooseRarityTier(type, nWeightReduction, rWeightReduction);
+            CardRarity chosenRarity = ChooseRarityTier(type, nToRMod, rToSRMod);
 
             // ── Step 2: Fallback checks for locked tiers ──────────────────────────
             // If the rolled rarity tier isn't unlocked in the shop, fall back to N tier
@@ -60,7 +60,7 @@ namespace CosmicChaosCat
             return candidates[randomIndex];
         }
 
-        private static CardRarity ChooseRarityTier(GachaType type, float nRed, float rRed)
+        private static CardRarity ChooseRarityTier(GachaType type, float nToRMod, float rToSRMod)
         {
             // Base Rarity Drop Rates per Gacha Type
             float pN = 0.90f, pR = 0.09f, pSR = 0.01f, pSSR = 0f, pUR = 0f;
@@ -75,17 +75,17 @@ namespace CosmicChaosCat
             }
 
             // Apply upg-n-weight (reduces N, adds to R)
-            if (nRed > 0f)
+            if (nToRMod > 0f)
             {
-                float deduct = Mathf.Min(pN, nRed);
+                float deduct = Mathf.Min(pN, nToRMod);
                 pN -= deduct;
                 pR += deduct;
             }
 
             // Apply upg-r-weight (reduces R, adds to SR)
-            if (rRed > 0f)
+            if (rToSRMod > 0f)
             {
-                float deduct = Mathf.Min(pR, rRed);
+                float deduct = Mathf.Min(pR, rToSRMod);
                 pR -= deduct;
                 pSR += deduct;
             }
