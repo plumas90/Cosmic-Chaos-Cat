@@ -14,8 +14,6 @@ namespace CosmicChaosCat
         [SerializeField] private Button startButton;
 
         private Button   continueButton;
-        private TMP_Text savedInfoText;
-
         private const string SaveKey = "ccc_save_v3";
 
         // ─── Style ──────────────────────────────────────────────────────────
@@ -60,37 +58,30 @@ namespace CosmicChaosCat
             // ── 이어하기 버튼 ──────────────────────────────────────────────
             if (hasSave)
             {
-                // startButton 위치를 기준으로 이어하기를 아래에 배치
-                // startButton이 씬에 있으면 그 위치 + 아래 오프셋
-                Vector2 contPos = startButton != null
-                    ? GetAnchoredPos(startButton) + new Vector2(0, -80)
-                    : new Vector2(0, -60);
+                // startSize 구하기 (시작버튼과 크기 똑같이 맞춤)
+                Vector2 startSize = startButton != null
+                    ? startButton.GetComponent<RectTransform>().sizeDelta
+                    : new Vector2(240, 62);
 
-                var contGO = MakeButton(uiParent, "이어하기", contPos, new Vector2(240, 62), BtnContinue);
+                // startButton 위치를 기준으로 이어하기를 더 아래에 배치 (겹치지 않게 여백 조정: 65px로 변경)
+                Vector2 contPos = startButton != null
+                    ? GetAnchoredPos(startButton) + new Vector2(0, -(startSize.y + 65f))
+                    : new Vector2(0, -120);
+
+                var contGO = MakeButton(uiParent, "이어하기", contPos, startSize, BtnContinue);
                 continueButton = contGO.GetComponent<Button>();
 
-                // ── 저장 정보 텍스트 ──────────────────────────────────────
-                var raw  = PlayerPrefs.GetString(SaveKey, string.Empty);
-                var data = string.IsNullOrEmpty(raw) ? null : JsonUtility.FromJson<GameSaveData>(raw);
-                string infoStr = string.Empty;
-
-                if (data != null)
+                // 시작버튼의 텍스트 컴포넌트에서 폰트 및 글자 크기 복사
+                if (startButton != null)
                 {
-                    var t = System.TimeSpan.FromSeconds(data.ElapsedSeconds);
-                    infoStr = $"저장된 플레이 타임  {t.Hours:00}:{t.Minutes:00}:{t.Seconds:00}\n"
-                            + $"뽑기 횟수  {data.TotalRolls}회";
+                    var startTxt = startButton.GetComponentInChildren<TMP_Text>();
+                    var contTxt = contGO.GetComponentInChildren<TMP_Text>();
+                    if (startTxt != null && contTxt != null)
+                    {
+                        contTxt.font = startTxt.font;
+                        contTxt.fontSize = startTxt.fontSize;
+                    }
                 }
-
-                var infoGO = new GameObject("SavedInfoText");
-                infoGO.transform.SetParent(uiParent, false);
-                var irt = infoGO.AddComponent<RectTransform>();
-                irt.anchoredPosition = contPos + new Vector2(0, -60);
-                irt.sizeDelta        = new Vector2(320, 50);
-                savedInfoText = infoGO.AddComponent<TextMeshProUGUI>();
-                savedInfoText.text      = infoStr;
-                savedInfoText.fontSize  = 13;
-                savedInfoText.color     = new Color(0.7f, 0.85f, 0.7f);
-                savedInfoText.alignment = TextAlignmentOptions.Center;
             }
 
             // startButton 색상 세팅 (씬에서 직접 바꾸기 어려우므로 코드로)

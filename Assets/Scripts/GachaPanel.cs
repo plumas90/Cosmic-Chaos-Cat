@@ -115,7 +115,7 @@ namespace CosmicChaosCat
             var oldBtnTrans = resultObj.transform.Find("Btn_확인");
             if (oldBtnTrans != null)
             {
-                Destroy(oldBtnTrans.gameObject);
+                SafeDestroy(oldBtnTrans.gameObject);
             }
 
             // Find or create animContainer
@@ -395,13 +395,13 @@ namespace CosmicChaosCat
             // Clear old children
             if (conveyor != null)
             {
-                foreach (Transform child in conveyor) Destroy(child.gameObject);
+                foreach (Transform child in conveyor) SafeDestroy(child.gameObject);
             }
             if (summaryContainer != null)
             {
                 foreach (Transform child in summaryContainer.transform)
                 {
-                    if (child.gameObject != confirmBtn) Destroy(child.gameObject);
+                    if (child.gameObject != confirmBtn) SafeDestroy(child.gameObject);
                 }
             }
 
@@ -670,10 +670,10 @@ namespace CosmicChaosCat
 
                 // Morph to Shard representation
                 var art = cardGo.transform.Find("Art");
-                if (art != null) Destroy(art.gameObject);
+                if (art != null) SafeDestroy(art.gameObject);
                 
                 var nameText = cardGo.transform.Find("Text");
-                if (nameText != null) Destroy(nameText.gameObject);
+                if (nameText != null) SafeDestroy(nameText.gameObject);
 
                 var bgImg = cardGo.GetComponent<Image>();
                 bgImg.color = new Color(0.12f, 0.14f, 0.20f);
@@ -740,7 +740,7 @@ namespace CosmicChaosCat
                 img.color = new Color(col.r, col.g, col.b, Mathf.Lerp(0.7f, 0f, t / 0.25f));
                 yield return null;
             }
-            Destroy(flashGO);
+            SafeDestroy(flashGO);
         }
 
         private Color GetRarityColor(CardRarity rarity)
@@ -813,6 +813,19 @@ namespace CosmicChaosCat
             tx.color = Color.white;
 
             return go;
+        }
+
+        private static void SafeDestroy(GameObject obj)
+        {
+            if (obj == null) return;
+            if (Application.isPlaying)
+            {
+                Destroy(obj);
+            }
+            else
+            {
+                DestroyImmediate(obj);
+            }
         }
     }
 }

@@ -28,6 +28,29 @@ namespace CosmicChaosCat.Editor
             var shopPanel = Object.FindObjectOfType<ShopPanel>(true);
             var encyPanel = Object.FindObjectOfType<EncyclopediaPanel>(true);
 
+            if (shopPanel == null)
+            {
+                var hud = Object.FindObjectOfType<GameHud>(true);
+                if (hud != null)
+                {
+                    var canvas = hud.GetComponentInParent<Canvas>();
+                    if (canvas == null) canvas = Object.FindObjectOfType<Canvas>();
+                    if (canvas != null)
+                    {
+                        var go = new GameObject("ShopPanel", typeof(RectTransform));
+                        go.transform.SetParent(canvas.transform, false);
+                        shopPanel = go.AddComponent<ShopPanel>();
+                        
+                        var so = new SerializedObject(hud);
+                        so.Update();
+                        so.FindProperty("shopPanel").objectReferenceValue = shopPanel;
+                        so.ApplyModifiedProperties();
+                        
+                        Debug.Log("[BakeUIPrefabs] Created and linked ShopPanel in scene dynamically.");
+                    }
+                }
+            }
+
             // Force build UI for each
             ForceBuildUI(gachaPanel);
             ForceBuildUI(shopPanel);
@@ -36,7 +59,7 @@ namespace CosmicChaosCat.Editor
             if (encyPanel != null)
             {
                 encyPanel.EnsureBreakthroughButtonBuilt();
-                encyPanel.EnsureShopButtonBuilt();
+                encyPanel.EnsureShopButtonCleanedUp();
                 EditorUtility.SetDirty(encyPanel);
             }
             if (gachaPanel != null)

@@ -46,7 +46,6 @@ namespace CosmicChaosCat
 
         // 세트 행 풀
         private readonly List<GameObject> setRows = new List<GameObject>();
-        private GameObject shopTabBtn;
 
         // ── Colors / Style ──────────────────────────────────────────────────
         private static readonly Color BG          = new Color(0.08f, 0.10f, 0.16f, 0.97f);
@@ -69,7 +68,7 @@ namespace CosmicChaosCat
                 EnsureParentedToCanvas();
                 BuildUI();
                 EnsureBreakthroughButtonBuilt();
-                EnsureShopButtonBuilt();
+                EnsureShopButtonCleanedUp();
                 if (pageLabel != null) BindListeners();
                 gm = FindObjectOfType<GameManager>(true);
                 Debug.Log($"[EncyclopediaPanel] Awake complete. pageLabel={pageLabel!=null}, gm={gm!=null}");
@@ -82,7 +81,7 @@ namespace CosmicChaosCat
 
         private void BindListeners()
         {
-            EnsureShopButtonBuilt();
+            EnsureShopButtonCleanedUp();
             if (tabNoBtn != null) { var b = tabNoBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowNoTab); }
             if (tabSetBtn != null) { var b = tabSetBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowSetTab); }
             if (prevPageBtn != null) { var b = prevPageBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(-1)); }
@@ -265,7 +264,7 @@ namespace CosmicChaosCat
             tabSetBtn = MakeButton(parent, "Set", new Vector2(-60, tabY), new Vector2(90, 36),
                 TabInactive, () => ShowSetTab());
             
-            EnsureShopButtonBuilt();
+            EnsureShopButtonCleanedUp();
         }
 
         private void BuildBookArea(Transform parent)
@@ -846,7 +845,7 @@ namespace CosmicChaosCat
             }
         }
 
-        public void EnsureShopButtonBuilt()
+        public void EnsureShopButtonCleanedUp()
         {
             var panelTrans = transform.Find("Panel");
             if (panelTrans == null) return;
@@ -854,41 +853,7 @@ namespace CosmicChaosCat
             var existing = panelTrans.Find("Btn_상점");
             if (existing != null)
             {
-                shopTabBtn = existing.gameObject;
-            }
-            else
-            {
-                shopTabBtn = MakeButton(panelTrans, "상점", new Vector2(300, 285), new Vector2(90, 36),
-                    new Color(0.18f, 0.62f, 0.30f, 1f), OnShopButtonClicked);
-            }
-
-            if (shopTabBtn != null)
-            {
-                var btn = shopTabBtn.GetComponent<Button>();
-                if (btn != null)
-                {
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(OnShopButtonClicked);
-                }
-                
-                var txt = shopTabBtn.GetComponentInChildren<TMP_Text>();
-                if (txt != null && pageLabel != null)
-                {
-                    txt.font = pageLabel.font;
-                }
-            }
-        }
-
-        private void OnShopButtonClicked()
-        {
-            var shop = FindObjectOfType<ShopPanel>(true);
-            if (shop != null)
-            {
-                shop.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError("[EncyclopediaPanel] ShopPanel을 씬에서 찾을 수 없습니다!");
+                DestroyImmediate(existing.gameObject);
             }
         }
 

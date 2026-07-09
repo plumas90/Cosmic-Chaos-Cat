@@ -30,6 +30,7 @@ namespace CosmicChaosCat
         [SerializeField] private Button upgradeButton;
         [SerializeField] private Button exchangeButton;
         [SerializeField] private Button menuButton;
+        [SerializeField] private Button shopButton;
 
         [Header("Panels — pre-placed, start inactive")]
         [SerializeField] private GachaPanel         gachaPanel;
@@ -69,12 +70,20 @@ namespace CosmicChaosCat
                 if (!IsSceneInstance(upgradePanel))      upgradePanel      = FindObjectOfType<UpgradePanel>(true);
                 if (!IsSceneInstance(exchangePanel))     exchangePanel     = FindObjectOfType<ShardExchangePanel>(true);
                 if (!IsSceneInstance(shopPanel))         shopPanel         = FindObjectOfType<ShopPanel>(true);
+                if (shopPanel == null)
+                {
+                    Debug.Log("[GameHud] ShopPanel is missing in the scene. Creating dynamically.");
+                    var shopGO = new GameObject("ShopPanel", typeof(RectTransform));
+                    shopPanel = shopGO.AddComponent<ShopPanel>();
+                }
                 if (!IsSceneInstance(gameManager))       gameManager       = FindObjectOfType<GameManager>(true);
 
-                if (!IsSceneInstance(gachaButton) || !IsSceneInstance(encyclopediaButton) || !IsSceneInstance(upgradeButton) || !IsSceneInstance(exchangeButton) || !IsSceneInstance(menuButton))
+                if (!IsSceneInstance(gachaButton) || !IsSceneInstance(encyclopediaButton) || !IsSceneInstance(upgradeButton) || !IsSceneInstance(exchangeButton) || !IsSceneInstance(menuButton) || !IsSceneInstance(shopButton))
                 {
                     TryAssignButtons();
                 }
+
+                EnsureShopButtonBuilt();
 
                 Debug.Log($"[GameHud] Panels: gacha={gachaPanel!=null}, ency={encyclopediaPanel!=null}, shop={shopPanel!=null}, mgr={gameManager!=null}");
 
@@ -92,9 +101,10 @@ namespace CosmicChaosCat
                 if (encyclopediaButton != null) { encyclopediaButton.onClick.RemoveAllListeners(); encyclopediaButton.onClick.AddListener(ToggleEncyclopedia); }
                 if (upgradeButton != null) { upgradeButton.onClick.RemoveAllListeners(); upgradeButton.onClick.AddListener(ToggleUpgrade); }
                 if (exchangeButton != null) { exchangeButton.onClick.RemoveAllListeners(); exchangeButton.onClick.AddListener(ToggleExchange); }
+                if (shopButton != null) { shopButton.onClick.RemoveAllListeners(); shopButton.onClick.AddListener(ToggleShop); }
                 if (menuButton != null) { menuButton.onClick.RemoveAllListeners(); menuButton.onClick.AddListener(GoToMenu); }
 
-                Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, menu={menuButton!=null}");
+                Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, shop={shopButton!=null}, menu={menuButton!=null}");
             }
             catch (System.Exception e)
             {
@@ -129,6 +139,7 @@ namespace CosmicChaosCat
                 else if (n.Contains("upgrade") || n.Contains("업그레이드")) upgradeButton = btn;
                 else if (n.Contains("exchange") || n.Contains("교환")) exchangeButton = btn;
                 else if (n.Contains("menu") || n.Contains("메뉴")) menuButton = btn;
+                else if (n.Contains("shop") || n.Contains("상점")) shopButton = btn;
             }
         }
         private void OnEnable()
@@ -381,6 +392,76 @@ namespace CosmicChaosCat
         private static void SetPanelActive(MonoBehaviour panel, bool active)
         {
             if (panel != null) panel.gameObject.SetActive(active);
+        }
+
+        private void EnsureShopButtonBuilt()
+        {
+            if (shopButton != null) return;
+
+            // Find existing shop button first
+            var existing = transform.Find("Btn_상점");
+            if (existing == null) existing = transform.Find("ShopButton");
+            if (existing != null)
+            {
+                shopButton = existing.GetComponent<Button>();
+                return;
+            }
+
+            // Dynamically build below encyclopediaButton
+            if (encyclopediaButton == null) return;
+
+            var encyRT = encyclopediaButton.GetComponent<RectTransform>();
+            if (encyRT == null) return;
+
+            var parent = encyclopediaButton.transform.parent;
+            var go = new GameObject("Btn_상점");
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            
+            rt.anchorMin = encyRT.anchorMin;
+            rt.anchorMax = encyRT.anchorMax;
+            rt.pivot = encyRT.pivot;
+            rt.sizeDelta = encyRT.sizeDelta;
+            
+            var layoutGroup = parent.GetComponent<LayoutGroup>();
+            if (layoutGroup == null)
+            {
+                rt.anchoredPosition = encyRT.anchoredPosition + new Vector2(0f, -(encyRT.sizeDelta.y + 15f));
+            }
+            
+            var encyImg = encyclopediaButton.GetComponent<Image>();
+            var img = go.AddComponent<Image>();
+            if (encyImg != null)
+            {
+                img.sprite = encyImg.sprite;
+                img.type = encyImg.type;
+            }
+            img.color = new Color(0.18f, 0.62f, 0.30f, 1f); // Beautiful green
+
+            var btn = go.AddComponent<Button>();
+            btn.colors = encyclopediaButton.colors;
+            shopButton = btn;
+
+            var encyTxt = encyclopediaButton.GetComponentInChildren<TMP_Text>();
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+
+            var tx = labelGO.AddComponent<TextMeshProUGUI>();
+            tx.text = "상점";
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color = Color.white;
+            if (encyTxt != null)
+            {
+                tx.font = encyTxt.font;
+                tx.fontSize = encyTxt.fontSize;
+            }
+            else
+            {
+                tx.fontSize = 16;
+            }
         }
     }
 }
