@@ -13,8 +13,104 @@ MonoBehaviour:
   m_Name: CardCatalog
   m_EditorClassIdentifier: 
   cards:
-  - Id: cat-tophat
-    DisplayName: "\uC911\uC808\uBAA8\uC4F4 \uD770\uACE0\uC591\uC774"
+  - Id: cat-1
+    DisplayName: "\uACE0\uC591\uC774 1"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: normal
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-2
+    DisplayName: "\uACE0\uC591\uC774 2"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: normal
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-3
+    DisplayName: "\uACE0\uC591\uC774 3"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: normal
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-4
+    DisplayName: "\uACE0\uC591\uC774 4"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: normal
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-5
+    DisplayName: "\uACE0\uC591\uC774 5"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-6
+    DisplayName: "\uACE0\uC591\uC774 6"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-7
+    DisplayName: "\uACE0\uC591\uC774 7"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-8
+    DisplayName: "\uACE0\uC591\uC774 8"
+    Rarity: 1
+    BaseWeight: 100
+    ClickMultiplier: 1.4
+    ShardValue: 3
+    MaxStacks: 5
+    SetId: fantasy
+    IsHidden: 0
+    CardSprite: {fileID: 0}
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+  - Id: cat-9
+    DisplayName: "\uACE0\uC591\uC774 9"
     Rarity: 1
     BaseWeight: 100
     ClickMultiplier: 1.4
@@ -25,104 +121,8 @@ MonoBehaviour:
     CardSprite: {fileID: 0}
     SpecialEffect: 0
     SpecialEffectValue: 0
-  - Id: cat-calico
-    DisplayName: "\uC0BC\uC0C9\uACE0\uC591\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: basic
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-cheese
-    DisplayName: "\uCE58\uC988\uB0E5\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: food
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-black
-    DisplayName: "\uAC80\uC815\uB0E5\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: basic
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-thunder
-    DisplayName: "\uC36C\uB354\uB0E5\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: fantasy
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-chimera
-    DisplayName: "\uD0A4\uBA54\uB77C \uB0E5\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: fantasy
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-puss-in-boots
-    DisplayName: "\uC7A5\uD654\uC2E0\uC740\uACE0\uC591\uC774"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: fantasy
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-cerberus
-    DisplayName: "\uCF00\uB85C\uBCA0\uB85C\uC2A4 \uC170\uBC84"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: fantasy
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-chapi-chapo
-    DisplayName: "\uCE58\uD53C\uCE58\uD53C\uCC28\uD30C\uCC28\uD30C"
-    Rarity: 1
-    BaseWeight: 100
-    ClickMultiplier: 1.4
-    ShardValue: 3
-    MaxStacks: 5
-    SetId: meme
-    IsHidden: 0
-    CardSprite: {fileID: 0}
-    SpecialEffect: 0
-    SpecialEffectValue: 0
-  - Id: cat-popcat
-    DisplayName: "\uD31D\uCEA3"
+  - Id: cat-10
+    DisplayName: "\uACE0\uC591\uC774 1"
     Rarity: 1
     BaseWeight: 100
     ClickMultiplier: 1.4

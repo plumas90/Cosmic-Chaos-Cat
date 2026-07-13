@@ -138,9 +138,9 @@ namespace CosmicChaosCat
         {
             EnsureReferencesResolved();
 
-            // If UI elements already exist in the hierarchy, do NOT destroy or rebuild them in Play mode.
+            // If UI elements already exist in the hierarchy, do NOT destroy or rebuild them.
             // This preserves all manual hierarchy/design changes made by the user in the Scene editor!
-            if (Application.isPlaying && coinText != null) return;
+            if (coinText != null) return;
 
             // Clear existing UI elements to prevent duplication only during Editor baking
             if (!Application.isPlaying)
@@ -688,17 +688,45 @@ namespace CosmicChaosCat
         private void RefreshShardButton(CardRarity rarity, Button btn, TMP_Text txt, int cost)
         {
             if (btn == null || txt == null || gm == null || gm.CardCatalog == null) return;
-            int locked = 0;
             var states = gm.GetCardStates();
+            int candCount = 0;
+
+            // Pass 1: Undiscovered cards (locked or Copies == 0)
             foreach (var card in gm.CardCatalog.Cards)
+            {
                 if (card != null && !card.IsHidden && card.Rarity == rarity)
-                    if (!(states.TryGetValue(card.Id, out var st) && st.Unlocked)) locked++;
+                {
+                    if (!(states.TryGetValue(card.Id, out var st) && st.Unlocked && st.Copies > 0))
+                    {
+                        candCount++;
+                    }
+                }
+            }
+
+            // Pass 2: If all cards of this rarity are unlocked, check cards that still need duplicates for max breakthrough
+            if (candCount == 0)
+            {
+                foreach (var card in gm.CardCatalog.Cards)
+                {
+                    if (card != null && !card.IsHidden && card.Rarity == rarity)
+                    {
+                        int maxBreakthroughCopies = 6; // absolute max copies for max breakthrough stage 5
+                        if (states.TryGetValue(card.Id, out var st))
+                        {
+                            if (st.Copies < maxBreakthroughCopies)
+                            {
+                                candCount++;
+                            }
+                        }
+                    }
+                }
+            }
 
             Color baseCol = rarity == CardRarity.SR ? ColSR : rarity == CardRarity.R ? ColR : ColN;
-            if (locked == 0)
+            if (candCount == 0)
             {
                 btn.interactable = false;
-                txt.text = "보유 완료";
+                txt.text = "완료";
                 btn.GetComponent<Image>().color = new Color(0.22f,0.48f,0.26f);
             }
             else
@@ -716,10 +744,40 @@ namespace CosmicChaosCat
             if (gm == null || gm.CardCatalog == null || gm.Shards < cost) return;
             var cands = new List<CardEntry>();
             var states = gm.GetCardStates();
+
+            // Pass 1: Undiscovered cards (locked or Copies == 0)
             foreach (var card in gm.CardCatalog.Cards)
+            {
                 if (card != null && !card.IsHidden && card.Rarity == rarity)
-                    if (!(states.TryGetValue(card.Id, out var st) && st.Unlocked)) cands.Add(card);
-            if (cands.Count == 0) return;
+                {
+                    if (!(states.TryGetValue(card.Id, out var st) && st.Unlocked && st.Copies > 0))
+                    {
+                        cands.Add(card);
+                    }
+                }
+            }
+
+            // Pass 2: If all cards of this rarity are unlocked, get those that still need duplicate copies for max breakthrough
+            if (cands.Count == 0)
+            {
+                foreach (var card in gm.CardCatalog.Cards)
+                {
+                    if (card != null && !card.IsHidden && card.Rarity == rarity)
+                    {
+                        int maxBreakthroughCopies = 6; // absolute max copies for max breakthrough stage 5
+                        if (states.TryGetValue(card.Id, out var st))
+                        {
+                            if (st.Copies < maxBreakthroughCopies)
+                            {
+                                cands.Add(card);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (cands.Count == 0) return; // Completely sold out (all cards maxed out)
+
             var chosen = cands[Random.Range(0, cands.Count)];
             var type = gm.GetType();
             type.GetProperty("Shards").SetValue(gm, gm.Shards - cost);

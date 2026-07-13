@@ -42,12 +42,14 @@ namespace CosmicChaosCat
         private readonly Dictionary<string, CardProgress>    cardState    = new Dictionary<string, CardProgress>();
         private readonly Dictionary<string, UpgradeProgress> upgradeState = new Dictionary<string, UpgradeProgress>();
         private readonly HashSet<string> completedSets       = new HashSet<string>();
+        private readonly HashSet<string> claimedSetRewards   = new HashSet<string>();
         private readonly HashSet<string> unlockedHiddenCards = new HashSet<string>();
 
         private float lastClickTime = -999f;
         private int   comboCount;
         private float clickWindowTimer;
         private int   clicksInWindow;
+        private TMPro.TMP_FontAsset cachedFont;
 
         // ── Public State ───────────────────────────────────────────────────────
         public double Money          { get; private set; }
@@ -453,6 +455,24 @@ namespace CosmicChaosCat
         }
 
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);
+        public bool   IsSetRewardClaimed(string setId) => claimedSetRewards.Contains(setId);
+
+        public void ClaimSetReward(string setId)
+        {
+            if (setCatalog == null) return;
+            var set = setCatalog.FindById(setId);
+            if (set == null) return;
+
+            if (IsSetCompleted(setId) && !IsSetRewardClaimed(setId))
+            {
+                claimedSetRewards.Add(setId);
+                Shards += 1000; // Reward: 1000 shards
+                Log($"🎁 [{set.SetName}] 세트 완료 보상 수령! 조각 +1000");
+                Save();
+                NotifyState();
+            }
+        }
+
         public IReadOnlyDictionary<string, CardProgress> GetCardStates() => cardState;
 
         public CardEntry GetEquippedCard() =>
@@ -699,6 +719,7 @@ namespace CosmicChaosCat
                     { UpgradeId = kv.Value.UpgradeId, Level = kv.Value.Level });
             data.UnlockedHiddenCards.AddRange(unlockedHiddenCards);
             data.CompletedSets.AddRange(completedSets);
+            data.ClaimedSetRewards.AddRange(claimedSetRewards);
 
             PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(data));
             PlayerPrefs.Save();
@@ -753,6 +774,7 @@ namespace CosmicChaosCat
                 }
             if (data.UnlockedHiddenCards != null) unlockedHiddenCards.UnionWith(data.UnlockedHiddenCards);
             if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
+            if (data.ClaimedSetRewards != null)   claimedSetRewards.UnionWith(data.ClaimedSetRewards);
 
             // 기본 장착 보장
             if (string.IsNullOrEmpty(EquippedCardId) || !cardState.ContainsKey(EquippedCardId) || !cardState[EquippedCardId].Unlocked)
@@ -783,13 +805,22 @@ namespace CosmicChaosCat
                 canvas.worldCamera,
                 out Vector2 localPos
             );
-            rt.anchoredPosition = localPos;
+
+            // Add slight random offset to prevent stacked overlaps on fast clicks
+            float randomX = UnityEngine.Random.Range(-25f, 25f);
+            float randomY = UnityEngine.Random.Range(-15f, 15f);
+            rt.anchoredPosition = localPos + new Vector2(randomX, randomY);
 
             var textComp = go.AddComponent<TMPro.TextMeshProUGUI>();
             textComp.text = $"+{amount:F0}";
 
-            var anyText = FindObjectOfType<TMPro.TextMeshProUGUI>(true);
-            if (anyText != null) textComp.font = anyText.font;
+            // Cache font component search to prevent runtime serialization stuttering
+            if (cachedFont == null)
+            {
+                var anyText = FindObjectOfType<TMPro.TextMeshProUGUI>(true);
+                if (anyText != null) cachedFont = anyText.font;
+            }
+            if (cachedFont != null) textComp.font = cachedFont;
 
             textComp.alignment = TMPro.TextAlignmentOptions.Center;
 

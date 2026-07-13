@@ -72,15 +72,6 @@ namespace CosmicChaosCat.Editor
             }
 
             // ── Force build UI for each ──────────────────────────────────────
-            if (shopPanel != null)
-            {
-                var coinTextField = typeof(ShopPanel).GetField("coinText",
-                    BindingFlags.NonPublic | BindingFlags.Instance);
-                coinTextField?.SetValue(shopPanel, null);
-
-                ForceBuildUI(shopPanel);
-            }
-
             ForceBuildUI(gachaPanel);
             ForceBuildUI(encyPanel);
 

@@ -39,6 +39,7 @@ namespace CosmicChaosCat
         public List<UpgradeProgress> Upgrades = new List<UpgradeProgress>();
         public List<string> UnlockedHiddenCards = new List<string>();
         public List<string> CompletedSets = new List<string>();
+        public List<string> ClaimedSetRewards = new List<string>();
 
         public bool UnlockedRareGacha;
         public bool UnlockedSuperGacha;

@@ -23,6 +23,12 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject  setTabRoot;
         [SerializeField] private ScrollRect  setScrollRect;
         [SerializeField] private Transform   setContent;
+        [SerializeField] private GameObject  leftSetPage;
+        [SerializeField] private GameObject  rightSetPage;
+        [SerializeField] private GameObject  prevSetPageBtn;
+        [SerializeField] private GameObject  nextSetPageBtn;
+        [SerializeField] private TMP_Text    setPageLabel;
+        private int setPageIndex = 0;
         
         [SerializeField] private GameObject  tabNoBtn;
         [SerializeField] private GameObject  tabSetBtn;
@@ -229,7 +235,20 @@ namespace CosmicChaosCat
         // ════════════════════════════════════════════════════════════════════
         private void BuildUI()
         {
-            if (pageLabel != null) return; // 이미 빌드됨
+            // 완전히 빌드된 상태: No.탭 + Set탭 둘 다 준비됨
+            if (pageLabel != null && setTabRoot != null && leftSetPage != null) return;
+
+            // Set탭 영역만 없거나 구버전(Page 1개)인 경우 → Set탭만 교체 빌드
+            if (pageLabel != null && (setTabRoot == null || leftSetPage == null))
+            {
+                if (setTabRoot != null) DestroyImmediate(setTabRoot); // 구버전 SetTabRoot 제거
+                setTabRoot = null;
+                // noTabRoot 부모가 panel, 그것을 재활용
+                Transform bookParent = noTabRoot != null ? noTabRoot.transform.parent : transform;
+                BuildSetTabArea(bookParent);
+                BindListeners();
+                return;
+            }
             // 루트 RectTransform을 전체화면으로 설정
             var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
@@ -293,53 +312,25 @@ namespace CosmicChaosCat
             BuildSlotGrid(noTabRoot.transform, rightPage.transform, 8, 22f);    // right 8
 
             // ─── Set 탭 영역 ─────────────────────────────────────────────
+            BuildSetTabArea(parent);
+        }
+
+        private void BuildSetTabArea(Transform parent)
+        {
             setTabRoot = MakeEmptyRT(parent, "SetTabRoot",
                 new Vector2(-10, -20), new Vector2(960, 560));
             setTabRoot.SetActive(false);
 
-            var setPanel = MakePage(setTabRoot.transform, new Vector2(0, 0), new Vector2(880, 510));
+            leftSetPage  = MakePage(setTabRoot.transform, new Vector2(-235, 0), new Vector2(440, 510));
+            rightSetPage = MakePage(setTabRoot.transform, new Vector2( 235, 0), new Vector2(440, 510));
 
-            // 스크롤뷰
-            var scrollGO = new GameObject("SetScroll");
-            scrollGO.transform.SetParent(setPanel.transform, false);
-            var scrollRT = scrollGO.AddComponent<RectTransform>();
-            scrollRT.anchorMin = Vector2.zero;
-            scrollRT.anchorMax = Vector2.one;
-            scrollRT.offsetMin = new Vector2(10, 10);
-            scrollRT.offsetMax = new Vector2(-10, -10);
+            prevSetPageBtn = MakeButton(setTabRoot.transform, "◀", new Vector2(-470, 0), new Vector2(50, 50),
+                BtnColor, () => ChangeSetPage(-1));
+            nextSetPageBtn = MakeButton(setTabRoot.transform, "▶", new Vector2( 470, 0), new Vector2(50, 50),
+                BtnColor, () => ChangeSetPage(1));
 
-            var scrollRect = scrollGO.AddComponent<ScrollRect>();
-            scrollRect.horizontal = false;
-            scrollRect.vertical   = true;
-            scrollRect.scrollSensitivity = 30f;
-
-            // Content
-            var contentGO = new GameObject("SetContent");
-            contentGO.transform.SetParent(scrollGO.transform, false);
-            var contentRT = contentGO.AddComponent<RectTransform>();
-            contentRT.anchorMin = new Vector2(0, 1);
-            contentRT.anchorMax = new Vector2(1, 1);
-            contentRT.pivot     = new Vector2(0.5f, 1);
-            contentRT.offsetMin = Vector2.zero;
-            contentRT.offsetMax = Vector2.zero;
-
-            var vlg = contentGO.AddComponent<VerticalLayoutGroup>();
-            vlg.spacing            = 12;
-            vlg.childControlWidth  = true;
-            vlg.childControlHeight = true;
-            vlg.childForceExpandWidth  = true;
-            vlg.childForceExpandHeight = false;
-            vlg.padding = new RectOffset(10, 10, 10, 10);
-
-            var csf = contentGO.AddComponent<ContentSizeFitter>();
-            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            scrollRect.content  = contentRT;
-            setContent = contentGO.transform;
-
-            // Mask
-            scrollGO.AddComponent<Mask>().showMaskGraphic = false;
-            scrollGO.AddComponent<Image>().color = Color.clear;
+            setPageLabel = MakeText(setTabRoot.transform, "1 / 1",
+                new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
         }
 
         // 4×2 슬롯 그리드를 pageTransform 아래에 생성
@@ -484,8 +475,8 @@ namespace CosmicChaosCat
         // ════════════════════════════════════════════════════════════════════
         private void Refresh()
         {
-            if (!showNoTab) return;
             if (gm == null) return;
+            if (!showNoTab) { RefreshSets(); return; }
 
             var cards  = gm.CardCatalog?.Cards;
             if (cards == null) return;
@@ -535,69 +526,156 @@ namespace CosmicChaosCat
             Refresh();
         }
 
+        private void ChangeSetPage(int delta)
+        {
+            var sets = gm.SetCatalog?.Sets;
+            if (sets == null || sets.Count == 0) return;
+            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
+            setPageIndex = Mathf.Clamp(setPageIndex + delta, 0, maxPages - 1);
+            Refresh();
+        }
+
         // ════════════════════════════════════════════════════════════════════
         //  REFRESH – Set TAB
         // ════════════════════════════════════════════════════════════════════
         private void RefreshSets()
         {
-            if (setContent == null) return;
+            if (leftSetPage == null || rightSetPage == null) return;
+            if (gm == null) return;
 
-            // 기존 행 제거
-            foreach (var r in setRows) Destroy(r);
-            setRows.Clear();
+            // Clear previous UI elements inside Left & Right set pages
+            foreach (Transform child in leftSetPage.transform)  Destroy(child.gameObject);
+            foreach (Transform child in rightSetPage.transform) Destroy(child.gameObject);
 
             var sets = gm.SetCatalog?.Sets;
-            if (sets == null) return;
-
-            foreach (var setEntry in sets)
+            if (sets == null || sets.Count == 0)
             {
-                bool isCompleted = gm.IsSetCompleted(setEntry.SetId);
+                if (setPageLabel != null) setPageLabel.text = "0 / 0";
+                return;
+            }
 
-                // 세트 행
-                var row = new GameObject("SetRow");
-                row.transform.SetParent(setContent, false);
-                var rowLE = row.AddComponent<LayoutElement>();
-                rowLE.preferredHeight = 70;
+            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
+            if (setPageIndex >= maxPages) setPageIndex = maxPages - 1;
+            if (setPageIndex < 0) setPageIndex = 0;
 
-                var rowImg = row.AddComponent<Image>();
-                rowImg.color = isCompleted
-                    ? new Color(0.15f, 0.35f, 0.15f, 0.6f)
-                    : new Color(0.12f, 0.14f, 0.20f, 0.6f);
+            if (setPageLabel != null) setPageLabel.text = $"{setPageIndex + 1} / {maxPages}";
 
-                // 세트 이름
-                var nameTx = MakeText(row.transform, setEntry.SetName,
-                    new Vector2(-200, 15), new Vector2(300, 28), 14, Color.white);
-                nameTx.fontStyle = FontStyles.Bold;
+            // Left Page Set
+            int leftIdx = setPageIndex * 2;
+            if (leftIdx < sets.Count)
+            {
+                RenderSetOnPage(leftSetPage.transform, sets[leftIdx]);
+            }
 
-                // 카드 ID 나열
-                var uStateText = row.transform.Find("UnlockState")?.GetComponent<TMP_Text>();
-                if (uStateText != null) uStateText.text = "???";
-                var states  = gm.GetCardStates();
-                var idsList = new System.Text.StringBuilder();
-                var catalog = gm.CardCatalog?.Cards;
+            // Right Page Set
+            int rightIdx = setPageIndex * 2 + 1;
+            if (rightIdx < sets.Count)
+            {
+                RenderSetOnPage(rightSetPage.transform, sets[rightIdx]);
+            }
+            else
+            {
+                MakeText(rightSetPage.transform, "공백 페이지", new Vector2(0, 0), new Vector2(250, 40), 14, new Color(0.6f, 0.6f, 0.6f));
+            }
 
-                foreach (var cid in setEntry.CardIds)
+            // Update Set Nav buttons interactable states
+            if (prevSetPageBtn != null) prevSetPageBtn.GetComponent<Button>().interactable = (setPageIndex > 0);
+            if (nextSetPageBtn != null) nextSetPageBtn.GetComponent<Button>().interactable = (setPageIndex < maxPages - 1);
+        }
+
+        private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
+        {
+            if (setEntry == null) return;
+
+            // 1. Set Name
+            var title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 180), new Vector2(380, 40), 16, Color.black);
+            title.fontStyle = FontStyles.Bold;
+            title.alignment = TextAlignmentOptions.Center;
+
+            // 2. Card slots layout
+            var states = gm.GetCardStates();
+            var catalog = gm.CardCatalog?.Cards;
+            int cardCount = setEntry.CardIds.Count;
+
+            float spacing = 95f;
+            float startX = -(cardCount - 1) * spacing / 2f;
+
+            bool allOwned = true;
+
+            for (int i = 0; i < cardCount; i++)
+            {
+                string cid = setEntry.CardIds[i];
+                states.TryGetValue(cid, out var prog);
+                bool unlocked = prog != null && prog.Unlocked;
+                if (!unlocked) allOwned = false;
+
+                var displayCard = catalog != null
+                    ? System.Linq.Enumerable.FirstOrDefault(catalog, c => c.Id == cid)
+                    : null;
+
+                // Slot container (same size as normal slot)
+                var slotGO = MakeEmptyRT(pageTf, "Slot_" + cid, new Vector2(startX + (i * spacing), 20), new Vector2(85, 120));
+                
+                // Card slot background image
+                var slotBg = slotGO.AddComponent<Image>();
+                slotBg.color = new Color(0.12f, 0.14f, 0.20f, 0.15f);
+
+                if (unlocked && displayCard != null)
                 {
-                    states.TryGetValue(cid, out var prog);
-                    bool unlocked = prog != null && prog.Unlocked;
-                    var displayCard = catalog != null
-                        ? System.Linq.Enumerable.FirstOrDefault(catalog, c => c.Id == cid)
-                        : null;
-                    string label = (unlocked && displayCard != null)
-                        ? displayCard.DisplayName
-                        : "???";
-                    idsList.Append($"[{label}] ");
+                    // Draw card image/icon
+                    var imgRT = MakeEmptyRT(slotGO.transform, "Icon", Vector2.zero, new Vector2(75, 75));
+                    var img = imgRT.AddComponent<Image>();
+                    img.sprite = displayCard.CardSprite; // Use card sprite
+                    img.preserveAspect = true;
+
+                    // Detail click button overlay
+                    var btn = slotGO.AddComponent<Button>();
+                    string capturedId = cid;
+                    btn.onClick.AddListener(() => OpenDetail(capturedId));
+
+                    // Show stack multiplier text below icon
+                    if (prog.Copies > 1)
+                    {
+                        var stackTx = MakeText(slotGO.transform, $"x{prog.Copies}", new Vector2(0, -45), new Vector2(75, 20), 10, Color.black);
+                        stackTx.fontStyle = FontStyles.Bold;
+                        stackTx.alignment = TextAlignmentOptions.Center;
+                    }
                 }
+                else
+                {
+                    // Undiscovered / Unlocked card placeholder
+                    var unkRT = MakeEmptyRT(slotGO.transform, "Unk", Vector2.zero, new Vector2(85, 120));
+                    var unkImg = unkRT.AddComponent<Image>();
+                    unkImg.color = new Color(0.12f, 0.14f, 0.20f, 0.7f);
 
-                MakeText(row.transform, idsList.ToString(),
-                    new Vector2(0, -15), new Vector2(840, 20), 11, new Color(0.75f, 0.75f, 0.80f));
+                    var qTx = MakeText(unkRT.transform, "?", Vector2.zero, new Vector2(50, 50), 24, new Color(0.5f, 0.5f, 0.5f));
+                    qTx.fontStyle = FontStyles.Bold;
+                    qTx.alignment = TextAlignmentOptions.Center;
+                }
+            }
 
-                // 완료 뱃지
-                if (isCompleted)
-                    MakeText(row.transform, "✓ 완료", new Vector2(390, 0), new Vector2(80, 28),
-                        13, new Color(0.3f, 1f, 0.3f));
+            // 3. Reward / Completion Claim Button
+            var claimBtnGO = MakeButton(pageTf, "보상 받기", new Vector2(0, -160), new Vector2(180, 44), new Color(0.70f, 0.45f, 0.05f), () =>
+            {
+                gm.ClaimSetReward(setEntry.SetId);
+                Refresh();
+            });
 
-                setRows.Add(row);
+            var claimBtn = claimBtnGO.GetComponent<Button>();
+            var claimBtnText = claimBtnGO.GetComponentInChildren<TMP_Text>();
+
+            bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
+            if (claimed)
+            {
+                if (claimBtnText != null) claimBtnText.text = "수령 완료";
+                SetButtonInteractable(claimBtn, false);
+                claimBtnGO.GetComponent<Image>().color = new Color(0.2f, 0.45f, 0.2f);
+            }
+            else
+            {
+                if (claimBtnText != null) claimBtnText.text = "보상 받기";
+                SetButtonInteractable(claimBtn, allOwned);
+                claimBtnGO.GetComponent<Image>().color = allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f);
             }
         }
 

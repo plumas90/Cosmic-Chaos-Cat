@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: SetCatalog
   m_EditorClassIdentifier: Assembly-CSharp:CosmicChaosCat:SetCatalogSO
   sets:
+  - SetId: normal
+    SetName: "\uC77C\uBC18 \uACE0\uC591\uC774"
+    CardIds:
+    - cat-1
+    - cat-2
+    - cat-3
+    - cat-4
+    SetCardWeightBonus: 1.1
+    StackEffectBonus: 0.2
+    ShardBonusMultiplier: 1.1
   - SetId: basic
     SetName: "\uAE30\uBCF8 \uB0E5\uC774 \uC138\uD2B8"
     CardIds:
-    - cat-calico
-    - cat-black
     - cat-round
     - cat-hug
     - cat-cone
@@ -69,8 +77,8 @@ MonoBehaviour:
   - SetId: meme
     SetName: "\uBC08 \uCE74\uB4DC \uC138\uD2B8"
     CardIds:
-    - cat-popcat
-    - cat-chapi-chapo
+    - cat-10
+    - cat-9
     - cat-nabitang
     - cat-gaejugi
     - cat-crying
@@ -97,7 +105,7 @@ MonoBehaviour:
   - SetId: food
     SetName: "\uC74C\uC2DD \uACE0\uC591\uC774 \uC138\uD2B8"
     CardIds:
-    - cat-cheese
+    - cat-3
     - cat-breadcat
     - cat-food-countries
     - cat-hotdog
@@ -109,10 +117,10 @@ MonoBehaviour:
   - SetId: fantasy
     SetName: "\uD310\uD0C0\uC9C0 \uB0E5\uC774 \uC138\uD2B8"
     CardIds:
-    - cat-thunder
-    - cat-chimera
-    - cat-puss-in-boots
-    - cat-cerberus
+    - cat-5
+    - cat-6
+    - cat-7
+    - cat-8
     - cat-littleprince-box
     - cat-littleprince-hat
     - cat-bus
