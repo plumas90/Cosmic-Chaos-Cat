@@ -138,9 +138,9 @@ namespace CosmicChaosCat
         {
             EnsureReferencesResolved();
 
-            // If UI elements already exist in the hierarchy, do NOT destroy or rebuild them.
+            // If UI elements already exist in the hierarchy, do NOT destroy or rebuild them in Play mode.
             // This preserves all manual hierarchy/design changes made by the user in the Scene editor!
-            if (coinText != null) return;
+            if (Application.isPlaying && coinText != null) return;
 
             // Clear existing UI elements to prevent duplication only during Editor baking
             if (!Application.isPlaying)
@@ -419,7 +419,7 @@ namespace CosmicChaosCat
                     var row = new GameObject("Row_" + upg.UpgradeId, typeof(RectTransform));
                     row.transform.SetParent(upgradeScrollContent, false);
                     var rRT = row.GetComponent<RectTransform>();
-                    rRT.sizeDelta = new Vector2(0, 60);
+                    rRT.sizeDelta = new Vector2(0, 80);
                     row.AddComponent<Image>().color = new Color(0.10f, 0.13f, 0.20f, 1f);
 
                     // Left accent bar
@@ -429,24 +429,25 @@ namespace CosmicChaosCat
                     acc.gameObject.AddComponent<Image>().color = cCols[ci];
 
                     // Name text
-                    var nm = MakeLabel(row.transform, upg.DisplayName, Vector2.zero, Vector2.zero, 14, Color.white);
+                    var nm = MakeLabel(row.transform, upg.DisplayName, Vector2.zero, Vector2.zero, 13, Color.white);
                     var nmRT = nm.GetComponent<RectTransform>();
-                    nmRT.anchorMin = new Vector2(0,0.5f); nmRT.anchorMax = new Vector2(0.58f,1);
+                    nmRT.anchorMin = new Vector2(0, 0.60f); nmRT.anchorMax = new Vector2(0.58f, 0.95f);
                     nmRT.offsetMin = new Vector2(14,0); nmRT.offsetMax = Vector2.zero;
                     nm.alignment = TextAlignmentOptions.Left;
 
-                    // Desc text
+                    // Desc text - supporting 2 lines wrapping
                     string descText = upg.Description + GetUpgradeValuesString(upg);
-                    var dc = MakeLabel(row.transform, descText, Vector2.zero, Vector2.zero, 11, new Color(0.60f,0.65f,0.75f));
+                    var dc = MakeLabel(row.transform, descText, Vector2.zero, Vector2.zero, 10, new Color(0.60f,0.65f,0.75f));
                     var dcRT = dc.GetComponent<RectTransform>();
-                    dcRT.anchorMin = new Vector2(0,0); dcRT.anchorMax = new Vector2(0.58f,0.5f);
-                    dcRT.offsetMin = new Vector2(14,2); dcRT.offsetMax = Vector2.zero;
+                    dcRT.anchorMin = new Vector2(0, 0.05f); dcRT.anchorMax = new Vector2(0.58f, 0.55f);
+                    dcRT.offsetMin = new Vector2(14,0); dcRT.offsetMax = Vector2.zero;
                     dc.alignment = TextAlignmentOptions.Left;
-                    dc.overflowMode = TextOverflowModes.Ellipsis;
+                    dc.overflowMode = TextOverflowModes.Overflow;
+                    dc.enableWordWrapping = true;
 
                     // Level badge
                     var lbRT = MakeRT("LvBadge", row.transform, Vector2.zero, Vector2.zero);
-                    lbRT.anchorMin = new Vector2(0.58f,0.18f); lbRT.anchorMax = new Vector2(0.73f,0.82f);
+                    lbRT.anchorMin = new Vector2(0.58f, 0.25f); lbRT.anchorMax = new Vector2(0.73f, 0.75f);
                     lbRT.offsetMin = new Vector2(2,0); lbRT.offsetMax = new Vector2(-2,0);
                     lbRT.gameObject.AddComponent<Image>().color = new Color(0.14f,0.17f,0.26f);
                     var lvTxt = MakeLabel(lbRT, "Lv.0/0", Vector2.zero, Vector2.zero, 11, new Color(0.5f,0.85f,1f), FontStyles.Bold);
@@ -456,7 +457,7 @@ namespace CosmicChaosCat
 
                     // Buy button
                     var bbRT = MakeRT("BuyBtn", row.transform, Vector2.zero, Vector2.zero);
-                    bbRT.anchorMin = new Vector2(0.74f,0.12f); bbRT.anchorMax = new Vector2(0.99f,0.88f);
+                    bbRT.anchorMin = new Vector2(0.74f, 0.20f); bbRT.anchorMax = new Vector2(0.99f, 0.80f);
                     bbRT.offsetMin = Vector2.zero; bbRT.offsetMax = Vector2.zero;
                     bbRT.gameObject.AddComponent<Image>().color = BtnBuy;
                     var bb = bbRT.gameObject.AddComponent<Button>();

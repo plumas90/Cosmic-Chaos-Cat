@@ -10,7 +10,7 @@ namespace CosmicChaosCat
         private const string SaveKey            = "ccc_save_v3";
         private const double BaseClickIncome    = 1d;
         private const double BaseGachaCost      = 10d;
-        private const float  ComboWindowSeconds = 0.8f;
+        private const float  ComboWindowSeconds = 1.0f;
         private const float  ClickWindowSeconds = 1f;
 
         // Upgrade IDs — must match UpgradeCatalogSO entries
@@ -200,12 +200,23 @@ namespace CosmicChaosCat
                 clicksInWindow   = 0;
             }
 
+            // 1초 동안 추가 입력이 없으면 콤보 리셋
+            if (comboCount > 0 && Time.unscaledTime - lastClickTime > ComboWindowSeconds)
+            {
+                comboCount = 0;
+            }
+
             NotifyState();
         }
 
         // ── Public Actions ─────────────────────────────────────────────────────
 
         public void HandleCardClicked()
+        {
+            HandleCardClicked(Input.mousePosition);
+        }
+
+        public void HandleCardClicked(Vector2 screenPos)
         {
             if (IsGameEnded) return;
 
@@ -219,17 +230,35 @@ namespace CosmicChaosCat
             clicksInWindow++;
 
             double comboBonus = GetUpgradeEffectValue(UPG_COMBO);
-            double comboMult  = 1.0;
-            if (comboCount >= 100)
+            
+            // Check combo milestones for instant gold rewards and reset combo to 0
+            double comboReward = 0d;
+            if (comboCount == 100)
             {
-                comboMult = 1.0 + (comboCount / 100.0) * 0.1 * (1.0 + comboBonus);
+                comboReward = 10d * (1.0 + comboBonus);
+                Log($"[100 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
+            else if (comboCount == 500)
+            {
+                comboReward = 100d * (1.0 + comboBonus);
+                Log($"[500 콤보 보상] +{comboReward:F0} 골드 획득!");
+            }
+            else if (comboCount == 999)
+            {
+                comboReward = 1000d * (1.0 + comboBonus);
+                comboCount = 0;
+                Log($"[999 콤보 보상] +{comboReward:F0} 골드 획득!");
+            }
+
             bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
             float  critMult   = isCrit ? GetEffectiveCritMult() : 1f;
-            double income     = BaseClickIncome * GetEquippedIncomeMultiplier() * comboMult * critMult;
+            double income     = BaseClickIncome * GetEquippedIncomeMultiplier() * critMult;
 
-            Money += income;
+            Money += income + comboReward;
             if (isCrit) CriticalHit?.Invoke();
+
+            // Spawn floating text on the click position
+            SpawnFloatingText(screenPos, income + comboReward, isCrit);
 
             CheckHiddenConditions();
             Save();
@@ -737,6 +766,71 @@ namespace CosmicChaosCat
             }
 
             NotifyState();
+        }
+
+        private void SpawnFloatingText(Vector2 screenPos, double amount, bool isCrit)
+        {
+            var canvas = FindObjectOfType<Canvas>();
+            if (canvas == null) return;
+
+            var go = new GameObject("FloatingText", typeof(RectTransform));
+            go.transform.SetParent(canvas.transform, false);
+            var rt = go.GetComponent<RectTransform>();
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                screenPos,
+                canvas.worldCamera,
+                out Vector2 localPos
+            );
+            rt.anchoredPosition = localPos;
+
+            var textComp = go.AddComponent<TMPro.TextMeshProUGUI>();
+            textComp.text = $"+{amount:F0}";
+
+            var anyText = FindObjectOfType<TMPro.TextMeshProUGUI>(true);
+            if (anyText != null) textComp.font = anyText.font;
+
+            textComp.alignment = TMPro.TextAlignmentOptions.Center;
+
+            if (isCrit)
+            {
+                textComp.color = Color.red;
+                textComp.fontSize = 44;
+                textComp.fontStyle = TMPro.FontStyles.Bold;
+            }
+            else
+            {
+                textComp.color = new Color(1f, 0.85f, 0f);
+                textComp.fontSize = 40;
+                textComp.fontStyle = TMPro.FontStyles.Bold;
+            }
+
+            textComp.outlineWidth = 0.25f;
+            textComp.outlineColor = Color.black;
+
+            StartCoroutine(AnimateFloatingText(go, textComp, rt));
+        }
+
+        private System.Collections.IEnumerator AnimateFloatingText(GameObject obj, TMPro.TextMeshProUGUI text, RectTransform rt)
+        {
+            float duration = 0.6f;
+            float elapsed = 0f;
+            Vector2 startPos = rt.anchoredPosition;
+            Color baseColor = text.color;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = elapsed / duration;
+
+                rt.anchoredPosition = startPos + new Vector2(0f, t * 70f);
+                text.color = new Color(baseColor.r, baseColor.g, baseColor.b, 1f - t);
+
+                yield return null;
+            }
+
+            Destroy(obj);
         }
     }
 }

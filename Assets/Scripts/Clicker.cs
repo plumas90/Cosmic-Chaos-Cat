@@ -23,14 +23,18 @@ namespace CosmicChaosCat
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            gameManager?.HandleCardClicked();
+            if (eventData != null)
+                gameManager?.HandleCardClicked(eventData.position);
+            else
+                gameManager?.HandleCardClicked(Input.mousePosition);
+
             effectPlayer?.PlayNormalClick();
             Clicked?.Invoke();
         }
 
         public void TriggerClick()
         {
-            gameManager?.HandleCardClicked();
+            gameManager?.HandleCardClicked(Input.mousePosition);
             effectPlayer?.PlayNormalClick();
             Clicked?.Invoke();
         }

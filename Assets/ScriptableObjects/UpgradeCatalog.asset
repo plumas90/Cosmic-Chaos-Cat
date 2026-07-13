@@ -43,7 +43,7 @@ MonoBehaviour:
     - 1
   - UpgradeId: upg-combo
     DisplayName: "연타 보너스 강화"
-    Description: "연속 클릭 콤보 수익 보너스를 증가시킵니다."
+    Description: "특정 콤보 달성 시 획득하는 골드 보상을 증가시킵니다."
     Category: 0
     MaxLevel: 3
     CostPerLevel:
