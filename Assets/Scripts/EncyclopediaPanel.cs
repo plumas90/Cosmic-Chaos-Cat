@@ -19,8 +19,8 @@ namespace CosmicChaosCat
         private string       selectedCardId;
 
         // ── Runtime-created UI ───────────────────────────────────────────────
-        [SerializeField] private GameObject  noTabRoot;
-        [SerializeField] private GameObject  setTabRoot;
+        [SerializeField] private GameObject  noPanel;
+        [SerializeField] private GameObject  setPanel;
         [SerializeField] private ScrollRect  setScrollRect;
         [SerializeField] private Transform   setContent;
         [SerializeField] private GameObject  leftSetPage;
@@ -71,6 +71,7 @@ namespace CosmicChaosCat
             Debug.Log("[EncyclopediaPanel] Awake started");
             try
             {
+                AutoWireFields();
                 EnsureParentedToCanvas();
                 BuildUI();
                 EnsureBreakthroughButtonBuilt();
@@ -115,9 +116,9 @@ namespace CosmicChaosCat
             }
 
             slots.Clear();
-            if (noTabRoot != null)
+            if (noPanel != null)
             {
-                var childSlots = noTabRoot.GetComponentsInChildren<CardSlotUI>(true);
+                var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
                 for (int i = 0; i < childSlots.Length; i++)
                 {
                     int slotIdx = i;
@@ -134,6 +135,7 @@ namespace CosmicChaosCat
             Debug.Log("[EncyclopediaPanel] OnEnable started");
             try
             {
+                AutoWireFields();
                 if (gm == null) gm = FindObjectOfType<GameManager>(true);
                 currentPageIdx = 0;
                 if (gm != null) gm.StateChanged += OnStateChanged;
@@ -236,15 +238,14 @@ namespace CosmicChaosCat
         private void BuildUI()
         {
             // 완전히 빌드된 상태: No.탭 + Set탭 둘 다 준비됨
-            if (pageLabel != null && setTabRoot != null && leftSetPage != null) return;
+            if (pageLabel != null && setPanel != null && leftSetPage != null) return;
 
             // Set탭 영역만 없거나 구버전(Page 1개)인 경우 → Set탭만 교체 빌드
-            if (pageLabel != null && (setTabRoot == null || leftSetPage == null))
+            if (pageLabel != null && (setPanel == null || leftSetPage == null))
             {
-                if (setTabRoot != null) DestroyImmediate(setTabRoot); // 구버전 SetTabRoot 제거
-                setTabRoot = null;
-                // noTabRoot 부모가 panel, 그것을 재활용
-                Transform bookParent = noTabRoot != null ? noTabRoot.transform.parent : transform;
+                if (setPanel != null) DestroyImmediate(setPanel); // 구버전 SetPanel 제거
+                setPanel = null;
+                Transform bookParent = noPanel != null ? noPanel.transform.parent : transform;
                 BuildSetTabArea(bookParent);
                 BindListeners();
                 return;
@@ -289,27 +290,27 @@ namespace CosmicChaosCat
         private void BuildBookArea(Transform parent)
         {
             // ─── No. 탭 영역 ──────────────────────────────────────────────
-            noTabRoot = MakeEmptyRT(parent, "NoTabRoot",
+            noPanel = MakeEmptyRT(parent, "NoPanel",
                 new Vector2(-10, -20), new Vector2(960, 560));
 
             // 페이지 배경 (책 왼쪽 / 오른쪽)
-            var leftPage  = MakePage(noTabRoot.transform, new Vector2(-235, 0), new Vector2(440, 510));
-            var rightPage = MakePage(noTabRoot.transform, new Vector2( 235, 0), new Vector2(440, 510));
+            var leftPage  = MakePage(noPanel.transform, new Vector2(-350, 14), new Vector2(670, 710));
+            var rightPage = MakePage(noPanel.transform, new Vector2( 350, 14), new Vector2(670, 710));
 
             // 페이지 전환 버튼
-            prevPageBtn = MakeButton(noTabRoot.transform, "◀", new Vector2(-470, 0), new Vector2(50, 50),
+            prevPageBtn = MakeButton(noPanel.transform, "◀", new Vector2(-830, 0), new Vector2(50, 50),
                 BtnColor, () => ChangePage(-1));
-            nextPageBtn = MakeButton(noTabRoot.transform, "▶", new Vector2( 470, 0), new Vector2(50, 50),
+            nextPageBtn = MakeButton(noPanel.transform, "▶", new Vector2( 830, 0), new Vector2(50, 50),
                 BtnColor, () => ChangePage(1));
 
             // 페이지 라벨
-            pageLabel = MakeText(noTabRoot.transform, "1 / 1",
+            pageLabel = MakeText(noPanel.transform, "1 / 1",
                 new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
 
             // 16 슬롯 생성 (왼쪽 4×2 + 오른쪽 4×2 = 16)
             slots.Clear();
-            BuildSlotGrid(noTabRoot.transform, leftPage.transform, 0, -222f);   // left 8
-            BuildSlotGrid(noTabRoot.transform, rightPage.transform, 8, 22f);    // right 8
+            BuildSlotGrid(noPanel.transform, leftPage.transform, 0, -222f);   // left 8
+            BuildSlotGrid(noPanel.transform, rightPage.transform, 8, 22f);    // right 8
 
             // ─── Set 탭 영역 ─────────────────────────────────────────────
             BuildSetTabArea(parent);
@@ -317,25 +318,25 @@ namespace CosmicChaosCat
 
         private void BuildSetTabArea(Transform parent)
         {
-            if (setTabRoot == null)
+            if (setPanel == null)
             {
-                setTabRoot = MakeEmptyRT(parent, "SetTabRoot",
+                setPanel = MakeEmptyRT(parent, "SetPanel",
                     new Vector2(-10, -20), new Vector2(960, 560));
             }
-            setTabRoot.SetActive(false);
+            setPanel.SetActive(false);
 
             if (leftSetPage == null)
             {
-                leftSetPage = MakePage(setTabRoot.transform, new Vector2(-235, 0), new Vector2(440, 510));
+                leftSetPage = MakePage(setPanel.transform, new Vector2(-350, 14), new Vector2(670, 710));
             }
             if (rightSetPage == null)
             {
-                rightSetPage = MakePage(setTabRoot.transform, new Vector2( 235, 0), new Vector2(440, 510));
+                rightSetPage = MakePage(setPanel.transform, new Vector2( 350, 14), new Vector2(670, 710));
             }
 
             if (prevSetPageBtn == null)
             {
-                prevSetPageBtn = MakeButton(setTabRoot.transform, "◀", new Vector2(-470, 0), new Vector2(50, 50),
+                prevSetPageBtn = MakeButton(setPanel.transform, "◀", new Vector2(-830, 0), new Vector2(50, 50),
                     BtnColor, () => ChangeSetPage(-1));
             }
             else
@@ -350,7 +351,7 @@ namespace CosmicChaosCat
 
             if (nextSetPageBtn == null)
             {
-                nextSetPageBtn = MakeButton(setTabRoot.transform, "▶", new Vector2( 470, 0), new Vector2(50, 50),
+                nextSetPageBtn = MakeButton(setPanel.transform, "▶", new Vector2( 830, 0), new Vector2(50, 50),
                     BtnColor, () => ChangeSetPage(1));
             }
             else
@@ -365,7 +366,7 @@ namespace CosmicChaosCat
 
             if (setPageLabel == null)
             {
-                setPageLabel = MakeText(setTabRoot.transform, "1 / 1",
+                setPageLabel = MakeText(setPanel.transform, "1 / 1",
                     new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
             }
         }
@@ -373,9 +374,9 @@ namespace CosmicChaosCat
         // 4×2 슬롯 그리드를 pageTransform 아래에 생성
         private void BuildSlotGrid(Transform noTabRootTf, Transform pageTf, int startIdx, float xOffset)
         {
-            float colW = 100f, rowH = 120f;
-            float startX = -((4 - 1) * colW) / 2f;
-            float startY = ((2 - 1) * rowH) / 2f;
+            float colW = 133f, rowH = 160f;
+            float startX = -199.5f;
+            float startY = 80f;
 
             for (int row = 0; row < 2; row++)
             for (int col = 0; col < 4; col++)
@@ -390,7 +391,7 @@ namespace CosmicChaosCat
 
                 var slotRT = slotGO.AddComponent<RectTransform>();
                 slotRT.anchoredPosition = new Vector2(x, y);
-                slotRT.sizeDelta        = new Vector2(90, 110);
+                slotRT.sizeDelta        = new Vector2(120, 146);
 
                 // 배경 이미지
                 var slotImg = slotGO.AddComponent<Image>();
@@ -487,8 +488,8 @@ namespace CosmicChaosCat
         private void ShowNoTab()
         {
             showNoTab = true;
-            if (noTabRoot  != null) noTabRoot.SetActive(true);
-            if (setTabRoot != null) setTabRoot.SetActive(false);
+            if (noPanel  != null) noPanel.SetActive(true);
+            if (setPanel != null) setPanel.SetActive(false);
 
             SetBtnColor(tabNoBtn,  TabActive);
             SetBtnColor(tabSetBtn, TabInactive);
@@ -499,8 +500,8 @@ namespace CosmicChaosCat
         private void ShowSetTab()
         {
             showNoTab = false;
-            if (noTabRoot  != null) noTabRoot.SetActive(false);
-            if (setTabRoot != null) setTabRoot.SetActive(true);
+            if (noPanel  != null) noPanel.SetActive(false);
+            if (setPanel != null) setPanel.SetActive(true);
 
             SetBtnColor(tabNoBtn,  TabInactive);
             SetBtnColor(tabSetBtn, TabActive);
@@ -991,6 +992,97 @@ namespace CosmicChaosCat
             {
                 DestroyImmediate(existing.gameObject);
             }
+        }
+
+        private void AutoWireFields()
+        {
+            // 1. noPanel & setPanel (Name mapping: NoPanel/NoTabRoot, SetPanel/SetTabRoot)
+            if (noPanel == null)
+            {
+                var t = transform.Find("Panel/NoPanel") ?? transform.Find("Panel/NoTabRoot") ?? transform.Find("NoPanel") ?? transform.Find("NoTabRoot");
+                if (t == null) t = FindChildByNameRecursive(transform, "NoPanel") ?? FindChildByNameRecursive(transform, "NoTabRoot");
+                if (t != null) noPanel = t.gameObject;
+            }
+            if (setPanel == null)
+            {
+                var t = transform.Find("Panel/SetPanel") ?? transform.Find("Panel/SetTabRoot") ?? transform.Find("SetPanel") ?? transform.Find("SetTabRoot");
+                if (t == null) t = FindChildByNameRecursive(transform, "SetPanel") ?? FindChildByNameRecursive(transform, "SetTabRoot");
+                if (t != null) setPanel = t.gameObject;
+            }
+
+            // 2. Set tab sub-elements if setPanel is found
+            if (setPanel != null)
+            {
+                var setRootTf = setPanel.transform;
+
+                if (leftSetPage == null)
+                {
+                    var t = setRootTf.Find("LeftPage") ?? setRootTf.Find("Page");
+                    if (t == null)
+                    {
+                        foreach (Transform child in setRootTf)
+                        {
+                            if (child.name.Contains("Page") && child.gameObject != rightSetPage)
+                            {
+                                t = child;
+                                break;
+                            }
+                        }
+                    }
+                    if (t != null) leftSetPage = t.gameObject;
+                }
+
+                if (rightSetPage == null)
+                {
+                    var t = setRootTf.Find("RightPage");
+                    if (t == null)
+                    {
+                        bool skippedFirst = false;
+                        foreach (Transform child in setRootTf)
+                        {
+                            if (child.name.Contains("Page"))
+                            {
+                                if (!skippedFirst && child.gameObject == leftSetPage)
+                                {
+                                    skippedFirst = true;
+                                    continue;
+                                }
+                                t = child;
+                                break;
+                            }
+                        }
+                    }
+                    if (t != null) rightSetPage = t.gameObject;
+                }
+
+                if (prevSetPageBtn == null)
+                {
+                    var t = setRootTf.Find("Btn_◀") ?? setRootTf.Find("prevSetPageBtn") ?? FindChildByNameRecursive(setRootTf, "Btn_◀");
+                    if (t != null) prevSetPageBtn = t.gameObject;
+                }
+
+                if (nextSetPageBtn == null)
+                {
+                    var t = setRootTf.Find("Btn_▶") ?? setRootTf.Find("nextSetPageBtn") ?? FindChildByNameRecursive(setRootTf, "Btn_▶");
+                    if (t != null) nextSetPageBtn = t.gameObject;
+                }
+
+                if (setPageLabel == null)
+                {
+                    setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
+                }
+            }
+        }
+
+        private Transform FindChildByNameRecursive(Transform parent, string name)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.name == name) return child;
+                var found = FindChildByNameRecursive(child, name);
+                if (found != null) return found;
+            }
+            return null;
         }
 
         // ── Inner types ──────────────────────────────────────────────────────

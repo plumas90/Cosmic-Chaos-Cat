@@ -11,6 +11,11 @@ namespace CosmicChaosCat.Editor
         [MenuItem("Tools/Bake UI Prefabs and Apply Font")]
         public static void Execute()
         {
+            if (EditorApplication.isPlaying || Application.isPlaying)
+            {
+                EditorUtility.DisplayDialog("Bake UI Prefabs", "플레이 모드(Play Mode) 중에는 UI를 구울(Bake) 수 없습니다.\n유니티 재생(Play)을 중단한 후에 다시 시도해 주세요.", "확인");
+                return;
+            }
             var fontPath = "Assets/Font/Galmuri9 SDF.asset";
             var galmuriFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(fontPath);
             if (galmuriFont == null)
@@ -34,42 +39,7 @@ namespace CosmicChaosCat.Editor
 
             // ── Unpack existing prefabs to avoid recursive nested self-references ──
             UnpackIfPrefab(gachaPanel);
-            UnpackIfPrefab(shopPanel);
             UnpackIfPrefab(encyPanel);
-
-            // ── Create ShopPanel if missing ──────────────────────────────────
-            if (shopPanel == null)
-            {
-                var hud = Object.FindObjectOfType<GameHud>(true);
-                if (hud != null)
-                {
-                    var canvas = hud.GetComponentInParent<Canvas>();
-                    if (canvas == null) canvas = Object.FindObjectOfType<Canvas>();
-                    if (canvas != null)
-                    {
-                        var go = new GameObject("ShopPanel", typeof(RectTransform));
-                        go.transform.SetParent(canvas.transform, false);
-                        shopPanel = go.AddComponent<ShopPanel>();
-
-                        var so = new SerializedObject(hud);
-                        so.Update();
-                        so.FindProperty("shopPanel").objectReferenceValue = shopPanel;
-                        so.ApplyModifiedProperties();
-
-                        Debug.Log("[BakeUIPrefabs] Created and linked ShopPanel in scene dynamically.");
-                    }
-                }
-            }
-
-            // ── Inject GameManager into ShopPanel BEFORE building ────────────
-            // This is critical: BuildUI() -> BuildUpgradesTab() needs gm to be set
-            // because Awake() is not called in Edit Mode.
-            if (shopPanel != null && gm != null)
-            {
-                var gmField = typeof(ShopPanel).GetField("gm",
-                    BindingFlags.NonPublic | BindingFlags.Instance);
-                gmField?.SetValue(shopPanel, gm);
-            }
 
             // ── Force build UI for each ──────────────────────────────────────
             ForceBuildUI(gachaPanel);
@@ -99,23 +69,6 @@ namespace CosmicChaosCat.Editor
                 }
             }
 
-            // ── Set ShopPanel Panel scale at bake time ───────────────────────
-            // The Panel child holds the shop window. Scale is 1.5x so the shop
-            // appears larger. Setting it here avoids any runtime scale changes.
-            if (shopPanel != null)
-            {
-                var panelTrans = shopPanel.transform.Find("Panel");
-                if (panelTrans != null)
-                {
-                    panelTrans.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                    EditorUtility.SetDirty(panelTrans.gameObject);
-                    Debug.Log("[BakeUIPrefabs] ShopPanel.Panel scale set to 1.5x.");
-                }
-                else
-                {
-                    Debug.LogWarning("[BakeUIPrefabs] ShopPanel 'Panel' child not found.");
-                }
-            }
 
             if (encyPanel != null)
             {
@@ -142,7 +95,6 @@ namespace CosmicChaosCat.Editor
                 AssetDatabase.CreateFolder("Assets", "Prefabs");
 
             SaveAsPrefab(gachaPanel?.gameObject, "Assets/Prefabs/GachaPanel.prefab");
-            SaveAsPrefab(shopPanel?.gameObject,  "Assets/Prefabs/ShopPanel.prefab");
             SaveAsPrefab(encyPanel?.gameObject,  "Assets/Prefabs/EncyclopediaPanel.prefab");
 
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
@@ -169,40 +121,74 @@ namespace CosmicChaosCat.Editor
         {
             if (encyPanel == null) return;
 
-            // 1. Clean existing children of EncyclopediaPanel in scene to start fresh
-            var children = new System.Collections.Generic.List<GameObject>();
-            foreach (Transform child in encyPanel.transform)
+            // 1. We NEVER destroy existing hierarchy to preserve user's manual layout designs (Panel, NoPanel, Slot backgrounds, close button)
+
+            // 2. Trigger auto-wiring to automatically connect missing SerializeFields to hierarchy instances
+            var autoWireMethod = encyPanel.GetType().GetMethod("AutoWireFields",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            if (autoWireMethod != null)
             {
-                if (child.name != "DetailRoot" && child.name != "DetailPopup")
+                autoWireMethod.Invoke(encyPanel, null);
+            }
+
+            // 3. Read Set tab fields
+            var setPanelField = typeof(EncyclopediaPanel).GetField("setPanel",
+                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var setPanelGO = setPanelField?.GetValue(encyPanel) as GameObject;
+
+            var leftSetPageField = typeof(EncyclopediaPanel).GetField("leftSetPage",
+                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            var leftSetPageGO = leftSetPageField?.GetValue(encyPanel) as GameObject;
+
+            // If SetPanel is missing entirely, build it under Panel
+            if (setPanelGO == null)
+            {
+                var noPanelField = typeof(EncyclopediaPanel).GetField("noPanel",
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                var noPanelGO = noPanelField?.GetValue(encyPanel) as GameObject;
+                Transform bookParent = noPanelGO != null ? noPanelGO.transform.parent : encyPanel.transform.Find("Panel");
+
+                if (bookParent != null)
                 {
-                    children.Add(child.gameObject);
+                    var buildSetTabMethod = encyPanel.GetType().GetMethod("BuildSetTabArea",
+                        BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (buildSetTabMethod != null)
+                    {
+                        buildSetTabMethod.Invoke(encyPanel, new object[] { bookParent });
+                    }
                 }
             }
-            foreach (var go in children) Object.DestroyImmediate(go);
-
-            // 2. Clear backing SerializeFields via reflection to bypass guard blocks
-            var fieldsToNullify = new string[] {
-                "noTabRoot", "setTabRoot", "leftSetPage", "rightSetPage",
-                "prevSetPageBtn", "nextSetPageBtn", "setPageLabel", "pageLabel",
-                "tabNoBtn", "tabSetBtn", "prevPageBtn", "nextPageBtn", "closeBtn"
-            };
-
-            foreach (var fieldName in fieldsToNullify)
+            else if (leftSetPageGO == null)
             {
-                var f = typeof(EncyclopediaPanel).GetField(fieldName,
+                // If setPanel exists but leftSetPage is null (stale single page), destroy setPanel and rebuild it
+                Object.DestroyImmediate(setPanelGO);
+                setPanelField?.SetValue(encyPanel, null);
+
+                var noPanelField = typeof(EncyclopediaPanel).GetField("noPanel",
                     BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-                f?.SetValue(encyPanel, null);
+                var noPanelGO = noPanelField?.GetValue(encyPanel) as GameObject;
+                Transform bookParent = noPanelGO != null ? noPanelGO.transform.parent : encyPanel.transform.Find("Panel");
+
+                if (bookParent != null)
+                {
+                    var buildSetTabMethod = encyPanel.GetType().GetMethod("BuildSetTabArea",
+                        BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (buildSetTabMethod != null)
+                    {
+                        buildSetTabMethod.Invoke(encyPanel, new object[] { bookParent });
+                    }
+                }
             }
 
-            // 3. Trigger clean build
-            var buildMethod = encyPanel.GetType().GetMethod("BuildUI",
+            // 4. Update listeners & breakthrough popup linkages without altering any layouts
+            encyPanel.EnsureBreakthroughButtonBuilt();
+            encyPanel.EnsureShopButtonCleanedUp();
+
+            var bindMethod = encyPanel.GetType().GetMethod("BindListeners",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            if (buildMethod != null)
-            {
-                buildMethod.Invoke(encyPanel, null);
-            }
+            bindMethod?.Invoke(encyPanel, null);
 
-            // 4. Set dirty flags to guarantee saving
+            // 5. Mark components dirty to ensure prefab serialization
             EditorUtility.SetDirty(encyPanel);
             if (encyPanel.gameObject != null)
             {
