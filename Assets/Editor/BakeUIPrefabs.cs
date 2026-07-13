@@ -73,7 +73,7 @@ namespace CosmicChaosCat.Editor
 
             // ── Force build UI for each ──────────────────────────────────────
             ForceBuildUI(gachaPanel);
-            ForceBuildUI(encyPanel);
+            ForceBuildEncyclopediaPanel(encyPanel);
 
             // ── Build Shop Button inside GameHud ─────────────────────────────
             var gameHud = Object.FindObjectOfType<GameHud>(true);
@@ -162,6 +162,51 @@ namespace CosmicChaosCat.Editor
             {
                 buildMethod.Invoke(panel, null);
                 EditorUtility.SetDirty(panel);
+            }
+        }
+
+        private static void ForceBuildEncyclopediaPanel(EncyclopediaPanel encyPanel)
+        {
+            if (encyPanel == null) return;
+
+            // 1. Clean existing children of EncyclopediaPanel in scene to start fresh
+            var children = new System.Collections.Generic.List<GameObject>();
+            foreach (Transform child in encyPanel.transform)
+            {
+                if (child.name != "DetailRoot" && child.name != "DetailPopup")
+                {
+                    children.Add(child.gameObject);
+                }
+            }
+            foreach (var go in children) Object.DestroyImmediate(go);
+
+            // 2. Clear backing SerializeFields via reflection to bypass guard blocks
+            var fieldsToNullify = new string[] {
+                "noTabRoot", "setTabRoot", "leftSetPage", "rightSetPage",
+                "prevSetPageBtn", "nextSetPageBtn", "setPageLabel", "pageLabel",
+                "tabNoBtn", "tabSetBtn", "prevPageBtn", "nextPageBtn", "closeBtn"
+            };
+
+            foreach (var fieldName in fieldsToNullify)
+            {
+                var f = typeof(EncyclopediaPanel).GetField(fieldName,
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                f?.SetValue(encyPanel, null);
+            }
+
+            // 3. Trigger clean build
+            var buildMethod = encyPanel.GetType().GetMethod("BuildUI",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            if (buildMethod != null)
+            {
+                buildMethod.Invoke(encyPanel, null);
+            }
+
+            // 4. Set dirty flags to guarantee saving
+            EditorUtility.SetDirty(encyPanel);
+            if (encyPanel.gameObject != null)
+            {
+                EditorUtility.SetDirty(encyPanel.gameObject);
             }
         }
 

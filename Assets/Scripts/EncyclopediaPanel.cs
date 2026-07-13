@@ -317,20 +317,57 @@ namespace CosmicChaosCat
 
         private void BuildSetTabArea(Transform parent)
         {
-            setTabRoot = MakeEmptyRT(parent, "SetTabRoot",
-                new Vector2(-10, -20), new Vector2(960, 560));
+            if (setTabRoot == null)
+            {
+                setTabRoot = MakeEmptyRT(parent, "SetTabRoot",
+                    new Vector2(-10, -20), new Vector2(960, 560));
+            }
             setTabRoot.SetActive(false);
 
-            leftSetPage  = MakePage(setTabRoot.transform, new Vector2(-235, 0), new Vector2(440, 510));
-            rightSetPage = MakePage(setTabRoot.transform, new Vector2( 235, 0), new Vector2(440, 510));
+            if (leftSetPage == null)
+            {
+                leftSetPage = MakePage(setTabRoot.transform, new Vector2(-235, 0), new Vector2(440, 510));
+            }
+            if (rightSetPage == null)
+            {
+                rightSetPage = MakePage(setTabRoot.transform, new Vector2( 235, 0), new Vector2(440, 510));
+            }
 
-            prevSetPageBtn = MakeButton(setTabRoot.transform, "◀", new Vector2(-470, 0), new Vector2(50, 50),
-                BtnColor, () => ChangeSetPage(-1));
-            nextSetPageBtn = MakeButton(setTabRoot.transform, "▶", new Vector2( 470, 0), new Vector2(50, 50),
-                BtnColor, () => ChangeSetPage(1));
+            if (prevSetPageBtn == null)
+            {
+                prevSetPageBtn = MakeButton(setTabRoot.transform, "◀", new Vector2(-470, 0), new Vector2(50, 50),
+                    BtnColor, () => ChangeSetPage(-1));
+            }
+            else
+            {
+                var btn = prevSetPageBtn.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => ChangeSetPage(-1));
+                }
+            }
 
-            setPageLabel = MakeText(setTabRoot.transform, "1 / 1",
-                new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
+            if (nextSetPageBtn == null)
+            {
+                nextSetPageBtn = MakeButton(setTabRoot.transform, "▶", new Vector2( 470, 0), new Vector2(50, 50),
+                    BtnColor, () => ChangeSetPage(1));
+            }
+            else
+            {
+                var btn = nextSetPageBtn.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => ChangeSetPage(1));
+                }
+            }
+
+            if (setPageLabel == null)
+            {
+                setPageLabel = MakeText(setTabRoot.transform, "1 / 1",
+                    new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
+            }
         }
 
         // 4×2 슬롯 그리드를 pageTransform 아래에 생성
@@ -538,14 +575,32 @@ namespace CosmicChaosCat
         // ════════════════════════════════════════════════════════════════════
         //  REFRESH – Set TAB
         // ════════════════════════════════════════════════════════════════════
+        private void CleanDynamicSetPageChildren(Transform pageTf)
+        {
+            if (pageTf == null) return;
+            var toDestroy = new System.Collections.Generic.List<GameObject>();
+            foreach (Transform child in pageTf)
+            {
+                string n = child.name;
+                if (n == "SetNameTitle" || n.StartsWith("Slot_") || n == "ClaimBtn" || n == "BlankPageText")
+                {
+                    toDestroy.Add(child.gameObject);
+                }
+            }
+            foreach (var go in toDestroy)
+            {
+                DestroyImmediate(go);
+            }
+        }
+
         private void RefreshSets()
         {
             if (leftSetPage == null || rightSetPage == null) return;
             if (gm == null) return;
 
-            // Clear previous UI elements inside Left & Right set pages
-            foreach (Transform child in leftSetPage.transform)  Destroy(child.gameObject);
-            foreach (Transform child in rightSetPage.transform) Destroy(child.gameObject);
+            // Clean only dynamically spawned components, preserving user manual design layouts
+            CleanDynamicSetPageChildren(leftSetPage.transform);
+            CleanDynamicSetPageChildren(rightSetPage.transform);
 
             var sets = gm.SetCatalog?.Sets;
             if (sets == null || sets.Count == 0)
@@ -575,7 +630,8 @@ namespace CosmicChaosCat
             }
             else
             {
-                MakeText(rightSetPage.transform, "공백 페이지", new Vector2(0, 0), new Vector2(250, 40), 14, new Color(0.6f, 0.6f, 0.6f));
+                var blankTx = MakeText(rightSetPage.transform, "공백 페이지", new Vector2(0, 0), new Vector2(250, 40), 14, new Color(0.6f, 0.6f, 0.6f));
+                blankTx.gameObject.name = "BlankPageText";
             }
 
             // Update Set Nav buttons interactable states
@@ -589,6 +645,7 @@ namespace CosmicChaosCat
 
             // 1. Set Name
             var title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 180), new Vector2(380, 40), 16, Color.black);
+            title.gameObject.name = "SetNameTitle";
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
 
@@ -660,6 +717,7 @@ namespace CosmicChaosCat
                 gm.ClaimSetReward(setEntry.SetId);
                 Refresh();
             });
+            claimBtnGO.name = "ClaimBtn";
 
             var claimBtn = claimBtnGO.GetComponent<Button>();
             var claimBtnText = claimBtnGO.GetComponentInChildren<TMP_Text>();
