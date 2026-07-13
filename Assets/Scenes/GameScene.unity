@@ -2475,6 +2475,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: noPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: closeBtn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: setPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: pageLabel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailDesc
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailRoot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: setContent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailImage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: leftSetPage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: nextPageBtn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: prevPageBtn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailEquipBtn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailIncomeText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailBreakthroughBtn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817731855761868292, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: detailBreakthroughBtnText
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2700,6 +2764,10 @@ PrefabInstance:
     - target: {fileID: 6769532170534212241, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
       propertyPath: m_Name
       value: ShopPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769532170534212241, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
