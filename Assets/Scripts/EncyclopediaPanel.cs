@@ -39,6 +39,7 @@ namespace CosmicChaosCat
 
         // 16개 슬롯 (왼쪽 8 + 오른쪽 8)
         private readonly List<SlotBundle> slots = new List<SlotBundle>();
+        private static TMP_FontAsset defaultFont;
 
         // 상세 팝업
         [SerializeField] private GameObject  detailRoot;
@@ -103,6 +104,17 @@ namespace CosmicChaosCat
             if (detailEquipBtn != null) { detailEquipBtn.onClick.RemoveAllListeners(); detailEquipBtn.onClick.AddListener(OnDetailEquip); }
             if (detailBreakthroughBtn != null) { detailBreakthroughBtn.onClick.RemoveAllListeners(); detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough); }
 
+            // 하이라키 상에 존재하는 모든 닫기버튼(Btn_✕ 또는 closeBtn)에 OnClose 리스너 일괄 적용
+            var allButtons = GetComponentsInChildren<Button>(true);
+            foreach (var b in allButtons)
+            {
+                if (b.name == "Btn_✕" || b.name == "closeBtn" || b.name == "Btn_닫기" || b.name.Contains("Btn_✕"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(OnClose);
+                }
+            }
+
             if (detailRoot != null)
             {
                 var detailBtns = detailRoot.GetComponentsInChildren<Button>(true);
@@ -145,6 +157,7 @@ namespace CosmicChaosCat
                 if (gm == null) gm = FindObjectOfType<GameManager>(true);
                 currentPageIdx = 0;
                 if (gm != null) gm.StateChanged += OnStateChanged;
+                if (detailRoot != null) detailRoot.SetActive(false);
                 ShowNoTab();
                 Refresh();
                 Debug.Log("[EncyclopediaPanel] OnEnable complete");
@@ -161,7 +174,13 @@ namespace CosmicChaosCat
             if (detailRoot != null) detailRoot.SetActive(false);
         }
 
-        private void OnStateChanged() => Refresh();
+        private void OnStateChanged()
+        {
+            if (showNoTab)
+            {
+                Refresh();
+            }
+        }
 
         private void EnsureParentedToCanvas()
         {
@@ -651,7 +670,7 @@ namespace CosmicChaosCat
             var catalog = gm.CardCatalog?.Cards;
             int cardCount = setEntry.CardIds.Count;
 
-            float spacing = 95f;
+            float spacing = 135f;
             float startX = -(cardCount - 1) * spacing / 2f;
 
             bool allOwned = true;
@@ -663,49 +682,71 @@ namespace CosmicChaosCat
                 bool unlocked = prog != null && prog.Unlocked;
                 if (!unlocked) allOwned = false;
 
-                var displayCard = catalog != null
-                    ? System.Linq.Enumerable.FirstOrDefault(catalog, c => c.Id == cid)
-                    : null;
-
-                // Slot container (same size as normal slot)
-                var slotGO = MakeEmptyRT(pageTf, "Slot_" + cid, new Vector2(startX + (i * spacing), 20), new Vector2(85, 120));
-                
-                // Card slot background image
-                var slotBg = slotGO.AddComponent<Image>();
-                slotBg.color = new Color(0.12f, 0.14f, 0.20f, 0.15f);
-
-                if (unlocked && displayCard != null)
+                // Find card catalog index for display (e.g. Card index in catalog + 1)
+                int cardIndexInCatalog = 1;
+                CardEntry displayCard = null;
+                if (catalog != null)
                 {
-                    // Draw card image/icon
-                    var imgRT = MakeEmptyRT(slotGO.transform, "Icon", Vector2.zero, new Vector2(75, 75));
-                    var img = imgRT.AddComponent<Image>();
-                    img.sprite = displayCard.CardSprite; // Use card sprite
-                    img.preserveAspect = true;
-
-                    // Detail click button overlay
-                    var btn = slotGO.AddComponent<Button>();
-                    string capturedId = cid;
-                    btn.onClick.AddListener(() => OpenDetail(capturedId));
-
-                    // Show stack multiplier text below icon
-                    if (prog.Copies > 1)
+                    for (int c = 0; c < catalog.Count; c++)
                     {
-                        var stackTx = MakeText(slotGO.transform, $"x{prog.Copies}", new Vector2(0, -45), new Vector2(75, 20), 10, Color.black);
-                        stackTx.fontStyle = FontStyles.Bold;
-                        stackTx.alignment = TextAlignmentOptions.Center;
+                        if (catalog[c].Id == cid)
+                        {
+                            displayCard = catalog[c];
+                            cardIndexInCatalog = c + 1;
+                            break;
+                        }
                     }
                 }
-                else
-                {
-                    // Undiscovered / Unlocked card placeholder
-                    var unkRT = MakeEmptyRT(slotGO.transform, "Unk", Vector2.zero, new Vector2(85, 120));
-                    var unkImg = unkRT.AddComponent<Image>();
-                    unkImg.color = new Color(0.12f, 0.14f, 0.20f, 0.7f);
 
-                    var qTx = MakeText(unkRT.transform, "?", Vector2.zero, new Vector2(50, 50), 24, new Color(0.5f, 0.5f, 0.5f));
-                    qTx.fontStyle = FontStyles.Bold;
-                    qTx.alignment = TextAlignmentOptions.Center;
-                }
+                if (displayCard == null) continue;
+
+                // Slot container (120, 146)
+                var slotGO = new GameObject("Slot_" + cid);
+                slotGO.transform.SetParent(pageTf, false);
+                var slotRT = slotGO.AddComponent<RectTransform>();
+                slotRT.anchoredPosition = new Vector2(startX + (i * spacing), 20);
+                slotRT.sizeDelta        = new Vector2(120, 146);
+
+                var slotImg = slotGO.AddComponent<Image>();
+                slotImg.color = new Color(0.15f, 0.17f, 0.25f, 1f);
+
+                // Frame
+                var frameGO = new GameObject("Frame");
+                frameGO.transform.SetParent(slotGO.transform, false);
+                var frameImg = frameGO.AddComponent<Image>();
+                var frameRT = frameGO.GetComponent<RectTransform>();
+                frameRT.anchorMin = Vector2.zero; frameRT.anchorMax = Vector2.one;
+                frameRT.offsetMin = Vector2.zero; frameRT.offsetMax = Vector2.zero;
+
+                // Art
+                var artGO = new GameObject("Art");
+                artGO.transform.SetParent(slotGO.transform, false);
+                var artImg = artGO.AddComponent<Image>();
+                var artRT = artGO.GetComponent<RectTransform>();
+                artRT.anchoredPosition = new Vector2(0, 16);
+                artRT.sizeDelta        = new Vector2(96, 96);
+
+                // Texts
+                var nameTx  = MakeText(slotGO.transform, "???", new Vector2(0, -48), new Vector2(117, 24), 11, Color.white);
+                var rarityTx= MakeText(slotGO.transform, "",    new Vector2(42, 50), new Vector2(37, 21), 10, Color.yellow);
+                var stackTx = MakeText(slotGO.transform, "",    new Vector2(0, -64), new Vector2(117, 18), 10, Color.white);
+
+                // Unknown cover
+                var unkGO = new GameObject("Unknown");
+                unkGO.transform.SetParent(slotGO.transform, false);
+                var unkImg = unkGO.AddComponent<Image>();
+                unkImg.color = new Color(0.12f, 0.14f, 0.20f, 0.95f);
+                var unkRT = unkGO.GetComponent<RectTransform>();
+                unkRT.anchorMin = Vector2.zero; unkRT.anchorMax = Vector2.one;
+                unkRT.offsetMin = Vector2.zero; unkRT.offsetMax = Vector2.zero;
+                var unkTx = MakeText(unkGO.transform, "?", Vector2.zero, new Vector2(50, 50), 24, new Color(0.5f, 0.5f, 0.5f));
+                unkTx.alignment = TextAlignmentOptions.Center;
+
+                var ui = slotGO.AddComponent<CardSlotUI>();
+                ui.InitUI(frameImg, artImg, nameTx, rarityTx, stackTx, unkGO);
+
+                // Populate data (this wires buttons internally, sets art/frame and controls active states)
+                ui.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
             }
 
             // 3. Reward / Completion Claim Button
@@ -753,6 +794,7 @@ namespace CosmicChaosCat
         {
             selectedCardId = cardId;
             if (detailRoot == null) return;
+            detailRoot.SetActive(true);
 
             var card    = gm?.CardCatalog?.FindById(cardId);
             var states  = gm?.GetCardStates();
@@ -920,6 +962,7 @@ namespace CosmicChaosCat
             rt.anchoredPosition = pos;
             rt.sizeDelta        = size;
             var tx = go.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
             tx.text      = text;
             tx.fontSize  = fontSize;
             tx.color     = col;
@@ -951,6 +994,7 @@ namespace CosmicChaosCat
             lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
             lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
             var tx  = labelGO.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
             tx.text      = label;
             tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 20);
             tx.alignment = TextAlignmentOptions.Center;
@@ -992,6 +1036,10 @@ namespace CosmicChaosCat
 
         private void AutoWireFields()
         {
+            if (defaultFont == null && pageLabel != null) defaultFont = pageLabel.font;
+            if (defaultFont == null && detailName != null) defaultFont = detailName.font;
+            if (defaultFont == null && setPageLabel != null) defaultFont = setPageLabel.font;
+
             // 1. noPanel & setPanel
             if (noPanel == null)
             {
@@ -1126,6 +1174,50 @@ namespace CosmicChaosCat
                     }
                     if (setPageLabel == null)
                         setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
+                }
+            }
+
+            // 5. Detail Root and its components mapping
+            if (detailRoot == null)
+            {
+                var t = transform.Find("DetailRoot") ?? transform.Find("Panel/DetailRoot") ?? transform.Find("DetailPopup") ?? transform.Find("Panel/DetailPopup");
+                if (t == null) t = FindChildByNameRecursive(transform, "DetailRoot") ?? FindChildByNameRecursive(transform, "DetailPopup");
+                if (t != null) detailRoot = t.gameObject;
+            }
+
+            if (detailRoot != null)
+            {
+                var rootTf = detailRoot.transform;
+                if (detailImage == null)
+                {
+                    var t = rootTf.Find("DetailArt") ?? rootTf.Find("DetailImage") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailImage");
+                    if (t != null) detailImage = t.GetComponent<Image>();
+                }
+                if (detailName == null)
+                {
+                    var t = rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName");
+                    if (t == null) t = FindChildByNameRecursive(rootTf, "Text");
+                    if (t != null) detailName = t.GetComponent<TMP_Text>();
+                }
+                if (detailDesc == null)
+                {
+                    var t = rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc");
+                    if (t != null) detailDesc = t.GetComponent<TMP_Text>();
+                }
+                if (detailIncomeText == null)
+                {
+                    var t = rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText");
+                    if (t != null) detailIncomeText = t.GetComponent<TMP_Text>();
+                }
+                if (detailEquipBtn == null)
+                {
+                    var t = rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_Equip");
+                    if (t != null) detailEquipBtn = t.GetComponent<Button>();
+                }
+                if (detailBreakthroughBtn == null)
+                {
+                    var t = rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_Breakthrough");
+                    if (t != null) detailBreakthroughBtn = t.GetComponent<Button>();
                 }
             }
         }

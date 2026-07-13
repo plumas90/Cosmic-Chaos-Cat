@@ -35,17 +35,25 @@ namespace CosmicChaosCat
 
             bool unlocked = progress != null && progress.Unlocked;
 
-            if (unknownOverlay != null) unknownOverlay.SetActive(!unlocked);
+            if (unknownOverlay != null)
+            {
+                unknownOverlay.SetActive(!unlocked);
+                var overlayImg = unknownOverlay.GetComponent<Image>();
+                if (overlayImg != null) overlayImg.raycastTarget = false;
+                var overlayTexts = unknownOverlay.GetComponentsInChildren<TMP_Text>(true);
+                foreach (var t in overlayTexts) t.raycastTarget = false;
+                var overlayImgs = unknownOverlay.GetComponentsInChildren<Image>(true);
+                foreach (var img in overlayImgs) img.raycastTarget = false;
+            }
 
-            if (nameText  != null) nameText.text  = unlocked ? $"No.{cardIndex}. {card.DisplayName}" : $"No.{cardIndex}. ???";
-            if (rarityText != null) rarityText.text = unlocked ? card.Rarity.ToString() : "?";
-            if (stackText  != null)
-                stackText.text = (unlocked && progress != null && progress.Copies > 1)
-                    ? $"x{progress.Copies}" : string.Empty;
+            if (nameText  != null) { nameText.text  = unlocked ? $"No.{cardIndex}. {card.DisplayName}" : $"No.{cardIndex}. ???"; nameText.raycastTarget = false; }
+            if (rarityText != null) { rarityText.text = unlocked ? card.Rarity.ToString() : "?"; rarityText.raycastTarget = false; }
+            if (stackText  != null) { stackText.text = (unlocked && progress != null && progress.Copies > 1) ? $"x{progress.Copies}" : string.Empty; stackText.raycastTarget = false; }
 
             // Art
             if (cardArtImage != null)
             {
+                cardArtImage.raycastTarget = false;
                 if (unlocked && card.CardSprite != null)
                 {
                     cardArtImage.sprite  = card.CardSprite;
@@ -60,7 +68,10 @@ namespace CosmicChaosCat
 
             // Frame border color
             if (frameImage != null)
+            {
+                frameImage.raycastTarget = false;
                 frameImage.color = unlocked ? (Color)RarityToColor(card.Rarity) : (Color)ColN;
+            }
 
             // Hide direct equip button since it's moved to details popup
             if (equipButton != null)
