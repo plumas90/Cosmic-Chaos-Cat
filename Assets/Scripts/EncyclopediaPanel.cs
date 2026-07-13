@@ -72,13 +72,17 @@ namespace CosmicChaosCat
             try
             {
                 AutoWireFields();
-                EnsureParentedToCanvas();
-                BuildUI();
+                // noPanel이 이미 씬에 있으면 인스펙터 레이아웃 그대로 사용 → 새 UI 생성 금지
+                if (noPanel == null)
+                {
+                    EnsureParentedToCanvas();
+                    BuildUI();
+                }
                 EnsureBreakthroughButtonBuilt();
                 EnsureShopButtonCleanedUp();
-                if (pageLabel != null) BindListeners();
+                BindListeners();
                 gm = FindObjectOfType<GameManager>(true);
-                Debug.Log($"[EncyclopediaPanel] Awake complete. pageLabel={pageLabel!=null}, gm={gm!=null}");
+                Debug.Log($"[EncyclopediaPanel] Awake complete. noPanel={noPanel!=null}, setPanel={setPanel!=null}, tabNoBtn={tabNoBtn!=null}, gm={gm!=null}");
             }
             catch (System.Exception e)
             {
@@ -89,11 +93,13 @@ namespace CosmicChaosCat
         private void BindListeners()
         {
             EnsureShopButtonCleanedUp();
-            if (tabNoBtn != null) { var b = tabNoBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowNoTab); }
-            if (tabSetBtn != null) { var b = tabSetBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowSetTab); }
-            if (prevPageBtn != null) { var b = prevPageBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(-1)); }
-            if (nextPageBtn != null) { var b = nextPageBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(1)); }
-            if (closeBtn != null) { var b = closeBtn.GetComponent<Button>(); b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnClose); }
+            if (tabNoBtn != null) { var b = tabNoBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowNoTab); } }
+            if (tabSetBtn != null) { var b = tabSetBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowSetTab); } }
+            if (prevPageBtn != null) { var b = prevPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(-1)); } }
+            if (nextPageBtn != null) { var b = nextPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(1)); } }
+            if (closeBtn != null) { var b = closeBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnClose); } }
+            if (prevSetPageBtn != null) { var b = prevSetPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangeSetPage(-1)); } }
+            if (nextSetPageBtn != null) { var b = nextSetPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangeSetPage(1)); } }
             if (detailEquipBtn != null) { detailEquipBtn.onClick.RemoveAllListeners(); detailEquipBtn.onClick.AddListener(OnDetailEquip); }
             if (detailBreakthroughBtn != null) { detailBreakthroughBtn.onClick.RemoveAllListeners(); detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough); }
 
@@ -237,19 +243,9 @@ namespace CosmicChaosCat
         // ════════════════════════════════════════════════════════════════════
         private void BuildUI()
         {
-            // 완전히 빌드된 상태: No.탭 + Set탭 둘 다 준비됨
-            if (pageLabel != null && setPanel != null && leftSetPage != null) return;
+            // 인스펙터에서 noPanel이 이미 연결되어 있으면 절대로 새 UI를 만들지 않음
+            if (noPanel != null) return;
 
-            // Set탭 영역만 없거나 구버전(Page 1개)인 경우 → Set탭만 교체 빌드
-            if (pageLabel != null && (setPanel == null || leftSetPage == null))
-            {
-                if (setPanel != null) DestroyImmediate(setPanel); // 구버전 SetPanel 제거
-                setPanel = null;
-                Transform bookParent = noPanel != null ? noPanel.transform.parent : transform;
-                BuildSetTabArea(bookParent);
-                BindListeners();
-                return;
-            }
             // 루트 RectTransform을 전체화면으로 설정
             var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
@@ -996,7 +992,7 @@ namespace CosmicChaosCat
 
         private void AutoWireFields()
         {
-            // 1. noPanel & setPanel (Name mapping: NoPanel/NoTabRoot, SetPanel/SetTabRoot)
+            // 1. noPanel & setPanel
             if (noPanel == null)
             {
                 var t = transform.Find("Panel/NoPanel") ?? transform.Find("Panel/NoTabRoot") ?? transform.Find("NoPanel") ?? transform.Find("NoTabRoot");
@@ -1010,7 +1006,57 @@ namespace CosmicChaosCat
                 if (t != null) setPanel = t.gameObject;
             }
 
-            // 2. Set tab sub-elements if setPanel is found
+            // 2. Tab buttons and close button on Panel (Btn_No., Btn_Set, Btn_✕)
+            if (tabNoBtn == null)
+            {
+                var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");
+                if (t != null) tabNoBtn = t.gameObject;
+            }
+            if (tabSetBtn == null)
+            {
+                var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn");
+                if (t != null) tabSetBtn = t.gameObject;
+            }
+            if (closeBtn == null)
+            {
+                var t = FindChildByNameRecursive(transform, "Btn_✕") ?? FindChildByNameRecursive(transform, "closeBtn");
+                if (t != null) closeBtn = t.gameObject;
+            }
+
+            // 3. No tab navigation buttons and page label (inside noPanel)
+            if (noPanel != null)
+            {
+                var noPanelTf = noPanel.transform;
+                if (prevPageBtn == null)
+                {
+                    var t = noPanelTf.Find("Btn_◀") ?? FindChildByNameRecursive(noPanelTf, "Btn_◀");
+                    if (t != null) prevPageBtn = t.gameObject;
+                }
+                if (nextPageBtn == null)
+                {
+                    var t = noPanelTf.Find("Btn_▶") ?? FindChildByNameRecursive(noPanelTf, "Btn_▶");
+                    if (t != null) nextPageBtn = t.gameObject;
+                }
+                if (pageLabel == null)
+                {
+                    // Find a Text child of noPanel that is NOT inside a Slot_ object
+                    foreach (Transform child in noPanelTf)
+                    {
+                        if (!child.name.StartsWith("Slot_") && !child.name.StartsWith("Page") && !child.name.StartsWith("Btn_"))
+                        {
+                            var txt = child.GetComponent<TMP_Text>();
+                            if (txt != null) { pageLabel = txt; break; }
+                        }
+                    }
+                    if (pageLabel == null)
+                    {
+                        var t = FindChildByNameRecursive(noPanelTf, "pageLabel");
+                        if (t != null) pageLabel = t.GetComponent<TMP_Text>();
+                    }
+                }
+            }
+
+            // 4. Set tab sub-elements if setPanel is found
             if (setPanel != null)
             {
                 var setRootTf = setPanel.transform;
@@ -1069,7 +1115,17 @@ namespace CosmicChaosCat
 
                 if (setPageLabel == null)
                 {
-                    setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
+                    // Find TMP_Text in setPanel that is a direct child (not inside Page)
+                    foreach (Transform child in setRootTf)
+                    {
+                        if (!child.name.Contains("Page") && !child.name.StartsWith("Btn_") && !child.name.StartsWith("Slot_"))
+                        {
+                            var txt = child.GetComponent<TMP_Text>();
+                            if (txt != null) { setPageLabel = txt; break; }
+                        }
+                    }
+                    if (setPageLabel == null)
+                        setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
                 }
             }
         }
