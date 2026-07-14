@@ -51,6 +51,11 @@ namespace CosmicChaosCat
         [SerializeField] private Button      detailBreakthroughBtn;
         [SerializeField] private TMP_Text    detailBreakthroughBtnText;
 
+        // 세트 슬롯 풀 – 한 번 생성 후 데이터만 갱신 (파괴/재생성 금지)
+        private readonly List<CardSlotUI> leftSetSlots  = new List<CardSlotUI>();
+        private readonly List<CardSlotUI> rightSetSlots = new List<CardSlotUI>();
+        private int lastRenderedSetPage = -1; // 마지막으로 그린 페이지 인덱스
+
         // 세트 행 풀
         private readonly List<GameObject> setRows = new List<GameObject>();
 
@@ -675,7 +680,7 @@ namespace CosmicChaosCat
             }
             else
             {
-                title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 180), new Vector2(380, 40), 16, Color.black);
+                title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 280), new Vector2(380, 40), 16, Color.black);
                 title.gameObject.name = "SetNameTitle";
                 title.fontStyle  = FontStyles.Bold;
                 title.alignment  = TextAlignmentOptions.Center;
@@ -688,6 +693,30 @@ namespace CosmicChaosCat
             int cardCount = setEntry.CardIds.Count;
             bool allOwned = true;
 
+            // 기준 템플릿 슬롯(Slot_0) 검색
+            GameObject templateGO = null;
+            var foundTemplate = FindChildByNameContainsRecursive(transform.root, "Slot_0");
+            if (foundTemplate != null) templateGO = foundTemplate.gameObject;
+            if (templateGO == null && slots.Count > 0 && slots[0].go != null) templateGO = slots[0].go;
+
+            // 기준 슬롯에서 카드 크기 및 Y좌표 읽기
+            float cardW = 120f, cardY = 20f, cardH = 146f;
+            if (templateGO != null)
+            {
+                var tRT = templateGO.GetComponent<RectTransform>();
+                if (tRT != null)
+                {
+                    cardW = tRT.sizeDelta.x;
+                    cardH = tRT.sizeDelta.y;
+                    cardY = tRT.anchoredPosition.y;
+                }
+            }
+
+            // 활성화될 슬롯 수 계산 → 가로 균등 배치 파라미터
+            int activeCount = Mathf.Min(pool.Count, cardCount);
+            float spacing = cardW + 10f;
+            float startX = -(activeCount - 1) * spacing / 2f;
+
             // 풀에 담긴 슬롯 개수만큼 돌면서 데이터를 덮어씌움
             for (int i = 0; i < pool.Count; i++)
             {
@@ -696,7 +725,6 @@ namespace CosmicChaosCat
 
                 if (i < cardCount)
                 {
-                    // 데이터 바인딩 및 활성화
                     slot.gameObject.SetActive(true);
                     string cid = setEntry.CardIds[i];
                     states.TryGetValue(cid, out var prog);
@@ -716,11 +744,18 @@ namespace CosmicChaosCat
                     if (displayCard != null)
                     {
                         slot.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
+
+                        // 크기는 Slot_0 기준, X는 가로 균등 배치, Y는 템플릿 기준 고정
+                        var slotRT = slot.GetComponent<RectTransform>();
+                        if (slotRT != null)
+                        {
+                            slotRT.sizeDelta = new Vector2(cardW, cardH);
+                            slotRT.anchoredPosition = new Vector2(startX + i * spacing, cardY);
+                        }
                     }
                 }
                 else
                 {
-                    // 남는 슬롯은 비활성화
                     slot.gameObject.SetActive(false);
                 }
             }
@@ -1014,6 +1049,63 @@ namespace CosmicChaosCat
             if (img != null) img.color = col;
         }
 
+        private void CopyRectTransform(RectTransform source, RectTransform target)
+        {
+            if (source == null || target == null) return;
+            target.anchorMin = source.anchorMin;
+            target.anchorMax = source.anchorMax;
+            target.sizeDelta = source.sizeDelta;
+            target.pivot = source.pivot;
+            target.localScale = source.localScale;
+            // 만약 자식이 아니라 부모 앵커 앵커드포지션 정밀 보정 필요 시 (단, 위치 오프셋은 제외)
+        }
+
+        private void AlignSlotToTemplate(GameObject templateSlot, GameObject targetSlot)
+        {
+            if (templateSlot == null || targetSlot == null) return;
+
+            var targetRT = targetSlot.GetComponent<RectTransform>();
+            var templateRT = templateSlot.GetComponent<RectTransform>();
+            if (targetRT != null && templateRT != null)
+            {
+                targetRT.anchorMin = templateRT.anchorMin;
+                targetRT.anchorMax = templateRT.anchorMax;
+                targetRT.sizeDelta = templateRT.sizeDelta;
+                targetRT.pivot = templateRT.pivot;
+                targetRT.localScale = templateRT.localScale;
+            }
+
+            // 하위 자식 오브젝트들의 RectTransform 규격 복사 (Frame, Art, Texts 등)
+            foreach (Transform tChild in templateSlot.transform)
+            {
+                var destChild = targetSlot.transform.Find(tChild.name);
+                if (destChild != null)
+                {
+                    var srcRT = tChild.GetComponent<RectTransform>();
+                    var destRT = destChild.GetComponent<RectTransform>();
+                    if (srcRT != null && destRT != null)
+                    {
+                        CopyRectTransform(srcRT, destRT);
+                    }
+
+                    // Unknown cover 내부 자식도 싱크 맞춤
+                    if (tChild.name == "Unknown")
+                    {
+                        foreach (Transform tGrand in tChild)
+                        {
+                            var destGrand = destChild.Find(tGrand.name);
+                            if (destGrand != null)
+                            {
+                                var sGRT = tGrand.GetComponent<RectTransform>();
+                                var dGRT = destGrand.GetComponent<RectTransform>();
+                                if (sGRT != null && dGRT != null) CopyRectTransform(sGRT, dGRT);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private static Color32 RarityToColor(CardRarity r)
         {
             switch (r)
@@ -1185,13 +1277,30 @@ namespace CosmicChaosCat
                 if (leftSetPage != null)
                 {
                     var childSlots = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
-                    leftSetSlots.AddRange(childSlots);
+                    var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
+                    // X좌표 오름차순으로 정렬하여 왼쪽 카드부터 순서대로 매핑되도록 보장
+                    list.Sort((a, b) =>
+                    {
+                        var artA = a.GetComponent<RectTransform>();
+                        var artB = b.GetComponent<RectTransform>();
+                        if (artA != null && artB != null) return artA.anchoredPosition.x.CompareTo(artB.anchoredPosition.x);
+                        return 0;
+                    });
+                    leftSetSlots.AddRange(list);
                 }
                 rightSetSlots.Clear();
                 if (rightSetPage != null)
                 {
                     var childSlots = rightSetPage.GetComponentsInChildren<CardSlotUI>(true);
-                    rightSetSlots.AddRange(childSlots);
+                    var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
+                    list.Sort((a, b) =>
+                    {
+                        var artA = a.GetComponent<RectTransform>();
+                        var artB = b.GetComponent<RectTransform>();
+                        if (artA != null && artB != null) return artA.anchoredPosition.x.CompareTo(artB.anchoredPosition.x);
+                        return 0;
+                    });
+                    rightSetSlots.AddRange(list);
                 }
             }
 
@@ -1246,6 +1355,17 @@ namespace CosmicChaosCat
             {
                 if (child.name == name) return child;
                 var found = FindChildByNameRecursive(child, name);
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        private Transform FindChildByNameContainsRecursive(Transform parent, string subName)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.name.IndexOf(subName, StringComparison.OrdinalIgnoreCase) >= 0) return child;
+                var found = FindChildByNameContainsRecursive(child, subName);
                 if (found != null) return found;
             }
             return null;
