@@ -73,6 +73,7 @@ namespace CosmicChaosCat.Editor
             if (encyPanel != null)
             {
                 encyPanel.EnsureBreakthroughButtonBuilt();
+                encyPanel.EnsureSetPageChildrenBuilt();   // SetNameTitle / ClaimBtn 하이라키에 미리 생성
                 encyPanel.EnsureShopButtonCleanedUp();
                 EditorUtility.SetDirty(encyPanel);
             }

@@ -85,6 +85,7 @@ namespace CosmicChaosCat
                     BuildUI();
                 }
                 EnsureBreakthroughButtonBuilt();
+                EnsureSetPageChildrenBuilt();
                 EnsureShopButtonCleanedUp();
                 BindListeners();
                 gm = FindObjectOfType<GameManager>(true);
@@ -206,6 +207,16 @@ namespace CosmicChaosCat
             rt.offsetMax = Vector2.zero;
             rt.anchoredPosition3D = Vector3.zero;
             rt.localScale = Vector3.one;
+        }
+
+        /// <summary>
+        /// leftSetPage / rightSetPage 아래에 SetNameTitle과 ClaimBtn을 미리 생성합니다.
+        /// Bake 툴과 Awake 양쪽에서 호출되어, 에디터에서도 하이라키에서 위치를 조정할 수 있습니다.
+        /// </summary>
+        public void EnsureSetPageChildrenBuilt()
+        {
+            if (leftSetPage  != null) PrepareSetPageChildren(leftSetPage.transform);
+            if (rightSetPage != null) PrepareSetPageChildren(rightSetPage.transform);
         }
 
         public void EnsureBreakthroughButtonBuilt()
@@ -349,10 +360,15 @@ namespace CosmicChaosCat
             {
                 leftSetPage = MakePage(setPanel.transform, new Vector2(-350, 14), new Vector2(670, 710));
             }
+            // leftSetPage 안에 SetNameTitle / ClaimBtn 미리 생성
+            PrepareSetPageChildren(leftSetPage.transform);
+
             if (rightSetPage == null)
             {
                 rightSetPage = MakePage(setPanel.transform, new Vector2( 350, 14), new Vector2(670, 710));
             }
+            // rightSetPage 안에 SetNameTitle / ClaimBtn 미리 생성
+            PrepareSetPageChildren(rightSetPage.transform);
 
             if (prevSetPageBtn == null)
             {
@@ -700,22 +716,26 @@ namespace CosmicChaosCat
             if (templateGO == null && slots.Count > 0 && slots[0].go != null) templateGO = slots[0].go;
 
             // 기준 슬롯에서 카드 크기 및 Y좌표 읽기
-            float cardW = 120f, cardY = 20f, cardH = 146f;
+            // ▶ Slot_0의 anchoredPosition = 카드 행 전체의 중심 기준점
+            float cardW = 120f, cardH = 146f;
+            float rowCenterX = 0f, rowCenterY = 20f;
             if (templateGO != null)
             {
                 var tRT = templateGO.GetComponent<RectTransform>();
                 if (tRT != null)
                 {
-                    cardW = tRT.sizeDelta.x;
-                    cardH = tRT.sizeDelta.y;
-                    cardY = tRT.anchoredPosition.y;
+                    cardW      = tRT.sizeDelta.x;
+                    cardH      = tRT.sizeDelta.y;
+                    rowCenterX = tRT.anchoredPosition.x;   // 하이라키에서 Slot_0 X로 행 중심 조정
+                    rowCenterY = tRT.anchoredPosition.y;   // 하이라키에서 Slot_0 Y로 행 높이 조정
                 }
             }
 
             // 활성화될 슬롯 수 계산 → 가로 균등 배치 파라미터
             int activeCount = Mathf.Min(pool.Count, cardCount);
             float spacing = cardW + 10f;
-            float startX = -(activeCount - 1) * spacing / 2f;
+            // Slot_0의 위치를 행 중심으로 삼아 좌우 균등 배치
+            float startX = rowCenterX - (activeCount - 1) * spacing / 2f;
 
             // 풀에 담긴 슬롯 개수만큼 돌면서 데이터를 덮어씌움
             for (int i = 0; i < pool.Count; i++)
@@ -745,12 +765,12 @@ namespace CosmicChaosCat
                     {
                         slot.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
 
-                        // 크기는 Slot_0 기준, X는 가로 균등 배치, Y는 템플릿 기준 고정
+                        // 크기는 Slot_0 기준, 위치는 Slot_0을 중심으로 가로 균등 배치
                         var slotRT = slot.GetComponent<RectTransform>();
                         if (slotRT != null)
                         {
-                            slotRT.sizeDelta = new Vector2(cardW, cardH);
-                            slotRT.anchoredPosition = new Vector2(startX + i * spacing, cardY);
+                            slotRT.sizeDelta        = new Vector2(cardW, cardH);
+                            slotRT.anchoredPosition = new Vector2(startX + i * spacing, rowCenterY);
                         }
                     }
                 }
@@ -812,6 +832,37 @@ namespace CosmicChaosCat
         private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
         {
             RefreshSetPageData(pageTf, setEntry, new List<CardSlotUI>());
+        }
+
+        /// <summary>
+        /// 세트 페이지(pageTf) 아래에 SetNameTitle / ClaimBtn 을 미리 생성합니다.
+        /// 이미 존재하면 건드리지 않으므로 하이라키에서 위치를 수정해도 유지됩니다.
+        /// </summary>
+        private void PrepareSetPageChildren(Transform pageTf)
+        {
+            // ── 세트 제목 텍스트 ─────────────────────────────────────────────
+            if (pageTf.Find("SetNameTitle") == null)
+            {
+                var title = MakeText(pageTf, "세트 이름",
+                    new Vector2(0, 280),        // ← 하이라키에서 Y 조정 가능
+                    new Vector2(380, 40), 16, Color.black);
+                title.gameObject.name    = "SetNameTitle";
+                title.fontStyle          = FontStyles.Bold;
+                title.alignment          = TextAlignmentOptions.Center;
+                title.raycastTarget      = false;
+                title.gameObject.SetActive(false);  // 데이터 주입 전까지 숨김
+            }
+
+            // ── 보상 받기 버튼 ────────────────────────────────────────────────
+            if (pageTf.Find("ClaimBtn") == null)
+            {
+                var btnGO = MakeButton(pageTf, "보상 받기",
+                    new Vector2(0, -160),       // ← 하이라키에서 Y 조정 가능
+                    new Vector2(180, 44),
+                    new Color(0.3f, 0.3f, 0.3f), () => { });
+                btnGO.name = "ClaimBtn";
+                btnGO.SetActive(false);         // 데이터 주입 전까지 숨김
+            }
         }
 
         // ════════════════════════════════════════════════════════════════════
