@@ -221,6 +221,12 @@ namespace CosmicChaosCat
 
         public void EnsureBreakthroughButtonBuilt()
         {
+            if (detailRoot == null)
+            {
+                var p = transform.Find("Panel");
+                BuildDetailPopup(p != null ? p : transform);
+            }
+
             if (detailRoot == null) return;
 
             // 1. 이미 돌파 버튼이 씬에 매핑되었는지 체크
@@ -477,6 +483,7 @@ namespace CosmicChaosCat
             if (detailRoot != null) return;
 
             detailRoot = MakePanel(parent, new Vector2(0, 0), new Vector2(640, 420));
+            detailRoot.name = "DetailPopup";
             var dImg = detailRoot.GetComponent<Image>();
             dImg.color = new Color(0.06f, 0.08f, 0.14f, 0.98f);
             detailRoot.SetActive(false);

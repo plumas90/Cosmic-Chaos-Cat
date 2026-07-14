@@ -139,7 +139,7 @@ namespace CosmicChaosCat
             // Frame border color
             if (frameImage != null)
             {
-                frameImage.raycastTarget = false;
+                frameImage.raycastTarget = true; // MUST be true for Button component to receive clicks!
                 frameImage.color = unlocked ? (Color)RarityToColor(card.Rarity) : (Color)ColN;
             }
 
