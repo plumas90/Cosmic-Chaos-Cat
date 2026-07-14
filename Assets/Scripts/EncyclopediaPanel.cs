@@ -925,6 +925,49 @@ namespace CosmicChaosCat
                 detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough);
             }
 
+            // Fallback for detailName and detailDesc based on y-coordinate sorting
+            if (detailName == null || detailDesc == null)
+            {
+                var allTxts = detailRoot.GetComponentsInChildren<TMP_Text>(true);
+                var candidates = new List<TMP_Text>();
+                foreach (var t in allTxts)
+                {
+                    // Exclude known text components
+                    if (t == detailRareText || t == detailUnknownText || t == detailIncomeText) continue;
+                    if (t.GetComponentInParent<Button>() != null) continue; // Exclude button labels
+
+                    string nLower = t.name.ToLower();
+                    if (nLower.Contains("rare") || nLower.Contains("rarity") || nLower.Contains("unknown") || nLower.Contains("unk") || nLower.Contains("income") || nLower.Contains("수익") || nLower.Contains("돌파") || nLower.Contains("장착") || nLower.Contains("닫기"))
+                        continue;
+
+                    candidates.Add(t);
+                }
+
+                // Sort candidates by anchored position y in descending order (highest first)
+                candidates.Sort((a, b) => {
+                    var rtA = a.GetComponent<RectTransform>();
+                    var rtB = b.GetComponent<RectTransform>();
+                    if (rtA != null && rtB != null)
+                    {
+                        return rtB.anchoredPosition.y.CompareTo(rtA.anchoredPosition.y);
+                    }
+                    return 0;
+                });
+
+                if (detailName == null && candidates.Count > 0)
+                {
+                    detailName = candidates[0];
+                }
+                if (detailDesc == null && candidates.Count > 1)
+                {
+                    detailDesc = candidates[1];
+                }
+                else if (detailDesc == null && candidates.Count == 1 && detailName != candidates[0])
+                {
+                    detailDesc = candidates[0];
+                }
+            }
+
             detailRoot.SetActive(true);
 
             var card    = gm?.CardCatalog?.FindById(cardId);
