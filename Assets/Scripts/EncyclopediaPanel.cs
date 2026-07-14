@@ -782,15 +782,15 @@ namespace CosmicChaosCat
                 }
             }
 
-            if (claimTx  != null) claimTx.text = claimed ? "수령 완료" : "보상 받기";
+            if (claimTx  != null) claimTx.text = claimed ? "완료" : "보상 받기";
             if (claimBtn != null)
             {
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
                 var img = claimBtn.GetComponent<Image>();
                 if (img != null)
-                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
-                              : (allOwned ? new Color(0.70f, 0.45f, 0.05f)
-                                          : new Color(0.3f, 0.3f, 0.3f));
+                     img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
+                               : (allOwned ? new Color(0.70f, 0.45f, 0.05f)
+                                           : new Color(0.3f, 0.3f, 0.3f));
             }
         }
 

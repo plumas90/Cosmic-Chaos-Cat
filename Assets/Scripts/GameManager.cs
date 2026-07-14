@@ -175,18 +175,24 @@ namespace CosmicChaosCat
                 SetId = "set-cat-a",
                 SetName = "고양이 A 세트 (1~5)",
                 CardIds = new List<string> { "cat-1", "cat-2", "cat-3", "cat-4", "cat-5" },
-                SetCardWeightBonus = 1.2f,
-                StackEffectBonus = 0.5f,
-                ShardBonusMultiplier = 1.2f
+                CriticalChanceBonus = 0.05f,       // +5% Critical Chance
+                FlatIncomeBonus = 5d,              // +5 Gold flat Click Income
+                CriticalDamageBonus = 0.5f,        // +50% Critical Damage (adds 0.5 to multiplier)
+                GachaDiscountBonus = 0.1f,         // 10% Gacha Discount
+                ShardBonusMultiplier = 1.0f,
+                EffectDesc = "완성 보상: 크리티컬 확률 +5%, 클릭당 골드 +5, 크리티컬 데미지 +50%, 가챠 할인 +10%"
             });
             list.Add(new SetEntry
             {
                 SetId = "set-cat-b",
                 SetName = "고양이 B 세트 (6~10)",
                 CardIds = new List<string> { "cat-6", "cat-7", "cat-8", "cat-9", "cat-10" },
-                SetCardWeightBonus = 1.2f,
-                StackEffectBonus = 0.5f,
-                ShardBonusMultiplier = 1.2f
+                CriticalChanceBonus = 0.02f,       // +2% Critical Chance
+                FlatIncomeBonus = 2d,              // +2 Gold flat Click Income
+                CriticalDamageBonus = 0.2f,        // +20% Critical Damage
+                GachaDiscountBonus = 0.05f,        // 5% Gacha Discount
+                ShardBonusMultiplier = 1.0f,
+                EffectDesc = "완성 보상: 크리티컬 확률 +2%, 클릭당 골드 +2, 크리티컬 데미지 +20%, 가챠 할인 +5%"
             });
         }
 
@@ -254,7 +260,18 @@ namespace CosmicChaosCat
 
             bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
             float  critMult   = isCrit ? GetEffectiveCritMult() : 1f;
-            double income     = BaseClickIncome * GetEquippedIncomeMultiplier() * critMult;
+            
+            double flatSetIncome = 0d;
+            if (setCatalog != null)
+            {
+                foreach (var setId in completedSets)
+                {
+                    var set = setCatalog.FindById(setId);
+                    if (set != null) flatSetIncome += set.FlatIncomeBonus;
+                }
+            }
+
+            double income     = (BaseClickIncome * GetEquippedIncomeMultiplier() * critMult) + flatSetIncome;
 
             Money += income + comboReward;
             if (isCrit) CriticalHit?.Invoke();
@@ -485,8 +502,18 @@ namespace CosmicChaosCat
             if (type == GachaType.Super) baseTypeCost = 10000d;
 
             float  discount  = GetUpgradeEffectValue(UPG_GACHA_DISC);
+            float  setDiscount = 0f;
+            if (setCatalog != null)
+            {
+                foreach (var setId in completedSets)
+                {
+                    var set = setCatalog.FindById(setId);
+                    if (set != null) setDiscount += set.GachaDiscountBonus;
+                }
+            }
+            float totalDiscount = Mathf.Clamp(discount + setDiscount, 0f, 0.9f); // Cap discount at 90%
             
-            return Math.Round(baseTypeCost * (1f - discount), 0, MidpointRounding.AwayFromZero);
+            return Math.Round(baseTypeCost * (1f - totalDiscount), 0, MidpointRounding.AwayFromZero);
         }
 
         public void UnlockGachaType(GachaType type, double cost)
@@ -657,8 +684,34 @@ namespace CosmicChaosCat
             return multiplier;
         }
 
-        private float GetEffectiveCritChance() => baseCriticalChance  + GetUpgradeEffectValue(UPG_CRIT_CHANCE);
-        private float GetEffectiveCritMult()   => baseCriticalMultiplier * (1f + GetUpgradeEffectValue(UPG_CRIT_MULT));
+        private float GetEffectiveCritChance()
+        {
+            float chance = baseCriticalChance + GetUpgradeEffectValue(UPG_CRIT_CHANCE);
+            if (setCatalog != null)
+            {
+                foreach (var setId in completedSets)
+                {
+                    var set = setCatalog.FindById(setId);
+                    if (set != null) chance += set.CriticalChanceBonus;
+                }
+            }
+            return chance;
+        }
+
+        private float GetEffectiveCritMult()
+        {
+            float mult = baseCriticalMultiplier * (1f + GetUpgradeEffectValue(UPG_CRIT_MULT));
+            float setBonus = 0f;
+            if (setCatalog != null)
+            {
+                foreach (var setId in completedSets)
+                {
+                    var set = setCatalog.FindById(setId);
+                    if (set != null) setBonus += set.CriticalDamageBonus;
+                }
+            }
+            return mult + setBonus;
+        }
 
         public float GetUpgradeEffectValue(string upgradeId)
         {

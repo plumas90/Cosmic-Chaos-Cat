@@ -31,6 +31,7 @@ namespace CosmicChaosCat
         [SerializeField] private Button exchangeButton;
         [SerializeField] private Button menuButton;
         [SerializeField] private Button shopButton;
+        [SerializeField] private Button collectionButton;
 
         [Header("Panels — pre-placed, start inactive")]
         [SerializeField] private GachaPanel         gachaPanel;
@@ -38,6 +39,7 @@ namespace CosmicChaosCat
         [SerializeField] private UpgradePanel       upgradePanel;
         [SerializeField] private ShardExchangePanel exchangePanel;
         [SerializeField] private ShopPanel          shopPanel;
+        [SerializeField] private CollectionPanel    collectionPanel;
 
         [Header("Ending Screen — pre-placed, starts inactive")]
         [SerializeField] private GameObject endingScreen;
@@ -78,12 +80,21 @@ namespace CosmicChaosCat
                 }
                 if (!IsSceneInstance(gameManager))       gameManager       = FindObjectOfType<GameManager>(true);
 
-                if (!IsSceneInstance(gachaButton) || !IsSceneInstance(encyclopediaButton) || !IsSceneInstance(upgradeButton) || !IsSceneInstance(exchangeButton) || !IsSceneInstance(menuButton) || !IsSceneInstance(shopButton))
+                if (collectionPanel == null) collectionPanel = FindObjectOfType<CollectionPanel>(true);
+                if (collectionPanel == null)
+                {
+                    Debug.Log("[GameHud] CollectionPanel is missing in the scene. Creating dynamically.");
+                    var colGO = new GameObject("CollectionPanel", typeof(RectTransform));
+                    collectionPanel = colGO.AddComponent<CollectionPanel>();
+                }
+
+                if (!IsSceneInstance(gachaButton) || !IsSceneInstance(encyclopediaButton) || !IsSceneInstance(upgradeButton) || !IsSceneInstance(exchangeButton) || !IsSceneInstance(menuButton) || !IsSceneInstance(shopButton) || !IsSceneInstance(collectionButton))
                 {
                     TryAssignButtons();
                 }
 
                 EnsureShopButtonBuilt();
+                EnsureCollectionButtonBuilt();
 
                 Debug.Log($"[GameHud] Panels: gacha={gachaPanel!=null}, ency={encyclopediaPanel!=null}, shop={shopPanel!=null}, mgr={gameManager!=null}");
 
@@ -92,6 +103,7 @@ namespace CosmicChaosCat
                 SetPanelActive(upgradePanel,       false);
                 SetPanelActive(exchangePanel,      false);
                 SetPanelActive(shopPanel,          false);
+                SetPanelActive(collectionPanel,    false);
                 if (endingScreen != null) endingScreen.SetActive(false);
 
                 BuildConfirmDialog();
@@ -102,6 +114,7 @@ namespace CosmicChaosCat
                 if (upgradeButton != null) { upgradeButton.onClick.RemoveAllListeners(); upgradeButton.onClick.AddListener(ToggleUpgrade); }
                 if (exchangeButton != null) { exchangeButton.onClick.RemoveAllListeners(); exchangeButton.onClick.AddListener(ToggleExchange); }
                 if (shopButton != null) { shopButton.onClick.RemoveAllListeners(); shopButton.onClick.AddListener(ToggleShop); }
+                if (collectionButton != null) { collectionButton.onClick.RemoveAllListeners(); collectionButton.onClick.AddListener(ToggleCollection); }
                 if (menuButton != null) { menuButton.onClick.RemoveAllListeners(); menuButton.onClick.AddListener(GoToMenu); }
 
                 Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, shop={shopButton!=null}, menu={menuButton!=null}");
@@ -140,6 +153,7 @@ namespace CosmicChaosCat
                 else if (n.Contains("exchange") || n.Contains("교환")) exchangeButton = btn;
                 else if (n.Contains("menu") || n.Contains("메뉴")) menuButton = btn;
                 else if (n.Contains("shop") || n.Contains("상점")) shopButton = btn;
+                else if (n.Contains("collection") || n.Contains("수집품")) collectionButton = btn;
             }
         }
         private void OnEnable()
@@ -342,6 +356,14 @@ namespace CosmicChaosCat
             lastShopFrame = Time.frameCount;
             Debug.Log("[GameHud] ToggleShop"); Toggle(shopPanel);
         }
+        
+        private int lastCollectionFrame;
+        public void ToggleCollection()
+        {
+            if (Time.frameCount == lastCollectionFrame) return;
+            lastCollectionFrame = Time.frameCount;
+            Debug.Log("[GameHud] ToggleCollection"); Toggle(collectionPanel);
+        }
  
         /// <summary>메뉴 버튼 클릭 → 확인 다이얼로그 표시.</summary>
         public void GoToMenu()
@@ -461,6 +483,68 @@ namespace CosmicChaosCat
             else
             {
                 tx.fontSize = 16;
+            }
+        }
+
+        private void EnsureCollectionButtonBuilt()
+        {
+            if (collectionButton != null) return;
+
+            var existing = transform.Find("CollectionButton") ?? transform.Find("Btn_수집품");
+            if (existing != null)
+            {
+                collectionButton = existing.GetComponent<Button>();
+                return;
+            }
+
+            if (encyclopediaButton == null) return;
+
+            var encyRT = encyclopediaButton.GetComponent<RectTransform>();
+            if (encyRT == null) return;
+
+            var parent = encyclopediaButton.transform.parent;
+            var go = new GameObject("Btn_수집품");
+            go.transform.SetParent(parent, false);
+            
+            // Set sibling index to place it directly above the encyclopedia button
+            go.transform.SetSiblingIndex(encyclopediaButton.transform.GetSiblingIndex());
+
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchorMin = encyRT.anchorMin;
+            rt.anchorMax = encyRT.anchorMax;
+            rt.pivot = encyRT.pivot;
+            rt.sizeDelta = encyRT.sizeDelta;
+
+            var encyImg = encyclopediaButton.GetComponent<Image>();
+            var img = go.AddComponent<Image>();
+            if (encyImg != null)
+            {
+                img.sprite = encyImg.sprite;
+                img.type = encyImg.type;
+            }
+            img.color = new Color(0.6f, 0.2f, 0.6f, 1f); // Purple color theme for Collectibles
+
+            var btn = go.AddComponent<Button>();
+            btn.colors = encyclopediaButton.colors;
+            collectionButton = btn;
+            collectionButton.onClick.AddListener(ToggleCollection);
+
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+
+            var tx = labelGO.AddComponent<TextMeshProUGUI>();
+            tx.text = "수집품";
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color = Color.white;
+
+            var encyTxt = encyclopediaButton.GetComponentInChildren<TMP_Text>();
+            if (encyTxt != null)
+            {
+                tx.font = encyTxt.font;
+                tx.fontSize = encyTxt.fontSize;
             }
         }
     }

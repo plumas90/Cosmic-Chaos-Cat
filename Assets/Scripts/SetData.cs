@@ -26,9 +26,11 @@ namespace CosmicChaosCat
         public string SetId;
         public string SetName;
         public List<string> CardIds = new List<string>();
-        public float SetCardWeightBonus = 1.2f;
-        public float StackEffectBonus = 0.5f;
-        public float ShardBonusMultiplier = 1.2f;
+        public float CriticalChanceBonus = 0f;
+        public double FlatIncomeBonus = 0d;
+        public float CriticalDamageBonus = 0f;
+        public float GachaDiscountBonus = 0f;
+        public float ShardBonusMultiplier = 1.0f;
         [TextArea(2, 4)]
         public string EffectDesc;   // 세트 보상 효과 설명 (비어있으면 "아무 효과 없음" 표시)
     }
