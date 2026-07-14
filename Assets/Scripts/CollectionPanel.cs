@@ -32,10 +32,21 @@ namespace CosmicChaosCat
         [SerializeField] private List<CollectibleItem> decorations = new List<CollectibleItem>();
 
         private bool showBgTab = true;
+        private static TMP_FontAsset defaultFont;
+
+        // Styles
+        private static readonly Color PanelBG = new Color(0.08f, 0.10f, 0.16f, 0.97f);
+        private static readonly Color PageBG  = new Color(0.12f, 0.15f, 0.23f, 0.95f);
+        private static readonly Color SlotBG  = new Color(0.18f, 0.22f, 0.33f, 1f);
+        private static readonly Color TabActive = new Color(0.6f, 0.2f, 0.6f, 1f); // Purple
+        private static readonly Color TabInactive = new Color(0.25f, 0.25f, 0.35f, 1f);
 
         private void Awake()
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
+            if (defaultFont == null) defaultFont = FindObjectOfType<TMP_Text>()?.font;
+
+            BuildUI();
             AutoWireFields();
             InitializeDefaultItems();
         }
@@ -106,6 +117,14 @@ namespace CosmicChaosCat
                 if (child.name.StartsWith("Slot_") || child.name.ToLower().Contains("slot"))
                 {
                     slotList.Add(child);
+                }
+                // Check in children page containers if any
+                foreach (Transform sub in child)
+                {
+                    if (sub.name.StartsWith("Slot_") || sub.name.ToLower().Contains("slot"))
+                    {
+                        slotList.Add(sub);
+                    }
                 }
             }
 
@@ -194,19 +213,16 @@ namespace CosmicChaosCat
 
         private void UpdateTabButtonStyles()
         {
-            Color activeColor = new Color(0.6f, 0.2f, 0.6f, 1f); // Purple theme active
-            Color inactiveColor = new Color(0.25f, 0.25f, 0.35f, 1f);
-
             if (bgTabBtn != null)
             {
                 var img = bgTabBtn.GetComponent<Image>();
-                if (img != null) img.color = showBgTab ? activeColor : inactiveColor;
+                if (img != null) img.color = showBgTab ? TabActive : TabInactive;
             }
 
             if (decoTabBtn != null)
             {
                 var img = decoTabBtn.GetComponent<Image>();
-                if (img != null) img.color = !showBgTab ? activeColor : inactiveColor;
+                if (img != null) img.color = !showBgTab ? TabActive : TabInactive;
             }
         }
 
@@ -236,14 +252,213 @@ namespace CosmicChaosCat
             }
         }
 
+        // ════════════════════════════════════════════════════════════════════
+        //  UI CONSTRUCTION (DYNAMICAL RUNTIME BUILD)
+        // ════════════════════════════════════════════════════════════════════
+        public void BuildUI()
+        {
+            // If already wired, do not rebuild
+            if (bgPanel != null || transform.childCount > 0) return;
+
+            if (defaultFont == null) defaultFont = FindObjectOfType<TMP_Text>()?.font;
+
+            // Fullscreen panel setup
+            var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+
+            // Translucent black overlay bg
+            var overlayImg = GetComponent<Image>() ?? gameObject.AddComponent<Image>();
+            overlayImg.color = new Color(0, 0, 0, 0.65f);
+
+            // Center Panel (Book size)
+            var panel = MakePanel(transform, new Vector2(0, 0), new Vector2(980, 640));
+            
+            // Title Text
+            MakeText(panel.transform, "수집품 도감", new Vector2(0, 275), new Vector2(300, 45), 24, Color.white).fontStyle = FontStyles.Bold;
+
+            // Tabs Construction
+            float tabY = 285f;
+            bgTabBtn = MakeButton(panel.transform, "배경", new Vector2(-160, tabY), new Vector2(90, 36), TabActive, () => { showBgTab = true; Refresh(); }).GetComponent<Button>();
+            decoTabBtn = MakeButton(panel.transform, "장식품", new Vector2(-60, tabY), new Vector2(90, 36), TabInactive, () => { showBgTab = false; Refresh(); }).GetComponent<Button>();
+
+            // Close Button
+            closeBtn = MakeButton(panel.transform, "✕", new Vector2(470, 300), new Vector2(44, 44), new Color(0.7f, 0.20f, 0.20f, 1f), () => gameObject.SetActive(false)).GetComponent<Button>();
+
+            // Book Areas
+            bgPanel = MakeEmptyRT(panel.transform, "BgPanel", new Vector2(-10, -20), new Vector2(960, 560));
+            decoPanel = MakeEmptyRT(panel.transform, "DecoPanel", new Vector2(-10, -20), new Vector2(960, 560));
+            decoPanel.SetActive(false);
+
+            // Build slots for both panels (8 on left page, 8 on right page = 16 slots per panel)
+            BuildPanelPages(bgPanel.transform);
+            BuildPanelPages(decoPanel.transform);
+        }
+
+        private void BuildPanelPages(Transform parentTf)
+        {
+            var leftPage  = MakePage(parentTf, new Vector2(-230, 0), new Vector2(440, 500));
+            var rightPage = MakePage(parentTf, new Vector2( 230, 0), new Vector2(440, 500));
+
+            // 4x2 grid of slots on Left Page (indices 0 to 7)
+            BuildSlotGrid(leftPage.transform, 0);
+            // 4x2 grid of slots on Right Page (indices 8 to 15)
+            BuildSlotGrid(rightPage.transform, 8);
+        }
+
+        private void BuildSlotGrid(Transform pageTf, int startIdx)
+        {
+            float colW = 95f, rowH = 180f;
+            float startX = -142.5f;
+            float startY = 90f;
+
+            for (int row = 0; row < 2; row++)
+            for (int col = 0; col < 4; col++)
+            {
+                int si = startIdx + row * 4 + col;
+                float x = startX + col * colW;
+                float y = startY - row * rowH;
+
+                var slotGO = new GameObject($"Slot_{si}");
+                slotGO.transform.SetParent(pageTf, false);
+                slotGO.AddComponent<Button>();
+
+                var slotRT = slotGO.AddComponent<RectTransform>();
+                slotRT.anchoredPosition = new Vector2(x, y);
+                slotRT.sizeDelta        = new Vector2(85, 140);
+
+                var slotImg = slotGO.AddComponent<Image>();
+                slotImg.color = SlotBG;
+
+                // Frame outline
+                MakeImage(slotGO.transform, "Frame", Vector2.zero, new Vector2(75, 130), new Color(0.4f, 0.4f, 0.4f, 0.5f));
+
+                // Image Art
+                MakeImage(slotGO.transform, "Art", new Vector2(0, 10), new Vector2(65, 80), Color.gray);
+
+                // Name Text
+                var nameTx = MakeText(slotGO.transform, "???", new Vector2(0, -45), new Vector2(75, 20), 10, Color.white);
+                nameTx.alignment = TextAlignmentOptions.Center;
+
+                // Locked Overlay (Unknown)
+                var unkGO = new GameObject("Unknown");
+                unkGO.transform.SetParent(slotGO.transform, false);
+                var unkRT = unkGO.AddComponent<RectTransform>();
+                unkRT.anchorMin = Vector2.zero; unkRT.anchorMax = Vector2.one;
+                unkRT.offsetMin = Vector2.zero; unkRT.offsetMax = Vector2.zero;
+                unkGO.AddComponent<Image>().color = new Color(0.05f, 0.05f, 0.10f, 0.85f);
+
+                var unkTx = MakeText(unkGO.transform, "?", new Vector2(0, 0), new Vector2(70, 70), 32, new Color(0.5f, 0.5f, 0.6f));
+                unkTx.alignment = TextAlignmentOptions.Center;
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  UI FACTORY HELPERS
+        // ════════════════════════════════════════════════════════════════════
+        private static GameObject MakePanel(Transform parent, Vector2 anchoredPos, Vector2 size)
+        {
+            var go = new GameObject("Panel");
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = anchoredPos;
+            rt.sizeDelta        = size;
+            go.AddComponent<Image>().color = PanelBG;
+            return go;
+        }
+
+        private static GameObject MakePage(Transform parent, Vector2 pos, Vector2 size)
+        {
+            var go = new GameObject("Page");
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+            go.AddComponent<Image>().color = PageBG;
+            return go;
+        }
+
+        private static GameObject MakeEmptyRT(Transform parent, string name, Vector2 pos, Vector2 size)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+            return go;
+        }
+
+        private static GameObject MakeImage(Transform parent, string name, Vector2 pos, Vector2 size, Color col)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+            go.AddComponent<Image>().color = col;
+            return go;
+        }
+
+        private static TMP_Text MakeText(Transform parent, string text, Vector2 pos, Vector2 size, int fontSize, Color col)
+        {
+            var go = new GameObject("Text");
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+            var tx = go.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
+            tx.text      = text;
+            tx.fontSize  = fontSize;
+            tx.color     = col;
+            tx.alignment = TextAlignmentOptions.Center;
+            return tx;
+        }
+
+        private static GameObject MakeButton(Transform parent, string label, Vector2 pos, Vector2 size,
+            Color bgColor, UnityEngine.Events.UnityAction onClick)
+        {
+            var go = new GameObject("Btn_" + label);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+
+            var img = go.AddComponent<Image>();
+            img.color = bgColor;
+
+            var btn = go.AddComponent<Button>();
+            var cs  = btn.colors;
+            cs.highlightedColor = bgColor * 1.25f;
+            cs.pressedColor     = bgColor * 0.75f;
+            btn.colors          = cs;
+            btn.onClick.AddListener(onClick);
+
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+            var tx  = labelGO.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
+            tx.text      = label;
+            tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 20);
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color     = Color.white;
+
+            return go;
+        }
+
         private void AutoWireFields()
         {
-            if (bgTabBtn == null) bgTabBtn = transform.Find("Tab_Bg")?.GetComponent<Button>() ?? transform.Find("Tab_배경")?.GetComponent<Button>() ?? FindChildContains<Button>("배경");
-            if (decoTabBtn == null) decoTabBtn = transform.Find("Tab_Deco")?.GetComponent<Button>() ?? transform.Find("Tab_장식품")?.GetComponent<Button>() ?? FindChildContains<Button>("장식");
-            if (closeBtn == null) closeBtn = transform.Find("CloseBtn")?.GetComponent<Button>() ?? transform.Find("Btn_Close")?.GetComponent<Button>() ?? FindChildContains<Button>("닫기");
+            if (bgTabBtn == null) bgTabBtn = transform.Find("Panel/Btn_배경")?.GetComponent<Button>() ?? transform.Find("Btn_배경")?.GetComponent<Button>() ?? FindChildContains<Button>("배경");
+            if (decoTabBtn == null) decoTabBtn = transform.Find("Panel/Btn_장식품")?.GetComponent<Button>() ?? transform.Find("Btn_장식품")?.GetComponent<Button>() ?? FindChildContains<Button>("장식");
+            if (closeBtn == null) closeBtn = transform.Find("Panel/Btn_✕")?.GetComponent<Button>() ?? transform.Find("Btn_✕")?.GetComponent<Button>() ?? FindChildContains<Button>("닫기");
 
-            if (bgPanel == null) bgPanel = transform.Find("BgPanel")?.gameObject ?? transform.Find("Panel_Bg")?.gameObject ?? transform.Find("배경패널")?.gameObject;
-            if (decoPanel == null) decoPanel = transform.Find("DecoPanel")?.gameObject ?? transform.Find("Panel_Deco")?.gameObject ?? transform.Find("장식패널")?.gameObject;
+            if (bgPanel == null) bgPanel = transform.Find("Panel/BgPanel")?.gameObject ?? transform.Find("BgPanel")?.gameObject;
+            if (decoPanel == null) decoPanel = transform.Find("Panel/DecoPanel")?.gameObject ?? transform.Find("DecoPanel")?.gameObject;
         }
 
         private T FindChildContains<T>(string keyword) where T : Component

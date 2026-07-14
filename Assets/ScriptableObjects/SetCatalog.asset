@@ -20,9 +20,12 @@ MonoBehaviour:
     - cat-2
     - cat-3
     - cat-4
-    SetCardWeightBonus: 1.1
-    StackEffectBonus: 0.2
-    ShardBonusMultiplier: 1.1
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
+    ShardBonusMultiplier: 0
+    EffectDesc: 
   - SetId: basic
     SetName: "\uAE30\uBCF8 \uB0E5\uC774 \uC138\uD2B8"
     CardIds:
@@ -47,9 +50,12 @@ MonoBehaviour:
     - cat-hairball
     - cat-fish-tank
     - cat-loaf
-    SetCardWeightBonus: 1.15
-    StackEffectBonus: 0.3
-    ShardBonusMultiplier: 1.2
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
+    ShardBonusMultiplier: 0
+    EffectDesc: 
   - SetId: internet
     SetName: "\uC778\uD130\uB137 \uBC08 \uC138\uD2B8"
     CardIds:
@@ -71,9 +77,12 @@ MonoBehaviour:
     - cat-rich-furry
     - cat-miku
     - cat-sleeping-cool
-    SetCardWeightBonus: 1.2
-    StackEffectBonus: 0.4
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
   - SetId: meme
     SetName: "\uBC08 \uCE74\uB4DC \uC138\uD2B8"
     CardIds:
@@ -99,9 +108,12 @@ MonoBehaviour:
     - cat-eaten
     - cat-desktop-frog
     - cat-tiger-shadow
-    SetCardWeightBonus: 1.2
-    StackEffectBonus: 0.4
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
   - SetId: food
     SetName: "\uC74C\uC2DD \uACE0\uC591\uC774 \uC138\uD2B8"
     CardIds:
@@ -111,9 +123,12 @@ MonoBehaviour:
     - cat-hotdog
     - cat-burger
     - cat-gingerbread
-    SetCardWeightBonus: 1.15
-    StackEffectBonus: 0.3
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
   - SetId: fantasy
     SetName: "\uD310\uD0C0\uC9C0 \uB0E5\uC774 \uC138\uD2B8"
     CardIds:
@@ -136,9 +151,12 @@ MonoBehaviour:
     - cat-mermaid
     - cat-genie
     - cat-cannon
-    SetCardWeightBonus: 1.25
-    StackEffectBonus: 0.5
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
   - SetId: game
     SetName: "\uAC8C\uC784 \uBC08 \uC138\uD2B8"
     CardIds:
@@ -153,9 +171,12 @@ MonoBehaviour:
     - cat-demian-eyepatch
     - cat-scouter
     - cat-isaac-tech
-    SetCardWeightBonus: 1.2
-    StackEffectBonus: 0.4
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
   - SetId: internet2
     SetName: "\uC778\uD130\uB137 \uC774\uB984 \uC138\uD2B8"
     CardIds:
@@ -165,6 +186,9 @@ MonoBehaviour:
     - cat-martial-arts
     - cat-mural
     - cat-roomba
-    SetCardWeightBonus: 1.15
-    StackEffectBonus: 0.3
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
     ShardBonusMultiplier: 1.2
+    EffectDesc: 
