@@ -450,8 +450,6 @@ namespace CosmicChaosCat
                 var rarityTx= MakeText(slotGO.transform, "",
                     new Vector2(0, -48), new Vector2(88, 14), 8, Color.gray);
                 rarityTx.alignment = TextAlignmentOptions.Center;
-                var stackTx = MakeText(slotGO.transform, "",
-                    new Vector2(32, 38), new Vector2(28, 16), 8, Color.yellow);
 
                 // 미해금 오버레이
                 var unkGO = new GameObject("Unknown");
@@ -470,7 +468,7 @@ namespace CosmicChaosCat
                 slotUI.InitUI(
                     frameGO.GetComponent<Image>(),
                     artGO.GetComponent<Image>(),
-                    nameTx, rarityTx, stackTx,
+                    nameTx, rarityTx,
                     unkGO
                 );
 

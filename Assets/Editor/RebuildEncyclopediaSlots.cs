@@ -101,9 +101,6 @@ public class RebuildEncyclopediaSlots : MonoBehaviour
             
             var rarityTx= MakeText(slotGO.transform, "", new Vector2(0, -64), new Vector2(117, 18), 10, Color.gray);
             rarityTx.alignment = TextAlignmentOptions.Center;
-            
-            var stackTx = MakeText(slotGO.transform, "", new Vector2(42, 50), new Vector2(37, 21), 10, Color.yellow);
-            stackTx.alignment = TextAlignmentOptions.Center;
 
             // 미해금 오버레이
             var unkGO = new GameObject("Unknown");
@@ -122,7 +119,6 @@ public class RebuildEncyclopediaSlots : MonoBehaviour
                 artGO.GetComponent<Image>(),
                 nameTx,
                 rarityTx,
-                stackTx,
                 unkGO
             );
         }

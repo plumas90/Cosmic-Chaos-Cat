@@ -14,7 +14,6 @@ namespace CosmicChaosCat
         [SerializeField] private Image      cardArtImage;
         [SerializeField] private TMP_Text   nameText;
         [SerializeField] private TMP_Text   rarityText;
-        [SerializeField] private TMP_Text   stackText;
         [SerializeField] private GameObject unknownOverlay;   // "???" cover
         [SerializeField] private Button     equipButton;
 
@@ -28,11 +27,25 @@ namespace CosmicChaosCat
         private GameManager gm;
         private string      cardId;
 
+        private bool initialized = false;
+        private Color originalRarityColor = Color.white;
+
         private void Awake()
         {
+            EnsureInit();
+        }
+
+        public void EnsureInit()
+        {
+            if (initialized) return;
+            initialized = true;
+
             var txts = GetComponentsInChildren<TMP_Text>(true);
             if (txts != null)
             {
+                TMP_Text foundName = null;
+                TMP_Text foundRarity = null;
+
                 // 1. 이름 매핑 및 Unknown 자식 예외 처리
                 foreach (var t in txts)
                 {
@@ -42,17 +55,17 @@ namespace CosmicChaosCat
                     string nameLower = t.name.ToLower();
                     if (nameLower.Contains("name"))
                     {
-                        if (nameText == null) nameText = t;
+                        if (foundName == null) foundName = t;
                     }
                     else if (nameLower.Contains("rarity") || nameLower.Contains("rare"))
                     {
-                        if (rarityText == null) rarityText = t;
-                    }
-                    else if (nameLower.Contains("stack") || nameLower.Contains("count") || nameLower.Contains("copies"))
-                    {
-                        if (stackText == null) stackText = t;
+                        if (foundRarity == null) foundRarity = t;
                     }
                 }
+
+                // 매핑된 것이 있다면 강제로 덮어씌움 (기존 직렬화된 구버전 오브젝트 무시)
+                if (foundName != null) nameText = foundName;
+                if (foundRarity != null) { rarityText = foundRarity; originalRarityColor = foundRarity.color; }
 
                 // 2. 이름 매핑 실패 시 순서대로 덮어씌움 (Unknown 텍스트는 필터링)
                 var cleanTxts = new System.Collections.Generic.List<TMP_Text>();
@@ -62,13 +75,14 @@ namespace CosmicChaosCat
                         cleanTxts.Add(t);
                 }
                 if (nameText == null && cleanTxts.Count >= 1) nameText = cleanTxts[0];
-                if (rarityText == null && cleanTxts.Count >= 2) rarityText = cleanTxts[1];
-                if (stackText == null && cleanTxts.Count >= 3) stackText = cleanTxts[2];
+                if (rarityText == null && cleanTxts.Count >= 2) { rarityText = cleanTxts[1]; originalRarityColor = rarityText.color; }
             }
         }
 
         public void SetData(CardEntry card, int cardIndex, CardProgress progress, GameManager gameManager, System.Action<string> onSlotClicked)
         {
+            EnsureInit();
+
             gm     = gameManager;
             cardId = card.Id;
 
@@ -107,17 +121,14 @@ namespace CosmicChaosCat
                 rarityText.enableWordWrapping = false;
                 rarityText.overflowMode = TextOverflowModes.Overflow;
                 rarityText.text = unlocked ? card.Rarity.ToString() : "?";
-                rarityText.color = unlocked ? RarityToColor(card.Rarity) : (Color)ColN;
+                
+                Color targetColor = (Color)ColN; // Locked color
+                if (unlocked)
+                {
+                    targetColor = (card.Rarity == CardRarity.N) ? originalRarityColor : RarityToColor(card.Rarity);
+                }
+                rarityText.color = targetColor;
                 rarityText.raycastTarget = false;
-            }
-            if (stackText != null)
-            {
-                stackText.gameObject.SetActive(true);
-                stackText.enabled = true;
-                stackText.enableWordWrapping = false;
-                stackText.overflowMode = TextOverflowModes.Overflow;
-                stackText.text = (unlocked && progress != null && progress.Copies > 1) ? $"x{progress.Copies}" : string.Empty;
-                stackText.raycastTarget = false;
             }
 
             // Art
@@ -156,13 +167,12 @@ namespace CosmicChaosCat
 
         private void OnEquip() => gm?.EquipCard(cardId);
 
-        public void InitUI(Image frame, Image art, TMP_Text nameTx, TMP_Text rarityTx, TMP_Text stackTx, GameObject unknown)
+        public void InitUI(Image frame, Image art, TMP_Text nameTx, TMP_Text rarityTx, GameObject unknown)
         {
             frameImage = frame;
             cardArtImage = art;
             nameText = nameTx;
             rarityText = rarityTx;
-            stackText = stackTx;
             unknownOverlay = unknown;
         }
 
