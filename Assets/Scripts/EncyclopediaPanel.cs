@@ -671,73 +671,34 @@ namespace CosmicChaosCat
         // 세트 페이지 슬롯 최초 빌드 및 데이터 갱신 (통합 처리)
         private void RefreshSetPageData(Transform pageTf, SetEntry setEntry, List<CardSlotUI> pool)
         {
+            // ── 빈 페이지 처리 ──────────────────────────────────────────────
             if (setEntry == null)
             {
-                // 데이터가 없는 페이지는 모든 슬롯 비활성화 및 타이틀 비활성화
-                foreach (var slot in pool)
-                {
-                    if (slot != null) slot.gameObject.SetActive(false);
-                }
-                var existingTitle = pageTf.Find("SetNameTitle");
-                if (existingTitle != null) existingTitle.gameObject.SetActive(false);
-                var existingBtn = pageTf.Find("ClaimBtn");
-                if (existingBtn != null) existingBtn.gameObject.SetActive(false);
+                foreach (var s in pool) if (s != null) s.gameObject.SetActive(false);
+                var et = pageTf.Find("SetNameTitle"); if (et != null) et.gameObject.SetActive(false);
+                var eb = pageTf.Find("ClaimBtn");     if (eb != null) eb.gameObject.SetActive(false);
+                
+                // 설명용 텍스트 찾아서 꺼주기
+                var ed = FindDescriptionText(pageTf);
+                if (ed != null) ed.gameObject.SetActive(false);
                 return;
             }
 
-            // 1. 세트 이름 타이틀 설정 (씬에 있으면 재사용, 없으면 생성)
-            TMP_Text title = null;
+            // ── 1. 세트 이름 타이틀 ─────────────────────────────────────────
             var titleTf = pageTf.Find("SetNameTitle");
             if (titleTf != null)
             {
                 titleTf.gameObject.SetActive(true);
-                title = titleTf.GetComponent<TMP_Text>();
-                if (title != null) title.text = setEntry.SetName;
-            }
-            else
-            {
-                title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 280), new Vector2(380, 40), 16, Color.black);
-                title.gameObject.name = "SetNameTitle";
-                title.fontStyle  = FontStyles.Bold;
-                title.alignment  = TextAlignmentOptions.Center;
-                title.raycastTarget = false;
+                var t = titleTf.GetComponent<TMP_Text>();
+                if (t != null) t.text = setEntry.SetName;
             }
 
-            // 2. 카드 슬롯 데이터 주입
+            // ── 2. 카드 슬롯: 위치/크기 건드리지 않고 SetActive + 데이터만 주입 ──
             var states  = gm.GetCardStates();
             var catalog = gm.CardCatalog?.Cards;
             int cardCount = setEntry.CardIds.Count;
             bool allOwned = true;
 
-            // 기준 템플릿 슬롯(Slot_0) 검색
-            GameObject templateGO = null;
-            var foundTemplate = FindChildByNameContainsRecursive(transform.root, "Slot_0");
-            if (foundTemplate != null) templateGO = foundTemplate.gameObject;
-            if (templateGO == null && slots.Count > 0 && slots[0].go != null) templateGO = slots[0].go;
-
-            // 기준 슬롯에서 카드 크기 및 Y좌표 읽기
-            // ▶ Slot_0의 anchoredPosition = 카드 행 전체의 중심 기준점
-            float cardW = 120f, cardH = 146f;
-            float rowCenterX = 0f, rowCenterY = 20f;
-            if (templateGO != null)
-            {
-                var tRT = templateGO.GetComponent<RectTransform>();
-                if (tRT != null)
-                {
-                    cardW      = tRT.sizeDelta.x;
-                    cardH      = tRT.sizeDelta.y;
-                    rowCenterX = tRT.anchoredPosition.x;   // 하이라키에서 Slot_0 X로 행 중심 조정
-                    rowCenterY = tRT.anchoredPosition.y;   // 하이라키에서 Slot_0 Y로 행 높이 조정
-                }
-            }
-
-            // 활성화될 슬롯 수 계산 → 가로 균등 배치 파라미터
-            int activeCount = Mathf.Min(pool.Count, cardCount);
-            float spacing = cardW + 10f;
-            // Slot_0의 위치를 행 중심으로 삼아 좌우 균등 배치
-            float startX = rowCenterX - (activeCount - 1) * spacing / 2f;
-
-            // 풀에 담긴 슬롯 개수만큼 돌면서 데이터를 덮어씌움
             for (int i = 0; i < pool.Count; i++)
             {
                 var slot = pool[i];
@@ -751,28 +712,17 @@ namespace CosmicChaosCat
                     bool unlocked = prog != null && prog.Unlocked;
                     if (!unlocked) allOwned = false;
 
-                    int cardIndexInCatalog = 1;
+                    int cardIndex = 1;
                     CardEntry displayCard = null;
                     if (catalog != null)
                     {
                         for (int c = 0; c < catalog.Count; c++)
                         {
-                            if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndexInCatalog = c + 1; break; }
+                            if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndex = c + 1; break; }
                         }
                     }
-
                     if (displayCard != null)
-                    {
-                        slot.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
-
-                        // 크기는 Slot_0 기준, 위치는 Slot_0을 중심으로 가로 균등 배치
-                        var slotRT = slot.GetComponent<RectTransform>();
-                        if (slotRT != null)
-                        {
-                            slotRT.sizeDelta        = new Vector2(cardW, cardH);
-                            slotRT.anchoredPosition = new Vector2(startX + i * spacing, rowCenterY);
-                        }
-                    }
+                        slot.SetData(displayCard, cardIndex, prog, gm, OpenDetail);
                 }
                 else
                 {
@@ -780,51 +730,45 @@ namespace CosmicChaosCat
                 }
             }
 
-            // 3. 보상 버튼 설정 (씬에 있으면 재사용, 없으면 생성)
+            // ── 3. 세트 효과 설명 텍스트 업데이트 (하이라키 검출 방식) ───────
+            var descTx = FindDescriptionText(pageTf);
+            if (descTx != null)
+            {
+                descTx.gameObject.SetActive(true);
+                string desc = string.IsNullOrWhiteSpace(setEntry.EffectDesc)
+                    ? "아무 효과 없음"
+                    : setEntry.EffectDesc;
+                descTx.text = desc;
+            }
+
+            // ── 4. 보상 버튼 ─────────────────────────────────────────────────
             bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
-            Button claimBtn = null;
-            TMP_Text claimText = null;
             var btnTf = pageTf.Find("ClaimBtn");
-            
+
+            Button claimBtn  = null;
+            TMP_Text claimTx = null;
+
             if (btnTf != null)
             {
                 btnTf.gameObject.SetActive(true);
                 claimBtn = btnTf.GetComponent<Button>();
-                claimText = btnTf.GetComponentInChildren<TMP_Text>();
+                claimTx  = btnTf.GetComponentInChildren<TMP_Text>();
                 if (claimBtn != null)
                 {
                     claimBtn.onClick.RemoveAllListeners();
-                    claimBtn.onClick.AddListener(() =>
-                    {
-                        gm.ClaimSetReward(setEntry.SetId);
-                        RefreshSets();
-                    });
+                    claimBtn.onClick.AddListener(() => { gm.ClaimSetReward(setEntry.SetId); RefreshSets(); });
                 }
             }
-            else
-            {
-                var btnGO = MakeButton(pageTf, "보상 받기", new Vector2(0, -160), new Vector2(180, 44),
-                    claimed ? new Color(0.2f, 0.45f, 0.2f) : (allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f)),
-                    () =>
-                    {
-                        gm.ClaimSetReward(setEntry.SetId);
-                        RefreshSets();
-                    });
-                btnGO.name = "ClaimBtn";
-                claimBtn = btnGO.GetComponent<Button>();
-                claimText = btnGO.GetComponentInChildren<TMP_Text>();
-            }
 
-            // 보상 버튼 상태 갱신
-            if (claimText != null) claimText.text = claimed ? "수령 완료" : "보상 받기";
+            if (claimTx  != null) claimTx.text = claimed ? "수령 완료" : "보상 받기";
             if (claimBtn != null)
             {
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
                 var img = claimBtn.GetComponent<Image>();
                 if (img != null)
-                {
-                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f) : (allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f));
-                }
+                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
+                              : (allOwned ? new Color(0.70f, 0.45f, 0.05f)
+                                          : new Color(0.3f, 0.3f, 0.3f));
             }
         }
 
@@ -832,6 +776,21 @@ namespace CosmicChaosCat
         private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
         {
             RefreshSetPageData(pageTf, setEntry, new List<CardSlotUI>());
+        }
+
+        private TMP_Text FindDescriptionText(Transform pageTf)
+        {
+            for (int k = 0; k < pageTf.childCount; k++)
+            {
+                var child = pageTf.GetChild(k);
+                string n = child.name;
+                // 알려진 컴포넌트(제목, 슬롯, 보상 버튼, 빈페이지 메시지)는 건너뜀
+                if (n == "SetNameTitle" || n.StartsWith("Slot_") || n == "ClaimBtn" || n == "BlankPageText") continue;
+                
+                var tx = child.GetComponent<TMP_Text>();
+                if (tx != null) return tx;
+            }
+            return null;
         }
 
         /// <summary>
@@ -850,18 +809,18 @@ namespace CosmicChaosCat
                 title.fontStyle          = FontStyles.Bold;
                 title.alignment          = TextAlignmentOptions.Center;
                 title.raycastTarget      = false;
-                title.gameObject.SetActive(false);  // 데이터 주입 전까지 숨김
+                title.gameObject.SetActive(false);
             }
 
             // ── 보상 받기 버튼 ────────────────────────────────────────────────
             if (pageTf.Find("ClaimBtn") == null)
             {
                 var btnGO = MakeButton(pageTf, "보상 받기",
-                    new Vector2(0, -160),       // ← 하이라키에서 Y 조정 가능
+                    new Vector2(110, -200),     // ← 하이라키에서 위치 조정 가능
                     new Vector2(180, 44),
                     new Color(0.3f, 0.3f, 0.3f), () => { });
                 btnGO.name = "ClaimBtn";
-                btnGO.SetActive(false);         // 데이터 주입 전까지 숨김
+                btnGO.SetActive(false);
             }
         }
 
@@ -1329,13 +1288,16 @@ namespace CosmicChaosCat
                 {
                     var childSlots = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
                     var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
-                    // X좌표 오름차순으로 정렬하여 왼쪽 카드부터 순서대로 매핑되도록 보장
+                    // 행 우선(Row-Major) 정렬: Y 내림차순(위→아래) → X 오름차순(좌→우)
                     list.Sort((a, b) =>
                     {
-                        var artA = a.GetComponent<RectTransform>();
-                        var artB = b.GetComponent<RectTransform>();
-                        if (artA != null && artB != null) return artA.anchoredPosition.x.CompareTo(artB.anchoredPosition.x);
-                        return 0;
+                        var rtA = a.GetComponent<RectTransform>();
+                        var rtB = b.GetComponent<RectTransform>();
+                        if (rtA == null || rtB == null) return 0;
+                        float rowTolerance = 20f; // 같은 행으로 간주할 Y 오차 범위
+                        float dy = rtB.anchoredPosition.y - rtA.anchoredPosition.y;
+                        if (Mathf.Abs(dy) > rowTolerance) return dy > 0 ? 1 : -1; // Y 내림차순
+                        return rtA.anchoredPosition.x.CompareTo(rtB.anchoredPosition.x); // 같은 행: X 오름차순
                     });
                     leftSetSlots.AddRange(list);
                 }
@@ -1346,10 +1308,13 @@ namespace CosmicChaosCat
                     var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
                     list.Sort((a, b) =>
                     {
-                        var artA = a.GetComponent<RectTransform>();
-                        var artB = b.GetComponent<RectTransform>();
-                        if (artA != null && artB != null) return artA.anchoredPosition.x.CompareTo(artB.anchoredPosition.x);
-                        return 0;
+                        var rtA = a.GetComponent<RectTransform>();
+                        var rtB = b.GetComponent<RectTransform>();
+                        if (rtA == null || rtB == null) return 0;
+                        float rowTolerance = 20f;
+                        float dy = rtB.anchoredPosition.y - rtA.anchoredPosition.y;
+                        if (Mathf.Abs(dy) > rowTolerance) return dy > 0 ? 1 : -1;
+                        return rtA.anchoredPosition.x.CompareTo(rtB.anchoredPosition.x);
                     });
                     rightSetSlots.AddRange(list);
                 }
