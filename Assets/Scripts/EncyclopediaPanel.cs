@@ -435,7 +435,7 @@ namespace CosmicChaosCat
                 var unkImg = unkGO.AddComponent<Image>();
                 unkImg.color = new Color(0.05f, 0.05f, 0.10f, 0.85f);
                 var unkTx = MakeText(unkGO.transform, "?",
-                    Vector2.zero, new Vector2(80, 80), 36, new Color(0.5f, 0.5f, 0.6f));
+                    new Vector2(0, 15), new Vector2(80, 80), 36, new Color(0.5f, 0.5f, 0.6f));
                 unkTx.alignment = TextAlignmentOptions.Center;
 
                 // CardSlotUI 컴포넌트 부착 및 초기화
@@ -614,10 +614,6 @@ namespace CosmicChaosCat
             if (leftSetPage == null || rightSetPage == null) return;
             if (gm == null) return;
 
-            // Clean only dynamically spawned components, preserving user manual design layouts
-            CleanDynamicSetPageChildren(leftSetPage.transform);
-            CleanDynamicSetPageChildren(rightSetPage.transform);
-
             var sets = gm.SetCatalog?.Sets;
             if (sets == null || sets.Count == 0)
             {
@@ -631,148 +627,156 @@ namespace CosmicChaosCat
 
             if (setPageLabel != null) setPageLabel.text = $"{setPageIndex + 1} / {maxPages}";
 
-            // Left Page Set
-            int leftIdx = setPageIndex * 2;
-            if (leftIdx < sets.Count)
-            {
-                RenderSetOnPage(leftSetPage.transform, sets[leftIdx]);
-            }
+            // Page 배경 Image raycast 차단 해제 (Page 자체가 클릭 막는 것 방지)
+            var leftPageImg = leftSetPage.GetComponent<Image>();
+            if (leftPageImg != null) leftPageImg.raycastTarget = false;
+            var rightPageImg = rightSetPage.GetComponent<Image>();
+            if (rightPageImg != null) rightPageImg.raycastTarget = false;
 
-            // Right Page Set
+            int leftIdx  = setPageIndex * 2;
             int rightIdx = setPageIndex * 2 + 1;
-            if (rightIdx < sets.Count)
-            {
-                RenderSetOnPage(rightSetPage.transform, sets[rightIdx]);
-            }
-            else
-            {
-                var blankTx = MakeText(rightSetPage.transform, "공백 페이지", new Vector2(0, 0), new Vector2(250, 40), 14, new Color(0.6f, 0.6f, 0.6f));
-                blankTx.gameObject.name = "BlankPageText";
-            }
 
-            // Update Set Nav buttons interactable states
+            SetEntry leftEntry  = leftIdx  < sets.Count ? sets[leftIdx]  : null;
+            SetEntry rightEntry = rightIdx < sets.Count ? sets[rightIdx] : null;
+
+            // 씬 하이라키에 미리 배치된 슬롯들에 데이터를 입힘 (파괴/재생성 없음)
+            RefreshSetPageData(leftSetPage.transform,  leftEntry,  leftSetSlots);
+            RefreshSetPageData(rightSetPage.transform, rightEntry, rightSetSlots);
+
             if (prevSetPageBtn != null) prevSetPageBtn.GetComponent<Button>().interactable = (setPageIndex > 0);
             if (nextSetPageBtn != null) nextSetPageBtn.GetComponent<Button>().interactable = (setPageIndex < maxPages - 1);
         }
 
-        private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
+        // 세트 페이지 슬롯 최초 빌드 및 데이터 갱신 (통합 처리)
+        private void RefreshSetPageData(Transform pageTf, SetEntry setEntry, List<CardSlotUI> pool)
         {
-            if (setEntry == null) return;
-
-            // 1. Set Name
-            var title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 180), new Vector2(380, 40), 16, Color.black);
-            title.gameObject.name = "SetNameTitle";
-            title.fontStyle = FontStyles.Bold;
-            title.alignment = TextAlignmentOptions.Center;
-
-            // 2. Card slots layout
-            var states = gm.GetCardStates();
-            var catalog = gm.CardCatalog?.Cards;
-            int cardCount = setEntry.CardIds.Count;
-
-            float spacing = 135f;
-            float startX = -(cardCount - 1) * spacing / 2f;
-
-            bool allOwned = true;
-
-            for (int i = 0; i < cardCount; i++)
+            if (setEntry == null)
             {
-                string cid = setEntry.CardIds[i];
-                states.TryGetValue(cid, out var prog);
-                bool unlocked = prog != null && prog.Unlocked;
-                if (!unlocked) allOwned = false;
-
-                // Find card catalog index for display (e.g. Card index in catalog + 1)
-                int cardIndexInCatalog = 1;
-                CardEntry displayCard = null;
-                if (catalog != null)
+                // 데이터가 없는 페이지는 모든 슬롯 비활성화 및 타이틀 비활성화
+                foreach (var slot in pool)
                 {
-                    for (int c = 0; c < catalog.Count; c++)
-                    {
-                        if (catalog[c].Id == cid)
-                        {
-                            displayCard = catalog[c];
-                            cardIndexInCatalog = c + 1;
-                            break;
-                        }
-                    }
+                    if (slot != null) slot.gameObject.SetActive(false);
                 }
-
-                if (displayCard == null) continue;
-
-                // Slot container (120, 146)
-                var slotGO = new GameObject("Slot_" + cid);
-                slotGO.transform.SetParent(pageTf, false);
-                var slotRT = slotGO.AddComponent<RectTransform>();
-                slotRT.anchoredPosition = new Vector2(startX + (i * spacing), 20);
-                slotRT.sizeDelta        = new Vector2(120, 146);
-
-                var slotImg = slotGO.AddComponent<Image>();
-                slotImg.color = new Color(0.15f, 0.17f, 0.25f, 1f);
-
-                // Frame
-                var frameGO = new GameObject("Frame");
-                frameGO.transform.SetParent(slotGO.transform, false);
-                var frameImg = frameGO.AddComponent<Image>();
-                var frameRT = frameGO.GetComponent<RectTransform>();
-                frameRT.anchorMin = Vector2.zero; frameRT.anchorMax = Vector2.one;
-                frameRT.offsetMin = Vector2.zero; frameRT.offsetMax = Vector2.zero;
-
-                // Art
-                var artGO = new GameObject("Art");
-                artGO.transform.SetParent(slotGO.transform, false);
-                var artImg = artGO.AddComponent<Image>();
-                var artRT = artGO.GetComponent<RectTransform>();
-                artRT.anchoredPosition = new Vector2(0, 16);
-                artRT.sizeDelta        = new Vector2(96, 96);
-
-                // Texts
-                var nameTx  = MakeText(slotGO.transform, "???", new Vector2(0, -48), new Vector2(117, 24), 11, Color.white);
-                var rarityTx= MakeText(slotGO.transform, "",    new Vector2(42, 50), new Vector2(37, 21), 10, Color.yellow);
-                var stackTx = MakeText(slotGO.transform, "",    new Vector2(0, -64), new Vector2(117, 18), 10, Color.white);
-
-                // Unknown cover
-                var unkGO = new GameObject("Unknown");
-                unkGO.transform.SetParent(slotGO.transform, false);
-                var unkImg = unkGO.AddComponent<Image>();
-                unkImg.color = new Color(0.12f, 0.14f, 0.20f, 0.95f);
-                var unkRT = unkGO.GetComponent<RectTransform>();
-                unkRT.anchorMin = Vector2.zero; unkRT.anchorMax = Vector2.one;
-                unkRT.offsetMin = Vector2.zero; unkRT.offsetMax = Vector2.zero;
-                var unkTx = MakeText(unkGO.transform, "?", Vector2.zero, new Vector2(50, 50), 24, new Color(0.5f, 0.5f, 0.5f));
-                unkTx.alignment = TextAlignmentOptions.Center;
-
-                var ui = slotGO.AddComponent<CardSlotUI>();
-                ui.InitUI(frameImg, artImg, nameTx, rarityTx, stackTx, unkGO);
-
-                // Populate data (this wires buttons internally, sets art/frame and controls active states)
-                ui.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
+                var existingTitle = pageTf.Find("SetNameTitle");
+                if (existingTitle != null) existingTitle.gameObject.SetActive(false);
+                var existingBtn = pageTf.Find("ClaimBtn");
+                if (existingBtn != null) existingBtn.gameObject.SetActive(false);
+                return;
             }
 
-            // 3. Reward / Completion Claim Button
-            var claimBtnGO = MakeButton(pageTf, "보상 받기", new Vector2(0, -160), new Vector2(180, 44), new Color(0.70f, 0.45f, 0.05f), () =>
+            // 1. 세트 이름 타이틀 설정 (씬에 있으면 재사용, 없으면 생성)
+            TMP_Text title = null;
+            var titleTf = pageTf.Find("SetNameTitle");
+            if (titleTf != null)
             {
-                gm.ClaimSetReward(setEntry.SetId);
-                Refresh();
-            });
-            claimBtnGO.name = "ClaimBtn";
-
-            var claimBtn = claimBtnGO.GetComponent<Button>();
-            var claimBtnText = claimBtnGO.GetComponentInChildren<TMP_Text>();
-
-            bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
-            if (claimed)
-            {
-                if (claimBtnText != null) claimBtnText.text = "수령 완료";
-                SetButtonInteractable(claimBtn, false);
-                claimBtnGO.GetComponent<Image>().color = new Color(0.2f, 0.45f, 0.2f);
+                titleTf.gameObject.SetActive(true);
+                title = titleTf.GetComponent<TMP_Text>();
+                if (title != null) title.text = setEntry.SetName;
             }
             else
             {
-                if (claimBtnText != null) claimBtnText.text = "보상 받기";
-                SetButtonInteractable(claimBtn, allOwned);
-                claimBtnGO.GetComponent<Image>().color = allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f);
+                title = MakeText(pageTf, setEntry.SetName, new Vector2(0, 180), new Vector2(380, 40), 16, Color.black);
+                title.gameObject.name = "SetNameTitle";
+                title.fontStyle  = FontStyles.Bold;
+                title.alignment  = TextAlignmentOptions.Center;
+                title.raycastTarget = false;
             }
+
+            // 2. 카드 슬롯 데이터 주입
+            var states  = gm.GetCardStates();
+            var catalog = gm.CardCatalog?.Cards;
+            int cardCount = setEntry.CardIds.Count;
+            bool allOwned = true;
+
+            // 풀에 담긴 슬롯 개수만큼 돌면서 데이터를 덮어씌움
+            for (int i = 0; i < pool.Count; i++)
+            {
+                var slot = pool[i];
+                if (slot == null) continue;
+
+                if (i < cardCount)
+                {
+                    // 데이터 바인딩 및 활성화
+                    slot.gameObject.SetActive(true);
+                    string cid = setEntry.CardIds[i];
+                    states.TryGetValue(cid, out var prog);
+                    bool unlocked = prog != null && prog.Unlocked;
+                    if (!unlocked) allOwned = false;
+
+                    int cardIndexInCatalog = 1;
+                    CardEntry displayCard = null;
+                    if (catalog != null)
+                    {
+                        for (int c = 0; c < catalog.Count; c++)
+                        {
+                            if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndexInCatalog = c + 1; break; }
+                        }
+                    }
+
+                    if (displayCard != null)
+                    {
+                        slot.SetData(displayCard, cardIndexInCatalog, prog, gm, OpenDetail);
+                    }
+                }
+                else
+                {
+                    // 남는 슬롯은 비활성화
+                    slot.gameObject.SetActive(false);
+                }
+            }
+
+            // 3. 보상 버튼 설정 (씬에 있으면 재사용, 없으면 생성)
+            bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
+            Button claimBtn = null;
+            TMP_Text claimText = null;
+            var btnTf = pageTf.Find("ClaimBtn");
+            
+            if (btnTf != null)
+            {
+                btnTf.gameObject.SetActive(true);
+                claimBtn = btnTf.GetComponent<Button>();
+                claimText = btnTf.GetComponentInChildren<TMP_Text>();
+                if (claimBtn != null)
+                {
+                    claimBtn.onClick.RemoveAllListeners();
+                    claimBtn.onClick.AddListener(() =>
+                    {
+                        gm.ClaimSetReward(setEntry.SetId);
+                        RefreshSets();
+                    });
+                }
+            }
+            else
+            {
+                var btnGO = MakeButton(pageTf, "보상 받기", new Vector2(0, -160), new Vector2(180, 44),
+                    claimed ? new Color(0.2f, 0.45f, 0.2f) : (allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f)),
+                    () =>
+                    {
+                        gm.ClaimSetReward(setEntry.SetId);
+                        RefreshSets();
+                    });
+                btnGO.name = "ClaimBtn";
+                claimBtn = btnGO.GetComponent<Button>();
+                claimText = btnGO.GetComponentInChildren<TMP_Text>();
+            }
+
+            // 보상 버튼 상태 갱신
+            if (claimText != null) claimText.text = claimed ? "수령 완료" : "보상 받기";
+            if (claimBtn != null)
+            {
+                SetButtonInteractable(claimBtn, !claimed && allOwned);
+                var img = claimBtn.GetComponent<Image>();
+                if (img != null)
+                {
+                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f) : (allOwned ? new Color(0.70f, 0.45f, 0.05f) : new Color(0.3f, 0.3f, 0.3f));
+                }
+            }
+        }
+
+        // 구 RenderSetOnPage – 호환성 위해 보존
+        private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
+        {
+            RefreshSetPageData(pageTf, setEntry, new List<CardSlotUI>());
         }
 
         // ════════════════════════════════════════════════════════════════════
@@ -1174,6 +1178,20 @@ namespace CosmicChaosCat
                     }
                     if (setPageLabel == null)
                         setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
+                }
+
+                // leftSetPage 와 rightSetPage 하위의 CardSlotUI 자식들을 수집하여 캐싱
+                leftSetSlots.Clear();
+                if (leftSetPage != null)
+                {
+                    var childSlots = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
+                    leftSetSlots.AddRange(childSlots);
+                }
+                rightSetSlots.Clear();
+                if (rightSetPage != null)
+                {
+                    var childSlots = rightSetPage.GetComponentsInChildren<CardSlotUI>(true);
+                    rightSetSlots.AddRange(childSlots);
                 }
             }
 
