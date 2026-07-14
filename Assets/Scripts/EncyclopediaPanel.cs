@@ -46,6 +46,8 @@ namespace CosmicChaosCat
         [SerializeField] private Image       detailImage;
         [SerializeField] private TMP_Text    detailName;
         [SerializeField] private TMP_Text    detailDesc;
+        [SerializeField] private TMP_Text    detailRareText;
+        [SerializeField] private TMP_Text    detailUnknownText;
         [SerializeField] private TMP_Text    detailIncomeText;
         [SerializeField] private Button      detailEquipBtn;
         [SerializeField] private Button      detailBreakthroughBtn;
@@ -84,7 +86,21 @@ namespace CosmicChaosCat
                     EnsureParentedToCanvas();
                     BuildUI();
                 }
-                EnsureBreakthroughButtonBuilt();
+                
+                var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
+                var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
+
+                if (noDetail != null)
+                {
+                    BindCloseButtons(noDetail);
+                    EnsureBreakthroughButtonBuiltForPanel(noDetail);
+                }
+                if (setDetail != null)
+                {
+                    BindCloseButtons(setDetail);
+                    EnsureBreakthroughButtonBuiltForPanel(setDetail);
+                }
+
                 EnsureSetPageChildrenBuilt();
                 EnsureShopButtonCleanedUp();
                 BindListeners();
@@ -163,7 +179,7 @@ namespace CosmicChaosCat
                 if (gm == null) gm = FindObjectOfType<GameManager>(true);
                 currentPageIdx = 0;
                 if (gm != null) gm.StateChanged += OnStateChanged;
-                if (detailRoot != null) detailRoot.SetActive(false);
+                CloseAllDetails();
                 ShowNoTab();
                 Refresh();
                 Debug.Log("[EncyclopediaPanel] OnEnable complete");
@@ -177,7 +193,7 @@ namespace CosmicChaosCat
         private void OnDisable()
         {
             if (gm != null) gm.StateChanged -= OnStateChanged;
-            if (detailRoot != null) detailRoot.SetActive(false);
+            CloseAllDetails();
         }
 
         private void OnStateChanged()
@@ -221,61 +237,62 @@ namespace CosmicChaosCat
 
         public void EnsureBreakthroughButtonBuilt()
         {
-            if (detailRoot == null)
-            {
-                var p = transform.Find("Panel");
-                BuildDetailPopup(p != null ? p : transform);
-            }
+            var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
+            var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
 
-            if (detailRoot == null) return;
+            if (noDetail != null) EnsureBreakthroughButtonBuiltForPanel(noDetail);
+            if (setDetail != null) EnsureBreakthroughButtonBuiltForPanel(setDetail);
+        }
+
+        public void EnsureBreakthroughButtonBuiltForPanel(GameObject root)
+        {
+            if (root == null) return;
 
             // 1. 이미 돌파 버튼이 씬에 매핑되었는지 체크
-            if (detailBreakthroughBtn == null)
+            Button breakthroughBtn = null;
+            TMP_Text breakthroughBtnText = null;
+            var btns = root.GetComponentsInChildren<Button>(true);
+            foreach (var b in btns)
             {
-                var btns = detailRoot.GetComponentsInChildren<Button>(true);
-                foreach (var b in btns)
+                string n = b.name.ToLower();
+                if (n.Contains("breakthrough") || n.Contains("돌파") || n.Contains("upgrade") || n.Contains("강화") || n.Contains("limit"))
                 {
-                    string n = b.name.ToLower();
-                    if (n.Contains("breakthrough") || n.Contains("돌파"))
-                    {
-                        detailBreakthroughBtn = b;
-                        detailBreakthroughBtnText = b.GetComponentInChildren<TMP_Text>();
-                        break;
-                    }
+                    breakthroughBtn = b;
+                    breakthroughBtnText = b.GetComponentInChildren<TMP_Text>();
+                    break;
                 }
             }
 
             // 2. 프리팹/씬에 없는 경우 동적으로 새로 빌드해서 부착
-            if (detailBreakthroughBtn == null)
+            if (breakthroughBtn == null)
             {
-                var breakthroughBtnGO = MakeButton(detailRoot.transform, "한계 돌파",
+                var breakthroughBtnGO = MakeButton(root.transform, "한계 돌파",
                     new Vector2(110, -95), new Vector2(200, 44), new Color(0.70f, 0.45f, 0.05f), OnDetailBreakthrough);
                 
-                detailBreakthroughBtn = breakthroughBtnGO.GetComponent<Button>();
-                detailBreakthroughBtnText = breakthroughBtnGO.GetComponentInChildren<TMP_Text>();
+                breakthroughBtn = breakthroughBtnGO.GetComponent<Button>();
+                breakthroughBtnText = breakthroughBtnGO.GetComponentInChildren<TMP_Text>();
 
-                if (detailBreakthroughBtnText != null && detailName != null)
+                if (breakthroughBtnText != null && detailName != null)
                 {
-                    detailBreakthroughBtnText.font = detailName.font;
+                    breakthroughBtnText.font = detailName.font;
                 }
             }
 
             // 3. 수익 텍스트 분리 매핑 및 빌드
-            if (detailIncomeText == null)
+            var existingText = root.transform.Find("DetailIncomeText") ?? 
+                               FindChildByNameRecursive(root.transform, "DetailIncomeText") ??
+                               FindChildByNameRecursive(root.transform, "IncomeText") ??
+                               FindChildByNameRecursive(root.transform, "Income") ??
+                               FindChildByNameRecursive(root.transform, "ClickIncome") ??
+                               FindChildByNameRecursive(root.transform, "수익") ??
+                               FindChildByNameRecursive(root.transform, "클릭수익");
+            if (existingText == null)
             {
-                var existingText = detailRoot.transform.Find("DetailIncomeText");
-                if (existingText != null)
-                {
-                    detailIncomeText = existingText.GetComponent<TMP_Text>();
-                }
-                else
-                {
-                    detailIncomeText = MakeText(detailRoot.transform, "현재 클릭 수익: 0.0 Gold (0강)",
-                        new Vector2(110, -45), new Vector2(350, 30), 13, new Color(1f, 0.84f, 0f));
-                    detailIncomeText.gameObject.name = "DetailIncomeText";
-                    detailIncomeText.alignment = TextAlignmentOptions.Center;
-                    if (detailName != null) detailIncomeText.font = detailName.font;
-                }
+                var incomeText = MakeText(root.transform, "현재 클릭 수익: 0.0 Gold (0강)",
+                    new Vector2(110, -45), new Vector2(350, 30), 13, new Color(1f, 0.84f, 0f));
+                incomeText.gameObject.name = "DetailIncomeText";
+                incomeText.alignment = TextAlignmentOptions.Center;
+                if (detailName != null) incomeText.font = detailName.font;
             }
         }
 
@@ -846,8 +863,68 @@ namespace CosmicChaosCat
 
         private void OpenDetail(string cardId)
         {
+            Debug.Log($"[EncyclopediaPanel] OpenDetail called for cardId={cardId}");
             selectedCardId = cardId;
-            if (detailRoot == null) return;
+            
+            Transform activeTabTf = showNoTab ? (noPanel != null ? noPanel.transform : null) : (setPanel != null ? setPanel.transform : null);
+            detailRoot = FindDetailPanel(activeTabTf);
+
+            if (detailRoot == null)
+            {
+                Debug.LogWarning("[EncyclopediaPanel] detailRoot is null! Cannot open detail.");
+                return;
+            }
+
+            // Wire components dynamically from the active detailRoot
+            var rootTf = detailRoot.transform;
+            detailImage = (rootTf.Find("DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? 
+                           FindChildByNameRecursive(rootTf, "DetailImage") ?? FindChildByNameRecursive(rootTf, "Art") ?? 
+                           FindChildByNameRecursive(rootTf, "Image") ?? FindChildByNameRecursive(rootTf, "CardImage"))?.GetComponent<Image>();
+
+            detailName = (rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName") ??
+                          FindChildByNameRecursive(rootTf, "NameText") ?? FindChildByNameRecursive(rootTf, "Name") ??
+                          FindChildByNameRecursive(rootTf, "Title") ?? FindChildByNameRecursive(rootTf, "Text"))?.GetComponent<TMP_Text>();
+
+            detailDesc = (rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc") ??
+                          FindChildByNameRecursive(rootTf, "DescText") ?? FindChildByNameRecursive(rootTf, "Desc") ??
+                          FindChildByNameRecursive(rootTf, "Description") ?? FindChildByNameRecursive(rootTf, "DetailDescription"))?.GetComponent<TMP_Text>();
+
+            detailRareText = (rootTf.Find("RareText") ?? FindChildByNameRecursive(rootTf, "RareText") ?? 
+                              FindChildByNameRecursive(rootTf, "RarityText") ?? FindChildByNameRecursive(rootTf, "Rare"))?.GetComponent<TMP_Text>();
+
+            detailUnknownText = (rootTf.Find("UnknownText") ?? FindChildByNameRecursive(rootTf, "UnknownText") ?? 
+                                 FindChildByNameRecursive(rootTf, "UnkText") ?? FindChildByNameRecursive(rootTf, "Unknown"))?.GetComponent<TMP_Text>();
+
+            detailIncomeText = (rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText") ??
+                                FindChildByNameRecursive(rootTf, "IncomeText") ?? FindChildByNameRecursive(rootTf, "Income") ??
+                                FindChildByNameRecursive(rootTf, "ClickIncome") ?? FindChildByNameRecursive(rootTf, "수익") ??
+                                FindChildByNameRecursive(rootTf, "클릭수익"))?.GetComponent<TMP_Text>();
+
+            detailEquipBtn = (rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? 
+                              FindChildByNameRecursive(rootTf, "Btn_Equip") ?? FindChildByNameRecursive(rootTf, "Equip") ?? 
+                              FindChildByNameRecursive(rootTf, "EquipButton") ?? FindChildByNameRecursive(rootTf, "EquipBtn") ?? 
+                              FindChildByNameRecursive(rootTf, "장착"))?.GetComponent<Button>();
+
+            detailBreakthroughBtn = (rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? 
+                                     FindChildByNameRecursive(rootTf, "Btn_Breakthrough") ?? FindChildByNameRecursive(rootTf, "Breakthrough") ?? 
+                                     FindChildByNameRecursive(rootTf, "BreakthroughButton") ?? FindChildByNameRecursive(rootTf, "UpgradeButton") ?? 
+                                     FindChildByNameRecursive(rootTf, "한계돌파") ?? FindChildByNameRecursive(rootTf, "돌파"))?.GetComponent<Button>();
+
+            if (detailBreakthroughBtn != null)
+                detailBreakthroughBtnText = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
+
+            // Re-bind listeners for the buttons
+            if (detailEquipBtn != null)
+            {
+                detailEquipBtn.onClick.RemoveAllListeners();
+                detailEquipBtn.onClick.AddListener(OnDetailEquip);
+            }
+            if (detailBreakthroughBtn != null)
+            {
+                detailBreakthroughBtn.onClick.RemoveAllListeners();
+                detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough);
+            }
+
             detailRoot.SetActive(true);
 
             var card    = gm?.CardCatalog?.FindById(cardId);
@@ -861,7 +938,7 @@ namespace CosmicChaosCat
 
             if (detailDesc != null)
             {
-                detailDesc.text = unlocked && card != null ? card.GetDescription() : "수집되지 않은 카드입니다.";
+                detailDesc.text = unlocked && card != null ? card.GetDescription() : "???";
             }
 
             if (detailIncomeText != null)
@@ -885,16 +962,27 @@ namespace CosmicChaosCat
 
             if (detailImage != null)
             {
+                detailImage.enabled = true;
                 if (unlocked && card?.CardSprite != null)
                 {
                     detailImage.sprite = card.CardSprite;
                     detailImage.color  = Color.white;
                 }
-                else if (card != null)
+                else
                 {
                     detailImage.sprite = null;
-                    detailImage.color  = (Color)RarityToColor(card.Rarity);
+                    detailImage.color  = new Color(0.2f, 0.2f, 0.2f, 1f); // Basic solid dark gray
                 }
+            }
+
+            if (detailRareText != null)
+            {
+                detailRareText.text = unlocked ? card.Rarity.ToString() : "?";
+            }
+
+            if (detailUnknownText != null)
+            {
+                detailUnknownText.text = unlocked ? "" : "?";
             }
 
             SetButtonInteractable(detailEquipBtn, unlocked);
@@ -1328,8 +1416,41 @@ namespace CosmicChaosCat
             // 5. Detail Root and its components mapping
             if (detailRoot == null)
             {
-                var t = transform.Find("DetailRoot") ?? transform.Find("Panel/DetailRoot") ?? transform.Find("DetailPopup") ?? transform.Find("Panel/DetailPopup");
-                if (t == null) t = FindChildByNameRecursive(transform, "DetailRoot") ?? FindChildByNameRecursive(transform, "DetailPopup");
+                var allChildren = GetComponentsInChildren<Transform>(true);
+                foreach (var child in allChildren)
+                {
+                    if (child.name.ToLower().Contains("detail"))
+                    {
+                        string path = child.name;
+                        Transform p = child.parent;
+                        while (p != null && p != transform)
+                        {
+                            path = p.name + "/" + path;
+                            p = p.parent;
+                        }
+                        Debug.Log($"[EncyclopediaPanel] Found detail-like child: name={child.name}, path={path}");
+                    }
+                }
+
+                var t = transform.Find("DetailRoot") ?? transform.Find("Panel/DetailRoot") ?? 
+                        transform.Find("DetailPopup") ?? transform.Find("Panel/DetailPopup") ??
+                        transform.Find("DetailPanel") ?? transform.Find("Panel/DetailPanel") ??
+                        transform.Find("Detail") ?? transform.Find("Panel/Detail");
+                if (t == null) 
+                {
+                    t = FindChildByNameRecursive(transform, "DetailRoot") ?? 
+                        FindChildByNameRecursive(transform, "DetailPopup") ??
+                        FindChildByNameRecursive(transform, "DetailPanel") ??
+                        FindChildByNameRecursive(transform, "Detail");
+                }
+                if (t == null)
+                {
+                    t = FindChildByNameContainsRecursive(transform, "DetailPanel") ??
+                        FindChildByNameContainsRecursive(transform, "DetailPopup") ??
+                        FindChildByNameContainsRecursive(transform, "DetailRoot") ??
+                        FindChildByNameContainsRecursive(transform, "Detail Panel") ??
+                        FindChildByNameContainsRecursive(transform, "Detail");
+                }
                 if (t != null) detailRoot = t.gameObject;
             }
 
@@ -1338,36 +1459,62 @@ namespace CosmicChaosCat
                 var rootTf = detailRoot.transform;
                 if (detailImage == null)
                 {
-                    var t = rootTf.Find("DetailArt") ?? rootTf.Find("DetailImage") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailImage");
+                    var t = rootTf.Find("DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? 
+                            FindChildByNameRecursive(rootTf, "DetailImage") ?? FindChildByNameRecursive(rootTf, "Art") ?? 
+                            FindChildByNameRecursive(rootTf, "Image") ?? FindChildByNameRecursive(rootTf, "CardImage");
                     if (t != null) detailImage = t.GetComponent<Image>();
                 }
                 if (detailName == null)
                 {
-                    var t = rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName");
+                    var t = rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName") ??
+                            FindChildByNameRecursive(rootTf, "NameText") ?? FindChildByNameRecursive(rootTf, "Name") ??
+                            FindChildByNameRecursive(rootTf, "Title");
                     if (t == null) t = FindChildByNameRecursive(rootTf, "Text");
                     if (t != null) detailName = t.GetComponent<TMP_Text>();
                 }
                 if (detailDesc == null)
                 {
-                    var t = rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc");
+                    var t = rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc") ??
+                            FindChildByNameRecursive(rootTf, "DescText") ?? FindChildByNameRecursive(rootTf, "Desc") ??
+                            FindChildByNameRecursive(rootTf, "Description") ?? FindChildByNameRecursive(rootTf, "DetailDescription");
                     if (t != null) detailDesc = t.GetComponent<TMP_Text>();
+                }
+                if (detailRareText == null)
+                {
+                    var t = rootTf.Find("RareText") ?? FindChildByNameRecursive(rootTf, "RareText") ?? FindChildByNameRecursive(rootTf, "RarityText");
+                    if (t != null) detailRareText = t.GetComponent<TMP_Text>();
+                }
+                if (detailUnknownText == null)
+                {
+                    var t = rootTf.Find("UnknownText") ?? FindChildByNameRecursive(rootTf, "UnknownText") ?? FindChildByNameRecursive(rootTf, "UnkText");
+                    if (t != null) detailUnknownText = t.GetComponent<TMP_Text>();
                 }
                 if (detailIncomeText == null)
                 {
-                    var t = rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText");
+                    var t = rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText") ??
+                            FindChildByNameRecursive(rootTf, "IncomeText") ?? FindChildByNameRecursive(rootTf, "Income") ??
+                            FindChildByNameRecursive(rootTf, "ClickIncome") ?? FindChildByNameRecursive(rootTf, "수익") ??
+                            FindChildByNameRecursive(rootTf, "클릭수익");
                     if (t != null) detailIncomeText = t.GetComponent<TMP_Text>();
                 }
                 if (detailEquipBtn == null)
                 {
-                    var t = rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_Equip");
+                    var t = rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? 
+                            FindChildByNameRecursive(rootTf, "Btn_Equip") ?? FindChildByNameRecursive(rootTf, "Equip") ?? 
+                            FindChildByNameRecursive(rootTf, "EquipButton") ?? FindChildByNameRecursive(rootTf, "EquipBtn") ?? 
+                            FindChildByNameRecursive(rootTf, "장착");
                     if (t != null) detailEquipBtn = t.GetComponent<Button>();
                 }
                 if (detailBreakthroughBtn == null)
                 {
-                    var t = rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_Breakthrough");
+                    var t = rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? 
+                            FindChildByNameRecursive(rootTf, "Btn_Breakthrough") ?? FindChildByNameRecursive(rootTf, "Breakthrough") ?? 
+                            FindChildByNameRecursive(rootTf, "BreakthroughButton") ?? FindChildByNameRecursive(rootTf, "UpgradeButton") ?? 
+                            FindChildByNameRecursive(rootTf, "한계돌파") ?? FindChildByNameRecursive(rootTf, "돌파");
                     if (t != null) detailBreakthroughBtn = t.GetComponent<Button>();
                 }
             }
+            Debug.Log($"[EncyclopediaPanel] AutoWireFields finished. detailRoot={detailRoot}, detailImage={detailImage}, detailName={detailName}, detailDesc={detailDesc}, detailIncomeText={detailIncomeText}, detailEquipBtn={detailEquipBtn}, detailBreakthroughBtn={detailBreakthroughBtn}");
         }
 
         private Transform FindChildByNameRecursive(Transform parent, string name)
@@ -1390,6 +1537,45 @@ namespace CosmicChaosCat
                 if (found != null) return found;
             }
             return null;
+        }
+
+        private GameObject FindDetailPanel(Transform container)
+        {
+            if (container == null) return null;
+            var t = FindChildByNameRecursive(container, "DetailArt") ??
+                    FindChildByNameRecursive(container, "DetailImage") ??
+                    FindChildByNameRecursive(container, "DetailName") ??
+                    FindChildByNameRecursive(container, "DetailDesc") ??
+                    FindChildByNameRecursive(container, "DetailIncomeText") ??
+                    FindChildByNameRecursive(container, "Btn_장착하기") ??
+                    FindChildByNameRecursive(container, "Btn_한계 돌파");
+            
+            if (t != null && t.parent != null) return t.parent.gameObject;
+            return null;
+        }
+
+        private void CloseAllDetails()
+        {
+            var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
+            if (noDetail != null) noDetail.SetActive(false);
+
+            var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
+            if (setDetail != null) setDetail.SetActive(false);
+        }
+
+        private void BindCloseButtons(GameObject root)
+        {
+            if (root == null) return;
+            var detailBtns = root.GetComponentsInChildren<Button>(true);
+            foreach (var b in detailBtns)
+            {
+                string n = b.name.ToLower();
+                if (n.Contains("close") || n.Contains("닫기") || n.Contains("✕") || n.Contains("cancel") || n.Contains("exit"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(() => root.SetActive(false));
+                }
+            }
         }
 
         // ── Inner types ──────────────────────────────────────────────────────
