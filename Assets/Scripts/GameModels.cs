@@ -33,6 +33,8 @@ namespace CosmicChaosCat
         public int Shards;
         public float ElapsedSeconds;
         public string EquippedCardId;
+        public string EquippedBackgroundId;
+        public string EquippedDecorationId;
         public int TotalRolls;
         public long TotalClicks;
         public List<CardProgress> Cards = new List<CardProgress>();

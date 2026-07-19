@@ -42,7 +42,8 @@ namespace CosmicChaosCat
         private void Refresh()
         {
             if (visuals == null || gameManager == null) return;
-            bool show = gameManager.IsSetCompleted(setId);
+            string eq = gameManager.EquippedDecorationId;
+            bool show = (eq == setId) || (eq == "deco-" + setId);
             if (visuals.activeSelf != show)
                 visuals.SetActive(show);
         }

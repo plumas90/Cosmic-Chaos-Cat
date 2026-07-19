@@ -109,13 +109,13 @@ namespace CosmicChaosCat
                 BuildConfirmDialog();
                 Debug.Log($"[GameHud] Confirm dialog: {confirmDialog!=null}");
 
-                if (gachaButton != null) { gachaButton.onClick.RemoveAllListeners(); gachaButton.onClick.AddListener(OpenGacha); }
-                if (encyclopediaButton != null) { encyclopediaButton.onClick.RemoveAllListeners(); encyclopediaButton.onClick.AddListener(ToggleEncyclopedia); }
-                if (upgradeButton != null) { upgradeButton.onClick.RemoveAllListeners(); upgradeButton.onClick.AddListener(ToggleUpgrade); }
-                if (exchangeButton != null) { exchangeButton.onClick.RemoveAllListeners(); exchangeButton.onClick.AddListener(ToggleExchange); }
-                if (shopButton != null) { shopButton.onClick.RemoveAllListeners(); shopButton.onClick.AddListener(ToggleShop); }
-                if (collectionButton != null) { collectionButton.onClick.RemoveAllListeners(); collectionButton.onClick.AddListener(ToggleCollection); }
-                if (menuButton != null) { menuButton.onClick.RemoveAllListeners(); menuButton.onClick.AddListener(GoToMenu); }
+                if (gachaButton != null) { gachaButton.onClick = new Button.ButtonClickedEvent(); gachaButton.onClick.AddListener(OpenGacha); }
+                if (encyclopediaButton != null) { encyclopediaButton.onClick = new Button.ButtonClickedEvent(); encyclopediaButton.onClick.AddListener(ToggleEncyclopedia); }
+                if (upgradeButton != null) { upgradeButton.onClick = new Button.ButtonClickedEvent(); upgradeButton.onClick.AddListener(ToggleUpgrade); }
+                if (exchangeButton != null) { exchangeButton.onClick = new Button.ButtonClickedEvent(); exchangeButton.onClick.AddListener(ToggleExchange); }
+                if (shopButton != null) { shopButton.onClick = new Button.ButtonClickedEvent(); shopButton.onClick.AddListener(ToggleShop); }
+                if (collectionButton != null) { collectionButton.onClick = new Button.ButtonClickedEvent(); collectionButton.onClick.AddListener(ToggleCollection); }
+                if (menuButton != null) { menuButton.onClick = new Button.ButtonClickedEvent(); menuButton.onClick.AddListener(GoToMenu); }
 
                 Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, shop={shopButton!=null}, menu={menuButton!=null}");
             }
