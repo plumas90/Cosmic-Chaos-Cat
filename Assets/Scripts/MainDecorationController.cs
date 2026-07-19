@@ -4,18 +4,18 @@ using UnityEngine.UI;
 namespace CosmicChaosCat
 {
     /// <summary>
-    /// Attach to the background Image component in the scene.
-    /// Automatically updates the background sprite based on the equipped background.
+    /// Attach to the MainDecoration Image component in the scene.
+    /// Automatically updates the decoration sprite based on the equipped decoration.
     /// </summary>
-    public sealed class MainBackgroundController : MonoBehaviour
+    public sealed class MainDecorationController : MonoBehaviour
     {
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private Image bgImage;
+        [SerializeField] private Image decoImage;
 
         private void Awake()
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
-            if (bgImage == null) bgImage = GetComponent<Image>();
+            if (decoImage == null) decoImage = GetComponent<Image>();
         }
 
         private void OnEnable()
@@ -37,29 +37,33 @@ namespace CosmicChaosCat
 
         private void Refresh()
         {
-            if (gameManager == null || bgImage == null) return;
+            if (gameManager == null || decoImage == null) return;
 
-            string bgId = gameManager.EquippedBackgroundId;
-            if (string.IsNullOrEmpty(bgId) || bgId == "bg-none")
+            string decoId = gameManager.EquippedDecorationId;
+            if (string.IsNullOrEmpty(decoId))
             {
-                bgImage.sprite = null;
-                bgImage.color = Color.white; // Solid white background
+                decoImage.enabled = false;
                 return;
             }
 
             if (CollectionPanel.Instance != null)
             {
-                var sprite = CollectionPanel.Instance.GetBackgroundSprite(bgId);
+                var sprite = CollectionPanel.Instance.GetDecorationSprite(decoId);
                 if (sprite != null)
                 {
-                    bgImage.sprite = sprite;
-                    bgImage.color = Color.white;
+                    decoImage.sprite = sprite;
+                    decoImage.enabled = true;
+                    decoImage.color = Color.white;
+                    decoImage.preserveAspect = true;
                 }
                 else
                 {
-                    bgImage.sprite = null;
-                    bgImage.color = Color.white;
+                    decoImage.enabled = false;
                 }
+            }
+            else
+            {
+                decoImage.enabled = false;
             }
         }
     }

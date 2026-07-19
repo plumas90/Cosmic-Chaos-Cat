@@ -257,6 +257,8 @@ namespace CosmicChaosCat
 
             // Update main background image
             UpdateMainBackground();
+            // Update main decoration image
+            UpdateMainDecoration();
         }
 
         private void UpdateMainBackground()
@@ -266,7 +268,7 @@ namespace CosmicChaosCat
             if (string.IsNullOrEmpty(bgId)) return;
 
             var sprite = GetBackgroundSprite(bgId);
-            if (sprite == null) return;
+            if (sprite == null && bgId != "bg-none") return;
 
             var canvas = FindObjectOfType<Canvas>();
             if (canvas != null)
@@ -282,10 +284,37 @@ namespace CosmicChaosCat
                         
                         if (nameLower.Contains("bg") || nameLower.Contains("background") || child.GetSiblingIndex() == 0)
                         {
-                            img.sprite = sprite;
-                            img.color = Color.white;
+                            img.sprite = sprite; // Will set to null if bg-none
+                            img.color = Color.white; // Solid white background
                             break;
                         }
+                    }
+                }
+            }
+        }
+
+        private void UpdateMainDecoration()
+        {
+            if (gameManager == null) return;
+            string decoId = gameManager.EquippedDecorationId;
+            if (string.IsNullOrEmpty(decoId)) return;
+
+            var sprite = GetDecorationSprite(decoId);
+            if (sprite == null) return;
+
+            var canvas = FindObjectOfType<Canvas>();
+            if (canvas != null)
+            {
+                var mainDecoTf = canvas.transform.Find("MainDecoration");
+                if (mainDecoTf != null)
+                {
+                    var img = mainDecoTf.GetComponent<Image>();
+                    if (img != null)
+                    {
+                        img.sprite = sprite;
+                        img.enabled = true;
+                        img.color = Color.white;
+                        img.preserveAspect = true;
                     }
                 }
             }
@@ -338,7 +367,22 @@ namespace CosmicChaosCat
             if (img != null)
             {
                 img.sprite = unlocked ? item.displaySprite : null;
-                img.color = unlocked ? Color.white : new Color(0.2f, 0.2f, 0.2f, 1f); // Solid dark gray when locked
+                if (!unlocked)
+                {
+                    img.color = new Color(0.2f, 0.2f, 0.2f, 1f); // Solid dark gray when locked
+                }
+                else if (item.id == "bg-none")
+                {
+                    img.color = Color.white; // Solid white for 기본 배경
+                }
+                else if (item.displaySprite == null)
+                {
+                    img.color = new Color(0.12f, 0.15f, 0.22f, 1f); // Nice soft placeholder slate color
+                }
+                else
+                {
+                    img.color = Color.white;
+                }
                 img.preserveAspect = !isBg; // Stretch backgrounds to fill, preserve aspect ratio for decorations
             }
 
@@ -419,6 +463,16 @@ namespace CosmicChaosCat
             backgrounds.Clear();
             decorations.Clear();
 
+            // 1. Add Default "기본 배경" (unlocked by default)
+            backgrounds.Add(new CollectibleItem
+            {
+                id = "bg-none",
+                displayName = "기본 배경",
+                description = "장착된 배경을 해제하고 심플한 흰색 단색 배경으로 변경합니다.",
+                unlockSetId = "", // unlocked by default
+                displaySprite = null // empty
+            });
+
             // Generate 10 solid color backgrounds (unlocked by default)
             Color[] bgColors = new Color[]
             {
@@ -446,6 +500,16 @@ namespace CosmicChaosCat
                     displaySprite = sprite
                 });
             }
+
+            // 2. Add Default "No Decoration" (unlocked by default)
+            decorations.Add(new CollectibleItem
+            {
+                id = "deco-none",
+                displayName = "장식 없음",
+                description = "장착된 장식품을 해제합니다.",
+                unlockSetId = "", // unlocked by default
+                displaySprite = null // empty
+            });
 
             // Generate 5 diamond decorations (unlocked by default)
             Color[] decoColors = new Color[]
@@ -536,7 +600,22 @@ namespace CosmicChaosCat
             {
                 detailImage.enabled = true;
                 detailImage.sprite = unlocked ? item.displaySprite : null;
-                detailImage.color = unlocked ? Color.white : new Color(0.2f, 0.2f, 0.2f, 1f);
+                if (!unlocked)
+                {
+                    detailImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                }
+                else if (item.id == "bg-none")
+                {
+                    detailImage.color = Color.white; // Solid white for 기본 배경
+                }
+                else if (item.displaySprite == null)
+                {
+                    detailImage.color = new Color(0.12f, 0.15f, 0.22f, 1f); // Nice soft placeholder slate color
+                }
+                else
+                {
+                    detailImage.color = Color.white;
+                }
                 detailImage.preserveAspect = !isBg; // Stretch backgrounds, preserve ratio for decorations
             }
 

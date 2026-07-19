@@ -23,36 +23,64 @@ namespace CosmicChaosCat
             var canvas = Object.FindObjectOfType<Canvas>();
             if (canvas == null) return;
 
-            // Check if MainBackground already exists under canvas
-            var existing = canvas.transform.Find("MainBackground");
-            if (existing != null) return;
+            bool dirty = false;
 
-            // Create MainBackground GameObject
-            var bgGO = new GameObject("MainBackground", typeof(RectTransform));
-            bgGO.transform.SetParent(canvas.transform, false);
-            bgGO.transform.SetSiblingIndex(0); // Place at the very top (drawn at the back)
+            // 1. Setup MainBackground if missing
+            var existingBg = canvas.transform.Find("MainBackground");
+            if (existingBg == null)
+            {
+                var bgGO = new GameObject("MainBackground", typeof(RectTransform));
+                bgGO.transform.SetParent(canvas.transform, false);
+                bgGO.transform.SetSiblingIndex(0); // Place at the very top (drawn at the back)
 
-            // Setup RectTransform to stretch and fill screen
-            var rt = bgGO.GetComponent<RectTransform>();
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-            rt.pivot = new Vector2(0.5f, 0.5f);
+                var rt = bgGO.GetComponent<RectTransform>();
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = Vector2.zero;
+                rt.offsetMax = Vector2.zero;
+                rt.pivot = new Vector2(0.5f, 0.5f);
 
-            // Add Image component
-            var img = bgGO.AddComponent<Image>();
-            img.color = new Color(0.08f, 0.10f, 0.16f, 1f); // Safe default dark color
+                var img = bgGO.AddComponent<Image>();
+                img.color = new Color(0.08f, 0.10f, 0.16f, 1f);
 
-            // Add MainBackgroundController component
-            bgGO.AddComponent<MainBackgroundController>();
+                bgGO.AddComponent<MainBackgroundController>();
+                dirty = true;
+                Debug.Log("[BackgroundSetup] Created MainBackground in GameScene hierarchy!");
+            }
 
-            // Mark scene dirty and save
-            EditorUtility.SetDirty(canvas.gameObject);
-            EditorSceneManager.MarkSceneDirty(scene);
-            EditorSceneManager.SaveScene(scene);
+            // 2. Setup MainDecoration if missing
+            var existingDeco = canvas.transform.Find("MainDecoration");
+            if (existingDeco == null)
+            {
+                var decoGO = new GameObject("MainDecoration", typeof(RectTransform));
+                decoGO.transform.SetParent(canvas.transform, false);
+                // Place it right after MainBackground (index 1) so it sits behind panels but in front of bg
+                decoGO.transform.SetSiblingIndex(1);
 
-            Debug.Log("[BackgroundSetup] Created and saved MainBackground in GameScene hierarchy!");
+                var rt = decoGO.GetComponent<RectTransform>();
+                // Anchor to bottom-right of screen
+                rt.anchorMin = new Vector2(1f, 0f);
+                rt.anchorMax = new Vector2(1f, 0f);
+                rt.pivot = new Vector2(1f, 0f);
+                rt.sizeDelta = new Vector2(250f, 250f);
+                rt.anchoredPosition = new Vector2(-50f, 50f); // Slight offset from corner
+
+                var img = decoGO.AddComponent<Image>();
+                img.color = Color.white;
+                img.preserveAspect = true;
+                img.raycastTarget = false; // By default, let's not block clicks unless needed
+
+                decoGO.AddComponent<MainDecorationController>();
+                dirty = true;
+                Debug.Log("[BackgroundSetup] Created MainDecoration in GameScene hierarchy!");
+            }
+
+            if (dirty)
+            {
+                EditorUtility.SetDirty(canvas.gameObject);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
         }
     }
 }
