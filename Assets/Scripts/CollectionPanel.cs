@@ -120,6 +120,21 @@ namespace CosmicChaosCat
 
         private void InitSlots()
         {
+            // Force reset main page panels and any objects containing "page" in their name to 1400x710
+            var allChildren = GetComponentsInChildren<Transform>(true);
+            foreach (var child in allChildren)
+            {
+                string nameLower = child.name.ToLower();
+                if (child.gameObject == bgPanel || child.gameObject == decoPanel || nameLower.Contains("page"))
+                {
+                    var fitter = child.GetComponent<ContentSizeFitter>();
+                    if (fitter != null) DestroyImmediate(fitter);
+                    
+                    var rt = child.GetComponent<RectTransform>();
+                    if (rt != null) rt.sizeDelta = new Vector2(1400f, 710f);
+                }
+            }
+
             // Initialize background slots from template
             if (bgPanel != null && bgSlots.Count == 0)
             {
@@ -128,6 +143,14 @@ namespace CosmicChaosCat
                 {
                     bgSlotTemplate.SetActive(false);
                     var parent = bgSlotTemplate.transform.parent;
+
+                    // Prevent resizing the main page: use ScrollRect's content container if present
+                    var scrollRect = bgPanel.GetComponentInChildren<ScrollRect>(true) ?? bgPanel.GetComponent<ScrollRect>();
+                    if (scrollRect != null && scrollRect.content != null)
+                    {
+                        parent = scrollRect.content;
+                    }
+
                     var templateRT = bgSlotTemplate.GetComponent<RectTransform>();
                     Vector2 cellSize = templateRT != null ? templateRT.sizeDelta : new Vector2(120f, 146f);
 
@@ -157,6 +180,14 @@ namespace CosmicChaosCat
                 {
                     decoSlotTemplate.SetActive(false);
                     var parent = decoSlotTemplate.transform.parent;
+
+                    // Prevent resizing the main page: use ScrollRect's content container if present
+                    var scrollRect = decoPanel.GetComponentInChildren<ScrollRect>(true) ?? decoPanel.GetComponent<ScrollRect>();
+                    if (scrollRect != null && scrollRect.content != null)
+                    {
+                        parent = scrollRect.content;
+                    }
+
                     var templateRT = decoSlotTemplate.GetComponent<RectTransform>();
                     Vector2 cellSize = templateRT != null ? templateRT.sizeDelta : new Vector2(120f, 146f);
 
@@ -761,17 +792,34 @@ namespace CosmicChaosCat
             grid.cellSize = templateSize;
             grid.spacing = new Vector2(25f, 25f);
             grid.padding = new RectOffset(20, 20, 20, 20);
-            grid.childAlignment = TextAnchor.UpperCenter;
+            grid.childAlignment = TextAnchor.UpperLeft;
 
             // Use Flexible constraint so columns/rows auto-calculate based on the scroll view/page size!
             grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
             grid.startAxis = isVertical ? GridLayoutGroup.Axis.Horizontal : GridLayoutGroup.Axis.Vertical;
             grid.constraint = GridLayoutGroup.Constraint.Flexible;
 
-            // Get or add ContentSizeFitter to dynamically expand the scroll content height/width
-            var fitter = GetOrAddComponent<ContentSizeFitter>(parent.gameObject);
-            fitter.horizontalFit = !isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
-            fitter.verticalFit = isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
+            // Only add ContentSizeFitter if it's a sub-container (like ScrollRect's Content)
+            // and NOT the main page panels or objects named "Page" themselves, to preserve their 1400x710 dimensions.
+            bool isMainPanel = (bgPanel != null && parent.gameObject == bgPanel) || 
+                               (decoPanel != null && parent.gameObject == decoPanel) ||
+                               parent.name.ToLower().Contains("page");
+
+            if (!isMainPanel)
+            {
+                var fitter = GetOrAddComponent<ContentSizeFitter>(parent.gameObject);
+                fitter.horizontalFit = !isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
+                fitter.verticalFit = isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
+            }
+            else
+            {
+                // Clean up any ContentSizeFitter added to the main panel
+                var fitter = parent.GetComponent<ContentSizeFitter>();
+                if (fitter != null)
+                {
+                    Destroy(fitter);
+                }
+            }
         }
     }
 }
