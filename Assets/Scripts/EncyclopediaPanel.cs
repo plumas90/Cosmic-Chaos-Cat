@@ -692,6 +692,8 @@ namespace CosmicChaosCat
                     slot.go.SetActive(true);
                     var card = filteredCards[ci];
                     cardStates.TryGetValue(card.Id, out var prog);
+                    Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
+                    slot.ui.SetSprites(frameSp, spriteCardLocked);
                     slot.ui.SetData(card, FindOriginalIndex(card, allCards), prog, gm, OnSlotClickedById);
                 }
                 else
@@ -970,7 +972,12 @@ namespace CosmicChaosCat
                             if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndex = c + 1; break; }
                         }
                     }
-                    if (displayCard != null) slot.SetData(displayCard, cardIndex, prog, gm, OnSlotClickedById);
+                    if (displayCard != null)
+                    {
+                        Sprite frameSp = GetFrameSpriteForRarity(displayCard.Rarity);
+                        slot.SetSprites(frameSp, spriteCardLocked);
+                        slot.SetData(displayCard, cardIndex, prog, gm, OnSlotClickedById);
+                    }
                 }
                 else
                 {
@@ -1290,6 +1297,18 @@ namespace CosmicChaosCat
             if (tabGO == null) return;
             var tx = tabGO.GetComponentInChildren<TMP_Text>();
             if (tx != null) tx.color = col;
+        }
+
+        private Sprite GetFrameSpriteForRarity(CardRarity r)
+        {
+            switch (r)
+            {
+                case CardRarity.R:   return spriteCardFrameR   != null ? spriteCardFrameR   : spriteCardFrameN;
+                case CardRarity.SR:  return spriteCardFrameSR  != null ? spriteCardFrameSR  : spriteCardFrameN;
+                case CardRarity.SSR: return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
+                case CardRarity.UR:  return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
+                default:             return spriteCardFrameN;
+            }
         }
 
         private static Color32 RarityToColor(CardRarity r)
