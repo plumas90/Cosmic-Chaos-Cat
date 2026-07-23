@@ -72,9 +72,7 @@ namespace CosmicChaosCat.Editor
 
             if (encyPanel != null)
             {
-                encyPanel.EnsureBreakthroughButtonBuilt();
                 encyPanel.EnsureSetPageChildrenBuilt();   // SetNameTitle / ClaimBtn 하이라키에 미리 생성
-                encyPanel.EnsureShopButtonCleanedUp();
                 EditorUtility.SetDirty(encyPanel);
             }
             if (gachaPanel != null)
@@ -181,15 +179,7 @@ namespace CosmicChaosCat.Editor
                 }
             }
 
-            // 4. Update listeners & breakthrough popup linkages without altering any layouts
-            encyPanel.EnsureBreakthroughButtonBuilt();
-            encyPanel.EnsureShopButtonCleanedUp();
-
-            var bindMethod = encyPanel.GetType().GetMethod("BindListeners",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            bindMethod?.Invoke(encyPanel, null);
-
-            // 5. Mark components dirty to ensure prefab serialization
+            // 4. Mark components dirty to ensure prefab serialization
             EditorUtility.SetDirty(encyPanel);
             if (encyPanel.gameObject != null)
             {

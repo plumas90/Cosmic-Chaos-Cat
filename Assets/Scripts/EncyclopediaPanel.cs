@@ -7,66 +7,110 @@ using TMPro;
 namespace CosmicChaosCat
 {
     /// <summary>
-    /// 도감 패널 – 완전 자급자족형 (코드로 전체 UI 생성).
-    /// EncyclopediaPanel 게임오브젝트에 스크립트만 붙이면 동작합니다.
+    /// 도감 패널 – 책 형태 레이아웃.
+    /// 왼쪽 페이지: 3×3 카드 그리드 + 등급 필터 탭 (전체/N/R/SR/SSR/UR)
+    /// 오른쪽 페이지: 선택된 카드 고정 상세 패널
+    /// Set 탭: 기존 로직 유지
     /// </summary>
     public sealed class EncyclopediaPanel : MonoBehaviour
     {
-        // ── State ────────────────────────────────────────────────────────────
-        private GameManager  gm;
-        private int          currentPageIdx = 0;
-        private bool         showNoTab      = true;   // true = No. 탭, false = Set 탭
-        private string       selectedCardId;
+        // ── Rarity filter state ──────────────────────────────────────────────
+        private enum RarityFilter { All, N, R, SR, SSR, UR }
 
-        // ── Runtime-created UI ───────────────────────────────────────────────
-        [SerializeField] private GameObject  noPanel;
-        [SerializeField] private GameObject  setPanel;
-        [SerializeField] private ScrollRect  setScrollRect;
-        [SerializeField] private Transform   setContent;
+        // ── State ────────────────────────────────────────────────────────────
+        private GameManager gm;
+        private bool        showNoTab      = true;
+        private string      selectedCardId = null;
+        private int         currentPageIdx = 0;
+        private RarityFilter currentFilter  = RarityFilter.All;
+        private List<CardEntry> filteredCards = new List<CardEntry>();
+
+        // ── Inspector-wired panels ───────────────────────────────────────────
+        [SerializeField] private GameObject noPanel;
+        [SerializeField] private GameObject setPanel;
+
+        // No Tab – left page
+        [SerializeField] private GameObject prevPageBtn;
+        [SerializeField] private GameObject nextPageBtn;
+        [SerializeField] private TMP_Text   pageLabel;
+        [SerializeField] private TMP_Text   collectionCounterLabel;
+
+        // No Tab – filter tab buttons (전체/N/R/SR/SSR/UR)
+        [SerializeField] private GameObject filterTabAll;
+        [SerializeField] private GameObject filterTabN;
+        [SerializeField] private GameObject filterTabR;
+        [SerializeField] private GameObject filterTabSR;
+        [SerializeField] private GameObject filterTabSSR;
+        [SerializeField] private GameObject filterTabUR;
+
+        // No Tab – right page detail panel (always visible when a card is selected)
+        [SerializeField] private GameObject  detailPanel;
+        [SerializeField] private Image       detailCardArt;
+        [SerializeField] private TMP_Text    detailCardName;
+        [SerializeField] private TMP_Text    detailRarityBadge;
+        [SerializeField] private TMP_Text    detailDescription;
+        [SerializeField] private TMP_Text    detailIncomeText;
+        [SerializeField] private TMP_Text    detailBreakthroughText;
+        [SerializeField] private Button      detailEquipBtn;
+        [SerializeField] private Button      detailBreakthroughBtn;
+
+        // Set tab elements
         [SerializeField] private GameObject  leftSetPage;
         [SerializeField] private GameObject  rightSetPage;
         [SerializeField] private GameObject  prevSetPageBtn;
         [SerializeField] private GameObject  nextSetPageBtn;
         [SerializeField] private TMP_Text    setPageLabel;
         private int setPageIndex = 0;
-        
-        [SerializeField] private GameObject  tabNoBtn;
-        [SerializeField] private GameObject  tabSetBtn;
-        [SerializeField] private GameObject  prevPageBtn;
-        [SerializeField] private GameObject  nextPageBtn;
-        [SerializeField] private GameObject  closeBtn;
-        [SerializeField] private TMP_Text    pageLabel;
 
-        // 16개 슬롯 (왼쪽 8 + 오른쪽 8)
+        // Tab row buttons
+        [SerializeField] private GameObject tabNoBtn;
+        [SerializeField] private GameObject tabSetBtn;
+        [SerializeField] private GameObject closeBtn;
+
+        // ── field guide sprite references (assign in Inspector) ──────────────
+        [Header("Field Guide Sprites (assign in Inspector)")]
+        [SerializeField] private Sprite spriteBookOpen;
+        [SerializeField] private Sprite spriteTabAll;
+        [SerializeField] private Sprite spriteTabN;
+        [SerializeField] private Sprite spriteTabR;
+        [SerializeField] private Sprite spriteTabSR;
+        [SerializeField] private Sprite spriteTabSSR;
+        [SerializeField] private Sprite spriteCardFrameN;
+        [SerializeField] private Sprite spriteCardFrameR;
+        [SerializeField] private Sprite spriteCardFrameSR;
+        [SerializeField] private Sprite spriteCardFrameSSR;
+        [SerializeField] private Sprite spriteCardLocked;
+        [SerializeField] private Sprite spriteCollectionCounter;
+        [SerializeField] private Sprite spriteBtnRepresentative;
+        [SerializeField] private Sprite spriteTitleCatCodex;
+        [SerializeField] private Sprite spriteBtnPageLeft;
+        [SerializeField] private Sprite spriteBtnPageRight;
+
+        // ── Slot pool (9 slots for left page) ───────────────────────────────
+        private const int SLOTS_PER_PAGE = 9;
+        private const int GRID_COLS = 3;
+        private const int GRID_ROWS = 3;
         private readonly List<SlotBundle> slots = new List<SlotBundle>();
-        private static TMP_FontAsset defaultFont;
 
-        // 상세 팝업
-        [SerializeField] private GameObject  detailRoot;
-        [SerializeField] private Image       detailImage;
-        [SerializeField] private TMP_Text    detailName;
-        [SerializeField] private TMP_Text    detailDesc;
-        [SerializeField] private TMP_Text    detailRareText;
-        [SerializeField] private TMP_Text    detailUnknownText;
-        [SerializeField] private TMP_Text    detailIncomeText;
-        [SerializeField] private Button      detailEquipBtn;
-        [SerializeField] private Button      detailBreakthroughBtn;
-        [SerializeField] private TMP_Text    detailBreakthroughBtnText;
-
-        // 세트 슬롯 풀 – 한 번 생성 후 데이터만 갱신 (파괴/재생성 금지)
+        // ── Set tab slot pools ────────────────────────────────────────────────
         private readonly List<CardSlotUI> leftSetSlots  = new List<CardSlotUI>();
         private readonly List<CardSlotUI> rightSetSlots = new List<CardSlotUI>();
-        private int lastRenderedSetPage = -1; // 마지막으로 그린 페이지 인덱스
 
-        // 세트 행 풀
-        private readonly List<GameObject> setRows = new List<GameObject>();
+        // ── Style ─────────────────────────────────────────────────────────────
+        private static TMP_FontAsset defaultFont;
 
-        // ── Colors / Style ──────────────────────────────────────────────────
-        private static readonly Color BG          = new Color(0.08f, 0.10f, 0.16f, 0.97f);
-        private static readonly Color PageBG      = new Color(0.95f, 0.90f, 0.78f, 1.00f);
-        private static readonly Color TabActive   = new Color(0.25f, 0.55f, 0.95f, 1.00f);
-        private static readonly Color TabInactive = new Color(0.20f, 0.22f, 0.30f, 1.00f);
-        private static readonly Color BtnColor    = new Color(0.20f, 0.45f, 0.80f, 1.00f);
+        // Lazy-init flag: UI is built once, the first time the panel becomes active
+        private bool _uiBuilt = false;
+
+        // Book/parchment colors
+        private static readonly Color PageBG       = new Color(0.94f, 0.89f, 0.76f, 1.00f);
+        private static readonly Color PageBGRight  = new Color(0.90f, 0.85f, 0.72f, 1.00f);
+        private static readonly Color DarkOverlay  = new Color(0.08f, 0.10f, 0.16f, 0.97f);
+        private static readonly Color TabActive    = new Color(0.30f, 0.55f, 0.90f, 1.00f);
+        private static readonly Color TabInactive  = new Color(0.45f, 0.40f, 0.35f, 1.00f);
+        private static readonly Color BtnColor     = new Color(0.20f, 0.45f, 0.80f, 1.00f);
+        private static readonly Color BtnEquip     = new Color(0.20f, 0.55f, 0.30f, 1.00f);
+        private static readonly Color BtnBreak     = new Color(0.70f, 0.45f, 0.05f, 1.00f);
 
         private static readonly Color32 ColN   = new Color32(180, 180, 180, 255);
         private static readonly Color32 ColR   = new Color32( 80, 150, 255, 255);
@@ -74,300 +118,385 @@ namespace CosmicChaosCat
         private static readonly Color32 ColSSR = new Color32(255, 200,   0, 255);
         private static readonly Color32 ColUR  = new Color32(255,  80,  30, 255);
 
+        // ─────────────────────────────────────────────────────────────────────
+        //  LIFECYCLE
+        // ─────────────────────────────────────────────────────────────────────
         private void Awake()
         {
-            Debug.Log("[EncyclopediaPanel] Awake started");
-            try
-            {
-                AutoWireFields();
-                // noPanel이 이미 씬에 있으면 인스펙터 레이아웃 그대로 사용 → 새 UI 생성 금지
-                if (noPanel == null)
-                {
-                    EnsureParentedToCanvas();
-                    BuildUI();
-                }
-                
-                var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
-                var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
-
-                if (noDetail != null)
-                {
-                    BindCloseButtons(noDetail);
-                    EnsureBreakthroughButtonBuiltForPanel(noDetail);
-                }
-                if (setDetail != null)
-                {
-                    BindCloseButtons(setDetail);
-                    EnsureBreakthroughButtonBuiltForPanel(setDetail);
-                }
-
-                EnsureSetPageChildrenBuilt();
-                EnsureShopButtonCleanedUp();
-                BindListeners();
-                gm = FindObjectOfType<GameManager>(true);
-                Debug.Log($"[EncyclopediaPanel] Awake complete. noPanel={noPanel!=null}, setPanel={setPanel!=null}, tabNoBtn={tabNoBtn!=null}, gm={gm!=null}");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"[EncyclopediaPanel] Exception in Awake: {e}");
-            }
-        }
-
-        private void BindListeners()
-        {
-            EnsureShopButtonCleanedUp();
-            if (tabNoBtn != null) { var b = tabNoBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowNoTab); } }
-            if (tabSetBtn != null) { var b = tabSetBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(ShowSetTab); } }
-            if (prevPageBtn != null) { var b = prevPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(-1)); } }
-            if (nextPageBtn != null) { var b = nextPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangePage(1)); } }
-            if (closeBtn != null) { var b = closeBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnClose); } }
-            if (prevSetPageBtn != null) { var b = prevSetPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangeSetPage(-1)); } }
-            if (nextSetPageBtn != null) { var b = nextSetPageBtn.GetComponent<Button>(); if (b) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => ChangeSetPage(1)); } }
-            if (detailEquipBtn != null) { detailEquipBtn.onClick.RemoveAllListeners(); detailEquipBtn.onClick.AddListener(OnDetailEquip); }
-            if (detailBreakthroughBtn != null) { detailBreakthroughBtn.onClick.RemoveAllListeners(); detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough); }
-
-            // 하이라키 상에 존재하는 모든 닫기버튼(Btn_✕ 또는 closeBtn)에 OnClose 리스너 일괄 적용
-            var allButtons = GetComponentsInChildren<Button>(true);
-            foreach (var b in allButtons)
-            {
-                if (b.name == "Btn_✕" || b.name == "closeBtn" || b.name == "Btn_닫기" || b.name.Contains("Btn_✕"))
-                {
-                    b.onClick.RemoveAllListeners();
-                    b.onClick.AddListener(OnClose);
-                }
-            }
-
-            if (detailRoot != null)
-            {
-                var detailBtns = detailRoot.GetComponentsInChildren<Button>(true);
-                foreach (var b in detailBtns)
-                {
-                    var txt = b.GetComponentInChildren<TMP_Text>();
-                    string nameLower = b.name.ToLower();
-                    bool isCloseBtn = (txt != null && (txt.text.Contains("닫기") || txt.text.Contains("✕") || txt.text.ToLower().Contains("close"))) 
-                                      || nameLower.Contains("close") || nameLower.Contains("닫기");
-
-                    if (isCloseBtn)
-                    {
-                        b.onClick.RemoveAllListeners();
-                        b.onClick.AddListener(() => detailRoot.SetActive(false));
-                    }
-                }
-            }
-
-            slots.Clear();
-            if (noPanel != null)
-            {
-                var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
-                for (int i = 0; i < childSlots.Length; i++)
-                {
-                    int slotIdx = i;
-                    var slotGO = childSlots[i].gameObject;
-                    slots.Add(new SlotBundle { go = slotGO, ui = childSlots[i] });
-                    var btn = slotGO.GetComponent<Button>();
-                    if (btn != null) { btn.onClick.RemoveAllListeners(); btn.onClick.AddListener(() => OnSlotClicked(slotIdx)); }
-                }
-            }
+            // gm wiring only. UI is built lazily in OnEnable so that panels
+            // starting INACTIVE still get their UI when first opened.
+            gm = FindObjectOfType<GameManager>(true);
         }
 
         private void OnEnable()
         {
-            Debug.Log("[EncyclopediaPanel] OnEnable started");
-            try
+            // ── Lazy UI build (only once) ─────────────────────────────────────
+            if (!_uiBuilt)
             {
-                AutoWireFields();
-                if (gm == null) gm = FindObjectOfType<GameManager>(true);
-                currentPageIdx = 0;
-                if (gm != null) gm.StateChanged += OnStateChanged;
-                CloseAllDetails();
-                ShowNoTab();
-                Refresh();
-                Debug.Log("[EncyclopediaPanel] OnEnable complete");
+                try
+                {
+                    AutoWireFields();
+                    if (noPanel == null)
+                    {
+                        EnsureParentedToCanvas();
+                        BuildUI();
+                    }
+                    else
+                    {
+                        BindAllListeners();
+                    }
+                    EnsureSetPageChildrenBuilt();
+                    _uiBuilt = true;
+                    Debug.Log("[EncyclopediaPanel] UI built");
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"[EncyclopediaPanel] UI build exception: {e}");
+                }
             }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"[EncyclopediaPanel] Exception in OnEnable: {e}");
-            }
+
+            if (gm == null) gm = FindObjectOfType<GameManager>(true);
+            if (gm != null) gm.StateChanged += OnStateChanged;
+            currentPageIdx = 0;
+            currentFilter  = RarityFilter.All;
+            ShowNoTab();
         }
 
         private void OnDisable()
         {
             if (gm != null) gm.StateChanged -= OnStateChanged;
-            CloseAllDetails();
         }
 
         private void OnStateChanged()
         {
-            if (showNoTab)
-            {
-                Refresh();
-            }
+            if (showNoTab) RefreshNoTab();
         }
 
-        private void EnsureParentedToCanvas()
+        // ─────────────────────────────────────────────────────────────────────
+        //  EDITOR BAKE  –  에디터 모드에서 씬에 UI를 미리 구워넣습니다
+        //  Inspector 우클릭 → "씬에 UI 빌드" 또는
+        //  메뉴 Tools → Encyclopedia → 씬에 UI 빌드
+        // ─────────────────────────────────────────────────────────────────────
+        [ContextMenu("씬에 UI 빌드 (에디터 전용)")]
+        public void BakeUIToScene()
         {
-            var canvas = GetComponentInParent<Canvas>();
-            if (canvas == null)
+            // 폰트 로드 (에디터 전용)
+#if UNITY_EDITOR
+            if (defaultFont == null)
             {
-                canvas = FindObjectOfType<Canvas>();
-                if (canvas != null)
-                {
-                    transform.SetParent(canvas.transform, false);
-                }
+                defaultFont = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
+                    "Assets/Font/Galmuri9 SDF.asset");
             }
-            
-            var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
-            rt.anchoredPosition3D = Vector3.zero;
-            rt.localScale = Vector3.one;
+#endif
+            // 기존 EncyPanel 자식 정리
+            var existingEncyPanel = transform.Find("EncyPanel");
+            if (existingEncyPanel != null) DestroyImmediate(existingEncyPanel.gameObject);
+
+            // 기존 NoPanel / SetPanel 직접 자식도 정리
+            if (noPanel  != null) { DestroyImmediate(noPanel);  }
+            if (setPanel != null) { DestroyImmediate(setPanel); }
+
+            // 모든 [SerializeField] 레퍼런스 초기화
+            ResetAllSerializedFields();
+            slots.Clear();
+            leftSetSlots.Clear();
+            rightSetSlots.Clear();
+            _uiBuilt = false;
+
+            // 새 UI 빌드
+            EnsureParentedToCanvas();
+            BuildUI();
+            EnsureSetPageChildrenBuilt();
+            _uiBuilt = true;
+
+#if UNITY_EDITOR
+            // 씬 더티 마킹 → 저장하면 계층에 남음
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+            Debug.Log("[EncyclopediaPanel] 씬에 UI를 구웠습니다. Ctrl+S로 저장하세요.");
+#endif
         }
 
-        /// <summary>
-        /// leftSetPage / rightSetPage 아래에 SetNameTitle과 ClaimBtn을 미리 생성합니다.
-        /// Bake 툴과 Awake 양쪽에서 호출되어, 에디터에서도 하이라키에서 위치를 조정할 수 있습니다.
-        /// </summary>
-        public void EnsureSetPageChildrenBuilt()
+        /// <summary>모든 직렬화 레퍼런스를 null로 초기화합니다.</summary>
+        private void ResetAllSerializedFields()
         {
-            if (leftSetPage  != null) PrepareSetPageChildren(leftSetPage.transform);
-            if (rightSetPage != null) PrepareSetPageChildren(rightSetPage.transform);
+            noPanel = null; setPanel = null;
+            prevPageBtn = null; nextPageBtn = null;
+            pageLabel = null; collectionCounterLabel = null;
+            filterTabAll = null; filterTabN = null; filterTabR = null;
+            filterTabSR = null; filterTabSSR = null; filterTabUR = null;
+            detailPanel = null; detailCardArt = null; detailCardName = null;
+            detailRarityBadge = null; detailDescription = null;
+            detailIncomeText = null; detailBreakthroughText = null;
+            detailEquipBtn = null; detailBreakthroughBtn = null;
+            leftSetPage = null; rightSetPage = null;
+            prevSetPageBtn = null; nextSetPageBtn = null; setPageLabel = null;
+            tabNoBtn = null; tabSetBtn = null; closeBtn = null;
         }
 
-        public void EnsureBreakthroughButtonBuilt()
-        {
-            var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
-            var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
-
-            if (noDetail != null) EnsureBreakthroughButtonBuiltForPanel(noDetail);
-            if (setDetail != null) EnsureBreakthroughButtonBuiltForPanel(setDetail);
-        }
-
-        public void EnsureBreakthroughButtonBuiltForPanel(GameObject root)
-        {
-            if (root == null) return;
-
-            // 1. 이미 돌파 버튼이 씬에 매핑되었는지 체크
-            Button breakthroughBtn = null;
-            TMP_Text breakthroughBtnText = null;
-            var btns = root.GetComponentsInChildren<Button>(true);
-            foreach (var b in btns)
-            {
-                string n = b.name.ToLower();
-                if (n.Contains("breakthrough") || n.Contains("돌파") || n.Contains("upgrade") || n.Contains("강화") || n.Contains("limit"))
-                {
-                    breakthroughBtn = b;
-                    breakthroughBtnText = b.GetComponentInChildren<TMP_Text>();
-                    break;
-                }
-            }
-
-            // 2. 프리팹/씬에 없는 경우 동적으로 새로 빌드해서 부착
-            if (breakthroughBtn == null)
-            {
-                var breakthroughBtnGO = MakeButton(root.transform, "한계 돌파",
-                    new Vector2(110, -95), new Vector2(200, 44), new Color(0.70f, 0.45f, 0.05f), OnDetailBreakthrough);
-                
-                breakthroughBtn = breakthroughBtnGO.GetComponent<Button>();
-                breakthroughBtnText = breakthroughBtnGO.GetComponentInChildren<TMP_Text>();
-
-                if (breakthroughBtnText != null && detailName != null)
-                {
-                    breakthroughBtnText.font = detailName.font;
-                }
-            }
-
-            // 3. 수익 텍스트 분리 매핑 및 빌드
-            var existingText = root.transform.Find("DetailIncomeText") ?? 
-                               FindChildByNameRecursive(root.transform, "DetailIncomeText") ??
-                               FindChildByNameRecursive(root.transform, "IncomeText") ??
-                               FindChildByNameRecursive(root.transform, "Income") ??
-                               FindChildByNameRecursive(root.transform, "ClickIncome") ??
-                               FindChildByNameRecursive(root.transform, "수익") ??
-                               FindChildByNameRecursive(root.transform, "클릭수익");
-            if (existingText == null)
-            {
-                var incomeText = MakeText(root.transform, "현재 클릭 수익: 0.0 Gold (0강)",
-                    new Vector2(110, -45), new Vector2(350, 30), 13, new Color(1f, 0.84f, 0f));
-                incomeText.gameObject.name = "DetailIncomeText";
-                incomeText.alignment = TextAlignmentOptions.Center;
-                if (detailName != null) incomeText.font = detailName.font;
-            }
-        }
-
-        // ════════════════════════════════════════════════════════════════════
-        //  UI CONSTRUCTION
-        // ════════════════════════════════════════════════════════════════════
+        // ─────────────────────────────────────────────────────────────────────
+        //  UI CONSTRUCTION  (code-built fallback when no prefab is in the scene)
+        // ─────────────────────────────────────────────────────────────────────
         private void BuildUI()
         {
-            // 인스펙터에서 noPanel이 이미 연결되어 있으면 절대로 새 UI를 만들지 않음
             if (noPanel != null) return;
 
-            // 루트 RectTransform을 전체화면으로 설정
             var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
 
-            // 반투명 오버레이
-            var bg = GetComponent<Image>() ?? gameObject.AddComponent<Image>();
-            bg.color = new Color(0, 0, 0, 0.6f);
+            // Semi-transparent full-screen overlay
+            var overlay = GetComponent<Image>() ?? gameObject.AddComponent<Image>();
+            overlay.color = new Color(0, 0, 0, 0.55f);
 
-            // 중앙 패널 (책 모양)
-            var panel = MakePanel(transform, new Vector2(0, 0), new Vector2(980, 640));
-            var panelImg = panel.GetComponent<Image>() ?? panel.AddComponent<Image>();
-            panelImg.color = BG;
+            // ── Outer book panel ──────────────────────────────────────────────
+            var outerPanel = MakeEmptyRT(transform, "EncyPanel",
+                Vector2.zero, new Vector2(1020f, 660f));
+            var outerImg = outerPanel.gameObject.AddComponent<Image>();
+            outerImg.color = new Color(0.28f, 0.20f, 0.12f, 1f); // Dark brown book cover
 
-            BuildTabs(panel.transform);
-            BuildBookArea(panel.transform);
-            BuildDetailPopup(panel.transform);
+            // ── Title ─────────────────────────────────────────────────────────
+            var titleGO = MakeText(outerPanel.transform, "고양이 도감",
+                new Vector2(0f, 296f), new Vector2(400f, 48f), 28, new Color(0.95f, 0.88f, 0.65f));
+            titleGO.fontStyle = FontStyles.Bold;
+            titleGO.alignment = TextAlignmentOptions.Center;
 
-            // 닫기 버튼 (패널 우상단)
-            closeBtn = MakeButton(panel.transform, "✕", new Vector2(470, 300), new Vector2(44, 44),
-                new Color(0.7f, 0.20f, 0.20f, 1f), OnClose);
+            // ── Main tab row ──────────────────────────────────────────────────
+            tabNoBtn  = MakeButton(outerPanel.transform, "No.",  new Vector2(-80f, 266f), new Vector2(80f, 30f),
+                TabActive, ShowNoTab);
+            tabSetBtn = MakeButton(outerPanel.transform, "Set",  new Vector2(10f,  266f), new Vector2(80f, 30f),
+                TabInactive, ShowSetTab);
+            closeBtn  = MakeButton(outerPanel.transform, "✕",   new Vector2(470f, 300f), new Vector2(38f, 38f),
+                new Color(0.65f, 0.18f, 0.18f), OnClose);
+
+            // ── LEFT PAGE (card grid) ────────────────────────────────────────
+            noPanel = MakeEmptyRT(outerPanel.transform, "NoPanel",
+                new Vector2(-2f, -15f), new Vector2(1020f, 620f)).gameObject;
+
+            var leftPage = MakePage(noPanel.transform, new Vector2(-255f, 0f), new Vector2(490f, 595f), PageBG);
+
+            // Collection counter text (e.g. "수집 6 / 14")
+            collectionCounterLabel = MakeText(leftPage.transform, "수집 0 / 0",
+                new Vector2(0f, 265f), new Vector2(280f, 28f), 13, new Color(0.25f, 0.18f, 0.10f));
+            collectionCounterLabel.alignment = TextAlignmentOptions.Center;
+
+            // Rarity filter tabs
+            BuildRarityFilterTabs(leftPage.transform);
+
+            // 3×3 card slot grid
+            BuildSlotGrid(leftPage.transform);
+
+            // Page nav buttons
+            prevPageBtn = MakeButton(leftPage.transform, "◀",
+                new Vector2(-192f, -262f), new Vector2(38f, 38f), TabInactive, () => ChangePage(-1));
+            SetButtonSprite(prevPageBtn, spriteBtnPageLeft);
+            nextPageBtn = MakeButton(leftPage.transform, "▶",
+                new Vector2(192f, -262f), new Vector2(38f, 38f), TabInactive, () => ChangePage(1));
+            SetButtonSprite(nextPageBtn, spriteBtnPageRight);
+
+            pageLabel = MakeText(leftPage.transform, "1 / 1",
+                new Vector2(0f, -263f), new Vector2(120f, 28f), 13, new Color(0.25f, 0.18f, 0.10f));
+            pageLabel.alignment = TextAlignmentOptions.Center;
+
+            // ── RIGHT PAGE (detail panel) ────────────────────────────────────
+            var rightPage = MakePage(noPanel.transform, new Vector2(255f, 0f), new Vector2(490f, 595f), PageBGRight);
+            BuildDetailPanel(rightPage.transform);
+
+            // ── SET PANEL ────────────────────────────────────────────────────
+            BuildSetTabArea(outerPanel.transform);
         }
 
-        private void BuildTabs(Transform parent)
+        private void BuildRarityFilterTabs(Transform parent)
         {
-            float tabY = 285f;
+            // Tabs row: 전체 / N / R / SR / SSR / UR
+            float startX = -185f;
+            float tabY   = 222f;
+            float tabW   = 60f;
+            float gap    = 65f;
 
-            tabNoBtn = MakeButton(parent, "No.", new Vector2(-160, tabY), new Vector2(90, 36),
-                TabActive, () => ShowNoTab());
-            tabSetBtn = MakeButton(parent, "Set", new Vector2(-60, tabY), new Vector2(90, 36),
-                TabInactive, () => ShowSetTab());
-            
-            EnsureShopButtonCleanedUp();
+            filterTabAll = MakeButton(parent, "전체", new Vector2(startX + 0 * gap, tabY), new Vector2(tabW, 26f), TabActive,   () => SetFilter(RarityFilter.All));
+            filterTabN   = MakeButton(parent, "N",   new Vector2(startX + 1 * gap, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.N));
+            filterTabR   = MakeButton(parent, "R",   new Vector2(startX + 2 * gap, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.R));
+            filterTabSR  = MakeButton(parent, "SR",  new Vector2(startX + 3 * gap, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.SR));
+            filterTabSSR = MakeButton(parent, "SSR", new Vector2(startX + 4 * gap, tabY), new Vector2(tabW + 5f, 26f), TabInactive, () => SetFilter(RarityFilter.SSR));
+            filterTabUR  = MakeButton(parent, "UR",  new Vector2(startX + 5 * gap + 5f, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.UR));
+
+            // Apply rarity colors to N/R/SR/SSR/UR tab labels
+            ApplyTabLabelColor(filterTabN,   (Color)ColN);
+            ApplyTabLabelColor(filterTabR,   (Color)ColR);
+            ApplyTabLabelColor(filterTabSR,  (Color)ColSR);
+            ApplyTabLabelColor(filterTabSSR, (Color)ColSSR);
+            ApplyTabLabelColor(filterTabUR,  (Color)ColUR);
+
+            // Apply sprites if available
+            SetButtonSprite(filterTabAll, spriteTabAll);
+            SetButtonSprite(filterTabN,   spriteTabN);
+            SetButtonSprite(filterTabR,   spriteTabR);
+            SetButtonSprite(filterTabSR,  spriteTabSR);
+            SetButtonSprite(filterTabSSR, spriteTabSSR);
         }
 
-        private void BuildBookArea(Transform parent)
+        private void BuildSlotGrid(Transform parent)
         {
-            // ─── No. 탭 영역 ──────────────────────────────────────────────
-            noPanel = MakeEmptyRT(parent, "NoPanel",
-                new Vector2(-10, -20), new Vector2(960, 560));
-
-            // 페이지 배경 (책 왼쪽 / 오른쪽)
-            var leftPage  = MakePage(noPanel.transform, new Vector2(-350, 14), new Vector2(670, 710));
-            var rightPage = MakePage(noPanel.transform, new Vector2( 350, 14), new Vector2(670, 710));
-
-            // 페이지 전환 버튼
-            prevPageBtn = MakeButton(noPanel.transform, "◀", new Vector2(-830, 0), new Vector2(50, 50),
-                BtnColor, () => ChangePage(-1));
-            nextPageBtn = MakeButton(noPanel.transform, "▶", new Vector2( 830, 0), new Vector2(50, 50),
-                BtnColor, () => ChangePage(1));
-
-            // 페이지 라벨
-            pageLabel = MakeText(noPanel.transform, "1 / 1",
-                new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
-
-            // 16 슬롯 생성 (왼쪽 4×2 + 오른쪽 4×2 = 16)
             slots.Clear();
-            BuildSlotGrid(noPanel.transform, leftPage.transform, 0, -222f);   // left 8
-            BuildSlotGrid(noPanel.transform, rightPage.transform, 8, 22f);    // right 8
+            float colW   = 145f;
+            float rowH   = 155f;
+            float startX = -145f;
+            float startY = 90f;
 
-            // ─── Set 탭 영역 ─────────────────────────────────────────────
-            BuildSetTabArea(parent);
+            for (int row = 0; row < GRID_ROWS; row++)
+            for (int col = 0; col < GRID_COLS; col++)
+            {
+                int si  = row * GRID_COLS + col;
+                float x = startX + col * colW;
+                float y = startY - row * rowH;
+
+                var slotGO = new GameObject($"Slot_{si}");
+                slotGO.transform.SetParent(parent, false);
+
+                var slotRT = slotGO.AddComponent<RectTransform>();
+                slotRT.anchoredPosition = new Vector2(x, y);
+                slotRT.sizeDelta        = new Vector2(130f, 145f);
+
+                var slotImg = slotGO.AddComponent<Image>();
+                slotImg.color = new Color(0.82f, 0.76f, 0.60f, 0.6f);
+
+                slotGO.AddComponent<Button>();
+
+                // Frame
+                var frameGO = MakeImage(slotGO.transform, "Frame",
+                    Vector2.zero, new Vector2(118f, 132f), Color.clear);
+                var frameImg = frameGO.GetComponent<Image>();
+                frameImg.type = Image.Type.Sliced;
+
+                // Art
+                var artGO = MakeImage(slotGO.transform, "Art",
+                    new Vector2(0f, 10f), new Vector2(90f, 90f), Color.gray);
+
+                // Name text
+                var nameTx = MakeText(slotGO.transform, "???",
+                    new Vector2(0f, -44f), new Vector2(120f, 22f), 10, new Color(0.15f, 0.10f, 0.05f));
+                nameTx.alignment          = TextAlignmentOptions.Center;
+                nameTx.enableWordWrapping = false;
+                nameTx.overflowMode       = TextOverflowModes.Ellipsis;
+                nameTx.gameObject.name    = "NameText";
+
+                // Rarity text (small badge top-left)
+                var rarityTx = MakeText(slotGO.transform, "",
+                    new Vector2(-44f, 56f), new Vector2(44f, 20f), 9, Color.gray);
+                rarityTx.alignment       = TextAlignmentOptions.Left;
+                rarityTx.fontStyle       = FontStyles.Bold;
+                rarityTx.gameObject.name = "RarityText";
+
+                // Unknown overlay
+                var unkGO = new GameObject("Unknown");
+                unkGO.transform.SetParent(slotGO.transform, false);
+                var unkRT = unkGO.AddComponent<RectTransform>();
+                unkRT.anchorMin = Vector2.zero; unkRT.anchorMax = Vector2.one;
+                unkRT.offsetMin = Vector2.zero; unkRT.offsetMax = Vector2.zero;
+                var unkImg = unkGO.AddComponent<Image>();
+                if (spriteCardLocked != null) { unkImg.sprite = spriteCardLocked; unkImg.type = Image.Type.Sliced; unkImg.color = Color.white; }
+                else unkImg.color = new Color(0.10f, 0.08f, 0.06f, 0.80f);
+                unkImg.raycastTarget = false;
+
+                var unkTx = MakeText(unkGO.transform, "미해금\n???",
+                    new Vector2(0f, 0f), new Vector2(100f, 80f), 12, new Color(0.60f, 0.55f, 0.45f));
+                unkTx.alignment     = TextAlignmentOptions.Center;
+                unkTx.raycastTarget = false;
+
+                // CardSlotUI
+                var slotUI = slotGO.AddComponent<CardSlotUI>();
+                slotUI.InitUI(frameImg, artGO.GetComponent<Image>(), nameTx, rarityTx, unkGO);
+
+                int captured = si;
+                slotGO.GetComponent<Button>().onClick.AddListener(() => OnSlotClicked(captured));
+
+                slots.Add(new SlotBundle { go = slotGO, ui = slotUI });
+            }
+        }
+
+        private void BuildDetailPanel(Transform parent)
+        {
+            detailPanel = MakeEmptyRT(parent, "DetailPanel",
+                Vector2.zero, new Vector2(480f, 580f)).gameObject;
+
+            // ── Card art (upper half, centered) ──────────────────────────────
+            var artGO = MakeImage(detailPanel.transform, "DetailArt",
+                new Vector2(60f, 130f), new Vector2(200f, 220f), Color.gray);
+            detailCardArt = artGO.GetComponent<Image>();
+            detailCardArt.preserveAspect = true;
+
+            // ── Rarity badge ─────────────────────────────────────────────────
+            var rarityBG = MakeImage(detailPanel.transform, "RarityBG",
+                new Vector2(-120f, 220f), new Vector2(56f, 28f), new Color(0.18f, 0.18f, 0.22f));
+            detailRarityBadge = MakeText(rarityBG.transform, "N",
+                Vector2.zero, new Vector2(56f, 28f), 14, (Color)ColN);
+            detailRarityBadge.alignment = TextAlignmentOptions.Center;
+            detailRarityBadge.fontStyle = FontStyles.Bold;
+            var rrt = detailRarityBadge.GetComponent<RectTransform>();
+            rrt.anchorMin = Vector2.zero; rrt.anchorMax = Vector2.one;
+            rrt.offsetMin = Vector2.zero; rrt.offsetMax = Vector2.zero;
+
+            // ── Card name ─────────────────────────────────────────────────────
+            detailCardName = MakeText(detailPanel.transform, "카드 이름",
+                new Vector2(10f, 195f), new Vector2(300f, 36f), 20, new Color(0.15f, 0.10f, 0.05f));
+            detailCardName.fontStyle = FontStyles.Bold;
+            detailCardName.alignment = TextAlignmentOptions.Left;
+
+            // ── Stats divider line ────────────────────────────────────────────
+            var divider = MakeImage(detailPanel.transform, "Divider",
+                new Vector2(10f, 173f), new Vector2(340f, 2f), new Color(0.40f, 0.32f, 0.22f, 0.6f));
+
+            // ── Stat lines ────────────────────────────────────────────────────
+            // Income (골드 생산)
+            detailIncomeText = MakeText(detailPanel.transform, "💰 골드 생산  0.0",
+                new Vector2(10f, 150f), new Vector2(340f, 28f), 14, new Color(0.15f, 0.10f, 0.05f));
+            detailIncomeText.alignment = TextAlignmentOptions.Left;
+
+            // Breakthrough / enhancement
+            detailBreakthroughText = MakeText(detailPanel.transform, "⭐ 강화  0강 / 5강",
+                new Vector2(10f, 118f), new Vector2(340f, 28f), 14, new Color(0.15f, 0.10f, 0.05f));
+            detailBreakthroughText.alignment = TextAlignmentOptions.Left;
+
+            // Description / 특징
+            var descBG = MakeImage(detailPanel.transform, "DescBG",
+                new Vector2(150f, 148f), new Vector2(168f, 68f), new Color(0.88f, 0.82f, 0.68f));
+            detailDescription = MakeText(descBG.transform, "특징\n—",
+                Vector2.zero, new Vector2(160f, 64f), 11, new Color(0.18f, 0.12f, 0.06f));
+            detailDescription.alignment        = TextAlignmentOptions.TopLeft;
+            detailDescription.textWrappingMode = TextWrappingModes.Normal;
+            var drt = detailDescription.GetComponent<RectTransform>();
+            drt.anchorMin = Vector2.zero; drt.anchorMax = Vector2.one;
+            drt.offsetMin = new Vector2(4f,  4f); drt.offsetMax = new Vector2(-4f, -4f);
+
+            // ── Divider 2 ─────────────────────────────────────────────────────
+            MakeImage(detailPanel.transform, "Divider2",
+                new Vector2(10f, 80f), new Vector2(340f, 2f), new Color(0.40f, 0.32f, 0.22f, 0.6f));
+
+            // ── 대표 설정 (장착하기) button ──────────────────────────────────
+            var equipBtnGO = MakeButton(detailPanel.transform, "대표 설정",
+                new Vector2(10f, 42f), new Vector2(220f, 48f), BtnEquip, OnDetailEquip);
+            if (spriteBtnRepresentative != null)
+            {
+                var img = equipBtnGO.GetComponent<Image>();
+                img.sprite = spriteBtnRepresentative;
+                img.type   = Image.Type.Sliced;
+                img.color  = Color.white;
+            }
+            detailEquipBtn = equipBtnGO.GetComponent<Button>();
+            var equipLbl = equipBtnGO.GetComponentInChildren<TMP_Text>();
+            if (equipLbl != null) { equipLbl.fontSize = 16; equipLbl.color = new Color(0.90f, 0.85f, 0.65f); }
+
+            // ── 한계 돌파 button ──────────────────────────────────────────────
+            var breakBtnGO = MakeButton(detailPanel.transform, "한계 돌파",
+                new Vector2(10f, -14f), new Vector2(220f, 44f), BtnBreak, OnDetailBreakthrough);
+            detailBreakthroughBtn = breakBtnGO.GetComponent<Button>();
+            var breakLbl = breakBtnGO.GetComponentInChildren<TMP_Text>();
+            if (breakLbl != null) { breakLbl.fontSize = 14; breakLbl.color = Color.white; }
+
+            // Default state: show "카드를 선택하세요"
+            SetDetailEmpty();
         }
 
         private void BuildSetTabArea(Transform parent)
@@ -375,184 +504,87 @@ namespace CosmicChaosCat
             if (setPanel == null)
             {
                 setPanel = MakeEmptyRT(parent, "SetPanel",
-                    new Vector2(-10, -20), new Vector2(960, 560));
+                    new Vector2(-2f, -15f), new Vector2(1020f, 620f)).gameObject;
             }
             setPanel.SetActive(false);
 
             if (leftSetPage == null)
-            {
-                leftSetPage = MakePage(setPanel.transform, new Vector2(-350, 14), new Vector2(670, 710));
-            }
-            // leftSetPage 안에 SetNameTitle / ClaimBtn 미리 생성
+                leftSetPage = MakePage(setPanel.transform, new Vector2(-255f, 0f), new Vector2(490f, 595f), PageBG);
             PrepareSetPageChildren(leftSetPage.transform);
 
             if (rightSetPage == null)
-            {
-                rightSetPage = MakePage(setPanel.transform, new Vector2( 350, 14), new Vector2(670, 710));
-            }
-            // rightSetPage 안에 SetNameTitle / ClaimBtn 미리 생성
+                rightSetPage = MakePage(setPanel.transform, new Vector2(255f, 0f), new Vector2(490f, 595f), PageBGRight);
             PrepareSetPageChildren(rightSetPage.transform);
 
             if (prevSetPageBtn == null)
-            {
-                prevSetPageBtn = MakeButton(setPanel.transform, "◀", new Vector2(-830, 0), new Vector2(50, 50),
-                    BtnColor, () => ChangeSetPage(-1));
-            }
-            else
-            {
-                var btn = prevSetPageBtn.GetComponent<Button>();
-                if (btn != null)
-                {
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => ChangeSetPage(-1));
-                }
-            }
-
+                prevSetPageBtn = MakeButton(setPanel.transform, "◀",
+                    new Vector2(-440f, 0f), new Vector2(38f, 38f), TabInactive, () => ChangeSetPage(-1));
             if (nextSetPageBtn == null)
+                nextSetPageBtn = MakeButton(setPanel.transform, "▶",
+                    new Vector2(440f, 0f), new Vector2(38f, 38f), TabInactive, () => ChangeSetPage(1));
+            if (setPageLabel == null)
+                setPageLabel = MakeText(setPanel.transform, "1 / 1",
+                    new Vector2(0f, -295f), new Vector2(120f, 28f), 13, Color.white);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  LISTENERS
+        // ─────────────────────────────────────────────────────────────────────
+        private void BindAllListeners()
+        {
+            BindBtn(tabNoBtn,      ShowNoTab);
+            BindBtn(tabSetBtn,     ShowSetTab);
+            BindBtn(closeBtn,      OnClose);
+            BindBtn(prevPageBtn,   () => ChangePage(-1));
+            BindBtn(nextPageBtn,   () => ChangePage(1));
+            BindBtn(prevSetPageBtn,() => ChangeSetPage(-1));
+            BindBtn(nextSetPageBtn,() => ChangeSetPage(1));
+
+            BindBtn(filterTabAll,  () => SetFilter(RarityFilter.All));
+            BindBtn(filterTabN,    () => SetFilter(RarityFilter.N));
+            BindBtn(filterTabR,    () => SetFilter(RarityFilter.R));
+            BindBtn(filterTabSR,   () => SetFilter(RarityFilter.SR));
+            BindBtn(filterTabSSR,  () => SetFilter(RarityFilter.SSR));
+            BindBtn(filterTabUR,   () => SetFilter(RarityFilter.UR));
+
+            if (detailEquipBtn != null) { detailEquipBtn.onClick.RemoveAllListeners(); detailEquipBtn.onClick.AddListener(OnDetailEquip); }
+            if (detailBreakthroughBtn != null) { detailBreakthroughBtn.onClick.RemoveAllListeners(); detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough); }
+
+            // Rebind slot click listeners
+            slots.Clear();
+            if (noPanel != null)
             {
-                nextSetPageBtn = MakeButton(setPanel.transform, "▶", new Vector2( 830, 0), new Vector2(50, 50),
-                    BtnColor, () => ChangeSetPage(1));
-            }
-            else
-            {
-                var btn = nextSetPageBtn.GetComponent<Button>();
-                if (btn != null)
+                var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
+                for (int i = 0; i < childSlots.Length; i++)
                 {
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => ChangeSetPage(1));
+                    int idx = i;
+                    var btn = childSlots[i].GetComponent<Button>();
+                    if (btn != null) { btn.onClick.RemoveAllListeners(); btn.onClick.AddListener(() => OnSlotClicked(idx)); }
+                    slots.Add(new SlotBundle { go = childSlots[i].gameObject, ui = childSlots[i] });
                 }
             }
-
-            if (setPageLabel == null)
-            {
-                setPageLabel = MakeText(setPanel.transform, "1 / 1",
-                    new Vector2(0, -275), new Vector2(200, 30), 14, Color.white);
-            }
         }
 
-        // 4×2 슬롯 그리드를 pageTransform 아래에 생성
-        private void BuildSlotGrid(Transform noTabRootTf, Transform pageTf, int startIdx, float xOffset)
+        private static void BindBtn(GameObject go, UnityEngine.Events.UnityAction action)
         {
-            float colW = 133f, rowH = 160f;
-            float startX = -199.5f;
-            float startY = 80f;
-
-            for (int row = 0; row < 2; row++)
-            for (int col = 0; col < 4; col++)
-            {
-                int si = startIdx + row * 4 + col;
-                float x = startX + col * colW;
-                float y = startY - row * rowH;
-
-                var slotGO = new GameObject($"Slot_{si}");
-                slotGO.transform.SetParent(pageTf, false);
-                slotGO.AddComponent<Button>();
-
-                var slotRT = slotGO.AddComponent<RectTransform>();
-                slotRT.anchoredPosition = new Vector2(x, y);
-                slotRT.sizeDelta        = new Vector2(120, 146);
-
-                // 배경 이미지
-                var slotImg = slotGO.AddComponent<Image>();
-                slotImg.color = new Color(0.15f, 0.17f, 0.25f, 1f);
-
-                // 레이아웃 요소들
-                var frameGO = MakeImage(slotGO.transform, "Frame",
-                    Vector2.zero, new Vector2(86, 106), new Color(0.4f, 0.4f, 0.4f, 0.5f));
-                var artGO   = MakeImage(slotGO.transform, "Art",
-                    new Vector2(0, 12), new Vector2(72, 72), Color.gray);
-                var nameTx  = MakeText(slotGO.transform, "???",
-                    new Vector2(0, -36), new Vector2(88, 18), 9, Color.white);
-                nameTx.alignment = TextAlignmentOptions.Center;
-                var rarityTx= MakeText(slotGO.transform, "",
-                    new Vector2(0, -48), new Vector2(88, 14), 8, Color.gray);
-                rarityTx.alignment = TextAlignmentOptions.Center;
-
-                // 미해금 오버레이
-                var unkGO = new GameObject("Unknown");
-                unkGO.transform.SetParent(slotGO.transform, false);
-                var unkRT = unkGO.AddComponent<RectTransform>();
-                unkRT.anchorMin = Vector2.zero; unkRT.anchorMax = Vector2.one;
-                unkRT.offsetMin = Vector2.zero; unkRT.offsetMax = Vector2.zero;
-                var unkImg = unkGO.AddComponent<Image>();
-                unkImg.color = new Color(0.05f, 0.05f, 0.10f, 0.85f);
-                var unkTx = MakeText(unkGO.transform, "?",
-                    new Vector2(0, 15), new Vector2(80, 80), 36, new Color(0.5f, 0.5f, 0.6f));
-                unkTx.alignment = TextAlignmentOptions.Center;
-
-                // CardSlotUI 컴포넌트 부착 및 초기화
-                var slotUI = slotGO.AddComponent<CardSlotUI>();
-                slotUI.InitUI(
-                    frameGO.GetComponent<Image>(),
-                    artGO.GetComponent<Image>(),
-                    nameTx, rarityTx,
-                    unkGO
-                );
-
-                slots.Add(new SlotBundle { go = slotGO, ui = slotUI });
-            }
+            if (go == null) return;
+            var btn = go.GetComponent<Button>();
+            if (btn == null) return;
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(action);
         }
 
-        private void BuildDetailPopup(Transform parent)
-        {
-            if (detailRoot != null) return;
-
-            detailRoot = MakePanel(parent, new Vector2(0, 0), new Vector2(640, 420));
-            detailRoot.name = "DetailPopup";
-            var dImg = detailRoot.GetComponent<Image>();
-            dImg.color = new Color(0.06f, 0.08f, 0.14f, 0.98f);
-            detailRoot.SetActive(false);
-
-            // 왼쪽 – 카드 이미지
-            detailImage = MakeImage(detailRoot.transform, "DetailArt",
-                new Vector2(-165, 10), new Vector2(220, 260), Color.gray).GetComponent<Image>();
-
-            // 오른쪽 – 설명 텍스트
-            detailName = MakeText(detailRoot.transform, "???",
-                new Vector2(110, 155), new Vector2(350, 40), 18, Color.white);
-            detailName.fontStyle = FontStyles.Bold;
-
-            detailDesc = MakeText(detailRoot.transform, "???",
-                new Vector2(110, 55), new Vector2(350, 150), 13, new Color(0.8f, 0.8f, 0.85f));
-            detailDesc.alignment = TextAlignmentOptions.TopLeft;
-            detailDesc.textWrappingMode = TextWrappingModes.Normal;
-
-            // 수익 텍스트 분리 (한계 돌파 바로 위)
-            var incomeGO = MakeText(detailRoot.transform, "현재 클릭 수익: 0.0 Gold (0강)",
-                new Vector2(110, -45), new Vector2(350, 30), 13, new Color(1f, 0.84f, 0f));
-            incomeGO.gameObject.name = "DetailIncomeText";
-            incomeGO.alignment = TextAlignmentOptions.Center;
-            detailIncomeText = incomeGO;
-
-            // 한계 돌파 버튼 (장착하기 위)
-            var breakthroughBtnGO = MakeButton(detailRoot.transform, "한계 돌파",
-                new Vector2(110, -95), new Vector2(200, 44), new Color(0.70f, 0.45f, 0.05f), OnDetailBreakthrough);
-            detailBreakthroughBtn = breakthroughBtnGO.GetComponent<Button>();
-            detailBreakthroughBtnText = breakthroughBtnGO.GetComponentInChildren<TMP_Text>();
-
-            // 장착 버튼
-            var equipBtnGO = MakeButton(detailRoot.transform, "장착하기",
-                new Vector2(110, -155), new Vector2(200, 44), BtnColor, OnDetailEquip);
-            detailEquipBtn = equipBtnGO.GetComponent<Button>();
-
-            // 닫기 버튼
-            MakeButton(detailRoot.transform, "✕ 닫기",
-                new Vector2(290, 185), new Vector2(70, 34), new Color(0.5f, 0.15f, 0.15f), CloseDetail);
-        }
-
-        // ════════════════════════════════════════════════════════════════════
+        // ─────────────────────────────────────────────────────────────────────
         //  TAB SWITCHING
-        // ════════════════════════════════════════════════════════════════════
+        // ─────────────────────────────────────────────────────────────────────
         private void ShowNoTab()
         {
             showNoTab = true;
             if (noPanel  != null) noPanel.SetActive(true);
             if (setPanel != null) setPanel.SetActive(false);
-
             SetBtnColor(tabNoBtn,  TabActive);
             SetBtnColor(tabSetBtn, TabInactive);
-            currentPageIdx = 0;
-            Refresh();
+            RefreshNoTab();
         }
 
         private void ShowSetTab()
@@ -560,103 +592,294 @@ namespace CosmicChaosCat
             showNoTab = false;
             if (noPanel  != null) noPanel.SetActive(false);
             if (setPanel != null) setPanel.SetActive(true);
-
             SetBtnColor(tabNoBtn,  TabInactive);
             SetBtnColor(tabSetBtn, TabActive);
             RefreshSets();
         }
 
-        // ════════════════════════════════════════════════════════════════════
-        //  REFRESH – No. TAB
-        // ════════════════════════════════════════════════════════════════════
-        private void Refresh()
+        private void OnClose()
+        {
+            gameObject.SetActive(false);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  FILTER
+        // ─────────────────────────────────────────────────────────────────────
+        private void SetFilter(RarityFilter f)
+        {
+            currentFilter  = f;
+            currentPageIdx = 0;
+            UpdateFilterTabColors();
+            RefreshNoTab();
+        }
+
+        private void UpdateFilterTabColors()
+        {
+            SetBtnColor(filterTabAll, currentFilter == RarityFilter.All ? TabActive : TabInactive);
+            SetBtnColor(filterTabN,   currentFilter == RarityFilter.N   ? TabActive : TabInactive);
+            SetBtnColor(filterTabR,   currentFilter == RarityFilter.R   ? TabActive : TabInactive);
+            SetBtnColor(filterTabSR,  currentFilter == RarityFilter.SR  ? TabActive : TabInactive);
+            SetBtnColor(filterTabSSR, currentFilter == RarityFilter.SSR ? TabActive : TabInactive);
+            SetBtnColor(filterTabUR,  currentFilter == RarityFilter.UR  ? TabActive : TabInactive);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  REFRESH – No TAB
+        // ─────────────────────────────────────────────────────────────────────
+        private void RefreshNoTab()
         {
             if (gm == null) return;
-            if (!showNoTab) { RefreshSets(); return; }
+            var allCards = gm.CardCatalog?.Cards;
+            if (allCards == null) return;
 
-            var cards  = gm.CardCatalog?.Cards;
-            if (cards == null) return;
+            // Build filtered list (hidden cards always excluded from No. tab)
+            filteredCards.Clear();
+            foreach (var c in allCards)
+            {
+                if (c.IsHidden) continue;
+                if (currentFilter == RarityFilter.All) { filteredCards.Add(c); continue; }
+                if (currentFilter == RarityFilter.N   && c.Rarity == CardRarity.N)   filteredCards.Add(c);
+                if (currentFilter == RarityFilter.R   && c.Rarity == CardRarity.R)   filteredCards.Add(c);
+                if (currentFilter == RarityFilter.SR  && c.Rarity == CardRarity.SR)  filteredCards.Add(c);
+                if (currentFilter == RarityFilter.SSR && c.Rarity == CardRarity.SSR) filteredCards.Add(c);
+                if (currentFilter == RarityFilter.UR  && c.Rarity == CardRarity.UR)  filteredCards.Add(c);
+            }
 
-            int total   = cards.Count;
-            int perPage = slots.Count > 0 ? slots.Count : 16;
-            int maxPage = Mathf.Max(0, (total - 1) / perPage);
+            int total   = filteredCards.Count;
+            int maxPage = Mathf.Max(0, (total - 1) / SLOTS_PER_PAGE);
             currentPageIdx = Mathf.Clamp(currentPageIdx, 0, maxPage);
 
-            if (pageLabel != null)
-                pageLabel.text = $"{currentPageIdx + 1} / {maxPage + 1}";
-            if (prevPageBtn != null) prevPageBtn.GetComponent<Button>().interactable = currentPageIdx > 0;
-            if (nextPageBtn != null) nextPageBtn.GetComponent<Button>().interactable = currentPageIdx < maxPage;
+            if (pageLabel != null) pageLabel.text = $"{currentPageIdx + 1} / {maxPage + 1}";
 
-            var states = gm.GetCardStates();
-            int startIdx = currentPageIdx * perPage;
+            // Update collection counter with total (non-hidden) collected
+            if (collectionCounterLabel != null)
+            {
+                int totalNonHidden   = 0;
+                int unlockedNonHidden = 0;
+                var states = gm.GetCardStates();
+                foreach (var c in allCards)
+                {
+                    if (c.IsHidden) continue;
+                    totalNonHidden++;
+                    states.TryGetValue(c.Id, out var p);
+                    if (p != null && p.Unlocked) unlockedNonHidden++;
+                }
+                collectionCounterLabel.text = $"수집  {unlockedNonHidden} / {totalNonHidden}";
+            }
+
+            // Navigation buttons
+            if (prevPageBtn != null)
+            {
+                var b = prevPageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = currentPageIdx > 0;
+            }
+            if (nextPageBtn != null)
+            {
+                var b = nextPageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = currentPageIdx < maxPage;
+            }
+
+            // Fill slots
+            var cardStates = gm.GetCardStates();
+            int startIdx = currentPageIdx * SLOTS_PER_PAGE;
 
             for (int i = 0; i < slots.Count; i++)
             {
-                int cardIdx = startIdx + i;
+                int ci = startIdx + i;
                 var slot = slots[i];
-                if (cardIdx < total)
+                if (ci < total)
                 {
                     slot.go.SetActive(true);
-                    var card     = cards[cardIdx];
-                    states.TryGetValue(card.Id, out var prog);
-                    slot.ui.SetData(card, cardIdx + 1, prog, gm, OpenDetail);
+                    var card = filteredCards[ci];
+                    cardStates.TryGetValue(card.Id, out var prog);
+                    slot.ui.SetData(card, FindOriginalIndex(card, allCards), prog, gm, OnSlotClickedById);
                 }
                 else
                 {
                     slot.go.SetActive(false);
                 }
             }
+
+            // Refresh detail panel if a card is selected
+            if (!string.IsNullOrEmpty(selectedCardId))
+                RefreshDetailPanel(selectedCardId);
         }
 
-        private void OnSlotClicked(int index)
+        private int FindOriginalIndex(CardEntry card, IReadOnlyList<CardEntry> all)
         {
-            int perPage = slots.Count > 0 ? slots.Count : 16;
-            int cardIdx = (currentPageIdx * perPage) + index;
-            var cards = gm.CardCatalog?.Cards;
-            if (cards != null && cardIdx < cards.Count) OpenDetail(cards[cardIdx].Id);
+            for (int i = 0; i < all.Count; i++)
+                if (all[i].Id == card.Id) return i + 1;
+            return 1;
         }
 
         private void ChangePage(int delta)
         {
             currentPageIdx += delta;
-            Refresh();
+            RefreshNoTab();
         }
 
-        private void ChangeSetPage(int delta)
+        // ─────────────────────────────────────────────────────────────────────
+        //  SLOT CLICK
+        // ─────────────────────────────────────────────────────────────────────
+        private void OnSlotClicked(int slotIndex)
         {
-            var sets = gm.SetCatalog?.Sets;
-            if (sets == null || sets.Count == 0) return;
-            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
-            setPageIndex = Mathf.Clamp(setPageIndex + delta, 0, maxPages - 1);
-            Refresh();
+            int ci = currentPageIdx * SLOTS_PER_PAGE + slotIndex;
+            if (ci < filteredCards.Count)
+                OnSlotClickedById(filteredCards[ci].Id);
         }
 
-        // ════════════════════════════════════════════════════════════════════
-        //  REFRESH – Set TAB
-        // ════════════════════════════════════════════════════════════════════
-        private void CleanDynamicSetPageChildren(Transform pageTf)
+        private void OnSlotClickedById(string cardId)
         {
-            if (pageTf == null) return;
-            var toDestroy = new System.Collections.Generic.List<GameObject>();
-            foreach (Transform child in pageTf)
+            selectedCardId = cardId;
+            RefreshDetailPanel(cardId);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  DETAIL PANEL (right page)
+        // ─────────────────────────────────────────────────────────────────────
+        private void SetDetailEmpty()
+        {
+            if (detailCardName      != null) detailCardName.text      = "카드를 선택하세요";
+            if (detailRarityBadge   != null) detailRarityBadge.text   = "";
+            if (detailDescription   != null) detailDescription.text   = "";
+            if (detailIncomeText    != null) detailIncomeText.text     = "";
+            if (detailBreakthroughText != null) detailBreakthroughText.text = "";
+            if (detailCardArt       != null) { detailCardArt.sprite = null; detailCardArt.color = new Color(0.4f, 0.35f, 0.28f, 0.4f); }
+            if (detailEquipBtn      != null) detailEquipBtn.interactable = false;
+            if (detailBreakthroughBtn != null) detailBreakthroughBtn.gameObject.SetActive(false);
+        }
+
+        private void RefreshDetailPanel(string cardId)
+        {
+            if (detailPanel == null) return;
+
+            var card = gm?.CardCatalog?.FindById(cardId);
+            var states = gm?.GetCardStates();
+            CardProgress prog = null;
+            states?.TryGetValue(cardId, out prog);
+            bool unlocked = prog != null && prog.Unlocked;
+
+            // Card name
+            if (detailCardName != null)
+                detailCardName.text = unlocked && card != null ? card.DisplayName : "???";
+
+            // Rarity badge
+            if (detailRarityBadge != null && card != null)
             {
-                string n = child.name;
-                if (n == "SetNameTitle" || n.StartsWith("Slot_") || n == "ClaimBtn" || n == "BlankPageText")
+                detailRarityBadge.text  = unlocked ? card.Rarity.ToString() : "?";
+                detailRarityBadge.color = unlocked ? (Color)RarityToColor(card.Rarity) : Color.gray;
+            }
+
+            // Card art
+            if (detailCardArt != null)
+            {
+                if (unlocked && card?.CardSprite != null)
                 {
-                    toDestroy.Add(child.gameObject);
+                    detailCardArt.sprite = card.CardSprite;
+                    detailCardArt.color  = Color.white;
+                }
+                else
+                {
+                    detailCardArt.sprite = null;
+                    detailCardArt.color  = new Color(0.30f, 0.26f, 0.20f, 0.6f);
                 }
             }
-            foreach (var go in toDestroy)
+
+            // Income stat
+            if (detailIncomeText != null)
             {
-                DestroyImmediate(go);
+                if (unlocked && card != null && prog != null)
+                {
+                    int    lvl    = prog.BreakthroughCount;
+                    double income = card.ClickMultiplier * (1 + lvl);
+                    if (lvl >= 5) income += card.ClickMultiplier;
+                    detailIncomeText.text = $"💰 골드 생산   {income:F1} / 초";
+                }
+                else
+                {
+                    detailIncomeText.text = "💰 골드 생산   ???";
+                }
+            }
+
+            // Breakthrough / enhancement
+            if (detailBreakthroughText != null)
+            {
+                if (unlocked && prog != null)
+                    detailBreakthroughText.text = $"⭐ 강화   {prog.BreakthroughCount}강 / 5강";
+                else
+                    detailBreakthroughText.text = "⭐ 강화   미해금";
+            }
+
+            // Description (특징)
+            if (detailDescription != null)
+            {
+                if (unlocked && card != null)
+                {
+                    string raw = card.GetDescription();
+                    detailDescription.text = "특징\n" + raw;
+                }
+                else
+                {
+                    detailDescription.text = "특징\n???";
+                }
+            }
+
+            // Equip button
+            if (detailEquipBtn != null)
+            {
+                detailEquipBtn.interactable = unlocked;
+                bool isEquipped = gm != null && gm.EquippedCardId == cardId;
+                var lbl = detailEquipBtn.GetComponentInChildren<TMP_Text>();
+                if (lbl != null) lbl.text = isEquipped ? "✔ 대표 설정됨" : "대표 설정";
+            }
+
+            // Breakthrough button
+            if (detailBreakthroughBtn != null)
+            {
+                if (unlocked && card != null && prog != null)
+                {
+                    detailBreakthroughBtn.gameObject.SetActive(true);
+                    bool hasUnused  = prog.Copies > prog.BreakthroughCount + 1;
+                    bool canUpgrade = hasUnused && prog.BreakthroughCount < 5;
+                    SetButtonInteractable(detailBreakthroughBtn, canUpgrade);
+                    var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
+                    if (lbl != null)
+                    {
+                        if (prog.BreakthroughCount >= 5)
+                            lbl.text = "한계 돌파 (최대)";
+                        else
+                            lbl.text = $"한계 돌파 ({prog.Copies} / {prog.BreakthroughCount + 2} 장)";
+                    }
+                }
+                else
+                {
+                    detailBreakthroughBtn.gameObject.SetActive(false);
+                }
             }
         }
 
+        private void OnDetailEquip()
+        {
+            if (!string.IsNullOrEmpty(selectedCardId))
+            {
+                gm?.EquipCard(selectedCardId);
+                RefreshDetailPanel(selectedCardId); // update button label
+            }
+        }
+
+        private void OnDetailBreakthrough()
+        {
+            if (string.IsNullOrEmpty(selectedCardId) || gm == null) return;
+            if (gm.BreakthroughCard(selectedCardId))
+                RefreshDetailPanel(selectedCardId);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  REFRESH – Set TAB
+        // ─────────────────────────────────────────────────────────────────────
         private void RefreshSets()
         {
-            if (leftSetPage == null || rightSetPage == null) return;
-            if (gm == null) return;
-
+            if (leftSetPage == null || rightSetPage == null || gm == null) return;
             var sets = gm.SetCatalog?.Sets;
             if (sets == null || sets.Count == 0)
             {
@@ -665,14 +888,11 @@ namespace CosmicChaosCat
             }
 
             int maxPages = Mathf.CeilToInt(sets.Count / 2f);
-            if (setPageIndex >= maxPages) setPageIndex = maxPages - 1;
-            if (setPageIndex < 0) setPageIndex = 0;
-
+            setPageIndex = Mathf.Clamp(setPageIndex, 0, maxPages - 1);
             if (setPageLabel != null) setPageLabel.text = $"{setPageIndex + 1} / {maxPages}";
 
-            // Page 배경 Image raycast 차단 해제 (Page 자체가 클릭 막는 것 방지)
-            var leftPageImg = leftSetPage.GetComponent<Image>();
-            if (leftPageImg != null) leftPageImg.raycastTarget = false;
+            var leftPageImg  = leftSetPage.GetComponent<Image>();
+            if (leftPageImg  != null) leftPageImg.raycastTarget  = false;
             var rightPageImg = rightSetPage.GetComponent<Image>();
             if (rightPageImg != null) rightPageImg.raycastTarget = false;
 
@@ -682,31 +902,40 @@ namespace CosmicChaosCat
             SetEntry leftEntry  = leftIdx  < sets.Count ? sets[leftIdx]  : null;
             SetEntry rightEntry = rightIdx < sets.Count ? sets[rightIdx] : null;
 
-            // 씬 하이라키에 미리 배치된 슬롯들에 데이터를 입힘 (파괴/재생성 없음)
             RefreshSetPageData(leftSetPage.transform,  leftEntry,  leftSetSlots);
             RefreshSetPageData(rightSetPage.transform, rightEntry, rightSetSlots);
 
-            if (prevSetPageBtn != null) prevSetPageBtn.GetComponent<Button>().interactable = (setPageIndex > 0);
-            if (nextSetPageBtn != null) nextSetPageBtn.GetComponent<Button>().interactable = (setPageIndex < maxPages - 1);
+            if (prevSetPageBtn != null)
+            {
+                var b = prevSetPageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = setPageIndex > 0;
+            }
+            if (nextSetPageBtn != null)
+            {
+                var b = nextSetPageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = setPageIndex < maxPages - 1;
+            }
         }
 
-        // 세트 페이지 슬롯 최초 빌드 및 데이터 갱신 (통합 처리)
+        private void ChangeSetPage(int delta)
+        {
+            var sets = gm?.SetCatalog?.Sets;
+            if (sets == null || sets.Count == 0) return;
+            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
+            setPageIndex = Mathf.Clamp(setPageIndex + delta, 0, maxPages - 1);
+            RefreshSets();
+        }
+
         private void RefreshSetPageData(Transform pageTf, SetEntry setEntry, List<CardSlotUI> pool)
         {
-            // ── 빈 페이지 처리 ──────────────────────────────────────────────
             if (setEntry == null)
             {
                 foreach (var s in pool) if (s != null) s.gameObject.SetActive(false);
                 var et = pageTf.Find("SetNameTitle"); if (et != null) et.gameObject.SetActive(false);
                 var eb = pageTf.Find("ClaimBtn");     if (eb != null) eb.gameObject.SetActive(false);
-                
-                // 설명용 텍스트 찾아서 꺼주기
-                var ed = FindDescriptionText(pageTf);
-                if (ed != null) ed.gameObject.SetActive(false);
                 return;
             }
 
-            // ── 1. 세트 이름 타이틀 ─────────────────────────────────────────
             var titleTf = pageTf.Find("SetNameTitle");
             if (titleTf != null)
             {
@@ -715,9 +944,8 @@ namespace CosmicChaosCat
                 if (t != null) t.text = setEntry.SetName;
             }
 
-            // ── 2. 카드 슬롯: 위치/크기 건드리지 않고 SetActive + 데이터만 주입 ──
-            var states  = gm.GetCardStates();
-            var catalog = gm.CardCatalog?.Cards;
+            var states    = gm.GetCardStates();
+            var catalog   = gm.CardCatalog?.Cards;
             int cardCount = setEntry.CardIds.Count;
             bool allOwned = true;
 
@@ -725,7 +953,6 @@ namespace CosmicChaosCat
             {
                 var slot = pool[i];
                 if (slot == null) continue;
-
                 if (i < cardCount)
                 {
                     slot.gameObject.SetActive(true);
@@ -734,7 +961,7 @@ namespace CosmicChaosCat
                     bool unlocked = prog != null && prog.Unlocked;
                     if (!unlocked) allOwned = false;
 
-                    int cardIndex = 1;
+                    int cardIndex  = 1;
                     CardEntry displayCard = null;
                     if (catalog != null)
                     {
@@ -743,8 +970,7 @@ namespace CosmicChaosCat
                             if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndex = c + 1; break; }
                         }
                     }
-                    if (displayCard != null)
-                        slot.SetData(displayCard, cardIndex, prog, gm, OpenDetail);
+                    if (displayCard != null) slot.SetData(displayCard, cardIndex, prog, gm, OnSlotClickedById);
                 }
                 else
                 {
@@ -752,21 +978,15 @@ namespace CosmicChaosCat
                 }
             }
 
-            // ── 3. 세트 효과 설명 텍스트 업데이트 (하이라키 검출 방식) ───────
             var descTx = FindDescriptionText(pageTf);
             if (descTx != null)
             {
                 descTx.gameObject.SetActive(true);
-                string desc = string.IsNullOrWhiteSpace(setEntry.EffectDesc)
-                    ? "아무 효과 없음"
-                    : setEntry.EffectDesc;
-                descTx.text = desc;
+                descTx.text = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "아무 효과 없음" : setEntry.EffectDesc;
             }
 
-            // ── 4. 보상 버튼 ─────────────────────────────────────────────────
             bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
-            var btnTf = pageTf.Find("ClaimBtn");
-
+            var btnTf    = pageTf.Find("ClaimBtn");
             Button claimBtn  = null;
             TMP_Text claimTx = null;
 
@@ -788,16 +1008,41 @@ namespace CosmicChaosCat
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
                 var img = claimBtn.GetComponent<Image>();
                 if (img != null)
-                     img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
-                               : (allOwned ? new Color(0.70f, 0.45f, 0.05f)
-                                           : new Color(0.3f, 0.3f, 0.3f));
+                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
+                              : allOwned ? new Color(0.70f, 0.45f, 0.05f)
+                              : new Color(0.3f, 0.3f, 0.3f);
             }
         }
 
-        // 구 RenderSetOnPage – 호환성 위해 보존
-        private void RenderSetOnPage(Transform pageTf, SetEntry setEntry)
+        // ─────────────────────────────────────────────────────────────────────
+        //  SET PAGE HELPERS
+        // ─────────────────────────────────────────────────────────────────────
+        public void EnsureSetPageChildrenBuilt()
         {
-            RefreshSetPageData(pageTf, setEntry, new List<CardSlotUI>());
+            if (leftSetPage  != null) PrepareSetPageChildren(leftSetPage.transform);
+            if (rightSetPage != null) PrepareSetPageChildren(rightSetPage.transform);
+        }
+
+        private void PrepareSetPageChildren(Transform pageTf)
+        {
+            if (pageTf.Find("SetNameTitle") == null)
+            {
+                var t = MakeText(pageTf, "세트 이름",
+                    new Vector2(0f, 265f), new Vector2(380f, 40f), 16, new Color(0.15f, 0.10f, 0.05f));
+                t.gameObject.name = "SetNameTitle";
+                t.fontStyle       = FontStyles.Bold;
+                t.alignment       = TextAlignmentOptions.Center;
+                t.raycastTarget   = false;
+                t.gameObject.SetActive(false);
+            }
+            if (pageTf.Find("ClaimBtn") == null)
+            {
+                var go = MakeButton(pageTf, "보상 받기",
+                    new Vector2(0f, -220f), new Vector2(180f, 44f),
+                    new Color(0.3f, 0.3f, 0.3f), () => { });
+                go.name = "ClaimBtn";
+                go.SetActive(false);
+            }
         }
 
         private TMP_Text FindDescriptionText(Transform pageTf)
@@ -806,326 +1051,140 @@ namespace CosmicChaosCat
             {
                 var child = pageTf.GetChild(k);
                 string n = child.name;
-                // 알려진 컴포넌트(제목, 슬롯, 보상 버튼, 빈페이지 메시지)는 건너뜀
                 if (n == "SetNameTitle" || n.StartsWith("Slot_") || n == "ClaimBtn" || n == "BlankPageText") continue;
-                
                 var tx = child.GetComponent<TMP_Text>();
                 if (tx != null) return tx;
             }
             return null;
         }
 
-        /// <summary>
-        /// 세트 페이지(pageTf) 아래에 SetNameTitle / ClaimBtn 을 미리 생성합니다.
-        /// 이미 존재하면 건드리지 않으므로 하이라키에서 위치를 수정해도 유지됩니다.
-        /// </summary>
-        private void PrepareSetPageChildren(Transform pageTf)
+        // ─────────────────────────────────────────────────────────────────────
+        //  AUTO-WIRE (scene-placed prefab support)
+        // ─────────────────────────────────────────────────────────────────────
+        private void AutoWireFields()
         {
-            // ── 세트 제목 텍스트 ─────────────────────────────────────────────
-            if (pageTf.Find("SetNameTitle") == null)
+            // Font from any already-wired TMP text
+            if (defaultFont == null && pageLabel     != null) defaultFont = pageLabel.font;
+            if (defaultFont == null && detailCardName != null) defaultFont = detailCardName.font;
+            if (defaultFont == null && setPageLabel   != null) defaultFont = setPageLabel.font;
+
+            // noPanel / setPanel
+            if (noPanel  == null) { var t = FindChildByNameRecursive(transform, "NoPanel")  ?? FindChildByNameRecursive(transform, "NoTabRoot");  if (t != null) noPanel  = t.gameObject; }
+            if (setPanel == null) { var t = FindChildByNameRecursive(transform, "SetPanel") ?? FindChildByNameRecursive(transform, "SetTabRoot"); if (t != null) setPanel = t.gameObject; }
+
+            // Tab row buttons
+            if (tabNoBtn  == null) { var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");  if (t != null) tabNoBtn  = t.gameObject; }
+            if (tabSetBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn"); if (t != null) tabSetBtn = t.gameObject; }
+            if (closeBtn  == null) { var t = FindChildByNameRecursive(transform, "Btn_✕")  ?? FindChildByNameRecursive(transform, "closeBtn");  if (t != null) closeBtn  = t.gameObject; }
+
+            // No tab navigation
+            if (noPanel != null)
             {
-                var title = MakeText(pageTf, "세트 이름",
-                    new Vector2(0, 280),        // ← 하이라키에서 Y 조정 가능
-                    new Vector2(380, 40), 16, Color.black);
-                title.gameObject.name    = "SetNameTitle";
-                title.fontStyle          = FontStyles.Bold;
-                title.alignment          = TextAlignmentOptions.Center;
-                title.raycastTarget      = false;
-                title.gameObject.SetActive(false);
+                var noPanelTf = noPanel.transform;
+                if (prevPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_◀"); if (t != null) prevPageBtn = t.gameObject; }
+                if (nextPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_▶"); if (t != null) nextPageBtn = t.gameObject; }
+                if (pageLabel   == null)
+                {
+                    var t = FindChildByNameRecursive(noPanelTf, "pageLabel");
+                    if (t != null) pageLabel = t.GetComponent<TMP_Text>();
+                }
+
+                // Filter tabs
+                if (filterTabAll == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_전체"); if (t != null) filterTabAll = t.gameObject; }
+                if (filterTabN   == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_N");   if (t != null) filterTabN   = t.gameObject; }
+                if (filterTabR   == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_R");   if (t != null) filterTabR   = t.gameObject; }
+                if (filterTabSR  == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_SR");  if (t != null) filterTabSR  = t.gameObject; }
+                if (filterTabSSR == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_SSR"); if (t != null) filterTabSSR = t.gameObject; }
+                if (filterTabUR  == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_UR");  if (t != null) filterTabUR  = t.gameObject; }
+
+                // Detail panel
+                if (detailPanel == null)
+                {
+                    var t = FindChildByNameRecursive(noPanelTf, "DetailPanel");
+                    if (t != null) detailPanel = t.gameObject;
+                }
+                if (detailPanel != null)
+                {
+                    var rt = detailPanel.transform;
+                    if (detailCardArt       == null) { var t = FindChildByNameRecursive(rt, "DetailArt");    if (t != null) detailCardArt       = t.GetComponent<Image>(); }
+                    if (detailCardName      == null) { var t = FindChildByNameRecursive(rt, "DetailName");   if (t != null) detailCardName      = t.GetComponent<TMP_Text>(); }
+                    if (detailRarityBadge   == null) { var t = FindChildByNameRecursive(rt, "RarityBadge");  if (t != null) detailRarityBadge   = t.GetComponent<TMP_Text>(); }
+                    if (detailDescription   == null) { var t = FindChildByNameRecursive(rt, "DetailDesc");   if (t != null) detailDescription   = t.GetComponent<TMP_Text>(); }
+                    if (detailIncomeText    == null) { var t = FindChildByNameRecursive(rt, "IncomeText");   if (t != null) detailIncomeText    = t.GetComponent<TMP_Text>(); }
+                    if (detailBreakthroughText == null) { var t = FindChildByNameRecursive(rt, "BreakText"); if (t != null) detailBreakthroughText = t.GetComponent<TMP_Text>(); }
+                    if (detailEquipBtn      == null) { var t = FindChildByNameRecursive(rt, "Btn_대표 설정"); if (t != null) detailEquipBtn      = t.GetComponent<Button>(); }
+                    if (detailBreakthroughBtn == null) { var t = FindChildByNameRecursive(rt, "Btn_한계 돌파"); if (t != null) detailBreakthroughBtn = t.GetComponent<Button>(); }
+                }
             }
 
-            // ── 보상 받기 버튼 ────────────────────────────────────────────────
-            if (pageTf.Find("ClaimBtn") == null)
+            // Set tab sub-elements
+            if (setPanel != null)
             {
-                var btnGO = MakeButton(pageTf, "보상 받기",
-                    new Vector2(110, -200),     // ← 하이라키에서 위치 조정 가능
-                    new Vector2(180, 44),
-                    new Color(0.3f, 0.3f, 0.3f), () => { });
-                btnGO.name = "ClaimBtn";
-                btnGO.SetActive(false);
+                var setRootTf = setPanel.transform;
+                if (leftSetPage  == null) { var t = setRootTf.Find("LeftPage")  ?? FindChildByNameRecursive(setRootTf, "LeftPage");  if (t != null) leftSetPage  = t.gameObject; }
+                if (rightSetPage == null) { var t = setRootTf.Find("RightPage") ?? FindChildByNameRecursive(setRootTf, "RightPage"); if (t != null) rightSetPage = t.gameObject; }
+                if (prevSetPageBtn == null) { var t = FindChildByNameRecursive(setRootTf, "Btn_◀"); if (t != null) prevSetPageBtn = t.gameObject; }
+                if (nextSetPageBtn == null) { var t = FindChildByNameRecursive(setRootTf, "Btn_▶"); if (t != null) nextSetPageBtn = t.gameObject; }
+                if (setPageLabel   == null)
+                {
+                    var t = FindChildByNameRecursive(setRootTf, "setPageLabel");
+                    if (t != null) setPageLabel = t.GetComponent<TMP_Text>();
+                }
+
+                leftSetSlots.Clear();
+                if (leftSetPage != null)
+                {
+                    var arr = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
+                    leftSetSlots.AddRange(arr);
+                }
+                rightSetSlots.Clear();
+                if (rightSetPage != null)
+                {
+                    var arr = rightSetPage.GetComponentsInChildren<CardSlotUI>(true);
+                    rightSetSlots.AddRange(arr);
+                }
             }
         }
 
-        // ════════════════════════════════════════════════════════════════════
-        //  DETAIL POPUP
-        // ════════════════════════════════════════════════════════════════════
-        private void SetButtonInteractable(Button btn, bool interactable)
+        // ─────────────────────────────────────────────────────────────────────
+        //  CANVAS ENSURE
+        // ─────────────────────────────────────────────────────────────────────
+        private void EnsureParentedToCanvas()
         {
-            if (btn == null) return;
-            btn.interactable = interactable;
-            var cg = btn.GetComponent<CanvasGroup>();
-            if (cg == null)
+            if (GetComponentInParent<Canvas>() == null)
             {
-                cg = btn.gameObject.AddComponent<CanvasGroup>();
+                var c = FindObjectOfType<Canvas>();
+                if (c != null) transform.SetParent(c.transform, false);
             }
-            cg.alpha = interactable ? 1f : 0.4f;
+            var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+            rt.anchoredPosition3D = Vector3.zero;
+            rt.localScale = Vector3.one;
         }
 
-        private void OpenDetail(string cardId)
-        {
-            Debug.Log($"[EncyclopediaPanel] OpenDetail called for cardId={cardId}");
-            selectedCardId = cardId;
-            
-            Transform activeTabTf = showNoTab ? (noPanel != null ? noPanel.transform : null) : (setPanel != null ? setPanel.transform : null);
-            detailRoot = FindDetailPanel(activeTabTf);
-
-            if (detailRoot == null)
-            {
-                Debug.LogWarning("[EncyclopediaPanel] detailRoot is null! Cannot open detail.");
-                return;
-            }
-
-            // Wire components dynamically from the active detailRoot
-            var rootTf = detailRoot.transform;
-            detailImage = (rootTf.Find("DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? 
-                           FindChildByNameRecursive(rootTf, "DetailImage") ?? FindChildByNameRecursive(rootTf, "Art") ?? 
-                           FindChildByNameRecursive(rootTf, "Image") ?? FindChildByNameRecursive(rootTf, "CardImage"))?.GetComponent<Image>();
-
-            detailName = (rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName") ??
-                          FindChildByNameRecursive(rootTf, "NameText") ?? FindChildByNameRecursive(rootTf, "Name") ??
-                          FindChildByNameRecursive(rootTf, "Title") ?? FindChildByNameRecursive(rootTf, "Text"))?.GetComponent<TMP_Text>();
-
-            detailDesc = (rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc") ??
-                          FindChildByNameRecursive(rootTf, "DescText") ?? FindChildByNameRecursive(rootTf, "Desc") ??
-                          FindChildByNameRecursive(rootTf, "Description") ?? FindChildByNameRecursive(rootTf, "DetailDescription"))?.GetComponent<TMP_Text>();
-
-            detailRareText = (rootTf.Find("RareText") ?? FindChildByNameRecursive(rootTf, "RareText") ?? 
-                              FindChildByNameRecursive(rootTf, "RarityText") ?? FindChildByNameRecursive(rootTf, "Rare"))?.GetComponent<TMP_Text>();
-
-            detailUnknownText = (rootTf.Find("UnknownText") ?? FindChildByNameRecursive(rootTf, "UnknownText") ?? 
-                                 FindChildByNameRecursive(rootTf, "UnkText") ?? FindChildByNameRecursive(rootTf, "Unknown"))?.GetComponent<TMP_Text>();
-
-            detailIncomeText = (rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText") ??
-                                FindChildByNameRecursive(rootTf, "IncomeText") ?? FindChildByNameRecursive(rootTf, "Income") ??
-                                FindChildByNameRecursive(rootTf, "ClickIncome") ?? FindChildByNameRecursive(rootTf, "수익") ??
-                                FindChildByNameRecursive(rootTf, "클릭수익"))?.GetComponent<TMP_Text>();
-
-            detailEquipBtn = (rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? 
-                              FindChildByNameRecursive(rootTf, "Btn_Equip") ?? FindChildByNameRecursive(rootTf, "Equip") ?? 
-                              FindChildByNameRecursive(rootTf, "EquipButton") ?? FindChildByNameRecursive(rootTf, "EquipBtn") ?? 
-                              FindChildByNameRecursive(rootTf, "장착"))?.GetComponent<Button>();
-
-            detailBreakthroughBtn = (rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? 
-                                     FindChildByNameRecursive(rootTf, "Btn_Breakthrough") ?? FindChildByNameRecursive(rootTf, "Breakthrough") ?? 
-                                     FindChildByNameRecursive(rootTf, "BreakthroughButton") ?? FindChildByNameRecursive(rootTf, "UpgradeButton") ?? 
-                                     FindChildByNameRecursive(rootTf, "한계돌파") ?? FindChildByNameRecursive(rootTf, "돌파"))?.GetComponent<Button>();
-
-            if (detailBreakthroughBtn != null)
-                detailBreakthroughBtnText = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
-
-            // Re-bind listeners for the buttons
-            if (detailEquipBtn != null)
-            {
-                detailEquipBtn.onClick.RemoveAllListeners();
-                detailEquipBtn.onClick.AddListener(OnDetailEquip);
-            }
-            if (detailBreakthroughBtn != null)
-            {
-                detailBreakthroughBtn.onClick.RemoveAllListeners();
-                detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough);
-            }
-
-            // Fallback for detailName and detailDesc based on y-coordinate sorting
-            if (detailName == null || detailDesc == null)
-            {
-                var allTxts = detailRoot.GetComponentsInChildren<TMP_Text>(true);
-                var candidates = new List<TMP_Text>();
-                foreach (var t in allTxts)
-                {
-                    // Exclude known text components
-                    if (t == detailRareText || t == detailUnknownText || t == detailIncomeText) continue;
-                    if (t.GetComponentInParent<Button>() != null) continue; // Exclude button labels
-
-                    string nLower = t.name.ToLower();
-                    if (nLower.Contains("rare") || nLower.Contains("rarity") || nLower.Contains("unknown") || nLower.Contains("unk") || nLower.Contains("income") || nLower.Contains("수익") || nLower.Contains("돌파") || nLower.Contains("장착") || nLower.Contains("닫기"))
-                        continue;
-
-                    candidates.Add(t);
-                }
-
-                // Sort candidates by anchored position y in descending order (highest first)
-                candidates.Sort((a, b) => {
-                    var rtA = a.GetComponent<RectTransform>();
-                    var rtB = b.GetComponent<RectTransform>();
-                    if (rtA != null && rtB != null)
-                    {
-                        return rtB.anchoredPosition.y.CompareTo(rtA.anchoredPosition.y);
-                    }
-                    return 0;
-                });
-
-                if (detailName == null && candidates.Count > 0)
-                {
-                    detailName = candidates[0];
-                }
-                if (detailDesc == null && candidates.Count > 1)
-                {
-                    detailDesc = candidates[1];
-                }
-                else if (detailDesc == null && candidates.Count == 1 && detailName != candidates[0])
-                {
-                    detailDesc = candidates[0];
-                }
-            }
-
-            detailRoot.SetActive(true);
-
-            var card    = gm?.CardCatalog?.FindById(cardId);
-            var states  = gm?.GetCardStates();
-            CardProgress prog = null;
-            states?.TryGetValue(cardId, out prog);
-            bool unlocked = prog != null && prog.Unlocked;
-
-            if (detailName != null)
-                detailName.text = unlocked && card != null ? card.DisplayName : "???";
-
-            if (detailDesc != null)
-            {
-                detailDesc.text = unlocked && card != null ? card.GetDescription() : "???";
-            }
-
-            if (detailIncomeText != null)
-            {
-                if (unlocked && card != null && prog != null)
-                {
-                    detailIncomeText.gameObject.SetActive(true);
-                    int lvl = prog.BreakthroughCount;
-                    double income = card.ClickMultiplier * (1 + lvl);
-                    if (lvl >= 5)
-                    {
-                        income += card.ClickMultiplier;
-                    }
-                    detailIncomeText.text = $"현재 클릭 수익: {income:F1} Gold ({lvl}강)";
-                }
-                else
-                {
-                    detailIncomeText.gameObject.SetActive(false);
-                }
-            }
-
-            if (detailImage != null)
-            {
-                detailImage.enabled = true;
-                if (unlocked && card?.CardSprite != null)
-                {
-                    detailImage.sprite = card.CardSprite;
-                    detailImage.color  = Color.white;
-                }
-                else
-                {
-                    detailImage.sprite = null;
-                    detailImage.color  = new Color(0.2f, 0.2f, 0.2f, 1f); // Basic solid dark gray
-                }
-            }
-
-            if (detailRareText != null)
-            {
-                detailRareText.text = unlocked ? card.Rarity.ToString() : "?";
-            }
-
-            if (detailUnknownText != null)
-            {
-                detailUnknownText.text = unlocked ? "" : "?";
-            }
-
-            SetButtonInteractable(detailEquipBtn, unlocked);
-
-            if (detailBreakthroughBtn != null)
-            {
-                if (unlocked && card != null && prog != null)
-                {
-                    detailBreakthroughBtn.gameObject.SetActive(true);
-
-                    bool hasUnusedCopies = prog.Copies > prog.BreakthroughCount + 1;
-                    bool canUpgrade = hasUnusedCopies && prog.BreakthroughCount < 5;
-                    SetButtonInteractable(detailBreakthroughBtn, canUpgrade);
-
-                    if (detailBreakthroughBtnText != null)
-                    {
-                        if (prog.BreakthroughCount >= 5)
-                        {
-                            detailBreakthroughBtnText.text = "한계 돌파\n(최대 강화)";
-                        }
-                        else
-                        {
-                            detailBreakthroughBtnText.text = $"한계 돌파\n({prog.Copies} / {prog.BreakthroughCount + 2})";
-                        }
-                    }
-                }
-                else
-                {
-                    detailBreakthroughBtn.gameObject.SetActive(false);
-                }
-            }
-
-            detailRoot.SetActive(true);
-        }
-
-        private void CloseDetail()
-        {
-            if (detailRoot != null) detailRoot.SetActive(false);
-        }
-
-        private void OnDetailEquip()
-        {
-            if (!string.IsNullOrEmpty(selectedCardId))
-                gm?.EquipCard(selectedCardId);
-            CloseDetail();
-        }
-
-        private void OnDetailBreakthrough()
-        {
-            if (string.IsNullOrEmpty(selectedCardId) || gm == null) return;
-            if (gm.BreakthroughCard(selectedCardId))
-            {
-                // Refresh popup
-                OpenDetail(selectedCardId);
-            }
-        }
-
-        private void OnClose()
-        {
-            if (detailRoot != null && detailRoot.activeSelf)
-            {
-                detailRoot.SetActive(false);
-                return;
-            }
-            gameObject.SetActive(false);
-        }
-
-        // ════════════════════════════════════════════════════════════════════
+        // ─────────────────────────────────────────────────────────────────────
         //  UI FACTORY HELPERS
-        // ════════════════════════════════════════════════════════════════════
-        private static GameObject MakePanel(Transform parent, Vector2 anchoredPos, Vector2 size)
-        {
-            var go = new GameObject("Panel");
-            go.transform.SetParent(parent, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchoredPosition = anchoredPos;
-            rt.sizeDelta        = size;
-            go.AddComponent<Image>().color = BG;
-            return go;
-        }
-
-        private static GameObject MakePage(Transform parent, Vector2 pos, Vector2 size)
+        // ─────────────────────────────────────────────────────────────────────
+        private static GameObject MakePage(Transform parent, Vector2 pos, Vector2 size, Color col)
         {
             var go = new GameObject("Page");
             go.transform.SetParent(parent, false);
             var rt = go.AddComponent<RectTransform>();
             rt.anchoredPosition = pos;
             rt.sizeDelta        = size;
-            go.AddComponent<Image>().color = PageBG;
+            go.AddComponent<Image>().color = col;
             return go;
         }
 
-        private static GameObject MakeEmptyRT(Transform parent, string name, Vector2 pos, Vector2 size)
+        private static RectTransform MakeEmptyRT(Transform parent, string name, Vector2 pos, Vector2 size)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
             var rt = go.AddComponent<RectTransform>();
             rt.anchoredPosition = pos;
             rt.sizeDelta        = size;
-            return go;
+            return rt;
         }
 
         private static GameObject MakeImage(Transform parent, string name, Vector2 pos, Vector2 size, Color col)
@@ -1148,9 +1207,9 @@ namespace CosmicChaosCat
             rt.sizeDelta        = size;
             var tx = go.AddComponent<TextMeshProUGUI>();
             if (defaultFont != null) tx.font = defaultFont;
-            tx.text      = text;
-            tx.fontSize  = fontSize;
-            tx.color     = col;
+            tx.text     = text;
+            tx.fontSize = fontSize;
+            tx.color    = col;
             return tx;
         }
 
@@ -1173,15 +1232,15 @@ namespace CosmicChaosCat
             btn.colors          = cs;
             btn.onClick.AddListener(onClick);
 
-            var labelGO = new GameObject("Label");
-            labelGO.transform.SetParent(go.transform, false);
-            var lrt = labelGO.AddComponent<RectTransform>();
+            var lbl = new GameObject("Label");
+            lbl.transform.SetParent(go.transform, false);
+            var lrt = lbl.AddComponent<RectTransform>();
             lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
             lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
-            var tx  = labelGO.AddComponent<TextMeshProUGUI>();
+            var tx = lbl.AddComponent<TextMeshProUGUI>();
             if (defaultFont != null) tx.font = defaultFont;
             tx.text      = label;
-            tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 20);
+            tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 22);
             tx.alignment = TextAlignmentOptions.Center;
             tx.color     = Color.white;
 
@@ -1195,61 +1254,42 @@ namespace CosmicChaosCat
             if (img != null) img.color = col;
         }
 
-        private void CopyRectTransform(RectTransform source, RectTransform target)
+        private static void SetButtonInteractable(Button btn, bool interactable)
         {
-            if (source == null || target == null) return;
-            target.anchorMin = source.anchorMin;
-            target.anchorMax = source.anchorMax;
-            target.sizeDelta = source.sizeDelta;
-            target.pivot = source.pivot;
-            target.localScale = source.localScale;
-            // 만약 자식이 아니라 부모 앵커 앵커드포지션 정밀 보정 필요 시 (단, 위치 오프셋은 제외)
+            if (btn == null) return;
+            btn.interactable = interactable;
+
+            // CanvasGroup 방식: 없으면 추가, 그래도 실패하면 Image alpha로 대체
+            var cg = btn.GetComponent<CanvasGroup>();
+            if (cg != null)
+            {
+                cg.alpha = interactable ? 1f : 0.4f;
+                return;
+            }
+
+            // CanvasGroup이 없는 경우 Image 색상 alpha로 대체
+            var img = btn.GetComponent<Image>();
+            if (img != null)
+            {
+                var c = img.color;
+                img.color = new Color(c.r, c.g, c.b, interactable ? 1f : 0.4f);
+            }
         }
 
-        private void AlignSlotToTemplate(GameObject templateSlot, GameObject targetSlot)
+        private static void SetButtonSprite(GameObject go, Sprite sp)
         {
-            if (templateSlot == null || targetSlot == null) return;
+            if (go == null || sp == null) return;
+            var img = go.GetComponent<Image>();
+            if (img == null) return;
+            img.sprite = sp;
+            img.type   = Image.Type.Sliced;
+        }
 
-            var targetRT = targetSlot.GetComponent<RectTransform>();
-            var templateRT = templateSlot.GetComponent<RectTransform>();
-            if (targetRT != null && templateRT != null)
-            {
-                targetRT.anchorMin = templateRT.anchorMin;
-                targetRT.anchorMax = templateRT.anchorMax;
-                targetRT.sizeDelta = templateRT.sizeDelta;
-                targetRT.pivot = templateRT.pivot;
-                targetRT.localScale = templateRT.localScale;
-            }
-
-            // 하위 자식 오브젝트들의 RectTransform 규격 복사 (Frame, Art, Texts 등)
-            foreach (Transform tChild in templateSlot.transform)
-            {
-                var destChild = targetSlot.transform.Find(tChild.name);
-                if (destChild != null)
-                {
-                    var srcRT = tChild.GetComponent<RectTransform>();
-                    var destRT = destChild.GetComponent<RectTransform>();
-                    if (srcRT != null && destRT != null)
-                    {
-                        CopyRectTransform(srcRT, destRT);
-                    }
-
-                    // Unknown cover 내부 자식도 싱크 맞춤
-                    if (tChild.name == "Unknown")
-                    {
-                        foreach (Transform tGrand in tChild)
-                        {
-                            var destGrand = destChild.Find(tGrand.name);
-                            if (destGrand != null)
-                            {
-                                var sGRT = tGrand.GetComponent<RectTransform>();
-                                var dGRT = destGrand.GetComponent<RectTransform>();
-                                if (sGRT != null && dGRT != null) CopyRectTransform(sGRT, dGRT);
-                            }
-                        }
-                    }
-                }
-            }
+        private static void ApplyTabLabelColor(GameObject tabGO, Color col)
+        {
+            if (tabGO == null) return;
+            var tx = tabGO.GetComponentInChildren<TMP_Text>();
+            if (tx != null) tx.color = col;
         }
 
         private static Color32 RarityToColor(CardRarity r)
@@ -1264,302 +1304,6 @@ namespace CosmicChaosCat
             }
         }
 
-        public void EnsureShopButtonCleanedUp()
-        {
-            var panelTrans = transform.Find("Panel");
-            if (panelTrans == null) return;
-
-            var existing = panelTrans.Find("Btn_상점");
-            if (existing != null)
-            {
-                DestroyImmediate(existing.gameObject);
-            }
-        }
-
-        private void AutoWireFields()
-        {
-            if (defaultFont == null && pageLabel != null) defaultFont = pageLabel.font;
-            if (defaultFont == null && detailName != null) defaultFont = detailName.font;
-            if (defaultFont == null && setPageLabel != null) defaultFont = setPageLabel.font;
-
-            // 1. noPanel & setPanel
-            if (noPanel == null)
-            {
-                var t = transform.Find("Panel/NoPanel") ?? transform.Find("Panel/NoTabRoot") ?? transform.Find("NoPanel") ?? transform.Find("NoTabRoot");
-                if (t == null) t = FindChildByNameRecursive(transform, "NoPanel") ?? FindChildByNameRecursive(transform, "NoTabRoot");
-                if (t != null) noPanel = t.gameObject;
-            }
-            if (setPanel == null)
-            {
-                var t = transform.Find("Panel/SetPanel") ?? transform.Find("Panel/SetTabRoot") ?? transform.Find("SetPanel") ?? transform.Find("SetTabRoot");
-                if (t == null) t = FindChildByNameRecursive(transform, "SetPanel") ?? FindChildByNameRecursive(transform, "SetTabRoot");
-                if (t != null) setPanel = t.gameObject;
-            }
-
-            // 2. Tab buttons and close button on Panel (Btn_No., Btn_Set, Btn_✕)
-            if (tabNoBtn == null)
-            {
-                var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");
-                if (t != null) tabNoBtn = t.gameObject;
-            }
-            if (tabSetBtn == null)
-            {
-                var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn");
-                if (t != null) tabSetBtn = t.gameObject;
-            }
-            if (closeBtn == null)
-            {
-                var t = FindChildByNameRecursive(transform, "Btn_✕") ?? FindChildByNameRecursive(transform, "closeBtn");
-                if (t != null) closeBtn = t.gameObject;
-            }
-
-            // 3. No tab navigation buttons and page label (inside noPanel)
-            if (noPanel != null)
-            {
-                var noPanelTf = noPanel.transform;
-                if (prevPageBtn == null)
-                {
-                    var t = noPanelTf.Find("Btn_◀") ?? FindChildByNameRecursive(noPanelTf, "Btn_◀");
-                    if (t != null) prevPageBtn = t.gameObject;
-                }
-                if (nextPageBtn == null)
-                {
-                    var t = noPanelTf.Find("Btn_▶") ?? FindChildByNameRecursive(noPanelTf, "Btn_▶");
-                    if (t != null) nextPageBtn = t.gameObject;
-                }
-                if (pageLabel == null)
-                {
-                    // Find a Text child of noPanel that is NOT inside a Slot_ object
-                    foreach (Transform child in noPanelTf)
-                    {
-                        if (!child.name.StartsWith("Slot_") && !child.name.StartsWith("Page") && !child.name.StartsWith("Btn_"))
-                        {
-                            var txt = child.GetComponent<TMP_Text>();
-                            if (txt != null) { pageLabel = txt; break; }
-                        }
-                    }
-                    if (pageLabel == null)
-                    {
-                        var t = FindChildByNameRecursive(noPanelTf, "pageLabel");
-                        if (t != null) pageLabel = t.GetComponent<TMP_Text>();
-                    }
-                }
-            }
-
-            // 4. Set tab sub-elements if setPanel is found
-            if (setPanel != null)
-            {
-                var setRootTf = setPanel.transform;
-
-                if (leftSetPage == null)
-                {
-                    var t = setRootTf.Find("LeftPage") ?? setRootTf.Find("Page");
-                    if (t == null)
-                    {
-                        foreach (Transform child in setRootTf)
-                        {
-                            if (child.name.Contains("Page") && child.gameObject != rightSetPage)
-                            {
-                                t = child;
-                                break;
-                            }
-                        }
-                    }
-                    if (t != null) leftSetPage = t.gameObject;
-                }
-
-                if (rightSetPage == null)
-                {
-                    var t = setRootTf.Find("RightPage");
-                    if (t == null)
-                    {
-                        bool skippedFirst = false;
-                        foreach (Transform child in setRootTf)
-                        {
-                            if (child.name.Contains("Page"))
-                            {
-                                if (!skippedFirst && child.gameObject == leftSetPage)
-                                {
-                                    skippedFirst = true;
-                                    continue;
-                                }
-                                t = child;
-                                break;
-                            }
-                        }
-                    }
-                    if (t != null) rightSetPage = t.gameObject;
-                }
-
-                if (prevSetPageBtn == null)
-                {
-                    var t = setRootTf.Find("Btn_◀") ?? setRootTf.Find("prevSetPageBtn") ?? FindChildByNameRecursive(setRootTf, "Btn_◀");
-                    if (t != null) prevSetPageBtn = t.gameObject;
-                }
-
-                if (nextSetPageBtn == null)
-                {
-                    var t = setRootTf.Find("Btn_▶") ?? setRootTf.Find("nextSetPageBtn") ?? FindChildByNameRecursive(setRootTf, "Btn_▶");
-                    if (t != null) nextSetPageBtn = t.gameObject;
-                }
-
-                if (setPageLabel == null)
-                {
-                    // Find TMP_Text in setPanel that is a direct child (not inside Page)
-                    foreach (Transform child in setRootTf)
-                    {
-                        if (!child.name.Contains("Page") && !child.name.StartsWith("Btn_") && !child.name.StartsWith("Slot_"))
-                        {
-                            var txt = child.GetComponent<TMP_Text>();
-                            if (txt != null) { setPageLabel = txt; break; }
-                        }
-                    }
-                    if (setPageLabel == null)
-                        setPageLabel = setRootTf.GetComponentInChildren<TMP_Text>();
-                }
-
-                // leftSetPage 와 rightSetPage 하위의 CardSlotUI 자식들을 수집하여 캐싱
-                leftSetSlots.Clear();
-                if (leftSetPage != null)
-                {
-                    var childSlots = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
-                    var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
-                    // 행 우선(Row-Major) 정렬: Y 내림차순(위→아래) → X 오름차순(좌→우)
-                    list.Sort((a, b) =>
-                    {
-                        var rtA = a.GetComponent<RectTransform>();
-                        var rtB = b.GetComponent<RectTransform>();
-                        if (rtA == null || rtB == null) return 0;
-                        float rowTolerance = 20f; // 같은 행으로 간주할 Y 오차 범위
-                        float dy = rtB.anchoredPosition.y - rtA.anchoredPosition.y;
-                        if (Mathf.Abs(dy) > rowTolerance) return dy > 0 ? 1 : -1; // Y 내림차순
-                        return rtA.anchoredPosition.x.CompareTo(rtB.anchoredPosition.x); // 같은 행: X 오름차순
-                    });
-                    leftSetSlots.AddRange(list);
-                }
-                rightSetSlots.Clear();
-                if (rightSetPage != null)
-                {
-                    var childSlots = rightSetPage.GetComponentsInChildren<CardSlotUI>(true);
-                    var list = new System.Collections.Generic.List<CardSlotUI>(childSlots);
-                    list.Sort((a, b) =>
-                    {
-                        var rtA = a.GetComponent<RectTransform>();
-                        var rtB = b.GetComponent<RectTransform>();
-                        if (rtA == null || rtB == null) return 0;
-                        float rowTolerance = 20f;
-                        float dy = rtB.anchoredPosition.y - rtA.anchoredPosition.y;
-                        if (Mathf.Abs(dy) > rowTolerance) return dy > 0 ? 1 : -1;
-                        return rtA.anchoredPosition.x.CompareTo(rtB.anchoredPosition.x);
-                    });
-                    rightSetSlots.AddRange(list);
-                }
-            }
-
-            // 5. Detail Root and its components mapping
-            if (detailRoot == null)
-            {
-                var allChildren = GetComponentsInChildren<Transform>(true);
-                foreach (var child in allChildren)
-                {
-                    if (child.name.ToLower().Contains("detail"))
-                    {
-                        string path = child.name;
-                        Transform p = child.parent;
-                        while (p != null && p != transform)
-                        {
-                            path = p.name + "/" + path;
-                            p = p.parent;
-                        }
-                        Debug.Log($"[EncyclopediaPanel] Found detail-like child: name={child.name}, path={path}");
-                    }
-                }
-
-                var t = transform.Find("DetailRoot") ?? transform.Find("Panel/DetailRoot") ?? 
-                        transform.Find("DetailPopup") ?? transform.Find("Panel/DetailPopup") ??
-                        transform.Find("DetailPanel") ?? transform.Find("Panel/DetailPanel") ??
-                        transform.Find("Detail") ?? transform.Find("Panel/Detail");
-                if (t == null) 
-                {
-                    t = FindChildByNameRecursive(transform, "DetailRoot") ?? 
-                        FindChildByNameRecursive(transform, "DetailPopup") ??
-                        FindChildByNameRecursive(transform, "DetailPanel") ??
-                        FindChildByNameRecursive(transform, "Detail");
-                }
-                if (t == null)
-                {
-                    t = FindChildByNameContainsRecursive(transform, "DetailPanel") ??
-                        FindChildByNameContainsRecursive(transform, "DetailPopup") ??
-                        FindChildByNameContainsRecursive(transform, "DetailRoot") ??
-                        FindChildByNameContainsRecursive(transform, "Detail Panel") ??
-                        FindChildByNameContainsRecursive(transform, "Detail");
-                }
-                if (t != null) detailRoot = t.gameObject;
-            }
-
-            if (detailRoot != null)
-            {
-                var rootTf = detailRoot.transform;
-                if (detailImage == null)
-                {
-                    var t = rootTf.Find("DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? 
-                            FindChildByNameRecursive(rootTf, "DetailImage") ?? FindChildByNameRecursive(rootTf, "Art") ?? 
-                            FindChildByNameRecursive(rootTf, "Image") ?? FindChildByNameRecursive(rootTf, "CardImage");
-                    if (t != null) detailImage = t.GetComponent<Image>();
-                }
-                if (detailName == null)
-                {
-                    var t = rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName") ??
-                            FindChildByNameRecursive(rootTf, "NameText") ?? FindChildByNameRecursive(rootTf, "Name") ??
-                            FindChildByNameRecursive(rootTf, "Title");
-                    if (t == null) t = FindChildByNameRecursive(rootTf, "Text");
-                    if (t != null) detailName = t.GetComponent<TMP_Text>();
-                }
-                if (detailDesc == null)
-                {
-                    var t = rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc") ??
-                            FindChildByNameRecursive(rootTf, "DescText") ?? FindChildByNameRecursive(rootTf, "Desc") ??
-                            FindChildByNameRecursive(rootTf, "Description") ?? FindChildByNameRecursive(rootTf, "DetailDescription");
-                    if (t != null) detailDesc = t.GetComponent<TMP_Text>();
-                }
-                if (detailRareText == null)
-                {
-                    var t = rootTf.Find("RareText") ?? FindChildByNameRecursive(rootTf, "RareText") ?? FindChildByNameRecursive(rootTf, "RarityText");
-                    if (t != null) detailRareText = t.GetComponent<TMP_Text>();
-                }
-                if (detailUnknownText == null)
-                {
-                    var t = rootTf.Find("UnknownText") ?? FindChildByNameRecursive(rootTf, "UnknownText") ?? FindChildByNameRecursive(rootTf, "UnkText");
-                    if (t != null) detailUnknownText = t.GetComponent<TMP_Text>();
-                }
-                if (detailIncomeText == null)
-                {
-                    var t = rootTf.Find("DetailIncomeText") ?? FindChildByNameRecursive(rootTf, "DetailIncomeText") ??
-                            FindChildByNameRecursive(rootTf, "IncomeText") ?? FindChildByNameRecursive(rootTf, "Income") ??
-                            FindChildByNameRecursive(rootTf, "ClickIncome") ?? FindChildByNameRecursive(rootTf, "수익") ??
-                            FindChildByNameRecursive(rootTf, "클릭수익");
-                    if (t != null) detailIncomeText = t.GetComponent<TMP_Text>();
-                }
-                if (detailEquipBtn == null)
-                {
-                    var t = rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? 
-                            FindChildByNameRecursive(rootTf, "Btn_Equip") ?? FindChildByNameRecursive(rootTf, "Equip") ?? 
-                            FindChildByNameRecursive(rootTf, "EquipButton") ?? FindChildByNameRecursive(rootTf, "EquipBtn") ?? 
-                            FindChildByNameRecursive(rootTf, "장착");
-                    if (t != null) detailEquipBtn = t.GetComponent<Button>();
-                }
-                if (detailBreakthroughBtn == null)
-                {
-                    var t = rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? 
-                            FindChildByNameRecursive(rootTf, "Btn_Breakthrough") ?? FindChildByNameRecursive(rootTf, "Breakthrough") ?? 
-                            FindChildByNameRecursive(rootTf, "BreakthroughButton") ?? FindChildByNameRecursive(rootTf, "UpgradeButton") ?? 
-                            FindChildByNameRecursive(rootTf, "한계돌파") ?? FindChildByNameRecursive(rootTf, "돌파");
-                    if (t != null) detailBreakthroughBtn = t.GetComponent<Button>();
-                }
-            }
-            Debug.Log($"[EncyclopediaPanel] AutoWireFields finished. detailRoot={detailRoot}, detailImage={detailImage}, detailName={detailName}, detailDesc={detailDesc}, detailIncomeText={detailIncomeText}, detailEquipBtn={detailEquipBtn}, detailBreakthroughBtn={detailBreakthroughBtn}");
-        }
-
         private Transform FindChildByNameRecursive(Transform parent, string name)
         {
             foreach (Transform child in parent)
@@ -1569,56 +1313,6 @@ namespace CosmicChaosCat
                 if (found != null) return found;
             }
             return null;
-        }
-
-        private Transform FindChildByNameContainsRecursive(Transform parent, string subName)
-        {
-            foreach (Transform child in parent)
-            {
-                if (child.name.IndexOf(subName, StringComparison.OrdinalIgnoreCase) >= 0) return child;
-                var found = FindChildByNameContainsRecursive(child, subName);
-                if (found != null) return found;
-            }
-            return null;
-        }
-
-        private GameObject FindDetailPanel(Transform container)
-        {
-            if (container == null) return null;
-            var t = FindChildByNameRecursive(container, "DetailArt") ??
-                    FindChildByNameRecursive(container, "DetailImage") ??
-                    FindChildByNameRecursive(container, "DetailName") ??
-                    FindChildByNameRecursive(container, "DetailDesc") ??
-                    FindChildByNameRecursive(container, "DetailIncomeText") ??
-                    FindChildByNameRecursive(container, "Btn_장착하기") ??
-                    FindChildByNameRecursive(container, "Btn_한계 돌파");
-            
-            if (t != null && t.parent != null) return t.parent.gameObject;
-            return null;
-        }
-
-        private void CloseAllDetails()
-        {
-            var noDetail = FindDetailPanel(noPanel != null ? noPanel.transform : null);
-            if (noDetail != null) noDetail.SetActive(false);
-
-            var setDetail = FindDetailPanel(setPanel != null ? setPanel.transform : null);
-            if (setDetail != null) setDetail.SetActive(false);
-        }
-
-        private void BindCloseButtons(GameObject root)
-        {
-            if (root == null) return;
-            var detailBtns = root.GetComponentsInChildren<Button>(true);
-            foreach (var b in detailBtns)
-            {
-                string n = b.name.ToLower();
-                if (n.Contains("close") || n.Contains("닫기") || n.Contains("✕") || n.Contains("cancel") || n.Contains("exit"))
-                {
-                    b.onClick.RemoveAllListeners();
-                    b.onClick.AddListener(() => root.SetActive(false));
-                }
-            }
         }
 
         // ── Inner types ──────────────────────────────────────────────────────
