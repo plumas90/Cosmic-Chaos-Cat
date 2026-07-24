@@ -234,8 +234,6 @@ namespace CosmicChaosCat
             // ── Name Text ────────────────────────────────────────────────────
             if (nameText != null)
             {
-                // Ensure the nameText itself AND every ancestor up to this slot are active
-                // (nameText may be nested inside an Image container that could be inactive)
                 var t = nameText.transform;
                 while (t != null && t != transform)
                 {
@@ -243,26 +241,33 @@ namespace CosmicChaosCat
                     t = t.parent;
                 }
 
-                nameText.gameObject.SetActive(true);
+                if (!nameText.gameObject.activeSelf) nameText.gameObject.SetActive(true);
                 nameText.enabled          = true;
                 nameText.enableWordWrapping = false;
                 nameText.overflowMode     = TextOverflowModes.Ellipsis;
-                nameText.text             = unlocked
+                
+                string targetName = unlocked
                     ? $"No.{cardIndex} {card.DisplayName}"
                     : $"No.{cardIndex} ???";
+                if (nameText.text != targetName) nameText.text = targetName;
                 nameText.raycastTarget    = false;
             }
 
             // ── Rarity Text (선택사항) ────────────────────────────────────────
             if (rarityText != null)
             {
-                rarityText.gameObject.SetActive(unlocked);
+                if (rarityText.gameObject.activeSelf != unlocked)
+                    rarityText.gameObject.SetActive(unlocked);
+
                 if (unlocked)
                 {
-                    rarityText.text  = card.Rarity.ToString();
-                    rarityText.color = card.Rarity == CardRarity.N
+                    string targetRarity = card.Rarity.ToString();
+                    if (rarityText.text != targetRarity) rarityText.text = targetRarity;
+
+                    Color targetColor = card.Rarity == CardRarity.N
                         ? originalRarityColor
                         : (Color)RarityToColor(card.Rarity);
+                    if (rarityText.color != targetColor) rarityText.color = targetColor;
                     rarityText.raycastTarget = false;
                 }
             }

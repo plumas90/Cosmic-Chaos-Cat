@@ -988,7 +988,8 @@ namespace CosmicChaosCat
             int maxPage = Mathf.Max(0, (total - 1) / SLOTS_PER_PAGE);
             currentPageIdx = Mathf.Clamp(currentPageIdx, 0, maxPage);
 
-            if (pageLabel != null) pageLabel.text = $"{currentPageIdx + 1} / {maxPage + 1}";
+            string targetPageText = $"{currentPageIdx + 1} / {maxPage + 1}";
+            if (pageLabel != null && pageLabel.text != targetPageText) pageLabel.text = targetPageText;
 
             // Update collection counter with total (non-hidden) collected
             UpdateCollectionCounter();
@@ -1555,7 +1556,8 @@ namespace CosmicChaosCat
             currentSetEntry = entry;
 
             // Update page label (PageText)
-            if (setPageLabel != null) setPageLabel.text = $"{setPageIndex + 1} / {maxPages}";
+            string targetSetPageText = $"{setPageIndex + 1} / {maxPages}";
+            if (setPageLabel != null && setPageLabel.text != targetSetPageText) setPageLabel.text = targetSetPageText;
 
             // Update panel title with set name (e.g. "테스트")
             SetPanelTitleText(entry != null ? entry.SetName : "세트");
