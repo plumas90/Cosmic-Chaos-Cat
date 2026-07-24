@@ -154,7 +154,7 @@ namespace CosmicChaosCat
                     ClickMultiplier = i,
                     ShardValue = rarity == CardRarity.SSR ? 30 : (rarity == CardRarity.SR ? 10 : (rarity == CardRarity.R ? 3 : 1)),
                     MaxStacks = 6,
-                    SetId = i <= 5 ? "set-cat-a" : "set-cat-b",
+                    SetId = "set-cat-all",
                     IsHidden = false,
                     CardSprite = defaultSprite,
                     SpecialEffect = i % 3 == 1 ? CardSpecialEffect.CriticalChanceBonus : CardSpecialEffect.None,
@@ -172,31 +172,26 @@ namespace CosmicChaosCat
             if (list == null) return;
 
             list.Clear();
+
+            // 고양이 1~10 전체 테스트 세트
             list.Add(new SetEntry
             {
-                SetId = "set-cat-a",
-                SetName = "고양이 A 세트 (1~5)",
-                CardIds = new List<string> { "cat-1", "cat-2", "cat-3", "cat-4", "cat-5" },
-                CriticalChanceBonus = 0.05f,       // +5% Critical Chance
-                FlatIncomeBonus = 5d,              // +5 Gold flat Click Income
-                CriticalDamageBonus = 0.5f,        // +50% Critical Damage (adds 0.5 to multiplier)
-                GachaDiscountBonus = 0.1f,         // 10% Gacha Discount
+                SetId   = "set-cat-all",
+                SetName = "테스트",
+                CardIds = new List<string>
+                {
+                    "cat-1", "cat-2", "cat-3", "cat-4", "cat-5",
+                    "cat-6", "cat-7", "cat-8", "cat-9", "cat-10"
+                },
+                CriticalChanceBonus  = 0f,
+                FlatIncomeBonus      = 0d,
+                CriticalDamageBonus  = 0f,
+                GachaDiscountBonus   = 0f,
                 ShardBonusMultiplier = 1.0f,
-                EffectDesc = "완성 보상: 크리티컬 확률 +5%, 클릭당 골드 +5, 크리티컬 데미지 +50%, 가챠 할인 +10%"
-            });
-            list.Add(new SetEntry
-            {
-                SetId = "set-cat-b",
-                SetName = "고양이 B 세트 (6~10)",
-                CardIds = new List<string> { "cat-6", "cat-7", "cat-8", "cat-9", "cat-10" },
-                CriticalChanceBonus = 0.02f,       // +2% Critical Chance
-                FlatIncomeBonus = 2d,              // +2 Gold flat Click Income
-                CriticalDamageBonus = 0.2f,        // +20% Critical Damage
-                GachaDiscountBonus = 0.05f,        // 5% Gacha Discount
-                ShardBonusMultiplier = 1.0f,
-                EffectDesc = "완성 보상: 크리티컬 확률 +2%, 클릭당 골드 +2, 크리티컬 데미지 +20%, 가챠 할인 +5%"
+                EffectDesc           = "테스트용"
             });
         }
+
 
         private void Update()
         {

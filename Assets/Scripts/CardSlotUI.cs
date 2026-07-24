@@ -38,6 +38,11 @@ namespace CosmicChaosCat
         private Sprite _rarityFrameSprite;   // 보유 시 사용할 등급 프레임
         private Sprite _lockedSprite;        // 미해금 시 frame에 표시
 
+        // Original state of cardArtImage
+        private Sprite _originalArtSprite;
+        private Color  _originalArtColor = Color.white;
+        private bool   _artOriginalSaved = false;
+
         private void Awake() => EnsureInit();
 
         public void EnsureInit()
@@ -81,6 +86,14 @@ namespace CosmicChaosCat
             }
             if (nameText   == null && clean.Count >= 1) nameText   = clean[0];
             if (rarityText == null && clean.Count >= 2) { rarityText = clean[1]; originalRarityColor = rarityText.color; }
+
+            // Save cardArtImage original state
+            if (cardArtImage != null && !_artOriginalSaved)
+            {
+                _originalArtSprite = cardArtImage.sprite;
+                _originalArtColor  = cardArtImage.color;
+                _artOriginalSaved  = true;
+            }
         }
 
         // ── 스프라이트를 외부(EncyclopediaPanel)에서 전달 ────────────────────
@@ -88,6 +101,14 @@ namespace CosmicChaosCat
         {
             _rarityFrameSprite = rarityFrame;
             _lockedSprite      = locked;
+
+            // Save cardArtImage original state on first assignment
+            if (cardArtImage != null && !_artOriginalSaved)
+            {
+                _originalArtSprite = cardArtImage.sprite;
+                _originalArtColor  = cardArtImage.color;
+                _artOriginalSaved  = true;
+            }
         }
 
         // ── 메인 데이터 적용 ─────────────────────────────────────────────────
@@ -158,15 +179,34 @@ namespace CosmicChaosCat
                 }
                 else
                 {
-                    // 미해금 → 투명 (보이지 않음)
-                    cardArtImage.sprite = null;
-                    cardArtImage.color  = new Color(0, 0, 0, 0);
+                    // 미해금 → 원본 스프라이트/컴러로 복원 (투명 처리하지 않음)
+                    if (_artOriginalSaved)
+                    {
+                        cardArtImage.sprite = _originalArtSprite;
+                        cardArtImage.color  = _originalArtColor;
+                    }
+                    else
+                    {
+                        // fallback: preserve whatever is set
+                        cardArtImage.color = new Color(
+                            cardArtImage.color.r, cardArtImage.color.g,
+                            cardArtImage.color.b, cardArtImage.color.a);
+                    }
                 }
             }
 
             // ── Name Text ────────────────────────────────────────────────────
             if (nameText != null)
             {
+                // Ensure the nameText itself AND every ancestor up to this slot are active
+                // (nameText may be nested inside an Image container that could be inactive)
+                var t = nameText.transform;
+                while (t != null && t != transform)
+                {
+                    if (!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+                    t = t.parent;
+                }
+
                 nameText.gameObject.SetActive(true);
                 nameText.enabled          = true;
                 nameText.enableWordWrapping = false;
@@ -262,7 +302,11 @@ namespace CosmicChaosCat
             {
                 string n = img.name.ToLower();
                 if (n.Contains("frame")) frame = img;
-                else if (n.Contains("art") || n.Contains("image")) art = img;
+                // Only match 'art' specifically – skip bare 'image' names to avoid
+                // capturing NameText container Images or other UI panels
+                else if (n.Contains("cardart") || n.Contains("card_art") ||
+                         (n.Contains("art") && !n.Contains("start") && !n.Contains("heart")))
+                    art = img;
             }
 
             if (frame != null) frameImage = frame;

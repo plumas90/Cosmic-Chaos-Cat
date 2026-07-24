@@ -45,6 +45,7 @@ namespace CosmicChaosCat
 
         // No Tab – right page detail panel (always visible when a card is selected)
         [SerializeField] private GameObject  detailPanel;
+        [SerializeField] private Image       detailCardFrameImage;
         [SerializeField] private Image       detailCardArt;
         [SerializeField] private TMP_Text    detailCardName;
         [SerializeField] private TMP_Text    detailRarityBadge;
@@ -56,11 +57,18 @@ namespace CosmicChaosCat
 
         // Set tab elements
         [SerializeField] private GameObject  leftSetPage;
-        [SerializeField] private GameObject  rightSetPage;
+        [SerializeField] private GameObject  rightSetPage;   // kept for backward compat; hidden in new layout
         [SerializeField] private GameObject  prevSetPageBtn;
         [SerializeField] private GameObject  nextSetPageBtn;
         [SerializeField] private TMP_Text    setPageLabel;
         private int setPageIndex = 0;
+
+        // Panel title (EncyclopediaPanelTitle)
+        [SerializeField] private TMP_Text    panelTitle;
+
+        // Set tab selection state
+        private int    selectedSetSlotIndex = -1;
+        private SetEntry currentSetEntry    = null;
 
         // Tab row buttons
         [SerializeField] private GameObject tabNoBtn;
@@ -186,6 +194,7 @@ namespace CosmicChaosCat
         private void OnStateChanged()
         {
             if (showNoTab) RefreshNoTab();
+            else           RefreshSets();
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -671,6 +680,118 @@ namespace CosmicChaosCat
             }
         }
 
+        // ─── Set panel: refresh references & bind buttons each time tab opens ──
+        private void AutoWireSetPanel()
+        {
+            if (setPanel == null) return;
+            var setRootTf = setPanel.transform;
+
+            // Find leftSetPage by common names, then by CardSlotUI presence
+            if (leftSetPage == null)
+            {
+                var t = setRootTf.Find("LeftPage")
+                     ?? setRootTf.Find("leftSlots")    // user-named
+                     ?? setRootTf.Find("Page")
+                     ?? setRootTf.Find("ContentPage")
+                     ?? setRootTf.Find("SlotPage")
+                     ?? FindChildByNameRecursive(setRootTf, "LeftPage")
+                     ?? FindChildByNameRecursive(setRootTf, "leftSlots");
+
+                if (t != null)
+                {
+                    leftSetPage = t.gameObject;
+                    Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: leftSetPage → '{leftSetPage.name}'");
+                }
+                else
+                {
+                    // Fallback: first child that has CardSlotUI descendants
+                    for (int ci = 0; ci < setRootTf.childCount; ci++)
+                    {
+                        var child = setRootTf.GetChild(ci);
+                        if (child.GetComponentsInChildren<CardSlotUI>(true).Length > 0)
+                        {
+                            leftSetPage = child.gameObject;
+                            Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: leftSetPage fallback → '{child.name}'");
+                            break;
+                        }
+                    }
+                    // Second fallback: use setPanel itself
+                    if (leftSetPage == null && setPanel.GetComponentsInChildren<CardSlotUI>(true).Length > 0)
+                    {
+                        leftSetPage = setPanel;
+                        Debug.Log("[EncyclopediaPanel] AutoWireSetPanel: leftSetPage fallback → setPanel itself");
+                    }
+                }
+            }
+
+            if (rightSetPage == null)
+            {
+                var t = setRootTf.Find("RightPage")
+                     ?? setRootTf.Find("rightSlots")   // user-named
+                     ?? FindChildByNameRecursive(setRootTf, "RightPage");
+                if (t != null) rightSetPage = t.gameObject;
+            }
+
+            // Prev / Next buttons
+            if (prevSetPageBtn == null)
+            {
+                var t = FindChildByNameRecursive(setRootTf, "Btn_◀")
+                     ?? FindChildByNameRecursive(setRootTf, "LeftBtn")
+                     ?? FindChildByNameRecursive(setRootTf, "PrevBtn")
+                     ?? FindChildByNameRecursive(setRootTf, "Btn_Left");
+                if (t != null) prevSetPageBtn = t.gameObject;
+            }
+            if (nextSetPageBtn == null)
+            {
+                var t = FindChildByNameRecursive(setRootTf, "Btn_▶")
+                     ?? FindChildByNameRecursive(setRootTf, "RightBtn")
+                     ?? FindChildByNameRecursive(setRootTf, "NextBtn")
+                     ?? FindChildByNameRecursive(setRootTf, "Btn_Right");
+                if (t != null) nextSetPageBtn = t.gameObject;
+            }
+
+            // PageText
+            if (setPageLabel == null)
+            {
+                var t = FindChildByNameRecursive(setRootTf, "PageText")
+                     ?? FindChildByNameRecursive(setRootTf, "setPageLabel")
+                     ?? FindChildByNameRecursive(setRootTf, "pageLabel");
+                if (t != null) setPageLabel = t.GetComponent<TMP_Text>();
+            }
+
+            // Rebuild slot pools (BOTH left AND right pages!)
+            leftSetSlots.Clear();
+            if (leftSetPage != null)
+            {
+                leftSetSlots.AddRange(leftSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: leftSetSlots found {leftSetSlots.Count} under '{leftSetPage.name}'");
+            }
+
+            rightSetSlots.Clear();
+            if (rightSetPage != null)
+            {
+                rightSetSlots.AddRange(rightSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: rightSetSlots found {rightSetSlots.Count} under '{rightSetPage.name}'");
+            }
+            else
+            {
+                var rPage = setRootTf.Find("rightSlots") ?? setRootTf.Find("RightPage") ?? FindChildByNameRecursive(setRootTf, "rightSlots");
+                if (rPage != null)
+                {
+                    rightSetPage = rPage.gameObject;
+                    rightSetSlots.AddRange(rightSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                    Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: rightSetSlots fallback found {rightSetSlots.Count} under '{rightSetPage.name}'");
+                }
+            }
+        }
+
+        private void BindSetButtons()
+        {
+            BindBtn(prevSetPageBtn, () => ChangeSetPage(-1));
+            BindBtn(nextSetPageBtn, () => ChangeSetPage(1));
+        }
+
+
         private static void BindBtn(GameObject go, UnityEngine.Events.UnityAction action)
         {
             if (go == null) return;
@@ -680,9 +801,54 @@ namespace CosmicChaosCat
             btn.onClick.AddListener(action);
         }
 
-        // ─────────────────────────────────────────────────────────────────────
-        //  TAB SWITCHING
-        // ─────────────────────────────────────────────────────────────────────
+        private void SetPanelTitleText(string newText)
+        {
+            Debug.Log($"[EncyclopediaPanel] SetPanelTitleText -> '{newText}'");
+
+            if (panelTitle != null)
+            {
+                panelTitle.text = newText;
+            }
+
+            var candidateRoots = new List<Transform> { transform };
+            if (transform.parent != null) candidateRoots.Add(transform.parent);
+
+            foreach (var root in candidateRoots)
+            {
+                // Direct search for the exact text child object named EncyclopediaPanelTitle_Text
+                var textObj = FindChildByNameRecursive(root, "EncyclopediaPanelTitle_Text")
+                           ?? FindChildByNameRecursive(root, "EncyclopediaPanelTitle_text")
+                           ?? FindChildByNameRecursive(root, "PanelTitle_Text")
+                           ?? FindChildByNameRecursive(root, "Title_Text");
+
+                if (textObj != null)
+                {
+                    var tmp = textObj.GetComponent<TMP_Text>();
+                    if (tmp != null) { panelTitle = tmp; tmp.text = newText; Debug.Log($"[EncyclopediaPanel] Found panelTitle via exact child -> '{textObj.name}'"); return; }
+
+                    var uiText = textObj.GetComponent<UnityEngine.UI.Text>();
+                    if (uiText != null) { uiText.text = newText; Debug.Log($"[EncyclopediaPanel] Found UI.Text via exact child -> '{textObj.name}'"); return; }
+                }
+
+                // If textObj not found directly, search container object and check GetComponentInChildren
+                var containerObj = FindChildByNameRecursive(root, "EncyclopediaPanelTitle")
+                                ?? FindChildByNameRecursive(root, "PanelTitle")
+                                ?? FindChildByNameRecursive(root, "TitleText")
+                                ?? FindChildByNameRecursive(root, "Title");
+
+                if (containerObj != null)
+                {
+                    var tmp = containerObj.GetComponentInChildren<TMP_Text>(true);
+                    if (tmp != null) { panelTitle = tmp; tmp.text = newText; Debug.Log($"[EncyclopediaPanel] Found panelTitle via container child -> '{tmp.name}'"); return; }
+
+                    var uiText = containerObj.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                    if (uiText != null) { uiText.text = newText; Debug.Log($"[EncyclopediaPanel] Found UI.Text via container child -> '{uiText.name}'"); return; }
+                }
+            }
+
+            Debug.LogWarning($"[EncyclopediaPanel] SetPanelTitleText: Could not find title text component to set '{newText}'");
+        }
+
         private void ShowNoTab()
         {
             showNoTab = true;
@@ -690,16 +856,24 @@ namespace CosmicChaosCat
             if (setPanel != null) setPanel.SetActive(false);
             SetBtnColor(tabNoBtn,  TabActive);
             SetBtnColor(tabSetBtn, TabInactive);
+            SetPanelTitleText("도감");
+            UpdateFilterTabColors();
             RefreshNoTab();
         }
 
         private void ShowSetTab()
         {
             showNoTab = false;
+            selectedSetSlotIndex = -1;
             if (noPanel  != null) noPanel.SetActive(false);
             if (setPanel != null) setPanel.SetActive(true);
             SetBtnColor(tabNoBtn,  TabInactive);
             SetBtnColor(tabSetBtn, TabActive);
+
+            // Re-wire every time in case hierarchy changed since first OnEnable
+            AutoWireSetPanel();
+            BindSetButtons();
+
             RefreshSets();
         }
 
@@ -711,22 +885,34 @@ namespace CosmicChaosCat
         // ─────────────────────────────────────────────────────────────────────
         //  FILTER
         // ─────────────────────────────────────────────────────────────────────
+        private static readonly Color FilterTabSelected   = new Color(44f / 255f, 44f / 255f, 44f / 255f, 1.00f);
+        private static readonly Color FilterTabUnselected = Color.white;
+
         private void SetFilter(RarityFilter f)
         {
             currentFilter  = f;
             currentPageIdx = 0;
+            selectedCardId = null;
             UpdateFilterTabColors();
             RefreshNoTab();
         }
 
         private void UpdateFilterTabColors()
         {
-            SetBtnColor(filterTabAll, currentFilter == RarityFilter.All ? TabActive : TabInactive);
-            SetBtnColor(filterTabN,   currentFilter == RarityFilter.N   ? TabActive : TabInactive);
-            SetBtnColor(filterTabR,   currentFilter == RarityFilter.R   ? TabActive : TabInactive);
-            SetBtnColor(filterTabSR,  currentFilter == RarityFilter.SR  ? TabActive : TabInactive);
-            SetBtnColor(filterTabSSR, currentFilter == RarityFilter.SSR ? TabActive : TabInactive);
-            SetBtnColor(filterTabUR,  currentFilter == RarityFilter.UR  ? TabActive : TabInactive);
+            Debug.Log($"[EncyclopediaPanel] UpdateFilterTabColors – currentFilter={currentFilter} | " +
+                      $"All={(filterTabAll != null ? filterTabAll.name : "NULL")}, " +
+                      $"N={(filterTabN != null ? filterTabN.name : "NULL")}, " +
+                      $"R={(filterTabR != null ? filterTabR.name : "NULL")}, " +
+                      $"SR={(filterTabSR != null ? filterTabSR.name : "NULL")}, " +
+                      $"SSR={(filterTabSSR != null ? filterTabSSR.name : "NULL")}, " +
+                      $"UR={(filterTabUR != null ? filterTabUR.name : "NULL")}");
+
+            SetBtnColor(filterTabAll, currentFilter == RarityFilter.All ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabN,   currentFilter == RarityFilter.N   ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabR,   currentFilter == RarityFilter.R   ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabSR,  currentFilter == RarityFilter.SR  ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabSSR, currentFilter == RarityFilter.SSR ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabUR,  currentFilter == RarityFilter.UR  ? FilterTabSelected : FilterTabUnselected);
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -757,6 +943,16 @@ namespace CosmicChaosCat
 
             if (pageLabel != null) pageLabel.text = $"{currentPageIdx + 1} / {maxPage + 1}";
 
+            // Dynamic fallback for collectionCounterLabel if not wired yet
+            if (collectionCounterLabel == null)
+            {
+                var t = FindChildByNameRecursive(noPanel.transform, "Collection_counter")
+                     ?? FindChildByNameRecursive(noPanel.transform, "collection_counter")
+                     ?? FindChildByNameRecursive(noPanel.transform, "CollectionCounter")
+                     ?? FindChildByNameRecursive(transform, "Collection_counter");
+                if (t != null) collectionCounterLabel = t.GetComponent<TMP_Text>();
+            }
+
             // Update collection counter with total (non-hidden) collected
             if (collectionCounterLabel != null)
             {
@@ -770,7 +966,7 @@ namespace CosmicChaosCat
                     states.TryGetValue(c.Id, out var p);
                     if (p != null && p.Unlocked) unlockedNonHidden++;
                 }
-                collectionCounterLabel.text = $"수집  {unlockedNonHidden} / {totalNonHidden}";
+                collectionCounterLabel.text = $"{unlockedNonHidden} / {totalNonHidden}";
             }
 
             // Navigation buttons
@@ -808,9 +1004,20 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Refresh detail panel if a card is selected
+            // Default select first card (e.g. ID 1 card) on initial open or filter change
+            if (filteredCards.Count > 0)
+            {
+                if (string.IsNullOrEmpty(selectedCardId) || !filteredCards.Exists(c => c.Id == selectedCardId))
+                {
+                    selectedCardId = filteredCards[0].Id;
+                }
+            }
+
+            // Refresh detail panel for the selected card
             if (!string.IsNullOrEmpty(selectedCardId))
                 RefreshDetailPanel(selectedCardId);
+            else
+                SetDetailEmpty();
         }
 
         private int FindOriginalIndex(CardEntry card, IReadOnlyList<CardEntry> all)
@@ -847,19 +1054,26 @@ namespace CosmicChaosCat
         // ─────────────────────────────────────────────────────────────────────
         private void SetDetailEmpty()
         {
-            if (detailCardName      != null) detailCardName.text      = "카드를 선택하세요";
+            if (detailCardFrameImage != null) { detailCardFrameImage.sprite = spriteCardLocked; detailCardFrameImage.color = Color.white; }
+            if (detailCardArt       != null) { detailCardArt.sprite = null; detailCardArt.color = new Color(0, 0, 0, 0); detailCardArt.gameObject.SetActive(false); }
+            if (detailCardName      != null) detailCardName.text      = "???";
             if (detailRarityBadge   != null) detailRarityBadge.text   = "";
-            if (detailDescription   != null) detailDescription.text   = "";
+            if (detailDescription   != null) detailDescription.text   = "???";
             if (detailIncomeText    != null) detailIncomeText.text     = "";
             if (detailBreakthroughText != null) detailBreakthroughText.text = "";
-            if (detailCardArt       != null) { detailCardArt.sprite = null; detailCardArt.color = new Color(0.4f, 0.35f, 0.28f, 0.4f); }
-            if (detailEquipBtn      != null) detailEquipBtn.interactable = false;
-            if (detailBreakthroughBtn != null) detailBreakthroughBtn.gameObject.SetActive(false);
+            if (detailEquipBtn      != null) { SetButtonInteractable(detailEquipBtn, false); }
+            if (detailBreakthroughBtn != null)
+            {
+                detailBreakthroughBtn.gameObject.SetActive(true);
+                SetButtonInteractable(detailBreakthroughBtn, false);
+                var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
+                if (lbl != null) lbl.text = "한계 돌파";
+            }
         }
 
         private void RefreshDetailPanel(string cardId)
         {
-            if (detailPanel == null) return;
+            if (detailPanel == null && noPanel == null) return;
 
             var card = gm?.CardCatalog?.FindById(cardId);
             var states = gm?.GetCardStates();
@@ -867,29 +1081,101 @@ namespace CosmicChaosCat
             states?.TryGetValue(cardId, out prog);
             bool unlocked = prog != null && prog.Unlocked;
 
-            // Card name
-            if (detailCardName != null)
-                detailCardName.text = unlocked && card != null ? card.DisplayName : "???";
-
-            // Rarity badge
-            if (detailRarityBadge != null && card != null)
+            // Frame Image (imageimage Frame)
+            if (detailCardFrameImage != null)
             {
-                detailRarityBadge.text  = unlocked ? card.Rarity.ToString() : "?";
-                detailRarityBadge.color = unlocked ? (Color)RarityToColor(card.Rarity) : Color.gray;
+                detailCardFrameImage.gameObject.SetActive(true);
+                if (unlocked && card != null)
+                {
+                    Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
+                    if (frameSp != null)
+                    {
+                        detailCardFrameImage.sprite = frameSp;
+                        detailCardFrameImage.color  = Color.white;
+                        detailCardFrameImage.type   = Image.Type.Sliced;
+                    }
+                    else
+                    {
+                        detailCardFrameImage.sprite = null;
+                        detailCardFrameImage.color  = (Color)RarityToColor(card.Rarity);
+                    }
+                }
+                else
+                {
+                    // Locked -> lock frame sprite
+                    if (spriteCardLocked != null)
+                    {
+                        detailCardFrameImage.sprite = spriteCardLocked;
+                        detailCardFrameImage.color  = Color.white;
+                        detailCardFrameImage.type   = Image.Type.Sliced;
+                    }
+                    else
+                    {
+                        detailCardFrameImage.sprite = null;
+                        detailCardFrameImage.color  = new Color(0.18f, 0.14f, 0.10f, 1f);
+                    }
+                }
             }
 
-            // Card art
+            // Fallback dynamically if name or description were not wired yet
+            var searchRoot = (detailPanel ?? noPanel)?.transform;
+            if (detailCardName == null && searchRoot != null)
+            {
+                var t = FindChildByNameRecursive(searchRoot, "ImageNametxt")
+                     ?? FindChildByNameRecursive(searchRoot, "imageNametxt")
+                     ?? FindChildByNameRecursive(searchRoot, "ImageNameTxt")
+                     ?? FindChildByNameRecursive(searchRoot, "ImageName")
+                     ?? FindChildByNameRecursive(searchRoot, "DetailName")
+                     ?? FindChildByNameRecursive(searchRoot, "CardName");
+                if (t != null) detailCardName = t.GetComponent<TMP_Text>();
+            }
+
+            if (detailDescription == null && searchRoot != null)
+            {
+                var descBgTf = FindChildByNameRecursive(searchRoot, "DescBG")
+                            ?? FindChildByNameRecursive(searchRoot, "descBG");
+                if (descBgTf != null) detailDescription = descBgTf.GetComponentInChildren<TMP_Text>(true);
+                if (detailDescription == null)
+                {
+                    var t = FindChildByNameRecursive(searchRoot, "description")
+                         ?? FindChildByNameRecursive(searchRoot, "Description");
+                    if (t != null) detailDescription = t.GetComponent<TMP_Text>();
+                }
+            }
+
+            // Card name
+            if (detailCardName != null)
+            {
+                detailCardName.gameObject.SetActive(true);
+                detailCardName.text = unlocked && card != null ? card.DisplayName : "???";
+            }
+
+            // Rarity badge
+            if (detailRarityBadge != null)
+            {
+                detailRarityBadge.gameObject.SetActive(unlocked);
+                if (card != null)
+                {
+                    detailRarityBadge.text  = unlocked ? card.Rarity.ToString() : "?";
+                    detailRarityBadge.color = unlocked ? (Color)RarityToColor(card.Rarity) : Color.gray;
+                }
+            }
+
+            // Card art (실제 image)
             if (detailCardArt != null)
             {
                 if (unlocked && card?.CardSprite != null)
                 {
+                    detailCardArt.gameObject.SetActive(true);
                     detailCardArt.sprite = card.CardSprite;
                     detailCardArt.color  = Color.white;
                 }
                 else
                 {
+                    // Locked -> image 없음 (clear sprite & set inactive)
                     detailCardArt.sprite = null;
-                    detailCardArt.color  = new Color(0.30f, 0.26f, 0.20f, 0.6f);
+                    detailCardArt.color  = new Color(0, 0, 0, 0);
+                    detailCardArt.gameObject.SetActive(false);
                 }
             }
 
@@ -918,38 +1204,40 @@ namespace CosmicChaosCat
                     detailBreakthroughText.text = "⭐ 강화   미해금";
             }
 
-            // Description (특징)
+            // Description (설명문)
             if (detailDescription != null)
             {
+                detailDescription.gameObject.SetActive(true);
                 if (unlocked && card != null)
                 {
                     string raw = card.GetDescription();
-                    detailDescription.text = "특징\n" + raw;
+                    detailDescription.text = raw;
                 }
                 else
                 {
-                    detailDescription.text = "특징\n???";
+                    detailDescription.text = "???";
                 }
             }
 
             // Equip button
             if (detailEquipBtn != null)
             {
-                detailEquipBtn.interactable = unlocked;
+                detailEquipBtn.gameObject.SetActive(true);
+                SetButtonInteractable(detailEquipBtn, unlocked);
                 bool isEquipped = gm != null && gm.EquippedCardId == cardId;
                 var lbl = detailEquipBtn.GetComponentInChildren<TMP_Text>();
-                if (lbl != null) lbl.text = isEquipped ? "✔ 대표 설정됨" : "대표 설정";
+                if (lbl != null) lbl.text = isEquipped ? "대표 설정됨" : "대표 설정";
             }
 
-            // Breakthrough button
+            // Breakthrough button (always active, interactable/translucent when not upgradeable)
             if (detailBreakthroughBtn != null)
             {
+                detailBreakthroughBtn.gameObject.SetActive(true);
+                bool canUpgrade = false;
                 if (unlocked && card != null && prog != null)
                 {
-                    detailBreakthroughBtn.gameObject.SetActive(true);
                     bool hasUnused  = prog.Copies > prog.BreakthroughCount + 1;
-                    bool canUpgrade = hasUnused && prog.BreakthroughCount < 5;
-                    SetButtonInteractable(detailBreakthroughBtn, canUpgrade);
+                    canUpgrade = hasUnused && prog.BreakthroughCount < 5;
                     var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
                     if (lbl != null)
                     {
@@ -961,8 +1249,10 @@ namespace CosmicChaosCat
                 }
                 else
                 {
-                    detailBreakthroughBtn.gameObject.SetActive(false);
+                    var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
+                    if (lbl != null) lbl.text = "한계 돌파";
                 }
+                SetButtonInteractable(detailBreakthroughBtn, canUpgrade);
             }
         }
 
@@ -983,35 +1273,57 @@ namespace CosmicChaosCat
         }
 
         // ─────────────────────────────────────────────────────────────────────
-        //  REFRESH – Set TAB
+        //  REFRESH – Set TAB  (1 page = 1 set)
         // ─────────────────────────────────────────────────────────────────────
         private void RefreshSets()
         {
-            if (leftSetPage == null || rightSetPage == null || gm == null) return;
+            // ── Diagnostics ─────────────────────────────────────────
+            Debug.Log($"[EncyclopediaPanel] RefreshSets – " +
+                      $"gm={gm != null} | setPanel={setPanel != null} | " +
+                      $"leftSetPage={(leftSetPage != null ? leftSetPage.name : "NULL")} | " +
+                      $"leftSetSlots={leftSetSlots.Count} | " +
+                      $"SetCatalog sets={(gm?.SetCatalog?.Sets?.Count ?? -1)}");
+
+            if (setPanel != null)
+            {
+                var sb = new System.Text.StringBuilder("[EncyclopediaPanel] SetPanel children: ");
+                for (int ci = 0; ci < setPanel.transform.childCount; ci++)
+                    sb.Append(setPanel.transform.GetChild(ci).name).Append(", ");
+                Debug.Log(sb.ToString());
+            }
+            // ──────────────────────────────────────────────────────
+
+            if (leftSetPage == null || gm == null) return;
             var sets = gm.SetCatalog?.Sets;
             if (sets == null || sets.Count == 0)
             {
                 if (setPageLabel != null) setPageLabel.text = "0 / 0";
+                SetPanelTitleText("세트");
+                if (rightSetPage != null) rightSetPage.SetActive(false);
                 return;
             }
 
-            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
+            // Show rightSetPage too – slots from rightSlots are part of the same set
+            if (rightSetPage != null) rightSetPage.SetActive(true);
+
+            int maxPages = sets.Count;
             setPageIndex = Mathf.Clamp(setPageIndex, 0, maxPages - 1);
+
+            SetEntry entry = sets[setPageIndex];
+            currentSetEntry = entry;
+
+            // Update page label (PageText)
             if (setPageLabel != null) setPageLabel.text = $"{setPageIndex + 1} / {maxPages}";
 
-            var leftPageImg  = leftSetPage.GetComponent<Image>();
-            if (leftPageImg  != null) leftPageImg.raycastTarget  = false;
-            var rightPageImg = rightSetPage.GetComponent<Image>();
-            if (rightPageImg != null) rightPageImg.raycastTarget = false;
+            // Update panel title with set name (e.g. "테스트")
+            SetPanelTitleText(entry != null ? entry.SetName : "세트");
 
-            int leftIdx  = setPageIndex * 2;
-            int rightIdx = setPageIndex * 2 + 1;
+            // Combine both slot pools so cat-10 shows in Slot_9 (first of rightSlots)
+            var combinedPool = new List<CardSlotUI>(leftSetSlots);
+            combinedPool.AddRange(rightSetSlots);
 
-            SetEntry leftEntry  = leftIdx  < sets.Count ? sets[leftIdx]  : null;
-            SetEntry rightEntry = rightIdx < sets.Count ? sets[rightIdx] : null;
+            RefreshSetPageData(leftSetPage.transform, entry, combinedPool, setPanel.transform);
 
-            RefreshSetPageData(leftSetPage.transform,  leftEntry,  leftSetSlots);
-            RefreshSetPageData(rightSetPage.transform, rightEntry, rightSetSlots);
 
             if (prevSetPageBtn != null)
             {
@@ -1029,21 +1341,25 @@ namespace CosmicChaosCat
         {
             var sets = gm?.SetCatalog?.Sets;
             if (sets == null || sets.Count == 0) return;
-            int maxPages = Mathf.CeilToInt(sets.Count / 2f);
-            setPageIndex = Mathf.Clamp(setPageIndex + delta, 0, maxPages - 1);
+            setPageIndex = Mathf.Clamp(setPageIndex + delta, 0, sets.Count - 1);
+            selectedSetSlotIndex = -1;
             RefreshSets();
         }
 
-        private void RefreshSetPageData(Transform pageTf, SetEntry setEntry, List<CardSlotUI> pool)
+        private void RefreshSetPageData(Transform pageTf, SetEntry setEntry, List<CardSlotUI> pool, Transform panelRootTf = null)
         {
+            // For UI elements (description, ClaimBtn, moveBtn) that may be siblings of pageTf inside SetPanel
+            Transform uiRoot = panelRootTf ?? pageTf;
+
             if (setEntry == null)
             {
                 foreach (var s in pool) if (s != null) s.gameObject.SetActive(false);
-                var et = pageTf.Find("SetNameTitle"); if (et != null) et.gameObject.SetActive(false);
-                var eb = pageTf.Find("ClaimBtn");     if (eb != null) eb.gameObject.SetActive(false);
+                var et = uiRoot.Find("SetNameTitle") ?? pageTf.Find("SetNameTitle"); if (et != null) et.gameObject.SetActive(false);
+                var eb = uiRoot.Find("ClaimBtn")     ?? pageTf.Find("ClaimBtn");     if (eb != null) eb.gameObject.SetActive(false);
                 return;
             }
 
+            // SetNameTitle inside the page (optional – title also shown in panelTitle)
             var titleTf = pageTf.Find("SetNameTitle");
             if (titleTf != null)
             {
@@ -1078,12 +1394,24 @@ namespace CosmicChaosCat
                             if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndex = c + 1; break; }
                         }
                     }
+
                     if (displayCard != null)
                     {
-                        Sprite frameSp = GetFrameSpriteForRarity(displayCard.Rarity);
+                        Sprite frameSp = unlocked ? GetFrameSpriteForRarity(displayCard.Rarity) : spriteCardLocked;
                         slot.SetSprites(frameSp, spriteCardLocked);
-                        slot.SetData(displayCard, cardIndex, prog, gm, OnSlotClickedById);
+
+                        // Capture i for lambda
+                        int slotIdx = i;
+                        slot.SetData(displayCard, cardIndex, prog, gm, id =>
+                        {
+                            // Highlight selected slot; MoveBtn is kept for future use
+                            selectedSetSlotIndex = slotIdx;
+                            ApplySetSlotHighlight(pool);
+                        });
                     }
+
+                    // Apply highlight state
+                    ApplySetSlotHighlightSingle(slot, i == selectedSetSlotIndex);
                 }
                 else
                 {
@@ -1091,15 +1419,30 @@ namespace CosmicChaosCat
                 }
             }
 
-            var descTx = FindDescriptionText(pageTf);
+            // Description: search in uiRoot (SetPanel) first, then in pageTf (leftSlots)
+            var descTx = FindDescriptionInRoot(uiRoot) ?? FindDescriptionText(pageTf);
             if (descTx != null)
             {
                 descTx.gameObject.SetActive(true);
-                descTx.text = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "아무 효과 없음" : setEntry.EffectDesc;
+                string desc   = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "아무 효과 없음" : setEntry.EffectDesc;
+                string reward = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "없음" : setEntry.EffectDesc;
+                descTx.text = desc + "\n보상: " + reward;
             }
 
+            // MoveBtn – search in SetPanel first (it’s a sibling of leftSlots)
+            var moveBtnTf = uiRoot.Find("moveBtn") ?? uiRoot.Find("MoveBtn")
+                         ?? pageTf.Find("moveBtn")  ?? pageTf.Find("MoveBtn");
+            if (moveBtnTf != null)
+            {
+                moveBtnTf.gameObject.SetActive(true);
+                var mb = moveBtnTf.GetComponent<Button>();
+                if (mb != null) { mb.onClick.RemoveAllListeners(); /* TODO: implement move */ }
+            }
+
+            // ClaimBtn – search in SetPanel first
             bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
-            var btnTf    = pageTf.Find("ClaimBtn");
+            var btnTf    = uiRoot.Find("ClaimBtn") ?? pageTf.Find("ClaimBtn")
+                        ?? FindChildByNameRecursive(uiRoot, "ClaimBtn");
             Button claimBtn  = null;
             TMP_Text claimTx = null;
 
@@ -1115,16 +1458,35 @@ namespace CosmicChaosCat
                 }
             }
 
-            if (claimTx  != null) claimTx.text = claimed ? "완료" : "보상 받기";
+            if (claimTx  != null) claimTx.text = claimed ? "완료" : "보상받기";
             if (claimBtn != null)
             {
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
                 var img = claimBtn.GetComponent<Image>();
                 if (img != null)
-                    img.color = claimed ? new Color(0.2f, 0.45f, 0.2f)
+                    img.color = claimed  ? new Color(0.2f, 0.45f, 0.2f)
                               : allOwned ? new Color(0.70f, 0.45f, 0.05f)
                               : new Color(0.3f, 0.3f, 0.3f);
             }
+        }
+
+        // ── Set slot highlight helpers ────────────────────────────────────────
+        private void ApplySetSlotHighlight(List<CardSlotUI> pool)
+        {
+            for (int i = 0; i < pool.Count; i++)
+                if (pool[i] != null) ApplySetSlotHighlightSingle(pool[i], i == selectedSetSlotIndex);
+        }
+
+        private static void ApplySetSlotHighlightSingle(CardSlotUI slot, bool selected)
+        {
+            if (slot == null) return;
+            // Slightly scale up the selected slot as a highlight indicator
+            var rt = slot.GetComponent<RectTransform>();
+            if (rt != null) rt.localScale = selected ? new Vector3(1.08f, 1.08f, 1f) : Vector3.one;
+
+            // Optionally tint the slot's own Image component
+            var img = slot.GetComponent<Image>();
+            if (img != null) img.color = selected ? new Color(1f, 0.95f, 0.6f, 1f) : Color.white;
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -1158,8 +1520,21 @@ namespace CosmicChaosCat
             }
         }
 
+        // Find a TMP_Text named exactly 'description' in the root, or fall back to heuristic
+        private static TMP_Text FindDescriptionInRoot(Transform root)
+        {
+            var t = root.Find("description") ?? root.Find("Description");
+            if (t != null) return t.GetComponent<TMP_Text>();
+            return null;
+        }
+
         private TMP_Text FindDescriptionText(Transform pageTf)
         {
+            // Try exact name first
+            var byName = pageTf.Find("description") ?? pageTf.Find("Description");
+            if (byName != null) { var tx2 = byName.GetComponent<TMP_Text>(); if (tx2 != null) return tx2; }
+
+            // Fallback: find first TMP_Text child that isn’t a known UI element
             for (int k = 0; k < pageTf.childCount; k++)
             {
                 var child = pageTf.GetChild(k);
@@ -1200,35 +1575,142 @@ namespace CosmicChaosCat
             if (noPanel != null)
             {
                 var noPanelTf = noPanel.transform;
-                if (prevPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_◀"); if (t != null) prevPageBtn = t.gameObject; }
-                if (nextPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_▶"); if (t != null) nextPageBtn = t.gameObject; }
+                if (prevPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_◀") ?? FindChildByNameRecursive(noPanelTf, "LeftBtn") ?? FindChildByNameRecursive(noPanelTf, "PrevBtn"); if (t != null) prevPageBtn = t.gameObject; }
+                if (nextPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_▶") ?? FindChildByNameRecursive(noPanelTf, "RightBtn") ?? FindChildByNameRecursive(noPanelTf, "NextBtn"); if (t != null) nextPageBtn = t.gameObject; }
                 if (pageLabel   == null)
                 {
-                    var t = FindChildByNameRecursive(noPanelTf, "pageLabel");
+                    var t = FindChildByNameRecursive(noPanelTf, "PageText")
+                         ?? FindChildByNameRecursive(noPanelTf, "pageText")
+                         ?? FindChildByNameRecursive(noPanelTf, "pageLabel")
+                         ?? FindChildByNameRecursive(noPanelTf, "PageLabel");
                     if (t != null) pageLabel = t.GetComponent<TMP_Text>();
                 }
+                if (collectionCounterLabel == null)
+                {
+                    var t = FindChildByNameRecursive(noPanelTf, "Collection_counter")
+                         ?? FindChildByNameRecursive(noPanelTf, "collection_counter")
+                         ?? FindChildByNameRecursive(noPanelTf, "CollectionCounter")
+                         ?? FindChildByNameRecursive(transform, "Collection_counter");
+                    if (t != null) collectionCounterLabel = t.GetComponent<TMP_Text>();
+                }
 
-                // Filter tabs
-                if (filterTabAll == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_전체"); if (t != null) filterTabAll = t.gameObject; }
-                if (filterTabN   == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_N");   if (t != null) filterTabN   = t.gameObject; }
-                if (filterTabR   == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_R");   if (t != null) filterTabR   = t.gameObject; }
-                if (filterTabSR  == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_SR");  if (t != null) filterTabSR  = t.gameObject; }
-                if (filterTabSSR == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_SSR"); if (t != null) filterTabSSR = t.gameObject; }
-                if (filterTabUR  == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_UR");  if (t != null) filterTabUR  = t.gameObject; }
+                // Filter tabs (strictly look for objects with Button component)
+                var foundAll = FindFilterTabButton(noPanelTf, "Btn_전체", "Btn_All", "Btn_ALL", "Tab_All", "Filter_All", "All", "all");
+                if (foundAll != null) filterTabAll = foundAll;
+
+                var foundN = FindFilterTabButton(noPanelTf, "Btn_N", "Tab_N", "Filter_N", "filterTabN", "Btn_n", "N_Tab", "TabN");
+                if (foundN != null) filterTabN = foundN;
+
+                var foundR = FindFilterTabButton(noPanelTf, "Btn_R", "Tab_R", "Filter_R", "filterTabR", "Btn_r", "R_Tab", "TabR");
+                if (foundR != null) filterTabR = foundR;
+
+                var foundSR = FindFilterTabButton(noPanelTf, "Btn_SR", "Tab_SR", "Filter_SR", "filterTabSR", "Btn_sr", "SR_Tab", "TabSR");
+                if (foundSR != null) filterTabSR = foundSR;
+
+                var foundSSR = FindFilterTabButton(noPanelTf, "Btn_SSR", "Tab_SSR", "Filter_SSR", "filterTabSSR", "Btn_ssr", "SSR_Tab", "TabSSR");
+                if (foundSSR != null) filterTabSSR = foundSSR;
+
+                var foundUR = FindFilterTabButton(noPanelTf, "Btn_UR", "Tab_UR", "Filter_UR", "filterTabUR", "Btn_ur", "UR_Tab", "TabUR");
+                if (foundUR != null) filterTabUR = foundUR;
 
                 // Detail panel
                 if (detailPanel == null)
                 {
-                    var t = FindChildByNameRecursive(noPanelTf, "DetailPanel");
+                    var t = FindChildByNameRecursive(noPanelTf, "RightPage")
+                         ?? FindChildByNameRecursive(noPanelTf, "rightPage")
+                         ?? FindChildByNameRecursive(noPanelTf, "DetailPanel")
+                         ?? FindChildByNameRecursive(noPanelTf, "detailPanel")
+                         ?? FindChildByNameRecursive(noPanelTf, "Detail");
                     if (t != null) detailPanel = t.gameObject;
+                    else detailPanel = noPanel;
                 }
                 if (detailPanel != null)
                 {
                     var rt = detailPanel.transform;
-                    if (detailCardArt       == null) { var t = FindChildByNameRecursive(rt, "DetailArt");    if (t != null) detailCardArt       = t.GetComponent<Image>(); }
-                    if (detailCardName      == null) { var t = FindChildByNameRecursive(rt, "DetailName");   if (t != null) detailCardName      = t.GetComponent<TMP_Text>(); }
+
+                    Transform imgImgTf = FindChildByNameRecursive(rt, "imageimage")
+                                      ?? FindChildByNameRecursive(rt, "Imageimage")
+                                      ?? FindChildByNameRecursive(rt, "ImageImage")
+                                      ?? FindChildByNameRecursive(rt, "image_image")
+                                      ?? FindChildByNameRecursive(rt, "image")
+                                      ?? FindChildByNameRecursive(rt, "Image");
+
+                    if (detailCardFrameImage == null)
+                    {
+                        if (imgImgTf != null)
+                        {
+                            detailCardFrameImage = imgImgTf.GetComponent<Image>();
+                            if (detailCardFrameImage == null)
+                            {
+                                var fr = FindChildByNameRecursive(imgImgTf, "Frame") ?? FindChildByNameRecursive(imgImgTf, "frame");
+                                if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
+                            }
+                        }
+                        if (detailCardFrameImage == null)
+                        {
+                            var fr = FindChildByNameRecursive(rt, "DetailFrame") ?? FindChildByNameRecursive(rt, "Frame") ?? FindChildByNameRecursive(rt, "frame");
+                            if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
+                        }
+                    }
+
+                    if (detailCardArt == null)
+                    {
+                        if (imgImgTf != null)
+                        {
+                            var artTf = FindChildByNameRecursive(imgImgTf, "image")
+                                     ?? FindChildByNameRecursive(imgImgTf, "Image")
+                                     ?? FindChildByNameRecursive(imgImgTf, "art")
+                                     ?? FindChildByNameRecursive(imgImgTf, "CardArt");
+                            if (artTf != null && artTf != imgImgTf)
+                            {
+                                detailCardArt = artTf.GetComponent<Image>();
+                            }
+                        }
+                        if (detailCardArt == null)
+                        {
+                            var artTf = FindChildByNameRecursive(rt, "DetailArt") ?? FindChildByNameRecursive(rt, "CardArt");
+                            if (artTf != null) detailCardArt = artTf.GetComponent<Image>();
+                        }
+                    }
+
+                    if (detailCardName == null)
+                    {
+                        var t = FindChildByNameRecursive(rt, "ImageNametxt")
+                             ?? FindChildByNameRecursive(rt, "imageNametxt")
+                             ?? FindChildByNameRecursive(rt, "ImageNameTxt")
+                             ?? FindChildByNameRecursive(rt, "ImageName")
+                             ?? FindChildByNameRecursive(rt, "imageName")
+                             ?? FindChildByNameRecursive(rt, "DetailName")
+                             ?? FindChildByNameRecursive(rt, "CardName")
+                             ?? FindChildByNameRecursive(rt, "NameText")
+                             ?? FindChildByNameRecursive(rt, "nameText")
+                             ?? FindChildByNameRecursive(rt, "name")
+                             ?? FindChildByNameRecursive(rt, "Name");
+                        if (t != null) detailCardName = t.GetComponent<TMP_Text>();
+                    }
+
+                    if (detailDescription == null)
+                    {
+                        var descBgTf = FindChildByNameRecursive(rt, "DescBG")
+                                    ?? FindChildByNameRecursive(rt, "descBG")
+                                    ?? FindChildByNameRecursive(rt, "DescBg")
+                                    ?? FindChildByNameRecursive(rt, "desc_bg");
+                        if (descBgTf != null)
+                        {
+                            detailDescription = descBgTf.GetComponentInChildren<TMP_Text>(true);
+                        }
+                        if (detailDescription == null)
+                        {
+                            var t = FindChildByNameRecursive(rt, "description")
+                                 ?? FindChildByNameRecursive(rt, "Description")
+                                 ?? FindChildByNameRecursive(rt, "DetailDesc")
+                                 ?? FindChildByNameRecursive(rt, "descText")
+                                 ?? FindChildByNameRecursive(rt, "desc");
+                            if (t != null) detailDescription = t.GetComponent<TMP_Text>();
+                        }
+                    }
+
                     if (detailRarityBadge   == null) { var t = FindChildByNameRecursive(rt, "RarityBadge");  if (t != null) detailRarityBadge   = t.GetComponent<TMP_Text>(); }
-                    if (detailDescription   == null) { var t = FindChildByNameRecursive(rt, "DetailDesc");   if (t != null) detailDescription   = t.GetComponent<TMP_Text>(); }
                     if (detailIncomeText    == null) { var t = FindChildByNameRecursive(rt, "IncomeText");   if (t != null) detailIncomeText    = t.GetComponent<TMP_Text>(); }
                     if (detailBreakthroughText == null) { var t = FindChildByNameRecursive(rt, "BreakText"); if (t != null) detailBreakthroughText = t.GetComponent<TMP_Text>(); }
                     if (detailEquipBtn      == null) { var t = FindChildByNameRecursive(rt, "Btn_대표 설정"); if (t != null) detailEquipBtn      = t.GetComponent<Button>(); }
@@ -1240,13 +1722,69 @@ namespace CosmicChaosCat
             if (setPanel != null)
             {
                 var setRootTf = setPanel.transform;
-                if (leftSetPage  == null) { var t = setRootTf.Find("LeftPage")  ?? FindChildByNameRecursive(setRootTf, "LeftPage");  if (t != null) leftSetPage  = t.gameObject; }
-                if (rightSetPage == null) { var t = setRootTf.Find("RightPage") ?? FindChildByNameRecursive(setRootTf, "RightPage"); if (t != null) rightSetPage = t.gameObject; }
-                if (prevSetPageBtn == null) { var t = FindChildByNameRecursive(setRootTf, "Btn_◀"); if (t != null) prevSetPageBtn = t.gameObject; }
-                if (nextSetPageBtn == null) { var t = FindChildByNameRecursive(setRootTf, "Btn_▶"); if (t != null) nextSetPageBtn = t.gameObject; }
-                if (setPageLabel   == null)
+
+                // Main content page (single page per set)
+                // Try common names first, then fall back to finding first child with CardSlotUI
+                if (leftSetPage == null)
                 {
-                    var t = FindChildByNameRecursive(setRootTf, "setPageLabel");
+                    var t = setRootTf.Find("LeftPage")
+                         ?? setRootTf.Find("Page")
+                         ?? setRootTf.Find("ContentPage")
+                         ?? setRootTf.Find("SlotPage")
+                         ?? FindChildByNameRecursive(setRootTf, "LeftPage");
+
+                    if (t != null)
+                    {
+                        leftSetPage = t.gameObject;
+                    }
+                    else
+                    {
+                        // Fallback: use the first child that contains CardSlotUI components
+                        for (int ci = 0; ci < setRootTf.childCount; ci++)
+                        {
+                            var child = setRootTf.GetChild(ci);
+                            if (child.GetComponentsInChildren<CardSlotUI>(true).Length > 0)
+                            {
+                                leftSetPage = child.gameObject;
+                                Debug.Log($"[EncyclopediaPanel] leftSetPage fallback → '{child.name}'");
+                                break;
+                            }
+                        }
+                        // Second fallback: if there are CardSlotUI directly in setPanel, use setPanel itself
+                        if (leftSetPage == null && setPanel.GetComponentsInChildren<CardSlotUI>(true).Length > 0)
+                        {
+                            leftSetPage = setPanel;
+                            Debug.Log("[EncyclopediaPanel] leftSetPage fallback → setPanel itself");
+                        }
+                    }
+                }
+
+                if (rightSetPage == null) { var t = setRootTf.Find("RightPage") ?? FindChildByNameRecursive(setRootTf, "RightPage"); if (t != null) rightSetPage = t.gameObject; }
+
+                // Prev / Next buttons – look for common names
+                if (prevSetPageBtn == null)
+                {
+                    var t = FindChildByNameRecursive(setRootTf, "Btn_◀")
+                         ?? FindChildByNameRecursive(setRootTf, "LeftBtn")
+                         ?? FindChildByNameRecursive(setRootTf, "PrevBtn")
+                         ?? FindChildByNameRecursive(setRootTf, "Btn_Left");
+                    if (t != null) prevSetPageBtn = t.gameObject;
+                }
+                if (nextSetPageBtn == null)
+                {
+                    var t = FindChildByNameRecursive(setRootTf, "Btn_▶")
+                         ?? FindChildByNameRecursive(setRootTf, "RightBtn")
+                         ?? FindChildByNameRecursive(setRootTf, "NextBtn")
+                         ?? FindChildByNameRecursive(setRootTf, "Btn_Right");
+                    if (t != null) nextSetPageBtn = t.gameObject;
+                }
+
+                // PageText / setPageLabel
+                if (setPageLabel == null)
+                {
+                    var t = FindChildByNameRecursive(setRootTf, "PageText")
+                         ?? FindChildByNameRecursive(setRootTf, "setPageLabel")
+                         ?? FindChildByNameRecursive(setRootTf, "pageLabel");
                     if (t != null) setPageLabel = t.GetComponent<TMP_Text>();
                 }
 
@@ -1255,6 +1793,7 @@ namespace CosmicChaosCat
                 {
                     var arr = leftSetPage.GetComponentsInChildren<CardSlotUI>(true);
                     leftSetSlots.AddRange(arr);
+                    Debug.Log($"[EncyclopediaPanel] leftSetSlots found: {leftSetSlots.Count} under '{leftSetPage.name}'");
                 }
                 rightSetSlots.Clear();
                 if (rightSetPage != null)
@@ -1262,6 +1801,14 @@ namespace CosmicChaosCat
                     var arr = rightSetPage.GetComponentsInChildren<CardSlotUI>(true);
                     rightSetSlots.AddRange(arr);
                 }
+            }
+
+            // EncyclopediaPanelTitle
+            if (panelTitle == null)
+            {
+                var t = FindChildByNameRecursive(transform, "EncyclopediaPanelTitle")
+                     ?? FindChildByNameRecursive(transform, "PanelTitle");
+                if (t != null) panelTitle = t.GetComponent<TMP_Text>();
             }
         }
 
@@ -1369,7 +1916,7 @@ namespace CosmicChaosCat
         private static void SetBtnColor(GameObject go, Color col)
         {
             if (go == null) return;
-            var img = go.GetComponent<Image>();
+            var img = go.GetComponent<Image>() ?? go.GetComponentInChildren<Image>();
             if (img != null) img.color = col;
         }
 
@@ -1378,21 +1925,44 @@ namespace CosmicChaosCat
             if (btn == null) return;
             btn.interactable = interactable;
 
-            // CanvasGroup 방식: 없으면 추가, 그래도 실패하면 Image alpha로 대체
+            // Ensure CanvasGroup exists so all child UI elements (Image, Text, Icons)
+            // fade to 40% translucency identically when disabled
             var cg = btn.GetComponent<CanvasGroup>();
-            if (cg != null)
+            if (cg == null)
             {
-                cg.alpha = interactable ? 1f : 0.4f;
-                return;
+                cg = btn.gameObject.AddComponent<CanvasGroup>();
             }
+            cg.alpha = interactable ? 1.0f : 0.4f;
 
-            // CanvasGroup이 없는 경우 Image 색상 alpha로 대체
-            var img = btn.GetComponent<Image>();
-            if (img != null)
+            // Ensure mouse hover highlight is visible when button is interactable
+            if (btn.transition == Selectable.Transition.ColorTint)
             {
-                var c = img.color;
-                img.color = new Color(c.r, c.g, c.b, interactable ? 1f : 0.4f);
+                var cs = btn.colors;
+                cs.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                if (cs.highlightedColor == cs.normalColor || cs.highlightedColor.a == 0)
+                {
+                    cs.highlightedColor = new Color(1.25f, 1.25f, 1.25f, 1.0f);
+                }
+                btn.colors = cs;
             }
+        }
+
+        private GameObject FindFilterTabButton(Transform root, params string[] candidateNames)
+        {
+            if (root == null) return null;
+            foreach (var name in candidateNames)
+            {
+                var t = FindChildByNameRecursive(root, name);
+                if (t != null && t.GetComponent<Button>() != null)
+                    return t.gameObject;
+            }
+            foreach (var name in candidateNames)
+            {
+                var t = FindChildByNameRecursive(root, name);
+                if (t != null)
+                    return t.gameObject;
+            }
+            return null;
         }
 
         private static void SetButtonSprite(GameObject go, Sprite sp)
