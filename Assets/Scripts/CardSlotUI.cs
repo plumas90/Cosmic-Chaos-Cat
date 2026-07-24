@@ -206,6 +206,7 @@ namespace CosmicChaosCat
 
                 if (unlocked)
                 {
+                    cardArtImage.gameObject.SetActive(true);
                     if (card.CardSprite != null)
                     {
                         cardArtImage.sprite = card.CardSprite;
@@ -223,12 +224,10 @@ namespace CosmicChaosCat
                 }
                 else
                 {
-                    // 미해금 → 원본 스프라이트/컬러로 복원
-                    if (_artOriginalSaved && _originalArtSprite != null)
-                    {
-                        cardArtImage.sprite = _originalArtSprite;
-                        cardArtImage.color  = _originalArtColor;
-                    }
+                    // 미해금 → 투명 및 비활성화 처리 (이미지 안 보임)
+                    cardArtImage.sprite = null;
+                    cardArtImage.color  = new Color(0, 0, 0, 0);
+                    cardArtImage.gameObject.SetActive(false);
                 }
             }
 

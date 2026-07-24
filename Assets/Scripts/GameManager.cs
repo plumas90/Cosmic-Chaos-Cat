@@ -157,6 +157,9 @@ namespace CosmicChaosCat
                     SetId = "set-cat-all",
                     IsHidden = false,
                     CardSprite = defaultSprite,
+                    BreakthroughVariantStages = (i % 2 == 1)
+                        ? new int[] { 1, 2, 3, 4, 5 }
+                        : new int[] { 1, 3, 5 },
                     SpecialEffect = i % 3 == 1 ? CardSpecialEffect.CriticalChanceBonus : CardSpecialEffect.None,
                     SpecialEffectValue = 0.05f
                 });

@@ -26,9 +26,45 @@ namespace CosmicChaosCat
         public string SetId;
         public bool IsHidden;
         public Sprite CardSprite;
+        public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
+        public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
         public CardSpecialEffect SpecialEffect;
         public float SpecialEffectValue;
         [TextArea(3, 5)] public string Description;
+
+        public System.Collections.Generic.List<int> GetBreakthroughStages()
+        {
+            if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
+            {
+                var list = new System.Collections.Generic.List<int>();
+                foreach (int st in BreakthroughVariantStages)
+                {
+                    if (st >= 1 && st <= 5 && !list.Contains(st)) list.Add(st);
+                }
+                if (list.Count > 0) return list;
+            }
+            // Default: All 5 stages (1, 2, 3, 4, 5)
+            return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
+        }
+
+        public Sprite GetSpriteForStage(int stage)
+        {
+            if (BreakthroughSprites != null && BreakthroughSprites.Length > 0)
+            {
+                if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length == BreakthroughSprites.Length)
+                {
+                    for (int i = 0; i < BreakthroughVariantStages.Length; i++)
+                    {
+                        if (BreakthroughVariantStages[i] == stage && BreakthroughSprites[i] != null)
+                            return BreakthroughSprites[i];
+                    }
+                }
+                int idx = stage - 1;
+                if (idx >= 0 && idx < BreakthroughSprites.Length && BreakthroughSprites[idx] != null)
+                    return BreakthroughSprites[idx];
+            }
+            return CardSprite;
+        }
 
         public string GetDescription()
         {

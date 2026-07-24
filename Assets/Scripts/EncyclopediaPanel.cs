@@ -55,6 +55,12 @@ namespace CosmicChaosCat
         [SerializeField] private Button      detailEquipBtn;
         [SerializeField] private Button      detailBreakthroughBtn;
 
+        // NumBtn (breakthrough illustration stage buttons 1..5)
+        [SerializeField] private GameObject numBtnContainer;
+        [SerializeField] private Button[]   stageButtons = new Button[5];
+        private int    selectedIllustrationStage = 1;
+        private string lastDetailCardId          = null;
+
         // Set tab elements
         [SerializeField] private GameObject  leftSetPage;
         [SerializeField] private GameObject  rightSetPage;   // kept for backward compat; hidden in new layout
@@ -1038,6 +1044,8 @@ namespace CosmicChaosCat
                 SetDetailEmpty();
         }
 
+        private string _lastCollectionCounterText = null;
+
         private void UpdateCollectionCounter()
         {
             if (gm == null) return;
@@ -1056,6 +1064,9 @@ namespace CosmicChaosCat
             }
 
             string textValue = $"{unlockedNonHidden} / {totalNonHidden}";
+
+            if (_lastCollectionCounterText == textValue && collectionCounterLabel != null) return;
+            _lastCollectionCounterText = textValue;
 
             if (collectionCounterLabel != null)
             {
@@ -1083,7 +1094,6 @@ namespace CosmicChaosCat
                     {
                         collectionCounterLabel = tmp;
                         tmp.text = textValue;
-                        Debug.Log($"[EncyclopediaPanel] Collection_counter updated via TMP_Text on '{tmp.name}' -> '{textValue}'");
                         return;
                     }
 
@@ -1091,13 +1101,10 @@ namespace CosmicChaosCat
                     if (uiText != null)
                     {
                         uiText.text = textValue;
-                        Debug.Log($"[EncyclopediaPanel] Collection_counter updated via UI.Text on '{uiText.name}' -> '{textValue}'");
                         return;
                     }
                 }
             }
-
-            Debug.LogWarning($"[EncyclopediaPanel] UpdateCollectionCounter: Could not find Collection_counter text component to set '{textValue}'");
         }
 
         private int FindOriginalIndex(CardEntry card, IReadOnlyList<CardEntry> all)
@@ -1197,7 +1204,7 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Fallback dynamically if name or description were not wired yet
+            // Fallback dynamically if name, description, or art were not wired yet
             var searchRoot = (detailPanel ?? noPanel)?.transform;
             if (detailCardName == null && searchRoot != null)
             {
@@ -1208,6 +1215,15 @@ namespace CosmicChaosCat
                      ?? FindChildByNameRecursive(searchRoot, "DetailName")
                      ?? FindChildByNameRecursive(searchRoot, "CardName");
                 if (t != null) detailCardName = t.GetComponent<TMP_Text>();
+            }
+
+            if (detailCardArt == null && searchRoot != null)
+            {
+                var ar = FindChildByNameRecursive(searchRoot, "Art")
+                      ?? FindChildByNameRecursive(searchRoot, "art")
+                      ?? FindChildByNameRecursive(searchRoot, "DetailArt")
+                      ?? FindChildByNameRecursive(searchRoot, "CardArt");
+                if (ar != null) detailCardArt = ar.GetComponent<Image>();
             }
 
             if (detailDescription == null && searchRoot != null)
@@ -1227,7 +1243,8 @@ namespace CosmicChaosCat
             if (detailCardName != null)
             {
                 detailCardName.gameObject.SetActive(true);
-                detailCardName.text = unlocked && card != null ? card.DisplayName : "???";
+                string targetName = unlocked && card != null ? card.DisplayName : "???";
+                if (detailCardName.text != targetName) detailCardName.text = targetName;
             }
 
             // Rarity badge
@@ -1236,8 +1253,10 @@ namespace CosmicChaosCat
                 detailRarityBadge.gameObject.SetActive(unlocked);
                 if (card != null)
                 {
-                    detailRarityBadge.text  = unlocked ? card.Rarity.ToString() : "?";
-                    detailRarityBadge.color = unlocked ? (Color)RarityToColor(card.Rarity) : Color.gray;
+                    string targetBadge = unlocked ? card.Rarity.ToString() : "?";
+                    if (detailRarityBadge.text != targetBadge) detailRarityBadge.text = targetBadge;
+                    Color targetColor = unlocked ? (Color)RarityToColor(card.Rarity) : Color.gray;
+                    if (detailRarityBadge.color != targetColor) detailRarityBadge.color = targetColor;
                 }
             }
 
@@ -1249,12 +1268,12 @@ namespace CosmicChaosCat
                     detailCardArt.gameObject.SetActive(true);
                     if (card?.CardSprite != null)
                     {
-                        detailCardArt.sprite = card.CardSprite;
-                        detailCardArt.color  = Color.white;
+                        if (detailCardArt.sprite != card.CardSprite) detailCardArt.sprite = card.CardSprite;
+                        detailCardArt.color = Color.white;
                     }
                     else
                     {
-                        detailCardArt.color  = Color.white;
+                        detailCardArt.color = Color.white;
                     }
                 }
                 else
@@ -1266,43 +1285,45 @@ namespace CosmicChaosCat
                 }
             }
 
+            // NumBtn (illustration variant buttons 1..5)
+            if (lastDetailCardId != cardId)
+            {
+                selectedIllustrationStage = 1;
+                lastDetailCardId = cardId;
+            }
+            UpdateNumBtnState(card, prog, unlocked);
+
             // Income stat
             if (detailIncomeText != null)
             {
+                string targetIncome = "💰 골드 생산   ???";
                 if (unlocked && card != null && prog != null)
                 {
                     int    lvl    = prog.BreakthroughCount;
                     double income = card.ClickMultiplier * (1 + lvl);
                     if (lvl >= 5) income += card.ClickMultiplier;
-                    detailIncomeText.text = $"💰 골드 생산   {income:F1} / 초";
+                    targetIncome = $"💰 골드 생산   {income:F1} / 초";
                 }
-                else
-                {
-                    detailIncomeText.text = "💰 골드 생산   ???";
-                }
+                if (detailIncomeText.text != targetIncome) detailIncomeText.text = targetIncome;
             }
 
             // Breakthrough / enhancement
             if (detailBreakthroughText != null)
             {
-                if (unlocked && prog != null)
-                    detailBreakthroughText.text = $"⭐ 강화   {prog.BreakthroughCount}강 / 5강";
-                else
-                    detailBreakthroughText.text = "⭐ 강화   미해금";
+                string targetBreakthrough = (unlocked && prog != null)
+                    ? $"⭐ 강화   {prog.BreakthroughCount}강 / 5강"
+                    : "⭐ 강화   미해금";
+                if (detailBreakthroughText.text != targetBreakthrough) detailBreakthroughText.text = targetBreakthrough;
             }
 
             // Description (설명문)
             if (detailDescription != null)
             {
                 detailDescription.gameObject.SetActive(true);
-                if (unlocked && card != null)
+                string targetDesc = (unlocked && card != null) ? card.GetDescription() : "???";
+                if (detailDescription.text != targetDesc)
                 {
-                    string raw = card.GetDescription();
-                    detailDescription.text = raw;
-                }
-                else
-                {
-                    detailDescription.text = "???";
+                    detailDescription.text = targetDesc;
                 }
             }
 
@@ -1343,20 +1364,154 @@ namespace CosmicChaosCat
             }
         }
 
+        private void UpdateNumBtnState(CardEntry card, CardProgress prog, bool unlocked)
+        {
+            if (numBtnContainer == null && (detailPanel != null || noPanel != null))
+            {
+                var searchRoot = (detailPanel ?? noPanel ?? gameObject)?.transform;
+                var t = FindChildByNameRecursive(searchRoot, "NumBtn")
+                     ?? FindChildByNameRecursive(searchRoot, "numBtn")
+                     ?? FindChildByNameRecursive(searchRoot, "NumButtons")
+                     ?? FindChildByNameRecursive(searchRoot, "num_btn");
+                if (t != null) numBtnContainer = t.gameObject;
+            }
+
+            if (numBtnContainer != null)
+            {
+                numBtnContainer.SetActive(unlocked);
+                if (unlocked && card != null)
+                {
+                    var validStages = card.GetBreakthroughStages();
+                    int breakthroughCount = prog != null ? prog.BreakthroughCount : 0;
+
+                    var containerTf = numBtnContainer.transform;
+                    for (int s = 1; s <= 5; s++)
+                    {
+                        if (stageButtons[s - 1] == null)
+                        {
+                            var t = containerTf.Find($"Btn_{s}") ?? containerTf.Find($"{s}")
+                                 ?? containerTf.Find($"Btn_Stage{s}") ?? containerTf.Find($"Stage{s}")
+                                 ?? FindChildByNameRecursive(containerTf, $"Btn_{s}")
+                                 ?? FindChildByNameRecursive(containerTf, $"{s}");
+                            if (t != null) stageButtons[s - 1] = t.GetComponent<Button>();
+                        }
+
+                        Button btn = stageButtons[s - 1];
+                        if (btn == null) continue;
+
+                        bool isValidStage = validStages.Contains(s);
+
+                        if (!isValidStage)
+                        {
+                            btn.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            btn.gameObject.SetActive(true);
+                            bool isStageUnlocked = breakthroughCount >= (s - 1);
+
+                            SetButtonInteractable(btn, isStageUnlocked);
+
+                            bool isSelected = (s == selectedIllustrationStage);
+                            var rt = btn.GetComponent<RectTransform>();
+                            if (rt != null) rt.localScale = isSelected ? new Vector3(1.15f, 1.15f, 1f) : Vector3.one;
+
+                            var btnImg = btn.GetComponent<Image>();
+                            if (btnImg != null && isStageUnlocked)
+                            {
+                                btnImg.color = isSelected ? new Color(1f, 0.95f, 0.6f, 1f) : Color.white;
+                            }
+
+                            btn.onClick.RemoveAllListeners();
+                            if (isStageUnlocked)
+                            {
+                                int stageNum = s;
+                                btn.onClick.AddListener(() =>
+                                {
+                                    selectedIllustrationStage = stageNum;
+                                    UpdateDetailCardArtForStage(card, stageNum);
+                                    UpdateNumBtnState(card, prog, unlocked);
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Apply illustration sprite for selected stage (always called when unlocked)
+            if (unlocked && card != null)
+            {
+                UpdateDetailCardArtForStage(card, selectedIllustrationStage);
+            }
+        }
+
+        private void UpdateDetailCardArtForStage(CardEntry card, int stage)
+        {
+            if (detailCardArt == null)
+            {
+                var searchRoot = (detailPanel ?? noPanel)?.transform;
+                if (searchRoot != null)
+                {
+                    var ar = FindChildByNameRecursive(searchRoot, "Art")
+                          ?? FindChildByNameRecursive(searchRoot, "art")
+                          ?? FindChildByNameRecursive(searchRoot, "DetailArt")
+                          ?? FindChildByNameRecursive(searchRoot, "CardArt");
+                    if (ar != null) detailCardArt = ar.GetComponent<Image>();
+                }
+            }
+
+            if (detailCardArt == null || card == null) return;
+            detailCardArt.gameObject.SetActive(true);
+
+            Sprite stageSprite = card.GetSpriteForStage(stage);
+            if (stageSprite != null)
+            {
+                detailCardArt.sprite = stageSprite;
+                detailCardArt.color  = Color.white;
+            }
+            else if (card.CardSprite != null)
+            {
+                detailCardArt.sprite = card.CardSprite;
+                detailCardArt.color  = Color.white;
+            }
+            else
+            {
+                detailCardArt.color  = Color.white;
+            }
+        }
+
         private void OnDetailEquip()
         {
             if (!string.IsNullOrEmpty(selectedCardId))
             {
                 gm?.EquipCard(selectedCardId);
-                RefreshDetailPanel(selectedCardId); // update button label
+                RefreshDetailPanel(selectedCardId);
             }
         }
 
         private void OnDetailBreakthrough()
         {
             if (string.IsNullOrEmpty(selectedCardId) || gm == null) return;
+            var card = gm.CardCatalog?.FindById(selectedCardId);
             if (gm.BreakthroughCard(selectedCardId))
+            {
+                var states = gm.GetCardStates();
+                states.TryGetValue(selectedCardId, out var newProg);
+                int newCount = newProg != null ? newProg.BreakthroughCount : 0;
+                int newStage = newCount + 1; // Stage unlocked by new breakthrough level
+
+                if (card != null)
+                {
+                    var validStages = card.GetBreakthroughStages();
+                    if (validStages.Contains(newStage))
+                    {
+                        selectedIllustrationStage = newStage;
+                    }
+                }
+
                 RefreshDetailPanel(selectedCardId);
+                if (showNoTab) RefreshNoTab();
+            }
         }
 
         // ─────────────────────────────────────────────────────────────────────
