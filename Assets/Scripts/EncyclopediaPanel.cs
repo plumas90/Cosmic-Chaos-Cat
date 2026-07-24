@@ -155,6 +155,22 @@ namespace CosmicChaosCat
                 }
             }
 
+            // Replicate Slot_0's locktext component to all other card slots in the encyclopedia panel at runtime
+            ReplicateLockTextToAllSlots();
+
+            // Re-initialize/ensure init for all CardSlotUIs so they bind their lockText field
+            var allSlots = GetComponentsInChildren<CardSlotUI>(true);
+            foreach (var slot in allSlots)
+            {
+                if (slot != null)
+                {
+                    // Reset initialized flag to force search of newly cloned components
+                    var field = slot.GetType().GetField("initialized", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (field != null) field.SetValue(slot, false);
+                    slot.EnsureInit();
+                }
+            }
+
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
             if (gm != null) gm.StateChanged += OnStateChanged;
             currentPageIdx = 0;
@@ -1332,6 +1348,79 @@ namespace CosmicChaosCat
                 if (found != null) return found;
             }
             return null;
+        }
+
+        private void ReplicateLockTextToAllSlots()
+        {
+            if (noPanel == null) return;
+            var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
+            if (childSlots == null || childSlots.Length == 0) return;
+
+            // Find slot0 (named Slot_0 or index 0)
+            CardSlotUI slot0 = null;
+            foreach (var slot in childSlots)
+            {
+                if (slot.name == "Slot_0" || slot.name == "Slot_1" || slot.name.Contains("0"))
+                {
+                    slot0 = slot;
+                    break;
+                }
+            }
+            if (slot0 == null) slot0 = childSlots[0];
+
+            // Find template locktext transform child of slot0
+            Transform templateLockTf = null;
+            foreach (Transform child in slot0.transform)
+            {
+                if (child.name.ToLower().Contains("lock"))
+                {
+                    templateLockTf = child;
+                    break;
+                }
+            }
+
+            if (templateLockTf == null)
+            {
+                Debug.LogWarning("[EncyclopediaPanel] Could not find locktext template child in Slot_0.");
+                return;
+            }
+
+            // Clone this template to any other slots if they don't have it
+            var allSlotsInPanel = GetComponentsInChildren<CardSlotUI>(true);
+            foreach (var slot in allSlotsInPanel)
+            {
+                if (slot == slot0) continue;
+
+                // Check if slot already has a child with "lock" in its name
+                bool hasLock = false;
+                foreach (Transform child in slot.transform)
+                {
+                    if (child.name.ToLower().Contains("lock"))
+                    {
+                        hasLock = true;
+                        break;
+                    }
+                }
+
+                if (!hasLock)
+                {
+                    var clonedLock = Instantiate(templateLockTf.gameObject, slot.transform);
+                    clonedLock.name = templateLockTf.name;
+
+                    // Synchronize RectTransform values
+                    var clonedRT = clonedLock.GetComponent<RectTransform>();
+                    var templateRT = templateLockTf.GetComponent<RectTransform>();
+                    if (clonedRT != null && templateRT != null)
+                    {
+                        clonedRT.anchorMin = templateRT.anchorMin;
+                        clonedRT.anchorMax = templateRT.anchorMax;
+                        clonedRT.pivot = templateRT.pivot;
+                        clonedRT.anchoredPosition = templateRT.anchoredPosition;
+                        clonedRT.sizeDelta = templateRT.sizeDelta;
+                        clonedRT.localScale = templateRT.localScale;
+                    }
+                }
+            }
         }
 
         // ── Inner types ──────────────────────────────────────────────────────

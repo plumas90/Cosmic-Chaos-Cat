@@ -19,6 +19,7 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text   rarityText;        // 선택사항
         [SerializeField] private GameObject unknownOverlay;    // 선택사항 (구형 호환)
         [SerializeField] private Button     equipButton;       // 선택사항
+        [SerializeField] private TMP_Text   lockText;          // 선택사항 (미해금 시 노출되는 텍스트)
 
         // Rarity border colors (frame sprite 없을 때 색상 대체)
         private static readonly Color32 ColN   = new Color32(180, 180, 180, 255);
@@ -49,6 +50,7 @@ namespace CosmicChaosCat
 
             TMP_Text foundName   = null;
             TMP_Text foundRarity = null;
+            TMP_Text foundLock   = null;
 
             foreach (var t in txts)
             {
@@ -61,17 +63,20 @@ namespace CosmicChaosCat
                 if (n.Contains("name"))        { if (foundName   == null) foundName   = t; }
                 else if (n.Contains("rarity") || n.Contains("rare"))
                                                { if (foundRarity == null) foundRarity = t; }
+                else if (n.Contains("lock"))   { if (foundLock   == null) foundLock   = t; }
             }
 
             if (foundName   != null) nameText   = foundName;
             if (foundRarity != null) { rarityText = foundRarity; originalRarityColor = foundRarity.color; }
+            if (foundLock   != null) lockText   = foundLock;
 
             // 이름 매핑 실패 시 인덱스 순서 사용 (Unknown 제외)
             var clean = new System.Collections.Generic.List<TMP_Text>();
             foreach (var t in txts)
             {
                 if (t.transform.parent != null &&
-                    t.transform.parent.name != "Unknown" && t.transform.parent.name != "Unk")
+                    t.transform.parent.name != "Unknown" && t.transform.parent.name != "Unk" &&
+                    !t.name.ToLower().Contains("lock"))
                     clean.Add(t);
             }
             if (nameText   == null && clean.Count >= 1) nameText   = clean[0];
@@ -184,6 +189,13 @@ namespace CosmicChaosCat
                         : (Color)RarityToColor(card.Rarity);
                     rarityText.raycastTarget = false;
                 }
+            }
+
+            // ── Lock Text ────────────────────────────────────────────────────
+            if (lockText != null)
+            {
+                lockText.gameObject.SetActive(!unlocked);
+                lockText.raycastTarget = false;
             }
 
             // ── Unknown Overlay (선택사항 – 구형 호환) ───────────────────────
