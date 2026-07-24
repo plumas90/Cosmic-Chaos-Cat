@@ -946,14 +946,6 @@ namespace CosmicChaosCat
 
         private void UpdateFilterTabColors()
         {
-            Debug.Log($"[EncyclopediaPanel] UpdateFilterTabColors – currentFilter={currentFilter} | " +
-                      $"All={(filterTabAll != null ? filterTabAll.name : "NULL")}, " +
-                      $"N={(filterTabN != null ? filterTabN.name : "NULL")}, " +
-                      $"R={(filterTabR != null ? filterTabR.name : "NULL")}, " +
-                      $"SR={(filterTabSR != null ? filterTabSR.name : "NULL")}, " +
-                      $"SSR={(filterTabSSR != null ? filterTabSSR.name : "NULL")}, " +
-                      $"UR={(filterTabUR != null ? filterTabUR.name : "NULL")}");
-
             SetBtnColor(filterTabAll, currentFilter == RarityFilter.All ? FilterTabSelected : FilterTabUnselected);
             SetBtnColor(filterTabN,   currentFilter == RarityFilter.N   ? FilterTabSelected : FilterTabUnselected);
             SetBtnColor(filterTabR,   currentFilter == RarityFilter.R   ? FilterTabSelected : FilterTabUnselected);
@@ -1962,30 +1954,6 @@ namespace CosmicChaosCat
                         var ar = FindChildByNameRecursive(rt, "Art") ?? FindChildByNameRecursive(rt, "art") ?? FindChildByNameRecursive(rt, "DetailArt") ?? FindChildByNameRecursive(rt, "CardArt");
                         if (ar != null) detailCardArt = ar.GetComponent<Image>();
                     }
-
-                    Debug.Log($"[EncyclopediaPanel] detailCardFrameImage='{detailCardFrameImage?.gameObject.name ?? "NULL"}', detailCardArt='{detailCardArt?.gameObject.name ?? "NULL"}'");
-
-
-                    // ── Debug: print ALL Image children of detailPanel to console ──────
-                    var allImgs = detailPanel.GetComponentsInChildren<Image>(true);
-                    var sb = new System.Text.StringBuilder("[EncyclopediaPanel] DetailPanel Image dump:\n");
-                    foreach (var img in allImgs)
-                    {
-                        try
-                        {
-                            string path = img.gameObject.name;
-                            var p = img.transform.parent;
-                            while (p != null && p != rt) { path = p.gameObject.name + "/" + path; p = p.parent; }
-                            string spriteName = "null";
-                            try { spriteName = img.sprite != null ? img.sprite.name : "null"; } catch { spriteName = "UNASSIGNED"; }
-                            sb.AppendLine($"  Image: '{path}' sprite={spriteName}");
-                        }
-                        catch { /* skip broken Image entries */ }
-                    }
-                    sb.AppendLine($"  --> detailCardFrameImage bound to: '{detailCardFrameImage?.gameObject.name ?? "NULL"}'");
-                    sb.AppendLine($"  --> detailCardArt bound to: '{detailCardArt?.gameObject.name ?? "NULL"}'");
-                    Debug.Log(sb.ToString());
-                    // ── End Debug ──────────────────────────────────────────────────────
 
                     if (detailCardName == null)
                     {

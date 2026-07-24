@@ -120,8 +120,6 @@ namespace CosmicChaosCat
                 }
             }
 
-            Debug.Log($"[CardSlotUI] {gameObject.name} → frameImage={frameImage?.gameObject.name ?? "NULL"}, cardArtImage={cardArtImage?.gameObject.name ?? "NULL"}");
-
             // Save cardArtImage original state (only once)
             _artOriginalSaved  = false;
             if (cardArtImage != null)
