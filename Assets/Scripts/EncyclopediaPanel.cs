@@ -1186,8 +1186,14 @@ namespace CosmicChaosCat
             if (setPanel == null) { var t = FindChildByNameRecursive(transform, "SetPanel") ?? FindChildByNameRecursive(transform, "SetTabRoot"); if (t != null) setPanel = t.gameObject; }
 
             // Tab row buttons
-            if (tabNoBtn  == null) { var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");  if (t != null) tabNoBtn  = t.gameObject; }
-            if (tabSetBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn"); if (t != null) tabSetBtn = t.gameObject; }
+            var bmNo = FindChildByNameRecursive(transform, "BookMark_No");
+            if (bmNo != null) tabNoBtn = bmNo.gameObject;
+            else if (tabNoBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");  if (t != null) tabNoBtn  = t.gameObject; }
+
+            var bmSet = FindChildByNameRecursive(transform, "BookMark_Set");
+            if (bmSet != null) tabSetBtn = bmSet.gameObject;
+            else if (tabSetBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn"); if (t != null) tabSetBtn = t.gameObject; }
+
             if (closeBtn  == null) { var t = FindChildByNameRecursive(transform, "Btn_✕")  ?? FindChildByNameRecursive(transform, "closeBtn");  if (t != null) closeBtn  = t.gameObject; }
 
             // No tab navigation
