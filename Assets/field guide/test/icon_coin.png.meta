@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ad243055c3ee1a344bec81ebf20a738d
+guid: d022bb21f0b942eb8aad21f49680124d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4528899987692602657
-    second: card_locked_0
+      213: 8139719423079072813
+    second: icon_coin_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: card_locked_0
+      name: icon_coin_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 15
-        width: 271
-        height: 227
+        x: 11
+        y: 11
+        width: 69
+        height: 71
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12540bd2b82e9de30800000000000000
-      internalID: 4528899987692602657
+      spriteID: d24c9ff60b716f070800000000000000
+      internalID: 8139719423079072813
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      card_locked_0: 4528899987692602657
+      icon_coin_0: 8139719423079072813
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
