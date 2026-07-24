@@ -234,6 +234,96 @@ namespace CosmicChaosCat
 #endif
         }
 
+        [ContextMenu("Slot_0 구조를 모든 슬롯에 복사 (에디터 전용)")]
+        public void ReplicateSlot0StructureInEditor()
+        {
+#if UNITY_EDITOR
+            if (noPanel == null) AutoWireFields();
+            if (noPanel == null)
+            {
+                Debug.LogError("[EncyclopediaPanel] noPanel is null. Build or wire UI first.");
+                return;
+            }
+
+            var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
+            if (childSlots == null || childSlots.Length == 0) return;
+
+            // Find slot0
+            CardSlotUI slot0 = null;
+            foreach (var slot in childSlots)
+            {
+                if (slot.name == "Slot_0" || slot.name == "Slot_1" || slot.name.Contains("0"))
+                {
+                    slot0 = slot;
+                    break;
+                }
+            }
+            if (slot0 == null) slot0 = childSlots[0];
+
+            Debug.Log($"[EncyclopediaPanel] Replicating structure of {slot0.name} to all other slots...");
+
+            // Get list of children of slot0 to clone
+            var childrenToClone = new System.Collections.Generic.List<GameObject>();
+            foreach (Transform child in slot0.transform)
+            {
+                childrenToClone.Add(child.gameObject);
+            }
+
+            // Gather all slots (noPanel + setPanel)
+            var allSlots = GetComponentsInChildren<CardSlotUI>(true);
+            int count = 0;
+
+            foreach (var slot in allSlots)
+            {
+                if (slot == slot0) continue;
+
+                // 1. Delete all existing children of the target slot
+                var childrenToDelete = new System.Collections.Generic.List<GameObject>();
+                foreach (Transform child in slot.transform)
+                {
+                    childrenToDelete.Add(child.gameObject);
+                }
+                foreach (var child in childrenToDelete)
+                {
+                    DestroyImmediate(child);
+                }
+
+                // 2. Clone children from slot0
+                foreach (var templateChild in childrenToClone)
+                {
+                    var clonedChild = Instantiate(templateChild, slot.transform);
+                    clonedChild.name = templateChild.name;
+
+                    // Sync RectTransform values
+                    var clonedRT = clonedChild.GetComponent<RectTransform>();
+                    var templateRT = templateChild.GetComponent<RectTransform>();
+                    if (clonedRT != null && templateRT != null)
+                    {
+                        clonedRT.anchorMin = templateRT.anchorMin;
+                        clonedRT.anchorMax = templateRT.anchorMax;
+                        clonedRT.pivot = templateRT.pivot;
+                        clonedRT.anchoredPosition = templateRT.anchoredPosition;
+                        clonedRT.sizeDelta = templateRT.sizeDelta;
+                        clonedRT.localScale = templateRT.localScale;
+                        clonedRT.localRotation = templateRT.localRotation;
+                    }
+                }
+
+                // 3. Auto-wire the new child fields of CardSlotUI and save
+                slot.EditorWireFields();
+                UnityEditor.EditorUtility.SetDirty(slot.gameObject);
+                count++;
+            }
+
+            // Mark scene dirty and save
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
+
+            Debug.Log($"[EncyclopediaPanel] Successfully replicated {slot0.name} to {count} other slots! Save the scene (Ctrl+S) now.");
+#endif
+        }
+
         /// <summary>모든 직렬화 레퍼런스를 null로 초기화합니다.</summary>
         private void ResetAllSerializedFields()
         {

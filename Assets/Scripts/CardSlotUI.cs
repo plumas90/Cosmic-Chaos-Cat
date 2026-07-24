@@ -238,5 +238,44 @@ namespace CosmicChaosCat
                 default:             return ColN;
             }
         }
+
+        #if UNITY_EDITOR
+        public void EditorWireFields()
+        {
+            var txts = GetComponentsInChildren<TMP_Text>(true);
+            TMP_Text foundName = null;
+            TMP_Text foundRarity = null;
+            TMP_Text foundLock = null;
+
+            foreach (var t in txts)
+            {
+                string n = t.name.ToLower();
+                if (n.Contains("name")) foundName = t;
+                else if (n.Contains("rarity") || n.Contains("rare")) foundRarity = t;
+                else if (n.Contains("lock")) foundLock = t;
+            }
+
+            var imgs = GetComponentsInChildren<Image>(true);
+            Image frame = null;
+            Image art = null;
+            foreach (var img in imgs)
+            {
+                string n = img.name.ToLower();
+                if (n.Contains("frame")) frame = img;
+                else if (n.Contains("art") || n.Contains("image")) art = img;
+            }
+
+            if (frame != null) frameImage = frame;
+            if (art != null) cardArtImage = art;
+            if (foundName != null) nameText = foundName;
+            if (foundRarity != null) rarityText = foundRarity;
+            if (foundLock != null) lockText = foundLock;
+
+            var unk = transform.Find("Unknown") ?? transform.Find("Unk");
+            if (unk != null) unknownOverlay = unk.gameObject;
+
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        #endif
     }
 }
