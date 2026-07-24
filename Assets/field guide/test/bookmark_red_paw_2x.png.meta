@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d9ee8376a1c6cd2f3a10ed8cdbf82bdc
+guid: 5e29ab617336eb2bfb35ba7201bbf4c3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4215520979806970392
-    second: PSL-Photoroom_0
+      213: -8020743352232249106
+    second: bookmark_red_paw_2x_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PSL-Photoroom_0
+      name: bookmark_red_paw_2x_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1951
-        height: 1440
+        width: 82
+        height: 358
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 812e9901ff9808a30800000000000000
-      internalID: 4215520979806970392
+      spriteID: ee8fe97ba6890b090800000000000000
+      internalID: -8020743352232249106
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PSL-Photoroom_0: 4215520979806970392
+      bookmark_red_paw_2x_0: -8020743352232249106
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
