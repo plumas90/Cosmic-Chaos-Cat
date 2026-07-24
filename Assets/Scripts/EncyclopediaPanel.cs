@@ -179,15 +179,56 @@ namespace CosmicChaosCat
                 }
             }
 
+            // ── Persistent state across close/reopen during game session ────────
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
             if (gm != null) gm.StateChanged += OnStateChanged;
-            currentPageIdx = 0;
-            currentFilter  = RarityFilter.All;
-            ShowNoTab();
+
+            if (!_hasSavedState)
+            {
+                showNoTab            = true;
+                currentPageIdx       = 0;
+                currentFilter        = RarityFilter.All;
+                selectedCardId       = null;
+                setPageIndex         = 0;
+                selectedSetSlotIndex = -1;
+                _hasSavedState       = true;
+            }
+            else
+            {
+                showNoTab            = _savedShowNoTab;
+                currentPageIdx       = _savedCurrentPageIdx;
+                currentFilter        = _savedCurrentFilter;
+                selectedCardId       = _savedSelectedCardId;
+                setPageIndex         = _savedSetPageIndex;
+                selectedSetSlotIndex = _savedSelectedSetSlotIndex;
+            }
+
+            if (showNoTab) ShowNoTab();
+            else           ShowSetTab();
+        }
+
+        private static bool         _hasSavedState             = false;
+        private static bool         _savedShowNoTab            = true;
+        private static int          _savedCurrentPageIdx       = 0;
+        private static RarityFilter _savedCurrentFilter        = RarityFilter.All;
+        private static string       _savedSelectedCardId       = null;
+        private static int          _savedSetPageIndex         = 0;
+        private static int          _savedSelectedSetSlotIndex = -1;
+
+        private void SavePanelState()
+        {
+            _hasSavedState             = true;
+            _savedShowNoTab            = showNoTab;
+            _savedCurrentPageIdx       = currentPageIdx;
+            _savedCurrentFilter        = currentFilter;
+            _savedSelectedCardId       = selectedCardId;
+            _savedSetPageIndex         = setPageIndex;
+            _savedSelectedSetSlotIndex = selectedSetSlotIndex;
         }
 
         private void OnDisable()
         {
+            SavePanelState();
             if (gm != null) gm.StateChanged -= OnStateChanged;
         }
 
@@ -864,7 +905,6 @@ namespace CosmicChaosCat
         private void ShowSetTab()
         {
             showNoTab = false;
-            selectedSetSlotIndex = -1;
             if (noPanel  != null) noPanel.SetActive(false);
             if (setPanel != null) setPanel.SetActive(true);
             SetBtnColor(tabNoBtn,  TabInactive);
@@ -879,6 +919,7 @@ namespace CosmicChaosCat
 
         private void OnClose()
         {
+            SavePanelState();
             gameObject.SetActive(false);
         }
 
@@ -943,31 +984,8 @@ namespace CosmicChaosCat
 
             if (pageLabel != null) pageLabel.text = $"{currentPageIdx + 1} / {maxPage + 1}";
 
-            // Dynamic fallback for collectionCounterLabel if not wired yet
-            if (collectionCounterLabel == null)
-            {
-                var t = FindChildByNameRecursive(noPanel.transform, "Collection_counter")
-                     ?? FindChildByNameRecursive(noPanel.transform, "collection_counter")
-                     ?? FindChildByNameRecursive(noPanel.transform, "CollectionCounter")
-                     ?? FindChildByNameRecursive(transform, "Collection_counter");
-                if (t != null) collectionCounterLabel = t.GetComponent<TMP_Text>();
-            }
-
             // Update collection counter with total (non-hidden) collected
-            if (collectionCounterLabel != null)
-            {
-                int totalNonHidden   = 0;
-                int unlockedNonHidden = 0;
-                var states = gm.GetCardStates();
-                foreach (var c in allCards)
-                {
-                    if (c.IsHidden) continue;
-                    totalNonHidden++;
-                    states.TryGetValue(c.Id, out var p);
-                    if (p != null && p.Unlocked) unlockedNonHidden++;
-                }
-                collectionCounterLabel.text = $"{unlockedNonHidden} / {totalNonHidden}";
-            }
+            UpdateCollectionCounter();
 
             // Navigation buttons
             if (prevPageBtn != null)
@@ -1018,6 +1036,68 @@ namespace CosmicChaosCat
                 RefreshDetailPanel(selectedCardId);
             else
                 SetDetailEmpty();
+        }
+
+        private void UpdateCollectionCounter()
+        {
+            if (gm == null) return;
+            var allCards = gm.CardCatalog?.Cards;
+            if (allCards == null) return;
+
+            int totalNonHidden    = 0;
+            int unlockedNonHidden = 0;
+            var states = gm.GetCardStates();
+            foreach (var c in allCards)
+            {
+                if (c.IsHidden) continue;
+                totalNonHidden++;
+                states.TryGetValue(c.Id, out var p);
+                if (p != null && p.Unlocked) unlockedNonHidden++;
+            }
+
+            string textValue = $"{unlockedNonHidden} / {totalNonHidden}";
+
+            if (collectionCounterLabel != null)
+            {
+                collectionCounterLabel.text = textValue;
+            }
+
+            var candidateRoots = new List<Transform>();
+            if (noPanel != null) candidateRoots.Add(noPanel.transform);
+            candidateRoots.Add(transform);
+            if (transform.parent != null) candidateRoots.Add(transform.parent);
+
+            foreach (var root in candidateRoots)
+            {
+                var t = FindChildByNameRecursive(root, "Collection_counter")
+                     ?? FindChildByNameRecursive(root, "collection_counter")
+                     ?? FindChildByNameRecursive(root, "CollectionCounter")
+                     ?? FindChildByNameRecursive(root, "collectionCounter")
+                     ?? FindChildByNameRecursive(root, "Collection_Counter")
+                     ?? FindChildByNameRecursive(root, "CollectionText");
+
+                if (t != null)
+                {
+                    var tmp = t.GetComponent<TMP_Text>() ?? t.GetComponentInChildren<TMP_Text>(true);
+                    if (tmp != null)
+                    {
+                        collectionCounterLabel = tmp;
+                        tmp.text = textValue;
+                        Debug.Log($"[EncyclopediaPanel] Collection_counter updated via TMP_Text on '{tmp.name}' -> '{textValue}'");
+                        return;
+                    }
+
+                    var uiText = t.GetComponent<UnityEngine.UI.Text>() ?? t.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                    if (uiText != null)
+                    {
+                        uiText.text = textValue;
+                        Debug.Log($"[EncyclopediaPanel] Collection_counter updated via UI.Text on '{uiText.name}' -> '{textValue}'");
+                        return;
+                    }
+                }
+            }
+
+            Debug.LogWarning($"[EncyclopediaPanel] UpdateCollectionCounter: Could not find Collection_counter text component to set '{textValue}'");
         }
 
         private int FindOriginalIndex(CardEntry card, IReadOnlyList<CardEntry> all)
@@ -1164,11 +1244,18 @@ namespace CosmicChaosCat
             // Card art (실제 image)
             if (detailCardArt != null)
             {
-                if (unlocked && card?.CardSprite != null)
+                if (unlocked)
                 {
                     detailCardArt.gameObject.SetActive(true);
-                    detailCardArt.sprite = card.CardSprite;
-                    detailCardArt.color  = Color.white;
+                    if (card?.CardSprite != null)
+                    {
+                        detailCardArt.sprite = card.CardSprite;
+                        detailCardArt.color  = Color.white;
+                    }
+                    else
+                    {
+                        detailCardArt.color  = Color.white;
+                    }
                 }
                 else
                 {
@@ -1400,13 +1487,12 @@ namespace CosmicChaosCat
                         Sprite frameSp = unlocked ? GetFrameSpriteForRarity(displayCard.Rarity) : spriteCardLocked;
                         slot.SetSprites(frameSp, spriteCardLocked);
 
-                        // Capture i for lambda
                         int slotIdx = i;
                         slot.SetData(displayCard, cardIndex, prog, gm, id =>
                         {
-                            // Highlight selected slot; MoveBtn is kept for future use
                             selectedSetSlotIndex = slotIdx;
                             ApplySetSlotHighlight(pool);
+                            UpdateSetMoveButton(uiRoot, pageTf, setEntry);
                         });
                     }
 
@@ -1427,17 +1513,26 @@ namespace CosmicChaosCat
                 string desc   = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "아무 효과 없음" : setEntry.EffectDesc;
                 string reward = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "없음" : setEntry.EffectDesc;
                 descTx.text = desc + "\n보상: " + reward;
+
+                // Dynamic Y position: 225 for <=9 slots, -137 for >=10 slots
+                float targetY = cardCount <= 9 ? 225f : -137f;
+                var rt = descTx.GetComponent<RectTransform>();
+                if (rt != null)
+                {
+                    rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, targetY);
+                }
+                if (descTx.transform.parent != null && descTx.transform.parent != uiRoot && descTx.transform.parent != pageTf)
+                {
+                    var parentRt = descTx.transform.parent.GetComponent<RectTransform>();
+                    if (parentRt != null)
+                    {
+                        parentRt.anchoredPosition = new Vector2(parentRt.anchoredPosition.x, targetY);
+                    }
+                }
             }
 
-            // MoveBtn – search in SetPanel first (it’s a sibling of leftSlots)
-            var moveBtnTf = uiRoot.Find("moveBtn") ?? uiRoot.Find("MoveBtn")
-                         ?? pageTf.Find("moveBtn")  ?? pageTf.Find("MoveBtn");
-            if (moveBtnTf != null)
-            {
-                moveBtnTf.gameObject.SetActive(true);
-                var mb = moveBtnTf.GetComponent<Button>();
-                if (mb != null) { mb.onClick.RemoveAllListeners(); /* TODO: implement move */ }
-            }
+            // MoveBtn – update interactivity and click action
+            UpdateSetMoveButton(uiRoot, pageTf, setEntry);
 
             // ClaimBtn – search in SetPanel first
             bool claimed = gm.IsSetRewardClaimed(setEntry.SetId);
@@ -1468,6 +1563,75 @@ namespace CosmicChaosCat
                               : allOwned ? new Color(0.70f, 0.45f, 0.05f)
                               : new Color(0.3f, 0.3f, 0.3f);
             }
+        }
+
+        private void UpdateSetMoveButton(Transform uiRoot, Transform pageTf, SetEntry setEntry)
+        {
+            var moveBtnTf = uiRoot.Find("moveBtn") ?? uiRoot.Find("MoveBtn")
+                         ?? pageTf.Find("moveBtn")  ?? pageTf.Find("MoveBtn")
+                         ?? FindChildByNameRecursive(uiRoot, "moveBtn")
+                         ?? FindChildByNameRecursive(uiRoot, "MoveBtn");
+
+            if (moveBtnTf == null) return;
+
+            moveBtnTf.gameObject.SetActive(true);
+            var mb = moveBtnTf.GetComponent<Button>();
+            if (mb == null) return;
+
+            mb.onClick.RemoveAllListeners();
+
+            bool hasSelection = selectedSetSlotIndex >= 0 &&
+                                setEntry != null &&
+                                setEntry.CardIds != null &&
+                                selectedSetSlotIndex < setEntry.CardIds.Count;
+
+            SetButtonInteractable(mb, hasSelection);
+
+            if (hasSelection)
+            {
+                string targetCardId = setEntry.CardIds[selectedSetSlotIndex];
+                mb.onClick.AddListener(() => OnMoveToCardDetail(targetCardId));
+            }
+        }
+
+        private void OnMoveToCardDetail(string cardId)
+        {
+            if (string.IsNullOrEmpty(cardId) || gm == null) return;
+
+            var allCards = gm.CardCatalog?.Cards;
+            if (allCards == null) return;
+
+            // Switch to ALL filter
+            currentFilter = RarityFilter.All;
+
+            // Rebuild filtered list for ALL filter (non-hidden cards)
+            filteredCards.Clear();
+            foreach (var c in allCards)
+            {
+                if (!c.IsHidden) filteredCards.Add(c);
+            }
+
+            // Find index of the card in the ALL filter list
+            int cardListIndex = -1;
+            for (int i = 0; i < filteredCards.Count; i++)
+            {
+                if (filteredCards[i].Id == cardId)
+                {
+                    cardListIndex = i;
+                    break;
+                }
+            }
+
+            if (cardListIndex >= 0)
+            {
+                currentPageIdx = cardListIndex / SLOTS_PER_PAGE;
+                selectedCardId = cardId;
+            }
+
+            // Switch tab to No tab and refresh UI
+            ShowNoTab();
+
+            Debug.Log($"[EncyclopediaPanel] OnMoveToCardDetail: Moved to card '{cardId}', page {currentPageIdx + 1}");
         }
 
         // ── Set slot highlight helpers ────────────────────────────────────────
@@ -1628,50 +1792,43 @@ namespace CosmicChaosCat
                 {
                     var rt = detailPanel.transform;
 
-                    Transform imgImgTf = FindChildByNameRecursive(rt, "imageimage")
-                                      ?? FindChildByNameRecursive(rt, "Imageimage")
-                                      ?? FindChildByNameRecursive(rt, "ImageImage")
-                                      ?? FindChildByNameRecursive(rt, "image_image")
-                                      ?? FindChildByNameRecursive(rt, "image")
-                                      ?? FindChildByNameRecursive(rt, "Image");
-
+                    // Frame → detailCardFrameImage (오직 Frame / frame 오브젝트만 대상)
                     if (detailCardFrameImage == null)
                     {
-                        if (imgImgTf != null)
-                        {
-                            detailCardFrameImage = imgImgTf.GetComponent<Image>();
-                            if (detailCardFrameImage == null)
-                            {
-                                var fr = FindChildByNameRecursive(imgImgTf, "Frame") ?? FindChildByNameRecursive(imgImgTf, "frame");
-                                if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
-                            }
-                        }
-                        if (detailCardFrameImage == null)
-                        {
-                            var fr = FindChildByNameRecursive(rt, "DetailFrame") ?? FindChildByNameRecursive(rt, "Frame") ?? FindChildByNameRecursive(rt, "frame");
-                            if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
-                        }
+                        var fr = FindChildByNameRecursive(rt, "Frame") ?? FindChildByNameRecursive(rt, "frame") ?? FindChildByNameRecursive(rt, "DetailFrame");
+                        if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
                     }
 
+                    // Art → detailCardArt (오직 Art / art / CardArt 오브젝트만 대상, 컨테이너나 image는 절대 건드리지 않음)
                     if (detailCardArt == null)
                     {
-                        if (imgImgTf != null)
-                        {
-                            var artTf = FindChildByNameRecursive(imgImgTf, "image")
-                                     ?? FindChildByNameRecursive(imgImgTf, "Image")
-                                     ?? FindChildByNameRecursive(imgImgTf, "art")
-                                     ?? FindChildByNameRecursive(imgImgTf, "CardArt");
-                            if (artTf != null && artTf != imgImgTf)
-                            {
-                                detailCardArt = artTf.GetComponent<Image>();
-                            }
-                        }
-                        if (detailCardArt == null)
-                        {
-                            var artTf = FindChildByNameRecursive(rt, "DetailArt") ?? FindChildByNameRecursive(rt, "CardArt");
-                            if (artTf != null) detailCardArt = artTf.GetComponent<Image>();
-                        }
+                        var ar = FindChildByNameRecursive(rt, "Art") ?? FindChildByNameRecursive(rt, "art") ?? FindChildByNameRecursive(rt, "DetailArt") ?? FindChildByNameRecursive(rt, "CardArt");
+                        if (ar != null) detailCardArt = ar.GetComponent<Image>();
                     }
+
+                    Debug.Log($"[EncyclopediaPanel] detailCardFrameImage='{detailCardFrameImage?.gameObject.name ?? "NULL"}', detailCardArt='{detailCardArt?.gameObject.name ?? "NULL"}'");
+
+
+                    // ── Debug: print ALL Image children of detailPanel to console ──────
+                    var allImgs = detailPanel.GetComponentsInChildren<Image>(true);
+                    var sb = new System.Text.StringBuilder("[EncyclopediaPanel] DetailPanel Image dump:\n");
+                    foreach (var img in allImgs)
+                    {
+                        try
+                        {
+                            string path = img.gameObject.name;
+                            var p = img.transform.parent;
+                            while (p != null && p != rt) { path = p.gameObject.name + "/" + path; p = p.parent; }
+                            string spriteName = "null";
+                            try { spriteName = img.sprite != null ? img.sprite.name : "null"; } catch { spriteName = "UNASSIGNED"; }
+                            sb.AppendLine($"  Image: '{path}' sprite={spriteName}");
+                        }
+                        catch { /* skip broken Image entries */ }
+                    }
+                    sb.AppendLine($"  --> detailCardFrameImage bound to: '{detailCardFrameImage?.gameObject.name ?? "NULL"}'");
+                    sb.AppendLine($"  --> detailCardArt bound to: '{detailCardArt?.gameObject.name ?? "NULL"}'");
+                    Debug.Log(sb.ToString());
+                    // ── End Debug ──────────────────────────────────────────────────────
 
                     if (detailCardName == null)
                     {

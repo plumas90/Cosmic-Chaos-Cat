@@ -84,15 +84,55 @@ namespace CosmicChaosCat
                     !t.name.ToLower().Contains("lock"))
                     clean.Add(t);
             }
-            if (nameText   == null && clean.Count >= 1) nameText   = clean[0];
-            if (rarityText == null && clean.Count >= 2) { rarityText = clean[1]; originalRarityColor = rarityText.color; }
-
-            // Save cardArtImage original state
-            if (cardArtImage != null && !_artOriginalSaved)
+            // ── Image 컴포넌트 연결 (정확한 이름 기준, 항상 덮어쓰기) ────────
+            // 구조: Frame = 배경프레임, Art = 고양이 이미지, Image = 이름 배경 (건드리지 않음)
+            var imgs = GetComponentsInChildren<Image>(true);
+            frameImage   = null;
+            cardArtImage = null;
+            foreach (var img in imgs)
             {
-                _originalArtSprite = cardArtImage.sprite;
-                _originalArtColor  = cardArtImage.color;
-                _artOriginalSaved  = true;
+                if (img == null) continue;
+                string n = img.gameObject.name;
+
+                if (n == "Frame" || n == "frame")
+                {
+                    if (frameImage == null) frameImage = img;
+                }
+                else if (n == "Art" || n == "art")
+                {
+                    if (cardArtImage == null) cardArtImage = img;
+                }
+            }
+
+            // 이름 매칭 실패 시 Contains 폴백
+            if (frameImage == null || cardArtImage == null)
+            {
+                foreach (var img in imgs)
+                {
+                    if (img == null) continue;
+                    string nl = img.gameObject.name.ToLower();
+                    if (frameImage == null && nl.Contains("frame"))
+                        frameImage = img;
+                    else if (cardArtImage == null &&
+                             (nl.Contains("cardart") || nl.Contains("card_art") ||
+                              (nl.Contains("art") && !nl.Contains("start") && !nl.Contains("heart"))))
+                        cardArtImage = img;
+                }
+            }
+
+            Debug.Log($"[CardSlotUI] {gameObject.name} → frameImage={frameImage?.gameObject.name ?? "NULL"}, cardArtImage={cardArtImage?.gameObject.name ?? "NULL"}");
+
+            // Save cardArtImage original state (only once)
+            _artOriginalSaved  = false;
+            if (cardArtImage != null)
+            {
+                try
+                {
+                    _originalArtSprite = cardArtImage.sprite;
+                    _originalArtColor  = cardArtImage.color;
+                }
+                catch { _originalArtSprite = null; _originalArtColor = Color.white; }
+                _artOriginalSaved = true;
             }
         }
 
@@ -171,26 +211,23 @@ namespace CosmicChaosCat
                         cardArtImage.sprite = card.CardSprite;
                         cardArtImage.color  = Color.white;
                     }
+                    else if (_originalArtSprite != null)
+                    {
+                        cardArtImage.sprite = _originalArtSprite;
+                        cardArtImage.color  = Color.white;
+                    }
                     else
                     {
-                        cardArtImage.sprite = null;
-                        cardArtImage.color  = (Color)RarityToColor(card.Rarity) * new Color(1, 1, 1, 0.5f);
+                        cardArtImage.color  = Color.white;
                     }
                 }
                 else
                 {
-                    // 미해금 → 원본 스프라이트/컴러로 복원 (투명 처리하지 않음)
-                    if (_artOriginalSaved)
+                    // 미해금 → 원본 스프라이트/컬러로 복원
+                    if (_artOriginalSaved && _originalArtSprite != null)
                     {
                         cardArtImage.sprite = _originalArtSprite;
                         cardArtImage.color  = _originalArtColor;
-                    }
-                    else
-                    {
-                        // fallback: preserve whatever is set
-                        cardArtImage.color = new Color(
-                            cardArtImage.color.r, cardArtImage.color.g,
-                            cardArtImage.color.b, cardArtImage.color.a);
                     }
                 }
             }
@@ -301,12 +338,16 @@ namespace CosmicChaosCat
             foreach (var img in imgs)
             {
                 string n = img.name.ToLower();
-                if (n.Contains("frame")) frame = img;
-                // Only match 'art' specifically – skip bare 'image' names to avoid
-                // capturing NameText container Images or other UI panels
-                else if (n.Contains("cardart") || n.Contains("card_art") ||
-                         (n.Contains("art") && !n.Contains("start") && !n.Contains("heart")))
+                if (n.Equals("art", System.StringComparison.OrdinalIgnoreCase) ||
+                    n.Contains("cardart") || n.Contains("card_art") ||
+                    (n.Contains("art") && !n.Contains("start") && !n.Contains("heart")))
+                {
                     art = img;
+                }
+                else if (n.Contains("frame") || n.Equals("image", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    if (frame == null) frame = img;
+                }
             }
 
             if (frame != null) frameImage = frame;

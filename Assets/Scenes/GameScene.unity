@@ -1681,7 +1681,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: go to  ehrka
+  m_text: wktpgl qhrl
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
@@ -3601,13 +3601,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot_14
       objectReference: {fileID: 0}
+    - target: {fileID: 6920857825795853002, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_Name
+      value: EncyclopediaPanelTitle_Text
+      objectReference: {fileID: 0}
     - target: {fileID: 6938546581017824877, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_Colors.m_ColorMultiplier
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7057029295594685018, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7226764348875304326, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_Name
       value: Slot_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254795858244909294, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_text
+      value: 'No.1
+
+        description:skdml rhrl rhrl anfrhrlsms djel djel djeldp
+
+        cold/click'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254795858244909294, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_margin.w
+      value: 73.229706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504140045631337357, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -137
       objectReference: {fileID: 0}
     - target: {fileID: 7737243035479794125, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_Name

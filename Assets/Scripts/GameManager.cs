@@ -190,6 +190,23 @@ namespace CosmicChaosCat
                 ShardBonusMultiplier = 1.0f,
                 EffectDesc           = "테스트용"
             });
+
+            // 고양이 1~5 테스트2 세트 (목표치 5개)
+            list.Add(new SetEntry
+            {
+                SetId   = "set-cat-5",
+                SetName = "테스트2",
+                CardIds = new List<string>
+                {
+                    "cat-1", "cat-2", "cat-3", "cat-4", "cat-5"
+                },
+                CriticalChanceBonus  = 0.05f,
+                FlatIncomeBonus      = 10d,
+                CriticalDamageBonus  = 0f,
+                GachaDiscountBonus   = 0f,
+                ShardBonusMultiplier = 1.0f,
+                EffectDesc           = "테스트2용 보상"
+            });
         }
 
 
