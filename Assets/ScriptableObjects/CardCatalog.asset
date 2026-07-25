@@ -17,7 +17,7 @@ MonoBehaviour:
     DisplayName: Cat in the Box
     Rarity: 0
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 1
     MaxStacks: 6
     SetId: 1
@@ -32,9 +32,9 @@ MonoBehaviour:
     DisplayName: Tin Helmet Cat
     Rarity: 0
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 1
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
@@ -47,9 +47,9 @@ MonoBehaviour:
     DisplayName: Umbrella Cat
     Rarity: 0
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 1
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
@@ -62,9 +62,9 @@ MonoBehaviour:
     DisplayName: Fishbone Cat
     Rarity: 0
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 1
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
@@ -77,14 +77,16 @@ MonoBehaviour:
     DisplayName: Spray Cat
     Rarity: 1
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 5
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
-    BreakthroughVariantStages: 
-    BreakthroughSprites: []
+    BreakthroughVariantStages: 0000000000000000
+    BreakthroughSprites:
+    - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
+    - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
     SpecialEffect: 0
     SpecialEffectValue: 0
     Description: "\uD14C\uC2A4\uD2B81234"
@@ -92,9 +94,9 @@ MonoBehaviour:
     DisplayName: Midnight Delivery Cat
     Rarity: 1
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 5
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
@@ -107,9 +109,9 @@ MonoBehaviour:
     DisplayName: Padlock Cat
     Rarity: 1
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 5
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
@@ -122,9 +124,9 @@ MonoBehaviour:
     DisplayName: Pickpocket Cat
     Rarity: 1
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 5
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
@@ -137,9 +139,9 @@ MonoBehaviour:
     DisplayName: Neon Hacker Cat
     Rarity: 2
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 10
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -629732559171994760, guid: 17fbeeafc8a3451489d5482a38314ec0, type: 3}
@@ -155,9 +157,9 @@ MonoBehaviour:
     DisplayName: Pipe Boss Cat
     Rarity: 2
     BaseWeight: 100
-    ClickMultiplier: 1
+    ClickGold: 1
     ShardValue: 10
-    MaxStacks: 6
+    MaxStacks: 5
     SetId: 1
     IsHidden: 0
     CardSprite: {fileID: -7728589829718341211, guid: 864f5096c98a1394bafcd7e2e8c3aac5, type: 3}
