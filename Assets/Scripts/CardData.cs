@@ -30,7 +30,17 @@ namespace CosmicChaosCat
         public string DisplayName;
         public CardRarity Rarity;
         public float BaseWeight = 100f;
-        public float ClickMultiplier = 1f;
+
+        [UnityEngine.Serialization.FormerlySerializedAs("ClickMultiplier")]
+        [Tooltip("장착 시 클릭 당 기본 획득 골드 (Click/Gold)")]
+        public float ClickGold = 1f;
+
+        public float ClickMultiplier
+        {
+            get => ClickGold;
+            set => ClickGold = value;
+        }
+
         public CardShardValue ShardValue = CardShardValue.Value_1;
         public int MaxStacks = 6;
         [SetId] public string SetId;

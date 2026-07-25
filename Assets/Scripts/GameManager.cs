@@ -651,14 +651,12 @@ namespace CosmicChaosCat
             GameEnded?.Invoke();
         }
 
-        private double GetEquippedIncomeMultiplier()
+        public double GetClickIncome(CardEntry card, CardProgress state)
         {
-            var card = GetEquippedCard();
             if (card == null) return 1d;
-            if (!cardState.TryGetValue(card.Id, out var state)) return 1d;
-
-            double multiplier = card.ClickMultiplier * (1 + state.BreakthroughCount);
-            if (state.BreakthroughCount >= 5)
+            int breakthrough = state != null ? state.BreakthroughCount : 0;
+            double multiplier = card.ClickMultiplier * (1 + breakthrough);
+            if (breakthrough >= 5)
             {
                 multiplier += card.ClickMultiplier;
             }
@@ -667,6 +665,15 @@ namespace CosmicChaosCat
                 multiplier *= (1f + card.SpecialEffectValue);
 
             return multiplier;
+        }
+
+        private double GetEquippedIncomeMultiplier()
+        {
+            var card = GetEquippedCard();
+            if (card == null) return 1d;
+            if (!cardState.TryGetValue(card.Id, out var state)) return 1d;
+
+            return GetClickIncome(card, state);
         }
 
         private float GetEffectiveCritChance()

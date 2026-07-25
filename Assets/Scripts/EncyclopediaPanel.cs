@@ -1328,18 +1328,10 @@ namespace CosmicChaosCat
             }
             UpdateNumBtnState(card, prog, unlocked);
 
-            // Income stat
+            // Income stat (Description에 통합되었으므로 별도 항목은 숨김)
             if (detailIncomeText != null)
             {
-                string targetIncome = "💰 골드 생산   ???";
-                if (unlocked && card != null && prog != null)
-                {
-                    int    lvl    = prog.BreakthroughCount;
-                    double income = card.ClickMultiplier * (1 + lvl);
-                    if (lvl >= 5) income += card.ClickMultiplier;
-                    targetIncome = $"💰 골드 생산   {income:F1} / 초";
-                }
-                if (detailIncomeText.text != targetIncome) detailIncomeText.text = targetIncome;
+                detailIncomeText.gameObject.SetActive(false);
             }
 
             // Breakthrough / enhancement
@@ -1351,11 +1343,23 @@ namespace CosmicChaosCat
                 if (detailBreakthroughText.text != targetBreakthrough) detailBreakthroughText.text = targetBreakthrough;
             }
 
-            // Description (설명문)
+            // Description (No.id \n 설명문 \n 클릭 당 골드 n)
             if (detailDescription != null)
             {
                 detailDescription.gameObject.SetActive(true);
-                string targetDesc = (unlocked && card != null) ? card.GetDescription() : "???";
+                string targetDesc;
+                if (unlocked && card != null)
+                {
+                    double clickGold = gm != null ? gm.GetClickIncome(card, prog) : (card.ClickMultiplier * (1 + (prog != null ? prog.BreakthroughCount : 0)));
+                    string goldStr = (clickGold % 1 == 0) ? $"{clickGold:F0}" : $"{clickGold:F1}";
+                    targetDesc = $"No.{card.Id}\n{card.GetDescription()}\n클릭 당 골드 {goldStr}";
+                }
+                else
+                {
+                    string cardIdStr = card != null ? card.Id : "??";
+                    targetDesc = $"No.{cardIdStr}\n???\n클릭 당 골드 ???";
+                }
+
                 if (detailDescription.text != targetDesc)
                 {
                     detailDescription.text = targetDesc;
@@ -1519,22 +1523,45 @@ namespace CosmicChaosCat
                     gm.SetCardSelectedStage(card.Id, selectedIllustrationStage);
                 }
 
-                if (hasNewIllustration)
+                // ── 등급별 한계돌파 연출 규칙 ───────────────────────────
+                // 1. N 등급: 연출 없음 (즉시 강화)
+                // 2. R 등급: 실루엣 깜빡임 연출 (별 파티클 효과 없음)
+                // 3. SR 이상 (SR, SSR, UR 등급): 실루엣 깜빡임 연출 + 별 파티클 효과 추가!
+                if (card.Rarity == CardRarity.N)
                 {
+                    // N 등급: 연출 없음
+                    RefreshDetailPanel(selectedCardId);
+                    if (showNoTab) RefreshNoTab();
+                }
+                else if (card.Rarity == CardRarity.R)
+                {
+                    // R 등급: 실루엣 깜빡임 컷씬 (별 파티클 없음)
                     Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
                     if (newSprite == null) newSprite = card.CardSprite;
 
-                    // ── 새로운 변형 일러스트가 해금된 단계(3강, 5강 등)만 컷씬 연출 실행 ──
                     var cutscene = BreakthroughCutsceneUI.GetOrCreate();
                     cutscene.PlayCutscene(oldSprite, newSprite, card.DisplayName, newStage, () =>
                     {
                         RefreshDetailPanel(selectedCardId);
                         if (showNoTab) RefreshNoTab();
-                    });
+                    }, enableStarParticles: false);
+                }
+                else if (card.Rarity >= CardRarity.SR && hasNewIllustration)
+                {
+                    // SR 이상 등급: 신규 일러스트 해금 시 실루엣 깜빡임 컷씬 + 별 파티클 연출!
+                    Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
+                    if (newSprite == null) newSprite = card.CardSprite;
+
+                    var cutscene = BreakthroughCutsceneUI.GetOrCreate();
+                    cutscene.PlayCutscene(oldSprite, newSprite, card.DisplayName, newStage, () =>
+                    {
+                        RefreshDetailPanel(selectedCardId);
+                        if (showNoTab) RefreshNoTab();
+                    }, enableStarParticles: true);
                 }
                 else
                 {
-                    // 일러스트 변형이 없는 일반 한계돌파 단계(2강, 4강 등)는 컷씬 없이 즉시 UI 갱신
+                    // 일러스트 변형이 없는 일반 단계 (예: SR 2강, 4강 등)
                     RefreshDetailPanel(selectedCardId);
                     if (showNoTab) RefreshNoTab();
                 }

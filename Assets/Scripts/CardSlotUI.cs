@@ -259,8 +259,8 @@ namespace CosmicChaosCat
                 nameText.overflowMode     = TextOverflowModes.Ellipsis;
                 
                 string targetName = unlocked
-                    ? $"No.{cardIndex} {card.DisplayName}"
-                    : $"No.{cardIndex} ???";
+                    ? card.DisplayName
+                    : "???";
                 if (nameText.text != targetName) nameText.text = targetName;
                 nameText.raycastTarget    = false;
             }

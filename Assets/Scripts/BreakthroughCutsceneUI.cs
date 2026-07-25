@@ -391,19 +391,19 @@ namespace CosmicChaosCat
             if (starGO != null) Destroy(starGO);
         }
 
-        public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete)
+        public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true)
         {
             EnsureUIBuilt();
-            EnsureStarContainerBuilt();
+            if (enableStarParticles) EnsureStarContainerBuilt();
             onCutsceneFinished = onComplete;
 
             gameObject.SetActive(true);
 
             if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-            animationCoroutine = StartCoroutine(RunCutsceneAnimation(oldSprite, newSprite, cardName, newStage));
+            animationCoroutine = StartCoroutine(RunCutsceneAnimation(oldSprite, newSprite, cardName, newStage, enableStarParticles));
         }
 
-        private IEnumerator RunCutsceneAnimation(Sprite oldSprite, Sprite newSprite, string cardName, int newStage)
+        private IEnumerator RunCutsceneAnimation(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, bool enableStarParticles)
         {
             isCutscenePlaying = true;
 
@@ -425,7 +425,7 @@ namespace CosmicChaosCat
             float elapsed = 0f;
             float phase1Duration = 0.5f;
 
-            SpawnUIStarBurst(15, 200f, 400f, 35f, 65f);
+            if (enableStarParticles) SpawnUIStarBurst(15, 200f, 400f, 35f, 65f);
 
             while (elapsed < phase1Duration)
             {
@@ -449,7 +449,7 @@ namespace CosmicChaosCat
                 // White flash burst on each swap
                 SetShaderProperties(0f, 0.8f, Color.black);
                 if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0.7f);
-                SpawnUIStarBurst(6, 250f, 500f, 30f, 60f);
+                if (enableStarParticles) SpawnUIStarBurst(6, 250f, 500f, 30f, 60f);
 
                 yield return new WaitForSecondsRealtime(flickerInterval * 0.4f);
 
@@ -462,7 +462,7 @@ namespace CosmicChaosCat
             // ── Phase 3: New Silhouette Fixed & Charging Aura ──────────────
             cardImage.sprite = newSprite;
             SetShaderProperties(0f, 1f, Color.black); // Intense white flash
-            SpawnUIStarBurst(20, 300f, 600f, 40f, 75f);
+            if (enableStarParticles) SpawnUIStarBurst(20, 300f, 600f, 40f, 75f);
             yield return new WaitForSecondsRealtime(0.15f);
 
             SetShaderProperties(0f, 0f, Color.black);
@@ -480,8 +480,8 @@ namespace CosmicChaosCat
                 yield return null;
             }
 
-            // ── Phase 4: Silhouette Reveals Full Color Illustration + HUGE UI STAR BURST! ──
-            SpawnUIStarBurst(45, 450f, 900f, 50f, 100f);
+            // ── Phase 4: Silhouette Reveals Full Color Illustration + UI STAR BURST (if enabled) ──
+            if (enableStarParticles) SpawnUIStarBurst(45, 450f, 900f, 50f, 100f);
 
             elapsed = 0f;
             float phase4Duration = 0.9f;
