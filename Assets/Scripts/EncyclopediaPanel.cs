@@ -1492,6 +1492,12 @@ namespace CosmicChaosCat
         {
             if (string.IsNullOrEmpty(selectedCardId) || gm == null) return;
             var card = gm.CardCatalog?.FindById(selectedCardId);
+            if (card == null) return;
+
+            int oldStage = selectedIllustrationStage;
+            Sprite oldSprite = card.GetSpriteForStage(oldStage);
+            if (oldSprite == null) oldSprite = card.CardSprite;
+
             if (gm.BreakthroughCard(selectedCardId))
             {
                 var states = gm.GetCardStates();
@@ -1499,17 +1505,39 @@ namespace CosmicChaosCat
                 int newCount = newProg != null ? newProg.BreakthroughCount : 0;
                 int newStage = newCount + 1; // Stage unlocked by new breakthrough level
 
-                if (card != null)
+                var validStages = card.GetBreakthroughStages();
+                bool hasNewIllustration = validStages.Contains(newStage);
+
+                if (hasNewIllustration)
                 {
-                    var validStages = card.GetBreakthroughStages();
-                    if (validStages.Contains(newStage))
-                    {
-                        selectedIllustrationStage = newStage;
-                    }
+                    selectedIllustrationStage = newStage;
                 }
 
-                RefreshDetailPanel(selectedCardId);
-                if (showNoTab) RefreshNoTab();
+                if (newProg != null)
+                {
+                    newProg.SelectedStage = selectedIllustrationStage;
+                    gm.SetCardSelectedStage(card.Id, selectedIllustrationStage);
+                }
+
+                if (hasNewIllustration)
+                {
+                    Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
+                    if (newSprite == null) newSprite = card.CardSprite;
+
+                    // ── 새로운 변형 일러스트가 해금된 단계(3강, 5강 등)만 컷씬 연출 실행 ──
+                    var cutscene = BreakthroughCutsceneUI.GetOrCreate();
+                    cutscene.PlayCutscene(oldSprite, newSprite, card.DisplayName, newStage, () =>
+                    {
+                        RefreshDetailPanel(selectedCardId);
+                        if (showNoTab) RefreshNoTab();
+                    });
+                }
+                else
+                {
+                    // 일러스트 변형이 없는 일반 한계돌파 단계(2강, 4강 등)는 컷씬 없이 즉시 UI 갱신
+                    RefreshDetailPanel(selectedCardId);
+                    if (showNoTab) RefreshNoTab();
+                }
             }
         }
 
