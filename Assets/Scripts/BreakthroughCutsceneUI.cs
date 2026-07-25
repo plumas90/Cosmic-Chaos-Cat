@@ -257,9 +257,144 @@ namespace CosmicChaosCat
             }
         }
 
+        // ── UI Native Star Burst Effect ──────────────────────────────────────
+        private static Sprite cachedStarSprite;
+        private RectTransform starContainer;
+
+        private static Sprite GetOrCreateStarSprite()
+        {
+            if (cachedStarSprite != null) return cachedStarSprite;
+
+            int size = 128;
+            Texture2D tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            tex.filterMode = FilterMode.Bilinear;
+            Color[] cols = new Color[size * size];
+            Vector2 center = new Vector2((size - 1) / 2f, (size - 1) / 2f);
+            float maxR = size / 2f;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    Vector2 pos = new Vector2(x, y) - center;
+                    float dist = pos.magnitude;
+                    float angle = Mathf.Atan2(pos.y, pos.x);
+
+                    // 4-point sharp diamond star formula
+                    float starFactor = Mathf.Pow(Mathf.Abs(Mathf.Cos(angle * 2f)), 5f);
+                    float currentMaxR = maxR * (0.20f + 0.80f * starFactor);
+
+                    if (dist > currentMaxR)
+                    {
+                        cols[y * size + x] = Color.clear;
+                    }
+                    else
+                    {
+                        float normDist = dist / currentMaxR;
+                        float alpha = Mathf.Clamp01(1f - normDist);
+                        alpha = Mathf.Pow(alpha, 1.2f); // Sharp glowing core
+
+                        Color c = Color.Lerp(Color.white, new Color(1f, 0.92f, 0.4f, 1f), normDist * 0.5f);
+                        c.a = alpha;
+                        cols[y * size + x] = c;
+                    }
+                }
+            }
+
+            tex.SetPixels(cols);
+            tex.Apply();
+            cachedStarSprite = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f));
+            return cachedStarSprite;
+        }
+
+        private void EnsureStarContainerBuilt()
+        {
+            if (starContainer != null) return;
+
+            var scGO = new GameObject("UIStarContainer", typeof(RectTransform));
+            scGO.transform.SetParent(cardContainer, false);
+            scGO.transform.SetSiblingIndex(0); // Card 이미지 바로 뒤쪽에 배치
+
+            starContainer = scGO.GetComponent<RectTransform>();
+            starContainer.anchorMin = new Vector2(0.5f, 0.5f);
+            starContainer.anchorMax = new Vector2(0.5f, 0.5f);
+            starContainer.sizeDelta = Vector2.zero;
+            starContainer.anchoredPosition = Vector2.zero;
+        }
+
+        private void SpawnUIStarBurst(int count, float minSpeed, float maxSpeed, float minSize = 40f, float maxSize = 90f)
+        {
+            EnsureStarContainerBuilt();
+            Sprite starSprite = GetOrCreateStarSprite();
+
+            Color[] starColors = new Color[]
+            {
+                new Color(1f, 0.92f, 0.3f, 1f), // Bright Gold
+                new Color(1f, 1f, 1f, 1f),      // Diamond White
+                new Color(1f, 0.75f, 0.2f, 1f), // Deep Amber
+                new Color(0.6f, 0.95f, 1f, 1f)  // Cyan Sparkle
+            };
+
+            for (int i = 0; i < count; i++)
+            {
+                var starGO = new GameObject("StarParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                starGO.transform.SetParent(starContainer, false);
+
+                var img = starGO.GetComponent<Image>();
+                img.sprite = starSprite;
+                img.raycastTarget = false;
+                img.color = starColors[UnityEngine.Random.Range(0, starColors.Length)];
+
+                var sRT = starGO.GetComponent<RectTransform>();
+                float sz = UnityEngine.Random.Range(minSize, maxSize);
+                sRT.sizeDelta = new Vector2(sz, sz);
+                sRT.anchoredPosition = Vector2.zero;
+
+                float angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                float speed = UnityEngine.Random.Range(minSpeed, maxSpeed);
+                float rotSpeed = UnityEngine.Random.Range(-360f, 360f);
+                float lifetime = UnityEngine.Random.Range(0.7f, 1.3f);
+
+                StartCoroutine(AnimateUIStar(starGO, sRT, img, dir, speed, rotSpeed, lifetime));
+            }
+        }
+
+        private IEnumerator AnimateUIStar(GameObject starGO, RectTransform rt, Image img, Vector2 dir, float speed, float rotSpeed, float duration)
+        {
+            float elapsed = 0f;
+            Vector2 pos = Vector2.zero;
+            Color baseColor = img.color;
+
+            while (elapsed < duration)
+            {
+                if (starGO == null) yield break;
+
+                elapsed += Time.unscaledDeltaTime;
+                float t = elapsed / duration;
+
+                float currentSpeed = speed * (1f - Mathf.Pow(t, 0.7f) * 0.6f);
+                pos += dir * currentSpeed * Time.unscaledDeltaTime;
+                rt.anchoredPosition = pos;
+
+                rt.Rotate(0, 0, rotSpeed * Time.unscaledDeltaTime);
+
+                float scale = Mathf.Sin(t * Mathf.PI) * 1.2f;
+                rt.localScale = new Vector3(scale, scale, 1f);
+
+                float alpha = Mathf.Clamp01(1f - Mathf.Pow(t, 2f));
+                img.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+
+                yield return null;
+            }
+
+            if (starGO != null) Destroy(starGO);
+        }
+
         public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete)
         {
             EnsureUIBuilt();
+            EnsureStarContainerBuilt();
             onCutsceneFinished = onComplete;
 
             gameObject.SetActive(true);
@@ -290,6 +425,8 @@ namespace CosmicChaosCat
             float elapsed = 0f;
             float phase1Duration = 0.5f;
 
+            SpawnUIStarBurst(15, 200f, 400f, 35f, 65f);
+
             while (elapsed < phase1Duration)
             {
                 elapsed += Time.unscaledDeltaTime;
@@ -312,6 +449,7 @@ namespace CosmicChaosCat
                 // White flash burst on each swap
                 SetShaderProperties(0f, 0.8f, Color.black);
                 if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0.7f);
+                SpawnUIStarBurst(6, 250f, 500f, 30f, 60f);
 
                 yield return new WaitForSecondsRealtime(flickerInterval * 0.4f);
 
@@ -324,6 +462,7 @@ namespace CosmicChaosCat
             // ── Phase 3: New Silhouette Fixed & Charging Aura ──────────────
             cardImage.sprite = newSprite;
             SetShaderProperties(0f, 1f, Color.black); // Intense white flash
+            SpawnUIStarBurst(20, 300f, 600f, 40f, 75f);
             yield return new WaitForSecondsRealtime(0.15f);
 
             SetShaderProperties(0f, 0f, Color.black);
@@ -341,7 +480,9 @@ namespace CosmicChaosCat
                 yield return null;
             }
 
-            // ── Phase 4: Silhouette Reveals Full Color Illustration! ────────
+            // ── Phase 4: Silhouette Reveals Full Color Illustration + HUGE UI STAR BURST! ──
+            SpawnUIStarBurst(45, 450f, 900f, 50f, 100f);
+
             elapsed = 0f;
             float phase4Duration = 0.9f;
 
