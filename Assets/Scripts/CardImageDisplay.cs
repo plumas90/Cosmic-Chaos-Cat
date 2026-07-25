@@ -42,6 +42,7 @@ namespace CosmicChaosCat
         private void Awake()
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
+            if (cardImage == null) cardImage = GetComponent<Image>();
             originalScale = transform.localScale;
         }
 
@@ -85,13 +86,16 @@ namespace CosmicChaosCat
             var card   = gameManager.GetEquippedCard();
             var states = gameManager.GetCardStates();
 
-            // 스프라이트
+            // 스프라이트 및 색상
             if (cardImage != null)
             {
-                Sprite sprite = (card != null && card.CardSprite != null)
-                    ? card.CardSprite
+                Sprite sprite = (card != null)
+                    ? gameManager.GetCardSpriteForDisplay(card.Id)
                     : defaultCardSprite;
+                if (sprite == null) sprite = defaultCardSprite;
                 cardImage.sprite = sprite;
+                if (sprite != null)
+                    cardImage.color = Color.white;
             }
 
             // 등급 컬러

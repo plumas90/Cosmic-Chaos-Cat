@@ -19,6 +19,8 @@ namespace CosmicChaosCat
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (effectPlayer == null) effectPlayer = FindObjectOfType<ClickEffectPlayer>(true);
+            if (GetComponent<CardImageDisplay>() == null)
+                gameObject.AddComponent<CardImageDisplay>();
         }
 
         public void OnPointerClick(PointerEventData eventData)

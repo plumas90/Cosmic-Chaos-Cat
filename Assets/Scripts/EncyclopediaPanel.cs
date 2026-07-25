@@ -57,7 +57,7 @@ namespace CosmicChaosCat
 
         // NumBtn (breakthrough illustration stage buttons 1..5)
         [SerializeField] private GameObject numBtnContainer;
-        [SerializeField] private Button[]   stageButtons = new Button[5];
+        [SerializeField] private GameObject[] stageObjects = new GameObject[5];  // 1~5 오브젝트 (인스펙터에서 연결)
         private int    selectedIllustrationStage = 1;
         private string lastDetailCardId          = null;
 
@@ -1161,7 +1161,45 @@ namespace CosmicChaosCat
             states?.TryGetValue(cardId, out prog);
             bool unlocked = prog != null && prog.Unlocked;
 
-            // Frame Image (imageimage Frame)
+            var searchRoot = (detailPanel ?? noPanel)?.transform;
+
+            // ── 0. If detailPanel contains a CardSlotUI component (e.g. Slot_Detail) ─────
+            var detailSlotUI = detailPanel != null ? detailPanel.GetComponentInChildren<CardSlotUI>(true) : null;
+            if (detailSlotUI != null)
+            {
+                Sprite frameSp = unlocked && card != null ? GetFrameSpriteForRarity(card.Rarity) : spriteCardLocked;
+                detailSlotUI.SetSprites(frameSp, spriteCardLocked);
+                if (card != null)
+                {
+                    var allCards = gm?.CardCatalog?.Cards;
+                    int cardIndex = allCards != null ? FindOriginalIndex(card, allCards) : 1;
+                    detailSlotUI.SetData(card, cardIndex, prog, gm, null);
+                }
+            }
+
+            // ── 0-1. Lock/Unknown overlay on detail panel ─────────────────────
+            if (searchRoot != null)
+            {
+                var lockObj = FindChildByNameRecursive(searchRoot, "LOCKTEXT")
+                           ?? FindChildByNameRecursive(searchRoot, "LockText")
+                           ?? FindChildByNameRecursive(searchRoot, "Lock")
+                           ?? FindChildByNameRecursive(searchRoot, "lock")
+                           ?? FindChildByNameRecursive(searchRoot, "Unknown")
+                           ?? FindChildByNameRecursive(searchRoot, "unkGO")
+                           ?? FindChildByNameRecursive(searchRoot, "unkImg");
+                if (lockObj != null)
+                {
+                    lockObj.gameObject.SetActive(!unlocked);
+                }
+            }
+
+            // ── 1. Frame Image ────────────────────────────────────────────────
+            if (detailCardFrameImage == null && searchRoot != null)
+            {
+                var fr = FindChildByNameRecursive(searchRoot, "Frame") ?? FindChildByNameRecursive(searchRoot, "frame") ?? FindChildByNameRecursive(searchRoot, "DetailFrame");
+                if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
+            }
+
             if (detailCardFrameImage != null)
             {
                 detailCardFrameImage.gameObject.SetActive(true);
@@ -1198,7 +1236,6 @@ namespace CosmicChaosCat
             }
 
             // Fallback dynamically if name, description, or art were not wired yet
-            var searchRoot = (detailPanel ?? noPanel)?.transform;
             if (detailCardName == null && searchRoot != null)
             {
                 var t = FindChildByNameRecursive(searchRoot, "ImageNametxt")
@@ -1215,7 +1252,9 @@ namespace CosmicChaosCat
                 var ar = FindChildByNameRecursive(searchRoot, "Art")
                       ?? FindChildByNameRecursive(searchRoot, "art")
                       ?? FindChildByNameRecursive(searchRoot, "DetailArt")
-                      ?? FindChildByNameRecursive(searchRoot, "CardArt");
+                      ?? FindChildByNameRecursive(searchRoot, "CardArt")
+                      ?? FindChildByNameRecursive(searchRoot, "Image")
+                      ?? FindChildByNameRecursive(searchRoot, "image");
                 if (ar != null) detailCardArt = ar.GetComponent<Image>();
             }
 
@@ -1259,14 +1298,17 @@ namespace CosmicChaosCat
                 if (unlocked)
                 {
                     detailCardArt.gameObject.SetActive(true);
-                    if (card?.CardSprite != null)
+                    Sprite targetSprite = card != null ? card.GetSpriteForStage(selectedIllustrationStage) : null;
+                    if (targetSprite == null && card != null) targetSprite = card.CardSprite;
+
+                    if (targetSprite != null)
                     {
-                        if (detailCardArt.sprite != card.CardSprite) detailCardArt.sprite = card.CardSprite;
-                        detailCardArt.color = Color.white;
+                        detailCardArt.sprite = targetSprite;
+                        detailCardArt.color  = Color.white;
                     }
                     else
                     {
-                        detailCardArt.color = Color.white;
+                        detailCardArt.color  = Color.white;
                     }
                 }
                 else
@@ -1281,7 +1323,7 @@ namespace CosmicChaosCat
             // NumBtn (illustration variant buttons 1..5)
             if (lastDetailCardId != cardId)
             {
-                selectedIllustrationStage = 1;
+                selectedIllustrationStage = (prog != null && prog.SelectedStage > 0) ? prog.SelectedStage : 1;
                 lastDetailCardId = cardId;
             }
             UpdateNumBtnState(card, prog, unlocked);
@@ -1304,7 +1346,7 @@ namespace CosmicChaosCat
             if (detailBreakthroughText != null)
             {
                 string targetBreakthrough = (unlocked && prog != null)
-                    ? $"⭐ 강화   {prog.BreakthroughCount}강 / 5강"
+                    ? $"⭐ 강화   {prog.BreakthroughCount + 1}강 / 5강"
                     : "⭐ 강화   미해금";
                 if (detailBreakthroughText.text != targetBreakthrough) detailBreakthroughText.text = targetBreakthrough;
             }
@@ -1338,12 +1380,12 @@ namespace CosmicChaosCat
                 if (unlocked && card != null && prog != null)
                 {
                     bool hasUnused  = prog.Copies > prog.BreakthroughCount + 1;
-                    canUpgrade = hasUnused && prog.BreakthroughCount < 5;
+                    canUpgrade = hasUnused && prog.BreakthroughCount < 4;
                     var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
                     if (lbl != null)
                     {
-                        if (prog.BreakthroughCount >= 5)
-                            lbl.text = "한계 돌파 (최대)";
+                        if (prog.BreakthroughCount >= 4)
+                            lbl.text = "한계 돌파 (최대 5강)";
                         else
                             lbl.text = $"한계 돌파 ({prog.Copies} / {prog.BreakthroughCount + 2} 장)";
                     }
@@ -1359,118 +1401,82 @@ namespace CosmicChaosCat
 
         private void UpdateNumBtnState(CardEntry card, CardProgress prog, bool unlocked)
         {
-            if (numBtnContainer == null && (detailPanel != null || noPanel != null))
-            {
-                var searchRoot = (detailPanel ?? noPanel ?? gameObject)?.transform;
-                var t = FindChildByNameRecursive(searchRoot, "NumBtn")
-                     ?? FindChildByNameRecursive(searchRoot, "numBtn")
-                     ?? FindChildByNameRecursive(searchRoot, "NumButtons")
-                     ?? FindChildByNameRecursive(searchRoot, "num_btn");
-                if (t != null) numBtnContainer = t.gameObject;
-            }
+            if (numBtnContainer == null) return;
 
-            if (numBtnContainer != null)
+            var validStages    = (unlocked && card != null) ? card.GetBreakthroughStages()
+                                                            : new System.Collections.Generic.List<int>();
+            int breakthroughCount = (unlocked && prog != null) ? prog.BreakthroughCount : 0;
+
+            bool hasAnyVisible = false;
+
+            for (int s = 1; s <= 5; s++)
             {
-                numBtnContainer.SetActive(unlocked);
-                if (unlocked && card != null)
+                var stageGO = stageObjects[s - 1];
+                if (stageGO == null) continue;
+
+                bool isValidStage    = unlocked && card != null && validStages.Contains(s);
+                bool isStageUnlocked = unlocked && card != null && breakthroughCount >= (s - 1);
+                bool showThis        = isValidStage && isStageUnlocked;
+
+                stageGO.SetActive(showThis);
+                if (!showThis) continue;
+
+                hasAnyVisible = true;
+                bool isSelected = (s == selectedIllustrationStage);
+
+                // 시각 강조
+                var rt = stageGO.GetComponent<RectTransform>();
+                if (rt != null) rt.localScale = isSelected ? new Vector3(1.15f, 1.15f, 1f) : Vector3.one;
+                var img = stageGO.GetComponent<Image>();
+                if (img != null) img.color = isSelected ? new Color(1f, 0.95f, 0.6f) : Color.white;
+
+                // Button 클릭 처리
+                var btn = stageGO.GetComponent<Button>();
+                if (btn != null)
                 {
-                    var validStages = card.GetBreakthroughStages();
-                    int breakthroughCount = prog != null ? prog.BreakthroughCount : 0;
-
-                    var containerTf = numBtnContainer.transform;
-                    for (int s = 1; s <= 5; s++)
+                    btn.onClick.RemoveAllListeners();
+                    int stageNum = s;
+                    btn.onClick.AddListener(() =>
                     {
-                        if (stageButtons[s - 1] == null)
+                        selectedIllustrationStage = stageNum;
+                        if (card != null && prog != null)
                         {
-                            var t = containerTf.Find($"Btn_{s}") ?? containerTf.Find($"{s}")
-                                 ?? containerTf.Find($"Btn_Stage{s}") ?? containerTf.Find($"Stage{s}")
-                                 ?? FindChildByNameRecursive(containerTf, $"Btn_{s}")
-                                 ?? FindChildByNameRecursive(containerTf, $"{s}");
-                            if (t != null) stageButtons[s - 1] = t.GetComponent<Button>();
+                            prog.SelectedStage = stageNum;
+                            if (gm != null) gm.SetCardSelectedStage(card.Id, stageNum);
                         }
-
-                        Button btn = stageButtons[s - 1];
-                        if (btn == null) continue;
-
-                        bool isValidStage = validStages.Contains(s);
-
-                        if (!isValidStage)
-                        {
-                            btn.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            btn.gameObject.SetActive(true);
-                            bool isStageUnlocked = breakthroughCount >= (s - 1);
-
-                            SetButtonInteractable(btn, isStageUnlocked);
-
-                            bool isSelected = (s == selectedIllustrationStage);
-                            var rt = btn.GetComponent<RectTransform>();
-                            if (rt != null) rt.localScale = isSelected ? new Vector3(1.15f, 1.15f, 1f) : Vector3.one;
-
-                            var btnImg = btn.GetComponent<Image>();
-                            if (btnImg != null && isStageUnlocked)
-                            {
-                                btnImg.color = isSelected ? new Color(1f, 0.95f, 0.6f, 1f) : Color.white;
-                            }
-
-                            btn.onClick.RemoveAllListeners();
-                            if (isStageUnlocked)
-                            {
-                                int stageNum = s;
-                                btn.onClick.AddListener(() =>
-                                {
-                                    selectedIllustrationStage = stageNum;
-                                    UpdateDetailCardArtForStage(card, stageNum);
-                                    UpdateNumBtnState(card, prog, unlocked);
-                                });
-                            }
-                        }
-                    }
+                        UpdateDetailCardArtForStage(card, stageNum);
+                        RefreshNoTab();
+                        UpdateNumBtnState(card, prog, unlocked);
+                    });
                 }
             }
 
-            // Apply illustration sprite for selected stage (always called when unlocked)
+            numBtnContainer.SetActive(unlocked && hasAnyVisible);
+
             if (unlocked && card != null)
-            {
                 UpdateDetailCardArtForStage(card, selectedIllustrationStage);
-            }
         }
 
         private void UpdateDetailCardArtForStage(CardEntry card, int stage)
         {
-            if (detailCardArt == null)
+            if (card == null) return;
+            Sprite stageSprite = card.GetSpriteForStage(stage);
+            if (stageSprite == null) stageSprite = card.CardSprite;
+
+            if (detailCardArt != null)
             {
-                var searchRoot = (detailPanel ?? noPanel)?.transform;
-                if (searchRoot != null)
+                detailCardArt.gameObject.SetActive(true);
+                if (stageSprite != null)
                 {
-                    var ar = FindChildByNameRecursive(searchRoot, "Art")
-                          ?? FindChildByNameRecursive(searchRoot, "art")
-                          ?? FindChildByNameRecursive(searchRoot, "DetailArt")
-                          ?? FindChildByNameRecursive(searchRoot, "CardArt");
-                    if (ar != null) detailCardArt = ar.GetComponent<Image>();
+                    detailCardArt.sprite = stageSprite;
+                    detailCardArt.color  = Color.white;
                 }
             }
 
-            if (detailCardArt == null || card == null) return;
-            detailCardArt.gameObject.SetActive(true);
-
-            Sprite stageSprite = card.GetSpriteForStage(stage);
-            if (stageSprite != null)
-            {
-                detailCardArt.sprite = stageSprite;
-                detailCardArt.color  = Color.white;
-            }
-            else if (card.CardSprite != null)
-            {
-                detailCardArt.sprite = card.CardSprite;
-                detailCardArt.color  = Color.white;
-            }
-            else
-            {
-                detailCardArt.color  = Color.white;
-            }
+            // Also update CardSlotUI inside detailPanel if present (e.g. Slot_Detail)
+            var detailSlotUI = detailPanel != null ? detailPanel.GetComponentInChildren<CardSlotUI>(true) : null;
+            if (detailSlotUI != null)
+                detailSlotUI.SetArtSprite(stageSprite);
         }
 
         private void OnDetailEquip()
@@ -1606,8 +1612,9 @@ namespace CosmicChaosCat
 
             var states    = gm.GetCardStates();
             var catalog   = gm.CardCatalog?.Cards;
-            int cardCount = setEntry.CardIds.Count;
-            bool allOwned = true;
+            var setCards  = setEntry.GetCardsInSet(catalog);
+            int cardCount = setCards.Count;
+            bool allOwned = cardCount > 0;
 
             for (int i = 0; i < pool.Count; i++)
             {
@@ -1616,20 +1623,13 @@ namespace CosmicChaosCat
                 if (i < cardCount)
                 {
                     slot.gameObject.SetActive(true);
-                    string cid = setEntry.CardIds[i];
+                    var displayCard = setCards[i];
+                    string cid = displayCard.Id;
                     states.TryGetValue(cid, out var prog);
                     bool unlocked = prog != null && prog.Unlocked;
                     if (!unlocked) allOwned = false;
 
-                    int cardIndex  = 1;
-                    CardEntry displayCard = null;
-                    if (catalog != null)
-                    {
-                        for (int c = 0; c < catalog.Count; c++)
-                        {
-                            if (catalog[c].Id == cid) { displayCard = catalog[c]; cardIndex = c + 1; break; }
-                        }
-                    }
+                    int cardIndex = catalog != null ? FindOriginalIndex(displayCard, catalog) : (i + 1);
 
                     if (displayCard != null)
                     {
@@ -1659,8 +1659,8 @@ namespace CosmicChaosCat
             if (descTx != null)
             {
                 descTx.gameObject.SetActive(true);
-                string desc   = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "아무 효과 없음" : setEntry.EffectDesc;
-                string reward = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "없음" : setEntry.EffectDesc;
+                string desc   = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "세트 보상" : setEntry.EffectDesc;
+                string reward = setEntry.GetRewardSummary();
                 descTx.text = desc + "\n보상: " + reward;
 
                 // Dynamic Y position: 225 for <=9 slots, -137 for >=10 slots
@@ -1729,16 +1729,18 @@ namespace CosmicChaosCat
 
             mb.onClick.RemoveAllListeners();
 
+            var catalog  = gm?.CardCatalog?.Cards;
+            var setCards = setEntry != null ? setEntry.GetCardsInSet(catalog) : null;
+
             bool hasSelection = selectedSetSlotIndex >= 0 &&
-                                setEntry != null &&
-                                setEntry.CardIds != null &&
-                                selectedSetSlotIndex < setEntry.CardIds.Count;
+                                setCards != null &&
+                                selectedSetSlotIndex < setCards.Count;
 
             SetButtonInteractable(mb, hasSelection);
 
             if (hasSelection)
             {
-                string targetCardId = setEntry.CardIds[selectedSetSlotIndex];
+                string targetCardId = setCards[selectedSetSlotIndex].Id;
                 mb.onClick.AddListener(() => OnMoveToCardDetail(targetCardId));
             }
         }
@@ -1948,10 +1950,15 @@ namespace CosmicChaosCat
                         if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
                     }
 
-                    // Art → detailCardArt (오직 Art / art / CardArt 오브젝트만 대상, 컨테이너나 image는 절대 건드리지 않음)
+                    // Art → detailCardArt (Art/art/DetailArt/CardArt/image 오브젝트 순서로 탐색)
                     if (detailCardArt == null)
                     {
-                        var ar = FindChildByNameRecursive(rt, "Art") ?? FindChildByNameRecursive(rt, "art") ?? FindChildByNameRecursive(rt, "DetailArt") ?? FindChildByNameRecursive(rt, "CardArt");
+                        var ar = FindChildByNameRecursive(rt, "Art")
+                              ?? FindChildByNameRecursive(rt, "art")
+                              ?? FindChildByNameRecursive(rt, "DetailArt")
+                              ?? FindChildByNameRecursive(rt, "CardArt")
+                              ?? FindChildByNameRecursive(rt, "image")
+                              ?? FindChildByNameRecursive(rt, "Image");
                         if (ar != null) detailCardArt = ar.GetComponent<Image>();
                     }
 
@@ -1998,6 +2005,17 @@ namespace CosmicChaosCat
                     if (detailEquipBtn      == null) { var t = FindChildByNameRecursive(rt, "Btn_대표 설정"); if (t != null) detailEquipBtn      = t.GetComponent<Button>(); }
                     if (detailBreakthroughBtn == null) { var t = FindChildByNameRecursive(rt, "Btn_한계 돌파"); if (t != null) detailBreakthroughBtn = t.GetComponent<Button>(); }
                 }
+
+                // NumBtn은 DetailPanel의 형제이므로 noPanel 전체에서 탐색
+                if (numBtnContainer == null)
+                {
+                    var t = FindChildByNameRecursive(noPanelTf, "NumBtn")
+                         ?? FindChildByNameRecursive(noPanelTf, "numBtn")
+                         ?? FindChildByNameRecursive(noPanelTf, "NumButtons");
+                    if (t != null) numBtnContainer = t.gameObject;
+                }
+
+                Debug.Log($"[Encyclopedia] detailPanel={detailPanel?.name}, detailCardArt={detailCardArt?.gameObject?.name}, numBtnContainer={numBtnContainer?.name}");
             }
 
             // Set tab sub-elements

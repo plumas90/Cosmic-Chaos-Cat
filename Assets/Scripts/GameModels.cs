@@ -17,6 +17,7 @@ namespace CosmicChaosCat
         public int Copies;
         public bool Unlocked;
         public int BreakthroughCount;
+        public int SelectedStage = 1;
     }
 
     [Serializable]

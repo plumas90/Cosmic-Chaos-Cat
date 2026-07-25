@@ -80,14 +80,6 @@ namespace CosmicChaosCat.Editor
                 elem.FindPropertyRelative("SetCardWeightBonus").floatValue = list[i].WeightBonus;
                 elem.FindPropertyRelative("StackEffectBonus").floatValue  = list[i].StackBonus;
                 elem.FindPropertyRelative("ShardBonusMultiplier").floatValue = 1.2f;
-
-                var cardIdsProp = elem.FindPropertyRelative("CardIds");
-                cardIdsProp.ClearArray();
-                for (int j = 0; j < list[i].CardIds.Count; j++)
-                {
-                    cardIdsProp.InsertArrayElementAtIndex(j);
-                    cardIdsProp.GetArrayElementAtIndex(j).stringValue = list[i].CardIds[j];
-                }
             }
 
             so.ApplyModifiedProperties();
@@ -254,48 +246,13 @@ namespace CosmicChaosCat.Editor
         {
             return new List<SetDef>
             {
-                new SetDef("basic",    "기본 냥이 세트",  1.15f, 0.3f, new List<string> {
-                    "cat-calico","cat-black","cat-round","cat-hug","cat-cone",
-                    "cat-dark-eyes","cat-snowleopard-tail","cat-box-full","cat-glass-bottom",
-                    "cat-glass-push","cat-sofa","cat-box-paws","cat-pawprints",
-                    "cat-scratch-move","cat-tower","cat-wheel","cat-tail-chase",
-                    "cat-monocle","cat-eyepatch","cat-bandage","cat-hairball",
-                    "cat-fish-tank","cat-loaf"
-                }),
-                new SetDef("internet", "인터넷 밈 세트",  1.2f,  0.4f, new List<string> {
-                    "cat-nyancat","cat-nyanpunch","cat-bongocat","cat-buttertoast",
-                    "cat-spinning","cat-spiky","cat-idw","cat-letters","cat-liquid",
-                    "cat-rainbow-monitor","cat-bonobono-rainbow","cat-stretch",
-                    "cat-mural","cat-product","cat-furry-stages","cat-rich-furry",
-                    "cat-miku","cat-sleeping-cool"
-                }),
-                new SetDef("meme",     "밈 카드 세트",    1.2f,  0.4f, new List<string> {
-                    "cat-popcat","cat-chapi-chapo","cat-nabitang","cat-gaejugi",
-                    "cat-crying","cat-sad-dance","cat-woman-yelling","cat-frozen-river",
-                    "cat-person-costume","cat-murphy","cat-lonely-person","cat-drawn",
-                    "cat-broad-shoulders","cat-river-bag","cat-yuno","cat-bell",
-                    "cat-microwave","cat-emergency-exit","cat-human-tower","cat-eaten",
-                    "cat-desert-frog","cat-tiger-shadow"
-                }),
-                new SetDef("food",     "음식 고양이 세트", 1.15f, 0.3f, new List<string> {
-                    "cat-cheese","cat-breadcat","cat-food-countries","cat-hotdog",
-                    "cat-burger","cat-gingerbread"
-                }),
-                new SetDef("fantasy",  "판타지 냥이 세트", 1.25f, 0.5f, new List<string> {
-                    "cat-thunder","cat-chimera","cat-puss-in-boots","cat-cerberus",
-                    "cat-littleprince-box","cat-littleprince-hat","cat-bus","cat-trojan",
-                    "cat-constellation","cat-four-monster","cat-maneki-neko","cat-anubis",
-                    "cat-bremen","cat-witch","cat-red-riding-hood","cat-robin-hood",
-                    "cat-mermaid","cat-genie","cat-cannon"
-                }),
-                new SetDef("game",     "게임 밈 세트",    1.2f,  0.4f, new List<string> {
-                    "cat-minecraft","cat-yugioh","cat-sleeping-chess","cat-hwatu",
-                    "cat-tarot","cat-sprigatito","cat-gurren-lagann","cat-digimon-goggles",
-                    "cat-demian-eyepatch","cat-scouter","cat-isaac-tech"
-                }),
-                new SetDef("internet2","인터넷 이름 세트", 1.15f, 0.3f, new List<string> {
-                    "cat-thunder2","cat-meowl","cat-martial-arts","cat-roomba"
-                }),
+                new SetDef("basic",    "기본 냥이 세트",  1.15f, 0.3f),
+                new SetDef("internet", "인터넷 밈 세트",  1.2f,  0.4f),
+                new SetDef("meme",     "밈 카드 세트",    1.2f,  0.4f),
+                new SetDef("food",     "음식 고양이 세트", 1.15f, 0.3f),
+                new SetDef("fantasy",  "판타지 냥이 세트", 1.25f, 0.5f),
+                new SetDef("game",     "게임 밈 세트",    1.2f,  0.4f),
+                new SetDef("internet2","인터넷 이름 세트", 1.15f, 0.3f),
             };
         }
 
@@ -371,7 +328,7 @@ namespace CosmicChaosCat.Editor
             {
                 Id = id, DisplayName = name, SetId = setId,
                 Rarity = CardRarity.R, BaseWeight = 100f,
-                ClickMultiplier = 1.4f, ShardValue = 3, MaxStacks = 5,
+                ClickMultiplier = 1.4f, ShardValue = CardShardValue.Value_5, MaxStacks = 5,
                 IsHidden = false
             };
 
@@ -380,7 +337,7 @@ namespace CosmicChaosCat.Editor
             {
                 Id = id, DisplayName = name, SetId = string.Empty,
                 Rarity = CardRarity.SR, BaseWeight = 0f,
-                ClickMultiplier = 2.0f, ShardValue = 10, MaxStacks = 1,
+                ClickMultiplier = 2.0f, ShardValue = CardShardValue.Value_10, MaxStacks = 1,
                 IsHidden = true
             };
 
@@ -391,7 +348,7 @@ namespace CosmicChaosCat.Editor
             elem.FindPropertyRelative("Rarity").enumValueIndex     = (int)c.Rarity;
             elem.FindPropertyRelative("BaseWeight").floatValue     = c.BaseWeight;
             elem.FindPropertyRelative("ClickMultiplier").floatValue= c.ClickMultiplier;
-            elem.FindPropertyRelative("ShardValue").intValue       = c.ShardValue;
+            elem.FindPropertyRelative("ShardValue").intValue       = (int)c.ShardValue;
             elem.FindPropertyRelative("MaxStacks").intValue        = c.MaxStacks;
             elem.FindPropertyRelative("SetId").stringValue         = c.SetId ?? string.Empty;
             elem.FindPropertyRelative("IsHidden").boolValue        = c.IsHidden;
@@ -438,20 +395,20 @@ namespace CosmicChaosCat.Editor
 
         private class CardDef
         {
-            public string     Id, DisplayName, SetId;
-            public CardRarity Rarity;
-            public float      BaseWeight, ClickMultiplier;
-            public int        ShardValue, MaxStacks;
-            public bool       IsHidden;
+            public string         Id, DisplayName, SetId;
+            public CardRarity     Rarity;
+            public float          BaseWeight, ClickMultiplier;
+            public CardShardValue ShardValue;
+            public int            MaxStacks;
+            public bool           IsHidden;
         }
 
         private class SetDef
         {
             public string       SetId, SetName;
             public float        WeightBonus, StackBonus;
-            public List<string> CardIds;
-            public SetDef(string id, string name, float wb, float sb, List<string> ids)
-            { SetId=id; SetName=name; WeightBonus=wb; StackBonus=sb; CardIds=ids; }
+            public SetDef(string id, string name, float wb, float sb)
+            { SetId=id; SetName=name; WeightBonus=wb; StackBonus=sb; }
         }
 
         private class UpgradeDef

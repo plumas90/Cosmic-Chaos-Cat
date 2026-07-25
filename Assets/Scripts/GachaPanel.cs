@@ -378,11 +378,11 @@ namespace CosmicChaosCat
                     if (gm != null)
                     {
                         float refund = 1.5f + gm.GetUpgradeEffectValue("upg-shard-refund");
-                        currentShardsGained.Add(Mathf.RoundToInt(card.ShardValue * refund));
+                        currentShardsGained.Add(Mathf.RoundToInt((int)card.ShardValue * refund));
                     }
                     else
                     {
-                        currentShardsGained.Add(card.ShardValue);
+                        currentShardsGained.Add((int)card.ShardValue);
                     }
                 }
                 else

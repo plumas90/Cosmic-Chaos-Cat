@@ -118,98 +118,10 @@ namespace CosmicChaosCat
                 Debug.LogError("[GameManager] CardCatalogSO가 연결되지 않았습니다!");
                 return;
             }
-            EnsureTestCards();
-            EnsureTestSets();
             InitCardState();
             Load();
             RebuildSetState();
             NotifyState();
-        }
-
-        private void EnsureTestCards()
-        {
-            var field = typeof(CardCatalogSO).GetField("cards", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field == null) return;
-            var list = field.GetValue(cardCatalog) as List<CardEntry>;
-            if (list == null) return;
-
-            list.Clear();
-            var tex = Texture2D.whiteTexture;
-            var defaultSprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-            for (int i = 1; i <= 10; i++)
-            {
-                CardRarity rarity = CardRarity.N;
-                if (i >= 5 && i <= 7)       rarity = CardRarity.R;
-                else if (i >= 8 && i <= 9)  rarity = CardRarity.SR;
-                else if (i == 10)           rarity = CardRarity.SSR;
-
-                list.Add(new CardEntry
-                {
-                    Id = $"cat-{i}",
-                    DisplayName = $"고양이 {i}",
-                    Description = $"고양이{i} 상세 설명입니다.",
-                    Rarity = rarity,
-                    BaseWeight = i == 10 ? 10f : (i >= 8 ? 30f : (i >= 5 ? 100f : 500f)),
-                    ClickMultiplier = i,
-                    ShardValue = rarity == CardRarity.SSR ? 30 : (rarity == CardRarity.SR ? 10 : (rarity == CardRarity.R ? 3 : 1)),
-                    MaxStacks = 6,
-                    SetId = "set-cat-all",
-                    IsHidden = false,
-                    CardSprite = defaultSprite,
-                    BreakthroughVariantStages = (i % 2 == 1)
-                        ? new int[] { 1, 2, 3, 4, 5 }
-                        : new int[] { 1, 3, 5 },
-                    SpecialEffect = i % 3 == 1 ? CardSpecialEffect.CriticalChanceBonus : CardSpecialEffect.None,
-                    SpecialEffectValue = 0.05f
-                });
-            }
-        }
-
-        private void EnsureTestSets()
-        {
-            if (setCatalog == null) return;
-            var field = typeof(SetCatalogSO).GetField("sets", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field == null) return;
-            var list = field.GetValue(setCatalog) as List<SetEntry>;
-            if (list == null) return;
-
-            list.Clear();
-
-            // 고양이 1~10 전체 테스트 세트
-            list.Add(new SetEntry
-            {
-                SetId   = "set-cat-all",
-                SetName = "테스트",
-                CardIds = new List<string>
-                {
-                    "cat-1", "cat-2", "cat-3", "cat-4", "cat-5",
-                    "cat-6", "cat-7", "cat-8", "cat-9", "cat-10"
-                },
-                CriticalChanceBonus  = 0f,
-                FlatIncomeBonus      = 0d,
-                CriticalDamageBonus  = 0f,
-                GachaDiscountBonus   = 0f,
-                ShardBonusMultiplier = 1.0f,
-                EffectDesc           = "테스트용"
-            });
-
-            // 고양이 1~5 테스트2 세트 (목표치 5개)
-            list.Add(new SetEntry
-            {
-                SetId   = "set-cat-5",
-                SetName = "테스트2",
-                CardIds = new List<string>
-                {
-                    "cat-1", "cat-2", "cat-3", "cat-4", "cat-5"
-                },
-                CriticalChanceBonus  = 0.05f,
-                FlatIncomeBonus      = 10d,
-                CriticalDamageBonus  = 0f,
-                GachaDiscountBonus   = 0f,
-                ShardBonusMultiplier = 1.0f,
-                EffectDesc           = "테스트2용 보상"
-            });
         }
 
 
@@ -478,11 +390,11 @@ namespace CosmicChaosCat
             if (card == null) return false;
             if (!cardState.TryGetValue(cardId, out var state) || !state.Unlocked) return false;
 
-            if (state.BreakthroughCount >= 5) return false;
+            if (state.BreakthroughCount >= 4) return false;
             if (state.Copies <= state.BreakthroughCount + 1) return false;
 
             state.BreakthroughCount++;
-            Log($"🌟 {card.DisplayName} 한계 돌파! ({state.BreakthroughCount}강 달성)");
+            Log($"🌟 {card.DisplayName} 한계 돌파! ({state.BreakthroughCount + 1}강 달성)");
             
             Save();
             NotifyState();
@@ -516,8 +428,22 @@ namespace CosmicChaosCat
             if (IsSetCompleted(setId) && !IsSetRewardClaimed(setId))
             {
                 claimedSetRewards.Add(setId);
-                Shards += 1000; // Reward: 1000 shards
-                Log($"🎁 [{set.SetName}] 세트 완료 보상 수령! 조각 +1000");
+
+                if (set.RewardGold > 0d) Money += set.RewardGold;
+                if (set.RewardShards > 0) Shards += set.RewardShards;
+
+                // Fallback for sets with no explicit rewards specified
+                if (set.RewardGold <= 0d && set.RewardShards <= 0)
+                {
+                    Shards += 1000;
+                }
+
+                string msg = $"🎁 [{set.SetName}] 세트 완료 보상 수령!";
+                if (set.RewardGold > 0d) msg += $" 골드 +{set.RewardGold:N0}";
+                if (set.RewardShards > 0) msg += $" 조각 +{set.RewardShards:N0}";
+                if (set.RewardGold <= 0d && set.RewardShards <= 0) msg += " 조각 +1,000";
+
+                Log(msg);
                 Save();
                 NotifyState();
             }
@@ -527,6 +453,27 @@ namespace CosmicChaosCat
 
         public CardEntry GetEquippedCard() =>
             string.IsNullOrEmpty(EquippedCardId) ? null : cardCatalog?.FindById(EquippedCardId);
+
+        public void SetCardSelectedStage(string cardId, int stage)
+        {
+            if (string.IsNullOrEmpty(cardId) || !cardState.ContainsKey(cardId)) return;
+            cardState[cardId].SelectedStage = stage;
+            Save();
+            NotifyState();
+        }
+
+        public Sprite GetCardSpriteForDisplay(string cardId)
+        {
+            if (string.IsNullOrEmpty(cardId) || cardCatalog == null) return null;
+            var card = cardCatalog.FindById(cardId);
+            if (card == null) return null;
+            if (cardState.TryGetValue(cardId, out var prog))
+            {
+                int stage = prog.SelectedStage > 0 ? prog.SelectedStage : 1;
+                return card.GetSpriteForStage(stage);
+            }
+            return card.CardSprite;
+        }
 
         public double GetCurrentGachaCost(GachaType type = GachaType.Normal)
         {
@@ -620,7 +567,7 @@ namespace CosmicChaosCat
             {
                 state.Copies = maxStacks;
                 float shardMult = 1.5f + GetUpgradeEffectValue(UPG_SHARD_REFUND);
-                int   shards    = Mathf.RoundToInt(card.ShardValue * shardMult);
+                int   shards    = Mathf.RoundToInt((int)card.ShardValue * shardMult);
                 Shards += shards;
                 Log($"{card.DisplayName} 초과 중복! 조각 +{shards}");
             }
@@ -639,12 +586,15 @@ namespace CosmicChaosCat
 
         private void CheckSetCompletion(CardEntry newCard)
         {
-            if (setCatalog == null || string.IsNullOrEmpty(newCard.SetId)) return;
+            if (setCatalog == null || cardCatalog == null || string.IsNullOrEmpty(newCard.SetId)) return;
             var set = setCatalog.FindById(newCard.SetId);
             if (set == null || completedSets.Contains(set.SetId)) return;
 
-            foreach (var cardId in set.CardIds)
-                if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked) return;
+            var setCards = set.GetCardsInSet(cardCatalog.Cards);
+            if (setCards.Count == 0) return;
+
+            foreach (var card in setCards)
+                if (!cardState.TryGetValue(card.Id, out var s) || !s.Unlocked) return;
 
             completedSets.Add(set.SetId);
             Log($"🎉 세트 완성! [{set.SetName}]");
@@ -653,14 +603,16 @@ namespace CosmicChaosCat
 
         private void RebuildSetState()
         {
-            if (setCatalog == null) return;
+            if (setCatalog == null || cardCatalog == null) return;
             for (int i = 0; i < setCatalog.Sets.Count; i++)
             {
                 var set = setCatalog.Sets[i];
                 if (completedSets.Contains(set.SetId)) continue;
+                var setCards = set.GetCardsInSet(cardCatalog.Cards);
+                if (setCards.Count == 0) continue;
                 bool allOwned = true;
-                foreach (var cardId in set.CardIds)
-                    if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked)
+                foreach (var card in setCards)
+                    if (!cardState.TryGetValue(card.Id, out var s) || !s.Unlocked)
                     { allOwned = false; break; }
                 if (allOwned) completedSets.Add(set.SetId);
             }
@@ -756,14 +708,33 @@ namespace CosmicChaosCat
             return entry.EffectValuePerLevel[lv - 1];
         }
 
+        private string GetDefaultFirstCardId()
+        {
+            if (cardCatalog != null && cardCatalog.Cards != null && cardCatalog.Cards.Count > 0)
+            {
+                if (cardCatalog.Cards[0] != null && !string.IsNullOrEmpty(cardCatalog.Cards[0].Id))
+                    return cardCatalog.Cards[0].Id;
+            }
+            return "01";
+        }
+
         private void InitCardState()
         {
             cardState.Clear();
+            if (cardCatalog == null || cardCatalog.Cards == null) return;
+            string defaultCardId = GetDefaultFirstCardId();
+
             for (int i = 0; i < cardCatalog.Cards.Count; i++)
             {
                 var card = cardCatalog.Cards[i];
                 if (card == null) continue;
-                cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 0, Unlocked = false };
+                bool isDefault = card.Id == defaultCardId;
+                cardState[card.Id] = new CardProgress
+                {
+                    CardId = card.Id,
+                    Copies = isDefault ? 1 : 0,
+                    Unlocked = isDefault
+                };
             }
         }
 
@@ -816,16 +787,17 @@ namespace CosmicChaosCat
 
         private void Load()
         {
+            string defaultCardId = GetDefaultFirstCardId();
             if (!PlayerPrefs.HasKey(SaveKey))
             {
                 Money = 1000d;
-                EquippedCardId = "cat-1";
+                EquippedCardId = defaultCardId;
                 EquippedBackgroundId = "bg-normal";
                 EquippedDecorationId = "deco-normal";
-                if (cardState.ContainsKey("cat-1"))
+                if (cardState.ContainsKey(defaultCardId))
                 {
-                    cardState["cat-1"].Unlocked = true;
-                    cardState["cat-1"].Copies = 1;
+                    cardState[defaultCardId].Unlocked = true;
+                    cardState[defaultCardId].Copies = 1;
                 }
                 Save();
                 return;
@@ -858,6 +830,7 @@ namespace CosmicChaosCat
                     cardState[c.CardId].Copies            = Math.Max(0, c.Copies);
                     cardState[c.CardId].Unlocked          = c.Unlocked;
                     cardState[c.CardId].BreakthroughCount = c.BreakthroughCount;
+                    cardState[c.CardId].SelectedStage     = c.SelectedStage > 0 ? c.SelectedStage : 1;
                 }
             if (data.Upgrades != null)
                 foreach (var u in data.Upgrades)
@@ -869,15 +842,16 @@ namespace CosmicChaosCat
             if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
             if (data.ClaimedSetRewards != null)   claimedSetRewards.UnionWith(data.ClaimedSetRewards);
 
-            // 기본 장착 보장
+            // 기본 01번 카드 해금 및 장착 보장
+            if (cardState.ContainsKey(defaultCardId))
+            {
+                cardState[defaultCardId].Unlocked = true;
+                if (cardState[defaultCardId].Copies == 0) cardState[defaultCardId].Copies = 1;
+            }
+
             if (string.IsNullOrEmpty(EquippedCardId) || !cardState.ContainsKey(EquippedCardId) || !cardState[EquippedCardId].Unlocked)
             {
-                EquippedCardId = "cat-1";
-                if (cardState.ContainsKey("cat-1"))
-                {
-                    cardState["cat-1"].Unlocked = true;
-                    if (cardState["cat-1"].Copies == 0) cardState["cat-1"].Copies = 1;
-                }
+                EquippedCardId = defaultCardId;
             }
 
             NotifyState();

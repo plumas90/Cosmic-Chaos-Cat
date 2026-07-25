@@ -5,6 +5,14 @@ namespace CosmicChaosCat
 {
     public enum CardRarity { N, R, SR, SSR, UR }
 
+    public enum CardShardValue
+    {
+        [InspectorName("1")]  Value_1  = 1,
+        [InspectorName("5")]  Value_5  = 5,
+        [InspectorName("10")] Value_10 = 10,
+        [InspectorName("50")] Value_50 = 50
+    }
+
     public enum CardSpecialEffect
     {
         None,
@@ -12,6 +20,8 @@ namespace CosmicChaosCat
         DuplicateBonusBonus,
         ShardRefundBonus
     }
+
+    public class SetIdAttribute : PropertyAttribute { }
 
     [Serializable]
     public sealed class CardEntry
@@ -21,9 +31,9 @@ namespace CosmicChaosCat
         public CardRarity Rarity;
         public float BaseWeight = 100f;
         public float ClickMultiplier = 1f;
-        public int ShardValue = 3;
+        public CardShardValue ShardValue = CardShardValue.Value_1;
         public int MaxStacks = 6;
-        public string SetId;
+        [SetId] public string SetId;
         public bool IsHidden;
         public Sprite CardSprite;
         public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
@@ -34,7 +44,8 @@ namespace CosmicChaosCat
 
         public System.Collections.Generic.List<int> GetBreakthroughStages()
         {
-            if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
+            if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0 &&
+                BreakthroughSprites != null && BreakthroughSprites.Length > 0)
             {
                 var list = new System.Collections.Generic.List<int>();
                 foreach (int st in BreakthroughVariantStages)
@@ -43,8 +54,7 @@ namespace CosmicChaosCat
                 }
                 if (list.Count > 0) return list;
             }
-            // Default: All 5 stages (1, 2, 3, 4, 5)
-            return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
+            return new System.Collections.Generic.List<int>();
         }
 
         public Sprite GetSpriteForStage(int stage)

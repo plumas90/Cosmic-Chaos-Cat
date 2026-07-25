@@ -149,6 +149,20 @@ namespace CosmicChaosCat
             }
         }
 
+        public void SetArtSprite(Sprite sp)
+        {
+            EnsureInit();
+            if (cardArtImage != null)
+            {
+                if (sp != null)
+                {
+                    cardArtImage.gameObject.SetActive(true);
+                    cardArtImage.sprite = sp;
+                    cardArtImage.color  = Color.white;
+                }
+            }
+        }
+
         // ── 메인 데이터 적용 ─────────────────────────────────────────────────
         public void SetData(CardEntry card, int cardIndex, CardProgress progress,
             GameManager gameManager, System.Action<string> onSlotClicked)
@@ -205,14 +219,14 @@ namespace CosmicChaosCat
                 if (unlocked)
                 {
                     cardArtImage.gameObject.SetActive(true);
-                    if (card.CardSprite != null)
+                    int selStage = (progress != null && progress.SelectedStage > 0) ? progress.SelectedStage : 1;
+                    Sprite stageSprite = card != null ? card.GetSpriteForStage(selStage) : null;
+                    if (stageSprite == null && card != null) stageSprite = card.CardSprite;
+                    if (stageSprite == null) stageSprite = _originalArtSprite;
+
+                    if (stageSprite != null)
                     {
-                        cardArtImage.sprite = card.CardSprite;
-                        cardArtImage.color  = Color.white;
-                    }
-                    else if (_originalArtSprite != null)
-                    {
-                        cardArtImage.sprite = _originalArtSprite;
+                        cardArtImage.sprite = stageSprite;
                         cardArtImage.color  = Color.white;
                     }
                     else
