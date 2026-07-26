@@ -37,6 +37,7 @@ namespace CosmicChaosCat
 
         private void Refresh()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager == null || bgImage == null) return;
 
             string bgId = gameManager.EquippedBackgroundId;

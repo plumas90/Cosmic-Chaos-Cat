@@ -18,7 +18,23 @@ namespace CosmicChaosCat
 
     public sealed class CollectionPanel : MonoBehaviour
     {
-        public static CollectionPanel Instance { get; private set; }
+        private static CollectionPanel _instance;
+        public static CollectionPanel Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<CollectionPanel>(true);
+                }
+                if (_instance != null)
+                {
+                    _instance.EnsureInit();
+                }
+                return _instance;
+            }
+            private set => _instance = value;
+        }
 
         [Header("Core References")]
         [SerializeField] private GameManager gameManager;
@@ -58,16 +74,25 @@ namespace CosmicChaosCat
         private static readonly Color TabActive = new Color(0.6f, 0.2f, 0.6f, 1f); // Purple
         private static readonly Color TabInactive = new Color(0.25f, 0.25f, 0.35f, 1f);
 
-        private void Awake()
+        private bool _isInitialized = false;
+
+        public void EnsureInit()
         {
-            Instance = this;
+            if (_isInitialized) return;
+            _isInitialized = true;
+
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (defaultFont == null) defaultFont = FindObjectOfType<TMP_Text>()?.font;
 
-            // We do NOT call BuildUI() because the user has built the CollectionPanel manually in hierarchy.
             AutoWireFields();
             InitializeDefaultItems();
             InitSlots();
+        }
+
+        private void Awake()
+        {
+            _instance = this;
+            EnsureInit();
         }
 
         private void OnEnable()
@@ -108,12 +133,14 @@ namespace CosmicChaosCat
 
         public Sprite GetBackgroundSprite(string id)
         {
+            EnsureInit();
             var item = backgrounds.Find(x => x.id == id);
             return item?.displaySprite;
         }
 
         public Sprite GetDecorationSprite(string id)
         {
+            EnsureInit();
             var item = decorations.Find(x => x.id == id);
             return item?.displaySprite;
         }

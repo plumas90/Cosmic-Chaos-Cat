@@ -799,8 +799,8 @@ namespace CosmicChaosCat
             {
                 Money = 1000d;
                 EquippedCardId = defaultCardId;
-                EquippedBackgroundId = "bg-normal";
-                EquippedDecorationId = "deco-normal";
+                EquippedBackgroundId = "bg-none";
+                EquippedDecorationId = "deco-none";
                 if (cardState.ContainsKey(defaultCardId))
                 {
                     cardState[defaultCardId].Unlocked = true;
@@ -818,8 +818,8 @@ namespace CosmicChaosCat
             Shards         = Math.Max(0, data.Shards);
             ElapsedSeconds = Math.Max(0f, data.ElapsedSeconds);
             EquippedCardId = data.EquippedCardId;
-            EquippedBackgroundId = string.IsNullOrEmpty(data.EquippedBackgroundId) ? "bg-normal" : data.EquippedBackgroundId;
-            EquippedDecorationId = string.IsNullOrEmpty(data.EquippedDecorationId) ? "deco-normal" : data.EquippedDecorationId;
+            EquippedBackgroundId = string.IsNullOrEmpty(data.EquippedBackgroundId) ? "bg-none" : data.EquippedBackgroundId;
+            EquippedDecorationId = string.IsNullOrEmpty(data.EquippedDecorationId) ? "deco-none" : data.EquippedDecorationId;
             TotalRolls     = Math.Max(0, data.TotalRolls);
             TotalClicks    = Math.Max(0, data.TotalClicks);
             UnlockedRareGacha  = data.UnlockedRareGacha;

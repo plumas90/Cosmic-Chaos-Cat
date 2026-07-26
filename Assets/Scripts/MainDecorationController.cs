@@ -37,10 +37,11 @@ namespace CosmicChaosCat
 
         private void Refresh()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager == null || decoImage == null) return;
 
             string decoId = gameManager.EquippedDecorationId;
-            if (string.IsNullOrEmpty(decoId))
+            if (string.IsNullOrEmpty(decoId) || decoId == "deco-none")
             {
                 decoImage.enabled = false;
                 return;
