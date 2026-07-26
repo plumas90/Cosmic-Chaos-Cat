@@ -15,6 +15,7 @@ namespace CosmicChaosCat
     {
         [SerializeField] private Image      frameImage;
         [SerializeField] private Image      cardArtImage;
+        [SerializeField] private Image      rarityMarkImage;    // rereMark / rareMark / RarityMark
         [SerializeField] private TMP_Text   nameText;
         [SerializeField] private TMP_Text   rarityText;        // 선택사항
         [SerializeField] private GameObject unknownOverlay;    // 선택사항 (구형 호환)
@@ -37,6 +38,7 @@ namespace CosmicChaosCat
         // ── 런타임에 EncyclopediaPanel이 전달하는 스프라이트 ─────────────────
         private Sprite _rarityFrameSprite;   // 보유 시 사용할 등급 프레임
         private Sprite _lockedSprite;        // 미해금 시 frame에 표시
+        private Sprite _rarityMarkSprite;    // 보유 시 rereMark 표시 스프라이트 (N, R, SR, SSR, UR)
 
         // Original state of cardArtImage
         private Sprite _originalArtSprite;
@@ -85,10 +87,11 @@ namespace CosmicChaosCat
                     clean.Add(t);
             }
             // ── Image 컴포넌트 연결 (정확한 이름 기준, 항상 덮어쓰기) ────────
-            // 구조: Frame = 배경프레임, Art = 고양이 이미지, Image = 이름 배경 (건드리지 않음)
+            // 구조: Frame = 배경프레임, Art = 고양이 이미지, rereMark = 레어도 마크, Image = 이름 배경 (건드리지 않음)
             var imgs = GetComponentsInChildren<Image>(true);
-            frameImage   = null;
-            cardArtImage = null;
+            frameImage      = null;
+            cardArtImage    = null;
+            rarityMarkImage = null;
             foreach (var img in imgs)
             {
                 if (img == null) continue;
@@ -102,10 +105,15 @@ namespace CosmicChaosCat
                 {
                     if (cardArtImage == null) cardArtImage = img;
                 }
+                else if (n == "rereMark" || n == "reremark" || n == "rareMark" || n == "raremark" ||
+                         n == "RarityMark" || n == "rarityMark" || n == "rare_mark" || n == "rarity_mark" || n == "RareMark")
+                {
+                    if (rarityMarkImage == null) rarityMarkImage = img;
+                }
             }
 
             // 이름 매칭 실패 시 Contains 폴백
-            if (frameImage == null || cardArtImage == null)
+            if (frameImage == null || cardArtImage == null || rarityMarkImage == null)
             {
                 foreach (var img in imgs)
                 {
@@ -117,6 +125,8 @@ namespace CosmicChaosCat
                              (nl.Contains("cardart") || nl.Contains("card_art") ||
                               (nl.Contains("art") && !nl.Contains("start") && !nl.Contains("heart"))))
                         cardArtImage = img;
+                    else if (rarityMarkImage == null && (nl.Contains("reremark") || nl.Contains("raremark") || nl.Contains("mark")))
+                        rarityMarkImage = img;
                 }
             }
 
@@ -135,10 +145,11 @@ namespace CosmicChaosCat
         }
 
         // ── 스프라이트를 외부(EncyclopediaPanel)에서 전달 ────────────────────
-        public void SetSprites(Sprite rarityFrame, Sprite locked)
+        public void SetSprites(Sprite rarityFrame, Sprite locked, Sprite rarityMark = null)
         {
             _rarityFrameSprite = rarityFrame;
             _lockedSprite      = locked;
+            _rarityMarkSprite  = rarityMark;
 
             // Save cardArtImage original state on first assignment
             if (cardArtImage != null && !_artOriginalSaved)
@@ -183,15 +194,15 @@ namespace CosmicChaosCat
                 {
                     if (_rarityFrameSprite != null)
                     {
-                        frameImage.sprite = _rarityFrameSprite;
-                        frameImage.color  = Color.white;
-                        frameImage.type   = Image.Type.Sliced;
+                        if (frameImage.sprite != _rarityFrameSprite) frameImage.sprite = _rarityFrameSprite;
+                        if (frameImage.color != Color.white) frameImage.color = Color.white;
+                        if (frameImage.type != Image.Type.Sliced) frameImage.type = Image.Type.Sliced;
                     }
                     else
                     {
-                        // 스프라이트 없으면 등급 색상 단색으로 대체
-                        frameImage.sprite = null;
-                        frameImage.color  = (Color)RarityToColor(card.Rarity);
+                        Color targetCol = (Color)RarityToColor(card.Rarity);
+                        if (frameImage.sprite != null) frameImage.sprite = null;
+                        if (frameImage.color != targetCol) frameImage.color = targetCol;
                     }
                 }
                 else
@@ -199,14 +210,15 @@ namespace CosmicChaosCat
                     // 미해금 → card_locked 스프라이트
                     if (_lockedSprite != null)
                     {
-                        frameImage.sprite = _lockedSprite;
-                        frameImage.color  = Color.white;
-                        frameImage.type   = Image.Type.Sliced;
+                        if (frameImage.sprite != _lockedSprite) frameImage.sprite = _lockedSprite;
+                        if (frameImage.color != Color.white) frameImage.color = Color.white;
+                        if (frameImage.type != Image.Type.Sliced) frameImage.type = Image.Type.Sliced;
                     }
                     else
                     {
-                        frameImage.sprite = null;
-                        frameImage.color  = new Color(0.18f, 0.14f, 0.10f, 1f);
+                        Color targetCol = new Color(0.18f, 0.14f, 0.10f, 1f);
+                        if (frameImage.sprite != null) frameImage.sprite = null;
+                        if (frameImage.color != targetCol) frameImage.color = targetCol;
                     }
                 }
             }
@@ -218,7 +230,7 @@ namespace CosmicChaosCat
 
                 if (unlocked)
                 {
-                    cardArtImage.gameObject.SetActive(true);
+                    if (!cardArtImage.gameObject.activeSelf) cardArtImage.gameObject.SetActive(true);
                     int selStage = (progress != null && progress.SelectedStage > 0) ? progress.SelectedStage : 1;
                     Sprite stageSprite = card != null ? card.GetSpriteForStage(selStage) : null;
                     if (stageSprite == null && card != null) stageSprite = card.CardSprite;
@@ -226,20 +238,40 @@ namespace CosmicChaosCat
 
                     if (stageSprite != null)
                     {
-                        cardArtImage.sprite = stageSprite;
-                        cardArtImage.color  = Color.white;
+                        if (cardArtImage.sprite != stageSprite) cardArtImage.sprite = stageSprite;
+                        if (cardArtImage.color != Color.white) cardArtImage.color = Color.white;
                     }
                     else
                     {
-                        cardArtImage.color  = Color.white;
+                        if (cardArtImage.color != Color.white) cardArtImage.color = Color.white;
                     }
                 }
                 else
                 {
                     // 미해금 → 투명 및 비활성화 처리 (이미지 안 보임)
-                    cardArtImage.sprite = null;
-                    cardArtImage.color  = new Color(0, 0, 0, 0);
-                    cardArtImage.gameObject.SetActive(false);
+                    if (cardArtImage.sprite != null) cardArtImage.sprite = null;
+                    if (cardArtImage.color != new Color(0, 0, 0, 0)) cardArtImage.color = new Color(0, 0, 0, 0);
+                    if (cardArtImage.gameObject.activeSelf) cardArtImage.gameObject.SetActive(false);
+                }
+            }
+
+            // ── Rarity Mark (rereMark / rareMark) ───────────────────────────
+            if (rarityMarkImage != null)
+            {
+                rarityMarkImage.raycastTarget = false;
+
+                if (unlocked && _rarityMarkSprite != null)
+                {
+                    if (!rarityMarkImage.gameObject.activeSelf) rarityMarkImage.gameObject.SetActive(true);
+                    if (rarityMarkImage.sprite != _rarityMarkSprite) rarityMarkImage.sprite = _rarityMarkSprite;
+                    if (rarityMarkImage.color != Color.white) rarityMarkImage.color = Color.white;
+                }
+                else
+                {
+                    // 미해금 시 투명 및 비활성화 (빈 이미지)
+                    if (rarityMarkImage.sprite != null) rarityMarkImage.sprite = null;
+                    if (rarityMarkImage.color != new Color(0, 0, 0, 0)) rarityMarkImage.color = new Color(0, 0, 0, 0);
+                    if (rarityMarkImage.gameObject.activeSelf) rarityMarkImage.gameObject.SetActive(false);
                 }
             }
 

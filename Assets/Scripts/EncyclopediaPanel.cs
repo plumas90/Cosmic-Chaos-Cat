@@ -94,11 +94,21 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteCardFrameSR;
         [SerializeField] private Sprite spriteCardFrameSSR;
         [SerializeField] private Sprite spriteCardLocked;
+
+        [Header("Rarity Mark Sprites (assign in Inspector)")]
+        [SerializeField] private Sprite spriteMarkN;
+        [SerializeField] private Sprite spriteMarkR;
+        [SerializeField] private Sprite spriteMarkSR;
+        [SerializeField] private Sprite spriteMarkSSR;
+        [SerializeField] private Sprite spriteMarkUR;
+
         [SerializeField] private Sprite spriteCollectionCounter;
         [SerializeField] private Sprite spriteBtnRepresentative;
         [SerializeField] private Sprite spriteTitleCatCodex;
         [SerializeField] private Sprite spriteBtnPageLeft;
         [SerializeField] private Sprite spriteBtnPageRight;
+
+        [SerializeField] private Image  detailCardRarityMark;
 
         // ── Slot pool (9 slots for left page) ───────────────────────────────
         private const int SLOTS_PER_PAGE = 9;
@@ -1012,7 +1022,8 @@ namespace CosmicChaosCat
                     var card = filteredCards[ci];
                     cardStates.TryGetValue(card.Id, out var prog);
                     Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
-                    slot.ui.SetSprites(frameSp, spriteCardLocked);
+                    Sprite markSp  = GetMarkSpriteForRarity(card.Rarity);
+                    slot.ui.SetSprites(frameSp, spriteCardLocked, markSp);
                     slot.ui.SetData(card, FindOriginalIndex(card, allCards), prog, gm, OnSlotClickedById);
                 }
                 else
@@ -1136,6 +1147,7 @@ namespace CosmicChaosCat
         {
             if (detailCardFrameImage != null) { detailCardFrameImage.sprite = spriteCardLocked; detailCardFrameImage.color = Color.white; }
             if (detailCardArt       != null) { detailCardArt.sprite = null; detailCardArt.color = new Color(0, 0, 0, 0); detailCardArt.gameObject.SetActive(false); }
+            if (detailCardRarityMark != null) { detailCardRarityMark.sprite = null; detailCardRarityMark.color = new Color(0, 0, 0, 0); detailCardRarityMark.gameObject.SetActive(false); }
             if (detailCardName      != null) detailCardName.text      = "???";
             if (detailRarityBadge   != null) detailRarityBadge.text   = "";
             if (detailDescription   != null) detailDescription.text   = "???";
@@ -1168,7 +1180,8 @@ namespace CosmicChaosCat
             if (detailSlotUI != null)
             {
                 Sprite frameSp = unlocked && card != null ? GetFrameSpriteForRarity(card.Rarity) : spriteCardLocked;
-                detailSlotUI.SetSprites(frameSp, spriteCardLocked);
+                Sprite markSp  = unlocked && card != null ? GetMarkSpriteForRarity(card.Rarity) : null;
+                detailSlotUI.SetSprites(frameSp, spriteCardLocked, markSp);
                 if (card != null)
                 {
                     var allCards = gm?.CardCatalog?.Cards;
@@ -1202,20 +1215,21 @@ namespace CosmicChaosCat
 
             if (detailCardFrameImage != null)
             {
-                detailCardFrameImage.gameObject.SetActive(true);
+                if (!detailCardFrameImage.gameObject.activeSelf) detailCardFrameImage.gameObject.SetActive(true);
                 if (unlocked && card != null)
                 {
                     Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
                     if (frameSp != null)
                     {
-                        detailCardFrameImage.sprite = frameSp;
-                        detailCardFrameImage.color  = Color.white;
-                        detailCardFrameImage.type   = Image.Type.Sliced;
+                        if (detailCardFrameImage.sprite != frameSp) detailCardFrameImage.sprite = frameSp;
+                        if (detailCardFrameImage.color != Color.white) detailCardFrameImage.color  = Color.white;
+                        if (detailCardFrameImage.type != Image.Type.Sliced) detailCardFrameImage.type   = Image.Type.Sliced;
                     }
                     else
                     {
-                        detailCardFrameImage.sprite = null;
-                        detailCardFrameImage.color  = (Color)RarityToColor(card.Rarity);
+                        Color targetCol = (Color)RarityToColor(card.Rarity);
+                        if (detailCardFrameImage.sprite != null) detailCardFrameImage.sprite = null;
+                        if (detailCardFrameImage.color != targetCol) detailCardFrameImage.color  = targetCol;
                     }
                 }
                 else
@@ -1223,14 +1237,15 @@ namespace CosmicChaosCat
                     // Locked -> lock frame sprite
                     if (spriteCardLocked != null)
                     {
-                        detailCardFrameImage.sprite = spriteCardLocked;
-                        detailCardFrameImage.color  = Color.white;
-                        detailCardFrameImage.type   = Image.Type.Sliced;
+                        if (detailCardFrameImage.sprite != spriteCardLocked) detailCardFrameImage.sprite = spriteCardLocked;
+                        if (detailCardFrameImage.color != Color.white) detailCardFrameImage.color  = Color.white;
+                        if (detailCardFrameImage.type != Image.Type.Sliced) detailCardFrameImage.type   = Image.Type.Sliced;
                     }
                     else
                     {
-                        detailCardFrameImage.sprite = null;
-                        detailCardFrameImage.color  = new Color(0.18f, 0.14f, 0.10f, 1f);
+                        Color targetCol = new Color(0.18f, 0.14f, 0.10f, 1f);
+                        if (detailCardFrameImage.sprite != null) detailCardFrameImage.sprite = null;
+                        if (detailCardFrameImage.color != targetCol) detailCardFrameImage.color  = targetCol;
                     }
                 }
             }
@@ -1274,7 +1289,7 @@ namespace CosmicChaosCat
             // Card name
             if (detailCardName != null)
             {
-                detailCardName.gameObject.SetActive(true);
+                if (!detailCardName.gameObject.activeSelf) detailCardName.gameObject.SetActive(true);
                 string targetName = unlocked && card != null ? card.DisplayName : "???";
                 if (detailCardName.text != targetName) detailCardName.text = targetName;
             }
@@ -1282,7 +1297,7 @@ namespace CosmicChaosCat
             // Rarity badge
             if (detailRarityBadge != null)
             {
-                detailRarityBadge.gameObject.SetActive(unlocked);
+                if (detailRarityBadge.gameObject.activeSelf != unlocked) detailRarityBadge.gameObject.SetActive(unlocked);
                 if (card != null)
                 {
                     string targetBadge = unlocked ? card.Rarity.ToString() : "?";
@@ -1292,31 +1307,72 @@ namespace CosmicChaosCat
                 }
             }
 
+            // Rarity mark (rereMark Image)
+            if (detailCardRarityMark == null && searchRoot != null)
+            {
+                var rm = FindChildByNameRecursive(searchRoot, "rereMark")
+                      ?? FindChildByNameRecursive(searchRoot, "reremark")
+                      ?? FindChildByNameRecursive(searchRoot, "rareMark")
+                      ?? FindChildByNameRecursive(searchRoot, "raremark")
+                      ?? FindChildByNameRecursive(searchRoot, "RarityMark")
+                      ?? FindChildByNameRecursive(searchRoot, "rarityMark")
+                      ?? FindChildByNameRecursive(searchRoot, "rare_mark")
+                      ?? FindChildByNameRecursive(searchRoot, "rarity_mark")
+                      ?? FindChildByNameRecursive(searchRoot, "RareMark");
+                if (rm != null) detailCardRarityMark = rm.GetComponent<Image>();
+            }
+
+            if (detailCardRarityMark != null)
+            {
+                if (unlocked && card != null)
+                {
+                    Sprite markSp = GetMarkSpriteForRarity(card.Rarity);
+                    if (markSp != null)
+                    {
+                        if (!detailCardRarityMark.gameObject.activeSelf) detailCardRarityMark.gameObject.SetActive(true);
+                        if (detailCardRarityMark.sprite != markSp) detailCardRarityMark.sprite = markSp;
+                        if (detailCardRarityMark.color != Color.white) detailCardRarityMark.color  = Color.white;
+                    }
+                    else
+                    {
+                        if (detailCardRarityMark.sprite != null) detailCardRarityMark.sprite = null;
+                        if (detailCardRarityMark.color != new Color(0, 0, 0, 0)) detailCardRarityMark.color  = new Color(0, 0, 0, 0);
+                        if (detailCardRarityMark.gameObject.activeSelf) detailCardRarityMark.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    if (detailCardRarityMark.sprite != null) detailCardRarityMark.sprite = null;
+                    if (detailCardRarityMark.color != new Color(0, 0, 0, 0)) detailCardRarityMark.color  = new Color(0, 0, 0, 0);
+                    if (detailCardRarityMark.gameObject.activeSelf) detailCardRarityMark.gameObject.SetActive(false);
+                }
+            }
+
             // Card art (실제 image)
             if (detailCardArt != null)
             {
                 if (unlocked)
                 {
-                    detailCardArt.gameObject.SetActive(true);
+                    if (!detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(true);
                     Sprite targetSprite = card != null ? card.GetSpriteForStage(selectedIllustrationStage) : null;
                     if (targetSprite == null && card != null) targetSprite = card.CardSprite;
 
                     if (targetSprite != null)
                     {
-                        detailCardArt.sprite = targetSprite;
-                        detailCardArt.color  = Color.white;
+                        if (detailCardArt.sprite != targetSprite) detailCardArt.sprite = targetSprite;
+                        if (detailCardArt.color != Color.white) detailCardArt.color  = Color.white;
                     }
                     else
                     {
-                        detailCardArt.color  = Color.white;
+                        if (detailCardArt.color != Color.white) detailCardArt.color  = Color.white;
                     }
                 }
                 else
                 {
                     // Locked -> image 없음 (clear sprite & set inactive)
-                    detailCardArt.sprite = null;
-                    detailCardArt.color  = new Color(0, 0, 0, 0);
-                    detailCardArt.gameObject.SetActive(false);
+                    if (detailCardArt.sprite != null) detailCardArt.sprite = null;
+                    if (detailCardArt.color != new Color(0, 0, 0, 0)) detailCardArt.color  = new Color(0, 0, 0, 0);
+                    if (detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(false);
                 }
             }
 
@@ -1689,7 +1745,8 @@ namespace CosmicChaosCat
                     if (displayCard != null)
                     {
                         Sprite frameSp = unlocked ? GetFrameSpriteForRarity(displayCard.Rarity) : spriteCardLocked;
-                        slot.SetSprites(frameSp, spriteCardLocked);
+                        Sprite markSp  = unlocked ? GetMarkSpriteForRarity(displayCard.Rarity) : null;
+                        slot.SetSprites(frameSp, spriteCardLocked, markSp);
 
                         int slotIdx = i;
                         slot.SetData(displayCard, cardIndex, prog, gm, id =>
@@ -2015,6 +2072,21 @@ namespace CosmicChaosCat
                               ?? FindChildByNameRecursive(rt, "image")
                               ?? FindChildByNameRecursive(rt, "Image");
                         if (ar != null) detailCardArt = ar.GetComponent<Image>();
+                    }
+
+                    // rereMark / rareMark → detailCardRarityMark
+                    if (detailCardRarityMark == null)
+                    {
+                        var rm = FindChildByNameRecursive(rt, "rereMark")
+                              ?? FindChildByNameRecursive(rt, "reremark")
+                              ?? FindChildByNameRecursive(rt, "rareMark")
+                              ?? FindChildByNameRecursive(rt, "raremark")
+                              ?? FindChildByNameRecursive(rt, "RarityMark")
+                              ?? FindChildByNameRecursive(rt, "rarityMark")
+                              ?? FindChildByNameRecursive(rt, "rare_mark")
+                              ?? FindChildByNameRecursive(rt, "rarity_mark")
+                              ?? FindChildByNameRecursive(rt, "RareMark");
+                        if (rm != null) detailCardRarityMark = rm.GetComponent<Image>();
                     }
 
                     if (detailCardName == null)
@@ -2345,6 +2417,18 @@ namespace CosmicChaosCat
                 case CardRarity.SSR: return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
                 case CardRarity.UR:  return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
                 default:             return spriteCardFrameN;
+            }
+        }
+
+        private Sprite GetMarkSpriteForRarity(CardRarity r)
+        {
+            switch (r)
+            {
+                case CardRarity.R:   return spriteMarkR   != null ? spriteMarkR   : spriteMarkN;
+                case CardRarity.SR:  return spriteMarkSR  != null ? spriteMarkSR  : spriteMarkN;
+                case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
+                case CardRarity.UR:  return spriteMarkUR  != null ? spriteMarkUR  : (spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN);
+                default:             return spriteMarkN;
             }
         }
 
