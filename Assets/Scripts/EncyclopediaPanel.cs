@@ -94,6 +94,7 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteCardFrameSR;
         [SerializeField] private Sprite spriteCardFrameSSR;
         [SerializeField] private Sprite spriteCardLocked;
+        public Sprite SpriteCardLocked => spriteCardLocked;
 
         [Header("Rarity Mark Sprites (assign in Inspector)")]
         [SerializeField] private Sprite spriteMarkN;
@@ -2408,7 +2409,7 @@ namespace CosmicChaosCat
             if (tx != null) tx.color = col;
         }
 
-        private Sprite GetFrameSpriteForRarity(CardRarity r)
+        public Sprite GetFrameSpriteForRarity(CardRarity r)
         {
             switch (r)
             {
@@ -2420,7 +2421,7 @@ namespace CosmicChaosCat
             }
         }
 
-        private Sprite GetMarkSpriteForRarity(CardRarity r)
+        public Sprite GetMarkSpriteForRarity(CardRarity r)
         {
             switch (r)
             {

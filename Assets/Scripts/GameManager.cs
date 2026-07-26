@@ -580,8 +580,6 @@ namespace CosmicChaosCat
             {
                 Log($"💪 중복 강화: {card.DisplayName} x{state.Copies}");
             }
-
-            EquippedCardId = card.Id;
         }
 
         private void CheckSetCompletion(CardEntry newCard)

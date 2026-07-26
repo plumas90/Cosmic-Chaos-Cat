@@ -93,9 +93,17 @@ namespace CosmicChaosCat
                     ? gameManager.GetCardSpriteForDisplay(card.Id)
                     : defaultCardSprite;
                 if (sprite == null) sprite = defaultCardSprite;
+                
+                bool spriteChanged = cardImage.sprite != sprite;
                 cardImage.sprite = sprite;
                 if (sprite != null)
+                {
                     cardImage.color = Color.white;
+                    if (spriteChanged)
+                    {
+                        cardImage.SetNativeSize();
+                    }
+                }
             }
 
             // 등급 컬러

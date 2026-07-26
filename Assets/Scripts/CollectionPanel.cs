@@ -192,10 +192,10 @@ namespace CosmicChaosCat
             switch (r)
             {
                 case CardRarity.N: return spriteFrameN;
-                case CardRarity.R: return spriteFrameR;
-                case CardRarity.SR: return spriteFrameSR;
-                case CardRarity.SSR: return spriteFrameSSR;
-                case CardRarity.UR: return spriteFrameSSR;
+                case CardRarity.R: return spriteFrameR != null ? spriteFrameR : spriteFrameN;
+                case CardRarity.SR: return spriteFrameSR != null ? spriteFrameSR : spriteFrameN;
+                case CardRarity.SSR: return spriteFrameSSR != null ? spriteFrameSSR : spriteFrameN;
+                case CardRarity.UR: return spriteFrameSSR != null ? spriteFrameSSR : spriteFrameN;
                 default: return spriteFrameN;
             }
         }
@@ -205,10 +205,10 @@ namespace CosmicChaosCat
             switch (r)
             {
                 case CardRarity.N: return spriteMarkN;
-                case CardRarity.R: return spriteMarkR;
-                case CardRarity.SR: return spriteMarkSR;
-                case CardRarity.SSR: return spriteMarkSSR;
-                case CardRarity.UR: return spriteMarkSSR;
+                case CardRarity.R: return spriteMarkR != null ? spriteMarkR : spriteMarkN;
+                case CardRarity.SR: return spriteMarkSR != null ? spriteMarkSR : spriteMarkN;
+                case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
+                case CardRarity.UR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
                 default: return spriteMarkN;
             }
         }
@@ -545,6 +545,16 @@ namespace CosmicChaosCat
                 bool showEq = unlocked && isEquipped;
                 if (eqIndicator.activeSelf != showEq) eqIndicator.SetActive(showEq);
             }
+
+            // 7. Hover Color (Simple Black)
+            var slotBtn = slotTf.GetComponent<Button>();
+            if (slotBtn != null && slotBtn.transition == Selectable.Transition.ColorTint)
+            {
+                var cs = slotBtn.colors;
+                cs.highlightedColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+                cs.pressedColor     = new Color(0.08f, 0.08f, 0.08f, 1f);
+                slotBtn.colors      = cs;
+            }
         }
 
         private Color32 RarityToColor(CardRarity rarity)
@@ -557,6 +567,43 @@ namespace CosmicChaosCat
                 case CardRarity.SSR: return new Color32(255, 180,  40, 255);
                 case CardRarity.UR:  return new Color32(255,  80, 100, 255);
                 default:             return new Color32(255, 255, 255, 255);
+            }
+        }
+
+        public void CloseDetailPopup()
+        {
+            if (detailRoot != null)
+            {
+                detailRoot.SetActive(false);
+            }
+        }
+
+        public void WireDetailPopupCloseListeners()
+        {
+            if (detailRoot == null) return;
+
+            var bgBtn = detailRoot.GetComponent<Button>();
+            if (bgBtn != null)
+            {
+                bgBtn.onClick.RemoveAllListeners();
+                bgBtn.onClick.AddListener(CloseDetailPopup);
+            }
+
+            var children = detailRoot.GetComponentsInChildren<Transform>(true);
+            foreach (var ch in children)
+            {
+                if (ch == detailRoot.transform) continue;
+                string nLower = ch.name.ToLower();
+                if (nLower.Contains("close") || nLower.Contains("닫기") || nLower.Contains("✕") || nLower == "x")
+                {
+                    var btn = ch.GetComponent<Button>();
+                    if (btn == null) btn = ch.gameObject.AddComponent<Button>();
+                    var img = ch.GetComponent<Image>();
+                    if (img != null) img.raycastTarget = true;
+
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(CloseDetailPopup);
+                }
             }
         }
 
@@ -573,6 +620,7 @@ namespace CosmicChaosCat
 
             if (detailRoot != null)
             {
+                WireDetailPopupCloseListeners();
                 detailRoot.SetActive(true);
                 detailRoot.transform.SetAsLastSibling();
 
@@ -732,17 +780,7 @@ namespace CosmicChaosCat
 
         private void UpdateTabButtonStyles()
         {
-            if (bgTabBtn != null)
-            {
-                var img = bgTabBtn.GetComponent<Image>();
-                if (img != null) img.color = showBgTab ? TabActive : TabInactive;
-            }
-
-            if (decoTabBtn != null)
-            {
-                var img = decoTabBtn.GetComponent<Image>();
-                if (img != null) img.color = !showBgTab ? TabActive : TabInactive;
-            }
+            // Preserve button colors and visual styles set in Unity Editor!
         }
 
         private void UpdateMainBackground()
@@ -956,6 +994,11 @@ namespace CosmicChaosCat
                     if (detailEquipBtn != null) detailEquipText = detailEquipBtn.GetComponentInChildren<TMP_Text>();
                 }
             }
+
+            if (detailRoot != null)
+            {
+                WireDetailPopupCloseListeners();
+            }
         }
 
         private T FindChildContains<T>(string keyword) where T : Component
@@ -1027,8 +1070,8 @@ namespace CosmicChaosCat
 
             var btn = go.AddComponent<Button>();
             var cs  = btn.colors;
-            cs.highlightedColor = bgColor * 1.25f;
-            cs.pressedColor     = bgColor * 0.75f;
+            cs.highlightedColor = new Color(0.15f, 0.15f, 0.15f, 1f);
+            cs.pressedColor     = new Color(0.08f, 0.08f, 0.08f, 1f);
             btn.colors          = cs;
             if (onClick != null) btn.onClick.AddListener(onClick);
 
