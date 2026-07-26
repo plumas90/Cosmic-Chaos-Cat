@@ -11,8 +11,11 @@ namespace CosmicChaosCat
     {
         public string id;
         public string displayName;
-        public string description; // Added description field
-        public string unlockSetId; // The SetId required to unlock this item (from SetCatalogSO).
+        [TextArea(2, 4)]
+        public string description;
+        public string unlockSetId; // SetId required to unlock (from SetCatalogSO)
+        public CardRarity rarity = CardRarity.N;
+        public bool isTestUnlocked = true; // Unlocked by default for testing
         public Sprite displaySprite;
     }
 
@@ -39,42 +42,67 @@ namespace CosmicChaosCat
         [Header("Core References")]
         [SerializeField] private GameManager gameManager;
 
-        [Header("Tabs")]
+        [Header("Title & Tabs")]
+        [SerializeField] private TMP_Text titleText;
+        [SerializeField] private Text titleTextUi;
         [SerializeField] private Button bgTabBtn;
         [SerializeField] private Button decoTabBtn;
         [SerializeField] private GameObject bgPanel;
         [SerializeField] private GameObject decoPanel;
         [SerializeField] private Button closeBtn;
 
+        [Header("Pagination Controls")]
+        [SerializeField] private Button prevPageBtn;
+        [SerializeField] private Button nextPageBtn;
+        [SerializeField] private TMP_Text pageText;
+        [SerializeField] private Text pageTextUi;
+
+        [Header("Rarity Frame & Mark Sprites")]
+        [SerializeField] private Sprite spriteFrameN;
+        [SerializeField] private Sprite spriteFrameR;
+        [SerializeField] private Sprite spriteFrameSR;
+        [SerializeField] private Sprite spriteFrameSSR;
+        [SerializeField] private Sprite spriteFrameLock;
+        [SerializeField] private Sprite spriteMarkN;
+        [SerializeField] private Sprite spriteMarkR;
+        [SerializeField] private Sprite spriteMarkSR;
+        [SerializeField] private Sprite spriteMarkSSR;
+        [SerializeField] private Sprite spriteLockOverlay;
+
         [Header("Items Data")]
         [SerializeField] private List<CollectibleItem> backgrounds = new List<CollectibleItem>();
         [SerializeField] private List<CollectibleItem> decorations = new List<CollectibleItem>();
 
-        private bool showBgTab = true;
-        private static TMP_FontAsset defaultFont;
+        [Header("Detail Popup")]
+        [SerializeField] private GameObject detailRoot;
+        [SerializeField] private Image detailFrameImage;
+        [SerializeField] private Image detailImage;
+        [SerializeField] private Image detailRarityMark;
+        [SerializeField] private TMP_Text detailName;
+        [SerializeField] private TMP_Text detailDesc;
+        [SerializeField] private Button detailEquipBtn;
+        [SerializeField] private TMP_Text detailEquipText;
 
-        // Slot Caching
+        private bool showBgTab = true;
+        private int bgPageIndex = 0;
+        private int decoPageIndex = 0;
+        private const int SLOTS_PER_PAGE = 12;
+
+        private static TMP_FontAsset defaultFont;
+        private bool _isInitialized = false;
+
+        // Slot pools
         private GameObject bgSlotTemplate;
         private GameObject decoSlotTemplate;
         private readonly List<GameObject> bgSlots = new List<GameObject>();
         private readonly List<GameObject> decoSlots = new List<GameObject>();
 
-        // Detail Popup references (dynamically wired)
-        private GameObject detailRoot;
-        private Image detailImage;
-        private TMP_Text detailName;
-        private TMP_Text detailDesc;
-        private Button detailEquipBtn;
         private CollectibleItem selectedItem;
         private bool selectedIsBg;
 
-        // Styles for dynamic detail popup
-        private static readonly Color PanelBG = new Color(0.08f, 0.10f, 0.16f, 0.97f);
-        private static readonly Color PageBG  = new Color(0.12f, 0.15f, 0.23f, 0.95f);
-        private static readonly Color TabActive = new Color(0.6f, 0.2f, 0.6f, 1f); // Purple
+        // Tab Color Styles
+        private static readonly Color TabActive = new Color(0.6f, 0.2f, 0.6f, 1f);
         private static readonly Color TabInactive = new Color(0.25f, 0.25f, 0.35f, 1f);
-
-        private bool _isInitialized = false;
 
         public void EnsureInit()
         {
@@ -97,8 +125,12 @@ namespace CosmicChaosCat
 
         private void OnEnable()
         {
+            EnsureInit();
+            AutoWireFields();
+
             if (gameManager != null)
             {
+                gameManager.StateChanged -= Refresh;
                 gameManager.StateChanged += Refresh;
             }
 
@@ -106,18 +138,28 @@ namespace CosmicChaosCat
             if (bgTabBtn != null)
             {
                 bgTabBtn.onClick.RemoveAllListeners();
-                bgTabBtn.onClick.AddListener(() => { showBgTab = true; Refresh(); });
+                bgTabBtn.onClick.AddListener(() => { showBgTab = true; bgPageIndex = 0; Refresh(); });
             }
             if (decoTabBtn != null)
             {
                 decoTabBtn.onClick.RemoveAllListeners();
-                decoTabBtn.onClick.AddListener(() => { showBgTab = false; Refresh(); });
+                decoTabBtn.onClick.AddListener(() => { showBgTab = false; decoPageIndex = 0; Refresh(); });
             }
             if (closeBtn != null)
             {
                 closeBtn.transform.SetAsLastSibling();
                 closeBtn.onClick.RemoveAllListeners();
                 closeBtn.onClick.AddListener(() => gameObject.SetActive(false));
+            }
+            if (prevPageBtn != null)
+            {
+                prevPageBtn.onClick.RemoveAllListeners();
+                prevPageBtn.onClick.AddListener(OnPrevPageClicked);
+            }
+            if (nextPageBtn != null)
+            {
+                nextPageBtn.onClick.RemoveAllListeners();
+                nextPageBtn.onClick.AddListener(OnNextPageClicked);
             }
 
             Refresh();
@@ -145,81 +187,126 @@ namespace CosmicChaosCat
             return item?.displaySprite;
         }
 
+        public Sprite GetFrameSpriteForRarity(CardRarity r)
+        {
+            switch (r)
+            {
+                case CardRarity.N: return spriteFrameN;
+                case CardRarity.R: return spriteFrameR;
+                case CardRarity.SR: return spriteFrameSR;
+                case CardRarity.SSR: return spriteFrameSSR;
+                case CardRarity.UR: return spriteFrameSSR;
+                default: return spriteFrameN;
+            }
+        }
+
+        public Sprite GetMarkSpriteForRarity(CardRarity r)
+        {
+            switch (r)
+            {
+                case CardRarity.N: return spriteMarkN;
+                case CardRarity.R: return spriteMarkR;
+                case CardRarity.SR: return spriteMarkSR;
+                case CardRarity.SSR: return spriteMarkSSR;
+                case CardRarity.UR: return spriteMarkSSR;
+                default: return spriteMarkN;
+            }
+        }
+
+        private void OnPrevPageClicked()
+        {
+            if (showBgTab)
+            {
+                if (bgPageIndex > 0) { bgPageIndex--; Refresh(); }
+            }
+            else
+            {
+                if (decoPageIndex > 0) { decoPageIndex--; Refresh(); }
+            }
+        }
+
+        private void OnNextPageClicked()
+        {
+            var itemList = showBgTab ? backgrounds : decorations;
+            int maxPages = Mathf.Max(1, Mathf.CeilToInt(itemList.Count / (float)SLOTS_PER_PAGE));
+
+            if (showBgTab)
+            {
+                if (bgPageIndex < maxPages - 1) { bgPageIndex++; Refresh(); }
+            }
+            else
+            {
+                if (decoPageIndex < maxPages - 1) { decoPageIndex++; Refresh(); }
+            }
+        }
+
         private void InitSlots()
         {
-            // Initialize background slots from template
+            // Initialize Background slots
             if (bgPanel != null && bgSlots.Count == 0)
             {
-                bgSlotTemplate = FindTemplateSlot(bgPanel.transform);
-                if (bgSlotTemplate != null)
+                var children = bgPanel.GetComponentsInChildren<Transform>(true);
+                foreach (var child in children)
                 {
-                    bgSlotTemplate.SetActive(false);
-                    var parent = bgSlotTemplate.transform.parent;
-
-                    // Prevent resizing the main page: use ScrollRect's content container if present
-                    var scrollRect = bgPanel.GetComponentInChildren<ScrollRect>(true) ?? bgPanel.GetComponent<ScrollRect>();
-                    if (scrollRect != null && scrollRect.content != null)
+                    if (child != bgPanel.transform && child.name.ToLower().Contains("slot") && !child.name.ToLower().Contains("template"))
                     {
-                        parent = scrollRect.content;
+                        if (!bgSlots.Contains(child.gameObject)) bgSlots.Add(child.gameObject);
                     }
+                }
 
-                    var templateRT = bgSlotTemplate.GetComponent<RectTransform>();
-                    Vector2 cellSize = templateRT != null ? templateRT.sizeDelta : new Vector2(120f, 146f);
-
-                    for (int i = 0; i < backgrounds.Count; i++)
+                if (bgSlots.Count == 0)
+                {
+                    bgSlotTemplate = FindTemplateSlot(bgPanel.transform);
+                    if (bgSlotTemplate != null)
                     {
-                        var item = backgrounds[i];
-                        var clone = Instantiate(bgSlotTemplate, parent);
-                        clone.name = $"Slot_{item.id}";
-                        clone.SetActive(true);
+                        bgSlotTemplate.SetActive(false);
+                        var parent = bgSlotTemplate.transform.parent;
 
-                        var btn = GetOrAddComponent<Button>(clone);
-                        btn.onClick.RemoveAllListeners();
-                        btn.onClick.AddListener(() => OpenDetail(item, true));
-
-                        bgSlots.Add(clone);
+                        for (int i = 0; i < SLOTS_PER_PAGE; i++)
+                        {
+                            var clone = Instantiate(bgSlotTemplate, parent);
+                            clone.name = $"BgSlot_{i}";
+                            bgSlots.Add(clone);
+                        }
                     }
-
-                    EnsureLayoutAndScrolling(parent, cellSize);
                 }
             }
 
-            // Initialize decoration slots from template
+            // Initialize Decoration slots
             if (decoPanel != null && decoSlots.Count == 0)
             {
-                decoSlotTemplate = FindTemplateSlot(decoPanel.transform);
-                if (decoSlotTemplate != null)
+                var children = decoPanel.GetComponentsInChildren<Transform>(true);
+                foreach (var child in children)
                 {
-                    decoSlotTemplate.SetActive(false);
-                    var parent = decoSlotTemplate.transform.parent;
-
-                    // Prevent resizing the main page: use ScrollRect's content container if present
-                    var scrollRect = decoPanel.GetComponentInChildren<ScrollRect>(true) ?? decoPanel.GetComponent<ScrollRect>();
-                    if (scrollRect != null && scrollRect.content != null)
+                    if (child != decoPanel.transform && child.name.ToLower().Contains("slot") && !child.name.ToLower().Contains("template"))
                     {
-                        parent = scrollRect.content;
+                        if (!decoSlots.Contains(child.gameObject)) decoSlots.Add(child.gameObject);
                     }
+                }
 
-                    var templateRT = decoSlotTemplate.GetComponent<RectTransform>();
-                    Vector2 cellSize = templateRT != null ? templateRT.sizeDelta : new Vector2(120f, 146f);
-
-                    for (int i = 0; i < decorations.Count; i++)
+                if (decoSlots.Count == 0)
+                {
+                    decoSlotTemplate = FindTemplateSlot(decoPanel.transform);
+                    if (decoSlotTemplate != null)
                     {
-                        var item = decorations[i];
-                        var clone = Instantiate(decoSlotTemplate, parent);
-                        clone.name = $"Slot_{item.id}";
-                        clone.SetActive(true);
+                        decoSlotTemplate.SetActive(false);
+                        var parent = decoSlotTemplate.transform.parent;
 
-                        var btn = GetOrAddComponent<Button>(clone);
-                        btn.onClick.RemoveAllListeners();
-                        btn.onClick.AddListener(() => OpenDetail(item, false));
-
-                        decoSlots.Add(clone);
+                        for (int i = 0; i < SLOTS_PER_PAGE; i++)
+                        {
+                            var clone = Instantiate(decoSlotTemplate, parent);
+                            clone.name = $"DecoSlot_{i}";
+                            decoSlots.Add(clone);
+                        }
                     }
-
-                    EnsureLayoutAndScrolling(parent, cellSize);
                 }
             }
+        }
+
+        private Vector2 GetSlotCellSize(GameObject template)
+        {
+            var rt = template.GetComponent<RectTransform>();
+            return rt != null ? rt.sizeDelta : new Vector2(130f, 160f);
         }
 
         private GameObject FindTemplateSlot(Transform parent)
@@ -237,40 +324,425 @@ namespace CosmicChaosCat
             return null;
         }
 
+        private void SetTitleText(string text)
+        {
+            if (titleText != null && titleText.text != text) titleText.text = text;
+            if (titleTextUi != null && titleTextUi.text != text) titleTextUi.text = text;
+        }
+
+        private void SetPageText(string text)
+        {
+            if (pageText != null && pageText.text != text) pageText.text = text;
+            if (pageTextUi != null && pageTextUi.text != text) pageTextUi.text = text;
+        }
+
         public void Refresh()
         {
             AutoWireFields();
             InitSlots();
 
-            // Toggle active panels
+            // Active Panel Toggle
             if (bgPanel != null) bgPanel.SetActive(showBgTab);
             if (decoPanel != null) decoPanel.SetActive(!showBgTab);
 
-            // Update Tab Button styles
+            // Title Text Update
+            SetTitleText(showBgTab ? "배경" : "장식품");
+
+            // Update Tab Button Styles
             UpdateTabButtonStyles();
 
-            // Refresh background slots
-            for (int i = 0; i < bgSlots.Count; i++)
+            // Calculate pagination parameters
+            var currentSlots = showBgTab ? bgSlots : decoSlots;
+            int slotsPerPage = currentSlots.Count > 0 ? currentSlots.Count : SLOTS_PER_PAGE;
+            var itemList = showBgTab ? backgrounds : decorations;
+            int maxPages = Mathf.Max(1, Mathf.CeilToInt(itemList.Count / (float)slotsPerPage));
+            int curPageIndex = showBgTab ? bgPageIndex : decoPageIndex;
+            curPageIndex = Mathf.Clamp(curPageIndex, 0, maxPages - 1);
+
+            if (showBgTab) bgPageIndex = curPageIndex;
+            else decoPageIndex = curPageIndex;
+
+            // Page Text Update ("1 / N")
+            string pageStr = $"{curPageIndex + 1} / {maxPages}";
+            SetPageText(pageStr);
+
+            // Prev / Next Page Buttons interactability
+            if (prevPageBtn != null) prevPageBtn.interactable = curPageIndex > 0;
+            if (nextPageBtn != null) nextPageBtn.interactable = curPageIndex < maxPages - 1;
+
+            // Populate current page grid slots
+            int startIdx = curPageIndex * slotsPerPage;
+
+            for (int i = 0; i < currentSlots.Count; i++)
             {
-                if (i < backgrounds.Count)
+                var slotGO = currentSlots[i];
+                int itemIdx = startIdx + i;
+
+                if (itemIdx < itemList.Count)
                 {
-                    UpdateSlot(bgSlots[i].transform, backgrounds[i], true);
+                    slotGO.SetActive(true);
+                    var item = itemList[itemIdx];
+                    UpdateSlot(slotGO.transform, item, showBgTab);
+
+                    var btn = GetOrAddComponent<Button>(slotGO);
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => OpenDetail(item, showBgTab));
+                }
+                else
+                {
+                    slotGO.SetActive(false);
                 }
             }
 
-            // Refresh decoration slots
-            for (int i = 0; i < decoSlots.Count; i++)
-            {
-                if (i < decorations.Count)
-                {
-                    UpdateSlot(decoSlots[i].transform, decorations[i], false);
-                }
-            }
-
-            // Update main background image
+            // Update Main Background & Decoration in scene
             UpdateMainBackground();
-            // Update main decoration image
             UpdateMainDecoration();
+        }
+
+        private void UpdateSlot(Transform slotTf, CollectibleItem item, bool isBg)
+        {
+            if (slotTf == null || item == null) return;
+
+            bool unlocked = item.isTestUnlocked || string.IsNullOrEmpty(item.unlockSetId) || (gameManager != null && gameManager.IsSetCompleted(item.unlockSetId));
+            bool isEquipped = gameManager != null && (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
+
+            // 1. Frame Image
+            var frameImg = FindChildByNameRecursive(slotTf, "Frame")?.GetComponent<Image>() ??
+                           FindChildByNameRecursive(slotTf, "frame")?.GetComponent<Image>() ??
+                           FindChildByNameRecursive(slotTf, "DetailFrame")?.GetComponent<Image>() ??
+                           slotTf.GetComponent<Image>();
+
+            if (frameImg != null)
+            {
+                if (unlocked)
+                {
+                    Sprite frameSp = GetFrameSpriteForRarity(item.rarity);
+                    if (frameSp != null)
+                    {
+                        if (frameImg.sprite != frameSp) frameImg.sprite = frameSp;
+                        if (frameImg.color != Color.white) frameImg.color = Color.white;
+                    }
+                    else
+                    {
+                        Color rarityCol = (Color)RarityToColor(item.rarity);
+                        if (frameImg.color != rarityCol) frameImg.color = rarityCol;
+                    }
+                }
+                else
+                {
+                    if (spriteFrameLock != null)
+                    {
+                        if (frameImg.sprite != spriteFrameLock) frameImg.sprite = spriteFrameLock;
+                        if (frameImg.color != Color.white) frameImg.color = Color.white;
+                    }
+                    else
+                    {
+                        Color lockCol = new Color(0.2f, 0.2f, 0.2f, 1f);
+                        if (frameImg.sprite != null) frameImg.sprite = null;
+                        if (frameImg.color != lockCol) frameImg.color = lockCol;
+                    }
+                }
+            }
+
+            // 2. Art Image
+            var artImg = FindChildByNameRecursive(slotTf, "Art")?.GetComponent<Image>() ??
+                         FindChildByNameRecursive(slotTf, "art")?.GetComponent<Image>() ??
+                         FindChildByNameRecursive(slotTf, "DetailArt")?.GetComponent<Image>() ??
+                         FindChildByNameRecursive(slotTf, "Image")?.GetComponent<Image>();
+
+            if (artImg != null)
+            {
+                if (unlocked)
+                {
+                    if (!artImg.gameObject.activeSelf) artImg.gameObject.SetActive(true);
+                    if (artImg.sprite != item.displaySprite && item.displaySprite != null) artImg.sprite = item.displaySprite;
+                    if (artImg.color != Color.white) artImg.color = Color.white;
+                    artImg.preserveAspect = !isBg;
+                }
+                else
+                {
+                    if (artImg.sprite != null) artImg.sprite = null;
+                    if (artImg.color != new Color(0, 0, 0, 0)) artImg.color = new Color(0, 0, 0, 0);
+                    if (artImg.gameObject.activeSelf) artImg.gameObject.SetActive(false);
+                }
+            }
+
+            // 3. Rarity Mark (rereMark Image)
+            var markImg = FindChildByNameRecursive(slotTf, "rereMark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "reremark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "rareMark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "raremark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "RarityMark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "rarityMark")?.GetComponent<Image>() ??
+                          FindChildByNameRecursive(slotTf, "rare_mark")?.GetComponent<Image>();
+
+            if (markImg != null)
+            {
+                if (unlocked)
+                {
+                    if (!markImg.gameObject.activeSelf) markImg.gameObject.SetActive(true);
+                    Sprite markSp = GetMarkSpriteForRarity(item.rarity);
+                    if (markSp != null)
+                    {
+                        if (markImg.sprite != markSp) markImg.sprite = markSp;
+                        if (markImg.color != Color.white) markImg.color = Color.white;
+                    }
+                    else
+                    {
+                        if (markImg.color != Color.white) markImg.color = Color.white;
+                    }
+                }
+                else
+                {
+                    if (markImg.sprite != null) markImg.sprite = null;
+                    if (markImg.color != new Color(0, 0, 0, 0)) markImg.color = new Color(0, 0, 0, 0);
+                    if (markImg.gameObject.activeSelf) markImg.gameObject.SetActive(false);
+                }
+            }
+
+            // 4. Lock Overlay
+            var lockObj = slotTf.Find("Lock")?.gameObject ??
+                          slotTf.Find("lock")?.gameObject ??
+                          slotTf.Find("Unknown")?.gameObject ??
+                          slotTf.Find("LockOverlay")?.gameObject;
+
+            if (lockObj != null)
+            {
+                if (lockObj.activeSelf != !unlocked) lockObj.SetActive(!unlocked);
+                var lockImg = lockObj.GetComponent<Image>();
+                if (lockImg != null && spriteLockOverlay != null && lockImg.sprite != spriteLockOverlay)
+                {
+                    lockImg.sprite = spriteLockOverlay;
+                    lockImg.color = Color.white;
+                }
+            }
+
+            // 5. Name Text
+            TMP_Text nameTxt = null;
+            var texts = slotTf.GetComponentsInChildren<TMP_Text>(true);
+            foreach (var t in texts)
+            {
+                string nLower = t.name.ToLower();
+                if (nLower.Contains("name") || nLower.Contains("title") || nLower.Contains("text"))
+                {
+                    nameTxt = t;
+                    break;
+                }
+            }
+
+            if (nameTxt != null)
+            {
+                string targetText = unlocked ? item.displayName : "미해금";
+                if (nameTxt.text != targetText) nameTxt.text = targetText;
+            }
+
+            // 6. Equipped Highlight
+            var eqIndicator = slotTf.Find("Equipped")?.gameObject ??
+                              slotTf.Find("EquipHighlight")?.gameObject ??
+                              slotTf.Find("Active")?.gameObject;
+            if (eqIndicator != null)
+            {
+                bool showEq = unlocked && isEquipped;
+                if (eqIndicator.activeSelf != showEq) eqIndicator.SetActive(showEq);
+            }
+        }
+
+        private Color32 RarityToColor(CardRarity rarity)
+        {
+            switch (rarity)
+            {
+                case CardRarity.N:   return new Color32(180, 180, 180, 255);
+                case CardRarity.R:   return new Color32( 80, 160, 240, 255);
+                case CardRarity.SR:  return new Color32(180,  90, 240, 255);
+                case CardRarity.SSR: return new Color32(255, 180,  40, 255);
+                case CardRarity.UR:  return new Color32(255,  80, 100, 255);
+                default:             return new Color32(255, 255, 255, 255);
+            }
+        }
+
+        public void OpenDetail(CollectibleItem item, bool isBg)
+        {
+            if (item == null) return;
+            selectedItem = item;
+            selectedIsBg = isBg;
+
+            if (detailRoot == null)
+            {
+                CreateDetailPopupInHierarchy();
+            }
+
+            if (detailRoot != null)
+            {
+                detailRoot.SetActive(true);
+                detailRoot.transform.SetAsLastSibling();
+
+                bool unlocked = gameManager != null && (string.IsNullOrEmpty(item.unlockSetId) || gameManager.IsSetCompleted(item.unlockSetId));
+                bool isEquipped = gameManager != null && (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
+
+                if (detailImage != null)
+                {
+                    detailImage.sprite = unlocked ? item.displaySprite : null;
+                    detailImage.color = unlocked ? Color.white : new Color(0.2f, 0.2f, 0.2f, 1f);
+                    detailImage.preserveAspect = !isBg;
+                }
+
+                if (detailFrameImage != null)
+                {
+                    Sprite frameSp = unlocked ? GetFrameSpriteForRarity(item.rarity) : spriteFrameLock;
+                    if (frameSp != null)
+                    {
+                        detailFrameImage.sprite = frameSp;
+                        detailFrameImage.color = Color.white;
+                    }
+                }
+
+                if (detailRarityMark != null)
+                {
+                    Sprite markSp = unlocked ? GetMarkSpriteForRarity(item.rarity) : null;
+                    if (markSp != null)
+                    {
+                        detailRarityMark.sprite = markSp;
+                        detailRarityMark.color = Color.white;
+                        detailRarityMark.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        detailRarityMark.gameObject.SetActive(false);
+                    }
+                }
+
+                if (detailName != null) detailName.text = unlocked ? item.displayName : "??? (미해금)";
+                if (detailDesc != null) detailDesc.text = unlocked ? item.description : $"세트 ID '{item.unlockSetId}' 수집 완료 시 해금됩니다.";
+
+                if (detailEquipBtn != null)
+                {
+                    detailEquipBtn.onClick.RemoveAllListeners();
+                    if (!unlocked)
+                    {
+                        if (detailEquipText != null) detailEquipText.text = "미해금";
+                        detailEquipBtn.interactable = false;
+                    }
+                    else if (isEquipped)
+                    {
+                        if (detailEquipText != null) detailEquipText.text = "장착됨";
+                        detailEquipBtn.interactable = false;
+                    }
+                    else
+                    {
+                        if (detailEquipText != null) detailEquipText.text = "장착하기";
+                        detailEquipBtn.interactable = true;
+                        detailEquipBtn.onClick.AddListener(() => EquipItem(item, isBg));
+                    }
+                }
+            }
+        }
+
+        private void EquipItem(CollectibleItem item, bool isBg)
+        {
+            if (gameManager == null || item == null) return;
+            if (isBg)
+            {
+                gameManager.EquipBackground(item.id);
+            }
+            else
+            {
+                gameManager.EquipDecoration(item.id);
+            }
+
+            Refresh();
+            if (selectedItem == item) OpenDetail(item, isBg);
+        }
+
+        [ContextMenu("DetailPopupRoot 하이어라키에 생성 (에디터 전용)")]
+        public GameObject CreateDetailPopupInHierarchy()
+        {
+            var existing = transform.Find("DetailPopupRoot");
+            if (existing != null)
+            {
+                detailRoot = existing.gameObject;
+                AutoWireFields();
+                return detailRoot;
+            }
+
+            detailRoot = new GameObject("DetailPopupRoot");
+            detailRoot.transform.SetParent(transform, false);
+
+            var rt = detailRoot.AddComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+
+            var bgImg = detailRoot.AddComponent<Image>();
+            bgImg.color = new Color(0f, 0f, 0f, 0.7f);
+
+            var bgBtn = detailRoot.AddComponent<Button>();
+            bgBtn.onClick.AddListener(() => detailRoot.SetActive(false));
+
+            var cardBox = new GameObject("DetailBox");
+            cardBox.transform.SetParent(detailRoot.transform, false);
+            var boxRT = cardBox.AddComponent<RectTransform>();
+            boxRT.sizeDelta = new Vector2(400f, 500f);
+
+            var boxImg = cardBox.AddComponent<Image>();
+            boxImg.color = new Color(0.12f, 0.15f, 0.23f, 0.98f);
+            detailFrameImage = boxImg;
+
+            // Frame Image (inside box)
+            var frameGO = new GameObject("Frame");
+            frameGO.transform.SetParent(cardBox.transform, false);
+            var frameRT = frameGO.AddComponent<RectTransform>();
+            frameRT.anchorMin = Vector2.zero; frameRT.anchorMax = Vector2.one;
+            frameRT.offsetMin = Vector2.zero; frameRT.offsetMax = Vector2.zero;
+            var frameImgComp = frameGO.AddComponent<Image>();
+            frameImgComp.color = new Color(1f, 1f, 1f, 0f);
+
+            // Art Image
+            var artGO = new GameObject("Art");
+            artGO.transform.SetParent(cardBox.transform, false);
+            var artRT = artGO.AddComponent<RectTransform>();
+            artRT.anchoredPosition = new Vector2(0, 70);
+            artRT.sizeDelta = new Vector2(260f, 260f);
+            detailImage = artGO.AddComponent<Image>();
+
+            // Rarity Mark Image
+            var markGO = new GameObject("rereMark");
+            markGO.transform.SetParent(cardBox.transform, false);
+            var markRT = markGO.AddComponent<RectTransform>();
+            markRT.anchoredPosition = new Vector2(-150, 200);
+            markRT.sizeDelta = new Vector2(50, 50);
+            detailRarityMark = markGO.AddComponent<Image>();
+
+            // Name Text
+            detailName = MakeText(cardBox.transform, "Name", "---", new Vector2(0, -90), new Vector2(360, 40), 22, new Color(1f, 0.75f, 0.1f, 1f));
+
+            // Description Text
+            detailDesc = MakeText(cardBox.transform, "Desc", "---", new Vector2(0, -145), new Vector2(360, 60), 14, Color.white);
+
+            // Equip Button
+            var equipBtnGO = MakeButton(cardBox.transform, "Btn_장착하기", new Vector2(0, -205), new Vector2(160, 45), new Color(0.2f, 0.6f, 0.9f, 1f), null);
+            detailEquipBtn = equipBtnGO.GetComponent<Button>();
+            detailEquipText = equipBtnGO.GetComponentInChildren<TMP_Text>();
+
+            // Close button inside box
+            MakeButton(cardBox.transform, "Btn_✕", new Vector2(175, 225), new Vector2(36, 36), new Color(0.8f, 0.2f, 0.2f, 1f), () => detailRoot.SetActive(false));
+
+            detailRoot.SetActive(false);
+            AutoWireFields();
+            return detailRoot;
+        }
+
+        private void UpdateTabButtonStyles()
+        {
+            if (bgTabBtn != null)
+            {
+                var img = bgTabBtn.GetComponent<Image>();
+                if (img != null) img.color = showBgTab ? TabActive : TabInactive;
+            }
+
+            if (decoTabBtn != null)
+            {
+                var img = decoTabBtn.GetComponent<Image>();
+                if (img != null) img.color = !showBgTab ? TabActive : TabInactive;
+            }
         }
 
         private void UpdateMainBackground()
@@ -291,13 +763,11 @@ namespace CosmicChaosCat
                     if (img != null)
                     {
                         string nameLower = child.name.ToLower();
-                        // Ignore Panels and UI screens
                         if (nameLower.Contains("panel") || nameLower.Contains("hud") || nameLower.Contains("popup")) continue;
-                        
                         if (nameLower.Contains("bg") || nameLower.Contains("background") || child.GetSiblingIndex() == 0)
                         {
-                            img.sprite = sprite; // Will set to null if bg-none
-                            img.color = Color.white; // Solid white background
+                            img.sprite = sprite;
+                            img.color = Color.white;
                             break;
                         }
                     }
@@ -332,107 +802,38 @@ namespace CosmicChaosCat
             }
         }
 
-        private void UpdateSlot(Transform slotTf, CollectibleItem item, bool isBg)
+        private void InitializeDefaultItems()
         {
-            if (slotTf == null || item == null) return;
-
-            // Find image
-            var img = slotTf.Find("Art")?.GetComponent<Image>() ?? 
-                      slotTf.Find("Image")?.GetComponent<Image>() ?? 
-                      slotTf.Find("DetailArt")?.GetComponent<Image>() ?? 
-                      slotTf.GetComponentInChildren<Image>();
-
-            // Find name text (exclude any lock/question texts)
-            TMP_Text nameTxt = null;
-            var texts = slotTf.GetComponentsInChildren<TMP_Text>(true);
-            foreach (var t in texts)
+            if (backgrounds == null || backgrounds.Count == 0)
             {
-                string nLower = t.name.ToLower();
-                if (nLower.Contains("name") || nLower.Contains("title") || nLower.Contains("text"))
+                backgrounds = new List<CollectibleItem>
                 {
-                    nameTxt = t;
-                    break;
-                }
+                    new CollectibleItem { id = "bg-none", displayName = "기본 배경", description = "깔끔한 기본 게임 배경입니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = CreateSolidColorSprite(new Color(0.1f, 0.12f, 0.18f, 1f)) },
+                    new CollectibleItem { id = "bg-street", displayName = "골목길 배경", description = "골목길 고양이들이 활보하는 정겨운 골목길 테마 배경입니다.", unlockSetId = "1", rarity = CardRarity.N, displaySprite = CreateSolidColorSprite(new Color(0.35f, 0.25f, 0.2f, 1f)) },
+                    new CollectibleItem { id = "bg-desert", displayName = "사막 오아시스 배경", description = "신비로운 피라미드와 사막 오아시스 테마 배경입니다.", unlockSetId = "2", rarity = CardRarity.R, displaySprite = CreateSolidColorSprite(new Color(0.6f, 0.5f, 0.2f, 1f)) },
+                    new CollectibleItem { id = "bg-dessert", displayName = "달콤한 디저트 배경", description = "달콤한 케이크와 과자들이 가득한 판타지 배경입니다.", unlockSetId = "3", rarity = CardRarity.R, displaySprite = CreateSolidColorSprite(new Color(0.6f, 0.3f, 0.5f, 1f)) },
+                    new CollectibleItem { id = "bg-sea", displayName = "심해 바다 배경", description = "바닷속 푸른 산호와 해저 왕국 테마 배경입니다.", unlockSetId = "4", rarity = CardRarity.SR, displaySprite = CreateSolidColorSprite(new Color(0.1f, 0.4f, 0.6f, 1f)) },
+                    new CollectibleItem { id = "bg-market", displayName = "저자거리 축제 배경", description = "흥겨운 풍물패와 저자거리 장터 테마 배경입니다.", unlockSetId = "5", rarity = CardRarity.SR, displaySprite = CreateSolidColorSprite(new Color(0.5f, 0.3f, 0.2f, 1f)) },
+                    new CollectibleItem { id = "bg-hero", displayName = "우주 레인저 배경", description = "은하수를 누비는 레인저 히어로 테마 배경입니다.", unlockSetId = "6", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.15f, 0.1f, 0.4f, 1f)) },
+                    new CollectibleItem { id = "bg-steampunk", displayName = "스팀펑크 비행선 배경", description = "하늘을 누비는 증기 비행선 테마 배경입니다.", unlockSetId = "7", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.4f, 0.25f, 0.15f, 1f)) },
+                    new CollectibleItem { id = "bg-season", displayName = "사계절 정령 배경", description = "아름다운 사계절의 정기를 품은 몽환적인 배경입니다.", unlockSetId = "8", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.2f, 0.5f, 0.3f, 1f)) }
+                };
             }
-            if (nameTxt == null && texts.Length > 0) nameTxt = texts[0];
 
-            // Find unknown overlay or ? text
-            var unknownOverlay = slotTf.Find("Unknown")?.gameObject ?? 
-                                 slotTf.Find("Lock")?.gameObject ?? 
-                                 slotTf.Find("?")?.gameObject;
-
-            TMP_Text unknownTxt = null;
-            foreach (var t in texts)
+            if (decorations == null || decorations.Count == 0)
             {
-                string nLower = t.name.ToLower();
-                if (nLower.Contains("?") || nLower.Contains("unk") || nLower.Contains("lock"))
+                decorations = new List<CollectibleItem>
                 {
-                    unknownTxt = t;
-                    break;
-                }
-            }
-
-            bool unlocked = gameManager != null && (string.IsNullOrEmpty(item.unlockSetId) || gameManager.IsSetCompleted(item.unlockSetId));
-            bool isEquipped = gameManager != null && 
-                (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
-
-            if (img != null)
-            {
-                img.sprite = unlocked ? item.displaySprite : null;
-                if (!unlocked)
-                {
-                    img.color = new Color(0.2f, 0.2f, 0.2f, 1f); // Solid dark gray when locked
-                }
-                else if (item.id == "bg-none")
-                {
-                    img.color = Color.white; // Solid white for 기본 배경
-                }
-                else if (item.displaySprite == null)
-                {
-                    img.color = new Color(0.12f, 0.15f, 0.22f, 1f); // Nice soft placeholder slate color
-                }
-                else
-                {
-                    img.color = Color.white;
-                }
-                img.preserveAspect = !isBg; // Stretch backgrounds to fill, preserve aspect ratio for decorations
-            }
-
-            if (nameTxt != null)
-            {
-                nameTxt.text = unlocked ? item.displayName : "???";
-            }
-
-            if (unknownOverlay != null)
-            {
-                unknownOverlay.SetActive(!unlocked);
-            }
-
-            if (unknownTxt != null)
-            {
-                unknownTxt.text = unlocked ? "" : "?";
-            }
-
-            // Optional: Toggle equipped border or indicator
-            var eqIndicator = slotTf.Find("Equipped")?.gameObject ?? slotTf.Find("EquipHighlight")?.gameObject ?? slotTf.Find("Active")?.gameObject;
-            if (eqIndicator != null)
-            {
-                eqIndicator.SetActive(unlocked && isEquipped);
-            }
-        }
-
-        private void UpdateTabButtonStyles()
-        {
-            if (bgTabBtn != null)
-            {
-                var img = bgTabBtn.GetComponent<Image>();
-                if (img != null) img.color = showBgTab ? TabActive : TabInactive;
-            }
-
-            if (decoTabBtn != null)
-            {
-                var img = decoTabBtn.GetComponent<Image>();
-                if (img != null) img.color = !showBgTab ? TabActive : TabInactive;
+                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = null },
+                    new CollectibleItem { id = "deco-cat-house", displayName = "푹신한 캣타워", description = "고양이들이 좋아하는 푹신한 캣타워 장식입니다.", unlockSetId = "1", rarity = CardRarity.N, displaySprite = CreateDecorationSprite(new Color(0.8f, 0.6f, 0.4f, 1f)) },
+                    new CollectibleItem { id = "deco-pyramid", displayName = "미니 피라미드", description = "사막 오아시스 수호 피라미드 오브제입니다.", unlockSetId = "2", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.8f, 0.3f, 1f)) },
+                    new CollectibleItem { id = "deco-cake", displayName = "3단 디저트 케이크", description = "달콤한 생크림 케이크 장식입니다.", unlockSetId = "3", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.5f, 0.7f, 1f)) },
+                    new CollectibleItem { id = "deco-aquarium", displayName = "무지개 산호 수족관", description = "영롱한 해저 산호 수족관 장식입니다.", unlockSetId = "4", rarity = CardRarity.SR, displaySprite = CreateDecorationSprite(new Color(0.3f, 0.7f, 0.9f, 1f)) },
+                    new CollectibleItem { id = "deco-drum", displayName = "사물놀이 북", description = "축제의 흥을 끌어올리는 사물놀이 북 장식입니다.", unlockSetId = "5", rarity = CardRarity.SR, displaySprite = CreateDecorationSprite(new Color(0.8f, 0.4f, 0.2f, 1f)) },
+                    new CollectibleItem { id = "deco-robot", displayName = "골든 라이온 로봇", description = "위풍당당한 사령관 변신 로봇 피규어입니다.", unlockSetId = "6", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.95f, 0.75f, 0.1f, 1f)) },
+                    new CollectibleItem { id = "deco-airship", displayName = "스팀펑크 황금 비행선", description = "정교한 태엽 비행선 모형 장식입니다.", unlockSetId = "7", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.7f, 0.45f, 0.2f, 1f)) },
+                    new CollectibleItem { id = "deco-aurora", displayName = "사계절 오로라 수정구", description = "신비로운 사계절 오로라가 일렁이는 수정구입니다.", unlockSetId = "8", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.4f, 0.8f, 0.6f, 1f)) }
+                };
             }
         }
 
@@ -448,376 +849,31 @@ namespace CosmicChaosCat
 
         private Sprite CreateDecorationSprite(Color color)
         {
-            int w = 64, h = 64;
-            var tex = new Texture2D(w, h);
-            var pixels = new Color[w * h];
-            for (int y = 0; y < h; y++)
-            {
-                for (int x = 0; x < w; x++)
-                {
-                    if (Mathf.Abs(x - w / 2) + Mathf.Abs(y - h / 2) < w / 2 - 4)
-                    {
-                        pixels[y * w + x] = color;
-                    }
-                    else
-                    {
-                        pixels[y * w + x] = Color.clear;
-                    }
-                }
-            }
-            tex.SetPixels(pixels);
-            tex.Apply();
-            return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f));
+            return CreateSolidColorSprite(color, 32, 32);
         }
 
-        private void InitializeDefaultItems()
-        {
-            backgrounds.Clear();
-            decorations.Clear();
-
-            // 1. Add Default "기본 배경" (unlocked by default)
-            backgrounds.Add(new CollectibleItem
-            {
-                id = "bg-none",
-                displayName = "기본 배경",
-                description = "장착된 배경을 해제하고 심플한 흰색 단색 배경으로 변경합니다.",
-                unlockSetId = "", // unlocked by default
-                displaySprite = null // empty
-            });
-
-            // Generate 10 solid color backgrounds (unlocked by default)
-            Color[] bgColors = new Color[]
-            {
-                new Color(0.85f, 0.35f, 0.35f), // Soft Red
-                new Color(0.92f, 0.55f, 0.25f), // Soft Orange
-                new Color(0.92f, 0.82f, 0.25f), // Soft Yellow
-                new Color(0.35f, 0.75f, 0.35f), // Soft Green
-                new Color(0.25f, 0.55f, 0.85f), // Soft Blue
-                new Color(0.45f, 0.25f, 0.75f), // Purple
-                new Color(0.85f, 0.45f, 0.65f), // Pink
-                new Color(0.25f, 0.75f, 0.75f), // Cyan
-                new Color(0.55f, 0.35f, 0.15f), // Brown
-                new Color(0.35f, 0.35f, 0.35f)  // Gray
-            };
-
-            for (int i = 0; i < bgColors.Length; i++)
-            {
-                var sprite = CreateSolidColorSprite(bgColors[i], 128, 128);
-                backgrounds.Add(new CollectibleItem
-                {
-                    id = $"test-bg-{i + 1}",
-                    displayName = $"테스트 배경 {i + 1}",
-                    description = $"테스트용 단색 배경 {i + 1} 입니다.",
-                    unlockSetId = "", // Empty means unlocked by default
-                    displaySprite = sprite
-                });
-            }
-
-            // 2. Add Default "No Decoration" (unlocked by default)
-            decorations.Add(new CollectibleItem
-            {
-                id = "deco-none",
-                displayName = "장식 없음",
-                description = "장착된 장식품을 해제합니다.",
-                unlockSetId = "", // unlocked by default
-                displaySprite = null // empty
-            });
-
-            // Generate 5 diamond decorations (unlocked by default)
-            Color[] decoColors = new Color[]
-            {
-                new Color(0.95f, 0.25f, 0.25f), // Red
-                new Color(0.25f, 0.95f, 0.25f), // Green
-                new Color(0.25f, 0.25f, 0.95f), // Blue
-                new Color(0.95f, 0.95f, 0.25f), // Yellow
-                new Color(0.95f, 0.25f, 0.95f)  // Magenta
-            };
-
-            for (int i = 0; i < decoColors.Length; i++)
-            {
-                var sprite = CreateDecorationSprite(decoColors[i]);
-                decorations.Add(new CollectibleItem
-                {
-                    id = $"test-deco-{i + 1}",
-                    displayName = $"테스트 장식 {i + 1}",
-                    description = $"테스트용 다이아몬드 장식품 {i + 1} 입니다.",
-                    unlockSetId = "", // Empty means unlocked by default
-                    displaySprite = sprite
-                });
-            }
-        }
-
-        // ════════════════════════════════════════════════════════════════════
-        //  DETAIL POPUP LOGIC
-        // ════════════════════════════════════════════════════════════════════
-        private void OpenDetail(CollectibleItem item, bool isBg)
-        {
-            selectedItem = item;
-            selectedIsBg = isBg;
-
-            if (detailRoot == null)
-            {
-                detailRoot = transform.Find("DetailPopup")?.gameObject ?? 
-                             transform.Find("DetailPanel")?.gameObject ??
-                             transform.Find("Panel/DetailPopup")?.gameObject ?? 
-                             transform.Find("Panel/DetailPanel")?.gameObject;
-                
-                if (detailRoot == null)
-                {
-                    BuildDetailPopup(transform.Find("Panel") ?? transform);
-                }
-            }
-
-            if (detailRoot == null) return;
-
-            // Wire detail components recursively if not assigned
-            var rootTf = detailRoot.transform;
-            if (detailImage == null)
-                detailImage = (rootTf.Find("DetailArt") ?? FindChildByNameRecursive(rootTf, "DetailArt") ?? 
-                               FindChildByNameRecursive(rootTf, "DetailImage") ?? FindChildByNameRecursive(rootTf, "Art"))?.GetComponent<Image>();
-
-            if (detailName == null)
-                detailName = (rootTf.Find("DetailName") ?? FindChildByNameRecursive(rootTf, "DetailName") ??
-                              FindChildByNameRecursive(rootTf, "NameText") ?? FindChildByNameRecursive(rootTf, "Name"))?.GetComponent<TMP_Text>();
-
-            if (detailDesc == null)
-                detailDesc = (rootTf.Find("DetailDesc") ?? FindChildByNameRecursive(rootTf, "DetailDesc") ??
-                              FindChildByNameRecursive(rootTf, "DescText") ?? FindChildByNameRecursive(rootTf, "Desc"))?.GetComponent<TMP_Text>();
-
-            if (detailEquipBtn == null)
-                detailEquipBtn = (rootTf.Find("Btn_장착하기") ?? FindChildByNameRecursive(rootTf, "Btn_장착하기") ?? 
-                                  FindChildByNameRecursive(rootTf, "Btn_Equip") ?? FindChildByNameRecursive(rootTf, "Equip"))?.GetComponent<Button>();
-
-            // Hide breakthrough or other buttons if any
-            var breakBtn = rootTf.Find("Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_한계 돌파") ?? FindChildByNameRecursive(rootTf, "Btn_Breakthrough");
-            if (breakBtn != null) breakBtn.gameObject.SetActive(false);
-
-            // Bind Close Button in detail popup
-            var closePopupBtn = rootTf.Find("Btn_✕") ?? FindChildByNameRecursive(rootTf, "Btn_✕") ?? FindChildByNameRecursive(rootTf, "CloseBtn");
-            if (closePopupBtn != null)
-            {
-                var b = closePopupBtn.GetComponent<Button>();
-                if (b != null)
-                {
-                    b.onClick.RemoveAllListeners();
-                    b.onClick.AddListener(() => detailRoot.SetActive(false));
-                }
-            }
-
-            bool unlocked = gameManager != null && (string.IsNullOrEmpty(item.unlockSetId) || gameManager.IsSetCompleted(item.unlockSetId));
-            bool isEquipped = gameManager != null && 
-                (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
-
-            if (detailImage != null)
-            {
-                detailImage.enabled = true;
-                detailImage.sprite = unlocked ? item.displaySprite : null;
-                if (!unlocked)
-                {
-                    detailImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
-                }
-                else if (item.id == "bg-none")
-                {
-                    detailImage.color = Color.white; // Solid white for 기본 배경
-                }
-                else if (item.displaySprite == null)
-                {
-                    detailImage.color = new Color(0.12f, 0.15f, 0.22f, 1f); // Nice soft placeholder slate color
-                }
-                else
-                {
-                    detailImage.color = Color.white;
-                }
-                detailImage.preserveAspect = !isBg; // Stretch backgrounds, preserve ratio for decorations
-            }
-
-            if (detailName != null)
-            {
-                detailName.text = unlocked ? item.displayName : "???";
-            }
-
-            if (detailDesc != null)
-            {
-                detailDesc.text = unlocked ? item.description : "???";
-            }
-
-            if (detailEquipBtn != null)
-            {
-                detailEquipBtn.gameObject.SetActive(unlocked);
-                var btnTxt = detailEquipBtn.GetComponentInChildren<TMP_Text>();
-                if (btnTxt != null)
-                {
-                    btnTxt.text = isEquipped ? "장착됨" : "장착하기";
-                }
-                detailEquipBtn.onClick.RemoveAllListeners();
-                detailEquipBtn.onClick.AddListener(OnEquipClicked);
-
-                // Set button state
-                detailEquipBtn.interactable = unlocked && !isEquipped;
-                var cg = GetOrAddComponent<CanvasGroup>(detailEquipBtn.gameObject);
-                cg.alpha = (unlocked && !isEquipped) ? 1f : 0.5f;
-            }
-
-            if (detailRoot != null)
-            {
-                detailRoot.transform.SetAsLastSibling();
-                detailRoot.SetActive(true);
-            }
-        }
-
-        private void OnEquipClicked()
-        {
-            if (selectedItem == null || gameManager == null) return;
-
-            if (selectedIsBg)
-            {
-                gameManager.EquipBackground(selectedItem.id);
-            }
-            else
-            {
-                gameManager.EquipDecoration(selectedItem.id);
-            }
-
-            Refresh();
-            
-            // Re-open detail to update button text
-            if (detailRoot != null && detailRoot.activeSelf)
-            {
-                OpenDetail(selectedItem, selectedIsBg);
-            }
-        }
-
-        private void BuildDetailPopup(Transform parent)
-        {
-            detailRoot = MakePanel(parent, new Vector2(0, 0), new Vector2(640, 420));
-            detailRoot.name = "DetailPopup";
-            var dImg = detailRoot.GetComponent<Image>();
-            dImg.color = new Color(0.06f, 0.08f, 0.14f, 0.98f);
-            detailRoot.SetActive(false);
-
-            // Left – Image
-            detailImage = MakeImage(detailRoot.transform, "DetailArt",
-                new Vector2(-165, 10), new Vector2(220, 260), Color.gray).GetComponent<Image>();
-
-            // Right – Texts
-            detailName = MakeText(detailRoot.transform, "???",
-                new Vector2(110, 155), new Vector2(350, 40), 18, Color.white);
-            detailName.fontStyle = FontStyles.Bold;
-
-            detailDesc = MakeText(detailRoot.transform, "???",
-                new Vector2(110, 55), new Vector2(350, 150), 13, new Color(0.8f, 0.8f, 0.85f));
-            detailDesc.alignment = TextAlignmentOptions.TopLeft;
-            detailDesc.textWrappingMode = TextWrappingModes.Normal;
-
-            // Equip Button
-            detailEquipBtn = MakeButton(detailRoot.transform, "장착하기",
-                new Vector2(110, -130), new Vector2(160, 44), new Color(0.18f, 0.52f, 0.28f), OnEquipClicked).GetComponent<Button>();
-
-            // Close Button
-            MakeButton(detailRoot.transform, "✕", new Vector2(290, 180), new Vector2(36, 36),
-                new Color(0.7f, 0.2f, 0.2f), () => detailRoot.SetActive(false));
-        }
-
-        // ════════════════════════════════════════════════════════════════════
-        //  UI FACTORY HELPERS
-        // ════════════════════════════════════════════════════════════════════
-        private static GameObject MakePanel(Transform parent, Vector2 anchoredPos, Vector2 size)
-        {
-            var go = new GameObject("Panel");
-            go.transform.SetParent(parent, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchoredPosition = anchoredPos;
-            rt.sizeDelta        = size;
-            go.AddComponent<Image>().color = PanelBG;
-            return go;
-        }
-
-        private static GameObject MakeImage(Transform parent, string name, Vector2 pos, Vector2 size, Color col)
-        {
-            var go = new GameObject(name);
-            go.transform.SetParent(parent, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchoredPosition = pos;
-            rt.sizeDelta        = size;
-            go.AddComponent<Image>().color = col;
-            return go;
-        }
-
-        private static TMP_Text MakeText(Transform parent, string text, Vector2 pos, Vector2 size, int fontSize, Color col)
-        {
-            var go = new GameObject("Text");
-            go.transform.SetParent(parent, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchoredPosition = pos;
-            rt.sizeDelta        = size;
-            var tx = go.AddComponent<TextMeshProUGUI>();
-            if (defaultFont != null) tx.font = defaultFont;
-            tx.text      = text;
-            tx.fontSize  = fontSize;
-            tx.color     = col;
-            tx.alignment = TextAlignmentOptions.Center;
-            return tx;
-        }
-
-        private static GameObject MakeButton(Transform parent, string label, Vector2 pos, Vector2 size,
-            Color bgColor, UnityEngine.Events.UnityAction onClick)
-        {
-            var go = new GameObject("Btn_" + label);
-            go.transform.SetParent(parent, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchoredPosition = pos;
-            rt.sizeDelta        = size;
-
-            var img = go.AddComponent<Image>();
-            img.color = bgColor;
-
-            var btn = go.AddComponent<Button>();
-            var cs  = btn.colors;
-            cs.highlightedColor = bgColor * 1.25f;
-            cs.pressedColor     = bgColor * 0.75f;
-            btn.colors          = cs;
-            btn.onClick.AddListener(onClick);
-
-            var labelGO = new GameObject("Label");
-            labelGO.transform.SetParent(go.transform, false);
-            var lrt = labelGO.AddComponent<RectTransform>();
-            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
-            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
-            var tx  = labelGO.AddComponent<TextMeshProUGUI>();
-            if (defaultFont != null) tx.font = defaultFont;
-            tx.text      = label;
-            tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 20);
-            tx.alignment = TextAlignmentOptions.Center;
-            tx.color     = Color.white;
-
-            return go;
-        }
-
-        // Disabled BuildUI
-        public void BuildUI()
-        {
-        }
+        public void BuildUI() { }
 
         private void AutoWireFields()
         {
             if (bgTabBtn == null)
             {
-                bgTabBtn = transform.Find("Panel/Btn_배경")?.GetComponent<Button>() ?? 
-                           transform.Find("Btn_배경")?.GetComponent<Button>() ?? 
+                bgTabBtn = transform.Find("Panel/Btn_배경")?.GetComponent<Button>() ??
+                           transform.Find("Btn_배경")?.GetComponent<Button>() ??
                            FindChildContains<Button>("배경") ??
                            FindChildContains<Button>("bg");
             }
             if (decoTabBtn == null)
             {
-                decoTabBtn = transform.Find("Panel/Btn_장식품")?.GetComponent<Button>() ?? 
-                             transform.Find("Btn_장식품")?.GetComponent<Button>() ?? 
+                decoTabBtn = transform.Find("Panel/Btn_장식품")?.GetComponent<Button>() ??
+                             transform.Find("Btn_장식품")?.GetComponent<Button>() ??
                              FindChildContains<Button>("장식") ??
                              FindChildContains<Button>("deco");
             }
             if (closeBtn == null)
             {
-                closeBtn = transform.Find("Panel/Btn_✕")?.GetComponent<Button>() ?? 
-                           transform.Find("Btn_✕")?.GetComponent<Button>() ?? 
+                closeBtn = transform.Find("Panel/Btn_✕")?.GetComponent<Button>() ??
+                           transform.Find("Btn_✕")?.GetComponent<Button>() ??
                            FindChildContains<Button>("닫기") ??
                            FindChildContains<Button>("✕") ??
                            FindChildContains<Button>("close") ??
@@ -828,6 +884,78 @@ namespace CosmicChaosCat
 
             if (bgPanel == null) bgPanel = transform.Find("Panel/BgPanel")?.gameObject ?? transform.Find("BgPanel")?.gameObject ?? FindChildNameContains("BgPanel");
             if (decoPanel == null) decoPanel = transform.Find("Panel/DecoPanel")?.gameObject ?? transform.Find("DecoPanel")?.gameObject ?? FindChildNameContains("DecoPanel");
+
+            if (titleText == null && titleTextUi == null)
+            {
+                var t = FindChildByNameRecursive(transform, "titleText") ??
+                        FindChildByNameRecursive(transform, "TitleText") ??
+                        FindChildByNameRecursive(transform, "panelTitle") ??
+                        FindChildByNameRecursive(transform, "Title") ??
+                        FindChildByNameRecursive(transform, "title") ??
+                        FindChildByNameRecursive(transform, "HeaderTitle");
+                if (t != null)
+                {
+                    titleText = t.GetComponent<TMP_Text>();
+                    if (titleText == null) titleTextUi = t.GetComponent<Text>();
+                }
+            }
+
+            if (prevPageBtn == null)
+            {
+                var b = FindChildContains<Button>("Btn_Prev") ??
+                        FindChildContains<Button>("prevBtn") ??
+                        FindChildContains<Button>("PrevBtn") ??
+                        FindChildContains<Button>("Btn_Left") ??
+                        FindChildContains<Button>("leftBtn");
+                if (b != null) prevPageBtn = b;
+            }
+
+            if (nextPageBtn == null)
+            {
+                var b = FindChildContains<Button>("Btn_Next") ??
+                        FindChildContains<Button>("nextBtn") ??
+                        FindChildContains<Button>("NextBtn") ??
+                        FindChildContains<Button>("Btn_Right") ??
+                        FindChildContains<Button>("rightBtn");
+                if (b != null) nextPageBtn = b;
+            }
+
+            if (pageText == null && pageTextUi == null)
+            {
+                var t = FindChildByNameRecursive(transform, "pageText") ??
+                        FindChildByNameRecursive(transform, "PageText") ??
+                        FindChildByNameRecursive(transform, "pageLabel") ??
+                        FindChildByNameRecursive(transform, "PageLabel") ??
+                        FindChildByNameRecursive(transform, "Page_Text") ??
+                        FindChildByNameRecursive(transform, "Page_counter") ??
+                        FindChildByNameRecursive(transform, "page_counter") ??
+                        FindChildByNameRecursive(transform, "PageCounter") ??
+                        FindChildByNameRecursive(transform, "Page") ??
+                        FindChildByNameRecursive(transform, "page") ??
+                        FindChildByNameRecursive(transform, "Text (TMP)");
+                if (t != null)
+                {
+                    pageText = t.GetComponent<TMP_Text>();
+                    if (pageText == null) pageTextUi = t.GetComponent<Text>();
+                }
+            }
+
+            if (detailRoot == null)
+            {
+                var d = transform.Find("DetailPopupRoot")?.gameObject ?? transform.Find("DetailRoot")?.gameObject ?? transform.Find("DetailPanel")?.gameObject;
+                if (d != null)
+                {
+                    detailRoot = d;
+                    var rt = d.transform;
+                    detailFrameImage = rt.Find("DetailBox")?.GetComponent<Image>() ?? rt.GetComponentInChildren<Image>();
+                    detailImage = rt.Find("DetailBox/Art")?.GetComponent<Image>() ?? FindChildByNameRecursive(rt, "Art")?.GetComponent<Image>();
+                    detailRarityMark = rt.Find("DetailBox/rereMark")?.GetComponent<Image>() ?? FindChildByNameRecursive(rt, "rereMark")?.GetComponent<Image>() ?? FindChildByNameRecursive(rt, "rareMark")?.GetComponent<Image>();
+                    detailName = rt.Find("DetailBox/Name")?.GetComponent<TMP_Text>() ?? FindChildByNameRecursive(rt, "Name")?.GetComponent<TMP_Text>();
+                    detailDesc = rt.Find("DetailBox/Desc")?.GetComponent<TMP_Text>() ?? FindChildByNameRecursive(rt, "Desc")?.GetComponent<TMP_Text>();
+                    detailEquipBtn = rt.Find("DetailBox/Btn_장착하기")?.GetComponent<Button>() ?? FindChildContains<Button>("장착");
+                    if (detailEquipBtn != null) detailEquipText = detailEquipBtn.GetComponentInChildren<TMP_Text>();
+                }
+            }
         }
 
         private T FindChildContains<T>(string keyword) where T : Component
@@ -845,7 +973,6 @@ namespace CosmicChaosCat
             var transforms = GetComponentsInChildren<Transform>(true);
             foreach (var t in transforms)
             {
-                // Skip self to prevent matching own GameObject
                 if (t == transform) continue;
                 if (t.name.ToLower().Contains(keyword.ToLower())) return t.gameObject;
             }
@@ -862,6 +989,7 @@ namespace CosmicChaosCat
             }
             return null;
         }
+
         private T GetOrAddComponent<T>(GameObject go) where T : Component
         {
             if (go == null) return null;
@@ -870,47 +998,58 @@ namespace CosmicChaosCat
             return comp;
         }
 
-        private void EnsureLayoutAndScrolling(Transform parent, Vector2 templateSize)
+        private static TMP_Text MakeText(Transform parent, string name, string text, Vector2 pos, Vector2 size, int fontSize, Color col)
         {
-            if (parent == null) return;
+            var go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
+            var tx = go.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
+            tx.text      = text;
+            tx.fontSize  = fontSize;
+            tx.color     = col;
+            tx.alignment = TextAlignmentOptions.Center;
+            return tx;
+        }
 
-            // Detect scrolling direction from parent ScrollRect if present
-            var scrollRect = parent.GetComponentInParent<ScrollRect>();
-            bool isVertical = scrollRect == null || scrollRect.vertical;
+        private static GameObject MakeButton(Transform parent, string label, Vector2 pos, Vector2 size, Color bgColor, UnityEngine.Events.UnityAction onClick)
+        {
+            var go = new GameObject("Btn_" + label);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta        = size;
 
-            // Get or add GridLayoutGroup for perfect alignment
-            var grid = GetOrAddComponent<GridLayoutGroup>(parent.gameObject);
-            grid.cellSize = templateSize;
-            grid.spacing = new Vector2(25f, 25f);
-            grid.padding = new RectOffset(20, 20, 20, 20);
-            grid.childAlignment = TextAnchor.UpperLeft;
+            var img = go.AddComponent<Image>();
+            img.color = bgColor;
 
-            // Use Flexible constraint so columns/rows auto-calculate based on the scroll view/page size!
-            grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
-            grid.startAxis = isVertical ? GridLayoutGroup.Axis.Horizontal : GridLayoutGroup.Axis.Vertical;
-            grid.constraint = GridLayoutGroup.Constraint.Flexible;
+            var btn = go.AddComponent<Button>();
+            var cs  = btn.colors;
+            cs.highlightedColor = bgColor * 1.25f;
+            cs.pressedColor     = bgColor * 0.75f;
+            btn.colors          = cs;
+            if (onClick != null) btn.onClick.AddListener(onClick);
 
-            // Only add ContentSizeFitter if it's a sub-container (like ScrollRect's Content)
-            // and NOT the main page panels or objects named "Page" themselves, to preserve their 1400x710 dimensions.
-            bool isMainPanel = (bgPanel != null && parent.gameObject == bgPanel) || 
-                               (decoPanel != null && parent.gameObject == decoPanel) ||
-                               parent.name.ToLower().Contains("page");
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+            var tx  = labelGO.AddComponent<TextMeshProUGUI>();
+            if (defaultFont != null) tx.font = defaultFont;
+            tx.text      = label;
+            tx.fontSize  = Mathf.Clamp((int)(size.y * 0.45f), 10, 20);
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color     = Color.white;
 
-            if (!isMainPanel)
-            {
-                var fitter = GetOrAddComponent<ContentSizeFitter>(parent.gameObject);
-                fitter.horizontalFit = !isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
-                fitter.verticalFit = isVertical ? ContentSizeFitter.FitMode.PreferredSize : ContentSizeFitter.FitMode.Unconstrained;
-            }
-            else
-            {
-                // Clean up any ContentSizeFitter added to the main panel
-                var fitter = parent.GetComponent<ContentSizeFitter>();
-                if (fitter != null)
-                {
-                    Destroy(fitter);
-                }
-            }
+            return go;
+        }
+
+        private void EnsureGridLayout(Transform parent, Vector2 templateSize)
+        {
+            // Preserve user's manual slot positions and layout settings configured in Unity Editor!
         }
     }
 }
