@@ -7,10 +7,12 @@ namespace CosmicChaosCat
 
     public enum CardShardValue
     {
-        [InspectorName("1")]  Value_1  = 1,
-        [InspectorName("5")]  Value_5  = 5,
-        [InspectorName("10")] Value_10 = 10,
-        [InspectorName("50")] Value_50 = 50
+        [InspectorName("1")]   Value_1   = 1,
+        [InspectorName("3")]   Value_3   = 3,
+        [InspectorName("5")]   Value_5   = 5,
+        [InspectorName("10")]  Value_10  = 10,
+        [InspectorName("50")]  Value_50  = 50,
+        [InspectorName("100")] Value_100 = 100
     }
 
     public enum CardSpecialEffect

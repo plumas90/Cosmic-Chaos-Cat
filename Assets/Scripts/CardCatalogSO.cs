@@ -9,6 +9,7 @@ namespace CosmicChaosCat
         [SerializeField] private List<CardEntry> cards = new List<CardEntry>();
 
         public IReadOnlyList<CardEntry> Cards => cards;
+        public List<CardEntry> CardsList => cards;
 
         public CardEntry FindById(string id)
         {

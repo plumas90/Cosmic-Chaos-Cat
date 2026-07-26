@@ -11,6 +11,7 @@ namespace CosmicChaosCat
         [SerializeField] private List<SetEntry> sets = new List<SetEntry>();
 
         public IReadOnlyList<SetEntry> Sets => sets;
+        public List<SetEntry> SetsList => sets;
 
         public SetEntry FindById(string setId)
         {
