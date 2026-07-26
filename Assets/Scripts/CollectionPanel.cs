@@ -147,21 +147,6 @@ namespace CosmicChaosCat
 
         private void InitSlots()
         {
-            // Force reset main page panels and any objects containing "page" in their name to 1400x710
-            var allChildren = GetComponentsInChildren<Transform>(true);
-            foreach (var child in allChildren)
-            {
-                string nameLower = child.name.ToLower();
-                if (child.gameObject == bgPanel || child.gameObject == decoPanel || nameLower.Contains("page"))
-                {
-                    var fitter = child.GetComponent<ContentSizeFitter>();
-                    if (fitter != null) DestroyImmediate(fitter);
-                    
-                    var rt = child.GetComponent<RectTransform>();
-                    if (rt != null) rt.sizeDelta = new Vector2(1400f, 710f);
-                }
-            }
-
             // Initialize background slots from template
             if (bgPanel != null && bgSlots.Count == 0)
             {
