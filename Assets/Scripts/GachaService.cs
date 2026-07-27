@@ -31,7 +31,7 @@ namespace CosmicChaosCat
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
-                if (card == null || card.IsHidden) continue;
+                if (card == null || card.IsHidden || card.IsShop) continue;
                 if (card.Rarity != chosenRarity) continue;
                 if (!stateById.TryGetValue(card.Id, out var progress)) continue;
 
@@ -45,7 +45,7 @@ namespace CosmicChaosCat
                 for (int i = 0; i < allCards.Count; i++)
                 {
                     var card = allCards[i];
-                    if (card == null || card.IsHidden) continue;
+                    if (card == null || card.IsHidden || card.IsShop) continue;
                     if (card.Rarity != chosenRarity) continue;
                     if (!stateById.TryGetValue(card.Id, out var progress)) continue;
 

@@ -293,32 +293,32 @@ namespace CosmicChaosCat
             switch (rarity)
             {
                 case CardRarity.N:
-                    baseCost = 500;
+                    baseCost = 100;
                     count = NExchangeCount;
                     break;
                 case CardRarity.R:
-                    baseCost = 5000;
+                    baseCost = 500;
                     count = RExchangeCount;
                     break;
                 case CardRarity.SR:
-                    baseCost = 25000;
+                    baseCost = 5000;
                     count = SRExchangeCount;
                     break;
                 case CardRarity.SSR:
-                    baseCost = 125000;
+                    baseCost = 10000;
                     count = SSRExchangeCount;
                     break;
                 case CardRarity.UR:
-                    baseCost = 625000;
-                    count = URExchangeCount;
+                    baseCost = 10000;
+                    count = SSRExchangeCount;
                     break;
                 default:
-                    baseCost = 5000;
+                    baseCost = 100;
                     break;
             }
 
-            // Price scales exponentially: BaseCost * 5 ^ PurchaseCount
-            double multiplier = Math.Pow(5, count);
+            // Price doubles per purchase: BaseCost * 2 ^ PurchaseCount
+            double multiplier = Math.Pow(2, count);
             return (int)Math.Min(int.MaxValue, baseCost * multiplier);
         }
 
@@ -742,6 +742,52 @@ namespace CosmicChaosCat
                 };
             }
         }
+
+        public bool DeductMoney(double amount)
+        {
+            if (Money < amount) return false;
+            Money -= amount;
+            return true;
+        }
+
+        public bool DeductShards(int amount)
+        {
+            if (Shards < amount) return false;
+            Shards -= amount;
+            return true;
+        }
+
+        public void GrantCard(string cardId)
+        {
+            if (cardCatalog == null) return;
+            var card = cardCatalog.FindById(cardId);
+            if (card == null) return;
+
+            if (!cardState.TryGetValue(card.Id, out var state))
+            {
+                state = new CardProgress { CardId = card.Id, Unlocked = true, Copies = 1 };
+                cardState[card.Id] = state;
+            }
+            else
+            {
+                state.Unlocked = true;
+                state.Copies++;
+            }
+        }
+
+        public void IncrementExchangeCount(CardRarity rarity)
+        {
+            switch (rarity)
+            {
+                case CardRarity.N:   NExchangeCount++; break;
+                case CardRarity.R:   RExchangeCount++; break;
+                case CardRarity.SR:  SRExchangeCount++; break;
+                case CardRarity.SSR: SSRExchangeCount++; break;
+                case CardRarity.UR:  URExchangeCount++; break;
+            }
+        }
+
+        public void NotifyStateChange() => NotifyState();
 
         private void Log(string msg)  => LogUpdated?.Invoke(msg);
         private void NotifyState()    => StateChanged?.Invoke();

@@ -23,6 +23,12 @@ namespace CosmicChaosCat
         ShardRefundBonus
     }
 
+    public enum CardShopCurrency
+    {
+        Coin,
+        Shard
+    }
+
     public class SetIdAttribute : PropertyAttribute { }
 
     [Serializable]
@@ -47,6 +53,9 @@ namespace CosmicChaosCat
         public int MaxStacks = 6;
         [SetId] public string SetId;
         public bool IsHidden;
+        public bool IsShop; // If true, card only appears in Shop and is excluded from Gacha
+        public CardShopCurrency ShopCurrency = CardShopCurrency.Coin;
+        public double ShopPrice = 1000;
         public Sprite CardSprite;
         public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
         public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
