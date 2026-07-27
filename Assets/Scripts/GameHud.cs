@@ -312,49 +312,76 @@ namespace CosmicChaosCat
         private int lastShopFrame = -1;
         private int lastMenuFrame = -1;
 
+        public bool IsAnyMajorWindowOpen(MonoBehaviour exceptWindow = null)
+        {
+            if (shopPanel != null && shopPanel != exceptWindow && shopPanel.gameObject.activeSelf) return true;
+            if (collectionPanel != null && collectionPanel != exceptWindow && collectionPanel.gameObject.activeSelf) return true;
+            if (encyclopediaPanel != null && encyclopediaPanel != exceptWindow && encyclopediaPanel.gameObject.activeSelf) return true;
+            if (gachaPanel != null && gachaPanel != exceptWindow && gachaPanel.gameObject.activeSelf) return true;
+            return false;
+        }
+
         // ─── Button Callbacks ──────────────────────────────────────────────
         public void OpenGacha()
         {
             if (Time.frameCount == lastGachaFrame) return;
             lastGachaFrame = Time.frameCount;
-            Debug.Log("[GameHud] OpenGacha"); SetPanelActive(gachaPanel, true);
+
+            if (gachaPanel == null) return;
+            bool targetActive = !gachaPanel.gameObject.activeSelf;
+            if (targetActive && IsAnyMajorWindowOpen(gachaPanel))
+            {
+                Debug.Log("[GameHud] 다른 창이 이미 열려 있어 가챠 창을 열 수 없습니다. 현재 창을 먼저 닫아주세요.");
+                return;
+            }
+            gachaPanel.transform.SetAsLastSibling();
+            gachaPanel.gameObject.SetActive(targetActive);
         }
+
         public void ToggleEncyclopedia()
         {
             if (Time.frameCount == lastEncyFrame) return;
             lastEncyFrame = Time.frameCount;
 
-            Debug.Log($"[GameHud] ToggleEncyclopedia clicked. Panel null?={encyclopediaPanel==null}");
-            if (encyclopediaPanel != null)
+            if (encyclopediaPanel == null) return;
+            bool targetActive = !encyclopediaPanel.gameObject.activeSelf;
+            if (targetActive && IsAnyMajorWindowOpen(encyclopediaPanel))
             {
-                var go = encyclopediaPanel.gameObject;
-                var rt = go.GetComponent<RectTransform>();
-                Debug.Log($"[GameHud] EncyPanel state: activeSelf={go.activeSelf}, activeInH={go.activeInHierarchy}");
-                if (rt != null) Debug.Log($"[GameHud] EncyPanel Rect: pos3D={rt.anchoredPosition3D}, size={rt.sizeDelta}, scale={rt.localScale}");
-                foreach (Transform child in go.transform)
-                {
-                    Debug.Log($"[GameHud] EncyPanel Child: {child.name}, active={child.gameObject.activeSelf}, scale={child.localScale}");
-                }
+                Debug.Log("[GameHud] 다른 창이 이미 열려 있어 도감 창을 열 수 없습니다. 현재 창을 먼저 닫아주세요.");
+                return;
             }
-            Toggle(encyclopediaPanel);
+            encyclopediaPanel.transform.SetAsLastSibling();
+            encyclopediaPanel.gameObject.SetActive(targetActive);
         }
+
         public void ToggleUpgrade()
         {
             if (Time.frameCount == lastUpgradeFrame) return;
             lastUpgradeFrame = Time.frameCount;
             Debug.Log("[GameHud] ToggleUpgrade"); Toggle(upgradePanel);
         }
+
         public void ToggleExchange()
         {
             if (Time.frameCount == lastExchangeFrame) return;
             lastExchangeFrame = Time.frameCount;
             Debug.Log("[GameHud] ToggleExchange"); Toggle(exchangePanel);
         }
+
         public void ToggleShop()
         {
             if (Time.frameCount == lastShopFrame) return;
             lastShopFrame = Time.frameCount;
-            Debug.Log("[GameHud] ToggleShop"); Toggle(shopPanel);
+
+            if (shopPanel == null) return;
+            bool targetActive = !shopPanel.gameObject.activeSelf;
+            if (targetActive && IsAnyMajorWindowOpen(shopPanel))
+            {
+                Debug.Log("[GameHud] 다른 창이 이미 열려 있어 상점 창을 열 수 없습니다. 현재 창을 먼저 닫아주세요.");
+                return;
+            }
+            shopPanel.transform.SetAsLastSibling();
+            shopPanel.gameObject.SetActive(targetActive);
         }
         
         private int lastCollectionFrame;
@@ -362,7 +389,16 @@ namespace CosmicChaosCat
         {
             if (Time.frameCount == lastCollectionFrame) return;
             lastCollectionFrame = Time.frameCount;
-            Debug.Log("[GameHud] ToggleCollection"); Toggle(collectionPanel);
+
+            if (collectionPanel == null) return;
+            bool targetActive = !collectionPanel.gameObject.activeSelf;
+            if (targetActive && IsAnyMajorWindowOpen(collectionPanel))
+            {
+                Debug.Log("[GameHud] 다른 창이 이미 열려 있어 수집품 창을 열 수 없습니다. 현재 창을 먼저 닫아주세요.");
+                return;
+            }
+            collectionPanel.transform.SetAsLastSibling();
+            collectionPanel.gameObject.SetActive(targetActive);
         }
  
         /// <summary>메뉴 버튼 클릭 → 확인 다이얼로그 표시.</summary>

@@ -33,6 +33,15 @@ namespace CosmicChaosCat
         public Sprite iconSprite;
     }
 
+    public class SlotClickHandler : MonoBehaviour, UnityEngine.EventSystems.IPointerClickHandler
+    {
+        public System.Action onClick;
+        public void OnPointerClick(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            onClick?.Invoke();
+        }
+    }
+
     public sealed class ShopPanel : MonoBehaviour
     {
         private GameManager gm;
@@ -53,6 +62,13 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteMarkR;
         [SerializeField] private Sprite spriteMarkSR;
         [SerializeField] private Sprite spriteMarkSSR;
+
+        [Header("Currency Symbol Sprites")]
+        [SerializeField] private Sprite coinSymbolSprite;
+        [SerializeField] private Sprite shardSymbolSprite;
+
+        public Sprite CoinSymbolSprite { get => coinSymbolSprite; set => coinSymbolSprite = value; }
+        public Sprite ShardSymbolSprite { get => shardSymbolSprite; set => shardSymbolSprite = value; }
 
         // Shard Exchange UI References
         private Button buyNBtn, buyRBtn, buySRBtn, buySSRBtn;
@@ -132,6 +148,7 @@ namespace CosmicChaosCat
 
         private void OnEnable()
         {
+            transform.SetAsLastSibling();
             EnsureReferencesResolved();
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
             if (gm != null) gm.StateChanged += Refresh;
@@ -223,51 +240,48 @@ namespace CosmicChaosCat
 
         private void InitializeProductCatalog()
         {
-            if (productCatalog.Count > 0) return;
+            productCatalog.Clear();
 
-            // 1. Default Gacha Unlock & Background / Decoration Products
-            productCatalog.Add(new ShopProductItem { id = "prod-gacha-rare", displayName = "레어 가챠 해금", description = "가챠 패널에서 R등급 이상 카드를 획득하는 가챠를 해금합니다.", currencyType = ProductCurrencyType.Coin, price = 5000, productType = ShopProductType.GachaUnlock, targetId = "Rare", rarity = CardRarity.R });
-            productCatalog.Add(new ShopProductItem { id = "prod-gacha-super", displayName = "슈퍼 가챠 해금", description = "가챠 패널에서 SR등급 이상 카드를 획득하는 가챠를 해금합니다.", currencyType = ProductCurrencyType.Coin, price = 20000, productType = ShopProductType.GachaUnlock, targetId = "Super", rarity = CardRarity.SR });
-            productCatalog.Add(new ShopProductItem { id = "prod-bg-desert", displayName = "사막 오아시스 배경", description = "피라미드와 아름다운 오아시스가 우거진 사막 배경입니다.", currencyType = ProductCurrencyType.Coin, price = 10000, productType = ShopProductType.Background, targetId = "bg-desert", rarity = CardRarity.R });
-            productCatalog.Add(new ShopProductItem { id = "prod-bg-dessert", displayName = "달콤 디저트 배경", description = "달콤한 케이크와 과자들이 가득한 과자나라 배경입니다.", currencyType = ProductCurrencyType.Coin, price = 30000, productType = ShopProductType.Background, targetId = "bg-dessert", rarity = CardRarity.R });
-            productCatalog.Add(new ShopProductItem { id = "prod-bg-sea", displayName = "심해 바다 배경", description = "깊은 바닷속 환상적인 푸른 산호 해저 왕국 배경입니다.", currencyType = ProductCurrencyType.Shard, price = 500, productType = ShopProductType.Background, targetId = "bg-sea", rarity = CardRarity.SR });
-            productCatalog.Add(new ShopProductItem { id = "prod-bg-hero", displayName = "우주 레인저 배경", description = "은하수를 누비는 우주 레인저 테마 특수 배경입니다.", currencyType = ProductCurrencyType.Shard, price = 2000, productType = ShopProductType.Background, targetId = "bg-hero", rarity = CardRarity.SSR });
-            productCatalog.Add(new ShopProductItem { id = "prod-deco-pyramid", displayName = "미니 피라미드 장식", description = "귀여운 사막 피라미드 수호 오브제 장식품입니다.", currencyType = ProductCurrencyType.Coin, price = 5000, productType = ShopProductType.Decoration, targetId = "deco-pyramid", rarity = CardRarity.R });
-            productCatalog.Add(new ShopProductItem { id = "prod-deco-cake", displayName = "디저트 케이크 장식", description = "달콤한 3단 생크림 케이크 장식품입니다.", currencyType = ProductCurrencyType.Coin, price = 15000, productType = ShopProductType.Decoration, targetId = "deco-cake", rarity = CardRarity.R });
-            productCatalog.Add(new ShopProductItem { id = "prod-deco-aquarium", displayName = "산호 수족관 장식", description = "신비로운 해저 무지개 산호 수족관 장식품입니다.", currencyType = ProductCurrencyType.Shard, price = 300, productType = ShopProductType.Decoration, targetId = "deco-aquarium", rarity = CardRarity.SR });
-            productCatalog.Add(new ShopProductItem { id = "prod-deco-airship", displayName = "황금 비행선 장식", description = "스팀펑크 태엽 비행선 모형 장식품입니다.", currencyType = ProductCurrencyType.Shard, price = 1000, productType = ShopProductType.Decoration, targetId = "deco-airship", rarity = CardRarity.SSR });
-            productCatalog.Add(new ShopProductItem { id = "prod-deco-aurora", displayName = "오로라 수정구 장식", description = "사계절 오로라가 일렁이는 신비로운 수정구 장식품입니다.", currencyType = ProductCurrencyType.Shard, price = 5000, productType = ShopProductType.Decoration, targetId = "deco-aurora", rarity = CardRarity.SSR });
-
-            // 2. Scan CardCatalog for IsShop cards (Exclusive Shop Cards)
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
-            if (gm != null && gm.CardCatalog != null)
+            if (gm != null && gm.CardCatalog != null && gm.CardCatalog.Cards != null)
             {
                 foreach (var card in gm.CardCatalog.Cards)
                 {
                     if (card != null && card.IsShop)
                     {
-                        ProductCurrencyType cur = card.ShopCurrency == CardShopCurrency.Shard ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
-                        double p = card.ShopPrice > 0 ? card.ShopPrice : (cur == ProductCurrencyType.Coin ? 5000 : 500);
+                        ProductCurrencyType cur = (card.ShopCurrency == CardShopCurrency.Shard) 
+                            ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
+                        
+                        double p = card.ShopPrice > 0 ? card.ShopPrice : (cur == ProductCurrencyType.Coin ? 1000 : 100);
+
+                        Sprite iconSp = card.CardSprite;
+                        if (iconSp == null && gm != null)
+                        {
+                            iconSp = gm.GetCardSpriteForDisplay(card.Id);
+                        }
+
+                        string nameStr = !string.IsNullOrEmpty(card.DisplayName) ? card.DisplayName : card.Id;
+                        string descStr = !string.IsNullOrEmpty(card.Description) ? card.Description : $"상점 전용 {card.Rarity} 등급 카드입니다.";
 
                         productCatalog.Add(new ShopProductItem
                         {
                             id = "prod-card-" + card.Id,
-                            displayName = card.DisplayName,
-                            description = string.IsNullOrEmpty(card.Description) ? $"상점 전용 {card.Rarity}등급 한정 카드입니다." : card.Description,
+                            displayName = nameStr,
+                            description = descStr,
                             currencyType = cur,
                             price = p,
                             productType = ShopProductType.Card,
                             targetId = card.Id,
                             rarity = card.Rarity,
-                            iconSprite = card.CardSprite
+                            iconSprite = iconSp
                         });
                     }
                 }
             }
 
-            if (selectedProduct == null && productCatalog.Count > 0)
+            if (selectedProduct == null || !productCatalog.Contains(selectedProduct))
             {
-                selectedProduct = productCatalog[0];
+                selectedProduct = productCatalog.Count > 0 ? productCatalog[0] : null;
             }
         }
 
@@ -570,44 +584,77 @@ namespace CosmicChaosCat
 
             productSlotGOs.Clear();
 
-            var gridPanelTrans = productsContent.transform.Find("GridPanel") 
-                              ?? productsContent.transform.Find("Grid")
-                              ?? productsContent.transform.Find("Slots");
-
-            Transform searchParent = gridPanelTrans != null ? gridPanelTrans : productsContent.transform;
-
-            foreach (Transform child in searchParent)
-            {
-                if (child.name.StartsWith("ProductSlot_") || child.name.StartsWith("Slot_") || child.name.StartsWith("Slot") || child.name.Contains("Slot") || child.GetComponent<Button>() != null)
-                {
-                    productSlotGOs.Add(child.gameObject);
-                }
-            }
-
-            if (productSlotGOs.Count == 0) return false;
-
+            // 1. Bind Pagination Controls First
             if (prevProductPageBtn == null)
             {
                 var b = productsContent.transform.Find("Btn_◀") 
                      ?? productsContent.transform.Find("PrevBtn") 
-                     ?? productsContent.transform.Find("Btn_Prev");
+                     ?? productsContent.transform.Find("Btn_Prev")
+                     ?? productsContent.transform.Find("LeftBtn")
+                     ?? productsContent.transform.Find("Btn_Left");
                 if (b != null) prevProductPageBtn = b.GetComponent<Button>();
+                else
+                {
+                    foreach (var btn in productsContent.GetComponentsInChildren<Button>(true))
+                    {
+                        string txt = btn.GetComponentInChildren<TMP_Text>()?.text ?? "";
+                        string n = btn.name.ToLower();
+                        if (n.Contains("prev") || n.Contains("left") || txt.Contains("◀") || txt.Contains("<"))
+                        {
+                            prevProductPageBtn = btn;
+                            break;
+                        }
+                    }
+                }
             }
+
             if (nextProductPageBtn == null)
             {
                 var b = productsContent.transform.Find("Btn_▶") 
                      ?? productsContent.transform.Find("NextBtn") 
-                     ?? productsContent.transform.Find("Btn_Next");
+                     ?? productsContent.transform.Find("Btn_Next")
+                     ?? productsContent.transform.Find("RightBtn")
+                     ?? productsContent.transform.Find("Btn_Right");
                 if (b != null) nextProductPageBtn = b.GetComponent<Button>();
+                else
+                {
+                    foreach (var btn in productsContent.GetComponentsInChildren<Button>(true))
+                    {
+                        if (btn == prevProductPageBtn) continue;
+                        string txt = btn.GetComponentInChildren<TMP_Text>()?.text ?? "";
+                        string n = btn.name.ToLower();
+                        if (n.Contains("next") || n.Contains("right") || txt.Contains("▶") || txt.Contains(">"))
+                        {
+                            nextProductPageBtn = btn;
+                            break;
+                        }
+                    }
+                }
             }
+
             if (productPageText == null)
             {
                 var t = productsContent.transform.Find("ProductPageText") 
                      ?? productsContent.transform.Find("PageText")
-                     ?? productsContent.transform.Find("ProductPageText/Label");
-                if (t != null) productPageText = t.GetComponent<TMP_Text>();
+                     ?? productsContent.transform.Find("Text_Page")
+                     ?? productsContent.transform.Find("Page_Text")
+                     ?? productsContent.transform.Find("Page");
+                if (t != null) productPageText = t.GetComponent<TMP_Text>() ?? t.GetComponentInChildren<TMP_Text>();
+                else
+                {
+                    foreach (var tmp in productsContent.GetComponentsInChildren<TMP_Text>(true))
+                    {
+                        string n = tmp.name.ToLower();
+                        if (n.Contains("page") || tmp.text.Contains("/"))
+                        {
+                            productPageText = tmp;
+                            break;
+                        }
+                    }
+                }
             }
 
+            // 2. Bind Buy Panel
             var buyPanelTrans = productsContent.transform.Find("BuyPanel") 
                              ?? productsContent.transform.Find("BottomPanel")
                              ?? productsContent.transform.Find("DetailPanel");
@@ -658,32 +705,124 @@ namespace CosmicChaosCat
                 }
             }
 
-            for (int i = 0; i < productSlotGOs.Count; i++)
+            // 3. Recursive Deep Scan for Slots across all subtrees under productsContent
+            var slotsFound = new List<GameObject>();
+
+            void FindSlotsRecursive(Transform current)
             {
-                var slotGO = productSlotGOs[i];
-                var btn = slotGO.GetComponent<Button>() ?? slotGO.GetComponentInChildren<Button>();
-                if (btn != null)
+                foreach (Transform child in current)
                 {
-                    int idx = i;
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => OnProductSlotClicked(idx));
+                    if (prevProductPageBtn != null && (child == prevProductPageBtn.transform || child.gameObject == prevProductPageBtn.gameObject)) continue;
+                    if (nextProductPageBtn != null && (child == nextProductPageBtn.transform || child.gameObject == nextProductPageBtn.gameObject)) continue;
+                    if (buyProductBtn != null && (child == buyProductBtn.transform || child.gameObject == buyProductBtn.gameObject)) continue;
+                    if (buyPanelTrans != null && (child == buyPanelTrans || child.gameObject == buyPanelTrans.gameObject)) continue;
+
+                    string n = child.name.ToLower();
+                    if (n.Contains("page") || n.Contains("title") || n.Contains("header") || n == "infobox" || n == "buypanel" || n == "bottompanel") continue;
+
+                    bool isSlot = n.Contains("slot") || n.Contains("card_") || n.StartsWith("card") || n.StartsWith("item") || n.StartsWith("prod");
+
+                    if (isSlot)
+                    {
+                        slotsFound.Add(child.gameObject);
+                    }
+                    else
+                    {
+                        FindSlotsRecursive(child);
+                    }
                 }
             }
 
+            FindSlotsRecursive(productsContent.transform);
+
+            if (slotsFound.Count == 0)
+            {
+                foreach (var t in productsContent.GetComponentsInChildren<Transform>(true))
+                {
+                    string n = t.name.ToLower();
+                    if (n == "content" || n.Contains("grid") || n.Contains("slots") || n.Contains("goods"))
+                    {
+                        foreach (Transform child in t)
+                        {
+                            if (child.name != "Viewport" && child.name != "Scrollbar" && !child.name.Contains("Page") && !child.name.Contains("Btn"))
+                            {
+                                slotsFound.Add(child.gameObject);
+                            }
+                        }
+                        if (slotsFound.Count > 0) break;
+                    }
+                }
+            }
+
+            productSlotGOs.AddRange(slotsFound);
+            if (productSlotGOs.Count == 0) return false;
+
+            // Wire slot click listeners on slotGO
+            for (int i = 0; i < productSlotGOs.Count; i++)
+            {
+                var slotGO = productSlotGOs[i];
+                if (slotGO == null) continue;
+
+                int idx = i;
+
+                var mainImg = slotGO.GetComponent<Image>();
+                if (mainImg == null)
+                {
+                    var frameImg = slotGO.transform.Find("Frame")?.GetComponent<Image>()
+                                ?? slotGO.transform.Find("Frame_Image")?.GetComponent<Image>();
+                    if (frameImg != null) mainImg = frameImg;
+                    else mainImg = slotGO.AddComponent<Image>();
+                }
+                if (mainImg != null)
+                {
+                    if (mainImg.color.a < 0.02f) mainImg.color = new Color(0f, 0f, 0f, 0.02f);
+                    mainImg.raycastTarget = true;
+                }
+
+                var btn = slotGO.GetComponent<Button>();
+                if (btn == null) btn = slotGO.AddComponent<Button>();
+                if (btn.targetGraphic == null && mainImg != null) btn.targetGraphic = mainImg;
+
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => {
+                    Debug.Log($"[ShopPanel] Slot {idx} Clicked!");
+                    OnProductSlotClicked(idx);
+                });
+
+                // Set raycastTarget = false for ALL child graphics (Images, TMP_Text, Text) to ensure click goes to the slot button
+                foreach (var trans in slotGO.GetComponentsInChildren<Transform>(true))
+                {
+                    if (trans.gameObject == slotGO) continue;
+                    
+                    var img = trans.GetComponent<UnityEngine.UI.Graphic>();
+                    if (img != null) img.raycastTarget = false;
+
+                    // Remove legacy SlotClickHandler if it exists
+                    var handler = trans.gameObject.GetComponent<SlotClickHandler>();
+                    if (handler != null) SafeDestroy(handler);
+                }
+                var slotHandler = slotGO.GetComponent<SlotClickHandler>();
+                if (slotHandler != null) SafeDestroy(slotHandler);
+            }
+
+            // Wire pagination & buy button listeners
             if (prevProductPageBtn != null)
             {
                 prevProductPageBtn.onClick.RemoveAllListeners();
                 prevProductPageBtn.onClick.AddListener(OnPrevProductPageClicked);
+                prevProductPageBtn.gameObject.SetActive(true);
             }
             if (nextProductPageBtn != null)
             {
                 nextProductPageBtn.onClick.RemoveAllListeners();
                 nextProductPageBtn.onClick.AddListener(OnNextProductPageClicked);
+                nextProductPageBtn.gameObject.SetActive(true);
             }
             if (buyProductBtn != null)
             {
                 buyProductBtn.onClick.RemoveAllListeners();
                 buyProductBtn.onClick.AddListener(OnBuySelectedProductClicked);
+                buyProductBtn.gameObject.SetActive(true);
             }
 
             return true;
@@ -821,21 +960,8 @@ namespace CosmicChaosCat
             if (selectedProduct == null || gm == null) return;
 
             string status = GetProductStatus(selectedProduct);
-            if (status == "Purchased" || status == "Equipped")
+            if (status == "MaxBreakthrough")
             {
-                if (selectedProduct.productType == ShopProductType.Background)
-                {
-                    gm.EquipBackground(selectedProduct.targetId);
-                }
-                else if (selectedProduct.productType == ShopProductType.Decoration)
-                {
-                    gm.EquipDecoration(selectedProduct.targetId);
-                }
-                else if (selectedProduct.productType == ShopProductType.Card)
-                {
-                    gm.EquipCard(selectedProduct.targetId);
-                }
-                Refresh();
                 return;
             }
 
@@ -863,7 +989,7 @@ namespace CosmicChaosCat
             else if (selectedProduct.productType == ShopProductType.Card)
             {
                 gm.GrantCard(selectedProduct.targetId);
-                gm.EquipCard(selectedProduct.targetId);
+                // Do NOT auto-equip on buy to preserve user's equipped card preference!
             }
 
             gm.SaveGame();
@@ -896,10 +1022,14 @@ namespace CosmicChaosCat
             else if (prod.productType == ShopProductType.Card)
             {
                 var states = gm.GetCardStates();
-                if (states.TryGetValue(prod.targetId, out var st) && st.Unlocked && st.Copies > 0)
+                if (states.TryGetValue(prod.targetId, out var st) && st != null)
                 {
-                    if (gm.EquippedCardId == prod.targetId) return "Equipped";
-                    return "Purchased";
+                    if (st.Copies >= 5) return "MaxBreakthrough";
+                    if (st.Unlocked || st.Copies > 0)
+                    {
+                        if (gm.EquippedCardId == prod.targetId) return "Equipped";
+                        return "Purchased";
+                    }
                 }
                 return "NotPurchased";
             }
@@ -1092,9 +1222,21 @@ namespace CosmicChaosCat
             int maxPages = Mathf.Max(1, Mathf.CeilToInt(totalProducts / (float)PRODUCTS_PER_PAGE));
             currentProductPage = Mathf.Clamp(currentProductPage, 0, maxPages - 1);
 
-            if (productPageText != null) productPageText.text = $"{currentProductPage + 1} / {maxPages}";
-            if (prevProductPageBtn != null) prevProductPageBtn.interactable = currentProductPage > 0;
-            if (nextProductPageBtn != null) nextProductPageBtn.interactable = currentProductPage < maxPages - 1;
+            if (productPageText != null)
+            {
+                productPageText.text = $"{currentProductPage + 1} / {maxPages}";
+                productPageText.gameObject.SetActive(true);
+            }
+            if (prevProductPageBtn != null)
+            {
+                prevProductPageBtn.gameObject.SetActive(true);
+                prevProductPageBtn.interactable = currentProductPage > 0;
+            }
+            if (nextProductPageBtn != null)
+            {
+                nextProductPageBtn.gameObject.SetActive(true);
+                nextProductPageBtn.interactable = currentProductPage < maxPages - 1;
+            }
 
             // Render 10 slots with Rarity Frame, Art, rereMark
             for (int i = 0; i < productSlotGOs.Count; i++)
@@ -1109,16 +1251,33 @@ namespace CosmicChaosCat
                     bool isSelected = selectedProduct == prod;
 
                     // 1. Rarity Frame Image
-                    var slotImg = slotGO.GetComponent<Image>();
+                    var slotImg = slotGO.transform.Find("Frame")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("Frame_Image")?.GetComponent<Image>()
+                               ?? slotGO.GetComponent<Image>();
                     if (slotImg != null)
                     {
                         Sprite frameSp = GetFrameSpriteForRarity(prod.rarity);
                         if (frameSp != null) { slotImg.sprite = frameSp; slotImg.color = Color.white; }
-                        else { slotImg.sprite = null; slotImg.color = new Color(0.10f, 0.14f, 0.22f, 1f); }
+                        else { slotImg.color = new Color(0.10f, 0.14f, 0.22f, 1f); }
                     }
 
                     // 2. Art / Icon Image
-                    var iconImg = slotGO.transform.Find("Art")?.GetComponent<Image>();
+                    var iconImg = slotGO.transform.Find("Art")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("Icon")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("Image")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("CardArt")?.GetComponent<Image>();
+                    if (iconImg == null)
+                    {
+                        var imgs = slotGO.GetComponentsInChildren<Image>(true);
+                        foreach (var img in imgs)
+                        {
+                            if (img != slotImg && img != slotGO.transform.Find("rereMark")?.GetComponent<Image>())
+                            {
+                                iconImg = img;
+                                break;
+                            }
+                        }
+                    }
                     if (iconImg != null)
                     {
                         if (prod.iconSprite != null) { iconImg.sprite = prod.iconSprite; iconImg.color = Color.white; iconImg.gameObject.SetActive(true); }
@@ -1126,7 +1285,24 @@ namespace CosmicChaosCat
                     }
 
                     // 3. rereMark Image
-                    var markImg = slotGO.transform.Find("rereMark")?.GetComponent<Image>();
+                    var markImg = slotGO.transform.Find("rereMark")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("rereMark_Image")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("Mark")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("RarityMark")?.GetComponent<Image>()
+                               ?? slotGO.transform.Find("RareMark")?.GetComponent<Image>();
+                    if (markImg == null)
+                    {
+                        var imgs = slotGO.GetComponentsInChildren<Image>(true);
+                        foreach (var img in imgs)
+                        {
+                            string n = img.name.ToLower();
+                            if (n.Contains("mark") || n.Contains("rere") || n.Contains("rare"))
+                            {
+                                markImg = img;
+                                break;
+                            }
+                        }
+                    }
                     if (markImg != null)
                     {
                         Sprite markSp = GetMarkSpriteForRarity(prod.rarity);
@@ -1134,31 +1310,120 @@ namespace CosmicChaosCat
                         else { markImg.gameObject.SetActive(false); }
                     }
 
-                    // 4. Name Text
-                    var nameTxt = slotGO.transform.Find("Label")?.GetComponent<TMP_Text>() ?? slotGO.transform.Find("Name")?.GetComponent<TMP_Text>();
-                    if (nameTxt != null) nameTxt.text = prod.displayName;
+                    // 4 & 5. Name Text & Price Text Resolution
+                    TMP_Text nameTxt = slotGO.transform.Find("Label")?.GetComponent<TMP_Text>() 
+                                   ?? slotGO.transform.Find("Name")?.GetComponent<TMP_Text>()
+                                   ?? slotGO.transform.Find("NameText")?.GetComponent<TMP_Text>()
+                                   ?? slotGO.transform.Find("Text_Name")?.GetComponent<TMP_Text>()
+                                   ?? slotGO.transform.Find("Title")?.GetComponent<TMP_Text>();
 
-                    // 5. Price Symbol & Value
-                    var priceTxt = slotGO.transform.Find("Price")?.GetComponent<TMP_Text>();
-                    if (priceTxt != null)
+                    TMP_Text priceTxt = slotGO.transform.Find("Price")?.GetComponent<TMP_Text>()
+                                    ?? slotGO.transform.Find("Cost")?.GetComponent<TMP_Text>()
+                                    ?? slotGO.transform.Find("PriceText")?.GetComponent<TMP_Text>()
+                                    ?? slotGO.transform.Find("Text_Price")?.GetComponent<TMP_Text>()
+                                    ?? slotGO.transform.Find("Value")?.GetComponent<TMP_Text>();
+
+                    var allSlotTexts = slotGO.GetComponentsInChildren<TMP_Text>(true);
+                    if (nameTxt == null || priceTxt == null)
                     {
-                        string symbolStr = prod.currencyType == ProductCurrencyType.Coin ? "🪙" : "🔷";
-                        priceTxt.text = $"{symbolStr} {prod.price:0}";
-                        priceTxt.color = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
+                        var unassignedTexts = new List<TMP_Text>();
+                        foreach (var txt in allSlotTexts)
+                        {
+                            string n = txt.name.ToLower();
+                            if (nameTxt == null && (n.Contains("name") || n.Contains("label") || n.Contains("title")))
+                                nameTxt = txt;
+                            else if (priceTxt == null && (n.Contains("price") || n.Contains("cost") || n.Contains("coin") || n.Contains("shard") || n.Contains("val")))
+                                priceTxt = txt;
+                            else if (n != "badge" && n != "status" && !n.Contains("mark"))
+                                unassignedTexts.Add(txt);
+                        }
+
+                        if (nameTxt == null && unassignedTexts.Count > 0)
+                        {
+                            nameTxt = unassignedTexts[0];
+                            unassignedTexts.RemoveAt(0);
+                        }
+                        if (priceTxt == null && unassignedTexts.Count > 0)
+                        {
+                            priceTxt = unassignedTexts[0];
+                            unassignedTexts.RemoveAt(0);
+                        }
                     }
 
-                    // 6. Selection Highlight Border
-                    var selBorder = slotGO.transform.Find("SelectedBorder");
-                    if (selBorder != null) selBorder.gameObject.SetActive(isSelected);
+                    if (nameTxt != null)
+                    {
+                        nameTxt.text = prod.displayName;
+                        nameTxt.gameObject.SetActive(true);
+                    }
 
-                    // 7. Status Badge
-                    var badgeTxt = slotGO.transform.Find("Badge")?.GetComponent<TMP_Text>();
+                    // 5. Price Symbol Image & Value Text
+                    var symbolImg = slotGO.transform.Find("Symbol")?.GetComponent<Image>()
+                                 ?? slotGO.transform.Find("CoinSymbol")?.GetComponent<Image>()
+                                 ?? slotGO.transform.Find("ShardSymbol")?.GetComponent<Image>()
+                                 ?? slotGO.transform.Find("CurrencyIcon")?.GetComponent<Image>()
+                                 ?? slotGO.transform.Find("SymbolImage")?.GetComponent<Image>()
+                                 ?? slotGO.transform.Find("PriceIcon")?.GetComponent<Image>();
+
+                    Sprite curSprite = prod.currencyType == ProductCurrencyType.Coin ? coinSymbolSprite : shardSymbolSprite;
+                    if (symbolImg != null)
+                    {
+                        if (curSprite != null)
+                        {
+                            symbolImg.sprite = curSprite;
+                            symbolImg.color = Color.white;
+                            symbolImg.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            symbolImg.gameObject.SetActive(false);
+                        }
+                    }
+
+                    if (priceTxt != null)
+                    {
+                        priceTxt.text = $"{prod.price:0}";
+                        priceTxt.color = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
+                        priceTxt.gameObject.SetActive(true);
+                    }
+
+                    // 6. Selection Highlight Border & Scale Highlight
+                    var selBorder = slotGO.transform.Find("SelectedBorder")
+                                 ?? slotGO.transform.Find("Selected")
+                                 ?? slotGO.transform.Find("Outline");
+                    if (selBorder != null) selBorder.gameObject.SetActive(isSelected);
+                    slotGO.transform.localScale = isSelected ? new Vector3(1.08f, 1.08f, 1f) : Vector3.one;
+
+                    // 7. Status Badge Text & Breakthrough Limit
+                    var badgeTxt = slotGO.transform.Find("Badge")?.GetComponent<TMP_Text>()
+                                ?? slotGO.transform.Find("Status")?.GetComponent<TMP_Text>();
                     string status = GetProductStatus(prod);
                     if (badgeTxt != null)
                     {
-                        if (status == "Equipped") { badgeTxt.gameObject.SetActive(true); badgeTxt.text = "장착중"; badgeTxt.color = Color.green; }
-                        else if (status == "Purchased") { badgeTxt.gameObject.SetActive(true); badgeTxt.text = "보유중"; badgeTxt.color = Color.yellow; }
-                        else { badgeTxt.gameObject.SetActive(false); }
+                        if (status == "MaxBreakthrough")
+                        {
+                            badgeTxt.gameObject.SetActive(true);
+                            badgeTxt.text = "MAX (5/5)";
+                            badgeTxt.color = new Color(1f, 0.8f, 0.2f);
+                        }
+                        else if (status == "Equipped")
+                        {
+                            badgeTxt.gameObject.SetActive(true);
+                            badgeTxt.text = "장착중";
+                            badgeTxt.color = Color.green;
+                        }
+                        else if (status == "Purchased")
+                        {
+                            int copies = 1;
+                            var states = gm.GetCardStates();
+                            if (states.TryGetValue(prod.targetId, out var st) && st != null) copies = st.Copies;
+                            badgeTxt.gameObject.SetActive(true);
+                            badgeTxt.text = prod.productType == ShopProductType.Card ? $"보유중 ({copies}/5)" : "보유중";
+                            badgeTxt.color = Color.cyan;
+                        }
+                        else
+                        {
+                            badgeTxt.gameObject.SetActive(false);
+                        }
                     }
                 }
                 else
@@ -1176,45 +1441,32 @@ namespace CosmicChaosCat
                 string status = GetProductStatus(selectedProduct);
                 bool afford = selectedProduct.currencyType == ProductCurrencyType.Coin ?
                     (gm.Money >= selectedProduct.price) : (gm.Shards >= selectedProduct.price);
-                string symbolStr = selectedProduct.currencyType == ProductCurrencyType.Coin ? "🪙" : "🔷";
 
                 if (buyProductBtn != null)
                 {
-                    if (status == "Equipped")
+                    if (status == "MaxBreakthrough")
+                    {
+                        buyProductBtn.interactable = false;
+                        if (buyProductBtnText != null) buyProductBtnText.text = "최대 한계돌파 완료";
+                        buyProductBtn.GetComponent<Image>().color = BtnDisabled;
+                    }
+                    else if (status == "Equipped" && selectedProduct.productType != ShopProductType.Card)
                     {
                         buyProductBtn.interactable = false;
                         if (buyProductBtnText != null) buyProductBtnText.text = "장착중";
                         buyProductBtn.GetComponent<Image>().color = BtnDisabled;
                     }
-                    else if (status == "Purchased")
-                    {
-                        if (selectedProduct.productType == ShopProductType.GachaUnlock)
-                        {
-                            buyProductBtn.interactable = false;
-                            if (buyProductBtnText != null) buyProductBtnText.text = "구매완료";
-                            buyProductBtn.GetComponent<Image>().color = BtnDisabled;
-                        }
-                        else
-                        {
-                            buyProductBtn.interactable = true;
-                            if (buyProductBtnText != null) buyProductBtnText.text = "장착하기";
-                            buyProductBtn.GetComponent<Image>().color = BtnBuy;
-                        }
-                    }
                     else
                     {
-                        if (afford)
+                        buyProductBtn.interactable = afford;
+                        if (buyProductBtnText != null)
                         {
-                            buyProductBtn.interactable = true;
-                            if (buyProductBtnText != null) buyProductBtnText.text = $"구매하기 ({symbolStr} {selectedProduct.price:0})";
-                            buyProductBtn.GetComponent<Image>().color = BtnBuy;
+                            if (status == "Purchased" && selectedProduct.productType == ShopProductType.Card)
+                                buyProductBtnText.text = afford ? $"추가 구매 ({selectedProduct.price:0})" : $"소지금 부족 ({selectedProduct.price:0})";
+                            else
+                                buyProductBtnText.text = afford ? $"구매하기 ({selectedProduct.price:0})" : $"소지금 부족 ({selectedProduct.price:0})";
                         }
-                        else
-                        {
-                            buyProductBtn.interactable = false;
-                            if (buyProductBtnText != null) buyProductBtnText.text = "소지금 부족";
-                            buyProductBtn.GetComponent<Image>().color = BtnDisabled;
-                        }
+                        buyProductBtn.GetComponent<Image>().color = afford ? BtnBuy : BtnDisabled;
                     }
                 }
             }
@@ -1317,57 +1569,85 @@ namespace CosmicChaosCat
             return go.gameObject;
         }
 
+        private void BindCloseButton()
+        {
+            Button closeBtn = null;
+
+            foreach (var btn in GetComponentsInChildren<Button>(true))
+            {
+                if (btn == null) continue;
+                string n = btn.name.ToLower();
+                
+                var tmpTxt = btn.GetComponentInChildren<TMP_Text>(true);
+                var legTxt = btn.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                string txt = tmpTxt != null ? tmpTxt.text.Trim().ToLower() : (legTxt != null ? legTxt.text.Trim().ToLower() : "");
+                
+                if (n == "closebutton" || n == "btn_close" || n.Contains("close") || txt == "✕" || txt == "x" || txt == "닫기")
+                {
+                    closeBtn = btn;
+                    break;
+                }
+            }
+
+            if (closeBtn != null)
+            {
+                Debug.Log($"[ShopPanel] CloseButton FOUND: {closeBtn.name}");
+                closeBtn.onClick.RemoveAllListeners();
+                closeBtn.onClick.AddListener(() => {
+                    Debug.Log("[ShopPanel] CloseButton clicked. Deactivating ShopPanel.");
+                    gameObject.SetActive(false);
+                });
+            }
+            else
+            {
+                Debug.LogWarning("[ShopPanel] CloseButton NOT FOUND in hierarchy!");
+            }
+        }
+
         private void BindListeners()
         {
-            var buttons = GetComponentsInChildren<Button>(true);
-            var upgradeInfos = GetComponentsInChildren<UpgradeRowInfo>(true);
+            // 1. Bind CloseButton explicitly
+            BindCloseButton();
 
+            // 2. Bind Upgrade Row buttons
+            var upgradeInfos = GetComponentsInChildren<UpgradeRowInfo>(true);
             upgradeRows.Clear();
             foreach (var info in upgradeInfos)
             {
-                if (info != null && info.gameObject != null) upgradeRows.Add(info.gameObject);
-            }
-
-            foreach (var btn in buttons)
-            {
-                if (btn == null) continue;
-                var card = btn.transform.GetComponentInParent<Transform>();
-                while (card != null && !card.name.StartsWith("Card_")) card = card.parent;
-
-                var txt = btn.GetComponentInChildren<TMP_Text>();
-                if (card != null && txt != null)
+                if (info != null && info.gameObject != null)
                 {
-                    if (card.name == "Card_N")   { buyNBtn = btn;   buyNText = txt; }
-                    else if (card.name == "Card_R")   { buyRBtn = btn;   buyRText = txt; }
-                    else if (card.name == "Card_SR")  { buySRBtn = btn;  buySRText = txt; }
-                    else if (card.name == "Card_SSR") { buySSRBtn = btn; buySSRText = txt; }
+                    upgradeRows.Add(info.gameObject);
+                    var btn = info.GetComponentInChildren<Button>(true);
+                    if (btn != null)
+                    {
+                        string upgId = info.UpgradeId;
+                        btn.onClick.RemoveAllListeners();
+                        btn.onClick.AddListener(() => { if (gm != null) gm.BuyUpgrade(upgId); });
+                    }
                 }
             }
 
-            foreach (var btn in buttons)
+            // 3. Bind Tab Header Buttons (업그레이드, 조각 교환, 상품)
+            foreach (var btn in GetComponentsInChildren<Button>(true))
             {
                 if (btn == null) continue;
-                var txt = btn.GetComponentInChildren<TMP_Text>();
-                if (txt == null) continue;
+                string t = btn.GetComponentInChildren<TMP_Text>()?.text.Trim() ?? "";
+                string n = btn.name.ToLower();
 
-                string t = txt.text.Trim();
-                var rowInfo = btn.GetComponentInParent<UpgradeRowInfo>();
-                if (rowInfo != null)
+                if (t == "업그레이드" || n.Contains("tab0") || n.Contains("upgrade"))
                 {
-                    string upgId = rowInfo.UpgradeId;
                     btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => { if (gm != null) gm.BuyUpgrade(upgId); });
-                    continue;
+                    btn.onClick.AddListener(() => ShowTab(0));
                 }
-
-                btn.onClick.RemoveAllListeners();
-
-                if (t == "업그레이드") btn.onClick.AddListener(() => ShowTab(0));
-                else if (t == "조각 교환") btn.onClick.AddListener(() => ShowTab(1));
-                else if (t == "상품") btn.onClick.AddListener(() => ShowTab(2));
-                else if (btn.gameObject.name == "CloseButton" || btn.gameObject.name.StartsWith("Btn_✕") || t == "✕" || t.ToLower() == "x")
+                else if (t == "조각 교환" || n.Contains("tab1") || n.Contains("shard"))
                 {
-                    btn.onClick.AddListener(() => gameObject.SetActive(false));
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => ShowTab(1));
+                }
+                else if (t == "상품" || n.Contains("tab2") || n.Contains("product") || n.Contains("goods"))
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => ShowTab(2));
                 }
                 else if (t.Contains("교환"))
                 {
@@ -1375,6 +1655,7 @@ namespace CosmicChaosCat
                     while (card != null && !card.name.StartsWith("Card_")) card = card.parent;
                     if (card != null)
                     {
+                        btn.onClick.RemoveAllListeners();
                         if (card.name == "Card_N")       btn.onClick.AddListener(() => BuyRandomCard(CardRarity.N));
                         else if (card.name == "Card_R")  btn.onClick.AddListener(() => BuyRandomCard(CardRarity.R));
                         else if (card.name == "Card_SR") btn.onClick.AddListener(() => BuyRandomCard(CardRarity.SR));
@@ -1382,6 +1663,9 @@ namespace CosmicChaosCat
                     }
                 }
             }
+
+            // 4. Bind Existing Products UI (Slot buttons, Buy button, Page buttons)
+            BindExistingProductsUI();
         }
 
         private static void SafeDestroy(UnityEngine.Object obj)
