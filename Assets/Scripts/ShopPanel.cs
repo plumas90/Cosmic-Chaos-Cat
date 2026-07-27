@@ -78,12 +78,12 @@ namespace CosmicChaosCat
         private readonly List<GameObject> productSlotGOs = new List<GameObject>();
         private Button prevProductPageBtn;
         private Button nextProductPageBtn;
-        private TMP_Text productPageText;
+        private Component productPageText;
 
-        private TMP_Text selectedProductNameText;
-        private TMP_Text selectedProductDescText;
+        private Component selectedProductNameText;
+        private Component selectedProductDescText;
         private Button buyProductBtn;
-        private TMP_Text buyProductBtnText;
+        private Component buyProductBtnText;
 
         private ShopProductItem selectedProduct;
         private int currentProductPage = 0;
@@ -173,6 +173,23 @@ namespace CosmicChaosCat
         private void OnDisable()
         {
             if (gm != null) gm.StateChanged -= Refresh;
+        }
+
+        private static void SetTextComponent(Component comp, string text, Color? color = null, float? fontSize = null)
+        {
+            if (comp == null) return;
+            if (comp is TMP_Text tmp)
+            {
+                tmp.text = text;
+                if (color.HasValue) tmp.color = color.Value;
+                if (fontSize.HasValue) tmp.fontSize = fontSize.Value;
+            }
+            else if (comp is UnityEngine.UI.Text leg)
+            {
+                leg.text = text;
+                if (color.HasValue) leg.color = color.Value;
+                if (fontSize.HasValue) leg.fontSize = Mathf.RoundToInt(fontSize.Value);
+            }
         }
 
         // ── Sprite Helper ───────────────────────────────────────────────────
@@ -639,13 +656,15 @@ namespace CosmicChaosCat
                      ?? productsContent.transform.Find("Text_Page")
                      ?? productsContent.transform.Find("Page_Text")
                      ?? productsContent.transform.Find("Page");
-                if (t != null) productPageText = t.GetComponent<TMP_Text>() ?? t.GetComponentInChildren<TMP_Text>();
+                if (t != null) productPageText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>() ?? (Component)t.GetComponentInChildren<TMP_Text>() ?? (Component)t.GetComponentInChildren<UnityEngine.UI.Text>();
                 else
                 {
-                    foreach (var tmp in productsContent.GetComponentsInChildren<TMP_Text>(true))
+                    foreach (var tmp in productsContent.GetComponentsInChildren<Graphic>(true))
                     {
+                        if (!(tmp is TMP_Text || tmp is UnityEngine.UI.Text)) continue;
                         string n = tmp.name.ToLower();
-                        if (n.Contains("page") || tmp.text.Contains("/"))
+                        string val = tmp is TMP_Text t1 ? t1.text : ((UnityEngine.UI.Text)tmp).text;
+                        if (n.Contains("page") || val.Contains("/"))
                         {
                             productPageText = tmp;
                             break;
@@ -654,54 +673,130 @@ namespace CosmicChaosCat
                 }
             }
 
-            // 2. Bind Buy Panel
+            // 2. Bind Buy Panel & Buy Button
             var buyPanelTrans = productsContent.transform.Find("BuyPanel") 
                              ?? productsContent.transform.Find("BottomPanel")
                              ?? productsContent.transform.Find("DetailPanel");
-            if (buyPanelTrans != null)
+
+            if (buyProductBtn == null)
             {
+                Transform buyBtnTrans = null;
+
+                if (buyPanelTrans != null)
+                {
+                    buyBtnTrans = buyPanelTrans.Find("Btn_구매하기") 
+                               ?? buyPanelTrans.Find("BuyButton") 
+                               ?? buyPanelTrans.Find("BuyBtn")
+                               ?? buyPanelTrans.Find("Buy_Btn")
+                               ?? buyPanelTrans.Find("PurchaseBtn");
+                    if (buyBtnTrans == null)
+                    {
+                        foreach (Transform child in buyPanelTrans)
+                        {
+                            string n = child.name.ToLower();
+                            if (n.Contains("buy") || n.Contains("구매") || n.Contains("purchase"))
+                            {
+                                buyBtnTrans = child;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (buyBtnTrans == null)
+                {
+                    foreach (Transform child in productsContent.GetComponentsInChildren<Transform>(true))
+                    {
+                        if (prevProductPageBtn != null && child == prevProductPageBtn.transform) continue;
+                        if (nextProductPageBtn != null && child == nextProductPageBtn.transform) continue;
+
+                        string n = child.name.ToLower();
+                        string txt = (child.GetComponentInChildren<TMP_Text>(true)?.text ?? child.GetComponentInChildren<UnityEngine.UI.Text>(true)?.text ?? "").Trim().ToLower();
+
+                        if (n.Contains("buy") || n.Contains("구매") || n.Contains("purchase") || txt.Contains("구매하기") || txt.Contains("buy"))
+                        {
+                            buyBtnTrans = child;
+                            break;
+                        }
+                    }
+                }
+
+                if (buyBtnTrans != null)
+                {
+                    var img = buyBtnTrans.GetComponent<Image>();
+                    if (img == null) img = buyBtnTrans.gameObject.AddComponent<Image>();
+                    if (img.color.a < 0.02f) img.color = new Color(0.18f, 0.26f, 0.44f, 1f);
+                    img.raycastTarget = true;
+
+                    buyProductBtn = buyBtnTrans.GetComponent<Button>();
+                    if (buyProductBtn == null) buyProductBtn = buyBtnTrans.gameObject.AddComponent<Button>();
+                    if (buyProductBtn.targetGraphic == null) buyProductBtn.targetGraphic = img;
+
+                    // Ensure child graphics don't block button clicks
+                    foreach (var childGraphic in buyBtnTrans.GetComponentsInChildren<Graphic>(true))
+                    {
+                        if (childGraphic != img) childGraphic.raycastTarget = false;
+                    }
+
+                    Debug.Log($"[ShopPanel] buyProductBtn successfully bound/created on: {buyBtnTrans.name}");
+                }
+            }
+
+            if (buyProductBtn != null && buyProductBtnText == null)
+            {
+                buyProductBtnText = (Component)buyProductBtn.GetComponentInChildren<TMP_Text>(true)
+                                 ?? (Component)buyProductBtn.GetComponentInChildren<UnityEngine.UI.Text>(true);
+            }
+
+            if (selectedProductNameText == null)
+            {
+                if (buyPanelTrans != null)
+                {
+                    var t = buyPanelTrans.Find("InfoBox/NameText") ?? buyPanelTrans.Find("InfoBox/Label") ?? buyPanelTrans.Find("NameText");
+                    if (t != null)
+                    {
+                        selectedProductNameText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
+                    }
+                }
                 if (selectedProductNameText == null)
                 {
-                    var t = buyPanelTrans.Find("InfoBox/NameText") 
-                         ?? buyPanelTrans.Find("InfoBox/Label") 
-                         ?? buyPanelTrans.Find("NameText");
-                    if (t == null)
+                    foreach (var txt in productsContent.GetComponentsInChildren<Graphic>(true))
                     {
-                        var tmps = buyPanelTrans.GetComponentsInChildren<TMP_Text>(true);
-                        if (tmps.Length > 0) selectedProductNameText = tmps[0];
+                        if (!(txt is TMP_Text || txt is UnityEngine.UI.Text)) continue;
+                        if (txt.transform == productPageText?.transform || (buyProductBtn != null && txt.transform.IsChildOf(buyProductBtn.transform))) continue;
+                        string n = txt.name.ToLower();
+                        if (n.Contains("nametext") || n.Contains("productname") || (n.Contains("name") && !n.Contains("page")))
+                        {
+                            selectedProductNameText = txt;
+                            break;
+                        }
                     }
-                    else selectedProductNameText = t.GetComponent<TMP_Text>();
                 }
+            }
 
+            if (selectedProductDescText == null)
+            {
+                if (buyPanelTrans != null)
+                {
+                    var t = buyPanelTrans.Find("InfoBox/DescText") ?? buyPanelTrans.Find("InfoBox/Description") ?? buyPanelTrans.Find("DescText");
+                    if (t != null)
+                    {
+                        selectedProductDescText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
+                    }
+                }
                 if (selectedProductDescText == null)
                 {
-                    var t = buyPanelTrans.Find("InfoBox/DescText") 
-                         ?? buyPanelTrans.Find("InfoBox/Description")
-                         ?? buyPanelTrans.Find("DescText");
-                    if (t == null)
+                    foreach (var txt in productsContent.GetComponentsInChildren<Graphic>(true))
                     {
-                        var tmps = buyPanelTrans.GetComponentsInChildren<TMP_Text>(true);
-                        if (tmps.Length > 1) selectedProductDescText = tmps[1];
+                        if (!(txt is TMP_Text || txt is UnityEngine.UI.Text)) continue;
+                        if (txt.transform == productPageText?.transform || txt.transform == selectedProductNameText?.transform || (buyProductBtn != null && txt.transform.IsChildOf(buyProductBtn.transform))) continue;
+                        string n = txt.name.ToLower();
+                        if (n.Contains("desctext") || n.Contains("description") || n.Contains("desc") || n.Contains("info"))
+                        {
+                            selectedProductDescText = txt;
+                            break;
+                        }
                     }
-                    else selectedProductDescText = t.GetComponent<TMP_Text>();
-                }
-
-                if (buyProductBtn == null)
-                {
-                    var b = buyPanelTrans.Find("Btn_구매하기") 
-                         ?? buyPanelTrans.Find("BuyButton") 
-                         ?? buyPanelTrans.Find("BuyBtn");
-                    if (b == null)
-                    {
-                        var btns = buyPanelTrans.GetComponentsInChildren<Button>(true);
-                        if (btns.Length > 0) buyProductBtn = btns[0];
-                    }
-                    else buyProductBtn = b.GetComponent<Button>();
-                }
-
-                if (buyProductBtn != null && buyProductBtnText == null)
-                {
-                    buyProductBtnText = buyProductBtn.GetComponentInChildren<TMP_Text>();
                 }
             }
 
@@ -889,7 +984,7 @@ namespace CosmicChaosCat
                 nameTxt.alignment = TextAlignmentOptions.Center;
 
                 // Price Symbol & Value Text
-                var priceTxt = MakeLabel(slotGO, "🪙 0", new Vector2(0, -34), new Vector2(120, 20), 10, GoldColor, FontStyles.Bold);
+                var priceTxt = MakeLabel(slotGO, "0", new Vector2(0, -34), new Vector2(120, 20), 10, GoldColor, FontStyles.Bold);
                 priceTxt.alignment = TextAlignmentOptions.Center;
 
                 // Selection Border Highlight
@@ -913,11 +1008,13 @@ namespace CosmicChaosCat
             buyPanel.gameObject.AddComponent<Image>().color = new Color(0.08f, 0.11f, 0.18f, 1f);
 
             var infoBox = MakeRT("InfoBox", buyPanel, new Vector2(-150, 0), new Vector2(360, 60));
-            selectedProductNameText = MakeLabel(infoBox, "상품 선택", new Vector2(0, 15), new Vector2(350, 24), 13, GoldColor, FontStyles.Bold);
-            selectedProductNameText.alignment = TextAlignmentOptions.Left;
+            var nameLabel = MakeLabel(infoBox, "상품 선택", new Vector2(0, 15), new Vector2(350, 24), 13, GoldColor, FontStyles.Bold);
+            nameLabel.alignment = TextAlignmentOptions.Left;
+            selectedProductNameText = nameLabel;
 
-            selectedProductDescText = MakeLabel(infoBox, "슬롯을 클릭하여 원하는 상품을 구매하세요.", new Vector2(0, -10), new Vector2(350, 30), 10, new Color(0.7f, 0.75f, 0.85f));
-            selectedProductDescText.alignment = TextAlignmentOptions.Left;
+            var descLabel = MakeLabel(infoBox, "슬롯을 클릭하여 원하는 상품을 구매하세요.", new Vector2(0, -10), new Vector2(350, 30), 10, new Color(0.7f, 0.75f, 0.85f));
+            descLabel.alignment = TextAlignmentOptions.Left;
+            selectedProductDescText = descLabel;
 
             // Main Purchase Button
             var buyBtnGO = MakeButton(buyPanel, "구매하기", new Vector2(220, 0), new Vector2(180, 44), BtnBuy, OnBuySelectedProductClicked, 14);
@@ -957,18 +1054,28 @@ namespace CosmicChaosCat
 
         private void OnBuySelectedProductClicked()
         {
-            if (selectedProduct == null || gm == null) return;
+            Debug.Log($"[ShopPanel] OnBuySelectedProductClicked triggered. selectedProduct={(selectedProduct != null ? selectedProduct.displayName : "null")}");
+            if (selectedProduct == null || gm == null)
+            {
+                Debug.LogWarning("[ShopPanel] Buy failed: selectedProduct or gm is null.");
+                return;
+            }
 
             string status = GetProductStatus(selectedProduct);
             if (status == "MaxBreakthrough")
             {
+                Debug.LogWarning("[ShopPanel] Buy failed: Already at Max Breakthrough.");
                 return;
             }
 
             bool afford = selectedProduct.currencyType == ProductCurrencyType.Coin ?
                 (gm.Money >= selectedProduct.price) : (gm.Shards >= selectedProduct.price);
 
-            if (!afford) return;
+            if (!afford)
+            {
+                Debug.LogWarning($"[ShopPanel] Buy failed: Not enough currency. Money={gm.Money}, Shards={gm.Shards}, Price={selectedProduct.price}");
+                return;
+            }
 
             if (selectedProduct.currencyType == ProductCurrencyType.Coin) gm.DeductMoney(selectedProduct.price);
             else if (selectedProduct.currencyType == ProductCurrencyType.Shard) gm.DeductShards((int)selectedProduct.price);
@@ -995,6 +1102,7 @@ namespace CosmicChaosCat
             gm.SaveGame();
             gm.NotifyStateChange();
             Refresh();
+            Debug.Log($"[ShopPanel] Purchase SUCCESS! Product={selectedProduct.displayName}");
         }
 
         private string GetProductStatus(ShopProductItem prod)
@@ -1218,13 +1326,18 @@ namespace CosmicChaosCat
 
             InitializeProductCatalog();
 
+            if (selectedProduct == null && productCatalog.Count > 0)
+            {
+                selectedProduct = productCatalog[0];
+            }
+
             int totalProducts = productCatalog.Count;
             int maxPages = Mathf.Max(1, Mathf.CeilToInt(totalProducts / (float)PRODUCTS_PER_PAGE));
             currentProductPage = Mathf.Clamp(currentProductPage, 0, maxPages - 1);
 
             if (productPageText != null)
             {
-                productPageText.text = $"{currentProductPage + 1} / {maxPages}";
+                SetTextComponent(productPageText, $"{currentProductPage + 1} / {maxPages}");
                 productPageText.gameObject.SetActive(true);
             }
             if (prevProductPageBtn != null)
@@ -1254,12 +1367,6 @@ namespace CosmicChaosCat
                     var slotImg = slotGO.transform.Find("Frame")?.GetComponent<Image>()
                                ?? slotGO.transform.Find("Frame_Image")?.GetComponent<Image>()
                                ?? slotGO.GetComponent<Image>();
-                    if (slotImg != null)
-                    {
-                        Sprite frameSp = GetFrameSpriteForRarity(prod.rarity);
-                        if (frameSp != null) { slotImg.sprite = frameSp; slotImg.color = Color.white; }
-                        else { slotImg.color = new Color(0.10f, 0.14f, 0.22f, 1f); }
-                    }
 
                     // 2. Art / Icon Image
                     var iconImg = slotGO.transform.Find("Art")?.GetComponent<Image>()
@@ -1311,23 +1418,45 @@ namespace CosmicChaosCat
                     }
 
                     // 4 & 5. Name Text & Price Text Resolution
-                    TMP_Text nameTxt = slotGO.transform.Find("Label")?.GetComponent<TMP_Text>() 
-                                   ?? slotGO.transform.Find("Name")?.GetComponent<TMP_Text>()
-                                   ?? slotGO.transform.Find("NameText")?.GetComponent<TMP_Text>()
-                                   ?? slotGO.transform.Find("Text_Name")?.GetComponent<TMP_Text>()
-                                   ?? slotGO.transform.Find("Title")?.GetComponent<TMP_Text>();
+                    Component nameTxt = (Component)slotGO.transform.Find("Label")?.GetComponent<TMP_Text>() 
+                                   ?? (Component)slotGO.transform.Find("Name")?.GetComponent<TMP_Text>()
+                                   ?? (Component)slotGO.transform.Find("NameText")?.GetComponent<TMP_Text>()
+                                   ?? (Component)slotGO.transform.Find("Text_Name")?.GetComponent<TMP_Text>()
+                                   ?? (Component)slotGO.transform.Find("Title")?.GetComponent<TMP_Text>()
+                                   ?? (Component)slotGO.transform.Find("Label")?.GetComponent<UnityEngine.UI.Text>()
+                                   ?? (Component)slotGO.transform.Find("Name")?.GetComponent<UnityEngine.UI.Text>()
+                                   ?? (Component)slotGO.transform.Find("NameText")?.GetComponent<UnityEngine.UI.Text>()
+                                   ?? (Component)slotGO.transform.Find("Text_Name")?.GetComponent<UnityEngine.UI.Text>()
+                                   ?? (Component)slotGO.transform.Find("Title")?.GetComponent<UnityEngine.UI.Text>();
 
-                    TMP_Text priceTxt = slotGO.transform.Find("Price")?.GetComponent<TMP_Text>()
-                                    ?? slotGO.transform.Find("Cost")?.GetComponent<TMP_Text>()
-                                    ?? slotGO.transform.Find("PriceText")?.GetComponent<TMP_Text>()
-                                    ?? slotGO.transform.Find("Text_Price")?.GetComponent<TMP_Text>()
-                                    ?? slotGO.transform.Find("Value")?.GetComponent<TMP_Text>();
+                    Component priceTxt = (Component)slotGO.transform.Find("Price")?.GetComponent<TMP_Text>()
+                                    ?? (Component)slotGO.transform.Find("Cost")?.GetComponent<TMP_Text>()
+                                    ?? (Component)slotGO.transform.Find("PriceText")?.GetComponent<TMP_Text>()
+                                    ?? (Component)slotGO.transform.Find("Text_Price")?.GetComponent<TMP_Text>()
+                                    ?? (Component)slotGO.transform.Find("Value")?.GetComponent<TMP_Text>()
+                                    ?? (Component)slotGO.transform.Find("Price")?.GetComponent<UnityEngine.UI.Text>()
+                                    ?? (Component)slotGO.transform.Find("Cost")?.GetComponent<UnityEngine.UI.Text>()
+                                    ?? (Component)slotGO.transform.Find("PriceText")?.GetComponent<UnityEngine.UI.Text>()
+                                    ?? (Component)slotGO.transform.Find("Text_Price")?.GetComponent<UnityEngine.UI.Text>()
+                                    ?? (Component)slotGO.transform.Find("Value")?.GetComponent<UnityEngine.UI.Text>();
 
-                    var allSlotTexts = slotGO.GetComponentsInChildren<TMP_Text>(true);
+                    var allSlotTMPTexts = slotGO.GetComponentsInChildren<TMP_Text>(true);
+                    var allSlotLegTexts = slotGO.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+                    
                     if (nameTxt == null || priceTxt == null)
                     {
-                        var unassignedTexts = new List<TMP_Text>();
-                        foreach (var txt in allSlotTexts)
+                        var unassignedTexts = new List<Component>();
+                        foreach (var txt in allSlotTMPTexts)
+                        {
+                            string n = txt.name.ToLower();
+                            if (nameTxt == null && (n.Contains("name") || n.Contains("label") || n.Contains("title")))
+                                nameTxt = txt;
+                            else if (priceTxt == null && (n.Contains("price") || n.Contains("cost") || n.Contains("coin") || n.Contains("shard") || n.Contains("val")))
+                                priceTxt = txt;
+                            else if (n != "badge" && n != "status" && !n.Contains("mark"))
+                                unassignedTexts.Add(txt);
+                        }
+                        foreach (var txt in allSlotLegTexts)
                         {
                             string n = txt.name.ToLower();
                             if (nameTxt == null && (n.Contains("name") || n.Contains("label") || n.Contains("title")))
@@ -1352,7 +1481,7 @@ namespace CosmicChaosCat
 
                     if (nameTxt != null)
                     {
-                        nameTxt.text = prod.displayName;
+                        SetTextComponent(nameTxt, prod.displayName);
                         nameTxt.gameObject.SetActive(true);
                     }
 
@@ -1381,49 +1510,98 @@ namespace CosmicChaosCat
 
                     if (priceTxt != null)
                     {
-                        priceTxt.text = $"{prod.price:0}";
-                        priceTxt.color = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
+                        Color pCol = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
+                        SetTextComponent(priceTxt, $"{prod.price:0}", pCol);
                         priceTxt.gameObject.SetActive(true);
                     }
 
                     // 6. Selection Highlight Border & Scale Highlight
                     var selBorder = slotGO.transform.Find("SelectedBorder")
                                  ?? slotGO.transform.Find("Selected")
-                                 ?? slotGO.transform.Find("Outline");
-                    if (selBorder != null) selBorder.gameObject.SetActive(isSelected);
+                                 ?? slotGO.transform.Find("Outline")
+                                 ?? slotGO.transform.Find("Highlight")
+                                 ?? slotGO.transform.Find("Border");
+                    if (selBorder != null)
+                    {
+                        selBorder.gameObject.SetActive(isSelected);
+                        var bImg = selBorder.GetComponent<Image>();
+                        if (bImg != null) bImg.raycastTarget = false;
+                    }
+
+                    if (slotImg != null)
+                    {
+                        Sprite frameSp = GetFrameSpriteForRarity(prod.rarity);
+                        if (frameSp != null) { slotImg.sprite = frameSp; slotImg.color = Color.white; }
+                        else { slotImg.color = new Color(0.10f, 0.14f, 0.22f, 1f); }
+                    }
+
                     slotGO.transform.localScale = isSelected ? new Vector3(1.08f, 1.08f, 1f) : Vector3.one;
 
                     // 7. Status Badge Text & Breakthrough Limit
-                    var badgeTxt = slotGO.transform.Find("Badge")?.GetComponent<TMP_Text>()
-                                ?? slotGO.transform.Find("Status")?.GetComponent<TMP_Text>();
+                    Component badgeTxt = (Component)slotGO.transform.Find("Badge")?.GetComponent<TMP_Text>()
+                                ?? (Component)slotGO.transform.Find("Status")?.GetComponent<TMP_Text>()
+                                ?? (Component)slotGO.transform.Find("Badge")?.GetComponent<UnityEngine.UI.Text>()
+                                ?? (Component)slotGO.transform.Find("Status")?.GetComponent<UnityEngine.UI.Text>();
+
+                    if (badgeTxt == null)
+                    {
+                        var badges = slotGO.GetComponentsInChildren<TMP_Text>(true);
+                        foreach (var b in badges)
+                        {
+                            string n = b.name.ToLower();
+                            if (n == "badge" || n == "status")
+                            {
+                                badgeTxt = b;
+                                break;
+                            }
+                        }
+                        if (badgeTxt == null)
+                        {
+                            var legBadges = slotGO.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+                            foreach (var b in legBadges)
+                            {
+                                string n = b.name.ToLower();
+                                if (n == "badge" || n == "status")
+                                {
+                                    badgeTxt = b;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     string status = GetProductStatus(prod);
                     if (badgeTxt != null)
                     {
+                        string txtVal = "";
+                        Color colVal = Color.white;
+                        bool isActive = true;
+
                         if (status == "MaxBreakthrough")
                         {
-                            badgeTxt.gameObject.SetActive(true);
-                            badgeTxt.text = "MAX (5/5)";
-                            badgeTxt.color = new Color(1f, 0.8f, 0.2f);
+                            txtVal = "MAX (5/5)";
+                            colVal = new Color(1f, 0.8f, 0.2f);
                         }
                         else if (status == "Equipped")
                         {
-                            badgeTxt.gameObject.SetActive(true);
-                            badgeTxt.text = "장착중";
-                            badgeTxt.color = Color.green;
+                            txtVal = "장착중";
+                            colVal = Color.green;
                         }
                         else if (status == "Purchased")
                         {
                             int copies = 1;
                             var states = gm.GetCardStates();
                             if (states.TryGetValue(prod.targetId, out var st) && st != null) copies = st.Copies;
-                            badgeTxt.gameObject.SetActive(true);
-                            badgeTxt.text = prod.productType == ShopProductType.Card ? $"보유중 ({copies}/5)" : "보유중";
-                            badgeTxt.color = Color.cyan;
+                            txtVal = prod.productType == ShopProductType.Card ? $"보유중 ({copies}/5)" : "보유중";
+                            colVal = Color.cyan;
                         }
                         else
                         {
-                            badgeTxt.gameObject.SetActive(false);
+                            isActive = false;
                         }
+
+                        SetTextComponent(badgeTxt, txtVal, colVal);
+                        badgeTxt.gameObject.SetActive(isActive);
                     }
                 }
                 else
@@ -1435,8 +1613,8 @@ namespace CosmicChaosCat
             // Update Selected Product Buy Panel
             if (selectedProduct != null)
             {
-                if (selectedProductNameText != null) selectedProductNameText.text = selectedProduct.displayName;
-                if (selectedProductDescText != null) selectedProductDescText.text = selectedProduct.description;
+                SetTextComponent(selectedProductNameText, selectedProduct.displayName);
+                SetTextComponent(selectedProductDescText, selectedProduct.description);
 
                 string status = GetProductStatus(selectedProduct);
                 bool afford = selectedProduct.currencyType == ProductCurrencyType.Coin ?
@@ -1444,29 +1622,56 @@ namespace CosmicChaosCat
 
                 if (buyProductBtn != null)
                 {
+                    int currentCopies = 0;
+                    int maxCopies = 5;
+                    float buyFontSize = selectedProduct.productType == ShopProductType.Card ? 20f : 40f;
+
+                    if (selectedProduct.productType == ShopProductType.Card)
+                    {
+                        var states = gm.GetCardStates();
+                        if (states.TryGetValue(selectedProduct.targetId, out var st) && st != null)
+                        {
+                            currentCopies = st.Copies;
+                        }
+                    }
+
                     if (status == "MaxBreakthrough")
                     {
                         buyProductBtn.interactable = false;
-                        if (buyProductBtnText != null) buyProductBtnText.text = "최대 한계돌파 완료";
-                        buyProductBtn.GetComponent<Image>().color = BtnDisabled;
+                        SetTextComponent(buyProductBtnText, $"최대 한계돌파 완료 ({currentCopies}/{maxCopies})", null, buyFontSize);
+                        var img = buyProductBtn.GetComponent<Image>();
+                        if (img != null) img.color = BtnDisabled;
                     }
                     else if (status == "Equipped" && selectedProduct.productType != ShopProductType.Card)
                     {
                         buyProductBtn.interactable = false;
-                        if (buyProductBtnText != null) buyProductBtnText.text = "장착중";
-                        buyProductBtn.GetComponent<Image>().color = BtnDisabled;
+                        SetTextComponent(buyProductBtnText, "장착중", null, buyFontSize);
+                        var img = buyProductBtn.GetComponent<Image>();
+                        if (img != null) img.color = BtnDisabled;
                     }
                     else
                     {
                         buyProductBtn.interactable = afford;
-                        if (buyProductBtnText != null)
+                        string btnTextVal = "";
+                        if (selectedProduct.productType == ShopProductType.Card)
                         {
-                            if (status == "Purchased" && selectedProduct.productType == ShopProductType.Card)
-                                buyProductBtnText.text = afford ? $"추가 구매 ({selectedProduct.price:0})" : $"소지금 부족 ({selectedProduct.price:0})";
+                            if (status == "Purchased")
+                            {
+                                btnTextVal = afford ? $"추가 구매 ({currentCopies}/{maxCopies}) [{selectedProduct.price:0}]" : $"소지금 부족 ({currentCopies}/{maxCopies}) [{selectedProduct.price:0}]";
+                            }
                             else
-                                buyProductBtnText.text = afford ? $"구매하기 ({selectedProduct.price:0})" : $"소지금 부족 ({selectedProduct.price:0})";
+                            {
+                                btnTextVal = afford ? $"구매하기 (보유 {currentCopies}/{maxCopies}) [{selectedProduct.price:0}]" : $"소지금 부족 (보유 {currentCopies}/{maxCopies}) [{selectedProduct.price:0}]";
+                            }
                         }
-                        buyProductBtn.GetComponent<Image>().color = afford ? BtnBuy : BtnDisabled;
+                        else
+                        {
+                            btnTextVal = afford ? $"구매하기 [{selectedProduct.price:0}]" : $"소지금 부족 [{selectedProduct.price:0}]";
+                        }
+
+                        SetTextComponent(buyProductBtnText, btnTextVal, null, buyFontSize);
+                        var img = buyProductBtn.GetComponent<Image>();
+                        if (img != null) img.color = afford ? BtnBuy : BtnDisabled;
                     }
                 }
             }
