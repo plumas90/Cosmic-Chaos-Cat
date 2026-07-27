@@ -1590,9 +1590,9 @@ namespace CosmicChaosCat
                     RefreshDetailPanel(selectedCardId);
                     if (showNoTab) RefreshNoTab();
                 }
-                else if (card.Rarity == CardRarity.R)
+                else if (card.Rarity == CardRarity.R && hasNewIllustration)
                 {
-                    // R 등급: 실루엣 깜빡임 컷씬 (별 파티클 없음)
+                    // R 등급: 신규 일러스트 해금 시 실루엣 깜빡임 컷씬 (별 파티클 없음)
                     Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
                     if (newSprite == null) newSprite = card.CardSprite;
 
@@ -1614,7 +1614,7 @@ namespace CosmicChaosCat
                     {
                         RefreshDetailPanel(selectedCardId);
                         if (showNoTab) RefreshNoTab();
-                    }, enableStarParticles: true);
+                    }, enableStarParticles: true, isSSR: card.Rarity >= CardRarity.SSR);
                 }
                 else
                 {

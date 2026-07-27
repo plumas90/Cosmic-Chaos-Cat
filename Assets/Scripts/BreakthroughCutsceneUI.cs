@@ -47,18 +47,39 @@ namespace CosmicChaosCat
                 return;
             }
             Instance = this;
+            EnsureParentedToRootCanvas();
             EnsureUIBuilt();
             gameObject.SetActive(false);
         }
 
+        public void EnsureParentedToRootCanvas()
+        {
+            var canvas = FindObjectOfType<Canvas>();
+            if (canvas != null)
+            {
+                if (!canvas.gameObject.activeSelf) canvas.gameObject.SetActive(true);
+                if (transform.parent != canvas.transform) transform.SetParent(canvas.transform, false);
+            }
+            else if (transform.parent != null && !transform.parent.gameObject.activeInHierarchy)
+            {
+                transform.SetParent(null, false);
+            }
+            transform.SetAsLastSibling();
+        }
+
         public static BreakthroughCutsceneUI GetOrCreate()
         {
-            if (Instance != null) return Instance;
+            if (Instance != null)
+            {
+                Instance.EnsureParentedToRootCanvas();
+                return Instance;
+            }
 
             var existing = FindObjectOfType<BreakthroughCutsceneUI>(true);
             if (existing != null)
             {
                 Instance = existing;
+                Instance.EnsureParentedToRootCanvas();
                 return Instance;
             }
 
@@ -67,6 +88,7 @@ namespace CosmicChaosCat
             if (canvas != null) root.transform.SetParent(canvas.transform, false);
 
             Instance = root.AddComponent<BreakthroughCutsceneUI>();
+            Instance.EnsureParentedToRootCanvas();
             return Instance;
         }
 
@@ -75,7 +97,6 @@ namespace CosmicChaosCat
             if (canvasGroup != null && bgOverlay != null && cardImage != null)
             {
                 ApplyGameFont();
-                gameObject.SetActive(false);
                 return;
             }
 
@@ -391,19 +412,134 @@ namespace CosmicChaosCat
             if (starGO != null) Destroy(starGO);
         }
 
-        public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true)
+        private void SpawnUIStarImplosion(int count, float duration = 2.0f, float minSize = 50f, float maxSize = 120f)
         {
+            EnsureStarContainerBuilt();
+            Sprite starSprite = GetOrCreateStarSprite();
+
+            Color[] starColors = new Color[]
+            {
+                new Color(1f, 0.95f, 0.4f, 1f), // Glowing Gold
+                new Color(1f, 0.5f, 0.85f, 1f), // SSR Magenta Sparkle
+                new Color(0.4f, 0.9f, 1f, 1f),  // Celestial Cyan
+                new Color(1f, 1f, 1f, 1f)       // Pure Starlight
+            };
+
+            for (int i = 0; i < count; i++)
+            {
+                var starGO = new GameObject("StarImplosionParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                starGO.transform.SetParent(starContainer, false);
+
+                var img = starGO.GetComponent<Image>();
+                img.sprite = starSprite;
+                img.raycastTarget = false;
+                img.color = starColors[UnityEngine.Random.Range(0, starColors.Length)];
+
+                var sRT = starGO.GetComponent<RectTransform>();
+                float sz = UnityEngine.Random.Range(minSize, maxSize);
+                sRT.sizeDelta = new Vector2(sz, sz);
+
+                // Spawn position outside screen bounds (radius 700 to 1300)
+                float angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                float startRadius = UnityEngine.Random.Range(700f, 1300f);
+                Vector2 startPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * startRadius;
+                sRT.anchoredPosition = startPos;
+
+                float rotSpeed = UnityEngine.Random.Range(-500f, 500f);
+                float delay = UnityEngine.Random.Range(0f, duration * 0.5f);
+                float flyDuration = UnityEngine.Random.Range(0.6f, 1.2f);
+
+                StartCoroutine(AnimateUIStarImplosion(starGO, sRT, img, startPos, rotSpeed, delay, flyDuration));
+            }
+        }
+
+        private IEnumerator AnimateUIStarImplosion(GameObject starGO, RectTransform sRT, Image img, Vector2 startPos, float rotSpeed, float delay, float flyDuration)
+        {
+            if (delay > 0f)
+            {
+                if (img != null) img.color = Color.clear;
+                yield return new WaitForSecondsRealtime(delay);
+            }
+
+            if (starGO == null || sRT == null || img == null) yield break;
+
+            Color baseColor = img.color == Color.clear ? Color.white : img.color;
+            float elapsed = 0f;
+
+            while (elapsed < flyDuration)
+            {
+                if (starGO == null || sRT == null) yield break;
+
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / flyDuration);
+                float easeT = t * t * t; // Accelerate poured in towards center
+
+                sRT.anchoredPosition = Vector2.Lerp(startPos, Vector2.zero, easeT);
+                sRT.Rotate(0f, 0f, rotSpeed * Time.unscaledDeltaTime);
+
+                float scale = (1f - t * 0.6f);
+                sRT.localScale = new Vector3(scale, scale, 1f);
+
+                float alpha = t < 0.2f ? (t / 0.2f) : (1f - (t - 0.2f) / 0.8f);
+                if (img != null) img.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+
+                yield return null;
+            }
+
+            if (starGO != null) Destroy(starGO);
+        }
+
+        private IEnumerator DoScreenShake(RectTransform target, float duration, float magnitude)
+        {
+            if (target == null) yield break;
+            Vector2 initialPos = target.anchoredPosition;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                if (target == null) yield break;
+                elapsed += Time.unscaledDeltaTime;
+                float currentMag = magnitude * (1f - (elapsed / duration));
+                Vector2 randomOffset = new Vector2(
+                    UnityEngine.Random.Range(-currentMag, currentMag),
+                    UnityEngine.Random.Range(-currentMag, currentMag)
+                );
+                target.anchoredPosition = initialPos + randomOffset;
+                yield return null;
+            }
+
+            if (target != null) target.anchoredPosition = initialPos;
+        }
+
+        public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true, bool isSSR = false)
+        {
+            EnsureParentedToRootCanvas();
+            gameObject.SetActive(true);
+
             EnsureUIBuilt();
             if (enableStarParticles) EnsureStarContainerBuilt();
             onCutsceneFinished = onComplete;
 
-            gameObject.SetActive(true);
+            if (!gameObject.activeInHierarchy)
+            {
+                var canvas = FindObjectOfType<Canvas>();
+                if (canvas != null)
+                {
+                    canvas.gameObject.SetActive(true);
+                    transform.SetParent(canvas.transform, false);
+                }
+                else
+                {
+                    transform.SetParent(null, false);
+                }
+                gameObject.SetActive(true);
+            }
 
             if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-            animationCoroutine = StartCoroutine(RunCutsceneAnimation(oldSprite, newSprite, cardName, newStage, enableStarParticles));
+            animationCoroutine = StartCoroutine(RunCutsceneAnimation(oldSprite, newSprite, cardName, newStage, enableStarParticles, isSSR));
         }
 
-        private IEnumerator RunCutsceneAnimation(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, bool enableStarParticles)
+        private IEnumerator RunCutsceneAnimation(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, bool enableStarParticles, bool isSSR)
         {
             isCutscenePlaying = true;
 
@@ -423,9 +559,10 @@ namespace CosmicChaosCat
             cardImage.sprite = oldSprite != null ? oldSprite : newSprite;
             cardContainer.localScale = Vector3.one * 0.7f;
             float elapsed = 0f;
-            float phase1Duration = 0.5f;
+            float phase1Duration = isSSR ? 0.7f : 0.5f;
 
             if (enableStarParticles) SpawnUIStarBurst(15, 200f, 400f, 35f, 65f);
+            if (isSSR) SpawnUIStarImplosion(45, 2.5f, 40f, 90f);
 
             while (elapsed < phase1Duration)
             {
@@ -438,8 +575,8 @@ namespace CosmicChaosCat
             }
 
             // ── Phase 2: Rapid Alternating Silhouettes (Old <-> New) ─────────
-            int flickers = 8;
-            float flickerInterval = 0.12f;
+            int flickers = isSSR ? 14 : 8;
+            float flickerInterval = isSSR ? 0.14f : 0.12f;
 
             for (int i = 0; i < flickers; i++)
             {
@@ -450,6 +587,9 @@ namespace CosmicChaosCat
                 SetShaderProperties(0f, 0.8f, Color.black);
                 if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0.7f);
                 if (enableStarParticles) SpawnUIStarBurst(6, 250f, 500f, 30f, 60f);
+
+                if (isSSR && i % 2 == 0) StartCoroutine(DoScreenShake(cardContainer, 0.12f, 15f));
+                if (isSSR && i % 3 == 0) SpawnUIStarImplosion(15, 1.5f, 35f, 80f);
 
                 yield return new WaitForSecondsRealtime(flickerInterval * 0.4f);
 
@@ -463,13 +603,18 @@ namespace CosmicChaosCat
             cardImage.sprite = newSprite;
             SetShaderProperties(0f, 1f, Color.black); // Intense white flash
             if (enableStarParticles) SpawnUIStarBurst(20, 300f, 600f, 40f, 75f);
+            if (isSSR) SpawnUIStarImplosion(75, 2.0f, 60f, 110f);
+
             yield return new WaitForSecondsRealtime(0.15f);
 
             SetShaderProperties(0f, 0f, Color.black);
             cardContainer.localScale = Vector3.one * 1.15f;
 
             elapsed = 0f;
-            float phase3Duration = 0.4f;
+            float phase3Duration = isSSR ? 0.9f : 0.4f;
+
+            if (isSSR) StartCoroutine(DoScreenShake(cardContainer, phase3Duration, 18f));
+
             while (elapsed < phase3Duration)
             {
                 elapsed += Time.unscaledDeltaTime;
@@ -481,10 +626,15 @@ namespace CosmicChaosCat
             }
 
             // ── Phase 4: Silhouette Reveals Full Color Illustration + UI STAR BURST (if enabled) ──
-            if (enableStarParticles) SpawnUIStarBurst(45, 450f, 900f, 50f, 100f);
+            if (enableStarParticles) SpawnUIStarBurst(isSSR ? 70 : 45, 450f, isSSR ? 1100f : 900f, 50f, isSSR ? 130f : 100f);
+            if (isSSR)
+            {
+                SpawnUIStarImplosion(60, 1.5f, 50f, 100f);
+                StartCoroutine(DoScreenShake(cardContainer, 1.2f, 26f));
+            }
 
             elapsed = 0f;
-            float phase4Duration = 0.9f;
+            float phase4Duration = isSSR ? 1.4f : 0.9f;
 
             while (elapsed < phase4Duration)
             {
@@ -506,7 +656,7 @@ namespace CosmicChaosCat
             SetShaderProperties(1f, 0f, Color.black);
 
             // ── Phase 5: Hold brief moment & Finish ─────────────────────────
-            yield return new WaitForSecondsRealtime(0.6f);
+            yield return new WaitForSecondsRealtime(isSSR ? 0.8f : 0.6f);
 
             CompleteAndClose();
         }

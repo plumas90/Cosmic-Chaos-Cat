@@ -156,8 +156,26 @@ namespace CosmicChaosCat
                 else if (n.Contains("collection") || n.Contains("수집품")) collectionButton = btn;
             }
         }
+        private void Start()
+        {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
+            if (gameManager != null)
+            {
+                gameManager.StateChanged -= Refresh;
+                gameManager.StateChanged += Refresh;
+                gameManager.LogUpdated   -= OnLog;
+                gameManager.LogUpdated   += OnLog;
+                gameManager.CriticalHit  -= OnCriticalHit;
+                gameManager.CriticalHit  += OnCriticalHit;
+                gameManager.GameEnded    -= OnGameEnded;
+                gameManager.GameEnded    += OnGameEnded;
+            }
+            Refresh();
+        }
+
         private void OnEnable()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager == null) return;
             gameManager.StateChanged += Refresh;
             gameManager.LogUpdated   += OnLog;
@@ -178,6 +196,7 @@ namespace CosmicChaosCat
         // ─── Refresh ───────────────────────────────────────────────────────
         private void Refresh()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager == null) return;
 
             if (timerText    != null) timerText.text    = gameManager.GetTimerText();
@@ -187,16 +206,72 @@ namespace CosmicChaosCat
                 $"도감  {gameManager.UnlockedCount} / {gameManager.TotalCardCount}" +
                 $"  ({gameManager.Completion01 * 100f:0.0}%)";
 
-            if (comboText != null)
-                comboText.text = gameManager.ComboCount > 1
-                    ? $"×{gameManager.ComboCount} 콤보!"
-                    : string.Empty;
+            Component comboComp = GetComboTextComponent();
+            if (comboComp != null)
+            {
+                string comboStr = gameManager.ComboCount > 0 ? $"{gameManager.ComboCount} Combo!!" : string.Empty;
+                if (comboComp is TMP_Text tmp) tmp.text = comboStr;
+                else if (comboComp is UnityEngine.UI.Text leg) leg.text = comboStr;
+            }
 
             var card = gameManager.GetEquippedCard();
             if (equippedText != null)
                 equippedText.text = card != null
                     ? $"장착: {card.DisplayName}  [{card.Rarity}]"
                     : "장착: 기본";
+        }
+
+        private Component cachedComboComponent;
+
+        public Component GetComboTextComponent()
+        {
+            if (cachedComboComponent != null && cachedComboComponent.gameObject != null)
+                return cachedComboComponent;
+
+            if (comboText != null)
+            {
+                cachedComboComponent = comboText;
+                return cachedComboComponent;
+            }
+
+            // 1. Search all TMP_Text in scene (including inactive ones)
+            var tmpTexts = FindObjectsOfType<TMPro.TMP_Text>(true);
+            foreach (var t in tmpTexts)
+            {
+                if (t != null && t.name.IndexOf("combo", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    cachedComboComponent = t;
+                    return cachedComboComponent;
+                }
+            }
+
+            // 2. Search all Legacy Text in scene (including inactive ones)
+            var legTexts = FindObjectsOfType<UnityEngine.UI.Text>(true);
+            foreach (var t in legTexts)
+            {
+                if (t != null && t.name.IndexOf("combo", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    cachedComboComponent = t;
+                    return cachedComboComponent;
+                }
+            }
+
+            // 3. Fallback: Search any GameObject in scene with "combo" in name
+            var allGOs = FindObjectsOfType<GameObject>(true);
+            foreach (var go in allGOs)
+            {
+                if (go != null && go.name.IndexOf("combo", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    var comp = (Component)go.GetComponent<TMPro.TMP_Text>() ?? (Component)go.GetComponent<UnityEngine.UI.Text>();
+                    if (comp != null)
+                    {
+                        cachedComboComponent = comp;
+                        return cachedComboComponent;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private void OnLog(string msg)           { if (logText != null) logText.text = msg; }

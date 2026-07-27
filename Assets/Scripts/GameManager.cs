@@ -141,9 +141,8 @@ namespace CosmicChaosCat
             if (comboCount > 0 && Time.unscaledTime - lastClickTime > ComboWindowSeconds)
             {
                 comboCount = 0;
+                NotifyState();
             }
-
-            NotifyState();
         }
 
         // ── Public Actions ─────────────────────────────────────────────────────
@@ -173,18 +172,24 @@ namespace CosmicChaosCat
             if (comboCount == 100)
             {
                 comboReward = 10d * (1.0 + comboBonus);
+                Money += comboReward;
+                SpawnComboRewardFloatingText(comboReward);
                 Log($"[100 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
             else if (comboCount == 500)
             {
                 comboReward = 100d * (1.0 + comboBonus);
+                Money += comboReward;
+                SpawnComboRewardFloatingText(comboReward);
                 Log($"[500 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
-            else if (comboCount == 999)
+            else if (comboCount >= 999)
             {
                 comboReward = 1000d * (1.0 + comboBonus);
+                Money += comboReward;
+                SpawnComboRewardFloatingText(comboReward);
                 comboCount = 0;
-                Log($"[999 콤보 보상] +{comboReward:F0} 골드 획득!");
+                Log($"[999 콤보 달성!] +{comboReward:F0} 골드 획득 및 콤보 초기화!");
             }
 
             bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
@@ -893,19 +898,63 @@ namespace CosmicChaosCat
             if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
             if (data.ClaimedSetRewards != null)   claimedSetRewards.UnionWith(data.ClaimedSetRewards);
 
-            // 기본 01번 카드 해금 및 장착 보장
-            if (cardState.ContainsKey(defaultCardId))
-            {
-                cardState[defaultCardId].Unlocked = true;
-                if (cardState[defaultCardId].Copies == 0) cardState[defaultCardId].Copies = 1;
-            }
-
-            if (string.IsNullOrEmpty(EquippedCardId) || !cardState.ContainsKey(EquippedCardId) || !cardState[EquippedCardId].Unlocked)
-            {
-                EquippedCardId = defaultCardId;
-            }
-
+            EnsureTestCardsFirst12();
             NotifyState();
+        }
+
+        public void EnsureTestCardsFirst12()
+        {
+            if (cardCatalog == null || cardCatalog.Cards == null) return;
+            int count = Mathf.Min(12, cardCatalog.Cards.Count);
+            for (int i = 0; i < count; i++)
+            {
+                var card = cardCatalog.Cards[i];
+                if (card == null) continue;
+                if (!cardState.TryGetValue(card.Id, out var state))
+                {
+                    state = new CardProgress { CardId = card.Id };
+                    cardState[card.Id] = state;
+                }
+                state.Unlocked = true;
+                state.Copies = 5;
+                state.BreakthroughCount = 0;
+                state.SelectedStage = 1;
+            }
+        }
+
+        private void SpawnComboRewardFloatingText(double amount)
+        {
+            Vector2 screenPos = Vector2.zero;
+            bool foundPos = false;
+
+            var hud = FindObjectOfType<GameHud>(true);
+            Transform comboTransform = null;
+            if (hud != null)
+            {
+                var comboComp = hud.GetComboTextComponent();
+                if (comboComp != null) comboTransform = comboComp.transform;
+            }
+
+            if (comboTransform == null)
+            {
+                var found = GameObject.Find("ComboText") ?? GameObject.Find("Text_Combo") ?? GameObject.Find("Combo_Text") ?? GameObject.Find("Combo");
+                if (found != null) comboTransform = found.transform;
+            }
+
+            if (comboTransform != null)
+            {
+                Canvas canvas = comboTransform.GetComponentInParent<Canvas>();
+                Camera cam = (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay) ? canvas.worldCamera : null;
+                screenPos = RectTransformUtility.WorldToScreenPoint(cam, comboTransform.position);
+                foundPos = true;
+            }
+
+            if (!foundPos)
+            {
+                screenPos = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            }
+
+            SpawnFloatingText(screenPos, amount, isCrit: true);
         }
 
         private void SpawnFloatingText(Vector2 screenPos, double amount, bool isCrit)

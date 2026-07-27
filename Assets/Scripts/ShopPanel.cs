@@ -99,8 +99,8 @@ namespace CosmicChaosCat
         private static readonly Color BG          = new Color(0.06f, 0.08f, 0.13f, 0.97f);
         private static readonly Color PanelBorder = new Color(0.20f, 0.28f, 0.45f, 1.00f);
         private static readonly Color HeaderBG    = new Color(0.09f, 0.12f, 0.20f, 1.00f);
-        private static readonly Color TabNormal   = new Color(0.12f, 0.17f, 0.27f, 1.00f);
-        private static readonly Color TabActiveC  = new Color(0.18f, 0.26f, 0.44f, 1.00f);
+        private static readonly Color TabNormal   = new Color(0.22f, 0.22f, 0.24f, 1.00f); // Neutral Dark Gray (No Blue)
+        private static readonly Color TabActiveC  = new Color(0.04f, 0.04f, 0.05f, 1.00f); // Pressed Black
         private static readonly Color Indicator   = new Color(0.40f, 0.70f, 1.00f, 1.00f);
         private static readonly Color BtnBuy      = new Color(0.18f, 0.55f, 0.28f, 1.00f);
         private static readonly Color BtnDisabled = new Color(0.22f, 0.25f, 0.30f, 1.00f);
@@ -1175,16 +1175,50 @@ namespace CosmicChaosCat
                 }
             }
 
-            if (inner != null)
+            // Update Tab Button selection state (Active = Darkened Pressed Feel + Sunk Scale, Inactive = Full Normal Color)
+            foreach (var btn in GetComponentsInChildren<Button>(true))
             {
-                for (int i = 0; i < 3; i++)
+                if (btn == null) continue;
+                string t = (btn.GetComponentInChildren<TMP_Text>(true)?.text ?? btn.GetComponentInChildren<UnityEngine.UI.Text>(true)?.text ?? "").Trim().ToLower();
+                string n = btn.name.ToLower();
+
+                int tabIdx = -1;
+                if (t == "업그레이드" || n.Contains("tab0") || n.Contains("upgrade")) tabIdx = 0;
+                else if (t == "조각 교환" || t == "조각교환" || n.Contains("tab1") || n.Contains("shard")) tabIdx = 1;
+                else if (t == "상품" || n.Contains("tab2") || n.Contains("product") || n.Contains("goods")) tabIdx = 2;
+
+                if (tabIdx >= 0)
                 {
-                    var t = inner.Find("Tab" + i);
-                    if (t == null) continue;
-                    var img = t.GetComponent<Image>();
-                    if (img != null) img.color = (i == index) ? TabActiveC : TabNormal;
-                    var ind = t.Find("Ind");
-                    if (ind != null) { var indImg = ind.GetComponent<Image>(); if (indImg != null) indImg.color = (i == index) ? Indicator : Color.clear; }
+                    bool isTabActive = (tabIdx == index);
+                    
+                    // Disable interactable on currently open tab to prevent re-click and trigger UI pressed state
+                    btn.interactable = !isTabActive;
+
+                    var img = btn.GetComponent<Image>();
+                    if (img != null)
+                    {
+                        // Active tab gets pressed black color (#1F1F24), inactive gets 100% natural inspector color
+                        img.color = isTabActive ? new Color(0.12f, 0.12f, 0.14f, 1f) : Color.white;
+                    }
+
+                    // Text color: Golden text when pressed black, white when unpressed
+                    var tmpTxt = btn.GetComponentInChildren<TMP_Text>(true);
+                    if (tmpTxt != null) tmpTxt.color = isTabActive ? GoldColor : Color.white;
+
+                    var legTxt = btn.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                    if (legTxt != null) legTxt.color = isTabActive ? GoldColor : Color.white;
+
+                    // Sunk scale for pressed tab
+                    btn.transform.localScale = isTabActive ? new Vector3(0.95f, 0.95f, 1f) : Vector3.one;
+
+                    var ind = btn.transform.Find("Ind") 
+                           ?? btn.transform.Find("Indicator") 
+                           ?? btn.transform.Find("Selected") 
+                           ?? btn.transform.Find("Active");
+                    if (ind != null)
+                    {
+                        ind.gameObject.SetActive(isTabActive);
+                    }
                 }
             }
             Refresh();
