@@ -70,6 +70,28 @@ namespace CosmicChaosCat
         public Sprite CoinSymbolSprite { get => coinSymbolSprite; set => coinSymbolSprite = value; }
         public Sprite ShardSymbolSprite { get => shardSymbolSprite; set => shardSymbolSprite = value; }
 
+        [Header("Section Header Sprites")]
+        [SerializeField] private Sprite secHdrSpriteClick;
+        [SerializeField] private Sprite secHdrSpriteGacha;
+        [SerializeField] private Sprite secHdrSpriteEconomy;
+        [SerializeField] private Sprite secHdrSpriteSpecial;
+
+        [Header("Category Row Background/Icon Sprites")]
+        [SerializeField] private Sprite rowSpriteClick;
+        [SerializeField] private Sprite rowSpriteGacha;
+        [SerializeField] private Sprite rowSpriteEconomy;
+        [SerializeField] private Sprite rowSpriteSpecial;
+
+        public Sprite SecHdrSpriteClick { get => secHdrSpriteClick; set => secHdrSpriteClick = value; }
+        public Sprite SecHdrSpriteGacha { get => secHdrSpriteGacha; set => secHdrSpriteGacha = value; }
+        public Sprite SecHdrSpriteEconomy { get => secHdrSpriteEconomy; set => secHdrSpriteEconomy = value; }
+        public Sprite SecHdrSpriteSpecial { get => secHdrSpriteSpecial; set => secHdrSpriteSpecial = value; }
+
+        public Sprite RowSpriteClick { get => rowSpriteClick; set => rowSpriteClick = value; }
+        public Sprite RowSpriteGacha { get => rowSpriteGacha; set => rowSpriteGacha = value; }
+        public Sprite RowSpriteEconomy { get => rowSpriteEconomy; set => rowSpriteEconomy = value; }
+        public Sprite RowSpriteSpecial { get => rowSpriteSpecial; set => rowSpriteSpecial = value; }
+
         // Shard Exchange UI References
         private Button buyNBtn, buyRBtn, buySRBtn, buySSRBtn;
         private TMP_Text buyNText, buyRText, buySRText, buySSRText;
@@ -469,11 +491,34 @@ namespace CosmicChaosCat
             }
 
             if (!Application.isPlaying) return;
+            if (upgradeScrollContent == null) return;
 
-            var oldRows = new List<GameObject>();
-            foreach (Transform child in upgradeScrollContent) oldRows.Add(child.gameObject);
-            foreach (var r in oldRows) SafeDestroy(r);
             upgradeRows.Clear();
+
+            // Category sprite helpers
+            Sprite GetHdrSprite(UpgradeCategory cat)
+            {
+                switch (cat)
+                {
+                    case UpgradeCategory.Click: return secHdrSpriteClick;
+                    case UpgradeCategory.Gacha: return secHdrSpriteGacha;
+                    case UpgradeCategory.Economy: return secHdrSpriteEconomy;
+                    default: return secHdrSpriteSpecial;
+                }
+            }
+
+            Sprite GetRowSprite(UpgradeCategory cat)
+            {
+                switch (cat)
+                {
+                    case UpgradeCategory.Click: return rowSpriteClick;
+                    case UpgradeCategory.Gacha: return rowSpriteGacha;
+                    case UpgradeCategory.Economy: return rowSpriteEconomy;
+                    default: return rowSpriteSpecial;
+                }
+            }
+
+            Transform templateRow = upgradeScrollContent.Find("Row_upg-crit-chance");
 
             var cats  = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
             var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열" };
@@ -486,64 +531,122 @@ namespace CosmicChaosCat
                 foreach (var u in catalog.Upgrades) if (u != null && u.Category == cat) { anyInCat = true; break; }
                 if (!anyInCat) continue;
 
-                var hdrGO = new GameObject("SecHdr_" + cat, typeof(RectTransform));
-                hdrGO.transform.SetParent(upgradeScrollContent, false);
-                var hdrRT = hdrGO.GetComponent<RectTransform>();
-                hdrRT.sizeDelta = new Vector2(0, 26);
-                hdrGO.AddComponent<Image>().color = cCols[ci] * new Color(1,1,1,0.45f);
+                // Bind or create Section Header
+                Transform hdr = upgradeScrollContent.Find("SecHdr_" + cat);
+                if (hdr == null)
+                {
+                    var hdrGO = new GameObject("SecHdr_" + cat, typeof(RectTransform));
+                    hdrGO.transform.SetParent(upgradeScrollContent, false);
+                    hdr = hdrGO.transform;
+                    var hdrRT = hdr.GetComponent<RectTransform>();
+                    hdrRT.sizeDelta = new Vector2(0, 32);
 
-                var hdrTxt = MakeLabel(hdrGO.transform, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
-                hdrTxt.alignment = TextAlignmentOptions.Left; hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
+                    hdrTxt.alignment = TextAlignmentOptions.Left; hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                }
+
+                var hdrImg = hdr.GetComponent<Image>();
+                if (hdrImg == null) hdrImg = hdr.gameObject.AddComponent<Image>();
+
+                Sprite sHdrSprite = GetHdrSprite(cat);
+                if (sHdrSprite != null)
+                {
+                    hdrImg.sprite = sHdrSprite;
+                    hdrImg.color = Color.white;
+                }
+                else
+                {
+                    hdrImg.color = cCols[ci] * new Color(1, 1, 1, 0.45f);
+                }
 
                 foreach (var upg in catalog.Upgrades)
                 {
                     if (upg == null || upg.Category != cat) continue;
-                    if (upg.UpgradeId == "upg-normal-prob-2" && gm.GetUpgradeLevel("upg-normal-prob-1") < 5) continue;
-                    if (upg.UpgradeId == "upg-rare-prob-2" && gm.GetUpgradeLevel("upg-rare-prob-1") < 5) continue;
-                    if (upg.UpgradeId == "upg-super-prob-2" && gm.GetUpgradeLevel("upg-super-prob-1") < 5) continue;
 
-                    var row = new GameObject("Row_" + upg.UpgradeId, typeof(RectTransform));
-                    row.transform.SetParent(upgradeScrollContent, false);
-                    var rRT = row.GetComponent<RectTransform>();
-                    rRT.sizeDelta = new Vector2(0, 80);
-                    row.AddComponent<Image>().color = new Color(0.10f, 0.13f, 0.20f, 1f);
+                    bool visible = true;
+                    if (upg.UpgradeId == "upg-normal-prob-2" && gm.GetUpgradeLevel("upg-normal-prob-1") < 5) visible = false;
+                    if (upg.UpgradeId == "upg-rare-prob-2" && gm.GetUpgradeLevel("upg-rare-prob-1") < 5) visible = false;
+                    if (upg.UpgradeId == "upg-super-prob-2" && gm.GetUpgradeLevel("upg-super-prob-1") < 5) visible = false;
 
-                    var acc = MakeRT("Acc", row.transform, Vector2.zero, Vector2.zero);
-                    acc.anchorMin = new Vector2(0,0); acc.anchorMax = new Vector2(0,1);
-                    acc.offsetMin = Vector2.zero; acc.offsetMax = new Vector2(4,0);
-                    acc.gameObject.AddComponent<Image>().color = cCols[ci];
+                    Transform row = upgradeScrollContent.Find("Row_" + upg.UpgradeId);
+                    if (row != null && templateRow != null && row != templateRow)
+                    {
+                        SafeDestroy(row.gameObject);
+                        row = null;
+                    }
 
-                    var nm = MakeLabel(row.transform, upg.DisplayName, Vector2.zero, Vector2.zero, 13, Color.white);
-                    var nmRT = nm.GetComponent<RectTransform>();
-                    nmRT.anchorMin = new Vector2(0, 0.60f); nmRT.anchorMax = new Vector2(0.58f, 0.95f);
-                    nmRT.offsetMin = new Vector2(14,0); nmRT.offsetMax = Vector2.zero;
-                    nm.alignment = TextAlignmentOptions.Left;
+                    if (row == null)
+                    {
+                        if (templateRow != null)
+                        {
+                            var rowGO = Instantiate(templateRow.gameObject, upgradeScrollContent, false);
+                            rowGO.name = "Row_" + upg.UpgradeId;
+                            row = rowGO.transform;
+                        }
+                        else
+                        {
+                            var rowGO = new GameObject("Row_" + upg.UpgradeId, typeof(RectTransform));
+                            rowGO.transform.SetParent(upgradeScrollContent, false);
+                            row = rowGO.transform;
+                        }
+                    }
 
-                    string descText = upg.Description + GetUpgradeValuesString(upg);
-                    var dc = MakeLabel(row.transform, descText, Vector2.zero, Vector2.zero, 10, new Color(0.60f,0.65f,0.75f));
-                    var dcRT = dc.GetComponent<RectTransform>();
-                    dcRT.anchorMin = new Vector2(0, 0.05f); dcRT.anchorMax = new Vector2(0.58f, 0.55f);
-                    dcRT.offsetMin = new Vector2(14,0); dcRT.offsetMax = Vector2.zero;
-                    dc.alignment = TextAlignmentOptions.Left; dc.overflowMode = TextOverflowModes.Overflow; dc.enableWordWrapping = true;
+                    row.gameObject.SetActive(visible);
+                    if (!visible) continue;
 
-                    var lbRT = MakeRT("LvBadge", row.transform, Vector2.zero, Vector2.zero);
-                    lbRT.anchorMin = new Vector2(0.58f, 0.25f); lbRT.anchorMax = new Vector2(0.73f, 0.75f);
-                    lbRT.offsetMin = new Vector2(2,0); lbRT.offsetMax = new Vector2(-2,0);
-                    lbRT.gameObject.AddComponent<Image>().color = new Color(0.14f,0.17f,0.26f);
-                    var lvTxt = MakeLabel(lbRT, "Lv.0/0", Vector2.zero, Vector2.zero, 11, new Color(0.5f,0.85f,1f), FontStyles.Bold);
+                    // Apply category row background sprite if assigned
+                    var rImg = row.GetComponent<Image>();
+                    if (rImg != null)
+                    {
+                        Sprite sRowSprite = GetRowSprite(cat);
+                        if (sRowSprite != null)
+                        {
+                            rImg.sprite = sRowSprite;
+                            rImg.color = Color.white;
+                        }
+                    }
 
-                    var bbRT = MakeRT("BuyBtn", row.transform, Vector2.zero, Vector2.zero);
-                    bbRT.anchorMin = new Vector2(0.74f, 0.20f); bbRT.anchorMax = new Vector2(0.99f, 0.80f);
-                    bbRT.offsetMin = bbRT.offsetMax = Vector2.zero;
-                    bbRT.gameObject.AddComponent<Image>().color = BtnBuy;
-                    var bb = bbRT.gameObject.AddComponent<Button>();
-                    string uid = upg.UpgradeId;
-                    bb.onClick.AddListener(() => gm.BuyUpgrade(uid));
-                    var costTxt = MakeLabel(bbRT, "0", Vector2.zero, Vector2.zero, 11, Color.white);
+                    // Apply accent side bar color if present
+                    var acc = row.Find("Acc");
+                    if (acc != null)
+                    {
+                        var accImg = acc.GetComponent<Image>();
+                        if (accImg != null) accImg.color = cCols[ci];
+                    }
 
-                    var info = row.AddComponent<UpgradeRowInfo>();
-                    info.UpgradeId = upg.UpgradeId; info.LevelText = lvTxt; info.BuyButton = bb; info.CostText = costTxt; info.BgImage = bbRT.GetComponent<Image>();
-                    upgradeRows.Add(row);
+                    // Title & Description text update
+                    var labels = row.GetComponentsInChildren<TMP_Text>();
+                    if (labels != null && labels.Length >= 2)
+                    {
+                        labels[0].text = upg.DisplayName;
+                        labels[1].text = upg.Description + GetUpgradeValuesString(upg);
+                    }
+
+                    // UpgradeRowInfo binding
+                    var info = row.GetComponent<UpgradeRowInfo>();
+                    if (info == null) info = row.gameObject.AddComponent<UpgradeRowInfo>();
+                    info.UpgradeId = upg.UpgradeId;
+
+                    var lvBadge = row.Find("LvBadge");
+                    if (lvBadge != null) info.LevelText = lvBadge.GetComponentInChildren<TMP_Text>();
+
+                    var buyBtn = row.Find("BuyBtn");
+                    if (buyBtn != null)
+                    {
+                        var btn = buyBtn.GetComponent<Button>();
+                        info.BuyButton = btn;
+                        info.CostText = buyBtn.GetComponentInChildren<TMP_Text>();
+                        info.BgImage = buyBtn.GetComponent<Image>();
+
+                        if (btn != null)
+                        {
+                            btn.onClick.RemoveAllListeners();
+                            string uid = upg.UpgradeId;
+                            btn.onClick.AddListener(() => gm.BuyUpgrade(uid));
+                        }
+                    }
+
+                    upgradeRows.Add(row.gameObject);
                 }
             }
         }
