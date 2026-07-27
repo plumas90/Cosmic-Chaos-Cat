@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: e0eec1fa3d47ec2028009a0fa33977e4
+guid: 91fa3aad05c459a3c9590d02bcc54a65
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -11281197621611249
-    second: cat-main-menu-buttons_0
+      213: -4029580040601669780
+    second: cat-main-menu-buttons-small-redrawn_0
   - first:
-      213: 6734532205560946253
-    second: cat-main-menu-buttons_1
+      213: 4958197317185372394
+    second: cat-main-menu-buttons-small-redrawn_1
   - first:
-      213: 1996424129312659656
-    second: cat-main-menu-buttons_2
+      213: -7954039505846983918
+    second: cat-main-menu-buttons-small-redrawn_2
   - first:
-      213: -6321857664310968893
-    second: cat-main-menu-buttons_3
+      213: 3029163584009270468
+    second: cat-main-menu-buttons-small-redrawn_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cat-main-menu-buttons_0
+      name: cat-main-menu-buttons-small-redrawn_0
       rect:
         serializedVersion: 2
-        x: 57
-        y: 493
-        width: 741
-        height: 310
+        x: 7
+        y: 164
+        width: 266
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f057f1f7fcbe7dff0800000000000000
-      internalID: -11281197621611249
+      spriteID: c6feeed7d4e0418c0800000000000000
+      internalID: -4029580040601669780
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cat-main-menu-buttons_1
+      name: cat-main-menu-buttons-small-redrawn_1
       rect:
         serializedVersion: 2
-        x: 869
-        y: 493
-        width: 737
-        height: 310
+        x: 284
+        y: 164
+        width: 266
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4e53e02c5dd57d50800000000000000
-      internalID: 6734532205560946253
+      spriteID: ae00129b03e0fc440800000000000000
+      internalID: 4958197317185372394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cat-main-menu-buttons_2
+      name: cat-main-menu-buttons-small-redrawn_2
       rect:
         serializedVersion: 2
-        x: 57
-        y: 132
-        width: 740
-        height: 309
+        x: 7
+        y: 31
+        width: 266
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c813b80b29b4bb10800000000000000
-      internalID: 1996424129312659656
+      spriteID: 213219436339d9190800000000000000
+      internalID: -7954039505846983918
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cat-main-menu-buttons_3
+      name: cat-main-menu-buttons-small-redrawn_3
       rect:
         serializedVersion: 2
-        x: 869
-        y: 132
-        width: 738
-        height: 309
+        x: 284
+        y: 31
+        width: 266
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3cdf92ee2ff3448a0800000000000000
-      internalID: -6321857664310968893
+      spriteID: 4c4fb6ffa30c90a20800000000000000
+      internalID: 3029163584009270468
       vertices: []
       indices: 
       edges: []
@@ -210,10 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cat-main-menu-buttons_0: -11281197621611249
-      cat-main-menu-buttons_1: 6734532205560946253
-      cat-main-menu-buttons_2: 1996424129312659656
-      cat-main-menu-buttons_3: -6321857664310968893
+      cat-main-menu-buttons-small-redrawn_0: -4029580040601669780
+      cat-main-menu-buttons-small-redrawn_1: 4958197317185372394
+      cat-main-menu-buttons-small-redrawn_2: -7954039505846983918
+      cat-main-menu-buttons-small-redrawn_3: 3029163584009270468
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

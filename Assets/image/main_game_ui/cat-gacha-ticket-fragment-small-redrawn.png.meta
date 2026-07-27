@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a361eab01473b3b3c8fc7fd4554871de
+guid: 6bbc514cee17457e8989a4825525ad3f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5758711124121674813
-    second: "\uCC45 \uC544\uC774\uCF58_0"
+      213: -2513515431361719877
+    second: cat-gacha-ticket-fragment-small-redrawn_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCC45 \uC544\uC774\uCF58_0"
+      name: cat-gacha-ticket-fragment-small-redrawn_0
       rect:
         serializedVersion: 2
-        x: 231
-        y: 146
-        width: 819
-        height: 978
+        x: 3
+        y: 3
+        width: 119
+        height: 119
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d34ec55a14d0bef40800000000000000
-      internalID: 5758711124121674813
+      spriteID: bb1d83848033e1dd0800000000000000
+      internalID: -2513515431361719877
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uCC45 \uC544\uC774\uCF58_0": 5758711124121674813
+      cat-gacha-ticket-fragment-small-redrawn_0: -2513515431361719877
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

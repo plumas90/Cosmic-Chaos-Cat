@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 338827fbab4e1e1c3b5b21edd6973609
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -391946356714068551
+    second: shop-components-sheet 1_0
+  - first:
+      213: -7278410263032923294
+    second: shop-components-sheet 1_1
+  - first:
+      213: 5860519873948298509
+    second: shop-components-sheet 1_2
+  - first:
+      213: -4675513987951673621
+    second: shop-components-sheet 1_3
+  - first:
+      213: -3424653877512096101
+    second: shop-components-sheet 1_4
+  - first:
+      213: -8901987831741002731
+    second: shop-components-sheet 1_5
+  - first:
+      213: -5543192908991254237
+    second: shop-components-sheet 1_6
+  - first:
+      213: -636754992898732543
+    second: shop-components-sheet 1_7
+  - first:
+      213: 4241851573413978291
+    second: shop-components-sheet 1_8
+  - first:
+      213: -8317475841933855684
+    second: shop-components-sheet 1_9
+  - first:
+      213: -6350140620650984742
+    second: shop-components-sheet 1_10
+  - first:
+      213: 6051624128707709365
+    second: shop-components-sheet 1_11
+  - first:
+      213: 7053291615576316092
+    second: shop-components-sheet 1_12
+  - first:
+      213: -334738246965890310
+    second: shop-components-sheet 1_13
+  - first:
+      213: 3370565331336792992
+    second: shop-components-sheet 1_14
+  - first:
+      213: -5791498970563986570
+    second: shop-components-sheet 1_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ShopTitle
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 825
+        width: 471
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b5ac0d7dd68f8af0800000000000000
+      internalID: -391946356714068551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShopCoinTitle
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 830
+        width: 309
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b7d5ead64edfa90800000000000000
+      internalID: -7278410263032923294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_fragment
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 830
+        width: 294
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d2ec566cfb45150800000000000000
+      internalID: 5860519873948298509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_Close
+      rect:
+        serializedVersion: 2
+        x: 1304
+        y: 822
+        width: 156
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bee35c5cccc3d1fb0800000000000000
+      internalID: -4675513987951673621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop-components-sheet 1_4
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 644
+        width: 325
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b963a38617f2970d0800000000000000
+      internalID: -3424653877512096101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop-components-sheet 1_5
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 639
+        width: 287
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51c4a365b39c57480800000000000000
+      internalID: -8901987831741002731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop-components-sheet 1_6
+      rect:
+        serializedVersion: 2
+        x: 733
+        y: 639
+        width: 289
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 321bc1a1b6f9213b0800000000000000
+      internalID: -5543192908991254237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: riborn
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 654
+        width: 453
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e805725bac927f0800000000000000
+      internalID: -636754992898732543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop-components-sheet 1_8
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 454
+        width: 607
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b0a54f18851eda30800000000000000
+      internalID: 4241851573413978291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fragment_shop_btn
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 463
+        width: 212
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c34b3a52ac3629c80800000000000000
+      internalID: -8317475841933855684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_Menu
+      rect:
+        serializedVersion: 2
+        x: 931
+        y: 460
+        width: 260
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adac15000c4cfd7a0800000000000000
+      internalID: -6350140620650984742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop-components-sheet 1_11
+      rect:
+        serializedVersion: 2
+        x: 1235
+        y: 461
+        width: 250
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b94ec90510bbf350800000000000000
+      internalID: 6051624128707709365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_R
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 38
+        width: 283
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb8daabba5352e160800000000000000
+      internalID: 7053291615576316092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_N
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 38
+        width: 282
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af27cd08655ca5bf0800000000000000
+      internalID: -334738246965890310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_sr
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 37
+        width: 279
+        height: 353
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ab83929f47a6ce20800000000000000
+      internalID: 3370565331336792992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_ssr
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 36
+        width: 277
+        height: 353
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b3e76fe5670afa0800000000000000
+      internalID: -5791498970563986570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 6e1fafc2a9f6d71c9b515cfd8822b818
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ShopCoinTitle: -7278410263032923294
+      ShopTitle: -391946356714068551
+      Shop_Close: -4675513987951673621
+      Shop_Menu: -6350140620650984742
+      Shop_N: -334738246965890310
+      Shop_R: 7053291615576316092
+      Shop_fragment: 5860519873948298509
+      Shop_sr: 3370565331336792992
+      Shop_ssr: -5791498970563986570
+      fragment_shop_btn: -8317475841933855684
+      riborn: -636754992898732543
+      shop-components-sheet 1_11: 6051624128707709365
+      shop-components-sheet 1_4: -3424653877512096101
+      shop-components-sheet 1_5: -8901987831741002731
+      shop-components-sheet 1_6: -5543192908991254237
+      shop-components-sheet 1_8: 4241851573413978291
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

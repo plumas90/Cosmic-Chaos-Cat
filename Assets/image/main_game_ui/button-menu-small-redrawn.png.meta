@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cfd44a00985b87f0da1eb6a095dfb5a5
+guid: 93aac662a1012e338b4e6f870048b678
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2329404208652950808
-    second: cat-gacha-ticket-fragment_0
+      213: -483285154705654576
+    second: button-menu-small-redrawn_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cat-gacha-ticket-fragment_0
+      name: button-menu-small-redrawn_0
       rect:
         serializedVersion: 2
-        x: 105
-        y: 134
-        width: 1015
-        height: 1038
+        x: 3
+        y: 4
+        width: 178
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8e2e0f4c63b4cafd0800000000000000
-      internalID: -2329404208652950808
+      spriteID: 0dcbc8c56b60b49f0800000000000000
+      internalID: -483285154705654576
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cat-gacha-ticket-fragment_0: -2329404208652950808
+      button-menu-small-redrawn_0: -483285154705654576
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
