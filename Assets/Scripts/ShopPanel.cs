@@ -642,6 +642,12 @@ namespace CosmicChaosCat
                         info.BuyButton = btn;
                         info.CostText = buyBtn.GetComponentInChildren<TMP_Text>();
                         info.BgImage = buyBtn.GetComponent<Image>();
+                        info.SymbolImage = buyBtn.Find("Symbol")?.GetComponent<Image>()
+                                        ?? buyBtn.Find("CoinSymbol")?.GetComponent<Image>()
+                                        ?? buyBtn.Find("ShardSymbol")?.GetComponent<Image>();
+
+                        if (buyBtn.GetComponent<UIHoverClickEffect>() == null)
+                            buyBtn.gameObject.AddComponent<UIHoverClickEffect>();
 
                         if (btn != null)
                         {
@@ -786,6 +792,21 @@ namespace CosmicChaosCat
                     {
                         var accImg = acc.GetComponent<Image>();
                         if (accImg != null) accImg.color = cCols[ci];
+                    }
+
+                    // Update BuyBtn Symbol Image (Coin vs Shard)
+                    var buyBtnTrans = row.Find("BuyBtn");
+                    if (buyBtnTrans != null)
+                    {
+                        var symbolImg = buyBtnTrans.Find("Symbol")?.GetComponent<Image>()
+                                     ?? buyBtnTrans.Find("CoinSymbol")?.GetComponent<Image>()
+                                     ?? buyBtnTrans.Find("ShardSymbol")?.GetComponent<Image>();
+                        if (symbolImg != null)
+                        {
+                            bool isShard = upg.UpgradeId.StartsWith("upg-unlock-");
+                            Sprite curSprite = isShard ? shardSymbolSprite : coinSymbolSprite;
+                            if (curSprite != null) symbolImg.sprite = curSprite;
+                        }
                     }
 
                     // Update Labels with DisplayName and Description
@@ -1522,13 +1543,17 @@ namespace CosmicChaosCat
                 if (info.LevelText != null) info.LevelText.text = $"Lv.{level}/{entry.MaxLevel}";
                 if (maxed)
                 {
+                    if (info.SymbolImage != null)
+                    {
+                        info.SymbolImage.gameObject.SetActive(false);
+                    }
                     if (info.CostText  != null)
                     {
                         info.CostText.text = "MAX";
-                        info.CostText.color = Color.white;
+                        info.CostText.color = new Color(0.65f, 0.65f, 0.70f, 1f);
                     }
                     if (info.BuyButton != null) info.BuyButton.interactable = false;
-                    if (info.BgImage   != null) info.BgImage.color = new Color(0.70f,0.55f,0.10f);
+                    if (info.BgImage   != null) info.BgImage.color = new Color(0.12f, 0.12f, 0.15f, 0.95f);
                 }
                 else
                 {
@@ -1536,19 +1561,21 @@ namespace CosmicChaosCat
                         ? entry.CostPerLevel[level] : 0;
                     bool isShardUpgrade = entry.UpgradeId.StartsWith("upg-unlock-");
                     bool afford = isShardUpgrade ? (gm.Shards >= (int)cost) : (gm.Money >= cost);
-                    
+
+                    if (info.SymbolImage != null)
+                    {
+                        Sprite curSprite = isShardUpgrade ? shardSymbolSprite : coinSymbolSprite;
+                        if (curSprite != null)
+                        {
+                            info.SymbolImage.sprite = curSprite;
+                            info.SymbolImage.gameObject.SetActive(true);
+                        }
+                    }
+
                     if (info.CostText != null)
                     {
-                        if (isShardUpgrade)
-                        {
-                            info.CostText.text = $"{cost} 조각";
-                            info.CostText.color = ShardColor;
-                        }
-                        else
-                        {
-                            info.CostText.text = $"{cost:F0}";
-                            info.CostText.color = GoldColor;
-                        }
+                        info.CostText.text = $"{cost:F0}";
+                        info.CostText.color = isShardUpgrade ? ShardColor : GoldColor;
                     }
 
                     if (info.BuyButton != null) info.BuyButton.interactable = afford;
@@ -2248,6 +2275,58 @@ namespace CosmicChaosCat
                 parts.Add(formatted);
             }
             return " (" + string.Join(", ", parts) + ")";
+        }
+    }
+
+    public class UIHoverClickEffect : MonoBehaviour, UnityEngine.EventSystems.IPointerEnterHandler, UnityEngine.EventSystems.IPointerExitHandler, UnityEngine.EventSystems.IPointerDownHandler, UnityEngine.EventSystems.IPointerUpHandler
+    {
+        public float hoverScale = 1.025f;
+        public float pressScale = 0.96f;
+        private Vector3 initialScale = Vector3.one;
+        private bool scaleCached = false;
+
+        private void EnsureScaleCached()
+        {
+            if (!scaleCached)
+            {
+                initialScale = transform.localScale;
+                scaleCached = true;
+            }
+        }
+
+        public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            EnsureScaleCached();
+            var btn = GetComponent<UnityEngine.UI.Button>();
+            if (btn != null && !btn.interactable) return;
+            transform.localScale = initialScale * hoverScale;
+        }
+
+        public void OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            EnsureScaleCached();
+            transform.localScale = initialScale;
+        }
+
+        public void OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            EnsureScaleCached();
+            var btn = GetComponent<UnityEngine.UI.Button>();
+            if (btn != null && !btn.interactable) return;
+            transform.localScale = initialScale * pressScale;
+        }
+
+        public void OnPointerUp(UnityEngine.EventSystems.PointerEventData eventData)
+        {
+            EnsureScaleCached();
+            var btn = GetComponent<UnityEngine.UI.Button>();
+            if (btn != null && !btn.interactable) return;
+            transform.localScale = initialScale * hoverScale;
+        }
+
+        private void OnDisable()
+        {
+            if (scaleCached) transform.localScale = initialScale;
         }
     }
 }

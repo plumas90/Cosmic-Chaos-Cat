@@ -11,5 +11,6 @@ namespace CosmicChaosCat
         public Button   BuyButton;
         public TMP_Text CostText;
         public Image    BgImage;
+        public Image    SymbolImage;
     }
 }
