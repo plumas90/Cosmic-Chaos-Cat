@@ -23,6 +23,24 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject resultObj;
         [SerializeField] private Transform cardGrid; // Keep for inspector compatibility
 
+        [System.Serializable]
+        public struct RarityTheme
+        {
+            public Sprite frontSprite;     // Front (Card Background) Sprite
+            public Sprite rareMarkSprite;  // Rare_Mark Sprite
+            public Sprite nameLabelSprite; // NameLabel Sprite
+        }
+
+        [Header("Rarity Sprites Configuration")]
+        [SerializeField] private RarityTheme normalRaritySprites;
+        [SerializeField] private RarityTheme rareRaritySprites;
+        [SerializeField] private RarityTheme superRareRaritySprites;
+        [SerializeField] private RarityTheme ssrRaritySprites;
+        [SerializeField] private RarityTheme urRaritySprites;
+
+        [Header("Shard Conversion Settings")]
+        [SerializeField] private Sprite shardSprite;
+
         private RectTransform animCardTemplate;
         private RectTransform summaryCardTemplate;
         private Vector2 animCardSize = new Vector2(130f, 190f);
@@ -516,15 +534,37 @@ namespace CosmicChaosCat
             StartCoroutine(PlayGachaSequence(drawnCards));
         }
 
+        private RarityTheme GetRarityTheme(CardRarity rarity)
+        {
+            switch (rarity)
+            {
+                case CardRarity.N: return normalRaritySprites;
+                case CardRarity.R: return rareRaritySprites;
+                case CardRarity.SR: return superRareRaritySprites;
+                case CardRarity.SSR: return ssrRaritySprites;
+                case CardRarity.UR: return urRaritySprites;
+                default: return normalRaritySprites;
+            }
+        }
+
         private void BindCardFrontData(Transform frontTrans, CardEntry card)
         {
             if (frontTrans == null || card == null) return;
+            var theme = GetRarityTheme(card.Rarity);
 
-            // 1. Background Image (Front component itself or Front/Bg)
+            // 1. Front (Card Background Frame) Image
             var bgImg = frontTrans.GetComponent<Image>() ?? frontTrans.Find("Bg")?.GetComponent<Image>();
             if (bgImg != null)
             {
-                bgImg.color = GetRarityColor(card.Rarity);
+                if (theme.frontSprite != null)
+                {
+                    bgImg.sprite = theme.frontSprite;
+                    bgImg.color = Color.white;
+                }
+                else
+                {
+                    bgImg.color = GetRarityColor(card.Rarity);
+                }
             }
 
             // 2. Card Art Image (Art, CardArt, Image)
@@ -537,17 +577,44 @@ namespace CosmicChaosCat
                 artImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
             }
 
-            // 3. Rarity Mark Image / Frame (RarityMark, RarityBadge, Rarity, Frame)
-            var rarityMarkImg = frontTrans.Find("RarityMark")?.GetComponent<Image>()
-                             ?? frontTrans.Find("RarityBadge")?.GetComponent<Image>()
-                             ?? frontTrans.Find("Rarity")?.GetComponent<Image>()
-                             ?? frontTrans.Find("Frame")?.GetComponent<Image>();
-            if (rarityMarkImg != null)
+            // 3. Rare_Mark Image (Rare_Mark, RareMark, RarityMark, RarityBadge, Rarity, Frame)
+            var rareMarkImg = frontTrans.Find("Rare_Mark")?.GetComponent<Image>()
+                           ?? frontTrans.Find("RareMark")?.GetComponent<Image>()
+                           ?? frontTrans.Find("RarityMark")?.GetComponent<Image>()
+                           ?? frontTrans.Find("RarityBadge")?.GetComponent<Image>()
+                           ?? frontTrans.Find("Rarity")?.GetComponent<Image>()
+                           ?? frontTrans.Find("Frame")?.GetComponent<Image>();
+            if (rareMarkImg != null)
             {
-                rarityMarkImg.color = GetRarityColor(card.Rarity);
+                if (theme.rareMarkSprite != null)
+                {
+                    rareMarkImg.sprite = theme.rareMarkSprite;
+                    rareMarkImg.color = Color.white;
+                }
+                else
+                {
+                    rareMarkImg.color = GetRarityColor(card.Rarity);
+                }
             }
 
-            // 4. Name Text (NameText, Name, Text_Name, Title)
+            // 4. NameLabel Image (NameLabel, NameBg, NameFrame)
+            var nameLabelImg = frontTrans.Find("NameLabel")?.GetComponent<Image>()
+                            ?? frontTrans.Find("NameBg")?.GetComponent<Image>()
+                            ?? frontTrans.Find("NameFrame")?.GetComponent<Image>();
+            if (nameLabelImg != null)
+            {
+                if (theme.nameLabelSprite != null)
+                {
+                    nameLabelImg.sprite = theme.nameLabelSprite;
+                    nameLabelImg.color = Color.white;
+                }
+                else
+                {
+                    nameLabelImg.color = GetRarityColor(card.Rarity);
+                }
+            }
+
+            // 5. Name Text (NameText, Name, Text_Name, Title)
             var nameTxt = frontTrans.Find("NameText")?.GetComponent<TMP_Text>()
                        ?? frontTrans.Find("Name")?.GetComponent<TMP_Text>()
                        ?? frontTrans.Find("Text_Name")?.GetComponent<TMP_Text>()
@@ -557,7 +624,7 @@ namespace CosmicChaosCat
                 nameTxt.text = card.DisplayName;
             }
 
-            // 5. Rarity Text (RarityText, Text_Rarity)
+            // 6. Rarity Text (RarityText, Text_Rarity)
             var rarityTxt = frontTrans.Find("RarityText")?.GetComponent<TMP_Text>()
                          ?? frontTrans.Find("Text_Rarity")?.GetComponent<TMP_Text>();
             if (rarityTxt != null)
@@ -853,67 +920,6 @@ namespace CosmicChaosCat
             StartCoroutine(PlayShardConversionAnim(spawnedCards, currentIsShardDraw, currentShardsGained));
         }
 
-        private GameObject CreateSummaryCard(Transform parent, CardEntry card, Vector2 pos, Vector2 size, int fontSize)
-        {
-            GameObject cardGo;
-            RectTransform templateToUse = summaryCardTemplate != null ? summaryCardTemplate : animCardTemplate;
-
-            if (templateToUse != null)
-            {
-                cardGo = Instantiate(templateToUse.gameObject, parent, false);
-                cardGo.name = "SummaryCard";
-                cardGo.SetActive(true);
-
-                var back = cardGo.transform.Find("Back");
-                if (back != null) back.gameObject.SetActive(false);
-
-                var front = cardGo.transform.Find("Front");
-                if (front != null)
-                {
-                    front.gameObject.SetActive(true);
-                    BindCardFrontData(front, card);
-                }
-                else
-                {
-                    BindCardFrontData(cardGo.transform, card);
-                }
-            }
-            else
-            {
-                cardGo = new GameObject("SummaryCard");
-                cardGo.transform.SetParent(parent, false);
-                var bgImg = cardGo.AddComponent<Image>();
-                bgImg.color = GetRarityColor(card.Rarity);
-
-                var artGo = new GameObject("Art");
-                artGo.transform.SetParent(cardGo.transform, false);
-                artGo.name = "Art";
-                var artRt = artGo.AddComponent<RectTransform>();
-                artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
-                
-                float padTop = size.y * 0.18f;
-                float padSide = size.x * 0.05f;
-                artRt.offsetMin = new Vector2(padSide, padTop); 
-                artRt.offsetMax = new Vector2(-padSide, -padSide);
-                var fImg = artGo.AddComponent<Image>();
-                fImg.sprite = card.CardSprite;
-                fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
-
-                var font = moneyText?.font;
-                var nameText = MakeText(cardGo.transform, card.DisplayName, 
-                    new Vector2(0f, -size.y/2f + padTop/2f), 
-                    new Vector2(size.x - 10f, padTop), fontSize, Color.white);
-                nameText.alignment = TextAlignmentOptions.Center;
-                if (font != null) nameText.font = font;
-            }
-
-            var rt = cardGo.GetComponent<RectTransform>() ?? cardGo.AddComponent<RectTransform>();
-            rt.anchoredPosition = pos;
-            rt.sizeDelta = size;
-
-            return cardGo;
-        }
-
         private IEnumerator PlayShardConversionAnim(List<GameObject> summaryCards, List<bool> isShardDraw, List<int> shardsGained)
         {
             yield return new WaitForSeconds(0.8f);
@@ -939,44 +945,87 @@ namespace CosmicChaosCat
                 }
                 cardRT.localScale = new Vector3(0f, 1f, 1f);
 
-                // Morph to Shard representation
-                var art = cardGo.transform.Find("Front/Art") ?? cardGo.transform.Find("Art");
-                if (art != null) SafeDestroy(art.gameObject);
-                
-                var nameText = cardGo.transform.Find("Front/NameText") ?? cardGo.transform.Find("Front/Name") ?? cardGo.transform.Find("NameText") ?? cardGo.transform.Find("Text");
-                if (nameText != null) SafeDestroy(nameText.gameObject);
+                // Disable Front container when card converts into shards
+                var frontTrans = cardGo.transform.Find("Front");
+                if (frontTrans != null) frontTrans.gameObject.SetActive(false);
 
-                var bgImg = cardGo.GetComponent<Image>() ?? cardGo.GetComponentInChildren<Image>();
-                if (bgImg != null)
+                // Morph to Shard representation (using pre-placed ShardOverlay if available)
+                var shardOverlayTrans = cardGo.transform.Find("ShardOverlay")
+                                      ?? cardGo.transform.Find("ShardConversion")
+                                      ?? cardGo.transform.Find("DuplicateOverlay");
+
+                if (shardOverlayTrans != null)
                 {
-                    bgImg.color = new Color(0.12f, 0.14f, 0.20f);
-                }
+                    shardOverlayTrans.gameObject.SetActive(true);
 
-                var glowBorder = new GameObject("GlowBorder");
-                glowBorder.transform.SetParent(cardGo.transform, false);
-                var gbRt = glowBorder.AddComponent<RectTransform>();
-                gbRt.anchorMin = Vector2.zero; gbRt.anchorMax = Vector2.one;
-                gbRt.offsetMin = new Vector2(3, 3); gbRt.offsetMax = new Vector2(-3, -3);
-                var glowImg = glowBorder.AddComponent<Image>();
-                glowImg.color = new Color(0.12f, 0.14f, 0.20f);
-                
-                var outerGlow = cardGo.AddComponent<Outline>();
-                if (outerGlow != null)
+                    // Remove Image component on ShardOverlay container if present
+                    var bgImg = shardOverlayTrans.GetComponent<Image>();
+                    if (bgImg != null) Destroy(bgImg);
+
+                    // Update Shard Icon Sprite Image
+                    var iconImg = shardOverlayTrans.Find("ShardIcon")?.GetComponent<Image>()
+                               ?? shardOverlayTrans.Find("ShardImage")?.GetComponent<Image>()
+                               ?? shardOverlayTrans.Find("Icon")?.GetComponent<Image>();
+                    
+                    if (iconImg == null)
+                    {
+                        foreach (var img in shardOverlayTrans.GetComponentsInChildren<Image>(true))
+                        {
+                            if (img.gameObject != shardOverlayTrans.gameObject)
+                            {
+                                iconImg = img;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (iconImg != null)
+                    {
+                        if (shardSprite != null)
+                        {
+                            iconImg.sprite = shardSprite;
+                        }
+                        iconImg.color = Color.white;
+                    }
+
+                    // Update Shard Value Text (+amount) with 40 font size
+                    var shardTxt = shardOverlayTrans.Find("ShardValueText")?.GetComponent<TMP_Text>()
+                                ?? shardOverlayTrans.Find("ValueText")?.GetComponent<TMP_Text>()
+                                ?? shardOverlayTrans.GetComponentInChildren<TMP_Text>();
+                    if (shardTxt != null)
+                    {
+                        shardTxt.text = $"+{gained}";
+                        shardTxt.fontSize = 40;
+                    }
+                }
+                else
                 {
-                    outerGlow.effectColor = new Color(0.3f, 0.8f, 1f, 0.8f);
-                    outerGlow.effectDistance = new Vector2(3, 3);
+                    // Fallback dynamic creation if user hasn't pre-placed ShardOverlay
+                    var overlayGo = new GameObject("ShardOverlay");
+                    overlayGo.transform.SetParent(cardGo.transform, false);
+                    var oRt = overlayGo.AddComponent<RectTransform>();
+                    oRt.anchorMin = Vector2.zero; oRt.anchorMax = Vector2.one;
+                    oRt.offsetMin = Vector2.zero; oRt.offsetMax = Vector2.zero;
+
+                    // Shard Icon Image Component (using shardSprite!)
+                    var iconGo = new GameObject("ShardIcon");
+                    iconGo.transform.SetParent(overlayGo.transform, false);
+                    var iconRt = iconGo.AddComponent<RectTransform>();
+                    iconRt.anchoredPosition = new Vector2(0, 20);
+                    iconRt.sizeDelta = new Vector2(80, 80);
+                    var iconImg = iconGo.AddComponent<Image>();
+                    if (shardSprite != null)
+                    {
+                        iconImg.sprite = shardSprite;
+                    }
+                    iconImg.color = Color.white;
+
+                    var font = moneyText?.font;
+                    var shardValueText = MakeText(overlayGo.transform, $"+{gained}", new Vector2(0, -45), new Vector2(140, 50), 40, new Color(0.4f, 0.9f, 1f));
+                    shardValueText.alignment = TextAlignmentOptions.Center;
+                    shardValueText.fontStyle = FontStyles.Bold;
+                    if (font != null) shardValueText.font = font;
                 }
-
-                var font = moneyText?.font;
-                var shardIcon = MakeText(cardGo.transform, "✦", new Vector2(0, 15), new Vector2(80, 80), 32, new Color(0.3f, 0.8f, 1f));
-                shardIcon.alignment = TextAlignmentOptions.Center;
-                shardIcon.fontStyle = FontStyles.Bold;
-                if (font != null) shardIcon.font = font;
-
-                var shardValueText = MakeText(cardGo.transform, $"+{gained}", new Vector2(0, -40), new Vector2(100, 30), 14, new Color(0.4f, 0.9f, 1f));
-                shardValueText.alignment = TextAlignmentOptions.Center;
-                shardValueText.fontStyle = FontStyles.Bold;
-                if (font != null) shardValueText.font = font;
 
                 // Flip back
                 t = 0f;
@@ -1274,6 +1323,68 @@ namespace CosmicChaosCat
             UnityEditor.EditorUtility.SetDirty(gameObject);
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
             Debug.Log($"[GachaPanel] ✅ SummaryContainer 결과창 미리보기가 씬 뷰에 활성화되었습니다. (카드 크기: {summaryCardSize.x}x{summaryCardSize.y})");
+        }
+
+        [ContextMenu("Create ShardOverlay In Card Slots")]
+        public void CreateShardOverlayInCardSlots()
+        {
+            EnsureGachaUIPartsBuilt();
+            Transform contentTrans = summaryContainer != null ? (summaryContainer.transform.Find("SummaryContent") ?? summaryContainer.transform) : transform;
+
+            for (int i = 0; i < 10; i++)
+            {
+                Transform slotTrans = contentTrans.Find($"cardbase{i}")
+                                   ?? contentTrans.Find($"cardbase_{i}")
+                                   ?? contentTrans.Find($"cardbase {i}")
+                                   ?? contentTrans.Find($"CardBase{i}")
+                                   ?? contentTrans.Find($"CardBase_{i}")
+                                   ?? contentTrans.Find($"CardBase {i}");
+                if (slotTrans == null) continue;
+
+                var overlayTrans = slotTrans.Find("ShardOverlay");
+                if (overlayTrans == null)
+                {
+                    var overlayGo = new GameObject("ShardOverlay");
+                    overlayGo.transform.SetParent(slotTrans, false);
+                    var oRt = overlayGo.AddComponent<RectTransform>();
+                    oRt.anchorMin = Vector2.zero; oRt.anchorMax = Vector2.one;
+                    oRt.offsetMin = Vector2.zero; oRt.offsetMax = Vector2.zero;
+
+                    var bgImg = overlayGo.AddComponent<Image>();
+                    bgImg.color = new Color(0.12f, 0.14f, 0.20f, 0.95f);
+
+                    // Shard Icon Image Component (using shardSprite!)
+                    var iconGo = new GameObject("ShardIcon");
+                    iconGo.transform.SetParent(overlayGo.transform, false);
+                    var iconRt = iconGo.AddComponent<RectTransform>();
+                    iconRt.anchoredPosition = new Vector2(0, 15);
+                    iconRt.sizeDelta = new Vector2(64, 64);
+                    var iconImg = iconGo.AddComponent<Image>();
+                    if (shardSprite != null)
+                    {
+                        iconImg.sprite = shardSprite;
+                        iconImg.color = Color.white;
+                    }
+                    else
+                    {
+                        iconImg.color = new Color(0.3f, 0.8f, 1f);
+                    }
+
+                    var font = moneyText?.font;
+                    var shardValueText = MakeText(overlayGo.transform, "+10", new Vector2(0, -40), new Vector2(100, 30), 14, new Color(0.4f, 0.9f, 1f));
+                    shardValueText.name = "ShardValueText";
+                    shardValueText.alignment = TextAlignmentOptions.Center;
+                    shardValueText.fontStyle = FontStyles.Bold;
+                    if (font != null) shardValueText.font = font;
+
+                    overlayGo.SetActive(false);
+                    UnityEditor.Undo.RegisterCreatedObjectUndo(overlayGo, "Create ShardOverlay");
+                }
+            }
+
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log("[GachaPanel] ✅ cardbase0~9 슬롯에 조각 연출용 ShardOverlay(스프라이트 이미지 기반)가 생성되었습니다!");
         }
 
         [ContextMenu("Preview ResultUI In Scene (Hide)")]
