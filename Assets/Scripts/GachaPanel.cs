@@ -25,6 +25,7 @@ namespace CosmicChaosCat
 
         [Header("Card Templates & Sizes")]
         [SerializeField] private RectTransform animCardTemplate;
+        [SerializeField] private RectTransform summaryCardTemplate;
         [SerializeField] private Vector2 animCardSize = new Vector2(130f, 190f);
         [SerializeField] private Vector2 summaryCardSize = new Vector2(110f, 160f);
 
@@ -229,6 +230,42 @@ namespace CosmicChaosCat
                 scRt.offsetMin = Vector2.zero; scRt.offsetMax = Vector2.zero;
 
                 confirmBtn = MakeButton(summaryContainer.transform, "확인", new Vector2(0, -220), new Vector2(160, 48), BtnGacha, ConfirmResults);
+            }
+
+            // Find or create pre-placed SummaryCardBase template inside SummaryContainer
+            if (summaryContainer != null)
+            {
+                var scbTrans = summaryContainer.transform.Find("SummaryCardBase");
+                if (scbTrans == null)
+                {
+                    var scbGo = new GameObject("SummaryCardBase");
+                    scbGo.transform.SetParent(summaryContainer.transform, false);
+                    var scbRt = scbGo.AddComponent<RectTransform>();
+                    scbRt.anchoredPosition = new Vector2(0, 30);
+                    scbRt.sizeDelta = summaryCardSize;
+
+                    var frontGo = new GameObject("Front");
+                    frontGo.transform.SetParent(scbGo.transform, false);
+                    var frontRt = frontGo.AddComponent<RectTransform>();
+                    frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
+                    frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
+                    var frontImg = frontGo.AddComponent<Image>();
+                    frontImg.color = new Color(0.6f, 0.2f, 0.8f);
+
+                    var artGo = new GameObject("Art");
+                    artGo.transform.SetParent(frontGo.transform, false);
+                    artGo.name = "Art";
+                    var artRt = artGo.AddComponent<RectTransform>();
+                    artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
+                    artRt.offsetMin = new Vector2(5, 30); artRt.offsetMax = new Vector2(-5, -5);
+                    artGo.AddComponent<Image>().color = Color.white;
+
+                    var nameText = MakeText(frontGo.transform, "결과 카드", new Vector2(0, -60), new Vector2(100, 22), 10, Color.white);
+                    nameText.alignment = TextAlignmentOptions.Center;
+
+                    scbTrans = scbGo.transform;
+                }
+                summaryCardTemplate = scbTrans.GetComponent<RectTransform>();
             }
 
             if (skipBtn != null)
@@ -485,11 +522,63 @@ namespace CosmicChaosCat
             {
                 foreach (Transform child in summaryContainer.transform)
                 {
-                    if (child.gameObject != confirmBtn) SafeDestroy(child.gameObject);
+                    if (child.gameObject != confirmBtn && (summaryCardTemplate == null || child != summaryCardTemplate))
+                        SafeDestroy(child.gameObject);
                 }
             }
 
             StartCoroutine(PlayGachaSequence(drawnCards));
+        }
+
+        private void BindCardFrontData(Transform frontTrans, CardEntry card)
+        {
+            if (frontTrans == null || card == null) return;
+
+            // 1. Background Image (Front component itself or Front/Bg)
+            var bgImg = frontTrans.GetComponent<Image>() ?? frontTrans.Find("Bg")?.GetComponent<Image>();
+            if (bgImg != null)
+            {
+                bgImg.color = GetRarityColor(card.Rarity);
+            }
+
+            // 2. Card Art Image (Art, CardArt, Image)
+            var artImg = frontTrans.Find("Art")?.GetComponent<Image>()
+                      ?? frontTrans.Find("CardArt")?.GetComponent<Image>()
+                      ?? frontTrans.Find("Image")?.GetComponent<Image>();
+            if (artImg != null)
+            {
+                artImg.sprite = card.CardSprite;
+                artImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+            }
+
+            // 3. Rarity Mark Image / Frame (RarityMark, RarityBadge, Rarity, Frame)
+            var rarityMarkImg = frontTrans.Find("RarityMark")?.GetComponent<Image>()
+                             ?? frontTrans.Find("RarityBadge")?.GetComponent<Image>()
+                             ?? frontTrans.Find("Rarity")?.GetComponent<Image>()
+                             ?? frontTrans.Find("Frame")?.GetComponent<Image>();
+            if (rarityMarkImg != null)
+            {
+                rarityMarkImg.color = GetRarityColor(card.Rarity);
+            }
+
+            // 4. Name Text (NameText, Name, Text_Name, Title)
+            var nameTxt = frontTrans.Find("NameText")?.GetComponent<TMP_Text>()
+                       ?? frontTrans.Find("Name")?.GetComponent<TMP_Text>()
+                       ?? frontTrans.Find("Text_Name")?.GetComponent<TMP_Text>()
+                       ?? frontTrans.GetComponentInChildren<TMP_Text>();
+            if (nameTxt != null)
+            {
+                nameTxt.text = card.DisplayName;
+            }
+
+            // 5. Rarity Text (RarityText, Text_Rarity)
+            var rarityTxt = frontTrans.Find("RarityText")?.GetComponent<TMP_Text>()
+                         ?? frontTrans.Find("Text_Rarity")?.GetComponent<TMP_Text>();
+            if (rarityTxt != null)
+            {
+                rarityTxt.text = card.Rarity.ToString();
+                rarityTxt.color = GetRarityColor(card.Rarity);
+            }
         }
 
         private IEnumerator PlayGachaSequence(List<CardEntry> cards)
@@ -498,67 +587,88 @@ namespace CosmicChaosCat
             var cardBacks = new List<GameObject>();
             var cardFronts = new List<GameObject>();
 
-            float spacing = animCardSize.x + 60f;
+            Vector2 cardSize = animCardTemplate != null ? animCardTemplate.sizeDelta : animCardSize;
+            float spacing = cardSize.x + 60f;
             var font = moneyText?.font;
 
             // Spawn conveyor cards
             for (int i = 0; i < cards.Count; i++)
             {
                 var card = cards[i];
-                var cardGo = new GameObject($"Card_{i}");
-                cardGo.transform.SetParent(conveyor, false);
-                var rt = cardGo.AddComponent<RectTransform>();
+                GameObject cardGo;
+                if (animCardTemplate != null)
+                {
+                    cardGo = Instantiate(animCardTemplate.gameObject, conveyor, false);
+                    cardGo.name = $"Card_{i}";
+                    cardGo.SetActive(true);
+                }
+                else
+                {
+                    cardGo = new GameObject($"Card_{i}");
+                    cardGo.transform.SetParent(conveyor, false);
+                    var newRt = cardGo.AddComponent<RectTransform>();
+                    newRt.sizeDelta = cardSize;
+                }
+
+                var rt = cardGo.GetComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(i * spacing, 0f);
-                rt.sizeDelta = animCardSize;
+                rt.sizeDelta = cardSize;
                 cardObjects.Add(cardGo);
 
-                // Back side
-                var backGo = new GameObject("Back");
-                backGo.transform.SetParent(cardGo.transform, false);
-                var backRt = backGo.AddComponent<RectTransform>();
-                backRt.anchorMin = Vector2.zero; backRt.anchorMax = Vector2.one;
-                backRt.offsetMin = Vector2.zero; backRt.offsetMax = Vector2.zero;
-                var backImg = backGo.AddComponent<Image>();
-                backImg.color = new Color(0.12f, 0.15f, 0.23f);
+                var backTrans = cardGo.transform.Find("Back");
+                var frontTrans = cardGo.transform.Find("Front");
 
-                var backBorder = new GameObject("Border");
-                backBorder.transform.SetParent(backGo.transform, false);
-                var bbRt = backBorder.AddComponent<RectTransform>();
-                bbRt.anchorMin = Vector2.zero; bbRt.anchorMax = Vector2.one;
-                bbRt.offsetMin = new Vector2(4, 4); bbRt.offsetMax = new Vector2(-4, -4);
-                backBorder.AddComponent<Image>().color = new Color(0.30f, 0.40f, 0.60f);
+                if (backTrans == null)
+                {
+                    var backGo = new GameObject("Back");
+                    backGo.transform.SetParent(cardGo.transform, false);
+                    var backRt = backGo.AddComponent<RectTransform>();
+                    backRt.anchorMin = Vector2.zero; backRt.anchorMax = Vector2.one;
+                    backRt.offsetMin = backRt.offsetMax = Vector2.zero;
+                    var backImg = backGo.AddComponent<Image>();
+                    backImg.color = new Color(0.12f, 0.15f, 0.23f);
 
-                var qText = MakeText(backGo.transform, "?", Vector2.zero, new Vector2(100, 100), 36, new Color(0.7f, 0.8f, 1f));
-                qText.alignment = TextAlignmentOptions.Center;
-                qText.fontStyle = FontStyles.Bold;
-                if (font != null) qText.font = font;
+                    var qText = MakeText(backGo.transform, "?", Vector2.zero, new Vector2(100, 100), 36, new Color(0.7f, 0.8f, 1f));
+                    qText.alignment = TextAlignmentOptions.Center;
+                    qText.fontStyle = FontStyles.Bold;
+                    if (font != null) qText.font = font;
+                    backTrans = backGo.transform;
+                }
+                backTrans.gameObject.SetActive(true);
+                cardBacks.Add(backTrans.gameObject);
 
-                cardBacks.Add(backGo);
+                if (frontTrans == null)
+                {
+                    var frontGo = new GameObject("Front");
+                    frontGo.transform.SetParent(cardGo.transform, false);
+                    var frontRt = frontGo.AddComponent<RectTransform>();
+                    frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
+                    frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
+                    var frontImg = frontGo.AddComponent<Image>();
+                    frontImg.color = GetRarityColor(card.Rarity);
 
-                // Front side
-                var frontGo = new GameObject("Front");
-                frontGo.transform.SetParent(cardGo.transform, false);
-                var frontRt = frontGo.AddComponent<RectTransform>();
-                frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
-                frontRt.offsetMin = Vector2.zero; frontRt.offsetMax = Vector2.zero;
-                var frontImg = frontGo.AddComponent<Image>();
-                frontImg.color = GetRarityColor(card.Rarity);
+                    var artGo = new GameObject("Art");
+                    artGo.transform.SetParent(frontGo.transform, false);
+                    var artRt = artGo.AddComponent<RectTransform>();
+                    artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
+                    artRt.offsetMin = new Vector2(6, 36); artRt.offsetMax = new Vector2(-6, -6);
+                    var fImg = artGo.AddComponent<Image>();
+                    fImg.sprite = card.CardSprite;
+                    fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
 
-                var artGo = new GameObject("Art");
-                artGo.transform.SetParent(frontGo.transform, false);
-                var artRt = artGo.AddComponent<RectTransform>();
-                artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
-                artRt.offsetMin = new Vector2(6, 36); artRt.offsetMax = new Vector2(-6, -6);
-                var fImg = artGo.AddComponent<Image>();
-                fImg.sprite = card.CardSprite;
-                fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+                    var nameText = MakeText(frontGo.transform, card.DisplayName, new Vector2(0, -78), new Vector2(120, 26), 11, Color.white);
+                    nameText.alignment = TextAlignmentOptions.Center;
+                    if (font != null) nameText.font = font;
 
-                var nameText = MakeText(frontGo.transform, card.DisplayName, new Vector2(0, -78), new Vector2(120, 26), 11, Color.white);
-                nameText.alignment = TextAlignmentOptions.Center;
-                if (font != null) nameText.font = font;
+                    frontTrans = frontGo.transform;
+                }
+                else
+                {
+                    BindCardFrontData(frontTrans, card);
+                }
 
-                frontGo.SetActive(false);
-                cardFronts.Add(frontGo);
+                frontTrans.gameObject.SetActive(false);
+                cardFronts.Add(frontTrans.gameObject);
             }
 
             if (conveyor != null) conveyor.anchoredPosition = new Vector2(0f, 0f);
@@ -659,6 +769,12 @@ namespace CosmicChaosCat
             animContainer.SetActive(false);
             summaryContainer.SetActive(true);
 
+            if (summaryCardTemplate != null)
+            {
+                summaryCardSize = summaryCardTemplate.sizeDelta;
+                summaryCardTemplate.gameObject.SetActive(false);
+            }
+
             var spawnedCards = new List<GameObject>();
 
             if (cards.Count == 1)
@@ -706,35 +822,61 @@ namespace CosmicChaosCat
 
         private GameObject CreateSummaryCard(Transform parent, CardEntry card, Vector2 pos, Vector2 size, int fontSize)
         {
-            var cardGo = new GameObject("SummaryCard");
-            cardGo.transform.SetParent(parent, false);
-            var rt = cardGo.AddComponent<RectTransform>();
+            GameObject cardGo;
+            RectTransform templateToUse = summaryCardTemplate != null ? summaryCardTemplate : animCardTemplate;
+
+            if (templateToUse != null)
+            {
+                cardGo = Instantiate(templateToUse.gameObject, parent, false);
+                cardGo.name = "SummaryCard";
+                cardGo.SetActive(true);
+
+                var back = cardGo.transform.Find("Back");
+                if (back != null) back.gameObject.SetActive(false);
+
+                var front = cardGo.transform.Find("Front");
+                if (front != null)
+                {
+                    front.gameObject.SetActive(true);
+                    BindCardFrontData(front, card);
+                }
+                else
+                {
+                    BindCardFrontData(cardGo.transform, card);
+                }
+            }
+            else
+            {
+                cardGo = new GameObject("SummaryCard");
+                cardGo.transform.SetParent(parent, false);
+                var bgImg = cardGo.AddComponent<Image>();
+                bgImg.color = GetRarityColor(card.Rarity);
+
+                var artGo = new GameObject("Art");
+                artGo.transform.SetParent(cardGo.transform, false);
+                artGo.name = "Art";
+                var artRt = artGo.AddComponent<RectTransform>();
+                artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
+                
+                float padTop = size.y * 0.18f;
+                float padSide = size.x * 0.05f;
+                artRt.offsetMin = new Vector2(padSide, padTop); 
+                artRt.offsetMax = new Vector2(-padSide, -padSide);
+                var fImg = artGo.AddComponent<Image>();
+                fImg.sprite = card.CardSprite;
+                fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+
+                var font = moneyText?.font;
+                var nameText = MakeText(cardGo.transform, card.DisplayName, 
+                    new Vector2(0f, -size.y/2f + padTop/2f), 
+                    new Vector2(size.x - 10f, padTop), fontSize, Color.white);
+                nameText.alignment = TextAlignmentOptions.Center;
+                if (font != null) nameText.font = font;
+            }
+
+            var rt = cardGo.GetComponent<RectTransform>() ?? cardGo.AddComponent<RectTransform>();
             rt.anchoredPosition = pos;
             rt.sizeDelta = size;
-
-            var bgImg = cardGo.AddComponent<Image>();
-            bgImg.color = GetRarityColor(card.Rarity);
-
-            var artGo = new GameObject("Art");
-            artGo.transform.SetParent(cardGo.transform, false);
-            artGo.name = "Art";
-            var artRt = artGo.AddComponent<RectTransform>();
-            artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
-            
-            float padTop = size.y * 0.18f;
-            float padSide = size.x * 0.05f;
-            artRt.offsetMin = new Vector2(padSide, padTop); 
-            artRt.offsetMax = new Vector2(-padSide, -padSide);
-            var fImg = artGo.AddComponent<Image>();
-            fImg.sprite = card.CardSprite;
-            fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
-
-            var font = moneyText?.font;
-            var nameText = MakeText(cardGo.transform, card.DisplayName, 
-                new Vector2(0f, -size.y/2f + padTop/2f), 
-                new Vector2(size.x - 10f, padTop), fontSize, Color.white);
-            nameText.alignment = TextAlignmentOptions.Center;
-            if (font != null) nameText.font = font;
 
             return cardGo;
         }
@@ -949,6 +1091,13 @@ namespace CosmicChaosCat
                 animCardTemplate.gameObject.SetActive(true);
                 UnityEditor.Undo.RegisterCreatedObjectUndo(animCardTemplate.gameObject, "Create CardBase");
                 UnityEditor.EditorUtility.SetDirty(animCardTemplate.gameObject);
+            }
+
+            if (summaryCardTemplate != null)
+            {
+                summaryCardTemplate.gameObject.SetActive(true);
+                UnityEditor.Undo.RegisterCreatedObjectUndo(summaryCardTemplate.gameObject, "Create SummaryCardBase");
+                UnityEditor.EditorUtility.SetDirty(summaryCardTemplate.gameObject);
             }
 
             if (resultObj != null)
