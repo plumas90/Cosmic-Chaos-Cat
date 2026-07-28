@@ -74,19 +74,41 @@ namespace CosmicChaosCat
             effectPlayer = FindObjectOfType<ClickEffectPlayer>();
         }
 
+        public void ClosePanel()
+        {
+            gameObject.SetActive(false);
+        }
+
         private void BindListeners()
         {
             if (normalBtn != null) { normalBtn.onClick.RemoveAllListeners(); normalBtn.onClick.AddListener(() => SelectType(GachaType.Normal)); }
             if (rareBtn != null) { rareBtn.onClick.RemoveAllListeners(); rareBtn.onClick.AddListener(() => SelectType(GachaType.Rare)); }
             if (superBtn != null) { superBtn.onClick.RemoveAllListeners(); superBtn.onClick.AddListener(() => SelectType(GachaType.Super)); }
 
-            var closeBtns = GetComponentsInChildren<Button>(true);
-            foreach (var b in closeBtns)
+            var buttons = GetComponentsInChildren<Button>(true);
+            foreach (var b in buttons)
             {
                 var txt = b.GetComponentInChildren<TMP_Text>();
-                if (txt != null && txt.text.Contains("1회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollOnce); }
-                else if (txt != null && txt.text.Contains("10회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollTen); }
-                else if (txt != null && txt.text.Contains("✕")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(() => gameObject.SetActive(false)); }
+                string bName = b.name.ToLower();
+                string tStr = txt != null ? txt.text.ToLower() : "";
+
+                if (tStr.Contains("1회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollOnce); }
+                else if (tStr.Contains("10회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollTen); }
+                else if (tStr.Contains("✕") || tStr.Contains("닫기") || tStr.Contains("close") || bName.Contains("close") || bName.Contains("닫기"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(ClosePanel);
+                }
+            }
+
+            if (closeBtn != null)
+            {
+                var btn = closeBtn.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(ClosePanel);
+                }
             }
         }
 
@@ -96,6 +118,7 @@ namespace CosmicChaosCat
             if (gm != null)
             {
                 gm.StateChanged += RefreshCosts;
+                gm.AddTestMoney(100000d);
             }
             SelectType(GachaType.Normal);
             if (resultObj != null) resultObj.SetActive(false);
@@ -316,11 +339,25 @@ namespace CosmicChaosCat
             // Find close button from legacy panel or new parent
             if (closeBtn == null)
             {
-                var panelTrans = transform.Find("Panel");
-                if (panelTrans != null)
+                Transform cbTrans = transform.Find("Btn_✕ 닫기")
+                                 ?? transform.Find("Panel/Btn_✕ 닫기")
+                                 ?? transform.Find("CloseBtn")
+                                 ?? transform.Find("Panel/CloseBtn")
+                                 ?? transform.Find("Btn_Close")
+                                 ?? transform.Find("Panel/Close_Btn")
+                                 ?? transform.Find("Panel/Btn_Close")
+                                 ?? transform.Find("Close")
+                                 ?? transform.Find("Panel/Close");
+                if (cbTrans != null) closeBtn = cbTrans.gameObject;
+            }
+
+            if (closeBtn != null)
+            {
+                var btn = closeBtn.GetComponent<Button>();
+                if (btn != null)
                 {
-                    var cbTrans = panelTrans.Find("Btn_✕ 닫기");
-                    if (cbTrans != null) closeBtn = cbTrans.gameObject;
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(ClosePanel);
                 }
             }
         }
@@ -889,6 +926,12 @@ namespace CosmicChaosCat
                 if (i < cards.Count)
                 {
                     slot.SetActive(true);
+
+                    // Ensure ShardOverlay is hidden initially before conversion animation starts!
+                    var overlay = slot.transform.Find("ShardOverlay")
+                               ?? slot.transform.Find("ShardConversion")
+                               ?? slot.transform.Find("DuplicateOverlay");
+                    if (overlay != null) overlay.gameObject.SetActive(false);
 
                     var back = slot.transform.Find("Back");
                     if (back != null) back.gameObject.SetActive(false);

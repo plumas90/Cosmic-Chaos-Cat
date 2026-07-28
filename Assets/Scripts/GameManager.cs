@@ -120,7 +120,17 @@ namespace CosmicChaosCat
             }
             InitCardState();
             Load();
+            Money = 100000d;
+            Save();
             RebuildSetState();
+            NotifyState();
+        }
+
+        [ContextMenu("Add 100,000 Gold")]
+        public void AddTestMoney(double amount = 100000d)
+        {
+            Money += amount;
+            Save();
             NotifyState();
         }
 
