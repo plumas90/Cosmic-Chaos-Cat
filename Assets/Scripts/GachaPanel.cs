@@ -232,36 +232,33 @@ namespace CosmicChaosCat
                 confirmBtn = MakeButton(summaryContainer.transform, "확인", new Vector2(0, -220), new Vector2(160, 48), BtnGacha, ConfirmResults);
             }
 
-            // Find or create pre-placed SummaryCardBase template inside SummaryContainer
+            // Find or create pre-placed SummaryCardBase template inside SummaryContainer with exact CardBase structure
             if (summaryContainer != null)
             {
                 var scbTrans = summaryContainer.transform.Find("SummaryCardBase");
                 if (scbTrans == null)
                 {
-                    var scbGo = new GameObject("SummaryCardBase");
-                    scbGo.transform.SetParent(summaryContainer.transform, false);
-                    var scbRt = scbGo.AddComponent<RectTransform>();
+                    GameObject scbGo;
+                    if (animCardTemplate != null)
+                    {
+                        scbGo = Instantiate(animCardTemplate.gameObject, summaryContainer.transform, false);
+                        scbGo.name = "SummaryCardBase";
+                    }
+                    else
+                    {
+                        scbGo = new GameObject("SummaryCardBase");
+                        scbGo.transform.SetParent(summaryContainer.transform, false);
+                    }
+
+                    var scbRt = scbGo.GetComponent<RectTransform>() ?? scbGo.AddComponent<RectTransform>();
                     scbRt.anchoredPosition = new Vector2(0, 30);
                     scbRt.sizeDelta = summaryCardSize;
 
-                    var frontGo = new GameObject("Front");
-                    frontGo.transform.SetParent(scbGo.transform, false);
-                    var frontRt = frontGo.AddComponent<RectTransform>();
-                    frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
-                    frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
-                    var frontImg = frontGo.AddComponent<Image>();
-                    frontImg.color = new Color(0.6f, 0.2f, 0.8f);
+                    var backTrans = scbGo.transform.Find("Back");
+                    if (backTrans != null) backTrans.gameObject.SetActive(false);
 
-                    var artGo = new GameObject("Art");
-                    artGo.transform.SetParent(frontGo.transform, false);
-                    artGo.name = "Art";
-                    var artRt = artGo.AddComponent<RectTransform>();
-                    artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
-                    artRt.offsetMin = new Vector2(5, 30); artRt.offsetMax = new Vector2(-5, -5);
-                    artGo.AddComponent<Image>().color = Color.white;
-
-                    var nameText = MakeText(frontGo.transform, "결과 카드", new Vector2(0, -60), new Vector2(100, 22), 10, Color.white);
-                    nameText.alignment = TextAlignmentOptions.Center;
+                    var frontTrans = scbGo.transform.Find("Front");
+                    if (frontTrans != null) frontTrans.gameObject.SetActive(true);
 
                     scbTrans = scbGo.transform;
                 }
@@ -1109,7 +1106,35 @@ namespace CosmicChaosCat
             if (animContainer != null) animContainer.SetActive(true);
 
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
-            Debug.Log("[GachaPanel] ✅ CardBase가 씬 계층 구조(ResultUI ➔ AnimContainer ➔ Viewport ➔ Conveyor ➔ CardBase)에 즉시 생성되어 저장되었습니다!");
+            Debug.Log("[GachaPanel] ✅ CardBase 및 SummaryCardBase가 씬 계층 구조에 즉시 생성되어 저장되었습니다!");
+        }
+
+        [ContextMenu("Recreate SummaryCardBase From CardBase")]
+        public void RecreateSummaryCardBaseFromCardBase()
+        {
+            EnsureGachaUIPartsBuilt();
+            if (summaryContainer == null || animCardTemplate == null) return;
+
+            var old = summaryContainer.transform.Find("SummaryCardBase");
+            if (old != null) UnityEditor.Undo.DestroyObjectImmediate(old.gameObject);
+
+            var scbGo = Instantiate(animCardTemplate.gameObject, summaryContainer.transform, false);
+            scbGo.name = "SummaryCardBase";
+            var scbRt = scbGo.GetComponent<RectTransform>();
+            scbRt.anchoredPosition = new Vector2(0, 30);
+            scbRt.sizeDelta = summaryCardSize;
+
+            var backTrans = scbGo.transform.Find("Back");
+            if (backTrans != null) backTrans.gameObject.SetActive(false);
+
+            var frontTrans = scbGo.transform.Find("Front");
+            if (frontTrans != null) frontTrans.gameObject.SetActive(true);
+
+            summaryCardTemplate = scbRt;
+            UnityEditor.Undo.RegisterCreatedObjectUndo(scbGo, "Recreate SummaryCardBase");
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log("[GachaPanel] ✅ SummaryCardBase가 CardBase 하위 구성을 100% 복사하여 새롭게 생성되었습니다!");
         }
 
         [ContextMenu("Preview AnimContainer (Animation Card Size Preview)")]
