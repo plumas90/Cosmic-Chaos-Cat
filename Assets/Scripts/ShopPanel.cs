@@ -420,6 +420,28 @@ namespace CosmicChaosCat
             return go.gameObject;
         }
 
+        private Sprite GetHdrSprite(UpgradeCategory cat)
+        {
+            switch (cat)
+            {
+                case UpgradeCategory.Click: return secHdrSpriteClick;
+                case UpgradeCategory.Gacha: return secHdrSpriteGacha;
+                case UpgradeCategory.Economy: return secHdrSpriteEconomy;
+                default: return secHdrSpriteClick;
+            }
+        }
+
+        private Sprite GetRowSprite(UpgradeCategory cat)
+        {
+            switch (cat)
+            {
+                case UpgradeCategory.Click: return rowSpriteClick;
+                case UpgradeCategory.Gacha: return rowSpriteGacha;
+                case UpgradeCategory.Economy: return rowSpriteEconomy;
+                default: return rowSpriteClick;
+            }
+        }
+
         // ── Upgrades Tab ─────────────────────────────────────────────────────
         private void BuildUpgradesTab()
         {
@@ -495,29 +517,6 @@ namespace CosmicChaosCat
 
             upgradeRows.Clear();
 
-            // Category sprite helpers
-            Sprite GetHdrSprite(UpgradeCategory cat)
-            {
-                switch (cat)
-                {
-                    case UpgradeCategory.Click: return secHdrSpriteClick;
-                    case UpgradeCategory.Gacha: return secHdrSpriteGacha;
-                    case UpgradeCategory.Economy: return secHdrSpriteEconomy;
-                    default: return secHdrSpriteSpecial;
-                }
-            }
-
-            Sprite GetRowSprite(UpgradeCategory cat)
-            {
-                switch (cat)
-                {
-                    case UpgradeCategory.Click: return rowSpriteClick;
-                    case UpgradeCategory.Gacha: return rowSpriteGacha;
-                    case UpgradeCategory.Economy: return rowSpriteEconomy;
-                    default: return rowSpriteSpecial;
-                }
-            }
-
             Transform templateRow = upgradeScrollContent.Find("Row_upg-crit-chance");
 
             var cats  = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
@@ -531,8 +530,14 @@ namespace CosmicChaosCat
                 foreach (var u in catalog.Upgrades) if (u != null && u.Category == cat) { anyInCat = true; break; }
                 if (!anyInCat) continue;
 
-                // Bind or create Section Header
+                // Bind or search existing Section Header
                 Transform hdr = upgradeScrollContent.Find("SecHdr_" + cat);
+                if (hdr == null)
+                {
+                    // Search if user named it SecHdr_name or similar
+                    hdr = upgradeScrollContent.Find("SecHdr_name");
+                }
+
                 if (hdr == null)
                 {
                     var hdrGO = new GameObject("SecHdr_" + cat, typeof(RectTransform));
@@ -559,6 +564,8 @@ namespace CosmicChaosCat
                     hdrImg.color = cCols[ci] * new Color(1, 1, 1, 0.45f);
                 }
 
+                hdr.SetAsLastSibling();
+
                 foreach (var upg in catalog.Upgrades)
                 {
                     if (upg == null || upg.Category != cat) continue;
@@ -568,12 +575,8 @@ namespace CosmicChaosCat
                     if (upg.UpgradeId == "upg-rare-prob-2" && gm.GetUpgradeLevel("upg-rare-prob-1") < 5) visible = false;
                     if (upg.UpgradeId == "upg-super-prob-2" && gm.GetUpgradeLevel("upg-super-prob-1") < 5) visible = false;
 
+                    // Reuse existing row if present in hierarchy (DO NOT Destroy user's pre-designed rows!)
                     Transform row = upgradeScrollContent.Find("Row_" + upg.UpgradeId);
-                    if (row != null && templateRow != null && row != templateRow)
-                    {
-                        SafeDestroy(row.gameObject);
-                        row = null;
-                    }
 
                     if (row == null)
                     {
@@ -590,6 +593,8 @@ namespace CosmicChaosCat
                             row = rowGO.transform;
                         }
                     }
+
+                    row.SetAsLastSibling();
 
                     row.gameObject.SetActive(visible);
                     if (!visible) continue;
@@ -650,6 +655,157 @@ namespace CosmicChaosCat
                 }
             }
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Generate Upgrade Rows In Scene Hierarchy")]
+        public void GenerateUpgradeRowsInScene()
+        {
+            var catalog = UnityEditor.AssetDatabase.LoadAssetAtPath<UpgradeCatalogSO>("Assets/ScriptableObjects/UpgradeCatalog.asset");
+            if (catalog == null && gm != null) catalog = gm.UpgradeCatalog;
+            if (catalog == null)
+            {
+                Debug.LogError("[ShopPanel] UpgradeCatalog.asset을 찾을 수 없습니다.");
+                return;
+            }
+
+            if (upgradeScrollContent == null && upgradesContent != null)
+            {
+                upgradeScrollContent = upgradesContent.transform.Find("Scroll/Viewport/Content");
+            }
+            if (upgradeScrollContent == null)
+            {
+                Debug.LogError("[ShopPanel] upgradeScrollContent (Scroll/Viewport/Content)를 찾을 수 없습니다.");
+                return;
+            }
+
+            Transform templateRow = upgradeScrollContent.Find("Row_upg-crit-chance");
+            if (templateRow == null)
+            {
+                foreach (Transform child in upgradeScrollContent)
+                {
+                    if (child.name.StartsWith("Row_"))
+                    {
+                        templateRow = child;
+                        break;
+                    }
+                }
+            }
+
+            if (templateRow == null)
+            {
+                Debug.LogError("[ShopPanel] 복제 템플릿으로 사용할 Row (예: Row_upg-crit-chance)를 upgradeScrollContent 안에서 찾을 수 없습니다.");
+                return;
+            }
+
+            var cats = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
+            var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열" };
+            var cCols = new[] { CatClick, CatGacha, CatEcon };
+
+            UnityEditor.Undo.RegisterFullObjectHierarchyUndo(upgradeScrollContent.gameObject, "Generate Upgrade Rows");
+
+            foreach (var cat in cats)
+            {
+                int ci = System.Array.IndexOf(cats, cat);
+                bool anyInCat = false;
+                foreach (var u in catalog.Upgrades) if (u != null && u.Category == cat) { anyInCat = true; break; }
+                if (!anyInCat) continue;
+
+                // Bind or create Section Header
+                Transform hdr = upgradeScrollContent.Find("SecHdr_" + cat);
+                if (hdr == null) hdr = upgradeScrollContent.Find("SecHdr_name");
+                if (hdr == null)
+                {
+                    var hdrGO = new GameObject("SecHdr_" + cat, typeof(RectTransform));
+                    hdrGO.transform.SetParent(upgradeScrollContent, false);
+                    hdr = hdrGO.transform;
+                    var hdrRT = hdr.GetComponent<RectTransform>();
+                    hdrRT.sizeDelta = new Vector2(0, 32);
+
+                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
+                    hdrTxt.alignment = TextAlignmentOptions.Left; hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                    hdrGO.AddComponent<Image>().color = cCols[ci] * new Color(1, 1, 1, 0.45f);
+                }
+                else
+                {
+                    hdr.name = "SecHdr_" + cat;
+                }
+
+                var hdrImg = hdr.GetComponent<Image>();
+                if (hdrImg == null) hdrImg = hdr.gameObject.AddComponent<Image>();
+
+                Sprite sHdrSprite = GetHdrSprite(cat);
+                if (sHdrSprite != null)
+                {
+                    hdrImg.sprite = sHdrSprite;
+                    hdrImg.color = Color.white;
+                }
+                else
+                {
+                    hdrImg.color = cCols[ci] * new Color(1, 1, 1, 0.45f);
+                }
+
+                hdr.SetAsLastSibling();
+
+                foreach (var upg in catalog.Upgrades)
+                {
+                    if (upg == null || upg.Category != cat) continue;
+
+                    Transform row = upgradeScrollContent.Find("Row_" + upg.UpgradeId);
+                    if (row != null && row != templateRow)
+                    {
+                        // Replace outdated existing row with templateRow clone so Acc removal, size, and sub-object structure match templateRow 100%!
+                        UnityEditor.Undo.DestroyObjectImmediate(row.gameObject);
+                        row = null;
+                    }
+
+                    if (row == null)
+                    {
+                        var rowGO = Instantiate(templateRow.gameObject, upgradeScrollContent, false);
+                        rowGO.name = "Row_" + upg.UpgradeId;
+                        row = rowGO.transform;
+                        UnityEditor.Undo.RegisterCreatedObjectUndo(rowGO, "Create Upgrade Row");
+                    }
+
+                    row.SetAsLastSibling();
+
+                    // Apply category row background sprite directly in Scene
+                    var rImg = row.GetComponent<Image>();
+                    if (rImg != null)
+                    {
+                        Sprite sRowSprite = GetRowSprite(cat);
+                        if (sRowSprite != null)
+                        {
+                            rImg.sprite = sRowSprite;
+                            rImg.color = Color.white;
+                        }
+                    }
+
+                    // Apply accent bar color if present
+                    var acc = row.Find("Acc");
+                    if (acc != null)
+                    {
+                        var accImg = acc.GetComponent<Image>();
+                        if (accImg != null) accImg.color = cCols[ci];
+                    }
+
+                    // Update Labels with DisplayName and Description
+                    var labels = row.GetComponentsInChildren<TMP_Text>(true);
+                    if (labels != null && labels.Length >= 1)
+                    {
+                        labels[0].text = upg.DisplayName;
+                    }
+                    if (labels != null && labels.Length >= 2)
+                    {
+                        labels[1].text = upg.Description;
+                    }
+                }
+            }
+
+            UnityEditor.EditorUtility.SetDirty(upgradeScrollContent.gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(upgradeScrollContent.gameObject.scene);
+            Debug.Log("[ShopPanel] ✅ 씬(Scene) 뷰 계층 구조에 모든 업그레이드 Row 배치가 완료되었습니다!");
+        }
+#endif
 
         // ── Shard Exchange Tab (4 Rarities: N, R, SR, SSR) ────────────────────
         private void BuildShardTab()

@@ -6706,10 +6706,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 835068353850252839, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
-      propertyPath: m_Colors.m_ColorMultiplier
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 943782316266286939, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7073,6 +7069,10 @@ PrefabInstance:
     - target: {fileID: 7084083784786897258, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105895466854130015, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
+      propertyPath: rowSpriteSpecial
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9029351787315096521, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
       propertyPath: m_AnchorMax.y
