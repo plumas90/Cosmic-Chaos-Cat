@@ -979,6 +979,7 @@ namespace CosmicChaosCat
             rt.anchoredPosition = localPos + new Vector2(randomX, randomY);
 
             var textComp = go.AddComponent<TMPro.TextMeshProUGUI>();
+            textComp.raycastTarget = false;
             textComp.text = $"+{amount:F0}";
 
             // Cache font component search to prevent runtime serialization stuttering
