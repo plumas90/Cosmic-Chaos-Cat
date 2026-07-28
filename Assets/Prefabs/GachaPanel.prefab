@@ -1201,8 +1201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1416,8 +1416,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1840,8 +1840,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2346,66 +2346,6 @@ RectTransform:
   m_AnchoredPosition: {x: -750, y: 285}
   m_SizeDelta: {x: 300, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1939407260452955685
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8402088676030982088}
-  - component: {fileID: 3552265907131030151}
-  m_Layer: 0
-  m_Name: CardGrid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &8402088676030982088
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939407260452955685}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7510827142019214027}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1265.007, y: 680.025}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3552265907131030151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939407260452955685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 110, y: 160}
-  m_Spacing: {x: 10, y: 10}
-  m_Constraint: 1
-  m_ConstraintCount: 6
 --- !u!1 &2168664668496001574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2473,8 +2413,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2610,8 +2550,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3627,8 +3567,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4313,8 +4253,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4683,8 +4623,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5534,7 +5474,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8402088676030982088}
   - {fileID: 1643567276859716901}
   - {fileID: 2484141319240667298}
   m_Father: {fileID: 7669251530447288198}
@@ -6157,8 +6096,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8239,8 +8178,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9052,11 +8991,7 @@ MonoBehaviour:
   superBtn: {fileID: 0}
   typeSelectionObj: {fileID: 6158116738801801169}
   resultObj: {fileID: 5481437498086353899}
-  cardGrid: {fileID: 8402088676030982088}
-  animCardTemplate: {fileID: 1721810729836171825}
-  summaryCardTemplate: {fileID: 0}
-  animCardSize: {x: 130, y: 190}
-  summaryCardSize: {x: 110, y: 160}
+  cardGrid: {fileID: 0}
 --- !u!222 &3797193236535563375
 CanvasRenderer:
   m_ObjectHideFlags: 0

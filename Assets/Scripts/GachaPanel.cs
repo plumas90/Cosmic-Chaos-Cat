@@ -23,14 +23,10 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject resultObj;
         [SerializeField] private Transform cardGrid; // Keep for inspector compatibility
 
-        [Header("Card Templates & Sizes")]
-        [SerializeField] private RectTransform animCardTemplate;
-        [SerializeField] private RectTransform summaryCardTemplate;
-        [SerializeField] private Vector2 animCardSize = new Vector2(130f, 190f);
-        [SerializeField] private Vector2 summaryCardSize = new Vector2(110f, 160f);
-
-        public Vector2 AnimCardSize { get => animCardSize; set => animCardSize = value; }
-        public Vector2 SummaryCardSize { get => summaryCardSize; set => summaryCardSize = value; }
+        private RectTransform animCardTemplate;
+        private RectTransform summaryCardTemplate;
+        private Vector2 animCardSize = new Vector2(130f, 190f);
+        private Vector2 summaryCardSize = new Vector2(110f, 160f);
 
         private GameObject animContainer;
         private GameObject summaryContainer;
@@ -501,7 +497,7 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Clear old children while preserving CardBase template
+            // Clear conveyor children while preserving animCardTemplate
             if (conveyor != null)
             {
                 foreach (Transform child in conveyor)
@@ -515,14 +511,7 @@ namespace CosmicChaosCat
                     animCardTemplate.gameObject.SetActive(false);
                 }
             }
-            if (summaryContainer != null)
-            {
-                foreach (Transform child in summaryContainer.transform)
-                {
-                    if (child.gameObject != confirmBtn && (summaryCardTemplate == null || child != summaryCardTemplate))
-                        SafeDestroy(child.gameObject);
-                }
-            }
+            // Preserve summaryContainer and its children (SummaryContent / cardbase0 ~ cardbase9) permanently!
 
             StartCoroutine(PlayGachaSequence(drawnCards));
         }
@@ -768,51 +757,98 @@ namespace CosmicChaosCat
 
             if (summaryCardTemplate != null)
             {
-                summaryCardSize = summaryCardTemplate.sizeDelta;
                 summaryCardTemplate.gameObject.SetActive(false);
+            }
+
+            // Disable any LayoutGroup component to prevent Unity layout overrides
+            var lg1 = summaryContainer.GetComponent<LayoutGroup>();
+            if (lg1 != null) lg1.enabled = false;
+
+            foreach (Transform child in summaryContainer.transform)
+            {
+                var lg = child.GetComponent<LayoutGroup>();
+                if (lg != null) lg.enabled = false;
+            }
+
+            Transform contentTrans = summaryContainer.transform.Find("SummaryContent") ?? summaryContainer.transform;
+            var cardSlots = new List<GameObject>();
+
+            // 1. Explicit search for cardbase0 ~ cardbase9 under SummaryContent / summaryContainer
+            for (int i = 0; i < 10; i++)
+            {
+                Transform slotTrans = contentTrans.Find($"cardbase{i}")
+                                   ?? contentTrans.Find($"cardbase_{i}")
+                                   ?? contentTrans.Find($"cardbase {i}")
+                                   ?? contentTrans.Find($"CardBase{i}")
+                                   ?? contentTrans.Find($"CardBase_{i}")
+                                   ?? contentTrans.Find($"CardBase {i}")
+                                   ?? contentTrans.Find($"card_{i}")
+                                   ?? contentTrans.Find($"Card_{i}");
+                if (slotTrans != null)
+                {
+                    cardSlots.Add(slotTrans.gameObject);
+                }
+            }
+
+            // 2. Fallback: If cardbase0~9 were not found by explicit name, collect all child slots in order
+            if (cardSlots.Count == 0)
+            {
+                void CollectSlotsFrom(Transform parentTrans)
+                {
+                    foreach (Transform child in parentTrans)
+                    {
+                        if (child.gameObject == confirmBtn || child.gameObject == skipBtn || child.gameObject == closeBtn) continue;
+                        if (child.name.StartsWith("Btn_") || child.name == "CloseBtn") continue;
+                        if (summaryCardTemplate != null && child == summaryCardTemplate) continue;
+                        
+                        if (child.name == "SummaryContent" || child.name == "Slots" || child.name == "Grid" || child.name == "CardGrid")
+                        {
+                            CollectSlotsFrom(child);
+                            continue;
+                        }
+                        if (!cardSlots.Contains(child.gameObject))
+                            cardSlots.Add(child.gameObject);
+                    }
+                }
+                CollectSlotsFrom(summaryContainer.transform);
             }
 
             var spawnedCards = new List<GameObject>();
 
-            if (cards.Count == 1)
+            // Populate cards directly into cardbase0 ~ cardbase9 without moving or destroying them
+            for (int i = 0; i < cardSlots.Count; i++)
             {
-                Vector2 singleSize = summaryCardSize * 1.25f;
-                var cardGo = CreateSummaryCard(summaryContainer.transform, cards[0], new Vector2(0f, 30f), singleSize, 13);
-                spawnedCards.Add(cardGo);
-            }
-            else
-            {
-                var contentGo = new GameObject("SummaryContent");
-                contentGo.transform.SetParent(summaryContainer.transform, false);
-                var cRt = contentGo.AddComponent<RectTransform>();
-                cRt.anchoredPosition = new Vector2(0f, 35f);
-                cRt.sizeDelta = new Vector2(800, 380);
-
-                int cols = 5;
-                float spacingX = 16f;
-                float spacingY = 16f;
-
-                float totalW = cols * summaryCardSize.x + (cols - 1) * spacingX;
-                float startX = -totalW * 0.5f + summaryCardSize.x * 0.5f;
-
-                int rows = Mathf.CeilToInt((float)cards.Count / cols);
-                float totalH = rows * summaryCardSize.y + (rows - 1) * spacingY;
-                float startY = totalH * 0.5f - summaryCardSize.y * 0.5f;
-
-                for (int i = 0; i < cards.Count; i++)
+                var slot = cardSlots[i];
+                if (i < cards.Count)
                 {
-                    int r = i / cols;
-                    int c = i % cols;
-                    float posX = startX + c * (summaryCardSize.x + spacingX);
-                    float posY = startY - r * (summaryCardSize.y + spacingY);
+                    slot.SetActive(true);
 
-                    var cardGo = CreateSummaryCard(contentGo.transform, cards[i], new Vector2(posX, posY), summaryCardSize, 10);
-                    spawnedCards.Add(cardGo);
+                    var back = slot.transform.Find("Back");
+                    if (back != null) back.gameObject.SetActive(false);
+
+                    var front = slot.transform.Find("Front");
+                    if (front != null)
+                    {
+                        front.gameObject.SetActive(true);
+                        BindCardFrontData(front, cards[i]);
+                    }
+                    else
+                    {
+                        BindCardFrontData(slot.transform, cards[i]);
+                    }
+                    spawnedCards.Add(slot);
+                }
+                else
+                {
+                    slot.SetActive(false);
                 }
             }
 
-            confirmBtn.SetActive(true);
-            confirmBtn.transform.SetAsLastSibling();
+            if (confirmBtn != null)
+            {
+                confirmBtn.SetActive(true);
+                confirmBtn.transform.SetAsLastSibling();
+            }
 
             StartCoroutine(PlayShardConversionAnim(spawnedCards, currentIsShardDraw, currentShardsGained));
         }
@@ -887,7 +923,9 @@ namespace CosmicChaosCat
                 if (i >= isShardDraw.Count || !isShardDraw[i]) continue;
 
                 var cardGo = summaryCards[i];
+                if (cardGo == null) continue;
                 var cardRT = cardGo.GetComponent<RectTransform>();
+                if (cardRT == null) continue;
                 int gained = shardsGained[i];
 
                 // Flip shrink
@@ -902,14 +940,17 @@ namespace CosmicChaosCat
                 cardRT.localScale = new Vector3(0f, 1f, 1f);
 
                 // Morph to Shard representation
-                var art = cardGo.transform.Find("Art");
+                var art = cardGo.transform.Find("Front/Art") ?? cardGo.transform.Find("Art");
                 if (art != null) SafeDestroy(art.gameObject);
                 
-                var nameText = cardGo.transform.Find("Text");
+                var nameText = cardGo.transform.Find("Front/NameText") ?? cardGo.transform.Find("Front/Name") ?? cardGo.transform.Find("NameText") ?? cardGo.transform.Find("Text");
                 if (nameText != null) SafeDestroy(nameText.gameObject);
 
-                var bgImg = cardGo.GetComponent<Image>();
-                bgImg.color = new Color(0.12f, 0.14f, 0.20f);
+                var bgImg = cardGo.GetComponent<Image>() ?? cardGo.GetComponentInChildren<Image>();
+                if (bgImg != null)
+                {
+                    bgImg.color = new Color(0.12f, 0.14f, 0.20f);
+                }
 
                 var glowBorder = new GameObject("GlowBorder");
                 glowBorder.transform.SetParent(cardGo.transform, false);
@@ -1192,52 +1233,36 @@ namespace CosmicChaosCat
             if (animContainer != null) animContainer.SetActive(false);
             if (summaryContainer != null) summaryContainer.SetActive(true);
 
-            // Populate dummy sample cards for visual editing in Scene view
-            var contentGo = summaryContainer.transform.Find("SummaryContent");
-            if (contentGo == null)
+            // Populate sample data into user-placed slots in Scene view without creating new containers
+            var cardSlots = new List<GameObject>();
+            void CollectSlotsFrom(Transform parentTrans)
             {
-                var cObj = new GameObject("SummaryContent");
-                cObj.transform.SetParent(summaryContainer.transform, false);
-                var cRt = cObj.AddComponent<RectTransform>();
-                cRt.anchoredPosition = new Vector2(0f, 35f);
-                cRt.sizeDelta = new Vector2(800, 380);
-                contentGo = cObj.transform;
+                foreach (Transform child in parentTrans)
+                {
+                    if (child.gameObject == confirmBtn || child.gameObject == skipBtn || child.gameObject == closeBtn) continue;
+                    if (child.name.StartsWith("Btn_") || child.name == "CloseBtn") continue;
+                    if (child.name == "SummaryContent" || child.name == "Slots" || child.name == "Grid")
+                    {
+                        CollectSlotsFrom(child);
+                        continue;
+                    }
+                    if (!cardSlots.Contains(child.gameObject))
+                        cardSlots.Add(child.gameObject);
+                }
             }
-
-            // Clear old preview children except confirm button and content
-            foreach (Transform child in summaryContainer.transform)
-            {
-                if (child.gameObject != confirmBtn && child != contentGo)
-                    UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
-            }
-            foreach (Transform child in contentGo)
-            {
-                UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
-            }
+            CollectSlotsFrom(summaryContainer.transform);
 
             var rarities = new[] { CardRarity.N, CardRarity.N, CardRarity.R, CardRarity.R, CardRarity.SR, CardRarity.SR, CardRarity.SSR, CardRarity.SSR, CardRarity.UR, CardRarity.N };
             var names = new[] { "N-고양이 1", "N-고양이 2", "R-고양이 1", "R-고양이 2", "SR-우주냥 1", "SR-우주냥 2", "SSR-황금냥", "SSR-은하냥", "UR-신급냥", "N-고양이 3" };
 
-            int cols = 5;
-            float spacingX = 16f;
-            float spacingY = 16f;
-
-            float totalW = cols * summaryCardSize.x + (cols - 1) * spacingX;
-            float startX = -totalW * 0.5f + summaryCardSize.x * 0.5f;
-
-            int rows = Mathf.CeilToInt(10f / cols);
-            float totalH = rows * summaryCardSize.y + (rows - 1) * spacingY;
-            float startY = totalH * 0.5f - summaryCardSize.y * 0.5f;
-
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < cardSlots.Count; i++)
             {
-                int r = i / cols;
-                int c = i % cols;
-                float posX = startX + c * (summaryCardSize.x + spacingX);
-                float posY = startY - r * (summaryCardSize.y + spacingY);
-
-                var card = new CardEntry { Id = $"preview_{i}", DisplayName = names[i], Rarity = rarities[i] };
-                CreateSummaryCard(contentGo, card, new Vector2(posX, posY), summaryCardSize, 10);
+                var slot = cardSlots[i];
+                var card = new CardEntry { Id = $"preview_{i}", DisplayName = names[i % names.Length], Rarity = rarities[i % rarities.Length] };
+                slot.SetActive(true);
+                var front = slot.transform.Find("Front") ?? slot.transform;
+                front.gameObject.SetActive(true);
+                BindCardFrontData(front, card);
             }
 
             if (confirmBtn != null)
