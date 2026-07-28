@@ -7395,6 +7395,42 @@ PrefabInstance:
       propertyPath: cardGrid
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: shardSprite
+      value: 
+      objectReference: {fileID: -2513515431361719877, guid: 6bbc514cee17457e8989a4825525ad3f, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: ssrRaritySprites.rareMarkSprite
+      value: 
+      objectReference: {fileID: -6477239136278236436, guid: 0c255a97aed4dcb4c89c2ca6436f16ca, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: rareRaritySprites.rareMarkSprite
+      value: 
+      objectReference: {fileID: -8998710655568907166, guid: 8927adc32fa038c45ae90f81ef2101b3, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: ssrRaritySprites.nameLabelSprite
+      value: 
+      objectReference: {fileID: -1813711985481884373, guid: 073ea190ce6d9744281d6de2cb9af598, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: rareRaritySprites.nameLabelSprite
+      value: 
+      objectReference: {fileID: 866454579748509942, guid: 0b76417ac39b5d44c91d6a3f93960025, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: normalRaritySprites.rareMarkSprite
+      value: 
+      objectReference: {fileID: 2426711846563004696, guid: 77207dbe1125d0845b411fe9aea21941, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: normalRaritySprites.nameLabelSprite
+      value: 
+      objectReference: {fileID: 4685536331518508013, guid: d75de4f80c2147a499ea9939f7fadd87, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: superRareRaritySprites.rareMarkSprite
+      value: 
+      objectReference: {fileID: -495318246514489379, guid: e69af286793f2d74aba0dc73d3858d9e, type: 3}
+    - target: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
+      propertyPath: superRareRaritySprites.nameLabelSprite
+      value: 
+      objectReference: {fileID: 2434000047375686906, guid: 9f774e25b2fc9c94ea469ae8e9cf8bba, type: 3}
     - target: {fileID: 7233646861964075855, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}
       propertyPath: m_fontAsset
       value: 
