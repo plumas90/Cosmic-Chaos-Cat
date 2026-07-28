@@ -23,6 +23,14 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject resultObj;
         [SerializeField] private Transform cardGrid; // Keep for inspector compatibility
 
+        [Header("Card Templates & Sizes")]
+        [SerializeField] private RectTransform animCardTemplate;
+        [SerializeField] private Vector2 animCardSize = new Vector2(130f, 190f);
+        [SerializeField] private Vector2 summaryCardSize = new Vector2(110f, 160f);
+
+        public Vector2 AnimCardSize { get => animCardSize; set => animCardSize = value; }
+        public Vector2 SummaryCardSize { get => summaryCardSize; set => summaryCardSize = value; }
+
         private GameObject animContainer;
         private GameObject summaryContainer;
         private RectTransform conveyor;
@@ -145,7 +153,8 @@ namespace CosmicChaosCat
                 var mRt = maskGo.AddComponent<RectTransform>();
                 mRt.anchoredPosition = new Vector2(0, 40);
                 mRt.sizeDelta = new Vector2(750, 320);
-                maskGo.AddComponent<Image>().color = new Color(0,0,0,0.01f);
+                var vpImg = maskGo.AddComponent<Image>();
+                vpImg.color = new Color(0, 0, 0, 0.01f);
                 maskGo.AddComponent<Mask>().showMaskGraphic = false;
 
                 var convGo = new GameObject("Conveyor");
@@ -155,6 +164,52 @@ namespace CosmicChaosCat
                 conveyor.sizeDelta = new Vector2(2000, 300);
 
                 skipBtn = MakeButton(animContainer.transform, "스킵", new Vector2(0, -180), new Vector2(150, 48), BtnClose, SkipAnimation);
+            }
+
+            // Find or create pre-placed CardBase template inside Conveyor for direct Scene Editor resizing
+            if (conveyor != null)
+            {
+                var cbTrans = conveyor.Find("CardBase");
+                if (cbTrans == null)
+                {
+                    var cbGo = new GameObject("CardBase");
+                    cbGo.transform.SetParent(conveyor, false);
+                    var cbRt = cbGo.AddComponent<RectTransform>();
+                    cbRt.anchoredPosition = Vector2.zero;
+                    cbRt.sizeDelta = animCardSize;
+
+                    var backGo = new GameObject("Back");
+                    backGo.transform.SetParent(cbGo.transform, false);
+                    var backRt = backGo.AddComponent<RectTransform>();
+                    backRt.anchorMin = Vector2.zero; backRt.anchorMax = Vector2.one;
+                    backRt.offsetMin = backRt.offsetMax = Vector2.zero;
+                    var backImg = backGo.AddComponent<Image>();
+                    backImg.color = new Color(0.12f, 0.15f, 0.23f);
+
+                    var qText = MakeText(backGo.transform, "?", Vector2.zero, new Vector2(100, 100), 36, new Color(0.7f, 0.8f, 1f));
+                    qText.alignment = TextAlignmentOptions.Center;
+                    qText.fontStyle = FontStyles.Bold;
+
+                    var frontGo = new GameObject("Front");
+                    frontGo.transform.SetParent(cbGo.transform, false);
+                    var frontRt = frontGo.AddComponent<RectTransform>();
+                    frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
+                    frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
+                    var frontImg = frontGo.AddComponent<Image>();
+                    frontImg.color = new Color(0.6f, 0.2f, 0.8f);
+
+                    var artGo = new GameObject("Art");
+                    artGo.transform.SetParent(frontGo.transform, false);
+                    artGo.name = "Art";
+                    var artRt = artGo.AddComponent<RectTransform>();
+                    artRt.anchorMin = Vector2.zero; artRt.anchorMax = Vector2.one;
+                    artRt.offsetMin = new Vector2(6, 36); artRt.offsetMax = new Vector2(-6, -6);
+                    artGo.AddComponent<Image>().color = Color.white;
+
+                    frontGo.SetActive(false);
+                    cbTrans = cbGo.transform;
+                }
+                animCardTemplate = cbTrans.GetComponent<RectTransform>();
             }
 
             // Find or create summaryContainer
@@ -280,17 +335,37 @@ namespace CosmicChaosCat
         private void RefreshCosts()
         {
             if (gm == null) return;
-            
-            normalBtn.interactable = true;
-            normalBtn.GetComponent<Image>().color = currentType == GachaType.Normal ? BtnTypeActive : BtnType;
 
-            rareBtn.interactable = gm.UnlockedRareGacha;
-            rareBtn.GetComponentInChildren<TMP_Text>().text = gm.UnlockedRareGacha ? "레어 가챠" : "레어 가챠\n(잠김)";
-            rareBtn.GetComponent<Image>().color = gm.UnlockedRareGacha ? (currentType == GachaType.Rare ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+            if (normalBtn == null) normalBtn = transform.Find("TypeSelection/Btn_Normal")?.GetComponent<Button>() ?? transform.Find("Panel/TypeSelection/Btn_일반 가챠")?.GetComponent<Button>();
+            if (rareBtn == null) rareBtn = transform.Find("TypeSelection/Btn_Rare")?.GetComponent<Button>() ?? transform.Find("Panel/TypeSelection/Btn_레어 가챠")?.GetComponent<Button>();
+            if (superBtn == null) superBtn = transform.Find("TypeSelection/Btn_Super")?.GetComponent<Button>() ?? transform.Find("Panel/TypeSelection/Btn_슈퍼 가챠")?.GetComponent<Button>();
 
-            superBtn.interactable = gm.UnlockedSuperGacha;
-            superBtn.GetComponentInChildren<TMP_Text>().text = gm.UnlockedSuperGacha ? "슈퍼 가챠" : "슈퍼 가챠\n(잠김)";
-            superBtn.GetComponent<Image>().color = gm.UnlockedSuperGacha ? (currentType == GachaType.Super ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+            if (normalBtn != null)
+            {
+                normalBtn.interactable = true;
+                var img = normalBtn.GetComponent<Image>();
+                if (img != null) img.color = currentType == GachaType.Normal ? BtnTypeActive : BtnType;
+            }
+
+            if (rareBtn != null)
+            {
+                bool unlockedR = gm.UnlockedRareGacha;
+                rareBtn.interactable = unlockedR;
+                var txt = rareBtn.GetComponentInChildren<TMP_Text>();
+                if (txt != null) txt.text = unlockedR ? "레어 가챠" : "레어 가챠\n(잠김)";
+                var img = rareBtn.GetComponent<Image>();
+                if (img != null) img.color = unlockedR ? (currentType == GachaType.Rare ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+            }
+
+            if (superBtn != null)
+            {
+                bool unlockedS = gm.UnlockedSuperGacha;
+                superBtn.interactable = unlockedS;
+                var txt = superBtn.GetComponentInChildren<TMP_Text>();
+                if (txt != null) txt.text = unlockedS ? "슈퍼 가챠" : "슈퍼 가챠\n(잠김)";
+                var img = superBtn.GetComponent<Image>();
+                if (img != null) img.color = unlockedS ? (currentType == GachaType.Super ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+            }
 
             double single = gm.GetCurrentGachaCost(currentType);
             double ten = single * 10f;
@@ -392,10 +467,19 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Clear old children
+            // Clear old children while preserving CardBase template
             if (conveyor != null)
             {
-                foreach (Transform child in conveyor) SafeDestroy(child.gameObject);
+                foreach (Transform child in conveyor)
+                {
+                    if (animCardTemplate == null || child != animCardTemplate)
+                        SafeDestroy(child.gameObject);
+                }
+                if (animCardTemplate != null)
+                {
+                    animCardSize = animCardTemplate.sizeDelta;
+                    animCardTemplate.gameObject.SetActive(false);
+                }
             }
             if (summaryContainer != null)
             {
@@ -414,7 +498,7 @@ namespace CosmicChaosCat
             var cardBacks = new List<GameObject>();
             var cardFronts = new List<GameObject>();
 
-            float spacing = 200f;
+            float spacing = animCardSize.x + 60f;
             var font = moneyText?.font;
 
             // Spawn conveyor cards
@@ -425,7 +509,7 @@ namespace CosmicChaosCat
                 cardGo.transform.SetParent(conveyor, false);
                 var rt = cardGo.AddComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(i * spacing, 0f);
-                rt.sizeDelta = new Vector2(130, 190);
+                rt.sizeDelta = animCardSize;
                 cardObjects.Add(cardGo);
 
                 // Back side
@@ -579,27 +663,37 @@ namespace CosmicChaosCat
 
             if (cards.Count == 1)
             {
-                var cardGo = CreateSummaryCard(summaryContainer.transform, cards[0], Vector2.zero, new Vector2(150, 220), 13);
+                Vector2 singleSize = summaryCardSize * 1.25f;
+                var cardGo = CreateSummaryCard(summaryContainer.transform, cards[0], new Vector2(0f, 30f), singleSize, 13);
                 spawnedCards.Add(cardGo);
             }
             else
             {
-                var gridGo = new GameObject("SummaryGrid");
-                gridGo.transform.SetParent(summaryContainer.transform, false);
-                var gRt = gridGo.AddComponent<RectTransform>();
-                gRt.anchoredPosition = new Vector2(0f, 35f);
-                gRt.sizeDelta = new Vector2(750, 360);
+                var contentGo = new GameObject("SummaryContent");
+                contentGo.transform.SetParent(summaryContainer.transform, false);
+                var cRt = contentGo.AddComponent<RectTransform>();
+                cRt.anchoredPosition = new Vector2(0f, 35f);
+                cRt.sizeDelta = new Vector2(800, 380);
 
-                var layout = gridGo.AddComponent<GridLayoutGroup>();
-                layout.cellSize = new Vector2(110, 160);
-                layout.spacing = new Vector2(15, 15);
-                layout.childAlignment = TextAnchor.MiddleCenter;
-                layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                layout.constraintCount = 5; // 5x2 grid
+                int cols = 5;
+                float spacingX = 16f;
+                float spacingY = 16f;
+
+                float totalW = cols * summaryCardSize.x + (cols - 1) * spacingX;
+                float startX = -totalW * 0.5f + summaryCardSize.x * 0.5f;
+
+                int rows = Mathf.CeilToInt((float)cards.Count / cols);
+                float totalH = rows * summaryCardSize.y + (rows - 1) * spacingY;
+                float startY = totalH * 0.5f - summaryCardSize.y * 0.5f;
 
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    var cardGo = CreateSummaryCard(gridGo.transform, cards[i], Vector2.zero, new Vector2(110, 160), 10);
+                    int r = i / cols;
+                    int c = i % cols;
+                    float posX = startX + c * (summaryCardSize.x + spacingX);
+                    float posY = startY - r * (summaryCardSize.y + spacingY);
+
+                    var cardGo = CreateSummaryCard(contentGo.transform, cards[i], new Vector2(posX, posY), summaryCardSize, 10);
                     spawnedCards.Add(cardGo);
                 }
             }
@@ -827,5 +921,173 @@ namespace CosmicChaosCat
                 DestroyImmediate(obj);
             }
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Create CardBase In Scene Hierarchy")]
+        public void CreateCardBaseInScene()
+        {
+            if (resultObj == null)
+            {
+                var rTrans = transform.Find("Panel/ResultUI") ?? transform.Find("ResultUI");
+                if (rTrans != null) resultObj = rTrans.gameObject;
+            }
+
+            if (resultObj == null)
+            {
+                var panelTrans = transform.Find("Panel") ?? transform;
+                resultObj = new GameObject("ResultUI");
+                resultObj.transform.SetParent(panelTrans, false);
+                var rRt = resultObj.AddComponent<RectTransform>();
+                rRt.anchorMin = Vector2.zero; rRt.anchorMax = Vector2.one;
+                rRt.offsetMin = Vector2.zero; rRt.offsetMax = Vector2.zero;
+            }
+
+            EnsureGachaUIPartsBuilt();
+
+            if (animCardTemplate != null)
+            {
+                animCardTemplate.gameObject.SetActive(true);
+                UnityEditor.Undo.RegisterCreatedObjectUndo(animCardTemplate.gameObject, "Create CardBase");
+                UnityEditor.EditorUtility.SetDirty(animCardTemplate.gameObject);
+            }
+
+            if (resultObj != null)
+            {
+                resultObj.SetActive(true);
+                UnityEditor.EditorUtility.SetDirty(resultObj);
+            }
+
+            if (animContainer != null) animContainer.SetActive(true);
+
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log("[GachaPanel] ✅ CardBase가 씬 계층 구조(ResultUI ➔ AnimContainer ➔ Viewport ➔ Conveyor ➔ CardBase)에 즉시 생성되어 저장되었습니다!");
+        }
+
+        [ContextMenu("Preview AnimContainer (Animation Card Size Preview)")]
+        public void ShowAnimContainerPreviewInScene()
+        {
+            CreateCardBaseInScene();
+            if (typeSelectionObj != null) typeSelectionObj.SetActive(false);
+            if (resultObj != null) resultObj.SetActive(true);
+            if (summaryContainer != null) summaryContainer.SetActive(false);
+            if (animContainer != null) animContainer.SetActive(true);
+
+            if (conveyor != null)
+            {
+                foreach (Transform child in conveyor)
+                    UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
+
+                float spacing = animCardSize.x + 60f;
+                var rarities = new[] { CardRarity.N, CardRarity.R, CardRarity.SR, CardRarity.SSR, CardRarity.UR };
+                var names = new[] { "N-기본냥", "R-레어냥", "SR-우주냥", "SSR-황금냥", "UR-신급냥" };
+
+                for (int i = 0; i < 5; i++)
+                {
+                    var cardGo = new GameObject($"PreviewAnimCard_{i}");
+                    cardGo.transform.SetParent(conveyor, false);
+                    var rt = cardGo.AddComponent<RectTransform>();
+                    rt.anchoredPosition = new Vector2((i - 2) * spacing, 0f);
+                    rt.sizeDelta = animCardSize;
+
+                    var frontGo = new GameObject("Front");
+                    frontGo.transform.SetParent(cardGo.transform, false);
+                    var frontRt = frontGo.AddComponent<RectTransform>();
+                    frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
+                    frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
+                    var frontImg = frontGo.AddComponent<UnityEngine.UI.Image>();
+                    frontImg.color = GetRarityColor(rarities[i]);
+
+                    var nameText = MakeText(frontGo.transform, names[i], new Vector2(0, -animCardSize.y * 0.4f), new Vector2(animCardSize.x - 10f, 26f), 12, Color.white);
+                    nameText.alignment = TextAlignmentOptions.Center;
+                }
+            }
+
+            if (skipBtn != null) skipBtn.SetActive(true);
+
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log($"[GachaPanel] ✅ AnimContainer 연출창 미리보기가 씬 뷰에 활성화되었습니다. (카드 크기: {animCardSize.x}x{animCardSize.y})");
+        }
+
+        [ContextMenu("Preview SummaryContainer (Result Card Size Preview)")]
+        public void ShowResultUIPreviewInScene()
+        {
+            EnsureGachaUIPartsBuilt();
+            if (typeSelectionObj != null) typeSelectionObj.SetActive(false);
+            if (resultObj != null) resultObj.SetActive(true);
+            if (animContainer != null) animContainer.SetActive(false);
+            if (summaryContainer != null) summaryContainer.SetActive(true);
+
+            // Populate dummy sample cards for visual editing in Scene view
+            var contentGo = summaryContainer.transform.Find("SummaryContent");
+            if (contentGo == null)
+            {
+                var cObj = new GameObject("SummaryContent");
+                cObj.transform.SetParent(summaryContainer.transform, false);
+                var cRt = cObj.AddComponent<RectTransform>();
+                cRt.anchoredPosition = new Vector2(0f, 35f);
+                cRt.sizeDelta = new Vector2(800, 380);
+                contentGo = cObj.transform;
+            }
+
+            // Clear old preview children except confirm button and content
+            foreach (Transform child in summaryContainer.transform)
+            {
+                if (child.gameObject != confirmBtn && child != contentGo)
+                    UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
+            }
+            foreach (Transform child in contentGo)
+            {
+                UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
+            }
+
+            var rarities = new[] { CardRarity.N, CardRarity.N, CardRarity.R, CardRarity.R, CardRarity.SR, CardRarity.SR, CardRarity.SSR, CardRarity.SSR, CardRarity.UR, CardRarity.N };
+            var names = new[] { "N-고양이 1", "N-고양이 2", "R-고양이 1", "R-고양이 2", "SR-우주냥 1", "SR-우주냥 2", "SSR-황금냥", "SSR-은하냥", "UR-신급냥", "N-고양이 3" };
+
+            int cols = 5;
+            float spacingX = 16f;
+            float spacingY = 16f;
+
+            float totalW = cols * summaryCardSize.x + (cols - 1) * spacingX;
+            float startX = -totalW * 0.5f + summaryCardSize.x * 0.5f;
+
+            int rows = Mathf.CeilToInt(10f / cols);
+            float totalH = rows * summaryCardSize.y + (rows - 1) * spacingY;
+            float startY = totalH * 0.5f - summaryCardSize.y * 0.5f;
+
+            for (int i = 0; i < 10; i++)
+            {
+                int r = i / cols;
+                int c = i % cols;
+                float posX = startX + c * (summaryCardSize.x + spacingX);
+                float posY = startY - r * (summaryCardSize.y + spacingY);
+
+                var card = new CardEntry { Id = $"preview_{i}", DisplayName = names[i], Rarity = rarities[i] };
+                CreateSummaryCard(contentGo, card, new Vector2(posX, posY), summaryCardSize, 10);
+            }
+
+            if (confirmBtn != null)
+            {
+                confirmBtn.SetActive(true);
+                confirmBtn.transform.SetAsLastSibling();
+            }
+
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log($"[GachaPanel] ✅ SummaryContainer 결과창 미리보기가 씬 뷰에 활성화되었습니다. (카드 크기: {summaryCardSize.x}x{summaryCardSize.y})");
+        }
+
+        [ContextMenu("Preview ResultUI In Scene (Hide)")]
+        public void HideResultUIPreviewInScene()
+        {
+            if (resultObj != null) resultObj.SetActive(false);
+            if (typeSelectionObj != null) typeSelectionObj.SetActive(true);
+            if (closeBtn != null) closeBtn.SetActive(true);
+
+            UnityEditor.EditorUtility.SetDirty(gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            Debug.Log("[GachaPanel] ✅ ResultUI 미리보기가 숨겨지고 원래 탭 선택 화면으로 복원되었습니다.");
+        }
+#endif
     }
 }
