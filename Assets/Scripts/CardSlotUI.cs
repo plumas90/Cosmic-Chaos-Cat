@@ -287,8 +287,8 @@ namespace CosmicChaosCat
 
                 if (!nameText.gameObject.activeSelf) nameText.gameObject.SetActive(true);
                 nameText.enabled          = true;
-                nameText.enableWordWrapping = false;
-                nameText.overflowMode     = TextOverflowModes.Ellipsis;
+                nameText.enableWordWrapping = true;
+                nameText.overflowMode     = TextOverflowModes.Overflow;
                 
                 string targetName = unlocked
                     ? card.DisplayName

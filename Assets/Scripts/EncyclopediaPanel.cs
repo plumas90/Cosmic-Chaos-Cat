@@ -551,8 +551,8 @@ namespace CosmicChaosCat
                 var nameTx = MakeText(slotGO.transform, "???",
                     new Vector2(0f, -44f), new Vector2(120f, 22f), 10, new Color(0.15f, 0.10f, 0.05f));
                 nameTx.alignment          = TextAlignmentOptions.Center;
-                nameTx.enableWordWrapping = false;
-                nameTx.overflowMode       = TextOverflowModes.Ellipsis;
+                nameTx.enableWordWrapping = true;
+                nameTx.overflowMode       = TextOverflowModes.Overflow;
                 nameTx.gameObject.name    = "NameText";
 
                 // Rarity text (small badge top-left)

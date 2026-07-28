@@ -2319,7 +2319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5783412730609791249}
   m_Layer: 0
-  m_Name: CardBase
+  m_Name: CardBase0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2916,8 +2916,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cat in the Box
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
+  m_sharedMaterial: {fileID: 546936614547872638, guid: 03e1e46711d3c834cb05e45f7e3f5ebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8947,7 +8947,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5858456667632155579
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8992,6 +8992,27 @@ MonoBehaviour:
   typeSelectionObj: {fileID: 6158116738801801169}
   resultObj: {fileID: 5481437498086353899}
   cardGrid: {fileID: 0}
+  normalRaritySprites:
+    frontSprite: {fileID: 0}
+    rareMarkSprite: {fileID: 2426711846563004696, guid: 77207dbe1125d0845b411fe9aea21941, type: 3}
+    nameLabelSprite: {fileID: 4685536331518508013, guid: d75de4f80c2147a499ea9939f7fadd87, type: 3}
+  rareRaritySprites:
+    frontSprite: {fileID: 0}
+    rareMarkSprite: {fileID: -8998710655568907166, guid: 8927adc32fa038c45ae90f81ef2101b3, type: 3}
+    nameLabelSprite: {fileID: 866454579748509942, guid: 0b76417ac39b5d44c91d6a3f93960025, type: 3}
+  superRareRaritySprites:
+    frontSprite: {fileID: 0}
+    rareMarkSprite: {fileID: -495318246514489379, guid: e69af286793f2d74aba0dc73d3858d9e, type: 3}
+    nameLabelSprite: {fileID: 2434000047375686906, guid: 9f774e25b2fc9c94ea469ae8e9cf8bba, type: 3}
+  ssrRaritySprites:
+    frontSprite: {fileID: 0}
+    rareMarkSprite: {fileID: -6477239136278236436, guid: 0c255a97aed4dcb4c89c2ca6436f16ca, type: 3}
+    nameLabelSprite: {fileID: -1813711985481884373, guid: 073ea190ce6d9744281d6de2cb9af598, type: 3}
+  urRaritySprites:
+    frontSprite: {fileID: 0}
+    rareMarkSprite: {fileID: 0}
+    nameLabelSprite: {fileID: 0}
+  shardSprite: {fileID: -2513515431361719877, guid: 6bbc514cee17457e8989a4825525ad3f, type: 3}
 --- !u!222 &3797193236535563375
 CanvasRenderer:
   m_ObjectHideFlags: 0
