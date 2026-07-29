@@ -1509,7 +1509,7 @@ namespace CosmicChaosCat
         {
             EnsureReferencesResolved();
             if (gm == null) return;
-            if (coinText  != null) coinText.text  = $"{gm.Money:F1}";
+            if (coinText  != null) coinText.text  = GameManager.FormatNumber(gm.Money);
             if (shardText != null) shardText.text = $"{gm.Shards}";
 
             if (upgradesContent != null && upgradesContent.activeSelf) RefreshUpgrades();
@@ -1574,7 +1574,7 @@ namespace CosmicChaosCat
 
                     if (info.CostText != null)
                     {
-                        info.CostText.text = $"{cost:F0}";
+                        info.CostText.text = isShardUpgrade ? $"{cost:F0}" : GameManager.FormatNumber(cost);
                         info.CostText.color = isShardUpgrade ? ShardColor : GoldColor;
                     }
 
@@ -1831,7 +1831,8 @@ namespace CosmicChaosCat
                     if (priceTxt != null)
                     {
                         Color pCol = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
-                        SetTextComponent(priceTxt, $"{prod.price:0}", pCol);
+                        string formattedPrice = prod.currencyType == ProductCurrencyType.Coin ? GameManager.FormatNumber(prod.price) : $"{prod.price:0}";
+                        SetTextComponent(priceTxt, formattedPrice, pCol);
                         priceTxt.gameObject.SetActive(true);
                     }
 

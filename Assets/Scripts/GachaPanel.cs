@@ -465,7 +465,7 @@ namespace CosmicChaosCat
 
             AutoWireCoinText();
 
-            string formattedVal = $"{gm.Money:N0}";
+            string formattedVal = GameManager.FormatNumber(gm.Money);
 
             if (moneyText != null)
             {

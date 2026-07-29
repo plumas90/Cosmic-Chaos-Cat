@@ -513,6 +513,32 @@ namespace CosmicChaosCat
             }
         }
 
+        private static readonly string[] MoneySuffixes = new string[]
+        {
+            "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"
+        };
+
+        public static string FormatNumber(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value)) return "0";
+            if (value < 0) return "-" + FormatNumber(-value);
+            if (value < 1000d)
+            {
+                return Math.Floor(value).ToString("F0");
+            }
+
+            int suffixIndex = 0;
+            double num = value;
+            while (num >= 1000d && suffixIndex < MoneySuffixes.Length - 1)
+            {
+                num /= 1000d;
+                suffixIndex++;
+            }
+
+            double floored = Math.Floor(num * 100d) / 100d;
+            return floored.ToString("0.##") + MoneySuffixes[suffixIndex];
+        }
+
         public IReadOnlyDictionary<string, CardProgress> GetCardStates() => cardState;
 
         public CardEntry GetEquippedCard() =>

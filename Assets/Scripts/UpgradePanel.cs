@@ -58,7 +58,7 @@ namespace CosmicChaosCat
         private void Refresh()
         {
             if (moneyText != null && gameManager != null)
-                moneyText.text = $"{gameManager.Money:F1}";
+                moneyText.text = GameManager.FormatNumber(gameManager.Money);
 
             foreach (var e in entries) e.Refresh();
         }

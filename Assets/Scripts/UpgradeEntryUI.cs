@@ -71,7 +71,7 @@ namespace CosmicChaosCat
                 double cost    = entry.CostPerLevel != null && level < entry.CostPerLevel.Length
                     ? entry.CostPerLevel[level] : 0;
 
-                if (costText  != null) costText.text         = $"{cost:0} 코인";
+                if (costText  != null) costText.text         = $"{GameManager.FormatNumber(cost)} 코인";
                 if (bgImage   != null) bgImage.color         = canAfford ? affordableColor : unaffordableColor;
                 if (buyButton != null) buyButton.interactable = canAfford;
             }
