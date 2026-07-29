@@ -53,6 +53,9 @@ namespace CosmicChaosCat
         private GameObject skipBtn;
         private GameObject confirmBtn;
         private GameObject closeBtn;
+        private readonly Dictionary<GameObject, Vector2> slotOriginalPositions = new Dictionary<GameObject, Vector2>();
+        private Vector2 confirmBtnOriginalPos = new Vector2(0f, -220f);
+        private bool hasSavedOriginalPositions;
         private bool isAnimSkipped;
         private readonly List<bool> currentIsShardDraw = new List<bool>();
         private readonly List<int> currentShardsGained = new List<int>();
@@ -96,6 +99,16 @@ namespace CosmicChaosCat
             var buttons = GetComponentsInChildren<Button>(true);
             foreach (var b in buttons)
             {
+                var cs = b.colors;
+                cs.normalColor = Color.white;
+                cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+                cs.selectedColor = Color.white;
+                cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                cs.colorMultiplier = 1f;
+                cs.fadeDuration = 0.08f;
+                b.colors = cs;
+
                 if (b == normalBtn || b == rareBtn || b == superBtn) continue;
 
                 string tmpStr = b.GetComponentInChildren<TMP_Text>()?.text.ToLower() ?? "";
@@ -1206,6 +1219,40 @@ namespace CosmicChaosCat
                 CollectSlotsFrom(summaryContainer.transform);
             }
 
+            // 1. Save original positions once when slots are first collected
+            if (!hasSavedOriginalPositions)
+            {
+                foreach (var slot in cardSlots)
+                {
+                    var rt = slot.GetComponent<RectTransform>();
+                    if (rt != null && !slotOriginalPositions.ContainsKey(slot))
+                    {
+                        slotOriginalPositions[slot] = rt.anchoredPosition;
+                    }
+                }
+                if (confirmBtn != null)
+                {
+                    var cRt = confirmBtn.GetComponent<RectTransform>();
+                    if (cRt != null) confirmBtnOriginalPos = cRt.anchoredPosition;
+                }
+                hasSavedOriginalPositions = true;
+            }
+
+            // 2. Restore all slots to their original grid positions and scale
+            foreach (var slot in cardSlots)
+            {
+                var rt = slot.GetComponent<RectTransform>();
+                if (rt != null)
+                {
+                    if (slotOriginalPositions.TryGetValue(slot, out Vector2 origPos))
+                    {
+                        rt.anchoredPosition = origPos;
+                    }
+                    rt.localScale = Vector3.one;
+                    rt.localRotation = Quaternion.identity;
+                }
+            }
+
             // Stop any running shard conversion coroutine
             if (activeShardConversion != null)
             {
@@ -1219,14 +1266,6 @@ namespace CosmicChaosCat
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 var slot = cardSlots[i];
-
-                // Force reset slot transform scale and rotation
-                var slotRT = slot.GetComponent<RectTransform>();
-                if (slotRT != null)
-                {
-                    slotRT.localScale = Vector3.one;
-                    slotRT.localRotation = Quaternion.identity;
-                }
 
                 if (i < cards.Count)
                 {
@@ -1264,10 +1303,48 @@ namespace CosmicChaosCat
                 }
             }
 
+            // Always keep confirmBtn in its exact original position from Inspector
             if (confirmBtn != null)
             {
                 confirmBtn.SetActive(true);
+                var cRt = confirmBtn.GetComponent<RectTransform>();
+                if (cRt != null) cRt.anchoredPosition = confirmBtnOriginalPos;
                 confirmBtn.transform.SetAsLastSibling();
+            }
+
+            // Layout handling for 1-Pull vs 10-Pull
+            if (cards.Count == 1)
+            {
+                // Single Pull: Position card[0] at exact center of screen with 1.3x scale
+                if (cardSlots.Count > 0)
+                {
+                    var slot0 = cardSlots[0];
+                    slot0.SetActive(true);
+                    var slotRT = slot0.GetComponent<RectTransform>();
+                    if (slotRT != null)
+                    {
+                        slotRT.anchoredPosition = new Vector2(0f, 30f);
+                        slotRT.localScale = new Vector3(1.3f, 1.3f, 1.0f);
+                    }
+                }
+
+                for (int i = 1; i < cardSlots.Count; i++)
+                {
+                    cardSlots[i].SetActive(false);
+                }
+
+                var rerollTrans = summaryContainer.transform.Find("Btn_10회 다시뽑기") ?? summaryContainer.transform.Find("Btn_다시뽑기");
+                if (rerollTrans != null) rerollTrans.gameObject.SetActive(false);
+            }
+            else
+            {
+                // 10-Pull: Show reroll button
+                var rerollTrans = summaryContainer.transform.Find("Btn_10회 다시뽑기") ?? summaryContainer.transform.Find("Btn_다시뽑기");
+                if (rerollTrans != null)
+                {
+                    rerollTrans.gameObject.SetActive(true);
+                    rerollTrans.SetAsLastSibling();
+                }
             }
 
             var isShardCopy = new List<bool>(currentIsShardDraw);
@@ -1478,9 +1555,13 @@ namespace CosmicChaosCat
 
             var btn = go.AddComponent<Button>();
             var cs = btn.colors;
-            cs.highlightedColor = bgColor * 1.3f;
-            cs.pressedColor = bgColor * 0.7f;
-            cs.disabledColor = new Color(0.3f, 0.3f, 0.3f);
+            cs.normalColor = Color.white;
+            cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+            cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+            cs.selectedColor = Color.white;
+            cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+            cs.colorMultiplier = 1f;
+            cs.fadeDuration = 0.08f;
             btn.colors = cs;
             btn.onClick.AddListener(onClick);
 

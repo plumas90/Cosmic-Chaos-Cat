@@ -855,6 +855,27 @@ namespace CosmicChaosCat
             if (go == null) return;
             var btn = go.GetComponent<Button>();
             if (btn == null) return;
+
+            string n = go.name.ToLower();
+            if (n.Contains("close") || n.Contains("✕") || n.Contains("닫기") || n.Contains("x"))
+            {
+                var img = go.GetComponent<Image>();
+                if (img != null && (img.color.r > 0.4f && img.color.g < 0.25f && img.color.b < 0.25f))
+                {
+                    img.color = new Color(0.2f, 0.22f, 0.28f, 1f);
+                }
+            }
+
+            var cs = btn.colors;
+            cs.normalColor = Color.white;
+            cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+            cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+            cs.selectedColor = Color.white;
+            cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+            cs.colorMultiplier = 1f;
+            cs.fadeDuration = 0.08f;
+            btn.colors = cs;
+
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(action);
         }
@@ -2318,8 +2339,13 @@ namespace CosmicChaosCat
 
             var btn = go.AddComponent<Button>();
             var cs  = btn.colors;
-            cs.highlightedColor = bgColor * 1.25f;
-            cs.pressedColor     = bgColor * 0.75f;
+            cs.normalColor      = Color.white;
+            cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+            cs.pressedColor     = new Color(0.45f, 0.45f, 0.45f, 1f);
+            cs.selectedColor    = Color.white;
+            cs.disabledColor    = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+            cs.colorMultiplier  = 1f;
+            cs.fadeDuration     = 0.08f;
             btn.colors          = cs;
             btn.onClick.AddListener(onClick);
 

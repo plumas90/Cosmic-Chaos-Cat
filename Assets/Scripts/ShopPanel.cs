@@ -2117,7 +2117,22 @@ namespace CosmicChaosCat
 
             if (closeBtn != null)
             {
-                Debug.Log($"[ShopPanel] CloseButton FOUND: {closeBtn.name}");
+                var cs = closeBtn.colors;
+                cs.normalColor = Color.white;
+                cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+                cs.selectedColor = Color.white;
+                cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                cs.colorMultiplier = 1f;
+                cs.fadeDuration = 0.08f;
+                closeBtn.colors = cs;
+
+                var img = closeBtn.GetComponent<Image>();
+                if (img != null && (img.color.r > 0.4f && img.color.g < 0.25f && img.color.b < 0.25f))
+                {
+                    img.color = new Color(0.2f, 0.22f, 0.28f, 1f);
+                }
+
                 closeBtn.onClick.RemoveAllListeners();
                 closeBtn.onClick.AddListener(() => {
                     Debug.Log("[ShopPanel] CloseButton clicked. Deactivating ShopPanel.");

@@ -620,7 +620,24 @@ namespace CosmicChaosCat
                     var btn = ch.GetComponent<Button>();
                     if (btn == null) btn = ch.gameObject.AddComponent<Button>();
                     var img = ch.GetComponent<Image>();
-                    if (img != null) img.raycastTarget = true;
+                    if (img != null)
+                    {
+                        img.raycastTarget = true;
+                        if (img.color.r > 0.4f && img.color.g < 0.25f && img.color.b < 0.25f)
+                        {
+                            img.color = new Color(0.2f, 0.22f, 0.28f, 1f);
+                        }
+                    }
+
+                    var cs = btn.colors;
+                    cs.normalColor = Color.white;
+                    cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                    cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+                    cs.selectedColor = Color.white;
+                    cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                    cs.colorMultiplier = 1f;
+                    cs.fadeDuration = 0.08f;
+                    btn.colors = cs;
 
                     btn.onClick.RemoveAllListeners();
                     btn.onClick.AddListener(CloseDetailPopup);
