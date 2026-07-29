@@ -33,6 +33,8 @@ namespace CosmicChaosCat
         public float CriticalDamageBonus = 0f;
         public float GachaDiscountBonus = 0f;
         public float ShardBonusMultiplier = 1.0f;
+        public string RewardBackgroundId;
+        public string RewardDecorationId;
         [TextArea(2, 4)]
         public string EffectDesc;   // 세트 보상 효과 설명 (비어있으면 "아무 효과 없음" 표시)
 
@@ -45,6 +47,8 @@ namespace CosmicChaosCat
             if (FlatIncomeBonus > 0d) parts.Add($"골드 생산 +{FlatIncomeBonus:N0}");
             if (CriticalDamageBonus > 0f) parts.Add($"크리티컬 데미지 +{CriticalDamageBonus * 100:F0}%");
             if (GachaDiscountBonus > 0f) parts.Add($"뽑기 할인 +{GachaDiscountBonus * 100:F0}%");
+            if (!string.IsNullOrEmpty(RewardBackgroundId)) parts.Add("배경 해금");
+            if (!string.IsNullOrEmpty(RewardDecorationId)) parts.Add("데코 해금");
 
             if (parts.Count > 0) return string.Join(", ", parts);
             return !string.IsNullOrWhiteSpace(EffectDesc) ? EffectDesc : "없음";

@@ -29,9 +29,11 @@ namespace CosmicChaosCat
 
         // ── Inspector ──────────────────────────────────────────────────────────
         [Header("Data — assign in Inspector")]
-        [SerializeField] private CardCatalogSO    cardCatalog;
-        [SerializeField] private SetCatalogSO     setCatalog;
-        [SerializeField] private UpgradeCatalogSO upgradeCatalog;
+        [SerializeField] private CardCatalogSO       cardCatalog;
+        [SerializeField] private SetCatalogSO        setCatalog;
+        [SerializeField] private UpgradeCatalogSO    upgradeCatalog;
+        [SerializeField] private BackgroundCatalogSO backgroundCatalog;
+        [SerializeField] private DecorationCatalogSO decorationCatalog;
 
         [Header("Base Settings")]
         [SerializeField] private float baseCriticalChance     = 0f;
@@ -44,6 +46,8 @@ namespace CosmicChaosCat
         private readonly HashSet<string> completedSets       = new HashSet<string>();
         private readonly HashSet<string> claimedSetRewards   = new HashSet<string>();
         private readonly HashSet<string> unlockedHiddenCards = new HashSet<string>();
+        private readonly HashSet<string> unlockedBackgrounds = new HashSet<string> { "bg-none" };
+        private readonly HashSet<string> unlockedDecorations = new HashSet<string> { "deco-none" };
 
         private float lastClickTime = -999f;
         private int   comboCount;
@@ -71,9 +75,11 @@ namespace CosmicChaosCat
         public int    ComboCount     => comboCount;
         public int    ClicksPerSecond => clicksInWindow;
 
-        public CardCatalogSO    CardCatalog    => cardCatalog;
-        public SetCatalogSO     SetCatalog     => setCatalog;
-        public UpgradeCatalogSO UpgradeCatalog => upgradeCatalog;
+        public CardCatalogSO       CardCatalog       => cardCatalog;
+        public SetCatalogSO        SetCatalog        => setCatalog;
+        public UpgradeCatalogSO    UpgradeCatalog    => upgradeCatalog;
+        public BackgroundCatalogSO BackgroundCatalog => backgroundCatalog;
+        public DecorationCatalogSO DecorationCatalog => decorationCatalog;
 
         public float Completion01
         {
@@ -111,6 +117,8 @@ namespace CosmicChaosCat
             cardCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<CardCatalogSO>("Assets/ScriptableObjects/CardCatalog.asset");
             setCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<SetCatalogSO>("Assets/ScriptableObjects/SetCatalog.asset");
             upgradeCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<UpgradeCatalogSO>("Assets/ScriptableObjects/UpgradeCatalog.asset");
+            backgroundCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<BackgroundCatalogSO>("Assets/ScriptableObjects/BackgroundCatalog.asset");
+            decorationCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
 #endif
 
             if (cardCatalog == null)
@@ -431,6 +439,40 @@ namespace CosmicChaosCat
             return Money >= entry.CostPerLevel[lv];
         }
 
+        public bool IsBackgroundUnlocked(string id) =>
+            string.IsNullOrEmpty(id) || id == "bg-none" || unlockedBackgrounds.Contains(id);
+
+        public bool IsDecorationUnlocked(string id) =>
+            string.IsNullOrEmpty(id) || id == "deco-none" || unlockedDecorations.Contains(id);
+
+        public void UnlockBackground(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return;
+            if (!unlockedBackgrounds.Contains(id))
+            {
+                unlockedBackgrounds.Add(id);
+                var bg = backgroundCatalog?.FindById(id);
+                string name = bg != null ? bg.DisplayName : id;
+                Log($"🖼️ 새로운 배경 [{name}] 해금!");
+                Save();
+                NotifyState();
+            }
+        }
+
+        public void UnlockDecoration(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return;
+            if (!unlockedDecorations.Contains(id))
+            {
+                unlockedDecorations.Add(id);
+                var deco = decorationCatalog?.FindById(id);
+                string name = deco != null ? deco.DisplayName : id;
+                Log($"🎀 새로운 데코 [{name}] 해금!");
+                Save();
+                NotifyState();
+            }
+        }
+
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);
         public bool   IsSetRewardClaimed(string setId) => claimedSetRewards.Contains(setId);
 
@@ -447,8 +489,13 @@ namespace CosmicChaosCat
                 if (set.RewardGold > 0d) Money += set.RewardGold;
                 if (set.RewardShards > 0) Shards += set.RewardShards;
 
+                if (!string.IsNullOrEmpty(set.RewardBackgroundId))
+                    UnlockBackground(set.RewardBackgroundId);
+                if (!string.IsNullOrEmpty(set.RewardDecorationId))
+                    UnlockDecoration(set.RewardDecorationId);
+
                 // Fallback for sets with no explicit rewards specified
-                if (set.RewardGold <= 0d && set.RewardShards <= 0)
+                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId))
                 {
                     Shards += 1000;
                 }
@@ -456,7 +503,9 @@ namespace CosmicChaosCat
                 string msg = $"🎁 [{set.SetName}] 세트 완료 보상 수령!";
                 if (set.RewardGold > 0d) msg += $" 골드 +{set.RewardGold:N0}";
                 if (set.RewardShards > 0) msg += $" 조각 +{set.RewardShards:N0}";
-                if (set.RewardGold <= 0d && set.RewardShards <= 0) msg += " 조각 +1,000";
+                if (!string.IsNullOrEmpty(set.RewardBackgroundId)) msg += $" 배경 해금({set.RewardBackgroundId})";
+                if (!string.IsNullOrEmpty(set.RewardDecorationId)) msg += $" 데코 해금({set.RewardDecorationId})";
+                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId)) msg += " 조각 +1,000";
 
                 Log(msg);
                 Save();
@@ -846,6 +895,8 @@ namespace CosmicChaosCat
             data.UnlockedHiddenCards.AddRange(unlockedHiddenCards);
             data.CompletedSets.AddRange(completedSets);
             data.ClaimedSetRewards.AddRange(claimedSetRewards);
+            data.UnlockedBackgrounds.AddRange(unlockedBackgrounds);
+            data.UnlockedDecorations.AddRange(unlockedDecorations);
 
             PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(data));
             PlayerPrefs.Save();
@@ -907,6 +958,8 @@ namespace CosmicChaosCat
             if (data.UnlockedHiddenCards != null) unlockedHiddenCards.UnionWith(data.UnlockedHiddenCards);
             if (data.CompletedSets != null)       completedSets.UnionWith(data.CompletedSets);
             if (data.ClaimedSetRewards != null)   claimedSetRewards.UnionWith(data.ClaimedSetRewards);
+            if (data.UnlockedBackgrounds != null) unlockedBackgrounds.UnionWith(data.UnlockedBackgrounds);
+            if (data.UnlockedDecorations != null) unlockedDecorations.UnionWith(data.UnlockedDecorations);
 
             EnsureTestCardsFirst12();
             NotifyState();

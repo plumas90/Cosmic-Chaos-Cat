@@ -43,6 +43,8 @@ namespace CosmicChaosCat
         public List<string> UnlockedHiddenCards = new List<string>();
         public List<string> CompletedSets = new List<string>();
         public List<string> ClaimedSetRewards = new List<string>();
+        public List<string> UnlockedBackgrounds = new List<string>();
+        public List<string> UnlockedDecorations = new List<string>();
 
         public bool UnlockedRareGacha;
         public bool UnlockedSuperGacha;
