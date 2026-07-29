@@ -20,8 +20,8 @@ namespace CosmicChaosCat
             CardRarity chosenRarity = ChooseRarityTier(type, nToRMod, rToSRMod);
 
             // ── Step 2: Fallback checks for locked tiers ──────────────────────────
-            // If the rolled rarity tier isn't unlocked in the shop, fall back to N tier
-            if (!IsRarityUnlocked(chosenRarity, rUnlocked, srUnlocked, ssrUnlocked, urUnlocked))
+            // If the rolled rarity tier isn't unlocked in the shop, fall back to N tier (except during Normal Gacha R test)
+            if (type != GachaType.Normal && !IsRarityUnlocked(chosenRarity, rUnlocked, srUnlocked, ssrUnlocked, urUnlocked))
             {
                 chosenRarity = CardRarity.N;
             }
@@ -62,6 +62,12 @@ namespace CosmicChaosCat
 
         private static CardRarity ChooseRarityTier(GachaType type, float nToRMod, float rToSRMod)
         {
+            // Test Mode: Normal Gacha returns ONLY R (Rare) cards for slot rarity testing!
+            if (type == GachaType.Normal)
+            {
+                return CardRarity.R;
+            }
+
             // Base Rarity Drop Rates per Gacha Type
             float pN = 0.90f, pR = 0.09f, pSR = 0.01f, pSSR = 0f, pUR = 0f;
 

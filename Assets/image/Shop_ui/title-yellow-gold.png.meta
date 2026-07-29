@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 921dbb8399c8d01339d7eb50c2e32b19
+guid: 24dae80ad1736c3bbb7dd8ef05760642
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6200802592794202137
-    second: cosmic-chaos-cat-logo_0
+      213: -5920916029878681962
+    second: title-yellow-bright_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cosmic-chaos-cat-logo_0
+      name: title-yellow-bright_0
       rect:
         serializedVersion: 2
-        x: 66
-        y: 24
-        width: 1068
-        height: 352
+        x: 0
+        y: 0
+        width: 1745
+        height: 114
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 910d1d9da1dad0650800000000000000
-      internalID: 6200802592794202137
+      spriteID: 69e3a2ebd3ea4dda0800000000000000
+      internalID: -5920916029878681962
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cosmic-chaos-cat-logo_0: 6200802592794202137
+      title-yellow-bright_0: -5920916029878681962
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

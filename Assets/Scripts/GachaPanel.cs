@@ -56,6 +56,9 @@ namespace CosmicChaosCat
         private readonly List<bool> currentIsShardDraw = new List<bool>();
         private readonly List<int> currentShardsGained = new List<int>();
 
+        private Coroutine activeGachaSequence;
+        private Coroutine activeShardConversion;
+
         private GachaType currentType = GachaType.Normal;
         
         private static readonly Color BG = new Color(0.06f, 0.08f, 0.14f, 0.97f);
@@ -68,9 +71,13 @@ namespace CosmicChaosCat
         private void Awake()
         {
             EnsureParentedToCanvas();
-            BuildUI();
+            AutoWireCoinText();
+            if (transform.childCount == 0)
+            {
+                BuildUI();
+            }
             EnsureGachaUIPartsBuilt();
-            if (moneyText != null) BindListeners();
+            BindListeners();
             effectPlayer = FindObjectOfType<ClickEffectPlayer>();
         }
 
@@ -364,7 +371,7 @@ namespace CosmicChaosCat
 
         private void BuildUI()
         {
-            if (moneyText != null) return; 
+            if (moneyText != null || transform.childCount > 0) return; 
             var rt = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
             rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
@@ -417,6 +424,170 @@ namespace CosmicChaosCat
             RefreshCosts();
         }
 
+        private static Transform FindChildByNameRecursive(Transform parent, string targetName)
+        {
+            if (parent == null) return null;
+            foreach (Transform child in parent)
+            {
+                if (child.name == targetName) return child;
+                var found = FindChildByNameRecursive(child, targetName);
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        private void AutoWireCoinText()
+        {
+            Transform coinBg = transform.Find("CoinBg")
+                            ?? transform.Find("Panel/CoinBg")
+                            ?? transform.Find("TypeSelection/CoinBg")
+                            ?? transform.Find("Panel/TypeSelection/CoinBg")
+                            ?? FindChildByNameRecursive(transform, "CoinBg")
+                            ?? FindChildByNameRecursive(transform, "Coin_Bg")
+                            ?? FindChildByNameRecursive(transform, "CoinBG")
+                            ?? FindChildByNameRecursive(transform, "MoneyBg")
+                            ?? FindChildByNameRecursive(transform, "Coin");
+
+            if (coinBg != null)
+            {
+                var tmp = coinBg.GetComponentInChildren<TMP_Text>(true);
+                if (tmp != null)
+                {
+                    moneyText = tmp;
+                }
+            }
+        }
+
+        private void UpdateCoinText()
+        {
+            if (gm == null) return;
+
+            AutoWireCoinText();
+
+            string formattedVal = $"{gm.Money:N0}";
+
+            if (moneyText != null)
+            {
+                if (moneyText.text.Contains("보유 코인"))
+                    moneyText.text = $"보유 코인: {formattedVal}";
+                else if (moneyText.text.Contains("보유"))
+                    moneyText.text = $"보유: {formattedVal}";
+                else if (moneyText.text.Contains("코인"))
+                    moneyText.text = $"{formattedVal} 코인";
+                else
+                    moneyText.text = formattedVal;
+            }
+
+            Transform coinBg = transform.Find("CoinBg")
+                            ?? transform.Find("Panel/CoinBg")
+                            ?? transform.Find("TypeSelection/CoinBg")
+                            ?? transform.Find("Panel/TypeSelection/CoinBg")
+                            ?? FindChildByNameRecursive(transform, "CoinBg")
+                            ?? FindChildByNameRecursive(transform, "Coin_Bg")
+                            ?? FindChildByNameRecursive(transform, "CoinBG");
+
+            if (coinBg != null)
+            {
+                foreach (var t in coinBg.GetComponentsInChildren<TMP_Text>(true))
+                {
+                    if (t.text.Contains("보유 코인")) t.text = $"보유 코인: {formattedVal}";
+                    else if (t.text.Contains("보유")) t.text = $"보유: {formattedVal}";
+                    else if (t.text.Contains("코인")) t.text = $"{formattedVal} 코인";
+                    else t.text = formattedVal;
+                }
+
+                foreach (var t in coinBg.GetComponentsInChildren<UnityEngine.UI.Text>(true))
+                {
+                    if (t.text.Contains("보유 코인")) t.text = $"보유 코인: {formattedVal}";
+                    else if (t.text.Contains("보유")) t.text = $"보유: {formattedVal}";
+                    else if (t.text.Contains("코인")) t.text = $"{formattedVal} 코인";
+                    else t.text = formattedVal;
+                }
+            }
+        }
+
+        [Header("Decorations / Paw Settings")]
+        [SerializeField] private GameObject leftPaw;
+        [SerializeField] private GameObject rightPaw;
+        [SerializeField] private GameObject headObj;
+
+        private void AutoWireDecorations()
+        {
+            if (leftPaw == null)
+            {
+                Transform lp = transform.Find("LeftPaw")
+                            ?? transform.Find("Panel/LeftPaw")
+                            ?? FindChildByNameRecursive(transform, "LeftPaw")
+                            ?? FindChildByNameRecursive(transform, "leftPaw")
+                            ?? FindChildByNameRecursive(transform, "Left_Paw")
+                            ?? FindChildByNameRecursive(transform, "left_paw");
+                if (lp != null) leftPaw = lp.gameObject;
+            }
+
+            if (rightPaw == null)
+            {
+                Transform rp = transform.Find("RightPaw")
+                            ?? transform.Find("Panel/RightPaw")
+                            ?? FindChildByNameRecursive(transform, "RightPaw")
+                            ?? FindChildByNameRecursive(transform, "rightPaw")
+                            ?? FindChildByNameRecursive(transform, "Right_Paw")
+                            ?? FindChildByNameRecursive(transform, "right_paw");
+                if (rp != null) rightPaw = rp.gameObject;
+            }
+
+            if (headObj == null)
+            {
+                Transform hd = transform.Find("Head")
+                            ?? transform.Find("Panel/Head")
+                            ?? FindChildByNameRecursive(transform, "Head")
+                            ?? FindChildByNameRecursive(transform, "head")
+                            ?? FindChildByNameRecursive(transform, "CatHead")
+                            ?? FindChildByNameRecursive(transform, "cat_head");
+                if (hd != null) headObj = hd.gameObject;
+            }
+        }
+
+        private void UpdateCatDecorations()
+        {
+            if (gm == null) return;
+
+            AutoWireDecorations();
+
+            float pct = gm.Completion01 * 100f; // Completion percentage (0.0 to 100.0)
+
+            // 12.5% 이상일 때 LeftPaw 활성화
+            if (leftPaw != null)
+            {
+                leftPaw.SetActive(pct >= 12.5f);
+            }
+
+            // 25.0% 이상일 때 RightPaw 활성화
+            if (rightPaw != null)
+            {
+                rightPaw.SetActive(pct >= 25.0f);
+            }
+
+            // 40.0% 이상일 때 Head 활성화 & (40% ~ 80%) 구간에서 y 좌표 (0 ~ 338) 조정
+            if (headObj != null)
+            {
+                bool showHead = pct >= 40.0f;
+                headObj.SetActive(showHead);
+
+                if (showHead)
+                {
+                    float t = Mathf.Clamp01((pct - 40.0f) / (80.0f - 40.0f));
+                    float targetY = Mathf.Lerp(0f, 338f, t);
+
+                    var headRt = headObj.GetComponent<RectTransform>();
+                    if (headRt != null)
+                    {
+                        Vector2 pos = headRt.anchoredPosition;
+                        headRt.anchoredPosition = new Vector2(pos.x, targetY);
+                    }
+                }
+            }
+        }
+
         private void RefreshCosts()
         {
             if (gm == null) return;
@@ -457,7 +628,9 @@ namespace CosmicChaosCat
 
             if (rollOnceCostText != null) rollOnceCostText.text = $"1회 뽑기\n{single:0} 코인";
             if (rollTenCostText != null) rollTenCostText.text = $"10회 뽑기\n{ten:0} 코인";
-            if (moneyText != null) moneyText.text = $"보유 코인: {gm.Money:F1}";
+            
+            UpdateCoinText();
+            UpdateCatDecorations();
         }
 
         private void OnRollOnce()
@@ -494,15 +667,32 @@ namespace CosmicChaosCat
             isAnimSkipped = true;
         }
 
+        private void StopActiveGachaCoroutines()
+        {
+            if (activeGachaSequence != null)
+            {
+                StopCoroutine(activeGachaSequence);
+                activeGachaSequence = null;
+            }
+            if (activeShardConversion != null)
+            {
+                StopCoroutine(activeShardConversion);
+                activeShardConversion = null;
+            }
+        }
+
         private void ConfirmResults()
         {
+            StopActiveGachaCoroutines();
             resultObj.SetActive(false);
             typeSelectionObj.SetActive(true);
             if (closeBtn != null) closeBtn.SetActive(true);
+            RefreshCosts();
         }
 
         public void ShowResult(List<CardEntry> drawnCards)
         {
+            StopActiveGachaCoroutines();
             EnsureGachaUIPartsBuilt();
             typeSelectionObj.SetActive(false);
             resultObj.SetActive(true);
@@ -534,7 +724,6 @@ namespace CosmicChaosCat
                 if (localCopies[card.Id] > card.MaxStacks)
                 {
                     currentIsShardDraw.Add(true);
-                    float shardMult = 1.5f + (gm != null ? gm.GetUpgradeEffectValue("upg-gacha-disc") : 0f); // wait, upg-shard-refund!
                     if (gm != null)
                     {
                         float refund = 1.5f + gm.GetUpgradeEffectValue("upg-shard-refund");
@@ -566,9 +755,8 @@ namespace CosmicChaosCat
                     animCardTemplate.gameObject.SetActive(false);
                 }
             }
-            // Preserve summaryContainer and its children (SummaryContent / cardbase0 ~ cardbase9) permanently!
 
-            StartCoroutine(PlayGachaSequence(drawnCards));
+            activeGachaSequence = StartCoroutine(PlayGachaSequence(drawnCards));
         }
 
         private RarityTheme GetRarityTheme(CardRarity rarity)
@@ -596,12 +784,8 @@ namespace CosmicChaosCat
                 if (theme.frontSprite != null)
                 {
                     bgImg.sprite = theme.frontSprite;
-                    bgImg.color = Color.white;
                 }
-                else
-                {
-                    bgImg.color = GetRarityColor(card.Rarity);
-                }
+                bgImg.color = Color.white;
             }
 
             // 2. Card Art Image (Art, CardArt, Image)
@@ -626,12 +810,8 @@ namespace CosmicChaosCat
                 if (theme.rareMarkSprite != null)
                 {
                     rareMarkImg.sprite = theme.rareMarkSprite;
-                    rareMarkImg.color = Color.white;
                 }
-                else
-                {
-                    rareMarkImg.color = GetRarityColor(card.Rarity);
-                }
+                rareMarkImg.color = Color.white;
             }
 
             // 4. NameLabel Image (NameLabel, NameBg, NameFrame)
@@ -643,12 +823,8 @@ namespace CosmicChaosCat
                 if (theme.nameLabelSprite != null)
                 {
                     nameLabelImg.sprite = theme.nameLabelSprite;
-                    nameLabelImg.color = Color.white;
                 }
-                else
-                {
-                    nameLabelImg.color = GetRarityColor(card.Rarity);
-                }
+                nameLabelImg.color = Color.white;
             }
 
             // 5. Name Text (NameText, Name, Text_Name, Title)
@@ -735,7 +911,7 @@ namespace CosmicChaosCat
                     frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
                     frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
                     var frontImg = frontGo.AddComponent<Image>();
-                    frontImg.color = GetRarityColor(card.Rarity);
+                    frontImg.color = Color.white;
 
                     var artGo = new GameObject("Art");
                     artGo.transform.SetParent(frontGo.transform, false);
@@ -877,44 +1053,67 @@ namespace CosmicChaosCat
             Transform contentTrans = summaryContainer.transform.Find("SummaryContent") ?? summaryContainer.transform;
             var cardSlots = new List<GameObject>();
 
-            // 1. Explicit search for cardbase0 ~ cardbase9 under SummaryContent / summaryContainer
+            // 1. Comprehensive search for all 10 slots (cardbase0~9 or cardbase1~10) anywhere under summaryContainer
             for (int i = 0; i < 10; i++)
             {
-                Transform slotTrans = contentTrans.Find($"cardbase{i}")
-                                   ?? contentTrans.Find($"cardbase_{i}")
-                                   ?? contentTrans.Find($"cardbase {i}")
-                                   ?? contentTrans.Find($"CardBase{i}")
-                                   ?? contentTrans.Find($"CardBase_{i}")
-                                   ?? contentTrans.Find($"CardBase {i}")
-                                   ?? contentTrans.Find($"card_{i}")
-                                   ?? contentTrans.Find($"Card_{i}");
-                if (slotTrans != null)
+                int index0 = i;
+                int index1 = i + 1;
+
+                Transform slotTrans = FindChildByNameRecursive(summaryContainer.transform, $"cardbase{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"cardbase_{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase_{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"cardbase {index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase {index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"card_{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"Card_{index0}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"cardbase{index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase{index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"cardbase_{index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase_{index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"cardbase {index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"CardBase {index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"card_{index1}")
+                                   ?? FindChildByNameRecursive(summaryContainer.transform, $"Card_{index1}");
+
+                if (slotTrans != null && !cardSlots.Contains(slotTrans.gameObject))
                 {
                     cardSlots.Add(slotTrans.gameObject);
                 }
             }
 
-            // 2. Fallback: If cardbase0~9 were not found by explicit name, collect all child slots in order
-            if (cardSlots.Count == 0)
+            // 2. Fallback: If less than 10 slots were found, collect all child slots recursively until we have 10
+            if (cardSlots.Count < 10)
             {
                 void CollectSlotsFrom(Transform parentTrans)
                 {
                     foreach (Transform child in parentTrans)
                     {
+                        if (cardSlots.Count >= 10) break;
                         if (child.gameObject == confirmBtn || child.gameObject == skipBtn || child.gameObject == closeBtn) continue;
-                        if (child.name.StartsWith("Btn_") || child.name == "CloseBtn") continue;
+                        if (child.name.StartsWith("Btn_") || child.name == "CloseBtn" || child.name.Contains("Coin")) continue;
                         if (summaryCardTemplate != null && child == summaryCardTemplate) continue;
                         
-                        if (child.name == "SummaryContent" || child.name == "Slots" || child.name == "Grid" || child.name == "CardGrid")
+                        if (child.name == "SummaryContent" || child.name == "Slots" || child.name == "Grid" || child.name == "CardGrid" || child.name.StartsWith("Row") || child.name.StartsWith("row"))
                         {
                             CollectSlotsFrom(child);
                             continue;
                         }
+
                         if (!cardSlots.Contains(child.gameObject))
+                        {
                             cardSlots.Add(child.gameObject);
+                        }
                     }
                 }
                 CollectSlotsFrom(summaryContainer.transform);
+            }
+
+            // Stop any running shard conversion coroutine
+            if (activeShardConversion != null)
+            {
+                StopCoroutine(activeShardConversion);
+                activeShardConversion = null;
             }
 
             var spawnedCards = new List<GameObject>();
@@ -923,6 +1122,15 @@ namespace CosmicChaosCat
             for (int i = 0; i < cardSlots.Count; i++)
             {
                 var slot = cardSlots[i];
+
+                // Force reset slot transform scale and rotation
+                var slotRT = slot.GetComponent<RectTransform>();
+                if (slotRT != null)
+                {
+                    slotRT.localScale = Vector3.one;
+                    slotRT.localRotation = Quaternion.identity;
+                }
+
                 if (i < cards.Count)
                 {
                     slot.SetActive(true);
@@ -960,7 +1168,9 @@ namespace CosmicChaosCat
                 confirmBtn.transform.SetAsLastSibling();
             }
 
-            StartCoroutine(PlayShardConversionAnim(spawnedCards, currentIsShardDraw, currentShardsGained));
+            var isShardCopy = new List<bool>(currentIsShardDraw);
+            var shardsGainedCopy = new List<int>(currentShardsGained);
+            activeShardConversion = StartCoroutine(PlayShardConversionAnim(spawnedCards, isShardCopy, shardsGainedCopy));
         }
 
         private IEnumerator PlayShardConversionAnim(List<GameObject> summaryCards, List<bool> isShardDraw, List<int> shardsGained)
