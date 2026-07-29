@@ -27,6 +27,7 @@ namespace CosmicChaosCat
         public struct RarityTheme
         {
             public Sprite frontSprite;     // Front (Card Background) Sprite
+            public Sprite frameSprite;     // Frame (Card Outer Frame) Sprite
             public Sprite rareMarkSprite;  // Rare_Mark Sprite
             public Sprite nameLabelSprite; // NameLabel Sprite
         }
@@ -777,7 +778,7 @@ namespace CosmicChaosCat
             if (frontTrans == null || card == null) return;
             var theme = GetRarityTheme(card.Rarity);
 
-            // 1. Front (Card Background Frame) Image
+            // 1. Front (Card Background) Image
             var bgImg = frontTrans.GetComponent<Image>() ?? frontTrans.Find("Bg")?.GetComponent<Image>();
             if (bgImg != null)
             {
@@ -786,6 +787,22 @@ namespace CosmicChaosCat
                     bgImg.sprite = theme.frontSprite;
                 }
                 bgImg.color = Color.white;
+            }
+
+            // 1.5 Frame (Card Outer Frame) Image
+            var frameImg = frontTrans.Find("Frame")?.GetComponent<Image>()
+                        ?? frontTrans.Find("CardFrame")?.GetComponent<Image>()
+                        ?? frontTrans.Find("frame")?.GetComponent<Image>()
+                        ?? (frontTrans.parent != null ? frontTrans.parent.Find("Frame")?.GetComponent<Image>() : null)
+                        ?? (frontTrans.parent != null ? frontTrans.parent.Find("CardFrame")?.GetComponent<Image>() : null)
+                        ?? (frontTrans.parent != null ? frontTrans.parent.Find("frame")?.GetComponent<Image>() : null);
+            if (frameImg != null)
+            {
+                if (theme.frameSprite != null)
+                {
+                    frameImg.sprite = theme.frameSprite;
+                }
+                frameImg.color = Color.white;
             }
 
             // 2. Card Art Image (Art, CardArt, Image)
@@ -798,13 +815,14 @@ namespace CosmicChaosCat
                 artImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
             }
 
-            // 3. Rare_Mark Image (Rare_Mark, RareMark, RarityMark, RarityBadge, Rarity, Frame)
+            // 3. Rare_Mark Image (Rare_Mark, RareMark, RarityMark, RarityBadge, Rarity)
             var rareMarkImg = frontTrans.Find("Rare_Mark")?.GetComponent<Image>()
                            ?? frontTrans.Find("RareMark")?.GetComponent<Image>()
                            ?? frontTrans.Find("RarityMark")?.GetComponent<Image>()
                            ?? frontTrans.Find("RarityBadge")?.GetComponent<Image>()
                            ?? frontTrans.Find("Rarity")?.GetComponent<Image>()
-                           ?? frontTrans.Find("Frame")?.GetComponent<Image>();
+                           ?? (frontTrans.parent != null ? frontTrans.parent.Find("Rare_Mark")?.GetComponent<Image>() : null)
+                           ?? (frontTrans.parent != null ? frontTrans.parent.Find("RareMark")?.GetComponent<Image>() : null);
             if (rareMarkImg != null)
             {
                 if (theme.rareMarkSprite != null)
@@ -1144,6 +1162,11 @@ namespace CosmicChaosCat
                     var back = slot.transform.Find("Back");
                     if (back != null) back.gameObject.SetActive(false);
 
+                    var frameTrans = slot.transform.Find("Frame")
+                                  ?? slot.transform.Find("CardFrame")
+                                  ?? slot.transform.Find("frame");
+                    if (frameTrans != null) frameTrans.gameObject.SetActive(true);
+
                     var front = slot.transform.Find("Front");
                     if (front != null)
                     {
@@ -1198,9 +1221,14 @@ namespace CosmicChaosCat
                 }
                 cardRT.localScale = new Vector3(0f, 1f, 1f);
 
-                // Disable Front container when card converts into shards
+                // Disable Front & Frame containers when card converts into shards
                 var frontTrans = cardGo.transform.Find("Front");
                 if (frontTrans != null) frontTrans.gameObject.SetActive(false);
+
+                var frameTrans = cardGo.transform.Find("Frame")
+                              ?? cardGo.transform.Find("CardFrame")
+                              ?? cardGo.transform.Find("frame");
+                if (frameTrans != null) frameTrans.gameObject.SetActive(false);
 
                 // Morph to Shard representation (using pre-placed ShardOverlay if available)
                 var shardOverlayTrans = cardGo.transform.Find("ShardOverlay")
