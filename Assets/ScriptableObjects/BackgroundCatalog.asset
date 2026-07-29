@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: BackgroundCatalog
   m_EditorClassIdentifier: Assembly-CSharp:CosmicChaosCat:BackgroundCatalogSO
-  backgrounds: []
+  backgrounds:
+  - Id: 
+    DisplayName: 
+    BackgroundSprite: {fileID: 0}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 0
+    SetId: 
+    Description: 
