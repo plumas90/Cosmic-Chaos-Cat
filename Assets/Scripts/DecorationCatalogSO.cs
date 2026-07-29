@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace CosmicChaosCat
 {
-    [Serializable]
     [CreateAssetMenu(fileName = "DecorationCatalog", menuName = "CosmicChaosCat/Decoration Catalog")]
     public sealed class DecorationCatalogSO : ScriptableObject
     {

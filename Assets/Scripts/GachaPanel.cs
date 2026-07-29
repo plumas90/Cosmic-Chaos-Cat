@@ -96,13 +96,34 @@ namespace CosmicChaosCat
             var buttons = GetComponentsInChildren<Button>(true);
             foreach (var b in buttons)
             {
-                var txt = b.GetComponentInChildren<TMP_Text>();
-                string bName = b.name.ToLower();
-                string tStr = txt != null ? txt.text.ToLower() : "";
+                if (b == normalBtn || b == rareBtn || b == superBtn) continue;
 
-                if (tStr.Contains("1회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollOnce); }
-                else if (tStr.Contains("10회 뽑기")) { b.onClick.RemoveAllListeners(); b.onClick.AddListener(OnRollTen); }
-                else if (tStr.Contains("✕") || tStr.Contains("닫기") || tStr.Contains("close") || bName.Contains("close") || bName.Contains("닫기"))
+                string tmpStr = b.GetComponentInChildren<TMP_Text>()?.text.ToLower() ?? "";
+                string legStr = b.GetComponentInChildren<UnityEngine.UI.Text>()?.text.ToLower() ?? "";
+                string fullText = (tmpStr + " " + legStr).Trim();
+                string bName = b.name.ToLower();
+
+                if (fullText.Contains("10회") || fullText.Contains("10뽑") || fullText.Contains("10회뽑기") || fullText.Contains("다시") || bName.Contains("10회") || bName.Contains("roll10") || bName.Contains("gacha10") || bName.Contains("reroll") || bName.Contains("ten"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(OnRollTen);
+                }
+                else if (fullText.Contains("1회") || fullText.Contains("1뽑") || fullText.Contains("1회뽑기") || bName.Contains("1회") || bName.Contains("roll1") || bName.Contains("once"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(OnRollOnce);
+                }
+                else if (fullText.Contains("확인") || fullText.Contains("confirm") || bName.Contains("confirm") || bName.Contains("확인"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(ConfirmResults);
+                }
+                else if (fullText.Contains("스킵") || fullText.Contains("skip") || bName.Contains("skip") || bName.Contains("스킵"))
+                {
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(SkipAnimation);
+                }
+                else if (fullText.Contains("✕") || fullText.Contains("닫기") || fullText.Contains("close") || bName.Contains("close") || bName.Contains("닫기"))
                 {
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(ClosePanel);
@@ -165,6 +186,31 @@ namespace CosmicChaosCat
         {
             if (resultObj == null) return;
 
+            // Normalize Btn_1_Gacha / Btn_10_Gacha dimensions and prevent VerticalLayoutGroup height stretching
+            if (typeSelectionObj != null)
+            {
+                var lg = typeSelectionObj.GetComponent<LayoutGroup>();
+                if (lg != null) lg.enabled = false;
+
+                foreach (Transform child in typeSelectionObj.transform)
+                {
+                    var childLg = child.GetComponent<LayoutGroup>();
+                    if (childLg != null) childLg.enabled = false;
+
+                    string cName = child.name.ToLower();
+                    if (cName.Contains("1") && (cName.Contains("gacha") || cName.Contains("뽑기")) && !cName.Contains("10"))
+                    {
+                        var rt = child.GetComponent<RectTransform>();
+                        if (rt != null) rt.sizeDelta = new Vector2(180f, 55f);
+                    }
+                    else if (cName.Contains("10"))
+                    {
+                        var rt = child.GetComponent<RectTransform>();
+                        if (rt != null) rt.sizeDelta = new Vector2(180f, 55f);
+                    }
+                }
+            }
+
             // Destroy redundant Btn_확인 directly under resultObj (from legacy baked prefab)
             var oldBtnTrans = resultObj.transform.Find("Btn_확인");
             if (oldBtnTrans != null)
@@ -210,6 +256,29 @@ namespace CosmicChaosCat
                 conveyor.sizeDelta = new Vector2(2000, 300);
 
                 skipBtn = MakeButton(animContainer.transform, "스킵", new Vector2(0, -180), new Vector2(150, 48), BtnClose, SkipAnimation);
+            }
+
+            if (animContainer != null)
+            {
+                var animBtn = animContainer.GetComponent<Button>();
+                if (animBtn != null) DestroyImmediate(animBtn);
+
+                var vpTrans = animContainer.transform.Find("Viewport");
+                if (vpTrans != null)
+                {
+                    var vpBtn = vpTrans.GetComponent<Button>();
+                    if (vpBtn != null) DestroyImmediate(vpBtn);
+                }
+            }
+
+            if (skipBtn != null)
+            {
+                var sbBtn = skipBtn.GetComponent<Button>();
+                if (sbBtn == null) sbBtn = skipBtn.AddComponent<Button>();
+                var sbImg = skipBtn.GetComponent<Image>();
+                if (sbImg != null) sbImg.raycastTarget = true;
+                sbBtn.onClick.RemoveAllListeners();
+                sbBtn.onClick.AddListener(SkipAnimation);
             }
 
             // Find or create pre-placed CardBase template inside Conveyor for direct Scene Editor resizing
@@ -258,12 +327,12 @@ namespace CosmicChaosCat
                 animCardTemplate = cbTrans.GetComponent<RectTransform>();
             }
 
-            // Find or create summaryContainer
+            // Find or create summaryContainer & buttons
             var scTrans = resultObj.transform.Find("SummaryContainer");
             if (scTrans != null)
             {
                 summaryContainer = scTrans.gameObject;
-                var cbTrans = summaryContainer.transform.Find("Btn_확인");
+                var cbTrans = summaryContainer.transform.Find("Btn_확인") ?? summaryContainer.transform.Find("ConfirmBtn");
                 if (cbTrans != null) confirmBtn = cbTrans.gameObject;
             }
             else
@@ -274,7 +343,8 @@ namespace CosmicChaosCat
                 scRt.anchorMin = Vector2.zero; scRt.anchorMax = Vector2.one;
                 scRt.offsetMin = Vector2.zero; scRt.offsetMax = Vector2.zero;
 
-                confirmBtn = MakeButton(summaryContainer.transform, "확인", new Vector2(0, -220), new Vector2(160, 48), BtnGacha, ConfirmResults);
+                confirmBtn = MakeButton(summaryContainer.transform, "확인", new Vector2(-100, -220), new Vector2(160, 48), BtnGacha, ConfirmResults);
+                MakeButton(summaryContainer.transform, "10회 다시뽑기", new Vector2(100, -220), new Vector2(160, 48), BtnGacha10, OnRollTen);
             }
 
             // Find or create pre-placed SummaryCardBase template inside SummaryContainer with exact CardBase structure
@@ -395,15 +465,15 @@ namespace CosmicChaosCat
             rareBtn = MakeButton(typeSelectionObj.transform, "레어 가챠", new Vector2(0, 130), new Vector2(180, 50), BtnType, () => SelectType(GachaType.Rare)).GetComponent<Button>();
             superBtn = MakeButton(typeSelectionObj.transform, "슈퍼 가챠", new Vector2(200, 130), new Vector2(180, 50), BtnType, () => SelectType(GachaType.Super)).GetComponent<Button>();
 
-            var once = MakeButton(typeSelectionObj.transform, "", new Vector2(-150, -20), new Vector2(200, 80), BtnGacha, OnRollOnce);
+            var once = MakeButton(typeSelectionObj.transform, "", new Vector2(-120, -20), new Vector2(180, 55), BtnGacha, OnRollOnce);
             rollOnceCostText = once.GetComponentInChildren<TMP_Text>();
             rollOnceCostText.text = "1회 뽑기\n0 코인";
-            rollOnceCostText.fontSize = 16;
+            rollOnceCostText.fontSize = 14;
 
-            var ten = MakeButton(typeSelectionObj.transform, "", new Vector2(150, -20), new Vector2(200, 80), BtnGacha10, OnRollTen);
+            var ten = MakeButton(typeSelectionObj.transform, "", new Vector2(120, -20), new Vector2(180, 55), BtnGacha10, OnRollTen);
             rollTenCostText = ten.GetComponentInChildren<TMP_Text>();
             rollTenCostText.text = "10회 뽑기\n0 코인";
-            rollTenCostText.fontSize = 16;
+            rollTenCostText.fontSize = 14;
 
             closeBtn = MakeButton(typeSelectionObj.transform, "✕ 닫기", new Vector2(0, -220), new Vector2(150, 40), BtnClose, () => gameObject.SetActive(false));
 
@@ -689,12 +759,14 @@ namespace CosmicChaosCat
             typeSelectionObj.SetActive(true);
             if (closeBtn != null) closeBtn.SetActive(true);
             RefreshCosts();
+            BindListeners();
         }
 
         public void ShowResult(List<CardEntry> drawnCards)
         {
             StopActiveGachaCoroutines();
             EnsureGachaUIPartsBuilt();
+            BindListeners();
             typeSelectionObj.SetActive(false);
             resultObj.SetActive(true);
             if (closeBtn != null) closeBtn.SetActive(false);
@@ -745,10 +817,16 @@ namespace CosmicChaosCat
             // Clear conveyor children while preserving animCardTemplate
             if (conveyor != null)
             {
+                var toDestroy = new List<GameObject>();
                 foreach (Transform child in conveyor)
                 {
                     if (animCardTemplate == null || child != animCardTemplate)
-                        SafeDestroy(child.gameObject);
+                        toDestroy.Add(child.gameObject);
+                }
+                foreach (var obj in toDestroy)
+                {
+                    obj.transform.SetParent(null, false);
+                    DestroyImmediate(obj);
                 }
                 if (animCardTemplate != null)
                 {
@@ -1052,6 +1130,7 @@ namespace CosmicChaosCat
         {
             animContainer.SetActive(false);
             summaryContainer.SetActive(true);
+            BindListeners();
 
             if (summaryCardTemplate != null)
             {

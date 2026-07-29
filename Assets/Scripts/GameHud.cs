@@ -193,6 +193,14 @@ namespace CosmicChaosCat
             gameManager.GameEnded    -= OnGameEnded;
         }
 
+        private void Update()
+        {
+            if (gameManager != null && timerText != null)
+            {
+                timerText.text = gameManager.GetTimerText();
+            }
+        }
+
         // ─── Refresh ───────────────────────────────────────────────────────
         private void Refresh()
         {

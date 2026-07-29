@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace CosmicChaosCat
 {
-    [Serializable]
     [CreateAssetMenu(fileName = "BackgroundCatalog", menuName = "CosmicChaosCat/Background Catalog")]
     public sealed class BackgroundCatalogSO : ScriptableObject
     {

@@ -991,23 +991,46 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
-        [ContextMenu("Unlock All Cards For Testing")]
-        public void UnlockAllCardsTest()
+        [ContextMenu("Reset To Default Card Only")]
+        public void ResetToDefaultCardOnly()
         {
             if (cardCatalog == null || cardCatalog.Cards == null) return;
-            for (int i = 0; i < cardCatalog.Cards.Count; i++)
+            string defaultCardId = GetDefaultFirstCardId();
+            foreach (var card in cardCatalog.Cards)
             {
-                var card = cardCatalog.Cards[i];
                 if (card == null) continue;
                 if (!cardState.TryGetValue(card.Id, out var state))
                 {
                     state = new CardProgress { CardId = card.Id };
                     cardState[card.Id] = state;
                 }
-                state.Unlocked = true;
-                if (state.Copies < 5) state.Copies = 5;
-                state.SelectedStage = 1;
+
+                if (card.Id == defaultCardId || card.Id == "c001" || card.Id == cardCatalog.Cards[0].Id)
+                {
+                    state.Unlocked = true;
+                    state.Copies = 1;
+                    state.BreakthroughCount = 0;
+                    state.SelectedStage = 1;
+                }
+                else
+                {
+                    state.Unlocked = false;
+                    state.Copies = 0;
+                    state.BreakthroughCount = 0;
+                    state.SelectedStage = 1;
+                }
             }
+
+            completedSets.Clear();
+            claimedSetRewards.Clear();
+            unlockedBackgrounds.Clear();
+            unlockedBackgrounds.Add("bg");
+            unlockedDecorations.Clear();
+
+            EquippedCardId = defaultCardId;
+            EquippedBackgroundId = "bg";
+            EquippedDecorationId = "deco-none";
+
             RebuildSetState();
             Save();
             NotifyState();
@@ -1015,7 +1038,7 @@ namespace CosmicChaosCat
 
         public void EnsureTestCardsFirst12()
         {
-            UnlockAllCardsTest();
+            ResetToDefaultCardOnly();
         }
 
         private void SpawnComboRewardFloatingText(double amount)
