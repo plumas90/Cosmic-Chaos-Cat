@@ -1820,10 +1820,7 @@ namespace CosmicChaosCat
             {
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
                 var img = claimBtn.GetComponent<Image>();
-                if (img != null)
-                    img.color = claimed  ? new Color(0.2f, 0.45f, 0.2f)
-                              : allOwned ? new Color(0.70f, 0.45f, 0.05f)
-                              : new Color(0.3f, 0.3f, 0.3f);
+                if (img != null) img.color = Color.white;
             }
         }
 

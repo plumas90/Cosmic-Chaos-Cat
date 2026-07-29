@@ -15,7 +15,7 @@ namespace CosmicChaosCat
         public string description;
         public string unlockSetId; // SetId required to unlock (from SetCatalogSO)
         public CardRarity rarity = CardRarity.N;
-        public bool isTestUnlocked = true; // Unlocked by default for testing
+        public bool isTestUnlocked = false;
         public Sprite displaySprite;
     }
 
@@ -408,7 +408,7 @@ namespace CosmicChaosCat
         {
             if (slotTf == null || item == null) return;
 
-            bool unlocked = item.isTestUnlocked || string.IsNullOrEmpty(item.unlockSetId) || (gameManager != null && gameManager.IsSetCompleted(item.unlockSetId));
+            bool unlocked = item.isTestUnlocked || (gameManager != null && (isBg ? gameManager.IsBackgroundUnlocked(item.id) : gameManager.IsDecorationUnlocked(item.id)));
             bool isEquipped = gameManager != null && (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
 
             // 1. Frame Image
@@ -645,7 +645,7 @@ namespace CosmicChaosCat
                 detailRoot.SetActive(true);
                 detailRoot.transform.SetAsLastSibling();
 
-                bool unlocked = item.isTestUnlocked || string.IsNullOrEmpty(item.unlockSetId) || (gameManager != null && gameManager.IsSetCompleted(item.unlockSetId));
+                bool unlocked = item.isTestUnlocked || (gameManager != null && (isBg ? gameManager.IsBackgroundUnlocked(item.id) : gameManager.IsDecorationUnlocked(item.id)));
                 bool isEquipped = gameManager != null && (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
 
                 if (detailImage != null)

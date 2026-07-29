@@ -965,11 +965,11 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
-        public void EnsureTestCardsFirst12()
+        [ContextMenu("Unlock All Cards For Testing")]
+        public void UnlockAllCardsTest()
         {
             if (cardCatalog == null || cardCatalog.Cards == null) return;
-            int count = Mathf.Min(12, cardCatalog.Cards.Count);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < cardCatalog.Cards.Count; i++)
             {
                 var card = cardCatalog.Cards[i];
                 if (card == null) continue;
@@ -979,10 +979,17 @@ namespace CosmicChaosCat
                     cardState[card.Id] = state;
                 }
                 state.Unlocked = true;
-                state.Copies = 5;
-                state.BreakthroughCount = 0;
+                if (state.Copies < 5) state.Copies = 5;
                 state.SelectedStage = 1;
             }
+            RebuildSetState();
+            Save();
+            NotifyState();
+        }
+
+        public void EnsureTestCardsFirst12()
+        {
+            UnlockAllCardsTest();
         }
 
         private void SpawnComboRewardFloatingText(double amount)
