@@ -32,6 +32,8 @@ MonoBehaviour:
     CriticalDamageBonus: 0
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
+    RewardBackgroundId: bg2
+    RewardDecorationId: 
     EffectDesc: "\uC0AC\uB9C9 \uC720\uC801\uC9C0\uC758 \uBAA8\uB4E0 \uACE0\uC591\uC774\uB97C
       \uD574\uAE08\uD588\uC2B5\uB2C8\uB2E4."
   - SetId: 3
@@ -43,6 +45,8 @@ MonoBehaviour:
     CriticalDamageBonus: 0
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
+    RewardBackgroundId: bg3
+    RewardDecorationId: 
     EffectDesc: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
   - SetId: 4
@@ -54,6 +58,8 @@ MonoBehaviour:
     CriticalDamageBonus: 0
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
+    RewardBackgroundId: bg4
+    RewardDecorationId: 
     EffectDesc: "\uAE4A\uC740 \uBC14\uB2F7\uC18D \uD574\uC800 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
   - SetId: 5
@@ -65,6 +71,8 @@ MonoBehaviour:
     CriticalDamageBonus: 0
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
+    RewardBackgroundId: bg5
+    RewardDecorationId: 
     EffectDesc: "\uC804\uD1B5 \uC800\uC790\uAC70\uB9AC\uC758 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
   - SetId: 6

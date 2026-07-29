@@ -176,6 +176,11 @@ namespace CosmicChaosCat
         public Sprite GetBackgroundSprite(string id)
         {
             EnsureInit();
+            if (string.IsNullOrEmpty(id) || id == "bg-none" || id == "bg")
+            {
+                var defaultItem = backgrounds.Find(x => x.id == "bg" || x.id == "bg-none");
+                if (defaultItem != null && defaultItem.displaySprite != null) return defaultItem.displaySprite;
+            }
             var item = backgrounds.Find(x => x.id == id);
             return item?.displaySprite;
         }
@@ -409,13 +414,14 @@ namespace CosmicChaosCat
             // 1. Frame Image
             var frameImg = FindChildByNameRecursive(slotTf, "Frame")?.GetComponent<Image>() ??
                            FindChildByNameRecursive(slotTf, "frame")?.GetComponent<Image>() ??
-                           FindChildByNameRecursive(slotTf, "DetailFrame")?.GetComponent<Image>() ??
-                           slotTf.GetComponent<Image>();
+                           FindChildByNameRecursive(slotTf, "DetailFrame")?.GetComponent<Image>();
 
             if (frameImg != null)
             {
                 if (unlocked)
                 {
+                    if (!frameImg.gameObject.activeSelf) frameImg.gameObject.SetActive(true);
+                    frameImg.enabled = true;
                     Sprite frameSp = GetFrameSpriteForRarity(item.rarity);
                     if (frameSp != null)
                     {
@@ -430,17 +436,9 @@ namespace CosmicChaosCat
                 }
                 else
                 {
-                    if (spriteFrameLock != null)
-                    {
-                        if (frameImg.sprite != spriteFrameLock) frameImg.sprite = spriteFrameLock;
-                        if (frameImg.color != Color.white) frameImg.color = Color.white;
-                    }
-                    else
-                    {
-                        Color lockCol = new Color(0.2f, 0.2f, 0.2f, 1f);
-                        if (frameImg.sprite != null) frameImg.sprite = null;
-                        if (frameImg.color != lockCol) frameImg.color = lockCol;
-                    }
+                    // Hide Frame completely when locked
+                    if (frameImg.gameObject.activeSelf) frameImg.gameObject.SetActive(false);
+                    frameImg.enabled = false;
                 }
             }
 
@@ -450,24 +448,59 @@ namespace CosmicChaosCat
                          FindChildByNameRecursive(slotTf, "DetailArt")?.GetComponent<Image>() ??
                          FindChildByNameRecursive(slotTf, "Image")?.GetComponent<Image>();
 
-            if (artImg != null)
+            // 3. Lock Overlay Object Search (Recursive)
+            var lockObj = FindChildByNameRecursive(slotTf, "Lock") ??
+                          FindChildByNameRecursive(slotTf, "lock") ??
+                          FindChildByNameRecursive(slotTf, "Unknown") ??
+                          FindChildByNameRecursive(slotTf, "LockOverlay") ??
+                          FindChildByNameRecursive(slotTf, "lockoverlay") ??
+                          FindChildByNameRecursive(slotTf, "LockIcon") ??
+                          FindChildByNameRecursive(slotTf, "lockicon");
+
+            if (unlocked)
             {
-                if (unlocked)
+                if (artImg != null)
                 {
                     if (!artImg.gameObject.activeSelf) artImg.gameObject.SetActive(true);
+                    artImg.transform.localScale = Vector3.one; // Normal scale (1.0x)
                     if (artImg.sprite != item.displaySprite && item.displaySprite != null) artImg.sprite = item.displaySprite;
                     if (artImg.color != Color.white) artImg.color = Color.white;
                     artImg.preserveAspect = !isBg;
                 }
-                else
+                if (lockObj != null) lockObj.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (lockObj != null)
                 {
-                    if (artImg.sprite != null) artImg.sprite = null;
-                    if (artImg.color != new Color(0, 0, 0, 0)) artImg.color = new Color(0, 0, 0, 0);
-                    if (artImg.gameObject.activeSelf) artImg.gameObject.SetActive(false);
+                    if (!lockObj.gameObject.activeSelf) lockObj.gameObject.SetActive(true);
+                    lockObj.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f); // 1.1x scale for lock
+                    var lockImg = lockObj.GetComponent<Image>() ?? lockObj.GetComponentInChildren<Image>();
+                    if (lockImg != null && spriteLockOverlay != null)
+                    {
+                        lockImg.sprite = spriteLockOverlay;
+                        lockImg.color = Color.white;
+                    }
+                }
+
+                if (artImg != null)
+                {
+                    if (!artImg.gameObject.activeSelf) artImg.gameObject.SetActive(true);
+                    artImg.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f); // 1.1x scale for locked art
+                    if (spriteLockOverlay != null && lockObj == null)
+                    {
+                        artImg.sprite = spriteLockOverlay;
+                        artImg.color = Color.white;
+                    }
+                    else if (item.displaySprite != null)
+                    {
+                        artImg.sprite = item.displaySprite;
+                        artImg.color = new Color(0.2f, 0.2f, 0.2f, 0.6f);
+                    }
                 }
             }
 
-            // 3. Rarity Mark (rereMark Image)
+            // 4. Rarity Mark Image
             var markImg = FindChildByNameRecursive(slotTf, "rereMark")?.GetComponent<Image>() ??
                           FindChildByNameRecursive(slotTf, "reremark")?.GetComponent<Image>() ??
                           FindChildByNameRecursive(slotTf, "rareMark")?.GetComponent<Image>() ??
@@ -487,33 +520,10 @@ namespace CosmicChaosCat
                         if (markImg.sprite != markSp) markImg.sprite = markSp;
                         if (markImg.color != Color.white) markImg.color = Color.white;
                     }
-                    else
-                    {
-                        if (markImg.color != Color.white) markImg.color = Color.white;
-                    }
                 }
                 else
                 {
-                    if (markImg.sprite != null) markImg.sprite = null;
-                    if (markImg.color != new Color(0, 0, 0, 0)) markImg.color = new Color(0, 0, 0, 0);
                     if (markImg.gameObject.activeSelf) markImg.gameObject.SetActive(false);
-                }
-            }
-
-            // 4. Lock Overlay
-            var lockObj = slotTf.Find("Lock")?.gameObject ??
-                          slotTf.Find("lock")?.gameObject ??
-                          slotTf.Find("Unknown")?.gameObject ??
-                          slotTf.Find("LockOverlay")?.gameObject;
-
-            if (lockObj != null)
-            {
-                if (lockObj.activeSelf != !unlocked) lockObj.SetActive(!unlocked);
-                var lockImg = lockObj.GetComponent<Image>();
-                if (lockImg != null && spriteLockOverlay != null && lockImg.sprite != spriteLockOverlay)
-                {
-                    lockImg.sprite = spriteLockOverlay;
-                    lockImg.color = Color.white;
                 }
             }
 
@@ -546,7 +556,7 @@ namespace CosmicChaosCat
                 if (eqIndicator.activeSelf != showEq) eqIndicator.SetActive(showEq);
             }
 
-            // 7. Hover Color (Simple Black)
+            // 7. Hover Color
             var slotBtn = slotTf.GetComponent<Button>();
             if (slotBtn != null && slotBtn.transition == Selectable.Transition.ColorTint)
             {
@@ -582,19 +592,30 @@ namespace CosmicChaosCat
         {
             if (detailRoot == null) return;
 
+            // Remove button component from DetailPopupRoot background if present
             var bgBtn = detailRoot.GetComponent<Button>();
-            if (bgBtn != null)
+            if (bgBtn != null) Destroy(bgBtn);
+
+            // Remove button component from DetailBox if present
+            var boxTf = detailRoot.transform.Find("DetailBox") ?? detailRoot.transform.Find("box") ?? detailRoot.transform.Find("Box");
+            if (boxTf != null)
             {
-                bgBtn.onClick.RemoveAllListeners();
-                bgBtn.onClick.AddListener(CloseDetailPopup);
+                var boxBtn = boxTf.GetComponent<Button>();
+                if (boxBtn != null) Destroy(boxBtn);
             }
 
             var children = detailRoot.GetComponentsInChildren<Transform>(true);
             foreach (var ch in children)
             {
                 if (ch == detailRoot.transform) continue;
+                if (boxTf != null && ch == boxTf) continue;
+
                 string nLower = ch.name.ToLower();
-                if (nLower.Contains("close") || nLower.Contains("닫기") || nLower.Contains("✕") || nLower == "x")
+                bool isCloseBtn = nLower == "btn_✕" || nLower == "btn_btn_✕" || nLower == "btn_close"
+                               || nLower == "closebtn" || nLower == "close_btn" || nLower == "close"
+                               || nLower == "btn_닫기" || nLower == "닫기" || nLower == "btn_x" || nLower == "x";
+
+                if (isCloseBtn)
                 {
                     var btn = ch.GetComponent<Button>();
                     if (btn == null) btn = ch.gameObject.AddComponent<Button>();
@@ -624,23 +645,41 @@ namespace CosmicChaosCat
                 detailRoot.SetActive(true);
                 detailRoot.transform.SetAsLastSibling();
 
-                bool unlocked = gameManager != null && (string.IsNullOrEmpty(item.unlockSetId) || gameManager.IsSetCompleted(item.unlockSetId));
+                bool unlocked = item.isTestUnlocked || string.IsNullOrEmpty(item.unlockSetId) || (gameManager != null && gameManager.IsSetCompleted(item.unlockSetId));
                 bool isEquipped = gameManager != null && (isBg ? gameManager.EquippedBackgroundId == item.id : gameManager.EquippedDecorationId == item.id);
 
                 if (detailImage != null)
                 {
-                    detailImage.sprite = unlocked ? item.displaySprite : null;
-                    detailImage.color = unlocked ? Color.white : new Color(0.2f, 0.2f, 0.2f, 1f);
+                    if (unlocked)
+                    {
+                        detailImage.transform.localScale = Vector3.one;
+                        detailImage.sprite = item.displaySprite;
+                        detailImage.color = Color.white;
+                    }
+                    else
+                    {
+                        detailImage.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                        detailImage.sprite = spriteLockOverlay != null ? spriteLockOverlay : item.displaySprite;
+                        detailImage.color = spriteLockOverlay != null ? Color.white : new Color(0.2f, 0.2f, 0.2f, 0.6f);
+                    }
                     detailImage.preserveAspect = !isBg;
                 }
 
                 if (detailFrameImage != null)
                 {
-                    Sprite frameSp = unlocked ? GetFrameSpriteForRarity(item.rarity) : spriteFrameLock;
-                    if (frameSp != null)
+                    if (unlocked)
                     {
-                        detailFrameImage.sprite = frameSp;
-                        detailFrameImage.color = Color.white;
+                        if (!detailFrameImage.gameObject.activeSelf) detailFrameImage.gameObject.SetActive(true);
+                        Sprite frameSp = GetFrameSpriteForRarity(item.rarity);
+                        if (frameSp != null)
+                        {
+                            detailFrameImage.sprite = frameSp;
+                            detailFrameImage.color = Color.white;
+                        }
+                    }
+                    else
+                    {
+                        if (detailFrameImage.gameObject.activeSelf) detailFrameImage.gameObject.SetActive(false);
                     }
                 }
 
@@ -842,21 +881,23 @@ namespace CosmicChaosCat
 
         private void InitializeDefaultItems()
         {
-            if (backgrounds == null || backgrounds.Count == 0)
+            Sprite LoadBgSprite(string fileName)
             {
-                backgrounds = new List<CollectibleItem>
-                {
-                    new CollectibleItem { id = "bg-none", displayName = "기본 배경", description = "깔끔한 기본 게임 배경입니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = CreateSolidColorSprite(new Color(0.1f, 0.12f, 0.18f, 1f)) },
-                    new CollectibleItem { id = "bg-street", displayName = "골목길 배경", description = "골목길 고양이들이 활보하는 정겨운 골목길 테마 배경입니다.", unlockSetId = "1", rarity = CardRarity.N, displaySprite = CreateSolidColorSprite(new Color(0.35f, 0.25f, 0.2f, 1f)) },
-                    new CollectibleItem { id = "bg-desert", displayName = "사막 오아시스 배경", description = "신비로운 피라미드와 사막 오아시스 테마 배경입니다.", unlockSetId = "2", rarity = CardRarity.R, displaySprite = CreateSolidColorSprite(new Color(0.6f, 0.5f, 0.2f, 1f)) },
-                    new CollectibleItem { id = "bg-dessert", displayName = "달콤한 디저트 배경", description = "달콤한 케이크와 과자들이 가득한 판타지 배경입니다.", unlockSetId = "3", rarity = CardRarity.R, displaySprite = CreateSolidColorSprite(new Color(0.6f, 0.3f, 0.5f, 1f)) },
-                    new CollectibleItem { id = "bg-sea", displayName = "심해 바다 배경", description = "바닷속 푸른 산호와 해저 왕국 테마 배경입니다.", unlockSetId = "4", rarity = CardRarity.SR, displaySprite = CreateSolidColorSprite(new Color(0.1f, 0.4f, 0.6f, 1f)) },
-                    new CollectibleItem { id = "bg-market", displayName = "저자거리 축제 배경", description = "흥겨운 풍물패와 저자거리 장터 테마 배경입니다.", unlockSetId = "5", rarity = CardRarity.SR, displaySprite = CreateSolidColorSprite(new Color(0.5f, 0.3f, 0.2f, 1f)) },
-                    new CollectibleItem { id = "bg-hero", displayName = "우주 레인저 배경", description = "은하수를 누비는 레인저 히어로 테마 배경입니다.", unlockSetId = "6", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.15f, 0.1f, 0.4f, 1f)) },
-                    new CollectibleItem { id = "bg-steampunk", displayName = "스팀펑크 비행선 배경", description = "하늘을 누비는 증기 비행선 테마 배경입니다.", unlockSetId = "7", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.4f, 0.25f, 0.15f, 1f)) },
-                    new CollectibleItem { id = "bg-season", displayName = "사계절 정령 배경", description = "아름다운 사계절의 정기를 품은 몽환적인 배경입니다.", unlockSetId = "8", rarity = CardRarity.SSR, displaySprite = CreateSolidColorSprite(new Color(0.2f, 0.5f, 0.3f, 1f)) }
-                };
+#if UNITY_EDITOR
+                return UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_BG/{fileName}");
+#else
+                return null;
+#endif
             }
+
+            backgrounds = new List<CollectibleItem>
+            {
+                new CollectibleItem { id = "bg", displayName = "기본 배경", description = "기본으로 제공되는 고양이 방 테마 배경입니다.", unlockSetId = "", rarity = CardRarity.N, isTestUnlocked = true, displaySprite = LoadBgSprite("bg.png") },
+                new CollectibleItem { id = "bg2", displayName = "사막 오아시스 배경", description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2", rarity = CardRarity.R, isTestUnlocked = false, displaySprite = LoadBgSprite("bg2.png") },
+                new CollectibleItem { id = "bg3", displayName = "달콤한 디저트 배경", description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.", unlockSetId = "3", rarity = CardRarity.R, isTestUnlocked = false, displaySprite = LoadBgSprite("bg3.png") },
+                new CollectibleItem { id = "bg4", displayName = "심해 바다 배경", description = "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 테마 배경입니다.", unlockSetId = "4", rarity = CardRarity.SR, isTestUnlocked = false, displaySprite = LoadBgSprite("bg4.png") },
+                new CollectibleItem { id = "bg5", displayName = "저자거리 축제 배경", description = "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 테마 배경입니다.", unlockSetId = "5", rarity = CardRarity.SR, isTestUnlocked = false, displaySprite = LoadBgSprite("bg5.png") }
+            };
 
             if (decorations == null || decorations.Count == 0)
             {
