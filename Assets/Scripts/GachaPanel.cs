@@ -872,7 +872,7 @@ namespace CosmicChaosCat
             var cardFronts = new List<GameObject>();
 
             Vector2 cardSize = animCardTemplate != null ? animCardTemplate.sizeDelta : animCardSize;
-            float spacing = cardSize.x + 60f;
+            float spacing = cardSize.x + 100f;
             var font = moneyText?.font;
 
             // Spawn conveyor cards
@@ -1522,7 +1522,7 @@ namespace CosmicChaosCat
                 foreach (Transform child in conveyor)
                     UnityEditor.Undo.DestroyObjectImmediate(child.gameObject);
 
-                float spacing = animCardSize.x + 60f;
+                float spacing = animCardSize.x + 100f;
                 var rarities = new[] { CardRarity.N, CardRarity.R, CardRarity.SR, CardRarity.SSR, CardRarity.UR };
                 var names = new[] { "N-기본냥", "R-레어냥", "SR-우주냥", "SSR-황금냥", "UR-신급냥" };
 

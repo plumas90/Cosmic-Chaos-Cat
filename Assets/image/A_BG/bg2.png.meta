@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 5c774c4e699d9ecb0aa119c1cb5a23b3
+guid: ebe3df837143ce7f2b64412488901d21
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5582965907780640459
-    second: cosmic-chaos-cat-odd-eyes-resize_0
-  - first:
-      213: -217699750456304394
-    second: cosmic-chaos-cat-odd-eyes-resize_1
-  - first:
-      213: -4613632473815588176
-    second: cosmic-chaos-cat-odd-eyes-resize_2
+      213: -8483731395159641348
+    second: bg2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cosmic-chaos-cat-odd-eyes-resize_0
+      name: bg2_0
       rect:
         serializedVersion: 2
-        x: 54
-        y: 15
-        width: 453
-        height: 429
+        x: 0
+        y: 0
+        width: 1672
+        height: 941
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,52 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5316e9136125582b0800000000000000
-      internalID: -5582965907780640459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cosmic-chaos-cat-odd-eyes-resize_1
-      rect:
-        serializedVersion: 2
-        x: 354
-        y: 440
-        width: 13
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6fc5c5afa339afcf0800000000000000
-      internalID: -217699750456304394
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cosmic-chaos-cat-odd-eyes-resize_2
-      rect:
-        serializedVersion: 2
-        x: 366
-        y: 431
-        width: 30
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0b2e30a85b519ffb0800000000000000
-      internalID: -4613632473815588176
+      spriteID: cf23eadae3bb34a80800000000000000
+      internalID: -8483731395159641348
       vertices: []
       indices: 
       edges: []
@@ -185,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cosmic-chaos-cat-odd-eyes-resize_0: -5582965907780640459
-      cosmic-chaos-cat-odd-eyes-resize_1: -217699750456304394
-      cosmic-chaos-cat-odd-eyes-resize_2: -4613632473815588176
+      bg2_0: -8483731395159641348
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 52b3f7115fd30891da783405355f475c
+guid: 8b192faab692f4f6a9d92357d94effbc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2075232658180968294
-    second: cosmic-cat-left-paw-translucent-resize_0
+      213: -5183756314255143157
+    second: bg4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cosmic-cat-left-paw-translucent-resize_0
+      name: bg4_0
       rect:
         serializedVersion: 2
-        x: 99
-        y: 109
-        width: 523
-        height: 418
+        x: 0
+        y: 0
+        width: 1672
+        height: 941
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a9075d674ea4333e0800000000000000
-      internalID: -2075232658180968294
+      spriteID: b0f42aec8199f08b0800000000000000
+      internalID: -5183756314255143157
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cosmic-cat-left-paw-translucent-resize_0: -2075232658180968294
+      bg4_0: -5183756314255143157
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
