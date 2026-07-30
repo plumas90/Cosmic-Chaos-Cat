@@ -853,8 +853,15 @@ namespace CosmicChaosCat
         private static void BindBtn(GameObject go, UnityEngine.Events.UnityAction action)
         {
             if (go == null) return;
-            var btn = go.GetComponent<Button>();
-            if (btn == null) return;
+            var btn = go.GetComponent<Button>()
+                   ?? go.GetComponentInChildren<Button>(true);
+            if (btn == null)
+            {
+                btn = go.AddComponent<Button>();
+                // 새로 추가된 버튼은 Image가 없으면 클릭 영역을 위한 Image 필요
+                var img = go.GetComponent<Image>();
+                if (img != null) img.raycastTarget = true;
+            }
 
             string n = go.name.ToLower();
             if (n.Contains("close") || n.Contains("✕") || n.Contains("닫기") || n.Contains("x"))
@@ -1329,17 +1336,22 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Rarity mark (rereMark Image)
-            if (detailCardRarityMark == null && searchRoot != null)
+            // Rarity mark (Rair_Mark / rereMark / rareMark Image)
+            if (searchRoot != null)
             {
-                var rm = FindChildByNameRecursive(searchRoot, "rereMark")
+                var rm = FindChildByNameRecursive(searchRoot, "Rair_Mark")
+                      ?? FindChildByNameRecursive(searchRoot, "Rair_mark")
+                      ?? FindChildByNameRecursive(searchRoot, "rair_mark")
+                      ?? FindChildByNameRecursive(searchRoot, "RairMark")
+                      ?? FindChildByNameRecursive(searchRoot, "rairmark")
+                      ?? FindChildByNameRecursive(searchRoot, "Rare_Mark")
+                      ?? FindChildByNameRecursive(searchRoot, "rare_mark")
+                      ?? FindChildByNameRecursive(searchRoot, "rereMark")
                       ?? FindChildByNameRecursive(searchRoot, "reremark")
                       ?? FindChildByNameRecursive(searchRoot, "rareMark")
                       ?? FindChildByNameRecursive(searchRoot, "raremark")
                       ?? FindChildByNameRecursive(searchRoot, "RarityMark")
                       ?? FindChildByNameRecursive(searchRoot, "rarityMark")
-                      ?? FindChildByNameRecursive(searchRoot, "rare_mark")
-                      ?? FindChildByNameRecursive(searchRoot, "rarity_mark")
                       ?? FindChildByNameRecursive(searchRoot, "RareMark");
                 if (rm != null) detailCardRarityMark = rm.GetComponent<Image>();
             }
@@ -2008,11 +2020,21 @@ namespace CosmicChaosCat
 
             // Tab row buttons
             var bmNo = FindChildByNameRecursive(transform, "BookMark_No");
-            if (bmNo != null) tabNoBtn = bmNo.gameObject;
+            if (bmNo != null)
+            {
+                tabNoBtn = bmNo.gameObject;
+                var img = bmNo.GetComponent<Image>() ?? bmNo.GetComponentInChildren<Image>();
+                if (img != null) img.color = Color.white;
+            }
             else if (tabNoBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_No.") ?? FindChildByNameRecursive(transform, "tabNoBtn");  if (t != null) tabNoBtn  = t.gameObject; }
 
             var bmSet = FindChildByNameRecursive(transform, "BookMark_Set");
-            if (bmSet != null) tabSetBtn = bmSet.gameObject;
+            if (bmSet != null)
+            {
+                tabSetBtn = bmSet.gameObject;
+                var img = bmSet.GetComponent<Image>() ?? bmSet.GetComponentInChildren<Image>();
+                if (img != null) img.color = Color.white;
+            }
             else if (tabSetBtn == null) { var t = FindChildByNameRecursive(transform, "Btn_Set") ?? FindChildByNameRecursive(transform, "tabSetBtn"); if (t != null) tabSetBtn = t.gameObject; }
 
             if (closeBtn  == null) { var t = FindChildByNameRecursive(transform, "Btn_✕")  ?? FindChildByNameRecursive(transform, "closeBtn");  if (t != null) closeBtn  = t.gameObject; }
@@ -2093,17 +2115,22 @@ namespace CosmicChaosCat
                         if (ar != null) detailCardArt = ar.GetComponent<Image>();
                     }
 
-                    // rereMark / rareMark → detailCardRarityMark
+                    // Rair_Mark / rereMark / rareMark → detailCardRarityMark
                     if (detailCardRarityMark == null)
                     {
-                        var rm = FindChildByNameRecursive(rt, "rereMark")
+                        var rm = FindChildByNameRecursive(rt, "Rair_Mark")
+                              ?? FindChildByNameRecursive(rt, "Rair_mark")
+                              ?? FindChildByNameRecursive(rt, "rair_mark")
+                              ?? FindChildByNameRecursive(rt, "RairMark")
+                              ?? FindChildByNameRecursive(rt, "rairmark")
+                              ?? FindChildByNameRecursive(rt, "Rare_Mark")
+                              ?? FindChildByNameRecursive(rt, "rare_mark")
+                              ?? FindChildByNameRecursive(rt, "rereMark")
                               ?? FindChildByNameRecursive(rt, "reremark")
                               ?? FindChildByNameRecursive(rt, "rareMark")
                               ?? FindChildByNameRecursive(rt, "raremark")
                               ?? FindChildByNameRecursive(rt, "RarityMark")
                               ?? FindChildByNameRecursive(rt, "rarityMark")
-                              ?? FindChildByNameRecursive(rt, "rare_mark")
-                              ?? FindChildByNameRecursive(rt, "rarity_mark")
                               ?? FindChildByNameRecursive(rt, "RareMark");
                         if (rm != null) detailCardRarityMark = rm.GetComponent<Image>();
                     }
@@ -2367,6 +2394,12 @@ namespace CosmicChaosCat
         private static void SetBtnColor(GameObject go, Color col)
         {
             if (go == null) return;
+            if (go.name.StartsWith("BookMark_") || go.name.Contains("BookMark_"))
+            {
+                var bmImg = go.GetComponent<Image>() ?? go.GetComponentInChildren<Image>();
+                if (bmImg != null && bmImg.color != Color.white) bmImg.color = Color.white;
+                return;
+            }
             var img = go.GetComponent<Image>() ?? go.GetComponentInChildren<Image>();
             if (img != null) img.color = col;
         }

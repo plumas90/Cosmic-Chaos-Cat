@@ -75,6 +75,11 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite rowSpriteEconomy;
         [SerializeField] private Sprite rowSpriteSpecial;
 
+        [Header("Particle Sprites")]
+        [SerializeField] private Sprite pawPrintParticleSprite;
+
+        public Sprite PawPrintParticleSprite { get => pawPrintParticleSprite; set => pawPrintParticleSprite = value; }
+
         public Sprite SecHdrSpriteClick { get => secHdrSpriteClick; set => secHdrSpriteClick = value; }
         public Sprite SecHdrSpriteGacha { get => secHdrSpriteGacha; set => secHdrSpriteGacha = value; }
         public Sprite SecHdrSpriteEconomy { get => secHdrSpriteEconomy; set => secHdrSpriteEconomy = value; }
@@ -2250,6 +2255,12 @@ namespace CosmicChaosCat
             }
             else if (shardCardFront != null)
             {
+                var frontImg = shardCardFront.GetComponent<Image>() ?? shardCardFront.transform.Find("Bg")?.GetComponent<Image>();
+                if (frontImg != null && chosenCard.GachaBgSprite != null)
+                {
+                    frontImg.sprite = chosenCard.GachaBgSprite;
+                    frontImg.color = Color.white;
+                }
                 var artImg = shardCardFront.transform.Find("Art")?.GetComponent<Image>()
                           ?? shardCardFront.transform.Find("CardArt")?.GetComponent<Image>()
                           ?? shardCardFront.transform.Find("Image")?.GetComponent<Image>();
@@ -2335,8 +2346,8 @@ namespace CosmicChaosCat
 
                         if (rarity >= CardRarity.SR)
                         {
-                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 4, 180f, 400f, 25f, 65f);
-                            if (rarity >= CardRarity.SSR && Random.value < 0.15f) SpawnShardUIStarImplosion(shardCardContainer, 12, 1.2f, 35f, 85f);
+                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 3, 180f, 400f, 25f, 65f);
+                            if (rarity >= CardRarity.SSR && Random.value < 0.15f) SpawnShardUIStarImplosion(shardCardContainer, 10, 1.2f, 35f, 85f);
                         }
                         yield return null;
                     }
@@ -2357,7 +2368,7 @@ namespace CosmicChaosCat
 
                         if (rarity >= CardRarity.SR)
                         {
-                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 4, 180f, 400f, 25f, 65f);
+                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 3, 180f, 400f, 25f, 65f);
                         }
                         yield return null;
                     }
@@ -2372,8 +2383,8 @@ namespace CosmicChaosCat
                 if (rarity >= CardRarity.SR)
                 {
                     effectPlayer?.PlayGachaEffect(rarity);
-                    SpawnShardUIStarBurst(shardCardContainer, rarity >= CardRarity.SSR ? 55 : 35, 450f, 950f, 45f, 110f);
-                    if (rarity >= CardRarity.SSR) SpawnShardUIStarImplosion(shardCardContainer, 45, 1.5f, 50f, 120f);
+                    SpawnShardUIStarBurst(shardCardContainer, rarity >= CardRarity.SSR ? 44 : 28, 450f, 950f, 45f, 110f);
+                    if (rarity >= CardRarity.SSR) SpawnShardUIStarImplosion(shardCardContainer, 36, 1.5f, 50f, 120f);
                 }
 
                 t = 0f;
@@ -2438,38 +2449,55 @@ namespace CosmicChaosCat
             return cachedShardStarSprite;
         }
 
+        private static Sprite cachedPawPrintSprite;
+
+        private Sprite GetPawPrintParticleSprite()
+        {
+            if (pawPrintParticleSprite != null) return pawPrintParticleSprite;
+            if (cachedPawPrintSprite != null) return cachedPawPrintSprite;
+#if UNITY_EDITOR
+            cachedPawPrintSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/image/main_game_ui/귀여운_발자국_파티클_50x50.png");
+            if (cachedPawPrintSprite != null) return cachedPawPrintSprite;
+#endif
+            return GetOrCreateShardStarSprite();
+        }
+
         private void SpawnShardUIStarBurst(Transform parent, int count, float minSpeed, float maxSpeed, float minSize, float maxSize)
         {
             if (parent == null) return;
-            Sprite starSp = GetOrCreateShardStarSprite();
-            Color[] starColors = { new Color(1f, 0.92f, 0.3f, 1f), new Color(1f, 1f, 1f, 1f), new Color(1f, 0.75f, 0.2f, 1f), new Color(0.6f, 0.95f, 1f, 1f) };
+            Sprite starSp = GetPawPrintParticleSprite();
 
-            for (int i = 0; i < count; i++)
+            int finalCount = Mathf.Max(1, Mathf.RoundToInt(count * (2f / 3f)));
+
+            for (int i = 0; i < finalCount; i++)
             {
-                var starGO = new GameObject("StarParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                var starGO = new GameObject("PawParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
                 starGO.transform.SetParent(parent, false);
                 var img = starGO.GetComponent<Image>();
                 img.sprite = starSp; img.raycastTarget = false;
-                img.color = starColors[Random.Range(0, starColors.Length)];
+                img.color = Color.white;
                 var sRT = starGO.GetComponent<RectTransform>();
-                float sz = Random.Range(minSize, maxSize);
-                sRT.sizeDelta = new Vector2(sz, sz);
-                sRT.anchoredPosition = Vector2.zero;
+                
+                float baseScale = Random.Range(0.8f, 1.2f);
+                sRT.sizeDelta = new Vector2(50f, 50f);
+                sRT.localScale = Vector3.one * baseScale;
+                
+                Vector2 startOffset = new Vector2(Random.Range(-25f, 25f), Random.Range(-25f, 25f));
+                sRT.anchoredPosition = startOffset;
 
                 float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
                 float speed = Random.Range(minSpeed, maxSpeed);
                 float rotSpeed = Random.Range(-360f, 360f);
                 float lifetime = Random.Range(0.6f, 1.1f);
-                StartCoroutine(AnimateShardStar(starGO, sRT, img, dir, speed, rotSpeed, lifetime));
+                StartCoroutine(AnimateShardStar(starGO, sRT, img, startOffset, dir, speed, rotSpeed, lifetime, baseScale));
             }
         }
 
-        private System.Collections.IEnumerator AnimateShardStar(GameObject starGO, RectTransform rt, Image img, Vector2 dir, float speed, float rotSpeed, float duration)
+        private System.Collections.IEnumerator AnimateShardStar(GameObject starGO, RectTransform rt, Image img, Vector2 startPos, Vector2 dir, float speed, float rotSpeed, float duration, float baseScale = 1.0f)
         {
             float elapsed = 0f;
-            Vector2 pos = Vector2.zero;
-            Color baseColor = img.color;
+            Vector2 pos = startPos;
             while (elapsed < duration)
             {
                 if (starGO == null) yield break;
@@ -2478,9 +2506,9 @@ namespace CosmicChaosCat
                 pos += dir * speed * (1f - t * 0.5f) * Time.deltaTime;
                 rt.anchoredPosition = pos;
                 rt.Rotate(0, 0, rotSpeed * Time.deltaTime);
-                float scale = Mathf.Sin(t * Mathf.PI) * 1.2f;
-                rt.localScale = new Vector3(scale, scale, 1f);
-                img.color = new Color(baseColor.r, baseColor.g, baseColor.b, 1f - t);
+                float currentScale = baseScale * (1f - t * 0.2f);
+                rt.localScale = new Vector3(currentScale, currentScale, 1f);
+                img.color = new Color(1f, 1f, 1f, 1f - t);
                 yield return null;
             }
             if (starGO != null) Destroy(starGO);
@@ -2489,40 +2517,45 @@ namespace CosmicChaosCat
         private void SpawnShardUIStarImplosion(Transform parent, int count, float duration, float minSize, float maxSize)
         {
             if (parent == null) return;
-            Sprite starSp = GetOrCreateShardStarSprite();
-            Color[] starColors = { new Color(1f, 0.95f, 0.4f, 1f), new Color(1f, 0.5f, 0.85f, 1f), new Color(0.4f, 0.9f, 1f, 1f) };
+            Sprite starSp = GetPawPrintParticleSprite();
 
             for (int i = 0; i < count; i++)
             {
-                var starGO = new GameObject("StarParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                var starGO = new GameObject("PawParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
                 starGO.transform.SetParent(parent, false);
                 var img = starGO.GetComponent<Image>();
                 img.sprite = starSp; img.raycastTarget = false;
-                img.color = starColors[Random.Range(0, starColors.Length)];
+                img.color = Color.white;
                 var sRT = starGO.GetComponent<RectTransform>();
-                float sz = Random.Range(minSize, maxSize);
-                sRT.sizeDelta = new Vector2(sz, sz);
+                
+                float baseScale = Random.Range(0.8f, 1.2f);
+                sRT.sizeDelta = new Vector2(50f, 50f);
+                sRT.localScale = Vector3.one * baseScale;
+                sRT.localRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
 
                 float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
                 float startRadius = Random.Range(400f, 800f);
                 Vector2 startPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * startRadius;
                 sRT.anchoredPosition = startPos;
-                StartCoroutine(AnimateShardStarImplosion(starGO, sRT, img, startPos, duration));
+
+                float rotSpeed = Random.Range(-360f, 360f);
+                StartCoroutine(AnimateShardStarImplosion(starGO, sRT, img, startPos, duration, baseScale, rotSpeed));
             }
         }
 
-        private System.Collections.IEnumerator AnimateShardStarImplosion(GameObject starGO, RectTransform sRT, Image img, Vector2 startPos, float duration)
+        private System.Collections.IEnumerator AnimateShardStarImplosion(GameObject starGO, RectTransform sRT, Image img, Vector2 startPos, float duration, float baseScale = 1.0f, float rotSpeed = 0f)
         {
             float elapsed = 0f;
-            Color baseColor = img.color;
             while (elapsed < duration)
             {
                 if (starGO == null || sRT == null) yield break;
                 elapsed += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsed / duration);
                 sRT.anchoredPosition = Vector2.Lerp(startPos, Vector2.zero, t * t);
-                sRT.localScale = Vector3.one * (1f - t * 0.5f);
-                if (img != null) img.color = new Color(baseColor.r, baseColor.g, baseColor.b, t < 0.2f ? (t / 0.2f) : (1f - t));
+                sRT.Rotate(0, 0, rotSpeed * Time.deltaTime);
+                float currentScale = baseScale * (1f - t * 0.4f);
+                sRT.localScale = new Vector3(currentScale, currentScale, 1f);
+                if (img != null) img.color = new Color(1f, 1f, 1f, t < 0.2f ? (t / 0.2f) : (1f - t));
                 yield return null;
             }
             if (starGO != null) Destroy(starGO);

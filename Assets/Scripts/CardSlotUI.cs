@@ -105,7 +105,8 @@ namespace CosmicChaosCat
                 {
                     if (cardArtImage == null) cardArtImage = img;
                 }
-                else if (n == "rereMark" || n == "reremark" || n == "rareMark" || n == "raremark" ||
+                else if (n == "Rair_Mark" || n == "RairMark" || n == "rair_mark" || n == "Rair_mark" ||
+                         n == "rereMark" || n == "reremark" || n == "rareMark" || n == "raremark" ||
                          n == "RarityMark" || n == "rarityMark" || n == "rare_mark" || n == "rarity_mark" || n == "RareMark")
                 {
                     if (rarityMarkImage == null) rarityMarkImage = img;

@@ -1005,13 +1005,24 @@ namespace CosmicChaosCat
             if (frontTrans == null || card == null) return;
             var theme = GetRarityTheme(card.Rarity);
 
+            Sprite gachaBgSprite = card.GachaBgSprite != null ? card.GachaBgSprite : theme.frontSprite;
+
+            // 0. CardBase root Image (if frontTrans is a child of CardBase)
+            Transform rootTrans = (frontTrans.parent != null && (frontTrans.name.ToLower() == "front")) ? frontTrans.parent : frontTrans;
+            var cardBaseImg = rootTrans.GetComponent<Image>();
+            if (cardBaseImg != null && card.GachaBgSprite != null)
+            {
+                cardBaseImg.sprite = card.GachaBgSprite;
+                cardBaseImg.color = Color.white;
+            }
+
             // 1. Front (Card Background) Image
             var bgImg = frontTrans.GetComponent<Image>() ?? frontTrans.Find("Bg")?.GetComponent<Image>();
             if (bgImg != null)
             {
-                if (theme.frontSprite != null)
+                if (gachaBgSprite != null)
                 {
-                    bgImg.sprite = theme.frontSprite;
+                    bgImg.sprite = gachaBgSprite;
                 }
                 bgImg.color = Color.white;
             }
@@ -1156,6 +1167,7 @@ namespace CosmicChaosCat
                     frontRt.anchorMin = Vector2.zero; frontRt.anchorMax = Vector2.one;
                     frontRt.offsetMin = frontRt.offsetMax = Vector2.zero;
                     var frontImg = frontGo.AddComponent<Image>();
+                    if (card.GachaBgSprite != null) frontImg.sprite = card.GachaBgSprite;
                     frontImg.color = Color.white;
 
                     var artGo = new GameObject("Art");

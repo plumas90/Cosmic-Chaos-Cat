@@ -57,6 +57,15 @@ namespace CosmicChaosCat
         public CardShopCurrency ShopCurrency = CardShopCurrency.Coin;
         public double ShopPrice = 1000;
         public Sprite CardSprite;
+        [Tooltip("가챠 연출의 cardbase 및 상점 ShardContent Front 배경 이미지")]
+        public Sprite GachaBgSprite;
+
+        public Sprite GachaBg
+        {
+            get => GachaBgSprite != null ? GachaBgSprite : CardSprite;
+            set => GachaBgSprite = value;
+        }
+
         public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
         public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
         public CardSpecialEffect SpecialEffect;

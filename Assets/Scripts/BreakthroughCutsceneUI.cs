@@ -561,8 +561,8 @@ namespace CosmicChaosCat
             float elapsed = 0f;
             float phase1Duration = isSSR ? 0.7f : 0.5f;
 
-            if (enableStarParticles) SpawnUIStarBurst(15, 200f, 400f, 35f, 65f);
-            if (isSSR) SpawnUIStarImplosion(45, 2.5f, 40f, 90f);
+            if (enableStarParticles) SpawnUIStarBurst(12, 200f, 400f, 35f, 65f);
+            if (isSSR) SpawnUIStarImplosion(36, 2.5f, 40f, 90f);
 
             while (elapsed < phase1Duration)
             {
@@ -586,10 +586,10 @@ namespace CosmicChaosCat
                 // White flash burst on each swap
                 SetShaderProperties(0f, 0.8f, Color.black);
                 if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0.7f);
-                if (enableStarParticles) SpawnUIStarBurst(6, 250f, 500f, 30f, 60f);
+                if (enableStarParticles) SpawnUIStarBurst(5, 250f, 500f, 30f, 60f);
 
                 if (isSSR && i % 2 == 0) StartCoroutine(DoScreenShake(cardContainer, 0.12f, 15f));
-                if (isSSR && i % 3 == 0) SpawnUIStarImplosion(15, 1.5f, 35f, 80f);
+                if (isSSR && i % 3 == 0) SpawnUIStarImplosion(12, 1.5f, 35f, 80f);
 
                 yield return new WaitForSecondsRealtime(flickerInterval * 0.4f);
 
@@ -602,8 +602,8 @@ namespace CosmicChaosCat
             // ── Phase 3: New Silhouette Fixed & Charging Aura ──────────────
             cardImage.sprite = newSprite;
             SetShaderProperties(0f, 1f, Color.black); // Intense white flash
-            if (enableStarParticles) SpawnUIStarBurst(20, 300f, 600f, 40f, 75f);
-            if (isSSR) SpawnUIStarImplosion(75, 2.0f, 60f, 110f);
+            if (enableStarParticles) SpawnUIStarBurst(16, 300f, 600f, 40f, 75f);
+            if (isSSR) SpawnUIStarImplosion(60, 2.0f, 60f, 110f);
 
             yield return new WaitForSecondsRealtime(0.15f);
 
@@ -626,10 +626,10 @@ namespace CosmicChaosCat
             }
 
             // ── Phase 4: Silhouette Reveals Full Color Illustration + UI STAR BURST (if enabled) ──
-            if (enableStarParticles) SpawnUIStarBurst(isSSR ? 70 : 45, 450f, isSSR ? 1100f : 900f, 50f, isSSR ? 130f : 100f);
+            if (enableStarParticles) SpawnUIStarBurst(isSSR ? 56 : 36, 450f, isSSR ? 1100f : 900f, 50f, isSSR ? 130f : 100f);
             if (isSSR)
             {
-                SpawnUIStarImplosion(60, 1.5f, 50f, 100f);
+                SpawnUIStarImplosion(48, 1.5f, 50f, 100f);
                 StartCoroutine(DoScreenShake(cardContainer, 1.2f, 26f));
             }
 
