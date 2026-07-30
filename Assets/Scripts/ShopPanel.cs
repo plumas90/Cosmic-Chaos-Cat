@@ -1524,7 +1524,7 @@ namespace CosmicChaosCat
             EnsureReferencesResolved();
             if (gm == null) return;
             if (coinText  != null) coinText.text  = GameManager.FormatNumber(gm.Money);
-            if (shardText != null) shardText.text = $"{gm.Shards}";
+            if (shardText != null) shardText.text = GameManager.FormatNumber(gm.Shards);
 
             if (upgradesContent != null && upgradesContent.activeSelf) RefreshUpgrades();
 
@@ -1588,7 +1588,7 @@ namespace CosmicChaosCat
 
                     if (info.CostText != null)
                     {
-                        info.CostText.text = isShardUpgrade ? $"{cost:F0}" : GameManager.FormatNumber(cost);
+                        info.CostText.text = GameManager.FormatNumber(cost);
                         info.CostText.color = isShardUpgrade ? ShardColor : GoldColor;
                     }
 
@@ -1600,7 +1600,7 @@ namespace CosmicChaosCat
 
         private void RefreshShardButton(CardRarity rarity, Button btn, TMP_Text txt)
         {
-            if (btn == null || txt == null || gm == null || gm.CardCatalog == null) return;
+            if (gm == null || gm.CardCatalog == null) return;
 
             int currentCost = gm.GetShardExchangeCost(rarity);
             var states = gm.GetCardStates();
@@ -1632,19 +1632,54 @@ namespace CosmicChaosCat
                 }
             }
 
+            string displayStr;
             Color baseCol = rarity == CardRarity.SSR ? ColSSR : rarity == CardRarity.SR ? ColSR : rarity == CardRarity.R ? ColR : ColN;
+            bool afford = gm.Shards >= currentCost;
+
             if (candCount == 0)
             {
-                btn.interactable = false;
-                txt.text = "교환 완료";
-                btn.GetComponent<Image>().color = new Color(0.22f,0.48f,0.26f);
+                displayStr = "MAX";
             }
             else
             {
-                bool afford = gm.Shards >= currentCost;
-                btn.interactable = afford;
-                txt.text = $"{rarity} 등급 교환\n[{currentCost} 조각]";
-                btn.GetComponent<Image>().color = afford ? baseCol : BtnDisabled;
+                displayStr = GameManager.FormatNumber(currentCost);
+            }
+
+            void ApplyToButton(Button targetBtn)
+            {
+                if (targetBtn == null) return;
+
+                targetBtn.interactable = candCount > 0 && afford;
+
+                var childTMPs = targetBtn.GetComponentsInChildren<TMP_Text>(true);
+                foreach (var t in childTMPs)
+                {
+                    t.text = displayStr;
+                }
+                var childTexts = targetBtn.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+                foreach (var t in childTexts)
+                {
+                    t.text = displayStr;
+                }
+            }
+
+            ApplyToButton(btn);
+
+            if (shardContent != null)
+            {
+                string rKey = rarity.ToString().ToLower();
+                foreach (Transform child in shardContent.GetComponentsInChildren<Transform>(true))
+                {
+                    string cName = child.name.ToLower();
+                    if (cName.EndsWith("_" + rKey) || cName.StartsWith("card_" + rKey) || cName == rKey)
+                    {
+                        var bList = child.GetComponentsInChildren<Button>(true);
+                        foreach (var b in bList)
+                        {
+                            ApplyToButton(b);
+                        }
+                    }
+                }
             }
         }
 
@@ -1845,7 +1880,7 @@ namespace CosmicChaosCat
                     if (priceTxt != null)
                     {
                         Color pCol = prod.currencyType == ProductCurrencyType.Coin ? GoldColor : ShardColor;
-                        string formattedPrice = prod.currencyType == ProductCurrencyType.Coin ? GameManager.FormatNumber(prod.price) : $"{prod.price:0}";
+                        string formattedPrice = GameManager.FormatNumber(prod.price);
                         SetTextComponent(priceTxt, formattedPrice, pCol);
                         priceTxt.gameObject.SetActive(true);
                     }
@@ -2046,6 +2081,451 @@ namespace CosmicChaosCat
             applyDraw?.Invoke(gm, new object[] { chosen });
             gm.SaveGame();
             gm.NotifyStateChange();
+
+            PlayShardPurchaseCutscene(chosen, rarity);
+        }
+
+        // ── Shard Purchase Animation Cutscene (AnimContainer) ──────────────────
+        private GameObject shardAnimContainer;
+        private RectTransform shardCardContainer;
+        private RectTransform shardCardRT;
+        private GameObject shardCardBack;
+        private GameObject shardCardFront;
+        private Coroutine activeShardAnim;
+
+        private void EnsureShardAnimContainerBuilt()
+        {
+            if (shardAnimContainer == null)
+            {
+                var existingTrans = transform.Find("ShardAnimContainer");
+                if (existingTrans != null)
+                {
+                    shardAnimContainer = existingTrans.gameObject;
+                }
+                else
+                {
+                    var rootCanvas = FindObjectOfType<Canvas>();
+                    shardAnimContainer = new GameObject("ShardAnimContainer", typeof(RectTransform), typeof(CanvasGroup));
+                    if (rootCanvas != null) shardAnimContainer.transform.SetParent(rootCanvas.transform, false);
+                    else shardAnimContainer.transform.SetParent(transform, false);
+
+                    var rt = shardAnimContainer.GetComponent<RectTransform>();
+                    rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+                    rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+
+                    var cg = shardAnimContainer.GetComponent<CanvasGroup>();
+                    cg.alpha = 1f; cg.blocksRaycasts = true; cg.interactable = true;
+
+                    // Background Overlay
+                    var bgGO = new GameObject("BgOverlay", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                    bgGO.transform.SetParent(shardAnimContainer.transform, false);
+                    var bgRt = bgGO.GetComponent<RectTransform>();
+                    bgRt.anchorMin = Vector2.zero; bgRt.anchorMax = Vector2.one;
+                    bgRt.offsetMin = Vector2.zero; bgRt.offsetMax = Vector2.zero;
+                    var bgImg = bgGO.GetComponent<Image>();
+                    bgImg.color = new Color(0.04f, 0.05f, 0.09f, 0.92f);
+                    bgImg.raycastTarget = true;
+                }
+            }
+
+            // Find or build CardContainer
+            var cTrans = shardAnimContainer.transform.Find("CardContainer");
+            if (cTrans != null)
+            {
+                shardCardContainer = cTrans.GetComponent<RectTransform>();
+            }
+            else
+            {
+                var cGO = new GameObject("CardContainer", typeof(RectTransform));
+                cGO.transform.SetParent(shardAnimContainer.transform, false);
+                shardCardContainer = cGO.GetComponent<RectTransform>();
+                shardCardContainer.anchorMin = new Vector2(0.5f, 0.5f);
+                shardCardContainer.anchorMax = new Vector2(0.5f, 0.5f);
+                shardCardContainer.anchoredPosition = Vector2.zero;
+            }
+
+            // Find existing CardBase or clone from GachaPanel without overwriting Inspector values
+            var cardTrans = shardCardContainer.Find("CardBase") ?? shardCardContainer.Find("Card");
+            GameObject cardGo = null;
+            if (cardTrans != null)
+            {
+                cardGo = cardTrans.gameObject;
+            }
+            else
+            {
+                var gachaPanel = FindObjectOfType<GachaPanel>(true);
+                cardGo = gachaPanel != null ? gachaPanel.CreateCardBase(shardCardContainer) : null;
+                if (cardGo == null)
+                {
+                    cardGo = new GameObject("CardBase", typeof(RectTransform));
+                    cardGo.transform.SetParent(shardCardContainer, false);
+                }
+            }
+
+            shardCardRT = cardGo.GetComponent<RectTransform>();
+
+            // Resolve Back transform & GameObject
+            var backTrans = cardGo.transform.Find("Back");
+            if (backTrans == null)
+            {
+                var backGo = new GameObject("Back", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                backGo.transform.SetParent(cardGo.transform, false);
+                var bRt = backGo.GetComponent<RectTransform>();
+                bRt.anchorMin = Vector2.zero; bRt.anchorMax = Vector2.one;
+                bRt.offsetMin = Vector2.zero; bRt.offsetMax = Vector2.zero;
+                backGo.GetComponent<Image>().color = new Color(0.12f, 0.16f, 0.26f, 1f);
+
+                var qTxt = MakeLabel(backGo.transform, "?", Vector2.zero, new Vector2(150, 150), 72, new Color(0.7f, 0.8f, 1f), FontStyles.Bold);
+                qTxt.alignment = TextAlignmentOptions.Center;
+                backTrans = backGo.transform;
+            }
+            shardCardBack = backTrans.gameObject;
+
+            // Resolve Front transform & GameObject
+            var frontTrans = cardGo.transform.Find("Front");
+            if (frontTrans == null)
+            {
+                var frontGo = new GameObject("Front", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                frontGo.transform.SetParent(cardGo.transform, false);
+                var fRt = frontGo.GetComponent<RectTransform>();
+                fRt.anchorMin = Vector2.zero; fRt.anchorMax = Vector2.one;
+                fRt.offsetMin = Vector2.zero; fRt.offsetMax = Vector2.zero;
+                frontGo.GetComponent<Image>().color = Color.white;
+
+                var artGO = MakeRT("Art", frontGo.transform, Vector2.zero, Vector2.zero);
+                var aRt = artGO.GetComponent<RectTransform>();
+                aRt.anchorMin = Vector2.zero; aRt.anchorMax = Vector2.one;
+                aRt.offsetMin = new Vector2(10f, 60f); aRt.offsetMax = new Vector2(-10f, -10f);
+                artGO.gameObject.AddComponent<Image>();
+
+                var frameGO = MakeRT("Frame", frontGo.transform, Vector2.zero, Vector2.zero);
+                frameGO.anchorMin = Vector2.zero; frameGO.anchorMax = Vector2.one;
+                frameGO.offsetMin = Vector2.zero; frameGO.offsetMax = Vector2.zero;
+                frameGO.gameObject.AddComponent<Image>();
+
+                var rareGO = MakeRT("Rare_Mark", frontGo.transform, Vector2.zero, new Vector2(60, 60));
+                rareGO.anchorMin = new Vector2(1, 1); rareGO.anchorMax = new Vector2(1, 1);
+                rareGO.anchoredPosition = new Vector2(-35, -35);
+                rareGO.gameObject.AddComponent<Image>();
+
+                var nameTxt = MakeLabel(frontGo.transform, "---", new Vector2(0, -210), new Vector2(270, 40), 16, Color.white, FontStyles.Bold);
+                nameTxt.alignment = TextAlignmentOptions.Center;
+                frontTrans = frontGo.transform;
+            }
+            shardCardFront = frontTrans.gameObject;
+
+            var canvasObj = FindObjectOfType<Canvas>();
+            if (canvasObj != null && shardAnimContainer.transform.parent != canvasObj.transform)
+            {
+                shardAnimContainer.transform.SetParent(canvasObj.transform, false);
+            }
+
+            shardAnimContainer.transform.SetAsLastSibling();
+            shardAnimContainer.SetActive(false);
+        }
+
+        private void PlayShardPurchaseCutscene(CardEntry chosenCard, CardRarity rarity)
+        {
+            if (activeShardAnim != null) StopCoroutine(activeShardAnim);
+            activeShardAnim = StartCoroutine(RunShardPurchaseCutscene(chosenCard, rarity));
+        }
+
+        private System.Collections.IEnumerator RunShardPurchaseCutscene(CardEntry chosenCard, CardRarity rarity)
+        {
+            EnsureShardAnimContainerBuilt();
+            shardAnimContainer.SetActive(true);
+            shardAnimContainer.transform.SetAsLastSibling();
+
+            shardCardBack.SetActive(true);
+            shardCardFront.SetActive(false);
+
+            Vector3 baseScale = shardCardRT != null ? shardCardRT.localScale : Vector3.one;
+            if (shardCardRT != null) shardCardRT.localScale = baseScale;
+
+            // Bind front card data using GachaPanel's Rarity Theme / Frame / Art binding!
+            var gachaPanel = FindObjectOfType<GachaPanel>(true);
+            if (gachaPanel != null && shardCardFront != null)
+            {
+                gachaPanel.BindCardFrontData(shardCardFront.transform, chosenCard);
+            }
+            else if (shardCardFront != null)
+            {
+                var artImg = shardCardFront.transform.Find("Art")?.GetComponent<Image>()
+                          ?? shardCardFront.transform.Find("CardArt")?.GetComponent<Image>()
+                          ?? shardCardFront.transform.Find("Image")?.GetComponent<Image>();
+                if (artImg != null)
+                {
+                    artImg.sprite = chosenCard.CardSprite;
+                    artImg.color = chosenCard.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+                }
+            }
+
+            // Set name to "???" during rotation flip loop
+            var cardNameTxt = shardCardFront != null ? shardCardFront.GetComponentInChildren<TMP_Text>(true) : null;
+            if (cardNameTxt != null) cardNameTxt.text = "???";
+
+            // ── Flip Rotation Animation Loop ───────────────────────────────────
+            float t = 0f;
+            bool isShowingFront = false;
+
+            if (rarity == CardRarity.N)
+            {
+                // Normal (N): 3 flips alternating between Back and Front!
+                for (int turn = 0; turn < 3; turn++)
+                {
+                    // Shrink 1.0 -> 0.0
+                    t = 0f;
+                    while (t < 0.15f)
+                    {
+                        t += Time.deltaTime;
+                        float s = Mathf.Lerp(1.0f, 0.0f, t / 0.15f);
+                        shardCardRT.localScale = new Vector3(s * baseScale.x, baseScale.y, baseScale.z);
+                        yield return null;
+                    }
+
+                    // Toggle face at 0.0 scale!
+                    isShowingFront = !isShowingFront;
+                    shardCardBack.SetActive(!isShowingFront);
+                    shardCardFront.SetActive(isShowingFront);
+
+                    // Expand 0.0 -> 1.0
+                    t = 0f;
+                    while (t < 0.15f)
+                    {
+                        t += Time.deltaTime;
+                        float s = Mathf.Lerp(0.0f, 1.0f, t / 0.15f);
+                        shardCardRT.localScale = new Vector3(s * baseScale.x, baseScale.y, baseScale.z);
+                        yield return null;
+                    }
+                }
+
+                // Final Reveal: ensure Front is active and reveal real card name!
+                shardCardBack.SetActive(false);
+                shardCardFront.SetActive(true);
+                shardCardRT.localScale = baseScale;
+                if (cardNameTxt != null) cardNameTxt.text = chosenCard.DisplayName;
+
+                float holdTime = 1.2f;
+                while (holdTime > 0f)
+                {
+                    holdTime -= Time.deltaTime;
+                    yield return null;
+                }
+            }
+            else
+            {
+                // Rare (3s) or SR / SSR (4s)
+                float totalTime = rarity == CardRarity.R ? 3.0f : 4.0f;
+                float elapsed = 0f;
+                float currentFlipDuration = 0.25f;
+
+                while (elapsed < totalTime)
+                {
+                    float progress = elapsed / totalTime;
+                    currentFlipDuration = Mathf.Lerp(0.25f, 0.08f, progress);
+
+                    // Shrink 1.0 -> 0.0
+                    t = 0f;
+                    while (t < currentFlipDuration)
+                    {
+                        t += Time.deltaTime;
+                        elapsed += Time.deltaTime;
+                        float s = Mathf.Lerp(1.0f, 0.0f, t / currentFlipDuration);
+                        shardCardRT.localScale = new Vector3(s * baseScale.x, baseScale.y, baseScale.z);
+
+                        if (rarity >= CardRarity.SR)
+                        {
+                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 4, 180f, 400f, 25f, 65f);
+                            if (rarity >= CardRarity.SSR && Random.value < 0.15f) SpawnShardUIStarImplosion(shardCardContainer, 12, 1.2f, 35f, 85f);
+                        }
+                        yield return null;
+                    }
+
+                    // Toggle face at 0.0 scale!
+                    isShowingFront = !isShowingFront;
+                    shardCardBack.SetActive(!isShowingFront);
+                    shardCardFront.SetActive(isShowingFront);
+
+                    // Expand 0.0 -> 1.0
+                    t = 0f;
+                    while (t < currentFlipDuration)
+                    {
+                        t += Time.deltaTime;
+                        elapsed += Time.deltaTime;
+                        float s = Mathf.Lerp(0.0f, 1.0f, t / currentFlipDuration);
+                        shardCardRT.localScale = new Vector3(s * baseScale.x, baseScale.y, baseScale.z);
+
+                        if (rarity >= CardRarity.SR)
+                        {
+                            if (Random.value < 0.25f) SpawnShardUIStarBurst(shardCardContainer, 4, 180f, 400f, 25f, 65f);
+                        }
+                        yield return null;
+                    }
+                }
+
+                // Final Flip Reveal: ensure Front is active and reveal real card name!
+                shardCardBack.SetActive(false);
+                shardCardFront.SetActive(true);
+                if (cardNameTxt != null) cardNameTxt.text = chosenCard.DisplayName;
+
+                var effectPlayer = FindObjectOfType<ClickEffectPlayer>();
+                if (rarity >= CardRarity.SR)
+                {
+                    effectPlayer?.PlayGachaEffect(rarity);
+                    SpawnShardUIStarBurst(shardCardContainer, rarity >= CardRarity.SSR ? 55 : 35, 450f, 950f, 45f, 110f);
+                    if (rarity >= CardRarity.SSR) SpawnShardUIStarImplosion(shardCardContainer, 45, 1.5f, 50f, 120f);
+                }
+
+                t = 0f;
+                while (t < 0.18f)
+                {
+                    t += Time.deltaTime;
+                    float s = Mathf.Lerp(0.0f, 1.0f, t / 0.18f);
+                    shardCardRT.localScale = new Vector3(s, 1.0f, 1.0f);
+                    yield return null;
+                }
+                shardCardRT.localScale = Vector3.one;
+
+                float holdTime = rarity >= CardRarity.SR ? 2.0f : 1.5f;
+                while (holdTime > 0f)
+                {
+                    holdTime -= Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+            shardAnimContainer.SetActive(false);
+            Refresh();
+        }
+
+        private static Sprite cachedShardStarSprite;
+
+        private static Sprite GetOrCreateShardStarSprite()
+        {
+            if (cachedShardStarSprite != null) return cachedShardStarSprite;
+            int size = 64;
+            Texture2D tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            tex.filterMode = FilterMode.Bilinear;
+            Color[] cols = new Color[size * size];
+            Vector2 center = new Vector2((size - 1) / 2f, (size - 1) / 2f);
+            float maxR = size / 2f;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    Vector2 pos = new Vector2(x, y) - center;
+                    float dist = pos.magnitude;
+                    float angle = Mathf.Atan2(pos.y, pos.x);
+                    float starFactor = Mathf.Pow(Mathf.Abs(Mathf.Cos(angle * 2f)), 5f);
+                    float currentMaxR = maxR * (0.20f + 0.80f * starFactor);
+
+                    if (dist > currentMaxR) cols[y * size + x] = Color.clear;
+                    else
+                    {
+                        float normDist = dist / currentMaxR;
+                        float alpha = Mathf.Clamp01(1f - normDist);
+                        alpha = Mathf.Pow(alpha, 1.2f);
+                        Color c = Color.Lerp(Color.white, new Color(1f, 0.92f, 0.4f, 1f), normDist * 0.5f);
+                        c.a = alpha;
+                        cols[y * size + x] = c;
+                    }
+                }
+            }
+            tex.SetPixels(cols);
+            tex.Apply();
+            cachedShardStarSprite = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f));
+            return cachedShardStarSprite;
+        }
+
+        private void SpawnShardUIStarBurst(Transform parent, int count, float minSpeed, float maxSpeed, float minSize, float maxSize)
+        {
+            if (parent == null) return;
+            Sprite starSp = GetOrCreateShardStarSprite();
+            Color[] starColors = { new Color(1f, 0.92f, 0.3f, 1f), new Color(1f, 1f, 1f, 1f), new Color(1f, 0.75f, 0.2f, 1f), new Color(0.6f, 0.95f, 1f, 1f) };
+
+            for (int i = 0; i < count; i++)
+            {
+                var starGO = new GameObject("StarParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                starGO.transform.SetParent(parent, false);
+                var img = starGO.GetComponent<Image>();
+                img.sprite = starSp; img.raycastTarget = false;
+                img.color = starColors[Random.Range(0, starColors.Length)];
+                var sRT = starGO.GetComponent<RectTransform>();
+                float sz = Random.Range(minSize, maxSize);
+                sRT.sizeDelta = new Vector2(sz, sz);
+                sRT.anchoredPosition = Vector2.zero;
+
+                float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                float speed = Random.Range(minSpeed, maxSpeed);
+                float rotSpeed = Random.Range(-360f, 360f);
+                float lifetime = Random.Range(0.6f, 1.1f);
+                StartCoroutine(AnimateShardStar(starGO, sRT, img, dir, speed, rotSpeed, lifetime));
+            }
+        }
+
+        private System.Collections.IEnumerator AnimateShardStar(GameObject starGO, RectTransform rt, Image img, Vector2 dir, float speed, float rotSpeed, float duration)
+        {
+            float elapsed = 0f;
+            Vector2 pos = Vector2.zero;
+            Color baseColor = img.color;
+            while (elapsed < duration)
+            {
+                if (starGO == null) yield break;
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+                pos += dir * speed * (1f - t * 0.5f) * Time.deltaTime;
+                rt.anchoredPosition = pos;
+                rt.Rotate(0, 0, rotSpeed * Time.deltaTime);
+                float scale = Mathf.Sin(t * Mathf.PI) * 1.2f;
+                rt.localScale = new Vector3(scale, scale, 1f);
+                img.color = new Color(baseColor.r, baseColor.g, baseColor.b, 1f - t);
+                yield return null;
+            }
+            if (starGO != null) Destroy(starGO);
+        }
+
+        private void SpawnShardUIStarImplosion(Transform parent, int count, float duration, float minSize, float maxSize)
+        {
+            if (parent == null) return;
+            Sprite starSp = GetOrCreateShardStarSprite();
+            Color[] starColors = { new Color(1f, 0.95f, 0.4f, 1f), new Color(1f, 0.5f, 0.85f, 1f), new Color(0.4f, 0.9f, 1f, 1f) };
+
+            for (int i = 0; i < count; i++)
+            {
+                var starGO = new GameObject("StarParticle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                starGO.transform.SetParent(parent, false);
+                var img = starGO.GetComponent<Image>();
+                img.sprite = starSp; img.raycastTarget = false;
+                img.color = starColors[Random.Range(0, starColors.Length)];
+                var sRT = starGO.GetComponent<RectTransform>();
+                float sz = Random.Range(minSize, maxSize);
+                sRT.sizeDelta = new Vector2(sz, sz);
+
+                float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                float startRadius = Random.Range(400f, 800f);
+                Vector2 startPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * startRadius;
+                sRT.anchoredPosition = startPos;
+                StartCoroutine(AnimateShardStarImplosion(starGO, sRT, img, startPos, duration));
+            }
+        }
+
+        private System.Collections.IEnumerator AnimateShardStarImplosion(GameObject starGO, RectTransform sRT, Image img, Vector2 startPos, float duration)
+        {
+            float elapsed = 0f;
+            Color baseColor = img.color;
+            while (elapsed < duration)
+            {
+                if (starGO == null || sRT == null) yield break;
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                sRT.anchoredPosition = Vector2.Lerp(startPos, Vector2.zero, t * t);
+                sRT.localScale = Vector3.one * (1f - t * 0.5f);
+                if (img != null) img.color = new Color(baseColor.r, baseColor.g, baseColor.b, t < 0.2f ? (t / 0.2f) : (1f - t));
+                yield return null;
+            }
+            if (starGO != null) Destroy(starGO);
         }
 
         // ── UI Helpers ────────────────────────────────────────────────────────
@@ -2190,19 +2670,77 @@ namespace CosmicChaosCat
                     btn.onClick.RemoveAllListeners();
                     btn.onClick.AddListener(() => ShowTab(2));
                 }
-                else if (t.Contains("교환"))
+            }
+
+            // 3.5. Bind Shard Exchange Buttons (N, R, SR, SSR) under shardContent
+            if (shardContent != null)
+            {
+                void BindShardCard(Transform cardTrans, CardRarity rarity)
                 {
-                    var card = btn.transform.GetComponentInParent<Transform>();
-                    while (card != null && !card.name.StartsWith("Card_")) card = card.parent;
-                    if (card != null)
+                    if (cardTrans == null) return;
+                    var buttons = cardTrans.GetComponentsInChildren<Button>(true);
+                    if (buttons.Length == 0)
                     {
-                        btn.onClick.RemoveAllListeners();
-                        if (card.name == "Card_N")       btn.onClick.AddListener(() => BuyRandomCard(CardRarity.N));
-                        else if (card.name == "Card_R")  btn.onClick.AddListener(() => BuyRandomCard(CardRarity.R));
-                        else if (card.name == "Card_SR") btn.onClick.AddListener(() => BuyRandomCard(CardRarity.SR));
-                        else if (card.name == "Card_SSR")btn.onClick.AddListener(() => BuyRandomCard(CardRarity.SSR));
+                        var slotImg = cardTrans.GetComponent<Image>() ?? cardTrans.gameObject.AddComponent<Image>();
+                        slotImg.raycastTarget = true;
+                        var btn = cardTrans.GetComponent<Button>() ?? cardTrans.gameObject.AddComponent<Button>();
+                        buttons = new[] { btn };
+                    }
+                    foreach (var b in buttons)
+                    {
+                        b.interactable = true;
+                        var img = b.GetComponent<Image>();
+                        if (img != null) img.raycastTarget = true;
+                        b.onClick.RemoveAllListeners();
+                        b.onClick.AddListener(() => {
+                            Debug.Log($"[ShopPanel] Shard Buy Button clicked for {rarity}!");
+                            BuyRandomCard(rarity);
+                        });
+
+                        TMP_Text t = b.GetComponentInChildren<TMP_Text>(true);
+                        if (rarity == CardRarity.N)   { buyNBtn = b;   buyNText = t; }
+                        else if (rarity == CardRarity.R)   { buyRBtn = b;   buyRText = t; }
+                        else if (rarity == CardRarity.SR)  { buySRBtn = b;  buySRText = t; }
+                        else if (rarity == CardRarity.SSR) { buySSRBtn = b; buySSRText = t; }
+                    }
+
+                    foreach (var g in cardTrans.GetComponentsInChildren<Graphic>(true))
+                    {
+                        if (g.GetComponent<Button>() == null) g.raycastTarget = false;
                     }
                 }
+
+                foreach (Transform child in shardContent.GetComponentsInChildren<Transform>(true))
+                {
+                    string cName = child.name.ToLower();
+                    string txt = (child.GetComponentInChildren<TMP_Text>(true)?.text ?? child.GetComponentInChildren<UnityEngine.UI.Text>(true)?.text ?? "").Trim().ToLower();
+
+                    if (cName.EndsWith("_n") || cName.StartsWith("card_n") || cName == "n" || txt.Contains("노말") || (txt.Contains("normal") && !txt.Contains("tab")))
+                    {
+                        if (child.GetComponent<Button>() != null || child.name.StartsWith("Card") || child.name.StartsWith("Btn") || child.name.StartsWith("Buy"))
+                            BindShardCard(child, CardRarity.N);
+                    }
+                    else if (cName.EndsWith("_r") || cName.StartsWith("card_r") || cName == "r" || txt.Contains("레어") || txt.Contains("rare"))
+                    {
+                        if (child.GetComponent<Button>() != null || child.name.StartsWith("Card") || child.name.StartsWith("Btn") || child.name.StartsWith("Buy"))
+                            BindShardCard(child, CardRarity.R);
+                    }
+                    else if (cName.EndsWith("_sr") || cName.StartsWith("card_sr") || cName == "sr" || txt.Contains("슈퍼레어") || txt.Contains("super rare"))
+                    {
+                        if (child.GetComponent<Button>() != null || child.name.StartsWith("Card") || child.name.StartsWith("Btn") || child.name.StartsWith("Buy"))
+                            BindShardCard(child, CardRarity.SR);
+                    }
+                    else if (cName.EndsWith("_ssr") || cName.StartsWith("card_ssr") || cName == "ssr" || txt.Contains("최상위") || txt.Contains("ssr"))
+                    {
+                        if (child.GetComponent<Button>() != null || child.name.StartsWith("Card") || child.name.StartsWith("Btn") || child.name.StartsWith("Buy"))
+                            BindShardCard(child, CardRarity.SSR);
+                    }
+                }
+
+                if (buyNBtn != null)   { buyNBtn.onClick.RemoveAllListeners();   buyNBtn.onClick.AddListener(() => BuyRandomCard(CardRarity.N)); }
+                if (buyRBtn != null)   { buyRBtn.onClick.RemoveAllListeners();   buyRBtn.onClick.AddListener(() => BuyRandomCard(CardRarity.R)); }
+                if (buySRBtn != null)  { buySRBtn.onClick.RemoveAllListeners();  buySRBtn.onClick.AddListener(() => BuyRandomCard(CardRarity.SR)); }
+                if (buySSRBtn != null) { buySSRBtn.onClick.RemoveAllListeners(); buySSRBtn.onClick.AddListener(() => BuyRandomCard(CardRarity.SSR)); }
             }
 
             // 4. Bind Existing Products UI (Slot buttons, Buy button, Page buttons)

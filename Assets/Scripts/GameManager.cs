@@ -129,6 +129,7 @@ namespace CosmicChaosCat
             InitCardState();
             Load();
             Money = 100000d;
+            Shards = 100000;
             Save();
             RebuildSetState();
             NotifyState();
@@ -340,9 +341,9 @@ namespace CosmicChaosCat
                     break;
             }
 
-            // Price doubles per purchase: BaseCost * 2 ^ PurchaseCount
-            double multiplier = Math.Pow(2, count);
-            return (int)Math.Min(int.MaxValue, baseCost * multiplier);
+            // Linear price scaling: BaseCost * (PurchaseCount + 1)
+            // (e.g. N: 100 -> 200 -> 300 -> 400...)
+            return baseCost * (count + 1);
         }
 
         public void BuyUpgrade(string upgradeId)

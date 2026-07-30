@@ -385,8 +385,8 @@ namespace CosmicChaosCat
                 var maskGo = new GameObject("Viewport");
                 maskGo.transform.SetParent(animContainer.transform, false);
                 var mRt = maskGo.AddComponent<RectTransform>();
-                mRt.anchoredPosition = new Vector2(0, 40);
-                mRt.sizeDelta = new Vector2(750, 320);
+                mRt.anchoredPosition = Vector2.zero;
+                mRt.sizeDelta = new Vector2(1500, 900);
                 var vpImg = maskGo.AddComponent<Image>();
                 vpImg.color = new Color(0, 0, 0, 0.01f);
                 maskGo.AddComponent<Mask>().showMaskGraphic = false;
@@ -580,6 +580,19 @@ namespace CosmicChaosCat
                     btn.onClick.AddListener(ClosePanel);
                 }
             }
+        }
+
+        public GameObject CreateCardBase(Transform parent)
+        {
+            EnsureGachaUIPartsBuilt();
+            if (animCardTemplate != null)
+            {
+                var go = Instantiate(animCardTemplate.gameObject, parent, false);
+                go.name = "CardBase";
+                go.SetActive(true);
+                return go;
+            }
+            return null;
         }
 
         private void BuildUI()
@@ -987,7 +1000,7 @@ namespace CosmicChaosCat
             }
         }
 
-        private void BindCardFrontData(Transform frontTrans, CardEntry card)
+        public void BindCardFrontData(Transform frontTrans, CardEntry card)
         {
             if (frontTrans == null || card == null) return;
             var theme = GetRarityTheme(card.Rarity);

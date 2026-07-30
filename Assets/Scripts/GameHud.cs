@@ -210,7 +210,7 @@ namespace CosmicChaosCat
 
             if (timerText    != null) timerText.text    = gameManager.GetTimerText();
             if (coinText     != null) coinText.text     = GameManager.FormatNumber(gameManager.Money);
-            if (shardText    != null) shardText.text    = $"{gameManager.Shards}";
+            if (shardText    != null) shardText.text    = GameManager.FormatNumber(gameManager.Shards);
             if (progressText != null) progressText.text =
                 $"도감  {gameManager.UnlockedCount} / {gameManager.TotalCardCount}" +
                 $"  ({gameManager.Completion01 * 100f:0.0}%)";
