@@ -15,9 +15,14 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text rollOnceCostText;
         [SerializeField] private TMP_Text rollTenCostText;
         
+        [Header("Type Selection Buttons")]
         [SerializeField] private Button normalBtn;
         [SerializeField] private Button rareBtn;
         [SerializeField] private Button superBtn;
+
+        [Header("Gacha Draw Buttons (Drag Inspector GameObjects here)")]
+        [SerializeField] private Button rollOnceBtn; // Btn_1_Gacha
+        [SerializeField] private Button rollTenBtn;  // Btn_10_Gacha
 
         [SerializeField] private GameObject typeSelectionObj;
         [SerializeField] private GameObject resultObj;
@@ -81,8 +86,19 @@ namespace CosmicChaosCat
                 BuildUI();
             }
             EnsureGachaUIPartsBuilt();
+            AutoWireButtons();
             BindListeners();
             effectPlayer = FindObjectOfType<ClickEffectPlayer>();
+        }
+
+        private void Reset()
+        {
+            AutoWireButtons();
+        }
+
+        private void OnValidate()
+        {
+            AutoWireButtons();
         }
 
         public void ClosePanel()
@@ -90,11 +106,104 @@ namespace CosmicChaosCat
             gameObject.SetActive(false);
         }
 
+        private Button EnsureButton(GameObject go)
+        {
+            if (go == null) return null;
+            var img = go.GetComponent<Image>();
+            if (img == null)
+            {
+                img = go.AddComponent<Image>();
+                img.color = new Color(0f, 0f, 0f, 0.01f); // transparent raycast target if no image exists
+            }
+            img.raycastTarget = true;
+            var btn = go.GetComponent<Button>();
+            if (btn == null) btn = go.AddComponent<Button>();
+            btn.interactable = true;
+            return btn;
+        }
+
+        private void AutoWireButtons()
+        {
+            Transform rootTrans = typeSelectionObj != null ? typeSelectionObj.transform : transform;
+
+            if (normalBtn == null)
+            {
+                var t = rootTrans.Find("Btn_Normal") ?? rootTrans.Find("NormalBtn") ?? rootTrans.Find("Normal") ?? FindChildByNameRecursive(transform, "normal");
+                if (t != null) normalBtn = EnsureButton(t.gameObject);
+            }
+            if (rareBtn == null)
+            {
+                var t = rootTrans.Find("Btn_Rare") ?? rootTrans.Find("RareBtn") ?? rootTrans.Find("Rare") ?? FindChildByNameRecursive(transform, "rare");
+                if (t != null) rareBtn = EnsureButton(t.gameObject);
+            }
+            if (superBtn == null)
+            {
+                var t = rootTrans.Find("Btn_Super") ?? rootTrans.Find("SuperBtn") ?? rootTrans.Find("Super") ?? FindChildByNameRecursive(transform, "super");
+                if (t != null) superBtn = EnsureButton(t.gameObject);
+            }
+
+            if (rollOnceBtn == null)
+            {
+                var t = rootTrans.Find("Btn_1_Gacha") ?? rootTrans.Find("Btn_1") ?? rootTrans.Find("RollOnce") ?? FindChildByNameRecursive(transform, "1_gacha") ?? FindChildByNameRecursive(transform, "rollonce");
+                if (t != null) rollOnceBtn = EnsureButton(t.gameObject);
+            }
+            if (rollTenBtn == null)
+            {
+                var t = rootTrans.Find("Btn_10_Gacha") ?? rootTrans.Find("Btn_10") ?? rootTrans.Find("RollTen") ?? FindChildByNameRecursive(transform, "10_gacha") ?? FindChildByNameRecursive(transform, "rollten");
+                if (t != null) rollTenBtn = EnsureButton(t.gameObject);
+            }
+
+            // Fallback deep scan across all transforms under GachaPanel for Btn_1_Gacha / Btn_10_Gacha
+            if (rollOnceBtn == null || rollTenBtn == null)
+            {
+                foreach (Transform child in GetComponentsInChildren<Transform>(true))
+                {
+                    string n = child.name.ToLower();
+                    if (rollOnceBtn == null && (n == "btn_1_gacha" || n == "btn_1" || (n.Contains("1") && (n.Contains("gacha") || n.Contains("뽑기")) && !n.Contains("10"))))
+                    {
+                        rollOnceBtn = EnsureButton(child.gameObject);
+                    }
+                    else if (rollTenBtn == null && (n == "btn_10_gacha" || n == "btn_10" || (n.Contains("10") && (n.Contains("gacha") || n.Contains("뽑기")))))
+                    {
+                        rollTenBtn = EnsureButton(child.gameObject);
+                    }
+                }
+            }
+
+            if (rollOnceBtn != null) EnsureButton(rollOnceBtn.gameObject);
+            if (rollTenBtn != null) EnsureButton(rollTenBtn.gameObject);
+            if (normalBtn != null) EnsureButton(normalBtn.gameObject);
+            if (rareBtn != null) EnsureButton(rareBtn.gameObject);
+            if (superBtn != null) EnsureButton(superBtn.gameObject);
+
+            if (closeBtn == null)
+            {
+                var t = transform.Find("Panel/Header/Btn_Close") ?? transform.Find("Btn_Close") ?? transform.Find("CloseButton") ?? FindChildByNameRecursive(transform, "close");
+                if (t != null) closeBtn = t.gameObject;
+            }
+
+            if (confirmBtn == null && resultObj != null)
+            {
+                var t = resultObj.transform.Find("SummaryContainer/Btn_확인") ?? resultObj.transform.Find("Btn_확인") ?? resultObj.transform.Find("ConfirmBtn") ?? FindChildByNameRecursive(resultObj.transform, "confirm");
+                if (t != null) confirmBtn = t.gameObject;
+            }
+
+            if (skipBtn == null && resultObj != null)
+            {
+                var t = resultObj.transform.Find("AnimContainer/Btn_스킵") ?? resultObj.transform.Find("Btn_스킵") ?? resultObj.transform.Find("SkipBtn") ?? FindChildByNameRecursive(resultObj.transform, "skip");
+                if (t != null) skipBtn = t.gameObject;
+            }
+        }
+
         private void BindListeners()
         {
+            AutoWireButtons();
+
             if (normalBtn != null) { normalBtn.onClick.RemoveAllListeners(); normalBtn.onClick.AddListener(() => SelectType(GachaType.Normal)); }
             if (rareBtn != null) { rareBtn.onClick.RemoveAllListeners(); rareBtn.onClick.AddListener(() => SelectType(GachaType.Rare)); }
             if (superBtn != null) { superBtn.onClick.RemoveAllListeners(); superBtn.onClick.AddListener(() => SelectType(GachaType.Super)); }
+            if (rollOnceBtn != null) { rollOnceBtn.onClick.RemoveAllListeners(); rollOnceBtn.onClick.AddListener(OnRollOnce); }
+            if (rollTenBtn != null) { rollTenBtn.onClick.RemoveAllListeners(); rollTenBtn.onClick.AddListener(OnRollTen); }
 
             var buttons = GetComponentsInChildren<Button>(true);
             foreach (var b in buttons)
@@ -109,12 +218,34 @@ namespace CosmicChaosCat
                 cs.fadeDuration = 0.08f;
                 b.colors = cs;
 
-                if (b == normalBtn || b == rareBtn || b == superBtn) continue;
-
-                string tmpStr = b.GetComponentInChildren<TMP_Text>()?.text.ToLower() ?? "";
-                string legStr = b.GetComponentInChildren<UnityEngine.UI.Text>()?.text.ToLower() ?? "";
+                string tmpStr = b.GetComponentInChildren<TMP_Text>(true)?.text.ToLower() ?? "";
+                string legStr = b.GetComponentInChildren<UnityEngine.UI.Text>(true)?.text.ToLower() ?? "";
                 string fullText = (tmpStr + " " + legStr).Trim();
                 string bName = b.name.ToLower();
+
+                if (bName.Contains("normal") || fullText.Contains("일반") || fullText.Contains("normal"))
+                {
+                    if (normalBtn == null) normalBtn = b;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(() => SelectType(GachaType.Normal));
+                    continue;
+                }
+                else if (bName.Contains("rare") || fullText.Contains("레어") || fullText.Contains("rare"))
+                {
+                    if (rareBtn == null) rareBtn = b;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(() => SelectType(GachaType.Rare));
+                    continue;
+                }
+                else if (bName.Contains("super") || fullText.Contains("슈퍼") || fullText.Contains("super"))
+                {
+                    if (superBtn == null) superBtn = b;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(() => SelectType(GachaType.Super));
+                    continue;
+                }
+
+                if (b == normalBtn || b == rareBtn || b == superBtn || b == rollOnceBtn || b == rollTenBtn) continue;
 
                 if (fullText.Contains("10회") || fullText.Contains("10뽑") || fullText.Contains("10회뽑기") || fullText.Contains("다시") || bName.Contains("10회") || bName.Contains("roll10") || bName.Contains("gacha10") || bName.Contains("reroll") || bName.Contains("ten"))
                 {
@@ -128,16 +259,19 @@ namespace CosmicChaosCat
                 }
                 else if (fullText.Contains("확인") || fullText.Contains("confirm") || bName.Contains("confirm") || bName.Contains("확인"))
                 {
+                    if (confirmBtn == null) confirmBtn = b.gameObject;
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(ConfirmResults);
                 }
                 else if (fullText.Contains("스킵") || fullText.Contains("skip") || bName.Contains("skip") || bName.Contains("스킵"))
                 {
+                    if (skipBtn == null) skipBtn = b.gameObject;
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(SkipAnimation);
                 }
                 else if (fullText.Contains("✕") || fullText.Contains("닫기") || fullText.Contains("close") || bName.Contains("close") || bName.Contains("닫기"))
                 {
+                    if (closeBtn == null) closeBtn = b.gameObject;
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(ClosePanel);
                 }

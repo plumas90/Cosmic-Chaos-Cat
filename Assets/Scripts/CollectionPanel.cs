@@ -68,6 +68,7 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteMarkSR;
         [SerializeField] private Sprite spriteMarkSSR;
         [SerializeField] private Sprite spriteLockOverlay;
+        [SerializeField] private Sprite spriteLockOverlayDetail;
 
         [Header("Items Data")]
         [SerializeField] private List<CollectibleItem> backgrounds = new List<CollectibleItem>();
@@ -675,9 +676,10 @@ namespace CosmicChaosCat
                     }
                     else
                     {
-                        detailImage.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
-                        detailImage.sprite = spriteLockOverlay != null ? spriteLockOverlay : item.displaySprite;
-                        detailImage.color = spriteLockOverlay != null ? Color.white : new Color(0.2f, 0.2f, 0.2f, 0.6f);
+                        Sprite lockSp = spriteLockOverlayDetail != null ? spriteLockOverlayDetail : spriteLockOverlay;
+                        detailImage.transform.localScale = Vector3.one;
+                        detailImage.sprite = lockSp != null ? lockSp : item.displaySprite;
+                        detailImage.color = lockSp != null ? Color.white : new Color(0.2f, 0.2f, 0.2f, 0.6f);
                     }
                     detailImage.preserveAspect = !isBg;
                 }

@@ -975,7 +975,7 @@ MonoBehaviour:
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
-    IsShop: 0
+    IsShop: 1
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}

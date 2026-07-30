@@ -21,6 +21,7 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text shardText;
         [SerializeField] private TMP_Text progressText;
         [SerializeField] private TMP_Text comboText;
+        [SerializeField] private GameObject comboImage;
         [SerializeField] private TMP_Text equippedText;
         [SerializeField] private TMP_Text logText;
 
@@ -217,9 +218,16 @@ namespace CosmicChaosCat
             Component comboComp = GetComboTextComponent();
             if (comboComp != null)
             {
-                string comboStr = gameManager.ComboCount > 0 ? $"{gameManager.ComboCount} Combo!!" : string.Empty;
+                bool hasCombo = gameManager.ComboCount > 0;
+                string comboStr = hasCombo ? $"{gameManager.ComboCount} Combo!!" : string.Empty;
                 if (comboComp is TMP_Text tmp) tmp.text = comboStr;
                 else if (comboComp is UnityEngine.UI.Text leg) leg.text = comboStr;
+
+                GameObject comboTargetObj = comboImage != null ? comboImage : (comboComp.transform.parent != null && comboComp.transform.parent.gameObject != gameObject ? comboComp.transform.parent.gameObject : comboComp.gameObject);
+                if (comboTargetObj != null && comboTargetObj.activeSelf != hasCombo)
+                {
+                    comboTargetObj.SetActive(hasCombo);
+                }
             }
 
             var card = gameManager.GetEquippedCard();

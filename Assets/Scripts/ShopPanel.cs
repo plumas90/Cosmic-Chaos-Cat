@@ -33,14 +33,7 @@ namespace CosmicChaosCat
         public Sprite iconSprite;
     }
 
-    public class SlotClickHandler : MonoBehaviour, UnityEngine.EventSystems.IPointerClickHandler
-    {
-        public System.Action onClick;
-        public void OnPointerClick(UnityEngine.EventSystems.PointerEventData eventData)
-        {
-            onClick?.Invoke();
-        }
-    }
+
 
     public sealed class ShopPanel : MonoBehaviour
     {
@@ -124,7 +117,7 @@ namespace CosmicChaosCat
         private static readonly Color TabNormal   = new Color(0.22f, 0.22f, 0.24f, 1.00f); // Neutral Dark Gray (No Blue)
         private static readonly Color TabActiveC  = new Color(0.04f, 0.04f, 0.05f, 1.00f); // Pressed Black
         private static readonly Color Indicator   = new Color(0.40f, 0.70f, 1.00f, 1.00f);
-        private static readonly Color BtnBuy      = new Color(0.18f, 0.55f, 0.28f, 1.00f);
+        private static readonly Color BtnBuy      = new Color(0.18f, 0.26f, 0.44f, 1.00f);
         private static readonly Color BtnDisabled = new Color(0.22f, 0.25f, 0.30f, 1.00f);
         private static readonly Color GoldColor   = new Color(1.00f, 0.85f, 0.30f, 1.00f);
         private static readonly Color ShardColor  = new Color(0.40f, 0.80f, 1.00f, 1.00f);
@@ -318,7 +311,19 @@ namespace CosmicChaosCat
                 }
             }
 
-            if (selectedProduct == null || !productCatalog.Contains(selectedProduct))
+            if (selectedProduct != null)
+            {
+                var match = productCatalog.Find(p => p.id == selectedProduct.id);
+                if (match != null)
+                {
+                    selectedProduct = match;
+                }
+                else
+                {
+                    selectedProduct = productCatalog.Count > 0 ? productCatalog[0] : null;
+                }
+            }
+            else
             {
                 selectedProduct = productCatalog.Count > 0 ? productCatalog[0] : null;
             }
@@ -1129,6 +1134,7 @@ namespace CosmicChaosCat
                 }
             }
 
+            productSlotGOs.Clear();
             productSlotGOs.AddRange(slotsFound);
             if (productSlotGOs.Count == 0) return false;
 
@@ -1140,44 +1146,48 @@ namespace CosmicChaosCat
 
                 int idx = i;
 
-                var mainImg = slotGO.GetComponent<Image>();
-                if (mainImg == null)
+                // Ensure slotGO root itself has an Image raycast target
+                var slotImg = slotGO.GetComponent<Image>();
+                if (slotImg == null)
                 {
                     var frameImg = slotGO.transform.Find("Frame")?.GetComponent<Image>()
                                 ?? slotGO.transform.Find("Frame_Image")?.GetComponent<Image>();
-                    if (frameImg != null) mainImg = frameImg;
-                    else mainImg = slotGO.AddComponent<Image>();
+                    slotImg = frameImg ?? slotGO.AddComponent<Image>();
                 }
-                if (mainImg != null)
+                if (slotImg != null)
                 {
-                    if (mainImg.color.a < 0.02f) mainImg.color = new Color(0f, 0f, 0f, 0.02f);
-                    mainImg.raycastTarget = true;
+                    if (slotImg.color.a < 0.01f) slotImg.color = new Color(0f, 0f, 0f, 0.01f);
+                    slotImg.raycastTarget = true;
                 }
 
-                var btn = slotGO.GetComponent<Button>();
-                if (btn == null) btn = slotGO.AddComponent<Button>();
-                if (btn.targetGraphic == null && mainImg != null) btn.targetGraphic = mainImg;
-
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() => {
-                    Debug.Log($"[ShopPanel] Slot {idx} Clicked!");
-                    OnProductSlotClicked(idx);
-                });
-
-                // Set raycastTarget = false for ALL child graphics (Images, TMP_Text, Text) to ensure click goes to the slot button
-                foreach (var trans in slotGO.GetComponentsInChildren<Transform>(true))
+                // Bind ALL Button components on slotGO and its children!
+                var buttonsInSlot = slotGO.GetComponentsInChildren<Button>(true);
+                if (buttonsInSlot.Length == 0)
                 {
-                    if (trans.gameObject == slotGO) continue;
-                    
-                    var img = trans.GetComponent<UnityEngine.UI.Graphic>();
-                    if (img != null) img.raycastTarget = false;
-
-                    // Remove legacy SlotClickHandler if it exists
-                    var handler = trans.gameObject.GetComponent<SlotClickHandler>();
-                    if (handler != null) SafeDestroy(handler);
+                    var newBtn = slotGO.AddComponent<Button>();
+                    newBtn.targetGraphic = slotImg;
+                    buttonsInSlot = new[] { newBtn };
                 }
-                var slotHandler = slotGO.GetComponent<SlotClickHandler>();
-                if (slotHandler != null) SafeDestroy(slotHandler);
+
+                foreach (var b in buttonsInSlot)
+                {
+                    b.interactable = true;
+                    if (b.targetGraphic != null) b.targetGraphic.raycastTarget = true;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(() => {
+                        Debug.Log($"[ShopPanel] Slot Button {idx} Clicked on {b.name}!");
+                        OnProductSlotClicked(idx);
+                    });
+                }
+
+                // Ensure raycastTarget = false on non-button child graphics so clicks cleanly land on the slot button
+                foreach (var graphic in slotGO.GetComponentsInChildren<Graphic>(true))
+                {
+                    if (graphic != slotImg && graphic.GetComponent<Button>() == null)
+                    {
+                        graphic.raycastTarget = false;
+                    }
+                }
             }
 
             // Wire pagination & buy button listeners
@@ -1253,19 +1263,23 @@ namespace CosmicChaosCat
                 var iconGO = MakeRT("Art", slotGO, new Vector2(0, 10), new Vector2(50, 50));
                 var iconImg = iconGO.gameObject.AddComponent<Image>();
                 iconImg.color = Color.white;
+                iconImg.raycastTarget = false;
 
                 // rereMark Rarity Mark Image
                 var markGO = MakeRT("rereMark", slotGO, new Vector2(-48, 30), new Vector2(24, 24));
                 var markImg = markGO.gameObject.AddComponent<Image>();
                 markImg.color = Color.white;
+                markImg.raycastTarget = false;
 
                 // Product Name Text
                 var nameTxt = MakeLabel(slotGO, "---", new Vector2(0, -18), new Vector2(120, 20), 10, Color.white, FontStyles.Bold);
                 nameTxt.alignment = TextAlignmentOptions.Center;
+                nameTxt.raycastTarget = false;
 
                 // Price Symbol & Value Text
                 var priceTxt = MakeLabel(slotGO, "0", new Vector2(0, -34), new Vector2(120, 20), 10, GoldColor, FontStyles.Bold);
                 priceTxt.alignment = TextAlignmentOptions.Center;
+                priceTxt.raycastTarget = false;
 
                 // Selection Border Highlight
                 var selBorder = MakeRT("SelectedBorder", slotGO, Vector2.zero, Vector2.zero);
@@ -1681,7 +1695,7 @@ namespace CosmicChaosCat
                 {
                     slotGO.SetActive(true);
                     var prod = productCatalog[itemIdx];
-                    bool isSelected = selectedProduct == prod;
+                    bool isSelected = selectedProduct != null && prod != null && (selectedProduct == prod || selectedProduct.id == prod.id);
 
                     // 1. Rarity Frame Image
                     var slotImg = slotGO.transform.Find("Frame")?.GetComponent<Image>()
@@ -1852,11 +1866,18 @@ namespace CosmicChaosCat
                     if (slotImg != null)
                     {
                         Sprite frameSp = GetFrameSpriteForRarity(prod.rarity);
-                        if (frameSp != null) { slotImg.sprite = frameSp; slotImg.color = Color.white; }
-                        else { slotImg.color = new Color(0.10f, 0.14f, 0.22f, 1f); }
+                        if (frameSp != null)
+                        {
+                            slotImg.sprite = frameSp;
+                            slotImg.color = isSelected ? new Color(1.0f, 0.92f, 0.45f, 1f) : Color.white;
+                        }
+                        else
+                        {
+                            slotImg.color = isSelected ? new Color(0.35f, 0.55f, 0.90f, 1f) : new Color(0.10f, 0.14f, 0.22f, 1f);
+                        }
                     }
 
-                    slotGO.transform.localScale = isSelected ? new Vector3(1.08f, 1.08f, 1f) : Vector3.one;
+                    slotGO.transform.localScale = isSelected ? new Vector3(1.10f, 1.10f, 1f) : Vector3.one;
 
                     // 7. Status Badge Text & Breakthrough Limit
                     Component badgeTxt = (Component)slotGO.transform.Find("Badge")?.GetComponent<TMP_Text>()
@@ -1894,35 +1915,10 @@ namespace CosmicChaosCat
                     string status = GetProductStatus(prod);
                     if (badgeTxt != null)
                     {
-                        string txtVal = "";
-                        Color colVal = Color.white;
-                        bool isActive = true;
-
-                        if (status == "MaxBreakthrough")
-                        {
-                            txtVal = "MAX (5/5)";
-                            colVal = new Color(1f, 0.8f, 0.2f);
-                        }
-                        else if (status == "Equipped")
-                        {
-                            txtVal = "장착중";
-                            colVal = Color.green;
-                        }
-                        else if (status == "Purchased")
-                        {
-                            int copies = 1;
-                            var states = gm.GetCardStates();
-                            if (states.TryGetValue(prod.targetId, out var st) && st != null) copies = st.Copies;
-                            txtVal = prod.productType == ShopProductType.Card ? $"보유중 ({copies}/5)" : "보유중";
-                            colVal = Color.cyan;
-                        }
-                        else
-                        {
-                            isActive = false;
-                        }
-
-                        SetTextComponent(badgeTxt, txtVal, colVal);
-                        badgeTxt.gameObject.SetActive(isActive);
+                        if (status == "Equipped") SetTextComponent(badgeTxt, "장착중", Indicator);
+                        else if (status == "Purchased") SetTextComponent(badgeTxt, "보유중", GoldColor);
+                        else if (status == "MaxBreakthrough") SetTextComponent(badgeTxt, "풀강", ColSSR);
+                        else SetTextComponent(badgeTxt, string.Empty);
                     }
                 }
                 else
@@ -1959,16 +1955,12 @@ namespace CosmicChaosCat
                     if (status == "MaxBreakthrough")
                     {
                         buyProductBtn.interactable = false;
-                        SetTextComponent(buyProductBtnText, $"최대 한계돌파 완료 ({currentCopies}/{maxCopies})", null, buyFontSize);
-                        var img = buyProductBtn.GetComponent<Image>();
-                        if (img != null) img.color = BtnDisabled;
+                        SetTextComponent(buyProductBtnText, "최대 한계돌파 완료", null, buyFontSize);
                     }
                     else if (status == "Equipped" && selectedProduct.productType != ShopProductType.Card)
                     {
                         buyProductBtn.interactable = false;
                         SetTextComponent(buyProductBtnText, "장착중", null, buyFontSize);
-                        var img = buyProductBtn.GetComponent<Image>();
-                        if (img != null) img.color = BtnDisabled;
                     }
                     else
                     {
@@ -1978,21 +1970,29 @@ namespace CosmicChaosCat
                         {
                             if (status == "Purchased")
                             {
-                                btnTextVal = afford ? $"추가 구매 ({currentCopies}/{maxCopies}) [{selectedProduct.price:0}]" : $"소지금 부족 ({currentCopies}/{maxCopies}) [{selectedProduct.price:0}]";
+                                btnTextVal = afford ? $"추가 구매 ({currentCopies}/{maxCopies})" : $"소지금 부족 ({currentCopies}/{maxCopies})";
                             }
                             else
                             {
-                                btnTextVal = afford ? $"구매하기 (보유 {currentCopies}/{maxCopies}) [{selectedProduct.price:0}]" : $"소지금 부족 (보유 {currentCopies}/{maxCopies}) [{selectedProduct.price:0}]";
+                                btnTextVal = afford ? $"구매하기 (보유 {currentCopies}/{maxCopies})" : $"소지금 부족 (보유 {currentCopies}/{maxCopies})";
                             }
                         }
                         else
                         {
-                            btnTextVal = afford ? $"구매하기 [{selectedProduct.price:0}]" : $"소지금 부족 [{selectedProduct.price:0}]";
+                            btnTextVal = afford ? "구매하기" : "소지금 부족";
                         }
 
                         SetTextComponent(buyProductBtnText, btnTextVal, null, buyFontSize);
-                        var img = buyProductBtn.GetComponent<Image>();
-                        if (img != null) img.color = afford ? BtnBuy : BtnDisabled;
+
+                        var cs = buyProductBtn.colors;
+                        cs.normalColor = Color.white;
+                        cs.highlightedColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                        cs.pressedColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+                        cs.selectedColor = Color.white;
+                        cs.disabledColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                        cs.colorMultiplier = 1f;
+                        cs.fadeDuration = 0.08f;
+                        buyProductBtn.colors = cs;
                     }
                 }
             }
