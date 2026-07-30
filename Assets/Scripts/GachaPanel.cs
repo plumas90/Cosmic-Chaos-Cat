@@ -110,12 +110,7 @@ namespace CosmicChaosCat
         {
             if (go == null) return null;
             var img = go.GetComponent<Image>();
-            if (img == null)
-            {
-                img = go.AddComponent<Image>();
-                img.color = new Color(0f, 0f, 0f, 0.01f); // transparent raycast target if no image exists
-            }
-            img.raycastTarget = true;
+            if (img != null) img.raycastTarget = true;
             var btn = go.GetComponent<Button>();
             if (btn == null) btn = go.AddComponent<Button>();
             btn.interactable = true;
@@ -634,10 +629,6 @@ namespace CosmicChaosCat
 
         private void SelectType(GachaType type)
         {
-            if (gm == null) return;
-            if (type == GachaType.Rare && !gm.UnlockedRareGacha) type = GachaType.Normal;
-            if (type == GachaType.Super && !gm.UnlockedSuperGacha) type = GachaType.Normal;
-
             currentType = type;
             RefreshCosts();
         }
@@ -823,22 +814,20 @@ namespace CosmicChaosCat
 
             if (rareBtn != null)
             {
-                bool unlockedR = gm.UnlockedRareGacha;
-                rareBtn.interactable = unlockedR;
+                rareBtn.interactable = true;
                 var txt = rareBtn.GetComponentInChildren<TMP_Text>();
-                if (txt != null) txt.text = unlockedR ? "레어 가챠" : "레어 가챠\n(잠김)";
+                if (txt != null) txt.text = "레어 가챠";
                 var img = rareBtn.GetComponent<Image>();
-                if (img != null) img.color = unlockedR ? (currentType == GachaType.Rare ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+                if (img != null) img.color = currentType == GachaType.Rare ? BtnTypeActive : BtnType;
             }
 
             if (superBtn != null)
             {
-                bool unlockedS = gm.UnlockedSuperGacha;
-                superBtn.interactable = unlockedS;
+                superBtn.interactable = true;
                 var txt = superBtn.GetComponentInChildren<TMP_Text>();
-                if (txt != null) txt.text = unlockedS ? "슈퍼 가챠" : "슈퍼 가챠\n(잠김)";
+                if (txt != null) txt.text = "슈퍼 가챠";
                 var img = superBtn.GetComponent<Image>();
-                if (img != null) img.color = unlockedS ? (currentType == GachaType.Super ? BtnTypeActive : BtnType) : new Color(0.3f, 0.3f, 0.3f);
+                if (img != null) img.color = currentType == GachaType.Super ? BtnTypeActive : BtnType;
             }
 
             double single = gm.GetCurrentGachaCost(currentType);
@@ -1213,40 +1202,65 @@ namespace CosmicChaosCat
                 if (isAnimSkipped) break;
                 cardRT.localScale = new Vector3(1.25f, 1.25f, 1.0f);
 
-                // Flip to 0 width
-                t = 0f;
-                while (t < 0.12f && !isAnimSkipped)
-                {
-                    t += Time.deltaTime;
-                    float s = Mathf.Lerp(1.25f, 0f, t / 0.12f);
-                    cardRT.localScale = new Vector3(s, 1.25f, 1.0f);
-                    yield return null;
-                }
-                if (isAnimSkipped) break;
+                // Flip sequence (1-card draw flips 3 times for suspense, 10-card draw flips once)
+                int totalFlips = cards.Count == 1 ? 3 : 1;
 
-                // Toggle visibility
-                cardBacks[i].SetActive(false);
-                cardFronts[i].SetActive(true);
-
-                // Special sound and visual flash for SR or higher
-                if (cards[i].Rarity >= CardRarity.SR)
+                for (int flipStep = 0; flipStep < totalFlips; flipStep++)
                 {
-                    effectPlayer?.PlayGachaEffect(cards[i].Rarity);
-                    Color flashCol = cards[i].Rarity == CardRarity.UR ? new Color(1f, 0.2f, 0.2f) : (cards[i].Rarity == CardRarity.SSR ? new Color(0.9f, 0.8f, 0.2f) : new Color(0.6f, 0.2f, 0.8f));
-                    StartCoroutine(FlashScreen(flashCol));
-                }
+                    if (isAnimSkipped) break;
 
-                // Flip back to 1.25 width
-                t = 0f;
-                while (t < 0.12f && !isAnimSkipped)
-                {
-                    t += Time.deltaTime;
-                    float s = Mathf.Lerp(0f, 1.25f, t / 0.12f);
-                    cardRT.localScale = new Vector3(s, 1.25f, 1.0f);
-                    yield return null;
+                    bool isFinalFlip = (flipStep == totalFlips - 1);
+                    float flipDuration = cards.Count == 1 ? 0.10f : 0.12f;
+
+                    // Flip to 0 width (shrink X)
+                    t = 0f;
+                    while (t < flipDuration && !isAnimSkipped)
+                    {
+                        t += Time.deltaTime;
+                        float s = Mathf.Lerp(1.25f, 0f, t / flipDuration);
+                        cardRT.localScale = new Vector3(s, 1.25f, 1.0f);
+                        yield return null;
+                    }
+                    if (isAnimSkipped) break;
+
+                    // Reveal front on the final flip!
+                    if (isFinalFlip)
+                    {
+                        cardBacks[i].SetActive(false);
+                        cardFronts[i].SetActive(true);
+
+                        // Special sound and visual flash for SR or higher
+                        if (cards[i].Rarity >= CardRarity.SR)
+                        {
+                            effectPlayer?.PlayGachaEffect(cards[i].Rarity);
+                            Color flashCol = cards[i].Rarity == CardRarity.UR ? new Color(1f, 0.2f, 0.2f) : (cards[i].Rarity == CardRarity.SSR ? new Color(0.9f, 0.8f, 0.2f) : new Color(0.6f, 0.2f, 0.8f));
+                            StartCoroutine(FlashScreen(flashCol));
+                        }
+                    }
+
+                    // Flip expand to 1.25 width
+                    t = 0f;
+                    while (t < flipDuration && !isAnimSkipped)
+                    {
+                        t += Time.deltaTime;
+                        float s = Mathf.Lerp(0f, 1.25f, t / flipDuration);
+                        cardRT.localScale = new Vector3(s, 1.25f, 1.0f);
+                        yield return null;
+                    }
+                    if (isAnimSkipped) break;
+                    cardRT.localScale = new Vector3(1.25f, 1.25f, 1.0f);
+
+                    // Pause briefly between suspense flips in 1-card draw
+                    if (!isFinalFlip)
+                    {
+                        float pause = 0.08f;
+                        while (pause > 0f && !isAnimSkipped)
+                        {
+                            pause -= Time.deltaTime;
+                            yield return null;
+                        }
+                    }
                 }
-                if (isAnimSkipped) break;
-                cardRT.localScale = new Vector3(1.25f, 1.25f, 1.0f);
 
                 // Wait 0.5 seconds to admire card
                 float wait = 0.5f;
