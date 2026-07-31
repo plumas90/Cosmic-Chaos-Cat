@@ -43,6 +43,7 @@ namespace CosmicChaosCat
         [SerializeField] private RarityTheme superRareRaritySprites;
         [SerializeField] private RarityTheme ssrRaritySprites;
         [SerializeField] private RarityTheme urRaritySprites;
+        [SerializeField] private RarityTheme hiddenRaritySprites;
 
         [Header("Shard Conversion Settings")]
         [SerializeField] private Sprite shardSprite;
@@ -1015,6 +1016,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR: return superRareRaritySprites;
                 case CardRarity.SSR: return ssrRaritySprites;
                 case CardRarity.UR: return urRaritySprites;
+                case CardRarity.H: return hiddenRaritySprites;
                 default: return normalRaritySprites;
             }
         }
@@ -1086,7 +1088,7 @@ namespace CosmicChaosCat
                 if (sp == null)
                 {
                     var enc = EncyclopediaPanel.Instance ?? FindObjectOfType<EncyclopediaPanel>(true);
-                    if (enc != null) sp = enc.GetMarkSpriteForRarity(rarity);
+                    if (enc != null) sp = enc.GetMarkSpriteForRarity(card.Rarity);
                 }
                 if (sp != null) rareMarkImg.sprite = sp;
                 rareMarkImg.color = Color.white;

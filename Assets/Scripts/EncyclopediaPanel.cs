@@ -93,6 +93,7 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteCardFrameR;
         [SerializeField] private Sprite spriteCardFrameSR;
         [SerializeField] private Sprite spriteCardFrameSSR;
+        [SerializeField] private Sprite spriteCardFrameH;
         [SerializeField] private Sprite spriteCardLocked;
         public Sprite SpriteCardLocked => spriteCardLocked;
 
@@ -102,6 +103,7 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteMarkSR;
         [SerializeField] private Sprite spriteMarkSSR;
         [SerializeField] private Sprite spriteMarkUR;
+        [SerializeField] private Sprite spriteMarkH;
 
         [SerializeField] private Sprite spriteCollectionCounter;
         [SerializeField] private Sprite spriteBtnRepresentative;
@@ -143,11 +145,22 @@ namespace CosmicChaosCat
         private static readonly Color32 ColSSR = new Color32(255, 200,   0, 255);
         private static readonly Color32 ColUR  = new Color32(255,  80,  30, 255);
 
+        private static EncyclopediaPanel _instance;
+        public static EncyclopediaPanel Instance
+        {
+            get
+            {
+                if (_instance == null) _instance = FindObjectOfType<EncyclopediaPanel>(true);
+                return _instance;
+            }
+        }
+
         // ─────────────────────────────────────────────────────────────────────
         //  LIFECYCLE
         // ─────────────────────────────────────────────────────────────────────
         private void Awake()
         {
+            _instance = this;
             // gm wiring only. UI is built lazily in OnEnable so that panels
             // starting INACTIVE still get their UI when first opened.
             gm = FindObjectOfType<GameManager>(true);
@@ -2479,6 +2492,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR:  return spriteCardFrameSR  != null ? spriteCardFrameSR  : spriteCardFrameN;
                 case CardRarity.SSR: return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
                 case CardRarity.UR:  return spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN;
+                case CardRarity.H:   return spriteCardFrameH != null ? spriteCardFrameH : (spriteCardFrameSSR != null ? spriteCardFrameSSR : spriteCardFrameN);
                 default:             return spriteCardFrameN;
             }
         }
@@ -2516,6 +2530,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR:  return spriteMarkSR  != null ? spriteMarkSR  : (_cachedMarkSR  != null ? _cachedMarkSR  : _cachedMarkN);
                 case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : (_cachedMarkSSR != null ? _cachedMarkSSR : _cachedMarkN);
                 case CardRarity.UR:  return spriteMarkUR  != null ? spriteMarkUR  : (_cachedMarkSSR != null ? _cachedMarkSSR : _cachedMarkN);
+                case CardRarity.H:   return spriteMarkH   != null ? spriteMarkH   : (_cachedMarkSSR != null ? _cachedMarkSSR : _cachedMarkN);
                 default:             return spriteMarkN   != null ? spriteMarkN   : _cachedMarkN;
             }
         }
@@ -2528,6 +2543,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR:  return ColSR;
                 case CardRarity.SSR: return ColSSR;
                 case CardRarity.UR:  return ColUR;
+                case CardRarity.H:   return new Color32(255, 105, 180, 255); // Pink/Magenta for Hidden (H)
                 default:             return ColN;
             }
         }

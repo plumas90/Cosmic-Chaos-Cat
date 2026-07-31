@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CosmicChaosCat
 {
-    public enum CardRarity { N, R, SR, SSR, UR }
+    public enum CardRarity { N, R, SR, SSR, UR, H }
 
     public enum CardShardValue
     {

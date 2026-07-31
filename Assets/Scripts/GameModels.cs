@@ -54,5 +54,11 @@ namespace CosmicChaosCat
         public int srExchangeCount;
         public int ssrExchangeCount;
         public int urExchangeCount;
+
+        // Settings
+        public float BgmVolume = 1f;
+        public float SfxVolume = 1f;
+        public bool IsMuted = false;
+        public string SelectedLanguage = "KR";
     }
 }

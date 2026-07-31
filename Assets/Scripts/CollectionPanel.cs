@@ -62,11 +62,13 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite spriteFrameR;
         [SerializeField] private Sprite spriteFrameSR;
         [SerializeField] private Sprite spriteFrameSSR;
+        [SerializeField] private Sprite spriteFrameH;
         [SerializeField] private Sprite spriteFrameLock;
         [SerializeField] private Sprite spriteMarkN;
         [SerializeField] private Sprite spriteMarkR;
         [SerializeField] private Sprite spriteMarkSR;
         [SerializeField] private Sprite spriteMarkSSR;
+        [SerializeField] private Sprite spriteMarkH;
         [SerializeField] private Sprite spriteLockOverlay;
         [SerializeField] private Sprite spriteLockOverlayDetail;
 
@@ -202,6 +204,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR: return spriteFrameSR != null ? spriteFrameSR : spriteFrameN;
                 case CardRarity.SSR: return spriteFrameSSR != null ? spriteFrameSSR : spriteFrameN;
                 case CardRarity.UR: return spriteFrameSSR != null ? spriteFrameSSR : spriteFrameN;
+                case CardRarity.H: return spriteFrameH != null ? spriteFrameH : (spriteFrameSSR != null ? spriteFrameSSR : spriteFrameN);
                 default: return spriteFrameN;
             }
         }
@@ -216,6 +219,7 @@ namespace CosmicChaosCat
                 case CardRarity.SR:  sp = spriteMarkSR; break;
                 case CardRarity.SSR: sp = spriteMarkSSR; break;
                 case CardRarity.UR:  sp = spriteMarkSSR; break;
+                case CardRarity.H:   sp = spriteMarkH != null ? spriteMarkH : spriteMarkSSR; break;
             }
             if (sp == null)
             {

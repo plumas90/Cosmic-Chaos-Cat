@@ -107,8 +107,8 @@ namespace CosmicChaosCat
                 SetPanelActive(collectionPanel,    false);
                 if (endingScreen != null) endingScreen.SetActive(false);
 
-                BuildConfirmDialog();
-                Debug.Log($"[GameHud] Confirm dialog: {confirmDialog!=null}");
+                BuildMenuWindowUI();
+                Debug.Log($"[GameHud] Menu settings window built: {menuWindow!=null}");
 
                 if (gachaButton != null) { gachaButton.onClick = new Button.ButtonClickedEvent(); gachaButton.onClick.AddListener(OpenGacha); }
                 if (encyclopediaButton != null) { encyclopediaButton.onClick = new Button.ButtonClickedEvent(); encyclopediaButton.onClick.AddListener(ToggleEncyclopedia); }
@@ -187,6 +187,7 @@ namespace CosmicChaosCat
 
         private void OnDisable()
         {
+            gameManager?.SaveGame();
             if (gameManager == null) return;
             gameManager.StateChanged -= Refresh;
             gameManager.LogUpdated   -= OnLog;
@@ -194,11 +195,19 @@ namespace CosmicChaosCat
             gameManager.GameEnded    -= OnGameEnded;
         }
 
+        private void OnApplicationQuit() => gameManager?.SaveGame();
+        private void OnApplicationPause(bool pausing) { if (pausing) gameManager?.SaveGame(); }
+
         private void Update()
         {
             if (gameManager != null && timerText != null)
             {
                 timerText.text = gameManager.GetTimerText();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                GoToMenu();
             }
         }
 
@@ -302,6 +311,273 @@ namespace CosmicChaosCat
         }
 
         // ─── Confirm Dialog UI Builder ──────────────────────────────────────
+        private GameObject menuWindow;
+        private TMP_Text soundStatusText;
+
+        // ─── Settings & Menu Window Builder ─────────────────────────────────
+        private void BuildMenuWindowUI()
+        {
+            var canvas = GetComponentInParent<Canvas>() ?? FindObjectOfType<Canvas>();
+            Transform parent = canvas != null ? canvas.transform : transform;
+
+            // Search for pre-placed MenuSettingsWindow in scene
+            if (menuWindow == null && parent != null)
+            {
+                var existing = parent.Find("MenuSettingsWindow") ?? parent.Find("MenuPanel") ?? parent.Find("MenuWindow");
+                if (existing != null) menuWindow = existing.gameObject;
+            }
+
+            if (menuWindow != null)
+            {
+                BindPreplacedMenuWindow(menuWindow);
+                return;
+            }
+
+            // 1. Root & Dark Overlay Blocker
+            menuWindow = new GameObject("MenuSettingsWindow");
+            menuWindow.transform.SetParent(parent, false);
+            var rt = menuWindow.AddComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+            menuWindow.transform.localPosition = Vector3.zero;
+            menuWindow.transform.localScale = Vector3.one;
+
+            var blocker = menuWindow.AddComponent<Image>();
+            blocker.color = new Color(0f, 0f, 0f, 0.65f);
+
+            // 2. Main Dialog Panel
+            var panel = new GameObject("MenuPanel");
+            panel.transform.SetParent(menuWindow.transform, false);
+            var prt = panel.AddComponent<RectTransform>();
+            prt.anchoredPosition = Vector2.zero;
+            prt.sizeDelta = new Vector2(460, 480);
+            panel.transform.localPosition = Vector3.zero;
+            panel.transform.localScale = Vector3.one;
+            var panelImg = panel.AddComponent<Image>();
+            panelImg.color = new Color(0.08f, 0.10f, 0.16f, 0.98f);
+
+            var font = FindObjectOfType<TextMeshProUGUI>()?.font;
+
+            // 3. Title Text
+            var titleGO = new GameObject("Title");
+            titleGO.transform.SetParent(panel.transform, false);
+            var trt = titleGO.AddComponent<RectTransform>();
+            trt.anchoredPosition = new Vector2(0, 200);
+            trt.sizeDelta = new Vector2(400, 45);
+            var titleTxt = titleGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) titleTxt.font = font;
+            titleTxt.text = "⚙️ 설정 및 메뉴";
+            titleTxt.fontSize = 22;
+            titleTxt.fontStyle = FontStyles.Bold;
+            titleTxt.alignment = TextAlignmentOptions.Center;
+            titleTxt.color = Color.white;
+
+            // 4. Sound Control Section
+            var soundLabelGO = new GameObject("SoundLabel");
+            soundLabelGO.transform.SetParent(panel.transform, false);
+            var slrt = soundLabelGO.AddComponent<RectTransform>();
+            slrt.anchoredPosition = new Vector2(-110, 135);
+            slrt.sizeDelta = new Vector2(180, 35);
+            var slTxt = soundLabelGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) slTxt.font = font;
+            slTxt.text = "🎵 사운드 설정";
+            slTxt.fontSize = 16;
+            slTxt.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+            // Mute / Unmute Button
+            MakeMenuButton(panel.transform, "SoundToggle", "🔊 소리 켬", new Vector2(80, 135), new Vector2(140, 38),
+                new Color(0.2f, 0.45f, 0.7f, 1f), OnToggleSoundClicked, font, out soundStatusText);
+
+            // 5. Language Control Section
+            var langLabelGO = new GameObject("LangLabel");
+            langLabelGO.transform.SetParent(panel.transform, false);
+            var llrt = langLabelGO.AddComponent<RectTransform>();
+            llrt.anchoredPosition = new Vector2(-110, 75);
+            llrt.sizeDelta = new Vector2(180, 35);
+            var llTxt = langLabelGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) llTxt.font = font;
+            llTxt.text = "🌐 언어 (Language)";
+            llTxt.fontSize = 16;
+            llTxt.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+            // KR / EN Language Buttons
+            MakeMenuButton(panel.transform, "LangKR", "🇰🇷 한국어", new Vector2(25, 75), new Vector2(95, 38),
+                new Color(0.18f, 0.52f, 0.28f, 1f), () => OnSelectLanguage("KR"), font, out _);
+            MakeMenuButton(panel.transform, "LangEN", "🇺🇸 English", new Vector2(130, 75), new Vector2(95, 38),
+                new Color(0.25f, 0.3f, 0.4f, 1f), () => OnSelectLanguage("EN"), font, out _);
+
+            // Divider Line
+            var divGO = new GameObject("Divider");
+            divGO.transform.SetParent(panel.transform, false);
+            var divRT = divGO.AddComponent<RectTransform>();
+            divRT.anchoredPosition = new Vector2(0, 30);
+            divRT.sizeDelta = new Vector2(400, 2);
+            divGO.AddComponent<Image>().color = new Color(1f, 1f, 1f, 0.15f);
+
+            // 6. Action Buttons: Save, Return to Main Menu, Resume
+            MakeMenuButton(panel.transform, "SaveBtn", "💾 진행상황 저장하기", new Vector2(0, -25), new Vector2(380, 48),
+                new Color(0.18f, 0.52f, 0.28f, 1f), OnSaveClicked, font, out _);
+
+            MakeMenuButton(panel.transform, "MainMenuBtn", "🏠 메인 메뉴로 이동", new Vector2(0, -90), new Vector2(380, 48),
+                new Color(0.70f, 0.35f, 0.15f, 1f), OnGoToMainMenuClicked, font, out _);
+
+            MakeMenuButton(panel.transform, "ResumeBtn", "❌ 계속하기 (닫기)", new Vector2(0, -165), new Vector2(380, 48),
+                new Color(0.35f, 0.35f, 0.40f, 1f), OnResumeClicked, font, out _);
+
+            menuWindow.SetActive(false);
+            BuildConfirmDialog();
+        }
+
+        private static void MakeMenuButton(Transform parent, string name, string label, Vector2 pos, Vector2 size, Color bg,
+            UnityEngine.Events.UnityAction onClick, TMP_FontAsset font, out TMP_Text labelComponent)
+        {
+            var go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.anchoredPosition = pos;
+            rt.sizeDelta = size;
+            go.transform.localPosition = new Vector3(pos.x, pos.y, 0f);
+            go.transform.localScale = Vector3.one;
+
+            var img = go.AddComponent<Image>();
+            img.color = bg;
+
+            var btn = go.AddComponent<Button>();
+            var cs = btn.colors;
+            cs.highlightedColor = bg * 1.3f;
+            cs.pressedColor = bg * 0.7f;
+            btn.colors = cs;
+            btn.onClick.AddListener(onClick);
+
+            var labelGO = new GameObject("Label");
+            labelGO.transform.SetParent(go.transform, false);
+            var lrt = labelGO.AddComponent<RectTransform>();
+            lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+            lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+            labelGO.transform.localPosition = Vector3.zero;
+            labelGO.transform.localScale = Vector3.one;
+            var tx = labelGO.AddComponent<TextMeshProUGUI>();
+            if (font != null) tx.font = font;
+            tx.text = label;
+            tx.fontSize = 15;
+            tx.alignment = TextAlignmentOptions.Center;
+            tx.color = Color.white;
+
+            labelComponent = tx;
+        }
+
+        private void OnSaveClicked()
+        {
+            gameManager?.SaveGame();
+            OnLog("💾 게임 진행 상황이 안전하게 저장되었습니다.");
+            Debug.Log("[GameHud] 게임 진행 상황 수동 저장 완료");
+        }
+
+        private void OnGoToMainMenuClicked()
+        {
+            if (confirmDialog != null)
+            {
+                confirmDialog.transform.SetAsLastSibling();
+                confirmDialog.SetActive(true);
+            }
+        }
+
+        private void OnResumeClicked()
+        {
+            if (menuWindow != null) menuWindow.SetActive(false);
+        }
+
+        private void BindPreplacedMenuWindow(GameObject go)
+        {
+            if (go == null) return;
+            menuWindow = go;
+
+            var soundToggle = FindChildRecursive(go.transform, "Btn_SoundToggle")?.GetComponent<Button>()
+                           ?? FindChildRecursive(go.transform, "SoundToggle")?.GetComponent<Button>();
+            if (soundToggle != null)
+            {
+                soundToggle.onClick.RemoveAllListeners();
+                soundToggle.onClick.AddListener(OnToggleSoundClicked);
+                soundStatusText = soundToggle.GetComponentInChildren<TMP_Text>();
+            }
+
+            var langKR = FindChildRecursive(go.transform, "Btn_LangKR")?.GetComponent<Button>()
+                      ?? FindChildRecursive(go.transform, "LangKR")?.GetComponent<Button>();
+            if (langKR != null)
+            {
+                langKR.onClick.RemoveAllListeners();
+                langKR.onClick.AddListener(() => OnSelectLanguage("KR"));
+            }
+
+            var langEN = FindChildRecursive(go.transform, "Btn_LangEN")?.GetComponent<Button>()
+                      ?? FindChildRecursive(go.transform, "LangEN")?.GetComponent<Button>();
+            if (langEN != null)
+            {
+                langEN.onClick.RemoveAllListeners();
+                langEN.onClick.AddListener(() => OnSelectLanguage("EN"));
+            }
+
+            var saveBtn = FindChildRecursive(go.transform, "Btn_Save")?.GetComponent<Button>()
+                       ?? FindChildRecursive(go.transform, "SaveBtn")?.GetComponent<Button>();
+            if (saveBtn != null)
+            {
+                saveBtn.onClick.RemoveAllListeners();
+                saveBtn.onClick.AddListener(OnSaveClicked);
+            }
+
+            var mainBtn = FindChildRecursive(go.transform, "Btn_MainMenu")?.GetComponent<Button>()
+                       ?? FindChildRecursive(go.transform, "MainMenuBtn")?.GetComponent<Button>();
+            if (mainBtn != null)
+            {
+                mainBtn.onClick.RemoveAllListeners();
+                mainBtn.onClick.AddListener(OnGoToMainMenuClicked);
+            }
+
+            var resumeBtn = FindChildRecursive(go.transform, "Btn_Resume")?.GetComponent<Button>()
+                         ?? FindChildRecursive(go.transform, "ResumeBtn")?.GetComponent<Button>();
+            if (resumeBtn != null)
+            {
+                resumeBtn.onClick.RemoveAllListeners();
+                resumeBtn.onClick.AddListener(OnResumeClicked);
+            }
+
+            menuWindow.SetActive(false);
+            BuildConfirmDialog();
+        }
+
+        private Transform FindChildRecursive(Transform parent, string targetName)
+        {
+            if (parent.name.Equals(targetName, System.StringComparison.OrdinalIgnoreCase)) return parent;
+            foreach (Transform child in parent)
+            {
+                var found = FindChildRecursive(child, targetName);
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        private void OnToggleSoundClicked()
+        {
+            if (gameManager == null) return;
+            bool nextMute = !gameManager.IsMuted;
+            gameManager.SetMuted(nextMute);
+            AudioListener.pause = nextMute;
+            AudioListener.volume = nextMute ? 0f : 1f;
+
+            if (soundStatusText != null)
+            {
+                soundStatusText.text = nextMute ? "🔇 음소거" : "🔊 소리 켬";
+            }
+            OnLog(nextMute ? "🔇 전체 사운드가 음소거되었습니다." : "🔊 사운드가 활성화되었습니다.");
+        }
+
+        private void OnSelectLanguage(string lang)
+        {
+            if (gameManager == null) return;
+            gameManager.SetLanguage(lang);
+            OnLog(lang == "KR" ? "🇰🇷 언어가 한국어로 설정되었습니다." : "🇺🇸 Language set to English.");
+        }
+
         private void BuildConfirmDialog()
         {
             // 최상위 캔버스를 찾아서 다이얼로그를 붙임
@@ -347,7 +623,7 @@ namespace CosmicChaosCat
             msgGO.transform.localScale = Vector3.one;
             var msg = msgGO.AddComponent<TextMeshProUGUI>();
             if (font != null) msg.font = font;
-            msg.text      = "메인 메뉴로 돌아가시겠습니까?\n현재 게임이 저장됩니다.";
+            msg.text      = "메인 메뉴로 돌아가시겠습니까?\n현재 게임이 안전하게 저장됩니다.";
             msg.fontSize  = 17;
             msg.color     = Color.white;
             msg.alignment = TextAlignmentOptions.Center;
@@ -492,18 +768,21 @@ namespace CosmicChaosCat
             collectionPanel.gameObject.SetActive(targetActive);
         }
  
-        /// <summary>메뉴 버튼 클릭 → 확인 다이얼로그 표시.</summary>
+        /// <summary>메뉴 버튼 또는 ESC 키 클릭 → 설정 및 메뉴 창 표시.</summary>
         public void GoToMenu()
         {
             if (Time.frameCount == lastMenuFrame) return;
             lastMenuFrame = Time.frameCount;
 
-            Debug.Log($"[GameHud] GoToMenu clicked. Dialog null?={confirmDialog==null}");
-            if (confirmDialog != null)
+            if (menuWindow == null) BuildMenuWindowUI();
+            if (menuWindow != null)
             {
-                confirmDialog.transform.SetAsLastSibling();
-                LogHierarchy(confirmDialog, 0);
-                confirmDialog.SetActive(true);
+                if (soundStatusText != null && gameManager != null)
+                {
+                    soundStatusText.text = gameManager.IsMuted ? "🔇 음소거" : "🔊 소리 켬";
+                }
+                menuWindow.transform.SetAsLastSibling();
+                menuWindow.SetActive(!menuWindow.activeSelf);
             }
         }
 

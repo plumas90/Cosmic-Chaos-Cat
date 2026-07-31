@@ -64,6 +64,11 @@ namespace CosmicChaosCat
         public bool   IsGameEnded    { get; private set; }
         public bool   UnlockedRareGacha  { get; private set; }
         public bool   UnlockedSuperGacha { get; private set; }
+
+        public float BgmVolume { get; private set; } = 1f;
+        public float SfxVolume { get; private set; } = 1f;
+        public bool IsMuted { get; private set; } = false;
+        public string SelectedLanguage { get; private set; } = "KR";
         public int    NExchangeCount     { get; private set; }
         public int    RExchangeCount     { get; private set; }
         public int    SRExchangeCount    { get; private set; }
@@ -898,8 +903,15 @@ namespace CosmicChaosCat
         /// <summary>외부(GameHud 등)에서 명시적으로 저장을 호출할 때 사용합니다.</summary>
         public void SaveGame() => Save();
 
-        private void OnApplicationQuit()    => Save();
+        private void OnApplicationQuit()              => Save();
         private void OnApplicationPause(bool pausing) { if (pausing) Save(); }
+        private void OnDisable()                      => Save();
+        private void OnDestroy()                      => Save();
+
+        public void SetBgmVolume(float vol) { BgmVolume = Mathf.Clamp01(vol); Save(); }
+        public void SetSfxVolume(float vol) { SfxVolume = Mathf.Clamp01(vol); Save(); }
+        public void SetMuted(bool mute)     { IsMuted = mute; Save(); }
+        public void SetLanguage(string lang) { SelectedLanguage = lang; Save(); NotifyState(); }
 
         public void Save()
         {
@@ -917,7 +929,11 @@ namespace CosmicChaosCat
                 rExchangeCount = RExchangeCount,
                 srExchangeCount = SRExchangeCount,
                 ssrExchangeCount = SSRExchangeCount,
-                urExchangeCount = URExchangeCount
+                urExchangeCount = URExchangeCount,
+                BgmVolume = BgmVolume,
+                SfxVolume = SfxVolume,
+                IsMuted = IsMuted,
+                SelectedLanguage = SelectedLanguage
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
@@ -998,6 +1014,11 @@ namespace CosmicChaosCat
             if (data.ClaimedSetRewards != null)   claimedSetRewards.UnionWith(data.ClaimedSetRewards);
             if (data.UnlockedBackgrounds != null) unlockedBackgrounds.UnionWith(data.UnlockedBackgrounds);
             if (data.UnlockedDecorations != null) unlockedDecorations.UnionWith(data.UnlockedDecorations);
+
+            BgmVolume = data.BgmVolume;
+            SfxVolume = data.SfxVolume;
+            IsMuted = data.IsMuted;
+            SelectedLanguage = string.IsNullOrEmpty(data.SelectedLanguage) ? "KR" : data.SelectedLanguage;
 
             EnsureTestCardsFirst12();
             NotifyState();
