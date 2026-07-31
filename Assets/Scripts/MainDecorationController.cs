@@ -38,11 +38,19 @@ namespace CosmicChaosCat
         private void Refresh()
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
-            if (gameManager == null || decoImage == null) return;
+            if (decoImage == null) return;
+
+            if (gameManager == null)
+            {
+                decoImage.sprite = null;
+                decoImage.enabled = false;
+                return;
+            }
 
             string decoId = gameManager.EquippedDecorationId;
-            if (string.IsNullOrEmpty(decoId) || decoId == "deco-none")
+            if (string.IsNullOrEmpty(decoId) || decoId == "deco-none" || decoId == "deco-00" || decoId.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
             {
+                decoImage.sprite = null;
                 decoImage.enabled = false;
                 return;
             }
@@ -59,11 +67,13 @@ namespace CosmicChaosCat
                 }
                 else
                 {
+                    decoImage.sprite = null;
                     decoImage.enabled = false;
                 }
             }
             else
             {
+                decoImage.sprite = null;
                 decoImage.enabled = false;
             }
         }

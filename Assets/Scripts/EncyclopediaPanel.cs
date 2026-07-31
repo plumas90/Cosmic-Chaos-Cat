@@ -15,7 +15,7 @@ namespace CosmicChaosCat
     public sealed class EncyclopediaPanel : MonoBehaviour
     {
         // ── Rarity filter state ──────────────────────────────────────────────
-        private enum RarityFilter { All, N, R, SR, SSR, UR }
+        private enum RarityFilter { All, N, R, SR, SSR, UR, H }
 
         // ── State ────────────────────────────────────────────────────────────
         private GameManager gm;
@@ -42,6 +42,7 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject filterTabSR;
         [SerializeField] private GameObject filterTabSSR;
         [SerializeField] private GameObject filterTabUR;
+        [SerializeField] private GameObject filterTabH;
 
         // No Tab – right page detail panel (always visible when a card is selected)
         [SerializeField] private GameObject  detailPanel;
@@ -144,6 +145,7 @@ namespace CosmicChaosCat
         private static readonly Color32 ColSR  = new Color32(180,  80, 255, 255);
         private static readonly Color32 ColSSR = new Color32(255, 200,   0, 255);
         private static readonly Color32 ColUR  = new Color32(255,  80,  30, 255);
+        private static readonly Color32 ColH   = new Color32(255,  50, 150, 255);
 
         private static EncyclopediaPanel _instance;
         public static EncyclopediaPanel Instance
@@ -507,13 +509,15 @@ namespace CosmicChaosCat
             filterTabSR  = MakeButton(parent, "SR",  new Vector2(startX + 3 * gap, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.SR));
             filterTabSSR = MakeButton(parent, "SSR", new Vector2(startX + 4 * gap, tabY), new Vector2(tabW + 5f, 26f), TabInactive, () => SetFilter(RarityFilter.SSR));
             filterTabUR  = MakeButton(parent, "UR",  new Vector2(startX + 5 * gap + 5f, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.UR));
+            filterTabH   = MakeButton(parent, "H",   new Vector2(startX + 6 * gap + 10f, tabY), new Vector2(tabW, 26f), TabInactive, () => SetFilter(RarityFilter.H));
 
-            // Apply rarity colors to N/R/SR/SSR/UR tab labels
+            // Apply rarity colors to N/R/SR/SSR/UR/H tab labels
             ApplyTabLabelColor(filterTabN,   (Color)ColN);
             ApplyTabLabelColor(filterTabR,   (Color)ColR);
             ApplyTabLabelColor(filterTabSR,  (Color)ColSR);
             ApplyTabLabelColor(filterTabSSR, (Color)ColSSR);
             ApplyTabLabelColor(filterTabUR,  (Color)ColUR);
+            ApplyTabLabelColor(filterTabH,   (Color)ColH);
 
             // Apply sprites if available
             SetButtonSprite(filterTabAll, spriteTabAll);
@@ -732,6 +736,7 @@ namespace CosmicChaosCat
             BindBtn(filterTabSR,   () => SetFilter(RarityFilter.SR));
             BindBtn(filterTabSSR,  () => SetFilter(RarityFilter.SSR));
             BindBtn(filterTabUR,   () => SetFilter(RarityFilter.UR));
+            BindBtn(filterTabH,    () => SetFilter(RarityFilter.H));
 
             if (detailEquipBtn != null) { detailEquipBtn.onClick.RemoveAllListeners(); detailEquipBtn.onClick.AddListener(OnDetailEquip); }
             if (detailBreakthroughBtn != null) { detailBreakthroughBtn.onClick.RemoveAllListeners(); detailBreakthroughBtn.onClick.AddListener(OnDetailBreakthrough); }
@@ -1004,6 +1009,7 @@ namespace CosmicChaosCat
             SetBtnColor(filterTabSR,  currentFilter == RarityFilter.SR  ? FilterTabSelected : FilterTabUnselected);
             SetBtnColor(filterTabSSR, currentFilter == RarityFilter.SSR ? FilterTabSelected : FilterTabUnselected);
             SetBtnColor(filterTabUR,  currentFilter == RarityFilter.UR  ? FilterTabSelected : FilterTabUnselected);
+            SetBtnColor(filterTabH,   currentFilter == RarityFilter.H   ? FilterTabSelected : FilterTabUnselected);
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -1029,6 +1035,7 @@ namespace CosmicChaosCat
                 if (currentFilter == RarityFilter.SR  && c.Rarity == CardRarity.SR)  filteredCards.Add(c);
                 if (currentFilter == RarityFilter.SSR && c.Rarity == CardRarity.SSR) filteredCards.Add(c);
                 if (currentFilter == RarityFilter.UR  && c.Rarity == CardRarity.UR)  filteredCards.Add(c);
+                if (currentFilter == RarityFilter.H   && c.Rarity == CardRarity.H)   filteredCards.Add(c);
             }
 
             int total   = filteredCards.Count;
@@ -2099,6 +2106,9 @@ namespace CosmicChaosCat
 
                 var foundUR = FindFilterTabButton(noPanelTf, "Btn_UR", "Tab_UR", "Filter_UR", "filterTabUR", "Btn_ur", "UR_Tab", "TabUR");
                 if (foundUR != null) filterTabUR = foundUR;
+
+                var foundH = FindFilterTabButton(noPanelTf, "Btn_H", "Tab_H", "Filter_H", "filterTabH", "Btn_h", "H_Tab", "TabH");
+                if (foundH != null) filterTabH = foundH;
 
                 // Detail panel
                 if (detailPanel == null)

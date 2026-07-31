@@ -190,6 +190,8 @@ namespace CosmicChaosCat
 
         public Sprite GetDecorationSprite(string id)
         {
+            if (string.IsNullOrEmpty(id) || id == "deco-none" || id == "deco-00" || id.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
+                return null;
             EnsureInit();
             var item = decorations.Find(x => x.id == id);
             return item?.displaySprite;
@@ -885,24 +887,39 @@ namespace CosmicChaosCat
         {
             if (gameManager == null) return;
             string decoId = gameManager.EquippedDecorationId;
-            if (string.IsNullOrEmpty(decoId)) return;
-
-            var sprite = GetDecorationSprite(decoId);
-            if (sprite == null) return;
 
             var canvas = FindObjectOfType<Canvas>();
             if (canvas != null)
             {
-                var mainDecoTf = canvas.transform.Find("MainDecoration");
+                var mainDecoTf = canvas.transform.Find("MainDecoration")
+                              ?? canvas.transform.Find("MainDeco")
+                              ?? canvas.transform.Find("Decoration");
                 if (mainDecoTf != null)
                 {
                     var img = mainDecoTf.GetComponent<Image>();
                     if (img != null)
                     {
-                        img.sprite = sprite;
-                        img.enabled = true;
-                        img.color = Color.white;
-                        img.preserveAspect = true;
+                        if (string.IsNullOrEmpty(decoId) || decoId == "deco-none" || decoId == "deco-00" || decoId.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            img.sprite = null;
+                            img.enabled = false;
+                        }
+                        else
+                        {
+                            var sprite = GetDecorationSprite(decoId);
+                            if (sprite != null)
+                            {
+                                img.sprite = sprite;
+                                img.enabled = true;
+                                img.color = Color.white;
+                                img.preserveAspect = true;
+                            }
+                            else
+                            {
+                                img.sprite = null;
+                                img.enabled = false;
+                            }
+                        }
                     }
                 }
             }
