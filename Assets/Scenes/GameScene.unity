@@ -7100,26 +7100,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1217691731948262646, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217691731948262646, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217691731948262646, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217691731948262646, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4278190080
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217691731948262646, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1911887840926092806, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_Name
       value: MenuSettingsWindow
@@ -7155,26 +7135,6 @@ PrefabInstance:
     - target: {fileID: 6303837917444979070, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743942497707905436, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743942497707905436, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743942497707905436, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743942497707905436, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4278190080
-      objectReference: {fileID: 0}
-    - target: {fileID: 8743942497707905436, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

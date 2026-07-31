@@ -13324,8 +13324,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52
-  m_fontSizeBase: 52
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -21173,7 +21173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4087448485074200871
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21215,11 +21215,13 @@ MonoBehaviour:
   spriteFrameR: {fileID: 1924889676143421861, guid: 0c11f006a203bf695a06417c219b54aa, type: 3}
   spriteFrameSR: {fileID: 6897072431820064852, guid: b8c3cd2ba9039edfa8278999245c29e1, type: 3}
   spriteFrameSSR: {fileID: 8697326958104602011, guid: f7a99fd4abe1029f6b92073af00504b2, type: 3}
+  spriteFrameH: {fileID: 6156842811370395218, guid: b2f6e918de6b57e48b493cafd954c13c, type: 3}
   spriteFrameLock: {fileID: 2275605148650449508, guid: 552c825ce163c6176b4186548c08ee0f, type: 3}
   spriteMarkN: {fileID: -8217714832183615459, guid: 5dabaa645ffffb611bd6af0b6de3e1fa, type: 3}
   spriteMarkR: {fileID: 7714416478726866884, guid: 2f5417cbed548d551bd3c263cad5a986, type: 3}
   spriteMarkSR: {fileID: -7326029582434897816, guid: 89bd2fe5d239399cb9af10e9ac3acc42, type: 3}
   spriteMarkSSR: {fileID: -6239872674116460406, guid: 0d29a2ce38e7579b49e91382b2ab2a96, type: 3}
+  spriteMarkH: {fileID: -6566962422287771531, guid: 08940589f6859d242b6f544696241f5e, type: 3}
   coinSymbolSprite: {fileID: 7675826601332790545, guid: a961618f5bec414fc9a5634c0eb5b3cb, type: 3}
   shardSymbolSprite: {fileID: -2513515431361719877, guid: 6bbc514cee17457e8989a4825525ad3f, type: 3}
   secHdrSpriteClick: {fileID: -8086304155192282883, guid: 213814eb7f539a8bdadbabbfc4e85ce5, type: 3}
@@ -21230,6 +21232,7 @@ MonoBehaviour:
   rowSpriteGacha: {fileID: -8598005529827750582, guid: 1e867b6abdf77c5408a5e72018b5dd7d, type: 3}
   rowSpriteEconomy: {fileID: -8432517562687457292, guid: bab7cd1b44e544d419983d7adb67331c, type: 3}
   rowSpriteSpecial: {fileID: 0}
+  pawPrintParticleSprite: {fileID: 0}
 --- !u!222 &4354616484194166117
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22549,8 +22552,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52
-  m_fontSizeBase: 52
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

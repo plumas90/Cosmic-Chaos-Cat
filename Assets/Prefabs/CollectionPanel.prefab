@@ -6015,7 +6015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5109677508278821631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6074,11 +6074,13 @@ MonoBehaviour:
   spriteFrameR: {fileID: 0}
   spriteFrameSR: {fileID: 0}
   spriteFrameSSR: {fileID: 0}
+  spriteFrameH: {fileID: 0}
   spriteFrameLock: {fileID: 0}
   spriteMarkN: {fileID: 0}
   spriteMarkR: {fileID: 0}
   spriteMarkSR: {fileID: 0}
   spriteMarkSSR: {fileID: 0}
+  spriteMarkH: {fileID: 0}
   spriteLockOverlay: {fileID: -3165384684024249202, guid: 5a0fb11eb3793d3d79064c92f89c4205, type: 3}
   spriteLockOverlayDetail: {fileID: 4469787989562674104, guid: ed9cf2fce71953682ae62a99b070914d, type: 3}
   backgrounds: []
