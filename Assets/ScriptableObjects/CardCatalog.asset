@@ -1506,7 +1506,7 @@ MonoBehaviour:
     ShardValue: 100
     MaxStacks: 6
     SetId: 5
-    IsHidden: 0
+    IsHidden: 1
     IsShop: 0
     ShopCurrency: 0
     ShopPrice: 1000

@@ -732,6 +732,7 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject leftPaw;
         [SerializeField] private GameObject rightPaw;
         [SerializeField] private GameObject headObj;
+        [SerializeField] private GameObject panelBodyObj; // GachaPanel > Panel (y: 0 ~ -117 as head rises)
 
         private void AutoWireDecorations()
         {
@@ -767,6 +768,12 @@ namespace CosmicChaosCat
                             ?? FindChildByNameRecursive(transform, "cat_head");
                 if (hd != null) headObj = hd.gameObject;
             }
+
+            if (panelBodyObj == null)
+            {
+                Transform pb = transform.Find("Panel");
+                if (pb != null) panelBodyObj = pb.gameObject;
+            }
         }
 
         private void UpdateCatDecorations()
@@ -795,16 +802,28 @@ namespace CosmicChaosCat
                 bool showHead = pct >= 40.0f;
                 headObj.SetActive(showHead);
 
+                float headT = showHead ? Mathf.Clamp01((pct - 40.0f) / (80.0f - 40.0f)) : 0f;
+
                 if (showHead)
                 {
-                    float t = Mathf.Clamp01((pct - 40.0f) / (80.0f - 40.0f));
-                    float targetY = Mathf.Lerp(0f, 338f, t);
+                    float targetY = Mathf.Lerp(0f, 338f, headT);
 
                     var headRt = headObj.GetComponent<RectTransform>();
                     if (headRt != null)
                     {
                         Vector2 pos = headRt.anchoredPosition;
                         headRt.anchoredPosition = new Vector2(pos.x, targetY);
+                    }
+                }
+
+                // Panel을 head 상승 비율에 맞춰 y: 0 → -117 로 함께 내림
+                if (panelBodyObj != null)
+                {
+                    var panelRt = panelBodyObj.GetComponent<RectTransform>();
+                    if (panelRt != null)
+                    {
+                        Vector2 ppos = panelRt.anchoredPosition;
+                        panelRt.anchoredPosition = new Vector2(ppos.x, Mathf.Lerp(0f, -117f, headT));
                     }
                 }
             }
@@ -1063,10 +1082,13 @@ namespace CosmicChaosCat
                            ?? (frontTrans.parent != null ? frontTrans.parent.Find("RareMark")?.GetComponent<Image>() : null);
             if (rareMarkImg != null)
             {
-                if (theme.rareMarkSprite != null)
+                Sprite sp = theme.rareMarkSprite;
+                if (sp == null)
                 {
-                    rareMarkImg.sprite = theme.rareMarkSprite;
+                    var enc = EncyclopediaPanel.Instance ?? FindObjectOfType<EncyclopediaPanel>(true);
+                    if (enc != null) sp = enc.GetMarkSpriteForRarity(rarity);
                 }
+                if (sp != null) rareMarkImg.sprite = sp;
                 rareMarkImg.color = Color.white;
             }
 

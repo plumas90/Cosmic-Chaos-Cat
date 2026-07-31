@@ -1002,11 +1002,14 @@ namespace CosmicChaosCat
             var allCards = gm.CardCatalog?.Cards;
             if (allCards == null) return;
 
-            // Build filtered list (hidden cards always excluded from No. tab)
+            // Build filtered list (unlocked hidden cards are included)
             filteredCards.Clear();
+            var cardStates = gm.GetCardStates();
             foreach (var c in allCards)
             {
-                if (c.IsHidden) continue;
+                bool isUnlocked = cardStates != null && cardStates.TryGetValue(c.Id, out var p) && p != null && p.Unlocked;
+                if (c.IsHidden && !isUnlocked) continue;
+
                 if (currentFilter == RarityFilter.All) { filteredCards.Add(c); continue; }
                 if (currentFilter == RarityFilter.N   && c.Rarity == CardRarity.N)   filteredCards.Add(c);
                 if (currentFilter == RarityFilter.R   && c.Rarity == CardRarity.R)   filteredCards.Add(c);
@@ -1038,7 +1041,6 @@ namespace CosmicChaosCat
             }
 
             // Fill slots
-            var cardStates = gm.GetCardStates();
             int startIdx = currentPageIdx * SLOTS_PER_PAGE;
 
             for (int i = 0; i < slots.Count; i++)
@@ -1090,10 +1092,12 @@ namespace CosmicChaosCat
             var states = gm.GetCardStates();
             foreach (var c in allCards)
             {
-                if (c.IsHidden) continue;
-                totalNonHidden++;
                 states.TryGetValue(c.Id, out var p);
-                if (p != null && p.Unlocked) unlockedNonHidden++;
+                bool isUnlocked = p != null && p.Unlocked;
+                if (c.IsHidden && !isUnlocked) continue;
+
+                totalNonHidden++;
+                if (isUnlocked) unlockedNonHidden++;
             }
 
             string textValue = $"{unlockedNonHidden} / {totalNonHidden}";
@@ -1900,9 +1904,11 @@ namespace CosmicChaosCat
 
             // Rebuild filtered list for ALL filter (non-hidden cards)
             filteredCards.Clear();
+            var allStates = gm?.GetCardStates();
             foreach (var c in allCards)
             {
-                if (!c.IsHidden) filteredCards.Add(c);
+                bool isUnlocked = allStates != null && allStates.TryGetValue(c.Id, out var p) && p != null && p.Unlocked;
+                if (!c.IsHidden || isUnlocked) filteredCards.Add(c);
             }
 
             // Find index of the card in the ALL filter list
@@ -2477,15 +2483,40 @@ namespace CosmicChaosCat
             }
         }
 
+        private static Sprite _cachedMarkN, _cachedMarkR, _cachedMarkSR, _cachedMarkSSR;
+
+        private static void LoadFallbackRarityMarks()
+        {
+            if (_cachedMarkN != null && _cachedMarkR != null && _cachedMarkSR != null && _cachedMarkSSR != null) return;
+#if UNITY_EDITOR
+            var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/Shop_ui/shop-components-sheet 1.png");
+            if (assets != null)
+            {
+                foreach (var a in assets)
+                {
+                    if (a is Sprite s)
+                    {
+                        if (s.name == "Shop_N")   _cachedMarkN   = s;
+                        if (s.name == "Shop_R")   _cachedMarkR   = s;
+                        if (s.name == "Shop_sr")  _cachedMarkSR  = s;
+                        if (s.name == "Shop_ssr") _cachedMarkSSR = s;
+                    }
+                }
+            }
+#endif
+        }
+
         public Sprite GetMarkSpriteForRarity(CardRarity r)
         {
+            LoadFallbackRarityMarks();
+
             switch (r)
             {
-                case CardRarity.R:   return spriteMarkR   != null ? spriteMarkR   : spriteMarkN;
-                case CardRarity.SR:  return spriteMarkSR  != null ? spriteMarkSR  : spriteMarkN;
-                case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
-                case CardRarity.UR:  return spriteMarkUR  != null ? spriteMarkUR  : (spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN);
-                default:             return spriteMarkN;
+                case CardRarity.R:   return spriteMarkR   != null ? spriteMarkR   : (_cachedMarkR   != null ? _cachedMarkR   : _cachedMarkN);
+                case CardRarity.SR:  return spriteMarkSR  != null ? spriteMarkSR  : (_cachedMarkSR  != null ? _cachedMarkSR  : _cachedMarkN);
+                case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : (_cachedMarkSSR != null ? _cachedMarkSSR : _cachedMarkN);
+                case CardRarity.UR:  return spriteMarkUR  != null ? spriteMarkUR  : (_cachedMarkSSR != null ? _cachedMarkSSR : _cachedMarkN);
+                default:             return spriteMarkN   != null ? spriteMarkN   : _cachedMarkN;
             }
         }
 

@@ -208,15 +208,21 @@ namespace CosmicChaosCat
 
         public Sprite GetMarkSpriteForRarity(CardRarity r)
         {
+            Sprite sp = null;
             switch (r)
             {
-                case CardRarity.N: return spriteMarkN;
-                case CardRarity.R: return spriteMarkR != null ? spriteMarkR : spriteMarkN;
-                case CardRarity.SR: return spriteMarkSR != null ? spriteMarkSR : spriteMarkN;
-                case CardRarity.SSR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
-                case CardRarity.UR: return spriteMarkSSR != null ? spriteMarkSSR : spriteMarkN;
-                default: return spriteMarkN;
+                case CardRarity.N:   sp = spriteMarkN; break;
+                case CardRarity.R:   sp = spriteMarkR; break;
+                case CardRarity.SR:  sp = spriteMarkSR; break;
+                case CardRarity.SSR: sp = spriteMarkSSR; break;
+                case CardRarity.UR:  sp = spriteMarkSSR; break;
             }
+            if (sp == null)
+            {
+                var enc = EncyclopediaPanel.Instance ?? FindObjectOfType<EncyclopediaPanel>(true);
+                if (enc != null) sp = enc.GetMarkSpriteForRarity(r);
+            }
+            return sp;
         }
 
         private void OnPrevPageClicked()
@@ -909,20 +915,43 @@ namespace CosmicChaosCat
 #endif
             }
 
+            Sprite LoadShopCloseSprite()
+            {
+#if UNITY_EDITOR
+                var allAssets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/Shop_ui/shop-components-sheet 1.png");
+                foreach (var a in allAssets)
+                    if (a is Sprite s && s.name == "Shop_Close") return s;
+#endif
+                return null;
+            }
+
+            if (backgrounds == null || backgrounds.Count == 0)
+            {
             backgrounds = new List<CollectibleItem>
             {
-                new CollectibleItem { id = "bg", displayName = "기본 배경", description = "기본으로 제공되는 고양이 방 테마 배경입니다.", unlockSetId = "", rarity = CardRarity.N, isTestUnlocked = true, displaySprite = LoadBgSprite("bg.png") },
-                new CollectibleItem { id = "bg2", displayName = "사막 오아시스 배경", description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2", rarity = CardRarity.R, isTestUnlocked = false, displaySprite = LoadBgSprite("bg2.png") },
-                new CollectibleItem { id = "bg3", displayName = "달콤한 디저트 배경", description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.", unlockSetId = "3", rarity = CardRarity.R, isTestUnlocked = false, displaySprite = LoadBgSprite("bg3.png") },
-                new CollectibleItem { id = "bg4", displayName = "심해 바다 배경", description = "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 테마 배경입니다.", unlockSetId = "4", rarity = CardRarity.SR, isTestUnlocked = false, displaySprite = LoadBgSprite("bg4.png") },
-                new CollectibleItem { id = "bg5", displayName = "저자거리 축제 배경", description = "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 테마 배경입니다.", unlockSetId = "5", rarity = CardRarity.SR, isTestUnlocked = false, displaySprite = LoadBgSprite("bg5.png") }
+                new CollectibleItem { id = "bg",    displayName = "기본 배경",              description = "기본으로 제공되는 배경입니다.",                               unlockSetId = "",   rarity = CardRarity.N,   isTestUnlocked = true,  displaySprite = LoadBgSprite("a_default.png") },
+                new CollectibleItem { id = "bg_s1", displayName = "골목길의 수호자 배경",   description = "세트 1 수집 완료 보상! 골목길 수호자 테마 배경입니다.",         unlockSetId = "1",  rarity = CardRarity.N,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_1_street.png") },
+                new CollectibleItem { id = "bg_s2", displayName = "사막 오아시스 배경",     description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_2.png") },
+                new CollectibleItem { id = "bg_s3", displayName = "달콤한 디저트 배경",    description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.",   unlockSetId = "3",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_3.png") },
+                new CollectibleItem { id = "bg_s4", displayName = "심해 수족관 배경",       description = "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 배경입니다.",   unlockSetId = "4",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set_4.png") },
+                new CollectibleItem { id = "bg_s5", displayName = "저자거리 축제 배경",    description = "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 배경입니다.",   unlockSetId = "5",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set_5.png") },
+                new CollectibleItem { id = "bg_s6", displayName = "우주 레인저 배경",      description = "세트 6 수집 완료 보상! 우주를 지키는 레인저 히어로 배경입니다.", unlockSetId = "6",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_6.png") },
+                new CollectibleItem { id = "bg_s7", displayName = "스팀펑크 비행선 배경",  description = "세트 7 수집 완료 보상! 하늘을 누비는 스팀펑크 비행선 배경입니다.", unlockSetId = "7", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_7.png") },
+                new CollectibleItem { id = "bg_s8", displayName = "사계절의 정령 배경",    description = "세트 8 수집 완료 보상! 사계절의 아름다움을 품은 정령 배경입니다.", unlockSetId = "8", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_8.png") },
+                new CollectibleItem { id = "bg_s9", displayName = "세트 9 배경",           description = "세트 9 수집 완료 보상! 특별한 테마 배경입니다.",                 unlockSetId = "9",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_9.png") },
+                new CollectibleItem { id = "bg_s10", displayName = "세트 10 배경",         description = "세트 10 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "10", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_10.png") },
+                new CollectibleItem { id = "bg_s11", displayName = "세트 11 배경",         description = "세트 11 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "11", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_11.png") },
+                new CollectibleItem { id = "bg_s12", displayName = "세트 12 배경",         description = "세트 12 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "12", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_12.png") },
+                new CollectibleItem { id = "bg_s13", displayName = "세트 13 배경",         description = "세트 13 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "13", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_13.png") },
+                new CollectibleItem { id = "bg_s14", displayName = "세트 14 배경",         description = "세트 14 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "14", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_14.png") },
             };
+            }
 
             if (decorations == null || decorations.Count == 0)
             {
                 decorations = new List<CollectibleItem>
                 {
-                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = null },
+                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = LoadShopCloseSprite() },
                     new CollectibleItem { id = "deco-cat-house", displayName = "푹신한 캣타워", description = "고양이들이 좋아하는 푹신한 캣타워 장식입니다.", unlockSetId = "1", rarity = CardRarity.N, displaySprite = CreateDecorationSprite(new Color(0.8f, 0.6f, 0.4f, 1f)) },
                     new CollectibleItem { id = "deco-pyramid", displayName = "미니 피라미드", description = "사막 오아시스 수호 피라미드 오브제입니다.", unlockSetId = "2", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.8f, 0.3f, 1f)) },
                     new CollectibleItem { id = "deco-cake", displayName = "3단 디저트 케이크", description = "달콤한 생크림 케이크 장식입니다.", unlockSetId = "3", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.5f, 0.7f, 1f)) },

@@ -135,6 +135,7 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
+
         [ContextMenu("Add 100,000 Gold")]
         public void AddTestMoney(double amount = 100000d)
         {
@@ -666,6 +667,10 @@ namespace CosmicChaosCat
             {
                 Log($"✨ 신규 카드 획득! {card.DisplayName} [{card.Rarity}]");
                 CheckSetCompletion(card);
+                if (card.IsHidden)
+                {
+                    SurprisePopUp.ShowCard(card);
+                }
             }
             else
             {
@@ -730,6 +735,8 @@ namespace CosmicChaosCat
             Log($"🔓 숨겨진 카드 해금! {card.DisplayName}");
             CardDrawn?.Invoke(cardId, card.Rarity);
             CheckEnding();
+
+            SurprisePopUp.ShowCard(card);
         }
 
         private void CheckEnding()
@@ -864,6 +871,10 @@ namespace CosmicChaosCat
                 state.Unlocked = true;
                 state.Copies++;
             }
+
+            CheckSetCompletion(card);
+            Save();
+            NotifyState();
         }
 
         public void IncrementExchangeCount(CardRarity rarity)
@@ -881,7 +892,7 @@ namespace CosmicChaosCat
         public void NotifyStateChange() => NotifyState();
 
         private void Log(string msg)  => LogUpdated?.Invoke(msg);
-        private void NotifyState()    => StateChanged?.Invoke();
+        public void NotifyState()    => StateChanged?.Invoke();
 
         // ── Public Save Hook ────────────────────────────────────────────────────
         /// <summary>외부(GameHud 등)에서 명시적으로 저장을 호출할 때 사용합니다.</summary>
@@ -890,7 +901,7 @@ namespace CosmicChaosCat
         private void OnApplicationQuit()    => Save();
         private void OnApplicationPause(bool pausing) { if (pausing) Save(); }
 
-        private void Save()
+        public void Save()
         {
             var data = new GameSaveData
             {

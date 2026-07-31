@@ -771,7 +771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8693849319146100255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4604,7 +4604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1643567276859716901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5353,7 +5353,6 @@ RectTransform:
   - {fileID: 5097291833098083007}
   - {fileID: 9071978063524434068}
   - {fileID: 603376108639730970}
-  - {fileID: 7510827142019214027}
   m_Father: {fileID: 5858456667632155579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5658,7 +5657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -16, y: 338}
+  m_AnchoredPosition: {x: 2, y: 338}
   m_SizeDelta: {x: 453, y: 429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4315710749168377322
@@ -6168,18 +6167,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5481437498086353899}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1643567276859716901}
   - {fileID: 2484141319240667298}
-  m_Father: {fileID: 7669251530447288198}
+  m_Father: {fileID: 5858456667632155579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 117}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3623571265435635676
@@ -10267,6 +10266,7 @@ RectTransform:
   m_Children:
   - {fileID: 8625033091176127885}
   - {fileID: 7669251530447288198}
+  - {fileID: 7510827142019214027}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10323,9 +10323,10 @@ MonoBehaviour:
     rareMarkSprite: {fileID: 0}
     nameLabelSprite: {fileID: 0}
   shardSprite: {fileID: -2513515431361719877, guid: 6bbc514cee17457e8989a4825525ad3f, type: 3}
-  leftPaw: {fileID: 0}
-  rightPaw: {fileID: 0}
-  headObj: {fileID: 0}
+  leftPaw: {fileID: 105616716892016465}
+  rightPaw: {fileID: 5595401797485453982}
+  headObj: {fileID: 5137330799285364921}
+  panelBodyObj: {fileID: 4753913307063413259}
 --- !u!222 &3797193236535563375
 CanvasRenderer:
   m_ObjectHideFlags: 0
