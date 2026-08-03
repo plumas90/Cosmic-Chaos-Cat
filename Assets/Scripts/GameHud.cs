@@ -369,16 +369,42 @@ namespace CosmicChaosCat
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private TMP_Text sfxValueText;
 
+        private RectMask2D bgmFillMask;
+        private RectTransform bgmFillAreaRect;
+        private RectMask2D sfxFillMask;
+        private RectTransform sfxFillAreaRect;
+
         private void OnBgmSliderChanged(float val)
         {
             if (gameManager != null) gameManager.SetBgmVolume(val);
             if (bgmValueText != null) bgmValueText.text = Mathf.RoundToInt(val * 100f).ToString();
+            UpdateSliderMask(bgmFillMask, bgmFillAreaRect, val);
         }
 
         private void OnSfxSliderChanged(float val)
         {
             if (gameManager != null) gameManager.SetSfxVolume(val);
             if (sfxValueText != null) sfxValueText.text = Mathf.RoundToInt(val * 100f).ToString();
+            UpdateSliderMask(sfxFillMask, sfxFillAreaRect, val);
+        }
+
+        private static void UpdateSliderMask(RectMask2D mask, RectTransform fillArea, float val)
+        {
+            if (mask == null || fillArea == null) return;
+            val = Mathf.Clamp01(val);
+
+            float totalWidth = 300f; // 슬라이더 가로폭 최대 300px 기준
+            if (fillArea.rect.width > totalWidth) totalWidth = fillArea.rect.width;
+
+            var parentRT = fillArea.parent as RectTransform;
+            if (parentRT != null)
+            {
+                float pWidth = parentRT.rect.width > 0f ? parentRT.rect.width : Mathf.Abs(parentRT.sizeDelta.x);
+                if (pWidth > totalWidth) totalWidth = pWidth;
+            }
+
+            float rightPadding = totalWidth * (1f - val);
+            mask.padding = new Vector4(0f, 0f, rightPadding, 0f);
         }
 
         private void BindPreplacedMenuWindow(GameObject go)
@@ -392,11 +418,41 @@ namespace CosmicChaosCat
             if (bgmSld != null)
             {
                 bgmSlider = bgmSld;
+                bgmSlider.fillRect = null;
                 bgmSlider.onValueChanged.RemoveAllListeners();
                 bgmSlider.onValueChanged.AddListener(OnBgmSliderChanged);
                 bgmValueText = FindChildRecursive(bgmSld.transform, "Text_Value")?.GetComponent<TMP_Text>()
                             ?? FindChildWithSubstring(bgmSld.transform, "val")?.GetComponent<TMP_Text>()
                             ?? bgmSld.GetComponentInChildren<TMP_Text>();
+
+                var fillArea = FindChildRecursive(bgmSld.transform, "Fill Area")
+                            ?? FindChildWithSubstring(bgmSld.transform, "fill");
+                if (fillArea != null)
+                {
+                    bgmFillAreaRect = fillArea.GetComponent<RectTransform>();
+                    if (bgmFillAreaRect != null)
+                    {
+                        bgmFillAreaRect.anchorMin = Vector2.zero;
+                        bgmFillAreaRect.anchorMax = Vector2.one;
+                        bgmFillAreaRect.offsetMin = Vector2.zero;
+                        bgmFillAreaRect.offsetMax = Vector2.zero;
+                    }
+                    bgmFillMask = fillArea.GetComponent<RectMask2D>();
+                    if (bgmFillMask == null) bgmFillMask = fillArea.gameObject.AddComponent<RectMask2D>();
+
+                    var fillChild = fillArea.Find("Fill") ?? (fillArea.childCount > 0 ? fillArea.GetChild(0) : null);
+                    if (fillChild != null)
+                    {
+                        var fillRT = fillChild.GetComponent<RectTransform>();
+                        if (fillRT != null)
+                        {
+                            fillRT.anchorMin = Vector2.zero;
+                            fillRT.anchorMax = Vector2.one;
+                            fillRT.offsetMin = Vector2.zero;
+                            fillRT.offsetMax = Vector2.zero;
+                        }
+                    }
+                }
             }
 
             var sfxSld = FindChildRecursive(go.transform, "Slider_SFX")?.GetComponent<Slider>()
@@ -405,11 +461,41 @@ namespace CosmicChaosCat
             if (sfxSld != null)
             {
                 sfxSlider = sfxSld;
+                sfxSlider.fillRect = null;
                 sfxSlider.onValueChanged.RemoveAllListeners();
                 sfxSlider.onValueChanged.AddListener(OnSfxSliderChanged);
                 sfxValueText = FindChildRecursive(sfxSld.transform, "Text_Value")?.GetComponent<TMP_Text>()
                             ?? FindChildWithSubstring(sfxSld.transform, "val")?.GetComponent<TMP_Text>()
                             ?? sfxSld.GetComponentInChildren<TMP_Text>();
+
+                var fillArea = FindChildRecursive(sfxSld.transform, "Fill Area")
+                            ?? FindChildWithSubstring(sfxSld.transform, "fill");
+                if (fillArea != null)
+                {
+                    sfxFillAreaRect = fillArea.GetComponent<RectTransform>();
+                    if (sfxFillAreaRect != null)
+                    {
+                        sfxFillAreaRect.anchorMin = Vector2.zero;
+                        sfxFillAreaRect.anchorMax = Vector2.one;
+                        sfxFillAreaRect.offsetMin = Vector2.zero;
+                        sfxFillAreaRect.offsetMax = Vector2.zero;
+                    }
+                    sfxFillMask = fillArea.GetComponent<RectMask2D>();
+                    if (sfxFillMask == null) sfxFillMask = fillArea.gameObject.AddComponent<RectMask2D>();
+
+                    var fillChild = fillArea.Find("Fill") ?? (fillArea.childCount > 0 ? fillArea.GetChild(0) : null);
+                    if (fillChild != null)
+                    {
+                        var fillRT = fillChild.GetComponent<RectTransform>();
+                        if (fillRT != null)
+                        {
+                            fillRT.anchorMin = Vector2.zero;
+                            fillRT.anchorMax = Vector2.one;
+                            fillRT.offsetMin = Vector2.zero;
+                            fillRT.offsetMax = Vector2.zero;
+                        }
+                    }
+                }
             }
 
             var drop = FindChildRecursive(go.transform, "Dropdown_Language")?.GetComponent<TMP_Dropdown>()
@@ -725,29 +811,31 @@ namespace CosmicChaosCat
             lastMenuFrame = Time.frameCount;
 
             if (menuWindow == null) EnsureMenuWindowBound();
-            if (menuWindow != null)
-            {
-                if (gameManager != null)
+                menuWindow.transform.SetAsLastSibling();
+                bool nextActive = !menuWindow.activeSelf;
+                menuWindow.SetActive(nextActive);
+                if (nextActive)
                 {
-                    if (bgmSlider != null)
+                    Canvas.ForceUpdateCanvases();
+                    if (gameManager != null)
                     {
-                        bgmSlider.value = gameManager.BgmVolume;
-                        if (bgmValueText != null) bgmValueText.text = Mathf.RoundToInt(gameManager.BgmVolume * 100f).ToString();
-                    }
-                    if (sfxSlider != null)
-                    {
-                        sfxSlider.value = gameManager.SfxVolume;
-                        if (sfxValueText != null) sfxValueText.text = Mathf.RoundToInt(gameManager.SfxVolume * 100f).ToString();
-                    }
-                    if (langDropdown != null)
-                    {
-                        langDropdown.value = (gameManager.SelectedLanguage == "EN") ? 1 : 0;
-                        langDropdown.RefreshShownValue();
+                        if (bgmSlider != null)
+                        {
+                            bgmSlider.value = gameManager.BgmVolume;
+                            OnBgmSliderChanged(gameManager.BgmVolume);
+                        }
+                        if (sfxSlider != null)
+                        {
+                            sfxSlider.value = gameManager.SfxVolume;
+                            OnSfxSliderChanged(gameManager.SfxVolume);
+                        }
+                        if (langDropdown != null)
+                        {
+                            langDropdown.value = (gameManager.SelectedLanguage == "EN") ? 1 : 0;
+                            langDropdown.RefreshShownValue();
+                        }
                     }
                 }
-                menuWindow.transform.SetAsLastSibling();
-                menuWindow.SetActive(!menuWindow.activeSelf);
-            }
         }
 
         private void LogHierarchy(GameObject go, int depth)
