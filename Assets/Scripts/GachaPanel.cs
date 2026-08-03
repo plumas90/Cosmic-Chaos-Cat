@@ -1134,7 +1134,7 @@ namespace CosmicChaosCat
                        ?? frontTrans.GetComponentInChildren<TMP_Text>();
             if (nameTxt != null)
             {
-                nameTxt.text = card.DisplayName;
+                nameTxt.text = card.GetDisplayName();
             }
 
             // 6. Rarity Text (RarityText, Text_Rarity)
@@ -1223,7 +1223,7 @@ namespace CosmicChaosCat
                     fImg.sprite = card.CardSprite;
                     fImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
 
-                    var nameText = MakeText(frontGo.transform, card.DisplayName, new Vector2(0, -78), new Vector2(120, 26), 11, Color.white);
+                    var nameText = MakeText(frontGo.transform, card.GetDisplayName(), new Vector2(0, -78), new Vector2(120, 26), 11, Color.white);
                     nameText.alignment = TextAlignmentOptions.Center;
                     if (font != null) nameText.font = font;
 

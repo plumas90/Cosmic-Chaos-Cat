@@ -292,7 +292,7 @@ namespace CosmicChaosCat
                 nameText.overflowMode     = TextOverflowModes.Overflow;
                 
                 string targetName = unlocked
-                    ? card.DisplayName
+                    ? card.GetDisplayName()
                     : "???";
                 if (nameText.text != targetName) nameText.text = targetName;
                 nameText.raycastTarget    = false;

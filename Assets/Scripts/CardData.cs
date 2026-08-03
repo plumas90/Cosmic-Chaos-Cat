@@ -36,6 +36,7 @@ namespace CosmicChaosCat
     {
         public string Id;
         public string DisplayName;
+        public string DisplayName_EN;
         public CardRarity Rarity;
         public float BaseWeight = 100f;
 
@@ -71,6 +72,7 @@ namespace CosmicChaosCat
         public CardSpecialEffect SpecialEffect;
         public float SpecialEffectValue;
         [TextArea(3, 5)] public string Description;
+        [TextArea(3, 5)] public string Description_EN;
 
         public System.Collections.Generic.List<int> GetBreakthroughStages()
         {
@@ -106,8 +108,29 @@ namespace CosmicChaosCat
             return CardSprite;
         }
 
-        public string GetDescription()
+        public string GetDisplayName(string lang = null)
         {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(DisplayName_EN)) return DisplayName_EN;
+            return !string.IsNullOrEmpty(DisplayName) ? DisplayName : Id;
+        }
+
+        public string GetDescription(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN")
+            {
+                if (!string.IsNullOrEmpty(Description_EN)) return Description_EN;
+                return $"{GetDisplayName(lang)} is a {Rarity} grade cat card. Provides click multiplier of x{ClickMultiplier}.";
+            }
             if (!string.IsNullOrEmpty(Description)) return Description;
             return $"{DisplayName}은(는) {Rarity} 등급의 고양이 카드입니다. 특수 클릭 수익 배율 {ClickMultiplier}배를 제공합니다.";
         }

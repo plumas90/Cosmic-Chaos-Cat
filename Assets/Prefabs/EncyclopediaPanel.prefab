@@ -285,6 +285,10 @@ MonoBehaviour:
   filterTabSSR: {fileID: 5978471679186519825}
   filterTabUR: {fileID: 0}
   filterTabH: {fileID: 8302675999002706801}
+  filterTabAllLabel: {fileID: 0}
+  claimRewardLabel: {fileID: 2369802287160414783}
+  setRepresentativeLabel: {fileID: 7548723135098695528}
+  breakthroughLabel: {fileID: 6713695628207652628}
   detailPanel: {fileID: 3452527527027912909}
   detailCardFrameImage: {fileID: 0}
   detailCardArt: {fileID: 3383935576236371365}
@@ -9802,6 +9806,7 @@ GameObject:
   - component: {fileID: 503954813369542595}
   - component: {fileID: 5263525503346225073}
   - component: {fileID: 2369802287160414783}
+  - component: {fileID: 7663654399750797903}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -9928,6 +9933,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7663654399750797903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013561562034340938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: encyclopedia_claim_reward
 --- !u!1 &5057610603319389151
 GameObject:
   m_ObjectHideFlags: 0
@@ -12784,6 +12802,7 @@ GameObject:
   - component: {fileID: 4093817104819843234}
   - component: {fileID: 4797572702580539128}
   - component: {fileID: 7548723135098695528}
+  - component: {fileID: 8194743929126127911}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -12910,6 +12929,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8194743929126127911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441238941364835237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: encyclopedia_set_representative
 --- !u!1 &6449972208824350516
 GameObject:
   m_ObjectHideFlags: 0
@@ -14128,6 +14160,7 @@ GameObject:
   - component: {fileID: 7057029295594685018}
   - component: {fileID: 1394765211741447722}
   - component: {fileID: 7192057995806686229}
+  - component: {fileID: 9095918149767845242}
   m_Layer: 0
   m_Name: EncyclopediaPanelTitle_Text
   m_TagString: Untagged
@@ -14254,6 +14287,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9095918149767845242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920857825795853002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: encyclopedia_title
 --- !u!1 &6934162637442174208
 GameObject:
   m_ObjectHideFlags: 0
@@ -18721,6 +18767,7 @@ GameObject:
   - component: {fileID: 4878458525121557998}
   - component: {fileID: 3015732134664269836}
   - component: {fileID: 6713695628207652628}
+  - component: {fileID: 4597175457853418302}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -18847,6 +18894,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4597175457853418302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724661918339871291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: encyclopedia_breakthrough
 --- !u!1 &8737378265545462097
 GameObject:
   m_ObjectHideFlags: 0

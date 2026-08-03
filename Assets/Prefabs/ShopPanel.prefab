@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: 4381619389641721513}
   - component: {fileID: 9032721771790604515}
   - component: {fileID: 6566137749871617274}
+  - component: {fileID: 6977180930591957504}
   m_Layer: 0
   m_Name: But btn
   m_TagString: Untagged
@@ -463,6 +464,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6977180930591957504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187006629624138314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 6566137749871617274}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &203828922016444506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,6 +1432,7 @@ GameObject:
   - component: {fileID: 1052396636216606602}
   - component: {fileID: 4963921448442547739}
   - component: {fileID: 4321112407015897548}
+  - component: {fileID: 5084694151194831933}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -1468,8 +1514,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1513,6 +1559,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5084694151194831933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454383148156836604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_tab_shard_exchange
 --- !u!1 &529051850254658493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,6 +1659,7 @@ GameObject:
   - component: {fileID: 7585406245855051204}
   - component: {fileID: 2350119550619719633}
   - component: {fileID: 7916879274484736419}
+  - component: {fileID: 1112773860889186489}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -1726,6 +1786,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1112773860889186489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623228871552633527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_sechdr_click
 --- !u!1 &628295681198717540
 GameObject:
   m_ObjectHideFlags: 0
@@ -5558,6 +5631,7 @@ GameObject:
   - component: {fileID: 2301022182602340902}
   - component: {fileID: 6662870319395833165}
   - component: {fileID: 7343425626546888546}
+  - component: {fileID: 4025605798959058689}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -5684,6 +5758,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4025605798959058689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730040008556782075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_sechdr_gacha
 --- !u!1 &1771599577487483849
 GameObject:
   m_ObjectHideFlags: 0
@@ -7073,6 +7160,7 @@ GameObject:
   - component: {fileID: 4593428532367490}
   - component: {fileID: 7837205998835849269}
   - component: {fileID: 3041197775450204551}
+  - component: {fileID: 3066417169338139703}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -7199,6 +7287,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3066417169338139703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032075341445394504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_title
 --- !u!1 &2072186030277402813
 GameObject:
   m_ObjectHideFlags: 0
@@ -8850,6 +8951,7 @@ GameObject:
   - component: {fileID: 2148693738390002261}
   - component: {fileID: 3069311594566102534}
   - component: {fileID: 3734846205884299211}
+  - component: {fileID: 1763539256753137858}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -8874,7 +8976,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 334.4663, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3069311594566102534
 CanvasRenderer:
@@ -8931,8 +9033,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8976,6 +9078,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1763539256753137858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2806412224221012262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_shard_tab_ssr
 --- !u!1 &2926646239848626627
 GameObject:
   m_ObjectHideFlags: 0
@@ -9553,6 +9668,7 @@ GameObject:
   - component: {fileID: 3487914082670264562}
   - component: {fileID: 8727082436139261930}
   - component: {fileID: 6859288384621571637}
+  - component: {fileID: 994793430000695439}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -9634,8 +9750,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9679,6 +9795,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &994793430000695439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266955759282445473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_tab_upgrades
 --- !u!1 &3293373347539235295
 GameObject:
   m_ObjectHideFlags: 0
@@ -12486,6 +12615,7 @@ GameObject:
   - component: {fileID: 2680496135273168910}
   - component: {fileID: 8634612613775646779}
   - component: {fileID: 3202693052364957292}
+  - component: {fileID: 9039287055445074318}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -12567,8 +12697,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12612,6 +12742,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9039287055445074318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906773065546235531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_tab_products
 --- !u!1 &3977650634423256158
 GameObject:
   m_ObjectHideFlags: 0
@@ -12745,7 +12888,7 @@ GameObject:
   - component: {fileID: 4098630086152346786}
   - component: {fileID: 199809012780718532}
   m_Layer: 0
-  m_Name: n/n_text
+  m_Name: Buy_txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18883,6 +19026,7 @@ GameObject:
   - component: {fileID: 7572141677550103890}
   - component: {fileID: 4385482592369456484}
   - component: {fileID: 8265025899555193149}
+  - component: {fileID: 3430200125145000874}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -18907,7 +19051,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 334.4663, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4385482592369456484
 CanvasRenderer:
@@ -18964,8 +19108,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -19009,6 +19153,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3430200125145000874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926228605527131823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_shard_tab_r
 --- !u!1 &5927323760227566175
 GameObject:
   m_ObjectHideFlags: 0
@@ -21211,6 +21368,14 @@ MonoBehaviour:
   productsContent: {fileID: 5636012849733322314}
   shardText: {fileID: 7737068503344790162}
   coinText: {fileID: 664866502224516134}
+  shopTitleText: {fileID: 3041197775450204551}
+  tab0Text: {fileID: 6859288384621571637}
+  tab1Text: {fileID: 4321112407015897548}
+  tab2Text: {fileID: 3202693052364957292}
+  sechdrClickText: {fileID: 7916879274484736419}
+  sechdrGachaText: {fileID: 7343425626546888546}
+  sechdrEconomyText: {fileID: 5017029442466405192}
+  sechdrSpecialText: {fileID: 0}
   spriteFrameN: {fileID: 9045989813521576999, guid: c3e2b09f4cf0c761cac9f5da82db5d0c, type: 3}
   spriteFrameR: {fileID: 1924889676143421861, guid: 0c11f006a203bf695a06417c219b54aa, type: 3}
   spriteFrameSR: {fileID: 6897072431820064852, guid: b8c3cd2ba9039edfa8278999245c29e1, type: 3}
@@ -21877,6 +22042,7 @@ GameObject:
   - component: {fileID: 950607762532095050}
   - component: {fileID: 7377158213808961985}
   - component: {fileID: 5017029442466405192}
+  - component: {fileID: 4696889734705939152}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -22003,6 +22169,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4696889734705939152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6900043164440202430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_sechdr_economy
 --- !u!1 &6903833772383057100
 GameObject:
   m_ObjectHideFlags: 0
@@ -24219,6 +24398,7 @@ GameObject:
   - component: {fileID: 585182301504062232}
   - component: {fileID: 511050449780589532}
   - component: {fileID: 6231114521780462192}
+  - component: {fileID: 4849882313446652971}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -24346,6 +24526,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4849882313446652971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467307718906508941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_shard_desc
 --- !u!1 &7500028701582453005
 GameObject:
   m_ObjectHideFlags: 0
@@ -25307,6 +25500,7 @@ GameObject:
   - component: {fileID: 1952723154079557514}
   - component: {fileID: 4988504899342394252}
   - component: {fileID: 5037916048233009460}
+  - component: {fileID: 2006196979844261166}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -25331,7 +25525,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 334.4663, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4988504899342394252
 CanvasRenderer:
@@ -25388,8 +25582,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -25433,6 +25627,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2006196979844261166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998261024709266143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_shard_tab_n
 --- !u!1 &8022831815964570646
 GameObject:
   m_ObjectHideFlags: 0
@@ -26807,6 +27014,7 @@ GameObject:
   - component: {fileID: 733000372495649645}
   - component: {fileID: 5901879707359403807}
   - component: {fileID: 7162674419192958733}
+  - component: {fileID: 6899425110793313561}
   m_Layer: 0
   m_Name: Lbl
   m_TagString: Untagged
@@ -26831,7 +27039,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 334.4663, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5901879707359403807
 CanvasRenderer:
@@ -26888,8 +27096,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -26933,6 +27141,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6899425110793313561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328455517360676229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b6897e0fd87f64f8151d3d0bc10ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: shop_shard_tab_sr
 --- !u!1 &8393984463337582192
 GameObject:
   m_ObjectHideFlags: 0

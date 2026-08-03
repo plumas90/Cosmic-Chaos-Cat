@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b8c125e22ccd4488ef10eac7d8577c, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  entries:
+  - key: menu_title
+    kr: "\uC124\uC815 \uBC0F \uBA54\uB274"
+    en: Settings & Menu
+  - key: menu_bgm_vol
+    kr: "BGM \uBCFC\uB968"
+    en: BGM Volume
+  - key: menu_sfx_vol
+    kr: "SFX \uBCFC\uB968"
+    en: SFX Volume
+  - key: menu_lang_label
+    kr: "\uC5B8\uC5B4 (Language)"
+    en: Language
+  - key: menu_btn_save
+    kr: "\uC9C4\uD589\uC0C1\uD669 \uC800\uC7A5"
+    en: Save Progress
+  - key: menu_btn_main_menu
+    kr: "\uBA54\uC778 \uBA54\uB274\uB85C \uC774\uB3D9"
+    en: Main Menu
+  - key: menu_btn_close
+    kr: "\uB2EB\uAE30"
+    en: Close
+  - key: dialog_confirm_save_title
+    kr: "\uC800\uC7A5 \uC644\uB8CC"
+    en: Save Complete
+  - key: dialog_confirm_save_msg
+    kr: "\uAC8C\uC784 \uC9C4\uD589 \uC0C1\uD669\uC774 \uC131\uACF5\uC801\uC73C\uB85C
+      \uC800\uC7A5\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+    en: Game progress saved successfully.
+  - key: dialog_confirm_main_menu_title
+    kr: "\uBA54\uC778 \uBA54\uB274"
+    en: Main Menu
+  - key: dialog_confirm_main_menu_msg
+    kr: "\uBA54\uC778 \uBA54\uB274 \uD654\uBA74\uC73C\uB85C \uC774\uB3D9\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+    en: Return to main menu screen?
+  - key: dialog_btn_yes
+    kr: "\uC608"
+    en: Yes
+  - key: dialog_btn_no
+    kr: "\uC544\uB2C8\uC624"
+    en: No
+  - key: dialog_btn_ok
+    kr: "\uD655\uC778"
+    en: OK
+  - key: hud_btn_gacha
+    kr: "\uBF51\uAE30"
+    en: Gacha
+  - key: hud_btn_shop
+    kr: "\uC0C1\uC810"
+    en: Shop
+  - key: hud_btn_upgrade
+    kr: "\uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Upgrade
+  - key: hud_btn_exchange
+    kr: "\uAD50\uD658\uC18C"
+    en: Exchange
+  - key: hud_btn_encyclopedia
+    kr: "\uB3C4\uAC10"
+    en: Encyclopedia
+  - key: hud_btn_collection
+    kr: "\uC218\uC9D1\uD488"
+    en: Collection
+  - key: catalog_tab_all
+    kr: "\uC804\uCCB4"
+    en: All
+  - key: catalog_search_placeholder
+    kr: "\uCE74\uB4DC \uC774\uB984 \uAC80\uC0C9..."
+    en: Search card name...
+  - key: catalog_set_reward_claim
+    kr: "\uBCF4\uC0C1 \uD68D\uB4DD"
+    en: Claim Reward
+  - key: catalog_set_reward_claimed
+    kr: "\uD68D\uB4DD \uC644\uB8CC"
+    en: Claimed
+  - key: collection_title
+    kr: "\uC218\uC9D1\uD488"
+    en: Collection
+  - key: collection_tab_bg
+    kr: "\uBC30\uACBD"
+    en: Backgrounds
+  - key: collection_tab_deco
+    kr: "\uC7A5\uC2DD"
+    en: Decorations
+  - key: shop_title
+    kr: "\uC0C1\uC810"
+    en: Shop
+  - key: shop_tab_upgrades
+    kr: "\uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Upgrades
+  - key: shop_tab_shard_exchange
+    kr: "\uC870\uAC01 \uAD50\uD658"
+    en: Shard Exchange
+  - key: shop_tab_products
+    kr: "\uC0C1\uD488"
+    en: Products
+  - key: shop_sechdr_click
+    kr: "\uD074\uB9AD \uC218\uC775 \uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Click Income Upgrades
+  - key: shop_sechdr_gacha
+    kr: "\uAC00\uCC60 \uD655\uB960 / \uBE44\uC6A9 \uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Gacha Upgrades
+  - key: shop_sechdr_economy
+    kr: "\uACE8\uB4DC / \uC870\uAC01 \uBCF4\uB108\uC2A4 \uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Economy Upgrades
+  - key: shop_sechdr_special
+    kr: "\uD2B9\uC218 \uAE30\uB2A5 \uC5C5\uADF8\uB808\uC774\uB4DC"
+    en: Special Upgrades
+  - key: shop_shard_desc
+    kr: "\uC870\uAC01\uC73C\uB85C \uBBF8\uD68D\uB4DD \uCE74\uB4DC\uB97C \uBF51\uC2B5\uB2C8\uB2E4.\n\uC774\uBBF8
+      \uBCF4\uC720\uD55C \uCE74\uB4DC\uB294 \uBF51\uAE30 \uB300\uC0C1\uC5D0\uC11C
+      \uC81C\uC678\uB429\uB2C8\uB2E4."
+    en: 'Draw unobtained cards using shards.
+
+      Already owned cards are excluded
+      from pulls.'
+  - key: shop_shard_tab_n
+    kr: "N \uB4F1\uAE09"
+    en: N Grade
+  - key: shop_shard_tab_r
+    kr: "R \uB4F1\uAE09"
+    en: R Grade
+  - key: shop_shard_tab_sr
+    kr: "SR \uB4F1\uAE09"
+    en: SR Grade
+  - key: shop_shard_tab_ssr
+    kr: "SSR \uB4F1\uAE09"
+    en: SSR Grade
+  - key: shop_buy_btn
+    kr: "\uAD6C\uB9E4"
+    en: Buy
+  - key: encyclopedia_title
+    kr: "\uB3C4\uAC10"
+    en: Encyclopedia
+  - key: encyclopedia_search_placeholder
+    kr: "\uCE74\uB4DC \uC774\uB984 \uAC80\uC0C9..."
+    en: Search card name...
+  - key: encyclopedia_tab_all
+    kr: "\uC804\uCCB4"
+    en: All
+  - key: encyclopedia_claim_reward
+    kr: "\uBCF4\uC0C1 \uBC1B\uAE30"
+    en: Claim Reward
+  - key: encyclopedia_set_representative
+    kr: "\uB300\uD45C \uC124\uC815"
+    en: Set Main
+  - key: encyclopedia_breakthrough
+    kr: "\uD55C\uACC4 \uB3CC\uD30C"
+    en: Breakthrough
+  - key: encyclopedia_claimed_reward
+    kr: "\uD68D\uB4DD \uC644\uB8CC"
+    en: Claimed
+  - key: encyclopedia_equip_btn
+    kr: "\uC7A5\uCC29\uD558\uAE30"
+    en: Equip Card
+  - key: encyclopedia_equipped_btn
+    kr: "\uC7A5\uCC29\uC911"
+    en: Equipped
+  - key: encyclopedia_breakthrough_btn
+    kr: "\uB3CC\uD30C\uD558\uAE30"
+    en: Breakthrough
+  - key: common_level
+    kr: "\uB808\uBCA8"
+    en: Level
+  - key: common_coin
+    kr: "\uCF54\uC778"
+    en: Coins
+  - key: common_shard
+    kr: "\uC870\uAC01"
+    en: Shards
+  - key: common_equip
+    kr: "\uC7A5\uCC29"
+    en: Equip
+  - key: common_equipped
+    kr: "\uC7A5\uCC29\uC911"
+    en: Equipped
+  - key: common_unlock
+    kr: "\uD574\uAE08"
+    en: Unlock
+  - key: common_locked
+    kr: "\uBBF8\uD574\uAE08"
+    en: Locked
