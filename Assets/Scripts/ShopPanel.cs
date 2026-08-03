@@ -45,6 +45,16 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text shardText;
         [SerializeField] private TMP_Text coinText;
 
+        [Header("Inspector Explicit Localized Text Fields")]
+        [SerializeField] private TMP_Text shopTitleText;
+        [SerializeField] private TMP_Text tab0Text;
+        [SerializeField] private TMP_Text tab1Text;
+        [SerializeField] private TMP_Text tab2Text;
+        [SerializeField] private TMP_Text sechdrClickText;
+        [SerializeField] private TMP_Text sechdrGachaText;
+        [SerializeField] private TMP_Text sechdrEconomyText;
+        [SerializeField] private TMP_Text sechdrSpecialText;
+
         [Header("Rarity Frame & Mark Sprites")]
         [SerializeField] private Sprite spriteFrameN;
         [SerializeField] private Sprite spriteFrameR;

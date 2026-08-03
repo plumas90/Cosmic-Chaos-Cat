@@ -44,6 +44,12 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject filterTabUR;
         [SerializeField] private GameObject filterTabH;
 
+        [Header("Inspector Explicit Localized Text Fields")]
+        [SerializeField] private TMP_Text filterTabAllLabel;
+        [SerializeField] private TMP_Text claimRewardLabel;
+        [SerializeField] private TMP_Text setRepresentativeLabel;
+        [SerializeField] private TMP_Text breakthroughLabel;
+
         // No Tab – right page detail panel (always visible when a card is selected)
         [SerializeField] private GameObject  detailPanel;
         [SerializeField] private Image       detailCardFrameImage;

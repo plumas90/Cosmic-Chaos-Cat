@@ -34,6 +34,23 @@ namespace CosmicChaosCat
         [SerializeField] private Button shopButton;
         [SerializeField] private Button collectionButton;
 
+        [Header("HUD Localized Text Fields (Inspector Explicit Bindings)")]
+        [SerializeField] private TMP_Text gachaButtonLabel;
+        [SerializeField] private TMP_Text encyclopediaButtonLabel;
+        [SerializeField] private TMP_Text upgradeButtonLabel;
+        [SerializeField] private TMP_Text exchangeButtonLabel;
+        [SerializeField] private TMP_Text shopButtonLabel;
+        [SerializeField] private TMP_Text collectionButtonLabel;
+
+        [Header("Menu Window Localized Text Fields (Inspector Explicit Bindings)")]
+        [SerializeField] private TMP_Text menuTitleLabel;
+        [SerializeField] private TMP_Text bgmVolumeLabel;
+        [SerializeField] private TMP_Text sfxVolumeLabel;
+        [SerializeField] private TMP_Text languageLabel;
+        [SerializeField] private TMP_Text saveProgressLabel;
+        [SerializeField] private TMP_Text mainMenuLabel;
+        [SerializeField] private TMP_Text closeMenuLabel;
+
         [Header("Panels — pre-placed, start inactive")]
         [SerializeField] private GachaPanel         gachaPanel;
         [SerializeField] private EncyclopediaPanel  encyclopediaPanel;
@@ -1012,26 +1029,31 @@ namespace CosmicChaosCat
 
         private void BindHudButtonLocalizations()
         {
-            void BindBtn(Button btn, string key)
+            void BindField(TMP_Text txt, string key)
             {
+                if (txt == null) return;
+                var loc = txt.GetComponent<LocalizeText>() ?? txt.gameObject.AddComponent<LocalizeText>();
+                loc.Key = key;
+                loc.Refresh();
+            }
+
+            void BindBtn(Button btn, TMP_Text explicitTxt, string key)
+            {
+                if (explicitTxt != null)
+                {
+                    BindField(explicitTxt, key);
+                    return;
+                }
                 if (btn == null) return;
                 var txts = btn.GetComponentsInChildren<TMP_Text>(true);
                 if (txts != null && txts.Length > 0)
                 {
-                    foreach (var txt in txts)
-                    {
-                        var loc = txt.GetComponent<LocalizeText>() ?? txt.gameObject.AddComponent<LocalizeText>();
-                        loc.Key = key;
-                        loc.Refresh();
-                    }
+                    foreach (var txt in txts) BindField(txt, key);
                 }
                 var legacyTxts = btn.GetComponentsInChildren<UnityEngine.UI.Text>(true);
                 if (legacyTxts != null && legacyTxts.Length > 0)
                 {
-                    foreach (var legacyTxt in legacyTxts)
-                    {
-                        legacyTxt.text = LocalizationManager.Get(key);
-                    }
+                    foreach (var legacyTxt in legacyTxts) legacyTxt.text = LocalizationManager.Get(key);
                 }
             }
 
@@ -1041,12 +1063,20 @@ namespace CosmicChaosCat
                 if (encyTF != null) encyclopediaButton = encyTF.GetComponent<Button>();
             }
 
-            BindBtn(gachaButton, "hud_btn_gacha");
-            BindBtn(encyclopediaButton, "hud_btn_encyclopedia");
-            BindBtn(upgradeButton, "hud_btn_upgrade");
-            BindBtn(exchangeButton, "hud_btn_exchange");
-            BindBtn(shopButton, "hud_btn_shop");
-            BindBtn(collectionButton, "hud_btn_collection");
+            BindBtn(gachaButton, gachaButtonLabel, "hud_btn_gacha");
+            BindBtn(encyclopediaButton, encyclopediaButtonLabel, "hud_btn_encyclopedia");
+            BindBtn(upgradeButton, upgradeButtonLabel, "hud_btn_upgrade");
+            BindBtn(exchangeButton, exchangeButtonLabel, "hud_btn_exchange");
+            BindBtn(shopButton, shopButtonLabel, "hud_btn_shop");
+            BindBtn(collectionButton, collectionButtonLabel, "hud_btn_collection");
+
+            BindField(menuTitleLabel, "menu_title");
+            BindField(bgmVolumeLabel, "menu_bgm_vol");
+            BindField(sfxVolumeLabel, "menu_sfx_vol");
+            BindField(languageLabel, "menu_lang_label");
+            BindField(saveProgressLabel, "menu_btn_save");
+            BindField(mainMenuLabel, "menu_btn_main_menu");
+            BindField(closeMenuLabel, "menu_btn_close");
         }
     }
 }
