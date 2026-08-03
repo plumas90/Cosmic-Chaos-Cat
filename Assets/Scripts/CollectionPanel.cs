@@ -137,6 +137,9 @@ namespace CosmicChaosCat
                 gameManager.StateChanged += Refresh;
             }
 
+            LocalizationManager.OnLanguageChanged -= Refresh;
+            LocalizationManager.OnLanguageChanged += Refresh;
+
             // Bind tab click listeners
             if (bgTabBtn != null)
             {
@@ -174,6 +177,7 @@ namespace CosmicChaosCat
             {
                 gameManager.StateChanged -= Refresh;
             }
+            LocalizationManager.OnLanguageChanged -= Refresh;
         }
 
         public Sprite GetBackgroundSprite(string id)
@@ -364,7 +368,8 @@ namespace CosmicChaosCat
             if (decoPanel != null) decoPanel.SetActive(!showBgTab);
 
             // Title Text Update
-            SetTitleText(showBgTab ? "배경" : "장식품");
+            string lang = gameManager != null ? gameManager.SelectedLanguage : (GameManager.Instance != null ? GameManager.Instance.SelectedLanguage : "KR");
+            SetTitleText(showBgTab ? LocalizationManager.Get("collection_tab_bg", lang) : LocalizationManager.Get("collection_tab_deco", lang));
 
             // Update Tab Button Styles
             UpdateTabButtonStyles();

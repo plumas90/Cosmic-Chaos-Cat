@@ -142,6 +142,11 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
+        private void Start()
+        {
+            LocalizationManager.NotifyLanguageChanged();
+        }
+
 
         [ContextMenu("Add 100,000 Gold")]
         public void AddTestMoney(double amount = 100000d)

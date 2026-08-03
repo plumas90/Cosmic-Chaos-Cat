@@ -37,7 +37,7 @@ namespace CosmicChaosCat
             { "hud_btn_shop", new Dictionary<string, string> { { "KR", "상점" }, { "EN", "Shop" } } },
             { "hud_btn_upgrade", new Dictionary<string, string> { { "KR", "업그레이드" }, { "EN", "Upgrade" } } },
             { "hud_btn_exchange", new Dictionary<string, string> { { "KR", "교환소" }, { "EN", "Exchange" } } },
-            { "hud_btn_encyclopedia", new Dictionary<string, string> { { "KR", "도감" }, { "EN", "Catalog" } } },
+            { "hud_btn_encyclopedia", new Dictionary<string, string> { { "KR", "도감" }, { "EN", "Encyclopedia" } } },
             { "hud_btn_collection", new Dictionary<string, string> { { "KR", "수집품" }, { "EN", "Collection" } } },
 
             // --- Encyclopedia & Catalog Tabs ---
@@ -47,6 +47,7 @@ namespace CosmicChaosCat
             { "catalog_set_reward_claimed", new Dictionary<string, string> { { "KR", "획득 완료" }, { "EN", "Claimed" } } },
 
             // --- Collection & Shop Tabs ---
+            { "collection_title", new Dictionary<string, string> { { "KR", "수집품" }, { "EN", "Collection" } } },
             { "collection_tab_bg", new Dictionary<string, string> { { "KR", "배경" }, { "EN", "Backgrounds" } } },
             { "collection_tab_deco", new Dictionary<string, string> { { "KR", "장식" }, { "EN", "Decorations" } } },
             { "shop_title", new Dictionary<string, string> { { "KR", "상점" }, { "EN", "Shop" } } },
@@ -57,9 +58,15 @@ namespace CosmicChaosCat
             { "shop_sechdr_gacha", new Dictionary<string, string> { { "KR", "가챠 확률 / 비용 업그레이드" }, { "EN", "Gacha Upgrades" } } },
             { "shop_sechdr_economy", new Dictionary<string, string> { { "KR", "골드 / 조각 보너스 업그레이드" }, { "EN", "Economy Upgrades" } } },
             { "shop_sechdr_special", new Dictionary<string, string> { { "KR", "특수 기능 업그레이드" }, { "EN", "Special Upgrades" } } },
+            { "shop_shard_desc", new Dictionary<string, string> { { "KR", "조각으로 미획득 카드를 뽑습니다.\n이미 보유한 카드는 뽑기 대상에서 제외됩니다." }, { "EN", "Draw unobtained cards using shards.\nAlready owned cards are excluded from pulls." } } },
+            { "shop_shard_tab_n", new Dictionary<string, string> { { "KR", "N 등급" }, { "EN", "N Grade" } } },
+            { "shop_shard_tab_r", new Dictionary<string, string> { { "KR", "R 등급" }, { "EN", "R Grade" } } },
+            { "shop_shard_tab_sr", new Dictionary<string, string> { { "KR", "SR 등급" }, { "EN", "SR Grade" } } },
+            { "shop_shard_tab_ssr", new Dictionary<string, string> { { "KR", "SSR 등급" }, { "EN", "SSR Grade" } } },
+            { "shop_buy_btn", new Dictionary<string, string> { { "KR", "구매" }, { "EN", "Buy" } } },
 
             // --- Encyclopedia Panel ---
-            { "encyclopedia_title", new Dictionary<string, string> { { "KR", "도감" }, { "EN", "Catalog" } } },
+            { "encyclopedia_title", new Dictionary<string, string> { { "KR", "도감" }, { "EN", "Encyclopedia" } } },
             { "encyclopedia_search_placeholder", new Dictionary<string, string> { { "KR", "카드 이름 검색..." }, { "EN", "Search card name..." } } },
             { "encyclopedia_tab_all", new Dictionary<string, string> { { "KR", "전체" }, { "EN", "All" } } },
             { "encyclopedia_claim_reward", new Dictionary<string, string> { { "KR", "보상 받기" }, { "EN", "Claim Reward" } } },

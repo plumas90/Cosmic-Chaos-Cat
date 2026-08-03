@@ -198,8 +198,6 @@ namespace CosmicChaosCat
             if (normalBtn != null) { normalBtn.onClick.RemoveAllListeners(); normalBtn.onClick.AddListener(() => SelectType(GachaType.Normal)); }
             if (rareBtn != null) { rareBtn.onClick.RemoveAllListeners(); rareBtn.onClick.AddListener(() => SelectType(GachaType.Rare)); }
             if (superBtn != null) { superBtn.onClick.RemoveAllListeners(); superBtn.onClick.AddListener(() => SelectType(GachaType.Super)); }
-            if (rollOnceBtn != null) { rollOnceBtn.onClick.RemoveAllListeners(); rollOnceBtn.onClick.AddListener(OnRollOnce); }
-            if (rollTenBtn != null) { rollTenBtn.onClick.RemoveAllListeners(); rollTenBtn.onClick.AddListener(OnRollTen); }
 
             var buttons = GetComponentsInChildren<Button>(true);
             foreach (var b in buttons)
@@ -241,14 +239,14 @@ namespace CosmicChaosCat
                     continue;
                 }
 
-                if (b == normalBtn || b == rareBtn || b == superBtn || b == rollOnceBtn || b == rollTenBtn) continue;
+                if (b == normalBtn || b == rareBtn || b == superBtn) continue;
 
-                if (fullText.Contains("10회") || fullText.Contains("10뽑") || fullText.Contains("10회뽑기") || fullText.Contains("다시") || bName.Contains("10회") || bName.Contains("roll10") || bName.Contains("gacha10") || bName.Contains("reroll") || bName.Contains("ten"))
+                if (bName.Contains("10") || fullText.Contains("10회") || fullText.Contains("10뽑") || fullText.Contains("10회뽑기") || fullText.Contains("다시") || bName.Contains("10회") || bName.Contains("roll10") || bName.Contains("gacha10") || bName.Contains("reroll") || bName.Contains("ten"))
                 {
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(OnRollTen);
                 }
-                else if (fullText.Contains("1회") || fullText.Contains("1뽑") || fullText.Contains("1회뽑기") || bName.Contains("1회") || bName.Contains("roll1") || bName.Contains("once"))
+                else if (bName.Contains("1") || fullText.Contains("1회") || fullText.Contains("1뽑") || fullText.Contains("1회뽑기") || bName.Contains("1회") || bName.Contains("roll1") || bName.Contains("once"))
                 {
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(OnRollOnce);
@@ -327,6 +325,19 @@ namespace CosmicChaosCat
 
         public void EnsureGachaUIPartsBuilt()
         {
+            var typeSelSanitize = typeSelectionObj != null ? typeSelectionObj.transform : transform.Find("Panel/TypeSelection");
+            if (typeSelSanitize != null)
+            {
+                var locs = typeSelSanitize.GetComponentsInChildren<LocalizeText>(true);
+                foreach (var loc in locs)
+                {
+                    if (loc != null && (loc.gameObject.name.Contains("Label") || loc.gameObject.name.Contains("Gacha") || loc.Key == "hud_btn_gacha"))
+                    {
+                        DestroyImmediate(loc);
+                    }
+                }
+            }
+
             if (resultObj == null) return;
 
             // Normalize Btn_1_Gacha / Btn_10_Gacha dimensions and prevent VerticalLayoutGroup height stretching
@@ -687,18 +698,13 @@ namespace CosmicChaosCat
 
             AutoWireCoinText();
 
+            string lang = gm != null ? gm.SelectedLanguage : "KR";
+            bool isEN = lang == "EN";
             string formattedVal = GameManager.FormatNumber(gm.Money);
 
             if (moneyText != null)
             {
-                if (moneyText.text.Contains("보유 코인"))
-                    moneyText.text = $"보유 코인: {formattedVal}";
-                else if (moneyText.text.Contains("보유"))
-                    moneyText.text = $"보유: {formattedVal}";
-                else if (moneyText.text.Contains("코인"))
-                    moneyText.text = $"{formattedVal} 코인";
-                else
-                    moneyText.text = formattedVal;
+                moneyText.text = isEN ? $"Coins: {formattedVal}" : $"보유 코인: {formattedVal}";
             }
 
             Transform coinBg = transform.Find("CoinBg")
@@ -713,18 +719,12 @@ namespace CosmicChaosCat
             {
                 foreach (var t in coinBg.GetComponentsInChildren<TMP_Text>(true))
                 {
-                    if (t.text.Contains("보유 코인")) t.text = $"보유 코인: {formattedVal}";
-                    else if (t.text.Contains("보유")) t.text = $"보유: {formattedVal}";
-                    else if (t.text.Contains("코인")) t.text = $"{formattedVal} 코인";
-                    else t.text = formattedVal;
+                    t.text = isEN ? $"Coins: {formattedVal}" : $"보유 코인: {formattedVal}";
                 }
 
                 foreach (var t in coinBg.GetComponentsInChildren<UnityEngine.UI.Text>(true))
                 {
-                    if (t.text.Contains("보유 코인")) t.text = $"보유 코인: {formattedVal}";
-                    else if (t.text.Contains("보유")) t.text = $"보유: {formattedVal}";
-                    else if (t.text.Contains("코인")) t.text = $"{formattedVal} 코인";
-                    else t.text = formattedVal;
+                    t.text = isEN ? $"Coins: {formattedVal}" : $"보유 코인: {formattedVal}";
                 }
             }
         }
@@ -866,8 +866,28 @@ namespace CosmicChaosCat
             double single = gm.GetCurrentGachaCost(currentType);
             double ten = single * 10f;
 
-            if (rollOnceCostText != null) rollOnceCostText.text = $"1회 뽑기\n{single:0} 코인";
-            if (rollTenCostText != null) rollTenCostText.text = $"10회 뽑기\n{ten:0} 코인";
+            string lang = gm != null ? gm.SelectedLanguage : "KR";
+            bool isEN = lang == "EN";
+
+            string singleStr = isEN ? $"1 Pull\n{single:0} Coins" : $"1회 뽑기\n{single:0} 코인";
+            string tenStr = isEN ? $"10 Pulls\n{ten:0} Coins" : $"10회 뽑기\n{ten:0} 코인";
+
+            if (rollOnceCostText != null) rollOnceCostText.text = singleStr;
+            if (rollTenCostText != null) rollTenCostText.text = tenStr;
+
+            var typeSel = typeSelectionObj != null ? typeSelectionObj.transform : transform.Find("Panel/TypeSelection");
+            if (typeSel != null)
+            {
+                foreach (Transform child in typeSel.GetComponentsInChildren<Transform>(true))
+                {
+                    string cName = child.name.ToLower();
+                    var txt = child.GetComponentInChildren<TMP_Text>();
+                    if (txt == null) continue;
+
+                    if (cName.Contains("10")) txt.text = tenStr;
+                    else if (cName.Contains("1")) txt.text = singleStr;
+                }
+            }
             
             UpdateCoinText();
             UpdateCatDecorations();

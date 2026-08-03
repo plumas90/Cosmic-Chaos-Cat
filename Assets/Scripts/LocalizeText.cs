@@ -46,8 +46,16 @@ namespace CosmicChaosCat
             if (!string.IsNullOrEmpty(key))
             {
                 string localizedStr = LocalizationManager.Get(key);
-                if (tmpText != null) tmpText.text = localizedStr;
-                if (legacyText != null) legacyText.text = localizedStr;
+                if (tmpText != null)
+                {
+                    tmpText.text = localizedStr;
+                    tmpText.SetAllDirty();
+                }
+                if (legacyText != null)
+                {
+                    legacyText.text = localizedStr;
+                    legacyText.SetAllDirty();
+                }
             }
         }
     }

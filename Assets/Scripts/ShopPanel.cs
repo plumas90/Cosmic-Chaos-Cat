@@ -855,13 +855,13 @@ namespace CosmicChaosCat
         }
 #endif
 
-        // ── Shard Exchange Tab (4 Rarities: N, R, SR, SSR) ────────────────────
         private void BuildShardTab()
         {
-            MakeLabel(shardContent.transform, "조각으로 미획득 카드를 교환 획득합니다",
+            var descLbl = MakeLabel(shardContent.transform, "조각으로 미획득 카드를 교환 획득합니다",
                 new Vector2(0, 145), new Vector2(500,26), 15, new Color(0.75f,0.80f,0.90f));
-            MakeLabel(shardContent.transform, "구매할 때마다 교환 비용이 2배로 증가합니다",
-                new Vector2(0, 120), new Vector2(500,20), 11, new Color(0.50f,0.55f,0.65f));
+            (descLbl.GetComponent<LocalizeText>() ?? descLbl.gameObject.AddComponent<LocalizeText>()).Key = "shop_shard_desc";
+
+            MakeLabel(shardContent.transform, "", new Vector2(0, 120), new Vector2(500,20), 11, new Color(0.50f,0.55f,0.65f));
 
             BuildShardCard(CardRarity.N,   "N 등급",  "일반 카드",   ColN,   -255f);
             BuildShardCard(CardRarity.R,   "R 등급",  "레어 카드",   ColR,    -85f);
@@ -879,7 +879,9 @@ namespace CosmicChaosCat
             cardIn.offsetMin = new Vector2(2,2); cardIn.offsetMax = new Vector2(-2,-2);
             cardIn.gameObject.AddComponent<Image>().color = new Color(0.09f,0.11f,0.18f);
 
-            MakeLabel(cardIn, label, new Vector2(0,72), new Vector2(145,26), 14, col, FontStyles.Bold);
+            var lbl = MakeLabel(cardIn, label, new Vector2(0,72), new Vector2(145,26), 14, col, FontStyles.Bold);
+            (lbl.GetComponent<LocalizeText>() ?? lbl.gameObject.AddComponent<LocalizeText>()).Key = "shop_shard_tab_" + rarity.ToString().ToLower();
+
             MakeLabel(cardIn, sub,   new Vector2(0,48), new Vector2(145,20), 11, new Color(0.65f,0.70f,0.80f));
 
             // Unified Buy & Cost Button
@@ -991,7 +993,8 @@ namespace CosmicChaosCat
 
                 if (buyPanelTrans != null)
                 {
-                    buyBtnTrans = buyPanelTrans.Find("Btn_구매하기") 
+                    buyBtnTrans = buyPanelTrans.Find("But btn")
+                               ?? buyPanelTrans.Find("Btn_구매하기") 
                                ?? buyPanelTrans.Find("BuyButton") 
                                ?? buyPanelTrans.Find("BuyBtn")
                                ?? buyPanelTrans.Find("Buy_Btn")
@@ -1001,7 +1004,7 @@ namespace CosmicChaosCat
                         foreach (Transform child in buyPanelTrans)
                         {
                             string n = child.name.ToLower();
-                            if (n.Contains("buy") || n.Contains("구매") || n.Contains("purchase"))
+                            if (n.Contains("buy") || n.Contains("구매") || n.Contains("purchase") || n.Contains("btn") || n.Contains("but"))
                             {
                                 buyBtnTrans = child;
                                 break;
@@ -2009,15 +2012,18 @@ namespace CosmicChaosCat
                         }
                     }
 
+                    string lang = gm != null ? gm.SelectedLanguage : "KR";
+                    bool isEN = lang == "EN";
+
                     if (status == "MaxBreakthrough")
                     {
                         buyProductBtn.interactable = false;
-                        SetTextComponent(buyProductBtnText, "최대 한계돌파 완료", null, buyFontSize);
+                        SetTextComponent(buyProductBtnText, isEN ? "Max Breakthrough" : "최대 한계돌파 완료", null, buyFontSize);
                     }
                     else if (status == "Equipped" && selectedProduct.productType != ShopProductType.Card)
                     {
                         buyProductBtn.interactable = false;
-                        SetTextComponent(buyProductBtnText, "장착중", null, buyFontSize);
+                        SetTextComponent(buyProductBtnText, isEN ? "Equipped" : "장착중", null, buyFontSize);
                     }
                     else
                     {
@@ -2027,16 +2033,20 @@ namespace CosmicChaosCat
                         {
                             if (status == "Purchased")
                             {
-                                btnTextVal = afford ? $"추가 구매 ({currentCopies}/{maxCopies})" : $"소지금 부족 ({currentCopies}/{maxCopies})";
+                                btnTextVal = isEN ?
+                                    (afford ? $"Buy Copy ({currentCopies}/{maxCopies})" : $"Need Coins ({currentCopies}/{maxCopies})") :
+                                    (afford ? $"추가 구매 ({currentCopies}/{maxCopies})" : $"소지금 부족 ({currentCopies}/{maxCopies})");
                             }
                             else
                             {
-                                btnTextVal = afford ? $"구매하기 (보유 {currentCopies}/{maxCopies})" : $"소지금 부족 (보유 {currentCopies}/{maxCopies})";
+                                btnTextVal = isEN ?
+                                    (afford ? $"Buy (Owned {currentCopies}/{maxCopies})" : $"Need Coins ({currentCopies}/{maxCopies})") :
+                                    (afford ? $"구매하기 (보유 {currentCopies}/{maxCopies})" : $"소지금 부족 (보유 {currentCopies}/{maxCopies})");
                             }
                         }
                         else
                         {
-                            btnTextVal = afford ? "구매하기" : "소지금 부족";
+                            btnTextVal = isEN ? (afford ? "Buy" : "Need Coins") : (afford ? "구매하기" : "소지금 부족");
                         }
 
                         SetTextComponent(buyProductBtnText, btnTextVal, null, buyFontSize);

@@ -1454,12 +1454,15 @@ namespace CosmicChaosCat
                 detailIncomeText.gameObject.SetActive(false);
             }
 
+            string lang = gm != null ? gm.SelectedLanguage : "KR";
+            bool isEN = lang == "EN";
+
             // Breakthrough / enhancement
             if (detailBreakthroughText != null)
             {
                 string targetBreakthrough = (unlocked && prog != null)
-                    ? $"⭐ 강화   {prog.BreakthroughCount + 1}강 / 5강"
-                    : "⭐ 강화   미해금";
+                    ? (isEN ? $"⭐ Upgrade   Lv.{prog.BreakthroughCount + 1} / 5" : $"⭐ 강화   {prog.BreakthroughCount + 1}강 / 5강")
+                    : (isEN ? "⭐ Upgrade   Locked" : "⭐ 강화   미해금");
                 if (detailBreakthroughText.text != targetBreakthrough) detailBreakthroughText.text = targetBreakthrough;
             }
 
@@ -1468,16 +1471,17 @@ namespace CosmicChaosCat
             {
                 detailDescription.gameObject.SetActive(true);
                 string targetDesc;
+                string clickGoldLabel = isEN ? "Gold per Click" : "클릭 당 골드";
                 if (unlocked && card != null)
                 {
                     double clickGold = gm != null ? gm.GetClickIncome(card, prog) : (card.ClickMultiplier * (1 + (prog != null ? prog.BreakthroughCount : 0)));
                     string goldStr = (clickGold % 1 == 0) ? $"{clickGold:F0}" : $"{clickGold:F1}";
-                    targetDesc = $"No.{card.Id}\n{card.GetDescription()}\n클릭 당 골드 {goldStr}";
+                    targetDesc = $"No.{card.Id}\n{card.GetDescription()}\n{clickGoldLabel} {goldStr}";
                 }
                 else
                 {
                     string cardIdStr = card != null ? card.Id : "??";
-                    targetDesc = $"No.{cardIdStr}\n???\n클릭 당 골드 ???";
+                    targetDesc = $"No.{cardIdStr}\n???\n{clickGoldLabel} ???";
                 }
 
                 if (detailDescription.text != targetDesc)
@@ -1493,7 +1497,7 @@ namespace CosmicChaosCat
                 SetButtonInteractable(detailEquipBtn, unlocked);
                 bool isEquipped = gm != null && gm.EquippedCardId == cardId;
                 var lbl = detailEquipBtn.GetComponentInChildren<TMP_Text>();
-                if (lbl != null) lbl.text = isEquipped ? "대표 설정됨" : "대표 설정";
+                if (lbl != null) lbl.text = isEquipped ? (isEN ? "Set Main (Active)" : "대표 설정됨") : (isEN ? "Set Main" : "대표 설정");
             }
 
             // Breakthrough button (always active, interactable/translucent when not upgradeable)
@@ -1509,15 +1513,15 @@ namespace CosmicChaosCat
                     if (lbl != null)
                     {
                         if (prog.BreakthroughCount >= 4)
-                            lbl.text = "한계 돌파 (최대 5강)";
+                            lbl.text = isEN ? "Breakthrough (Max Lv.5)" : "한계 돌파 (최대 5강)";
                         else
-                            lbl.text = $"한계 돌파 ({prog.Copies} / {prog.BreakthroughCount + 2} 장)";
+                            lbl.text = isEN ? $"Breakthrough ({prog.Copies} / {prog.BreakthroughCount + 2} Copies)" : $"한계 돌파 ({prog.Copies} / {prog.BreakthroughCount + 2} 장)";
                     }
                 }
                 else
                 {
                     var lbl = detailBreakthroughBtn.GetComponentInChildren<TMP_Text>();
-                    if (lbl != null) lbl.text = "한계 돌파";
+                    if (lbl != null) lbl.text = isEN ? "Breakthrough" : "한계 돌파";
                 }
                 SetButtonInteractable(detailBreakthroughBtn, canUpgrade);
             }
