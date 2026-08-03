@@ -2312,6 +2312,36 @@ namespace CosmicChaosCat
                      ?? FindChildByNameRecursive(transform, "PanelTitle");
                 if (t != null) panelTitle = t.GetComponent<TMP_Text>();
             }
+
+            BindEncyclopediaLocalizations();
+        }
+
+        private void BindEncyclopediaLocalizations()
+        {
+            if (panelTitle != null)
+            {
+                var loc = panelTitle.GetComponent<LocalizeText>() ?? panelTitle.gameObject.AddComponent<LocalizeText>();
+                loc.Key = "encyclopedia_title";
+            }
+            if (filterTabAll != null)
+            {
+                var txt = filterTabAll.GetComponentInChildren<TMP_Text>();
+                if (txt != null)
+                {
+                    var loc = txt.GetComponent<LocalizeText>() ?? txt.gameObject.AddComponent<LocalizeText>();
+                    loc.Key = "encyclopedia_tab_all";
+                }
+            }
+            var inputField = GetComponentInChildren<TMPro.TMP_InputField>(true);
+            if (inputField != null && inputField.placeholder != null)
+            {
+                var txt = inputField.placeholder.GetComponent<TMP_Text>();
+                if (txt != null)
+                {
+                    var loc = txt.GetComponent<LocalizeText>() ?? txt.gameObject.AddComponent<LocalizeText>();
+                    loc.Key = "encyclopedia_search_placeholder";
+                }
+            }
         }
 
         // ─────────────────────────────────────────────────────────────────────

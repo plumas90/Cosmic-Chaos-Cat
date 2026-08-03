@@ -381,7 +381,8 @@ namespace CosmicChaosCat
             hdr.offsetMin = new Vector2(0,-62); hdr.offsetMax = Vector2.zero;
             hdr.gameObject.AddComponent<Image>().color = HeaderBG;
 
-            MakeLabel(inner.transform, "상 점", new Vector2(0, 249), new Vector2(220, 40), 22, Color.white, FontStyles.Bold);
+            var titleLbl = MakeLabel(inner.transform, "상 점", new Vector2(0, 249), new Vector2(220, 40), 22, Color.white, FontStyles.Bold);
+            (titleLbl.GetComponent<LocalizeText>() ?? titleLbl.gameObject.AddComponent<LocalizeText>()).Key = "shop_title";
 
             coinText = MakeLabel(inner.transform, "0", new Vector2(-280, 249), new Vector2(170, 36), 14, GoldColor);
             coinText.gameObject.name = "CoinText"; coinText.alignment = TextAlignmentOptions.Left;
@@ -396,6 +397,7 @@ namespace CosmicChaosCat
             // Tab Bar
             float[] tabX = { -240f, 0f, 240f };
             string[] tabLabels = { "업그레이드", "조각 교환", "상품" };
+            string[] tabKeys = { "shop_tab_upgrades", "shop_tab_shard_exchange", "shop_tab_products" };
             for (int i = 0; i < 3; i++)
             {
                 int idx = i;
@@ -407,7 +409,8 @@ namespace CosmicChaosCat
                 cs.pressedColor = new Color(0.12f, 0.18f, 0.30f);
                 tb.colors = cs;
                 tb.onClick.AddListener(() => ShowTab(idx));
-                MakeLabel(tBtn, tabLabels[i], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
+                var tLbl = MakeLabel(tBtn, tabLabels[i], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
+                (tLbl.GetComponent<LocalizeText>() ?? tLbl.gameObject.AddComponent<LocalizeText>()).Key = tabKeys[i];
 
                 var ind = MakeRT("Ind", tBtn, new Vector2(0,-19), new Vector2(230,3));
                 ind.gameObject.AddComponent<Image>().color = (i == 0) ? Indicator : Color.clear;

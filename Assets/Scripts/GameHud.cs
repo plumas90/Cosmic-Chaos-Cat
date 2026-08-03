@@ -119,6 +119,7 @@ namespace CosmicChaosCat
                 if (collectionButton != null) { collectionButton.onClick = new Button.ButtonClickedEvent(); collectionButton.onClick.AddListener(ToggleCollection); }
                 if (menuButton != null) { menuButton.onClick = new Button.ButtonClickedEvent(); menuButton.onClick.AddListener(GoToMenu); }
 
+                BindHudButtonLocalizations();
                 Debug.Log($"[GameHud] Buttons bound: gacha={gachaButton!=null}, ency={encyclopediaButton!=null}, shop={shopButton!=null}, menu={menuButton!=null}");
             }
             catch (System.Exception e)
@@ -1004,6 +1005,48 @@ namespace CosmicChaosCat
                 tx.font = encyTxt.font;
                 tx.fontSize = encyTxt.fontSize;
             }
+
+            var loc = tx.gameObject.AddComponent<LocalizeText>();
+            loc.Key = "hud_btn_collection";
+        }
+
+        private void BindHudButtonLocalizations()
+        {
+            void BindBtn(Button btn, string key)
+            {
+                if (btn == null) return;
+                var txts = btn.GetComponentsInChildren<TMP_Text>(true);
+                if (txts != null && txts.Length > 0)
+                {
+                    foreach (var txt in txts)
+                    {
+                        var loc = txt.GetComponent<LocalizeText>() ?? txt.gameObject.AddComponent<LocalizeText>();
+                        loc.Key = key;
+                        loc.Refresh();
+                    }
+                }
+                var legacyTxts = btn.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+                if (legacyTxts != null && legacyTxts.Length > 0)
+                {
+                    foreach (var legacyTxt in legacyTxts)
+                    {
+                        legacyTxt.text = LocalizationManager.Get(key);
+                    }
+                }
+            }
+
+            if (encyclopediaButton == null)
+            {
+                var encyTF = transform.Find("EncyclopediaButton") ?? FindChildWithSubstring(transform, "encyclopedia");
+                if (encyTF != null) encyclopediaButton = encyTF.GetComponent<Button>();
+            }
+
+            BindBtn(gachaButton, "hud_btn_gacha");
+            BindBtn(encyclopediaButton, "hud_btn_encyclopedia");
+            BindBtn(upgradeButton, "hud_btn_upgrade");
+            BindBtn(exchangeButton, "hud_btn_exchange");
+            BindBtn(shopButton, "hud_btn_shop");
+            BindBtn(collectionButton, "hud_btn_collection");
         }
     }
 }

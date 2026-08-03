@@ -6,6 +6,7 @@ namespace CosmicChaosCat
 {
     public sealed class GameManager : MonoBehaviour
     {
+        public static GameManager Instance { get; private set; }
         // ── Constants ──────────────────────────────────────────────────────────
         private const string SaveKey            = "ccc_save_v3";
         private const double BaseClickIncome    = 1d;
@@ -117,6 +118,7 @@ namespace CosmicChaosCat
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
         {
+            Instance = this;
 #if UNITY_EDITOR
             // 인스펙터에 깨진 바인딩이 들어있을 수 있으므로 에디터 환경에서는 무조건 강제 새로고침
             cardCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<CardCatalogSO>("Assets/ScriptableObjects/CardCatalog.asset");
@@ -911,7 +913,13 @@ namespace CosmicChaosCat
         public void SetBgmVolume(float vol) { BgmVolume = Mathf.Clamp01(vol); Save(); }
         public void SetSfxVolume(float vol) { SfxVolume = Mathf.Clamp01(vol); Save(); }
         public void SetMuted(bool mute)     { IsMuted = mute; Save(); }
-        public void SetLanguage(string lang) { SelectedLanguage = lang; Save(); NotifyState(); }
+        public void SetLanguage(string lang)
+        {
+            SelectedLanguage = lang;
+            Save();
+            NotifyState();
+            LocalizationManager.NotifyLanguageChanged();
+        }
 
         public void Save()
         {
