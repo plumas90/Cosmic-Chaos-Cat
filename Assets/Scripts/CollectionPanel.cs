@@ -165,14 +165,26 @@ namespace CosmicChaosCat
             LocalizationManager.OnLanguageChanged -= Refresh;
             LocalizationManager.OnLanguageChanged += Refresh;
 
+            void ApplyDarkPressColors(Button b)
+            {
+                if (b == null) return;
+                var cb = b.colors;
+                cb.highlightedColor = new Color(0.18f, 0.18f, 0.18f, 1f); // Dark/blackish hover tone!
+                cb.pressedColor     = new Color(0.08f, 0.08f, 0.08f, 1f); // Dark/blackish pressed tone!
+                cb.selectedColor    = new Color(0.18f, 0.18f, 0.18f, 1f); // Dark/blackish selected tone!
+                b.colors = cb;
+            }
+
             // Bind tab click listeners
             if (bgTabBtn != null)
             {
+                ApplyDarkPressColors(bgTabBtn);
                 bgTabBtn.onClick.RemoveAllListeners();
                 bgTabBtn.onClick.AddListener(() => { showBgTab = true; bgPageIndex = 0; Refresh(); });
             }
             if (decoTabBtn != null)
             {
+                ApplyDarkPressColors(decoTabBtn);
                 decoTabBtn.onClick.RemoveAllListeners();
                 decoTabBtn.onClick.AddListener(() => { showBgTab = false; decoPageIndex = 0; Refresh(); });
             }
@@ -769,6 +781,12 @@ namespace CosmicChaosCat
 
                 if (detailEquipBtn != null)
                 {
+                    var cb = detailEquipBtn.colors;
+                    cb.highlightedColor = new Color(0.15f, 0.15f, 0.15f, 1f); // Dark/blackish hover tone!
+                    cb.selectedColor    = new Color(0.15f, 0.15f, 0.15f, 1f);
+                    cb.pressedColor     = new Color(0.08f, 0.08f, 0.08f, 1f);
+                    detailEquipBtn.colors = cb;
+
                     detailEquipBtn.onClick.RemoveAllListeners();
                     if (!unlocked)
                     {
@@ -1148,7 +1166,15 @@ namespace CosmicChaosCat
                     detailName = rt.Find("DetailBox/Name")?.GetComponent<TMP_Text>() ?? FindChildByNameRecursive(rt, "Name")?.GetComponent<TMP_Text>();
                     detailDesc = rt.Find("DetailBox/Desc")?.GetComponent<TMP_Text>() ?? FindChildByNameRecursive(rt, "Desc")?.GetComponent<TMP_Text>();
                     detailEquipBtn = rt.Find("DetailBox/Btn_장착하기")?.GetComponent<Button>() ?? FindChildContains<Button>("장착");
-                    if (detailEquipBtn != null) detailEquipText = detailEquipBtn.GetComponentInChildren<TMP_Text>();
+                    if (detailEquipBtn != null)
+                    {
+                        detailEquipText = detailEquipBtn.GetComponentInChildren<TMP_Text>();
+                        var cb = detailEquipBtn.colors;
+                        cb.highlightedColor = new Color(0.15f, 0.15f, 0.15f, 1f); // Dark/blackish hover tone!
+                        cb.selectedColor    = new Color(0.15f, 0.15f, 0.15f, 1f);
+                        cb.pressedColor     = new Color(0.08f, 0.08f, 0.08f, 1f);
+                        detailEquipBtn.colors = cb;
+                    }
                 }
             }
 

@@ -213,12 +213,14 @@ namespace CosmicChaosCat
             if (comp is TMP_Text tmp)
             {
                 tmp.text = text;
+                tmp.enableWordWrapping = true;
                 if (color.HasValue) tmp.color = color.Value;
                 if (fontSize.HasValue) tmp.fontSize = fontSize.Value;
             }
             else if (comp is UnityEngine.UI.Text leg)
             {
                 leg.text = text;
+                leg.horizontalOverflow = HorizontalWrapMode.Wrap;
                 if (color.HasValue) leg.color = color.Value;
                 if (fontSize.HasValue) leg.fontSize = Mathf.RoundToInt(fontSize.Value);
             }
@@ -1058,55 +1060,21 @@ namespace CosmicChaosCat
                                  ?? (Component)buyProductBtn.GetComponentInChildren<UnityEngine.UI.Text>(true);
             }
 
-            if (selectedProductNameText == null)
+            if (selectedProductNameText == null && buyPanelTrans != null)
             {
-                if (buyPanelTrans != null)
+                var t = buyPanelTrans.Find("InfoBox/NameText") ?? buyPanelTrans.Find("InfoBox/Label") ?? buyPanelTrans.Find("NameText") ?? buyPanelTrans.Find("TitleText");
+                if (t != null)
                 {
-                    var t = buyPanelTrans.Find("InfoBox/NameText") ?? buyPanelTrans.Find("InfoBox/Label") ?? buyPanelTrans.Find("NameText");
-                    if (t != null)
-                    {
-                        selectedProductNameText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
-                    }
-                }
-                if (selectedProductNameText == null)
-                {
-                    foreach (var txt in productsContent.GetComponentsInChildren<Graphic>(true))
-                    {
-                        if (!(txt is TMP_Text || txt is UnityEngine.UI.Text)) continue;
-                        if (txt.transform == productPageText?.transform || (buyProductBtn != null && txt.transform.IsChildOf(buyProductBtn.transform))) continue;
-                        string n = txt.name.ToLower();
-                        if (n.Contains("nametext") || n.Contains("productname") || (n.Contains("name") && !n.Contains("page")))
-                        {
-                            selectedProductNameText = txt;
-                            break;
-                        }
-                    }
+                    selectedProductNameText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
                 }
             }
 
-            if (selectedProductDescText == null)
+            if (selectedProductDescText == null && buyPanelTrans != null)
             {
-                if (buyPanelTrans != null)
+                var t = buyPanelTrans.Find("InfoBox/DescText") ?? buyPanelTrans.Find("InfoBox/Description") ?? buyPanelTrans.Find("DescText") ?? buyPanelTrans.Find("InfoText");
+                if (t != null)
                 {
-                    var t = buyPanelTrans.Find("InfoBox/DescText") ?? buyPanelTrans.Find("InfoBox/Description") ?? buyPanelTrans.Find("DescText");
-                    if (t != null)
-                    {
-                        selectedProductDescText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
-                    }
-                }
-                if (selectedProductDescText == null)
-                {
-                    foreach (var txt in productsContent.GetComponentsInChildren<Graphic>(true))
-                    {
-                        if (!(txt is TMP_Text || txt is UnityEngine.UI.Text)) continue;
-                        if (txt.transform == productPageText?.transform || txt.transform == selectedProductNameText?.transform || (buyProductBtn != null && txt.transform.IsChildOf(buyProductBtn.transform))) continue;
-                        string n = txt.name.ToLower();
-                        if (n.Contains("desctext") || n.Contains("description") || n.Contains("desc") || n.Contains("info"))
-                        {
-                            selectedProductDescText = txt;
-                            break;
-                        }
-                    }
+                    selectedProductDescText = (Component)t.GetComponent<TMP_Text>() ?? (Component)t.GetComponent<UnityEngine.UI.Text>();
                 }
             }
 
@@ -1648,7 +1616,7 @@ namespace CosmicChaosCat
                 {
                     if (card != null && !card.IsHidden && !card.IsShop && card.Rarity == rarity)
                     {
-                        int maxBreakthroughCopies = 6;
+                        int maxBreakthroughCopies = 5;
                         if (states.TryGetValue(card.Id, out var st))
                         {
                             if (st.Copies < maxBreakthroughCopies) candCount++;
@@ -1875,7 +1843,21 @@ namespace CosmicChaosCat
 
                     if (nameTxt != null)
                     {
-                        SetTextComponent(nameTxt, prod.displayName);
+                        SetTextComponent(nameTxt, GetProductDisplayName(prod));
+                        if (nameTxt is TMP_Text tmpName)
+                        {
+                            tmpName.enableWordWrapping = true;
+                            tmpName.overflowMode = TextOverflowModes.Overflow;
+                            tmpName.alignment = TextAlignmentOptions.Center;
+                            tmpName.raycastTarget = false;
+                        }
+                        else if (nameTxt is UnityEngine.UI.Text legName)
+                        {
+                            legName.horizontalOverflow = HorizontalWrapMode.Wrap;
+                            legName.verticalOverflow = VerticalWrapMode.Overflow;
+                            legName.alignment = TextAnchor.MiddleCenter;
+                            legName.raycastTarget = false;
+                        }
                         nameTxt.gameObject.SetActive(true);
                     }
 
@@ -1987,10 +1969,19 @@ namespace CosmicChaosCat
                 }
             }
 
+            if (selectedProductNameText != null && productsContent != null && selectedProductNameText.transform.IsChildOf(productsContent.transform))
+            {
+                selectedProductNameText = null;
+            }
+            if (selectedProductDescText != null && productsContent != null && selectedProductDescText.transform.IsChildOf(productsContent.transform))
+            {
+                selectedProductDescText = null;
+            }
+
             // Update Selected Product Buy Panel
             if (selectedProduct != null)
             {
-                SetTextComponent(selectedProductNameText, selectedProduct.displayName);
+                SetTextComponent(selectedProductNameText, GetProductDisplayName(selectedProduct));
                 SetTextComponent(selectedProductDescText, selectedProduct.description);
 
                 string status = GetProductStatus(selectedProduct);
@@ -2092,7 +2083,7 @@ namespace CosmicChaosCat
                 {
                     if (card != null && !card.IsHidden && !card.IsShop && card.Rarity == rarity)
                     {
-                        int maxBreakthroughCopies = 6;
+                        int maxBreakthroughCopies = 5;
                         if (states.TryGetValue(card.Id, out var st))
                         {
                             if (st.Copies < maxBreakthroughCopies) cands.Add(card);
@@ -2262,11 +2253,45 @@ namespace CosmicChaosCat
             activeShardAnim = StartCoroutine(RunShardPurchaseCutscene(chosenCard, rarity));
         }
 
+        private Button GetCheckButton()
+        {
+            if (shardAnimContainer != null)
+            {
+                var buttons = shardAnimContainer.GetComponentsInChildren<Button>(true);
+                foreach (var b in buttons)
+                {
+                    if (b != null && (b.name.IndexOf("check", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                     b.name.IndexOf("confirm", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                     b.name.IndexOf("확인", System.StringComparison.OrdinalIgnoreCase) >= 0))
+                    {
+                        return b;
+                    }
+                }
+            }
+
+            var shopButtons = GetComponentsInChildren<Button>(true);
+            foreach (var b in shopButtons)
+            {
+                if (b != null && (b.name.IndexOf("check", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                 b.name.IndexOf("confirm", System.StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                 b.name.IndexOf("확인", System.StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    return b;
+                }
+            }
+
+            return null;
+        }
+
         private System.Collections.IEnumerator RunShardPurchaseCutscene(CardEntry chosenCard, CardRarity rarity)
         {
             EnsureShardAnimContainerBuilt();
             shardAnimContainer.SetActive(true);
             shardAnimContainer.transform.SetAsLastSibling();
+
+            // Find CheckBtn in scene
+            Button checkBtn = GetCheckButton();
+            if (checkBtn != null) checkBtn.gameObject.SetActive(false);
 
             shardCardBack.SetActive(true);
             shardCardFront.SetActive(false);
@@ -2288,15 +2313,23 @@ namespace CosmicChaosCat
                     frontImg.sprite = chosenCard.GachaBgSprite;
                     frontImg.color = Color.white;
                 }
-                var artImg = shardCardFront.transform.Find("Art")?.GetComponent<Image>()
+                var fallbackArtImg = shardCardFront.transform.Find("Art")?.GetComponent<Image>()
                           ?? shardCardFront.transform.Find("CardArt")?.GetComponent<Image>()
                           ?? shardCardFront.transform.Find("Image")?.GetComponent<Image>();
-                if (artImg != null)
+                if (fallbackArtImg != null)
                 {
-                    artImg.sprite = chosenCard.CardSprite;
-                    artImg.color = chosenCard.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+                    fallbackArtImg.sprite = chosenCard.CardSprite;
+                    fallbackArtImg.color = chosenCard.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
                 }
             }
+
+            // Find card art image component
+            var artImg = shardCardFront != null ? (shardCardFront.transform.Find("Art")?.GetComponent<Image>()
+                      ?? shardCardFront.transform.Find("CardArt")?.GetComponent<Image>()
+                      ?? shardCardFront.transform.Find("Image")?.GetComponent<Image>()) : null;
+
+            // Make card art pitch black during rotation flip loop
+            if (artImg != null) artImg.color = Color.black;
 
             // Set name to "???" during rotation flip loop
             var cardNameTxt = shardCardFront != null ? shardCardFront.GetComponentInChildren<TMP_Text>(true) : null;
@@ -2337,17 +2370,28 @@ namespace CosmicChaosCat
                     }
                 }
 
-                // Final Reveal: ensure Front is active and reveal real card name!
+                // Final Reveal: ensure Front is active, release black art to full color, and reveal real card name!
                 shardCardBack.SetActive(false);
                 shardCardFront.SetActive(true);
                 shardCardRT.localScale = baseScale;
-                if (cardNameTxt != null) cardNameTxt.text = chosenCard.DisplayName;
+                if (artImg != null) artImg.color = Color.white;
+                if (cardNameTxt != null) cardNameTxt.text = chosenCard.GetDisplayName();
 
-                float holdTime = 1.2f;
-                while (holdTime > 0f)
+                // Wait for user to click CheckBtn to dismiss (never auto-close)
+                var cb = GetCheckButton();
+                if (cb != null)
                 {
-                    holdTime -= Time.deltaTime;
-                    yield return null;
+                    cb.gameObject.SetActive(true);
+                    cb.transform.SetAsLastSibling();
+                    var checkTx = cb.GetComponentInChildren<TMP_Text>(true);
+                    if (checkTx != null) checkTx.text = LocalizationManager.Get("common_confirm");
+
+                    bool isConfirmed = false;
+                    cb.onClick.RemoveAllListeners();
+                    cb.onClick.AddListener(() => isConfirmed = true);
+
+                    while (!isConfirmed) yield return null;
+                    cb.gameObject.SetActive(false);
                 }
             }
             else
@@ -2401,10 +2445,11 @@ namespace CosmicChaosCat
                     }
                 }
 
-                // Final Flip Reveal: ensure Front is active and reveal real card name!
+                // Final Flip Reveal: ensure Front is active, release black art to full color, and reveal real card name!
                 shardCardBack.SetActive(false);
                 shardCardFront.SetActive(true);
-                if (cardNameTxt != null) cardNameTxt.text = chosenCard.DisplayName;
+                if (artImg != null) artImg.color = Color.white;
+                if (cardNameTxt != null) cardNameTxt.text = chosenCard.GetDisplayName();
 
                 var effectPlayer = FindObjectOfType<ClickEffectPlayer>();
                 if (rarity >= CardRarity.SR)
@@ -2424,11 +2469,20 @@ namespace CosmicChaosCat
                 }
                 shardCardRT.localScale = Vector3.one;
 
-                float holdTime = rarity >= CardRarity.SR ? 2.0f : 1.5f;
-                while (holdTime > 0f)
+                var cb = GetCheckButton();
+                if (cb != null)
                 {
-                    holdTime -= Time.deltaTime;
-                    yield return null;
+                    cb.gameObject.SetActive(true);
+                    cb.transform.SetAsLastSibling();
+                    var checkTx = cb.GetComponentInChildren<TMP_Text>(true);
+                    if (checkTx != null) checkTx.text = LocalizationManager.Get("common_confirm");
+
+                    bool isConfirmed = false;
+                    cb.onClick.RemoveAllListeners();
+                    cb.onClick.AddListener(() => isConfirmed = true);
+
+                    while (!isConfirmed) yield return null;
+                    cb.gameObject.SetActive(false);
                 }
             }
 
@@ -2889,6 +2943,42 @@ namespace CosmicChaosCat
                 parts.Add(formatted);
             }
             return " (" + string.Join(", ", parts) + ")";
+        }
+
+        private string GetProductDisplayName(ShopProductItem prod)
+        {
+            if (prod == null) return string.Empty;
+
+            if (prod.productType == ShopProductType.Card && gm != null && gm.CardCatalog != null)
+            {
+                var cards = gm.CardCatalog.Cards;
+                if (cards != null)
+                {
+                    for (int i = 0; i < cards.Count; i++)
+                    {
+                        var c = cards[i];
+                        if (c != null && (c.Id == prod.targetId || c.Id == prod.id))
+                        {
+                            return c.GetDisplayName();
+                        }
+                    }
+                }
+            }
+
+            return prod.displayName;
+        }
+
+        private Transform FindChildByNameRecursive(Transform parent, string targetName)
+        {
+            if (parent == null || string.IsNullOrEmpty(targetName)) return null;
+            foreach (Transform child in parent)
+            {
+                if (child.name.Equals(targetName, System.StringComparison.OrdinalIgnoreCase))
+                    return child;
+                var found = FindChildByNameRecursive(child, targetName);
+                if (found != null) return found;
+            }
+            return null;
         }
     }
 

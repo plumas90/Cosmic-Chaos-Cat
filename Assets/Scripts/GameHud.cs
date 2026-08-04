@@ -295,7 +295,7 @@ namespace CosmicChaosCat
             var canvas = GetComponentInParent<Canvas>() ?? FindObjectOfType<Canvas>();
             if (canvas == null) return;
 
-            // Search for existing ending button
+            // Search for existing ending button in scene if pre-placed
             var buttons = canvas.GetComponentsInChildren<Button>(true);
             foreach (var b in buttons)
             {
@@ -305,39 +305,6 @@ namespace CosmicChaosCat
                     endingButton = b;
                     break;
                 }
-            }
-
-            if (endingButton == null)
-            {
-                // Create ending button dynamically on HUD top bar
-                var go = new GameObject("Btn_Ending", typeof(RectTransform), typeof(Image), typeof(Button));
-                go.transform.SetParent(canvas.transform, false);
-
-                var rt = go.GetComponent<RectTransform>();
-                rt.anchorMin = new Vector2(1f, 1f);
-                rt.anchorMax = new Vector2(1f, 1f);
-                rt.pivot = new Vector2(1f, 1f);
-                rt.anchoredPosition = new Vector2(-220f, -20f);
-                rt.sizeDelta = new Vector2(160f, 50f);
-
-                var img = go.GetComponent<Image>();
-                img.color = new Color(0.95f, 0.75f, 0.1f, 1f); // Shiny Gold
-
-                endingButton = go.GetComponent<Button>();
-
-                var txtGO = new GameObject("Text", typeof(RectTransform), typeof(TMPro.TMP_Text));
-                txtGO.transform.SetParent(go.transform, false);
-                var txtRt = txtGO.GetComponent<RectTransform>();
-                txtRt.anchorMin = Vector2.zero;
-                txtRt.anchorMax = Vector2.one;
-                txtRt.offsetMin = txtRt.offsetMax = Vector2.zero;
-
-                var tmp = txtGO.GetComponent<TMPro.TMP_Text>();
-                tmp.alignment = TMPro.TextAlignmentOptions.Center;
-                tmp.fontSize = 20;
-                tmp.fontStyle = TMPro.FontStyles.Bold;
-                tmp.color = Color.black;
-                tmp.text = "🏆 엔딩 보기";
             }
 
             if (endingButton != null)
@@ -350,7 +317,6 @@ namespace CosmicChaosCat
                         gameManager.TriggerEnding();
                     }
                 });
-                endingButton.gameObject.SetActive(false);
             }
         }
 
