@@ -135,9 +135,6 @@ namespace CosmicChaosCat
             }
             InitCardState();
             Load();
-            Money = 100000d;
-            Shards = 100000;
-            Save();
             RebuildSetState();
             NotifyState();
         }
@@ -301,7 +298,6 @@ namespace CosmicChaosCat
         /// <summary>조각을 소모해 특정 카드를 확정 획득합니다.</summary>
         public void ExchangeWithShards(string cardId)
         {
-            if (IsGameEnded) return;
             var card = cardCatalog?.FindById(cardId);
             if (card == null || card.IsHidden) { Log("교환할 수 없는 카드입니다."); return; }
 
@@ -485,6 +481,56 @@ namespace CosmicChaosCat
                 Save();
                 NotifyState();
             }
+        }
+
+        public void ResetBackgroundsAndDecorationsForTest()
+        {
+            unlockedBackgrounds.Clear();
+            unlockedBackgrounds.Add("bg");
+            unlockedBackgrounds.Add("bg-none");
+            EquippedBackgroundId = "bg";
+
+            unlockedDecorations.Clear();
+            unlockedDecorations.Add("deco-none");
+            EquippedDecorationId = "deco-none";
+
+            claimedSetRewards.Clear();
+
+            // Grant all cards with 5 copies to complete sets
+            if (cardCatalog != null && cardCatalog.Cards != null)
+            {
+                foreach (var card in cardCatalog.Cards)
+                {
+                    if (card != null && !string.IsNullOrEmpty(card.Id))
+                    {
+                        if (!cardState.TryGetValue(card.Id, out var state))
+                        {
+                            cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 5, Unlocked = true };
+                        }
+                        else
+                        {
+                            state.Unlocked = true;
+                            state.Copies = 5;
+                        }
+                    }
+                }
+            }
+
+            // Mark all sets completed
+            if (setCatalog != null && setCatalog.Sets != null)
+            {
+                foreach (var s in setCatalog.Sets)
+                {
+                    if (s != null && !completedSets.Contains(s.SetId))
+                    {
+                        completedSets.Add(s.SetId);
+                    }
+                }
+            }
+
+            Save();
+            NotifyState();
+            Debug.Log("[GameManager] ResetBackgroundsAndDecorationsForTest completed: All cards unlocked with 5 copies, Sets completed, Rewards unclaimed, BGs & Decos locked!");
         }
 
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);
@@ -1032,8 +1078,6 @@ namespace CosmicChaosCat
             SfxVolume = data.SfxVolume;
             IsMuted = data.IsMuted;
             SelectedLanguage = string.IsNullOrEmpty(data.SelectedLanguage) ? "KR" : data.SelectedLanguage;
-
-            EnsureTestCardsFirst12();
             NotifyState();
         }
 
@@ -1084,7 +1128,7 @@ namespace CosmicChaosCat
 
         public void EnsureTestCardsFirst12()
         {
-            ResetToDefaultCardOnly();
+            // Do not wipe user save data on launch
         }
 
         private void SpawnComboRewardFloatingText(double amount)

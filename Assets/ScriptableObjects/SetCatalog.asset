@@ -15,6 +15,7 @@ MonoBehaviour:
   sets:
   - SetId: 1
     SetName: "\uACE8\uBAA9\uAE38\uC758 \uC218\uD638\uC790"
+    SetName_EN: Alley Cats
     RewardGold: 500
     RewardShards: 10
     CriticalChanceBonus: 0
@@ -23,10 +24,12 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s1
-    RewardDecorationId: 
+    RewardDecorationId: deco-cat-house
     EffectDesc: "\uACE8\uBAA9\uAE38 \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Alley Cats!
   - SetId: 2
     SetName: "\uC0AC\uB9C9 \uC624\uC544\uC2DC\uC2A4 \uD0D0\uD5D8\uB300"
+    SetName_EN: Desert & Egyptian Cats
     RewardGold: 1500
     RewardShards: 25
     CriticalChanceBonus: 0
@@ -35,11 +38,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s2
-    RewardDecorationId: 
+    RewardDecorationId: deco-pyramid
     EffectDesc: "\uC0AC\uB9C9 \uC720\uC801\uC9C0\uC758 \uBAA8\uB4E0 \uACE0\uC591\uC774\uB97C
       \uD574\uAE08\uD588\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Desert Cats!
   - SetId: 3
     SetName: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uC655\uAD6D"
+    SetName_EN: Dessert & Sweets Cats
     RewardGold: 3000
     RewardShards: 50
     CriticalChanceBonus: 0
@@ -48,11 +53,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s3
-    RewardDecorationId: 
+    RewardDecorationId: deco-cake
     EffectDesc: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Dessert Cats!
   - SetId: 4
     SetName: "\uC2E0\uBE44\uD55C \uC2EC\uD574 \uC218\uC871\uAD00"
+    SetName_EN: Ocean & Deep Sea Cats
     RewardGold: 5000
     RewardShards: 100
     CriticalChanceBonus: 0
@@ -61,11 +68,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s4
-    RewardDecorationId: 
+    RewardDecorationId: deco-aquarium
     EffectDesc: "\uAE4A\uC740 \uBC14\uB2F7\uC18D \uD574\uC800 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Ocean Cats!
   - SetId: 5
     SetName: "\uBBFC\uC18D \uC800\uC790\uAC70\uB9AC \uCD95\uC81C"
+    SetName_EN: Traditional & Folklore Cats
     RewardGold: 10000
     RewardShards: 200
     CriticalChanceBonus: 0
@@ -74,11 +83,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s5
-    RewardDecorationId: 
+    RewardDecorationId: deco-drum
     EffectDesc: "\uC804\uD1B5 \uC800\uC790\uAC70\uB9AC\uC758 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Traditional Cats!
   - SetId: 6
     SetName: "\uC6B0\uC8FC \uB808\uC778\uC800 \uD788\uC5B4\uB85C"
+    SetName_EN: Ranger & Sci-Fi Hero Cats
     RewardGold: 25000
     RewardShards: 350
     CriticalChanceBonus: 0
@@ -87,11 +98,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s6
-    RewardDecorationId: 
+    RewardDecorationId: deco-robot
     EffectDesc: "\uC6B0\uC8FC\uB97C \uC9C0\uD0A4\uB294 \uB808\uC778\uC800 \uD788\uC5B4\uB85C
       \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Hero Cats!
   - SetId: 7
     SetName: "\uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120\uB2E8"
+    SetName_EN: Steampunk & Airship Cats
     RewardGold: 50000
     RewardShards: 500
     CriticalChanceBonus: 0
@@ -100,11 +113,13 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s7
-    RewardDecorationId: 
+    RewardDecorationId: deco-airship
     EffectDesc: "\uD558\uB298\uC744 \uB204\uBE44\uB294 \uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120\uB2E8
       \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Steampunk Cats!
   - SetId: 8
     SetName: "\uC0AC\uACC4\uC808\uC758 \uC815\uB839\uB4E4"
+    SetName_EN: Four Seasons & Nature Spirit Cats
     RewardGold: 100000
     RewardShards: 1000
     CriticalChanceBonus: 0
@@ -113,6 +128,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s8
-    RewardDecorationId: 
+    RewardDecorationId: deco-aurora
     EffectDesc: "\uC0AC\uACC4\uC808\uC758 \uC544\uB984\uB2E4\uC6C0\uC744 \uD488\uC740
       \uC815\uB839 \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting all Seasons Cats!

@@ -260,9 +260,13 @@ namespace CosmicChaosCat
 
             var card = gameManager.GetEquippedCard();
             if (equippedText != null)
+            {
+                string lang = gameManager != null ? gameManager.SelectedLanguage : "KR";
+                bool isEN = lang == "EN";
                 equippedText.text = card != null
-                    ? $"장착: {card.DisplayName}  [{card.Rarity}]"
-                    : "장착: 기본";
+                    ? (isEN ? $"Equipped: {card.GetDisplayName()} [{card.Rarity}]" : $"장착: {card.GetDisplayName()}  [{card.Rarity}]")
+                    : (isEN ? "Equipped: Basic" : "장착: 기본");
+            }
         }
 
         private Component cachedComboComponent;

@@ -151,7 +151,7 @@ namespace CosmicChaosCat
             var popup = Instance;
             if (popup != null)
             {
-                popup.DisplayPopup(card.CardSprite, card.DisplayName, card.Description, () =>
+                popup.DisplayPopup(card.CardSprite, card.GetDisplayName(), card.GetDescription(), () =>
                 {
                     var gm = FindObjectOfType<GameManager>(true);
                     if (gm != null)

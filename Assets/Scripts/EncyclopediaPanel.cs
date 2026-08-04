@@ -220,6 +220,7 @@ namespace CosmicChaosCat
             // ── Persistent state across close/reopen during game session ────────
             if (gm == null) gm = FindObjectOfType<GameManager>(true);
             if (gm != null) gm.StateChanged += OnStateChanged;
+            LocalizationManager.OnLanguageChanged += OnLanguageChanged;
 
             if (!_hasSavedState)
             {
@@ -268,6 +269,20 @@ namespace CosmicChaosCat
         {
             SavePanelState();
             if (gm != null) gm.StateChanged -= OnStateChanged;
+            LocalizationManager.OnLanguageChanged -= OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged()
+        {
+            if (showNoTab)
+            {
+                RefreshNoTab();
+                if (!string.IsNullOrEmpty(selectedCardId)) RefreshDetailPanel(selectedCardId);
+            }
+            else
+            {
+                RefreshSets();
+            }
         }
 
         private void OnStateChanged()
@@ -1349,7 +1364,7 @@ namespace CosmicChaosCat
             if (detailCardName != null)
             {
                 if (!detailCardName.gameObject.activeSelf) detailCardName.gameObject.SetActive(true);
-                string targetName = unlocked && card != null ? card.DisplayName : "???";
+                string targetName = unlocked && card != null ? card.GetDisplayName() : "???";
                 if (detailCardName.text != targetName) detailCardName.text = targetName;
             }
 
@@ -1476,7 +1491,7 @@ namespace CosmicChaosCat
                 {
                     double clickGold = gm != null ? gm.GetClickIncome(card, prog) : (card.ClickMultiplier * (1 + (prog != null ? prog.BreakthroughCount : 0)));
                     string goldStr = (clickGold % 1 == 0) ? $"{clickGold:F0}" : $"{clickGold:F1}";
-                    targetDesc = $"No.{card.Id}\n{card.GetDescription()}\n{clickGoldLabel} {goldStr}";
+                    targetDesc = $"No.{card.Id}\n{card.GetDescriptionForStage(selectedIllustrationStage, lang)}\n{clickGoldLabel} {goldStr}";
                 }
                 else
                 {
@@ -1601,6 +1616,25 @@ namespace CosmicChaosCat
                 }
             }
 
+            // Also update detailDescription text corresponding to stage
+            if (detailDescription != null)
+            {
+                string lang = gm != null ? gm.SelectedLanguage : "KR";
+                bool isEN = lang == "EN";
+                string clickGoldLabel = isEN ? "Gold per Click" : "클릭 당 골드";
+                var states = gm != null ? gm.GetCardStates() : null;
+                CardProgress prog = null;
+                if (states != null) states.TryGetValue(card.Id, out prog);
+                double clickGold = gm != null ? gm.GetClickIncome(card, prog) : (card.ClickMultiplier * (1 + (prog != null ? prog.BreakthroughCount : 0)));
+                string goldStr = (clickGold % 1 == 0) ? $"{clickGold:F0}" : $"{clickGold:F1}";
+                string stageDesc = card.GetDescriptionForStage(stage, lang);
+                string targetDesc = $"No.{card.Id}\n{stageDesc}\n{clickGoldLabel} {goldStr}";
+                if (detailDescription.text != targetDesc)
+                {
+                    detailDescription.text = targetDesc;
+                }
+            }
+
             // Also update CardSlotUI inside detailPanel if present (e.g. Slot_Detail)
             var detailSlotUI = detailPanel != null ? detailPanel.GetComponentInChildren<CardSlotUI>(true) : null;
             if (detailSlotUI != null)
@@ -1634,7 +1668,12 @@ namespace CosmicChaosCat
                 int newStage = newCount + 1; // Stage unlocked by new breakthrough level
 
                 var validStages = card.GetBreakthroughStages();
-                bool hasNewIllustration = validStages.Contains(newStage);
+                Sprite newSprite = card.GetSpriteForStage(newStage);
+                if (newSprite == null) newSprite = card.CardSprite;
+
+                // Check if this new stage has a new illustration variant
+                bool hasNewIllustration = (validStages != null && validStages.Contains(newStage))
+                                       || (newSprite != card.CardSprite && newSprite != oldSprite);
 
                 if (hasNewIllustration)
                 {
@@ -1647,45 +1686,32 @@ namespace CosmicChaosCat
                     gm.SetCardSelectedStage(card.Id, selectedIllustrationStage);
                 }
 
-                // ── 등급별 한계돌파 연출 규칙 ───────────────────────────
-                // 1. N 등급: 연출 없음 (즉시 강화)
-                // 2. R 등급: 실루엣 깜빡임 연출 (별 파티클 효과 없음)
-                // 3. SR 이상 (SR, SSR, UR 등급): 실루엣 깜빡임 연출 + 별 파티클 효과 추가!
-                if (card.Rarity == CardRarity.N)
+                // ── 한계돌파 연출 규칙 ───────────────────────────
+                // 1. N 등급: 컷씬 연출 없음 (즉시 강화)
+                // 2. R, SR, SSR 등급 중 신규 일러스트(한돌 일러스트)가 해금되는 단계: 컷씬 연출 재생!
+                // 3. 신규 일러스트가 없는 일반 강화 단계: 컷씬 연출 없음 (즉시 강화)
+                if (card.Rarity != CardRarity.N && hasNewIllustration)
                 {
-                    // N 등급: 연출 없음
-                    RefreshDetailPanel(selectedCardId);
-                    if (showNoTab) RefreshNoTab();
-                }
-                else if (card.Rarity == CardRarity.R && hasNewIllustration)
-                {
-                    // R 등급: 신규 일러스트 해금 시 실루엣 깜빡임 컷씬 (별 파티클 없음)
-                    Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
-                    if (newSprite == null) newSprite = card.CardSprite;
+                    bool enableStarParticles = card.Rarity >= CardRarity.SR;
+                    bool isSSR = card.Rarity >= CardRarity.SSR;
 
                     var cutscene = BreakthroughCutsceneUI.GetOrCreate();
-                    cutscene.PlayCutscene(oldSprite, newSprite, card.DisplayName, newStage, () =>
+                    if (cutscene != null)
+                    {
+                        cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
+                        {
+                            RefreshDetailPanel(selectedCardId);
+                            if (showNoTab) RefreshNoTab();
+                        }, enableStarParticles: enableStarParticles, isSSR: isSSR);
+                    }
+                    else
                     {
                         RefreshDetailPanel(selectedCardId);
                         if (showNoTab) RefreshNoTab();
-                    }, enableStarParticles: false);
-                }
-                else if (card.Rarity >= CardRarity.SR && hasNewIllustration)
-                {
-                    // SR 이상 등급: 신규 일러스트 해금 시 실루엣 깜빡임 컷씬 + 별 파티클 연출!
-                    Sprite newSprite = card.GetSpriteForStage(selectedIllustrationStage);
-                    if (newSprite == null) newSprite = card.CardSprite;
-
-                    var cutscene = BreakthroughCutsceneUI.GetOrCreate();
-                    cutscene.PlayCutscene(oldSprite, newSprite, card.DisplayName, newStage, () =>
-                    {
-                        RefreshDetailPanel(selectedCardId);
-                        if (showNoTab) RefreshNoTab();
-                    }, enableStarParticles: true, isSSR: card.Rarity >= CardRarity.SSR);
+                    }
                 }
                 else
                 {
-                    // 일러스트 변형이 없는 일반 단계 (예: SR 2강, 4강 등)
                     RefreshDetailPanel(selectedCardId);
                     if (showNoTab) RefreshNoTab();
                 }
@@ -1736,8 +1762,11 @@ namespace CosmicChaosCat
             string targetSetPageText = $"{setPageIndex + 1} / {maxPages}";
             if (setPageLabel != null && setPageLabel.text != targetSetPageText) setPageLabel.text = targetSetPageText;
 
+            string lang = gm != null ? gm.SelectedLanguage : "KR";
+            bool isEN = lang == "EN";
+
             // Update panel title with set name (e.g. "테스트")
-            SetPanelTitleText(entry != null ? entry.SetName : "세트");
+            SetPanelTitleText(entry != null ? entry.GetSetName(lang) : (isEN ? "Set" : "세트"));
 
             // Combine both slot pools so cat-10 shows in Slot_9 (first of rightSlots)
             var combinedPool = new List<CardSlotUI>(leftSetSlots);
@@ -1786,7 +1815,7 @@ namespace CosmicChaosCat
             {
                 titleTf.gameObject.SetActive(true);
                 var t = titleTf.GetComponent<TMP_Text>();
-                if (t != null) t.text = setEntry.SetName;
+                if (t != null) t.text = setEntry.GetSetName();
             }
 
             var states    = gm.GetCardStates();
@@ -1839,9 +1868,12 @@ namespace CosmicChaosCat
             if (descTx != null)
             {
                 descTx.gameObject.SetActive(true);
-                string desc   = string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "세트 보상" : setEntry.EffectDesc;
-                string reward = setEntry.GetRewardSummary();
-                descTx.text = desc + "\n보상: " + reward;
+                string lang = gm != null ? gm.SelectedLanguage : "KR";
+                bool isEN = lang == "EN";
+                string desc = isEN ? (string.IsNullOrWhiteSpace(setEntry.EffectDesc_EN) ? "Set Reward" : setEntry.EffectDesc_EN)
+                                   : (string.IsNullOrWhiteSpace(setEntry.EffectDesc) ? "세트 보상" : setEntry.EffectDesc);
+                string reward = setEntry.GetRewardSummary(lang);
+                descTx.text = isEN ? $"{desc}\nReward: {reward}" : $"{desc}\n보상: {reward}";
 
                 // Dynamic Y position: 225 for <=9 slots, -137 for >=10 slots
                 float targetY = cardCount <= 9 ? 225f : -137f;
@@ -1882,7 +1914,12 @@ namespace CosmicChaosCat
                 }
             }
 
-            if (claimTx  != null) claimTx.text = claimed ? "완료" : "보상받기";
+            if (claimTx != null)
+            {
+                claimTx.text = claimed ? LocalizationManager.Get("encyclopedia_claimed_reward")
+                                       : LocalizationManager.Get("encyclopedia_claim_reward");
+            }
+
             if (claimBtn != null)
             {
                 SetButtonInteractable(claimBtn, !claimed && allOwned);
@@ -1905,6 +1942,12 @@ namespace CosmicChaosCat
             if (mb == null) return;
 
             mb.onClick.RemoveAllListeners();
+
+            var moveTx = moveBtnTf.GetComponentInChildren<TMP_Text>(true);
+            if (moveTx != null)
+            {
+                moveTx.text = LocalizationManager.Get("encyclopedia_move_btn");
+            }
 
             var catalog  = gm?.CardCatalog?.Cards;
             var setCards = setEntry != null ? setEntry.GetCardsInSet(catalog) : null;

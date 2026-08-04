@@ -311,8 +311,8 @@ namespace CosmicChaosCat
                             iconSp = gm.GetCardSpriteForDisplay(card.Id);
                         }
 
-                        string nameStr = !string.IsNullOrEmpty(card.DisplayName) ? card.DisplayName : card.Id;
-                        string descStr = !string.IsNullOrEmpty(card.Description) ? card.Description : $"상점 전용 {card.Rarity} 등급 카드입니다.";
+                        string nameStr = card.GetDisplayName();
+                        string descStr = card.GetDescription();
 
                         productCatalog.Add(new ShopProductItem
                         {

@@ -11,12 +11,37 @@ namespace CosmicChaosCat
     {
         public string id;
         public string displayName;
+        public string displayName_EN;
         [TextArea(2, 4)]
         public string description;
+        [TextArea(2, 4)]
+        public string description_EN;
         public string unlockSetId; // SetId required to unlock (from SetCatalogSO)
         public CardRarity rarity = CardRarity.N;
         public bool isTestUnlocked = false;
         public Sprite displaySprite;
+
+        public string GetDisplayName(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(displayName_EN)) return displayName_EN;
+            return !string.IsNullOrEmpty(displayName) ? displayName : id;
+        }
+
+        public string GetDescription(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(description_EN)) return description_EN;
+            return !string.IsNullOrEmpty(description) ? description : string.Empty;
+        }
     }
 
     public sealed class CollectionPanel : MonoBehaviour
@@ -560,7 +585,9 @@ namespace CosmicChaosCat
 
             if (nameTxt != null)
             {
-                string targetText = unlocked ? item.displayName : "미해금";
+                string lang = gameManager != null ? gameManager.SelectedLanguage : "KR";
+                bool isEN = lang == "EN";
+                string targetText = unlocked ? item.GetDisplayName() : (isEN ? "Locked" : "미해금");
                 if (nameTxt.text != targetText) nameTxt.text = targetText;
             }
 
@@ -734,25 +761,28 @@ namespace CosmicChaosCat
                     }
                 }
 
-                if (detailName != null) detailName.text = unlocked ? item.displayName : "??? (미해금)";
-                if (detailDesc != null) detailDesc.text = unlocked ? item.description : $"세트 ID '{item.unlockSetId}' 수집 완료 시 해금됩니다.";
+                string lang = gameManager != null ? gameManager.SelectedLanguage : "KR";
+                bool isEN = lang == "EN";
+
+                if (detailName != null) detailName.text = unlocked ? item.GetDisplayName() : (isEN ? "??? (Locked)" : "??? (미해금)");
+                if (detailDesc != null) detailDesc.text = unlocked ? item.GetDescription() : (isEN ? $"Unlocked upon completing Set '{item.unlockSetId}'." : $"세트 ID '{item.unlockSetId}' 수집 완료 시 해금됩니다.");
 
                 if (detailEquipBtn != null)
                 {
                     detailEquipBtn.onClick.RemoveAllListeners();
                     if (!unlocked)
                     {
-                        if (detailEquipText != null) detailEquipText.text = "미해금";
+                        if (detailEquipText != null) detailEquipText.text = isEN ? "Locked" : "미해금";
                         detailEquipBtn.interactable = false;
                     }
                     else if (isEquipped)
                     {
-                        if (detailEquipText != null) detailEquipText.text = "장착됨";
+                        if (detailEquipText != null) detailEquipText.text = isEN ? "Equipped" : "장착됨";
                         detailEquipBtn.interactable = false;
                     }
                     else
                     {
-                        if (detailEquipText != null) detailEquipText.text = "장착하기";
+                        if (detailEquipText != null) detailEquipText.text = isEN ? "Equip" : "장착하기";
                         detailEquipBtn.interactable = true;
                         detailEquipBtn.onClick.AddListener(() => EquipItem(item, isBg));
                     }
@@ -935,10 +965,22 @@ namespace CosmicChaosCat
             Sprite LoadBgSprite(string fileName)
             {
 #if UNITY_EDITOR
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_BG/{fileName}");
-#else
-                return null;
+                var sp = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_BG/{fileName}");
+                if (sp != null) return sp;
+
+                string prefix = fileName.Split('_')[0].ToLower(); // e.g. "set1", "set4"
+                var guids = UnityEditor.AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/image/A_BG" });
+                foreach (var g in guids)
+                {
+                    string p = UnityEditor.AssetDatabase.GUIDToAssetPath(g);
+                    string name = System.IO.Path.GetFileName(p).ToLower();
+                    if (name.StartsWith(prefix))
+                    {
+                        return UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(p);
+                    }
+                }
 #endif
+                return null;
             }
 
             Sprite LoadShopCloseSprite()
@@ -956,17 +998,17 @@ namespace CosmicChaosCat
             backgrounds = new List<CollectibleItem>
             {
                 new CollectibleItem { id = "bg",    displayName = "기본 배경",              description = "기본으로 제공되는 배경입니다.",                               unlockSetId = "",   rarity = CardRarity.N,   isTestUnlocked = true,  displaySprite = LoadBgSprite("a_default.png") },
-                new CollectibleItem { id = "bg_s1", displayName = "골목길의 수호자 배경",   description = "세트 1 수집 완료 보상! 골목길 수호자 테마 배경입니다.",         unlockSetId = "1",  rarity = CardRarity.N,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_1_street.png") },
-                new CollectibleItem { id = "bg_s2", displayName = "사막 오아시스 배경",     description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_2.png") },
-                new CollectibleItem { id = "bg_s3", displayName = "달콤한 디저트 배경",    description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.",   unlockSetId = "3",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set_3.png") },
-                new CollectibleItem { id = "bg_s4", displayName = "심해 수족관 배경",       description = "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 배경입니다.",   unlockSetId = "4",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set_4.png") },
-                new CollectibleItem { id = "bg_s5", displayName = "저자거리 축제 배경",    description = "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 배경입니다.",   unlockSetId = "5",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set_5.png") },
-                new CollectibleItem { id = "bg_s6", displayName = "우주 레인저 배경",      description = "세트 6 수집 완료 보상! 우주를 지키는 레인저 히어로 배경입니다.", unlockSetId = "6",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_6.png") },
-                new CollectibleItem { id = "bg_s7", displayName = "스팀펑크 비행선 배경",  description = "세트 7 수집 완료 보상! 하늘을 누비는 스팀펑크 비행선 배경입니다.", unlockSetId = "7", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_7.png") },
-                new CollectibleItem { id = "bg_s8", displayName = "사계절의 정령 배경",    description = "세트 8 수집 완료 보상! 사계절의 아름다움을 품은 정령 배경입니다.", unlockSetId = "8", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_8.png") },
-                new CollectibleItem { id = "bg_s9", displayName = "세트 9 배경",           description = "세트 9 수집 완료 보상! 특별한 테마 배경입니다.",                 unlockSetId = "9",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_9.png") },
-                new CollectibleItem { id = "bg_s10", displayName = "세트 10 배경",         description = "세트 10 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "10", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_10.png") },
-                new CollectibleItem { id = "bg_s11", displayName = "세트 11 배경",         description = "세트 11 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "11", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_11.png") },
+                new CollectibleItem { id = "bg_s1", displayName = "골목길의 수호자 배경",   description = "세트 1 수집 완료 보상! 골목길 수호자 테마 배경입니다.",         unlockSetId = "1",  rarity = CardRarity.N,   isTestUnlocked = false, displaySprite = LoadBgSprite("set1_Desolate_Street.png") },
+                new CollectibleItem { id = "bg_s2", displayName = "사막 오아시스 배경",     description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set2_The_Pharaoh's_Wrath.png") },
+                new CollectibleItem { id = "bg_s3", displayName = "달콤한 디저트 배경",    description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.",   unlockSetId = "3",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set3_Toppings_for_Cookie.png") },
+                new CollectibleItem { id = "bg_s4", displayName = "심해 수족관 배경",       description = "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 배경입니다.",   unlockSetId = "4",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set4_Under_the_Deep_Sea.png") },
+                new CollectibleItem { id = "bg_s5", displayName = "저자거리 축제 배경",    description = "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 배경입니다.",   unlockSetId = "5",  rarity = CardRarity.SR,  isTestUnlocked = false, displaySprite = LoadBgSprite("set5_Moonlight_Cat_Festival.png") },
+                new CollectibleItem { id = "bg_s6", displayName = "우주 레인저 배경",      description = "세트 6 수집 완료 보상! 우주를 지키는 레인저 히어로 배경입니다.", unlockSetId = "6",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set6_Super_Cat_Sentai.png") },
+                new CollectibleItem { id = "bg_s7", displayName = "스팀펑크 비행선 배경",  description = "세트 7 수집 완료 보상! 하늘을 누비는 스팀펑크 비행선 배경입니다.", unlockSetId = "7", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set7_Cateam_Punk.png") },
+                new CollectibleItem { id = "bg_s8", displayName = "사계절의 정령 배경",    description = "세트 8 수집 완료 보상! 사계절의 아름다움을 품은 정령 배경입니다.", unlockSetId = "8", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set8_Cat_of_Four_Seasons.png") },
+                new CollectibleItem { id = "bg_s9", displayName = "세트 9 배경",           description = "세트 9 수집 완료 보상! 특별한 테마 배경입니다.",                 unlockSetId = "9",  rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set9_Starlight_Magic_Library.png") },
+                new CollectibleItem { id = "bg_s10", displayName = "세트 10 배경",         description = "세트 10 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "10", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set10_The_Meow_Meow_Pirate_Crew.png") },
+                new CollectibleItem { id = "bg_s11", displayName = "세트 11 배경",         description = "세트 11 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "11", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set11_Does_Spring_Come_Even_for_Cats.png") },
                 new CollectibleItem { id = "bg_s12", displayName = "세트 12 배경",         description = "세트 12 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "12", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_12.png") },
                 new CollectibleItem { id = "bg_s13", displayName = "세트 13 배경",         description = "세트 13 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "13", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_13.png") },
                 new CollectibleItem { id = "bg_s14", displayName = "세트 14 배경",         description = "세트 14 수집 완료 보상! 특별한 테마 배경입니다.",                unlockSetId = "14", rarity = CardRarity.SSR, isTestUnlocked = false, displaySprite = LoadBgSprite("set_14.png") },

@@ -69,6 +69,17 @@ namespace CosmicChaosCat
 
         public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
         public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
+
+        [Tooltip("한계돌파 단계별 설명문 사용 여부")]
+        public bool UseBreakthroughDescriptions;
+
+        [TextArea(2, 4)]
+        [Tooltip("한계돌파 단계별 한국어 설명문 (BreakthroughVariantStages 순서와 1:1 대응)")]
+        public string[] BreakthroughDescriptions;
+
+        [TextArea(2, 4)]
+        [Tooltip("한계돌파 단계별 영어 설명문 (BreakthroughVariantStages 순서와 1:1 대응)")]
+        public string[] BreakthroughDescriptions_EN;
         public CardSpecialEffect SpecialEffect;
         public float SpecialEffectValue;
         [TextArea(3, 5)] public string Description;
@@ -76,8 +87,7 @@ namespace CosmicChaosCat
 
         public System.Collections.Generic.List<int> GetBreakthroughStages()
         {
-            if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0 &&
-                BreakthroughSprites != null && BreakthroughSprites.Length > 0)
+            if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
             {
                 var list = new System.Collections.Generic.List<int>();
                 foreach (int st in BreakthroughVariantStages)
@@ -133,6 +143,52 @@ namespace CosmicChaosCat
             }
             if (!string.IsNullOrEmpty(Description)) return Description;
             return $"{DisplayName}은(는) {Rarity} 등급의 고양이 카드입니다. 특수 클릭 수익 배율 {ClickMultiplier}배를 제공합니다.";
+        }
+
+        public string GetDescriptionForStage(int stage, string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            bool isEN = lang == "EN";
+
+            if (UseBreakthroughDescriptions && BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
+            {
+                var descs = isEN ? BreakthroughDescriptions_EN : BreakthroughDescriptions;
+                if (isEN && (descs == null || descs.Length == 0))
+                {
+                    descs = BreakthroughDescriptions;
+                }
+
+                if (descs != null && descs.Length > 0)
+                {
+                    string foundDesc = null;
+                    int maxMatchingStage = -1;
+
+                    for (int i = 0; i < BreakthroughVariantStages.Length; i++)
+                    {
+                        int st = BreakthroughVariantStages[i];
+                        if (st <= stage && st > maxMatchingStage)
+                        {
+                            string d = (i < descs.Length) ? descs[i] : null;
+                            if (!string.IsNullOrWhiteSpace(d))
+                            {
+                                foundDesc = d;
+                                maxMatchingStage = st;
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(foundDesc))
+                    {
+                        return foundDesc;
+                    }
+                }
+            }
+
+            return GetDescription(lang);
         }
     }
 }

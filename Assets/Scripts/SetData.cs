@@ -26,6 +26,7 @@ namespace CosmicChaosCat
     {
         public string SetId;
         public string SetName;
+        public string SetName_EN;
         public double RewardGold = 0d;
         public int RewardShards = 0;
         public float CriticalChanceBonus = 0f;
@@ -37,21 +38,41 @@ namespace CosmicChaosCat
         public string RewardDecorationId;
         [TextArea(2, 4)]
         public string EffectDesc;   // 세트 보상 효과 설명 (비어있으면 "아무 효과 없음" 표시)
+        [TextArea(2, 4)]
+        public string EffectDesc_EN;
 
-        public string GetRewardSummary()
+        public string GetSetName(string lang = null)
         {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(SetName_EN)) return SetName_EN;
+            return !string.IsNullOrEmpty(SetName) ? SetName : $"Set {SetId}";
+        }
+
+        public string GetRewardSummary(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            bool isEN = lang == "EN";
             var parts = new List<string>();
-            if (RewardGold > 0d) parts.Add($"골드 +{RewardGold:N0}");
-            if (RewardShards > 0) parts.Add($"조각 +{RewardShards:N0}");
-            if (CriticalChanceBonus > 0f) parts.Add($"크리티컬 확률 +{CriticalChanceBonus * 100:F0}%");
-            if (FlatIncomeBonus > 0d) parts.Add($"골드 생산 +{FlatIncomeBonus:N0}");
-            if (CriticalDamageBonus > 0f) parts.Add($"크리티컬 데미지 +{CriticalDamageBonus * 100:F0}%");
-            if (GachaDiscountBonus > 0f) parts.Add($"뽑기 할인 +{GachaDiscountBonus * 100:F0}%");
-            if (!string.IsNullOrEmpty(RewardBackgroundId)) parts.Add("배경 해금");
-            if (!string.IsNullOrEmpty(RewardDecorationId)) parts.Add("데코 해금");
+            if (RewardGold > 0d) parts.Add(isEN ? $"Gold +{RewardGold:N0}" : $"골드 +{RewardGold:N0}");
+            if (RewardShards > 0) parts.Add(isEN ? $"Shards +{RewardShards:N0}" : $"조각 +{RewardShards:N0}");
+            if (CriticalChanceBonus > 0f) parts.Add(isEN ? $"Crit Rate +{CriticalChanceBonus * 100:F0}%" : $"크리티컬 확률 +{CriticalChanceBonus * 100:F0}%");
+            if (FlatIncomeBonus > 0d) parts.Add(isEN ? $"Gold Prod +{FlatIncomeBonus:N0}" : $"골드 생산 +{FlatIncomeBonus:N0}");
+            if (CriticalDamageBonus > 0f) parts.Add(isEN ? $"Crit Dmg +{CriticalDamageBonus * 100:F0}%" : $"크리티컬 데미지 +{CriticalDamageBonus * 100:F0}%");
+            if (GachaDiscountBonus > 0f) parts.Add(isEN ? $"Gacha Discount +{GachaDiscountBonus * 100:F0}%" : $"뽑기 할인 +{GachaDiscountBonus * 100:F0}%");
+            if (!string.IsNullOrEmpty(RewardBackgroundId)) parts.Add(isEN ? "Unlock BG" : "배경 해금");
+            if (!string.IsNullOrEmpty(RewardDecorationId)) parts.Add(isEN ? "Unlock Deco" : "데코 해금");
 
             if (parts.Count > 0) return string.Join(", ", parts);
-            return !string.IsNullOrWhiteSpace(EffectDesc) ? EffectDesc : "없음";
+            if (isEN && !string.IsNullOrWhiteSpace(EffectDesc_EN)) return EffectDesc_EN;
+            return !string.IsNullOrWhiteSpace(EffectDesc) ? EffectDesc : (isEN ? "None" : "없음");
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace CosmicChaosCat
             bool canBuy  = !maxed && gameManager.Shards >= cost;
 
             // 이름 / 등급
-            if (nameText   != null) nameText.text   = card.DisplayName;
+            if (nameText   != null) nameText.text   = card.GetDisplayName();
             if (rarityText != null) rarityText.text = $"[{card.Rarity}]";
 
             // 중첩 수
