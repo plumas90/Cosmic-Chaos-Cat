@@ -1597,6 +1597,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EncyclopediaPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 174327542021140137, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 894899506701543722, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1676,6 +1680,38 @@ PrefabInstance:
     - target: {fileID: 894899506701543722, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1121462772011967046, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217948111912952163, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_text
+      value: "\uBCF4\uB7EC\uAC00\uAE30"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401807991765284988, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548817342025393712, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -330
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994677580271533216, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -330
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504140045631337357, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 247.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504140045631337357, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -151.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607996471619569047, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_margin.w
+      value: -1.1553802
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7087,6 +7123,7 @@ MonoBehaviour:
   endingScreen: {fileID: 0}
   endingTimerText: {fileID: 0}
   endingMessageText: {fileID: 0}
+  endingButton: {fileID: 0}
   langDropdown: {fileID: 0}
   soundStatusText: {fileID: 0}
   bgmSlider: {fileID: 0}
@@ -7220,29 +7257,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuSettingsWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 1911887840926092806, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3054239786031599189, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3054239786031599189, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3054239786031599189, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6303837917444979070, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6303837917444979070, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6303837917444979070, guid: 1c0f533ba40640f40a8a9d696fd6726b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7458,6 +7499,10 @@ PrefabInstance:
     - target: {fileID: 6769532170534212241, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
       propertyPath: m_Name
       value: ShopPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769532170534212241, guid: c26d0b85e50d24aa5abd5d856fde0812, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

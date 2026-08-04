@@ -1247,6 +1247,16 @@ namespace CosmicChaosCat
             states?.TryGetValue(cardId, out prog);
             bool unlocked = prog != null && prog.Unlocked;
 
+            if (lastDetailCardId != cardId)
+            {
+                selectedIllustrationStage = (prog != null && prog.SelectedStage > 0) ? prog.SelectedStage : 1;
+                lastDetailCardId = cardId;
+            }
+            else if (prog != null && prog.SelectedStage > 0)
+            {
+                selectedIllustrationStage = prog.SelectedStage;
+            }
+
             var searchRoot = (detailPanel ?? noPanel)?.transform;
 
             // ── 0. If detailPanel contains a CardSlotUI component (e.g. Slot_Detail) ─────
@@ -1456,11 +1466,6 @@ namespace CosmicChaosCat
             }
 
             // NumBtn (illustration variant buttons 1..5)
-            if (lastDetailCardId != cardId)
-            {
-                selectedIllustrationStage = (prog != null && prog.SelectedStage > 0) ? prog.SelectedStage : 1;
-                lastDetailCardId = cardId;
-            }
             UpdateNumBtnState(card, prog, unlocked);
 
             // Income stat (Description에 통합되었으므로 별도 항목은 숨김)

@@ -797,12 +797,24 @@ namespace CosmicChaosCat
             SurprisePopUp.ShowCard(card);
         }
 
-        private void CheckEnding()
+        public bool Is100PercentUnlocked => Completion01 >= 1f;
+
+        public void TriggerEnding()
         {
-            if (IsGameEnded || Completion01 < 1f) return;
+            if (IsGameEnded) return;
             IsGameEnded = true;
             Log($"🏆 도감 100% 달성! 최종 타임: {GetTimerText()}");
             GameEnded?.Invoke();
+            Save();
+            NotifyState();
+        }
+
+        private void CheckEnding()
+        {
+            if (Is100PercentUnlocked)
+            {
+                NotifyState();
+            }
         }
 
         public double GetClickIncome(CardEntry card, CardProgress state)
@@ -1000,7 +1012,8 @@ namespace CosmicChaosCat
                     CardId = kv.Value.CardId,
                     Copies = kv.Value.Copies,
                     Unlocked = kv.Value.Unlocked,
-                    BreakthroughCount = kv.Value.BreakthroughCount
+                    BreakthroughCount = kv.Value.BreakthroughCount,
+                    SelectedStage = kv.Value.SelectedStage
                 });
             foreach (var kv in upgradeState)
                 data.Upgrades.Add(new UpgradeProgress
