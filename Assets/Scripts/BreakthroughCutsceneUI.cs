@@ -511,12 +511,17 @@ namespace CosmicChaosCat
             if (target != null) target.anchoredPosition = initialPos;
         }
 
+        private Sprite targetNewSprite;
+
         public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true, bool isSSR = false)
         {
             EnsureParentedToRootCanvas();
             gameObject.SetActive(true);
 
             EnsureUIBuilt();
+            WireSkipButton();
+
+            targetNewSprite = newSprite;
             if (enableStarParticles) EnsureStarContainerBuilt();
             onCutsceneFinished = onComplete;
 
@@ -539,6 +544,87 @@ namespace CosmicChaosCat
             animationCoroutine = StartCoroutine(RunCutsceneAnimation(oldSprite, newSprite, cardName, newStage, enableStarParticles, isSSR));
         }
 
+        private void WireSkipButton()
+        {
+            if (skipButton == null)
+            {
+                var found = transform.Find("SkipButton") ?? transform.Find("Btn_Skip") ?? transform.Find("skipButton");
+                if (found != null) skipButton = found.GetComponent<Button>();
+            }
+
+            if (skipButton == null)
+            {
+                var allBtns = GetComponentsInChildren<Button>(true);
+                foreach (var b in allBtns)
+                {
+                    if (b.name.IndexOf("skip", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        b.name.IndexOf("스킵", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        skipButton = b;
+                        break;
+                    }
+                }
+            }
+
+            if (skipButton != null)
+            {
+                skipButton.onClick.RemoveAllListeners();
+                skipButton.onClick.AddListener(OnSkipClicked);
+
+                var btnImg = skipButton.GetComponent<Image>();
+                if (btnImg != null) btnImg.raycastTarget = true;
+
+                var lbl = skipButton.GetComponentInChildren<TextMeshProUGUI>(true);
+                if (lbl != null)
+                {
+                    lbl.text = LocalizationManager.Get("hud_btn_skip");
+                    lbl.raycastTarget = false;
+                }
+            }
+        }
+
+        private void OnSkipClicked()
+        {
+            Debug.Log("[BreakthroughCutsceneUI] Skip button clicked!");
+            if (!isCutscenePlaying) return;
+
+            StopAllCoroutines();
+            CompleteAndClose();
+        }
+
+        private void CompleteAndClose()
+        {
+            isCutscenePlaying = false;
+
+            if (cardImage != null && targetNewSprite != null)
+            {
+                cardImage.sprite = targetNewSprite;
+            }
+
+            SetShaderProperties(1f, 0f, Color.black);
+            if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0f);
+
+            if (starContainer != null)
+            {
+                foreach (Transform child in starContainer)
+                {
+                    if (child != null) Destroy(child.gameObject);
+                }
+            }
+
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha = 0f;
+                canvasGroup.blocksRaycasts = false;
+                canvasGroup.interactable = false;
+            }
+            gameObject.SetActive(false);
+
+            var cb = onCutsceneFinished;
+            onCutsceneFinished = null;
+            cb?.Invoke();
+        }
+
         private IEnumerator RunCutsceneAnimation(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, bool enableStarParticles, bool isSSR)
         {
             isCutscenePlaying = true;
@@ -548,8 +634,14 @@ namespace CosmicChaosCat
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
 
+            string lang = GameManager.Instance != null ? GameManager.Instance.SelectedLanguage : "KR";
+            bool isEN = lang == "EN";
+
+            if (titleText != null)
+                titleText.text = LocalizationManager.Get("hud_title_breakthrough");
+
             if (subtitleText != null)
-                subtitleText.text = $"{cardName} [{newStage}단계 해금]";
+                subtitleText.text = isEN ? $"{cardName} [Stage {newStage} Unlocked]" : $"{cardName} [{newStage}단계 해금]";
 
             // Shader Material properties init
             SetShaderProperties(0f, 0f, Color.black);
@@ -659,30 +751,6 @@ namespace CosmicChaosCat
             yield return new WaitForSecondsRealtime(isSSR ? 0.8f : 0.6f);
 
             CompleteAndClose();
-        }
-
-        private void OnSkipClicked()
-        {
-            if (!isCutscenePlaying) return;
-
-            if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-            CompleteAndClose();
-        }
-
-        private void CompleteAndClose()
-        {
-            isCutscenePlaying = false;
-            SetShaderProperties(1f, 0f, Color.black);
-            if (auraGlowImage != null) auraGlowImage.color = new Color(1f, 1f, 1f, 0f);
-
-            canvasGroup.alpha = 0f;
-            canvasGroup.blocksRaycasts = false;
-            canvasGroup.interactable = false;
-            gameObject.SetActive(false);
-
-            var cb = onCutsceneFinished;
-            onCutsceneFinished = null;
-            cb?.Invoke();
         }
 
         private void SetShaderProperties(float colorProgress, float flash, Color silhouetteColor)
