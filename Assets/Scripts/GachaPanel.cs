@@ -263,6 +263,12 @@ namespace CosmicChaosCat
                     b.onClick.RemoveAllListeners();
                     b.onClick.AddListener(SkipAnimation);
                 }
+                else if (bName.Contains("card_list_test") || fullText.Contains("card_list_test") || fullText.Contains("카드목록테스트"))
+                {
+                    cardListTestBtn = b;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(OnCardListTestClicked);
+                }
                 else if (fullText.Contains("✕") || fullText.Contains("닫기") || fullText.Contains("close") || bName.Contains("close") || bName.Contains("닫기"))
                 {
                     if (closeBtn == null) closeBtn = b.gameObject;
@@ -2057,5 +2063,174 @@ namespace CosmicChaosCat
             Debug.Log("[GachaPanel] ✅ ResultUI 미리보기가 숨겨지고 원래 탭 선택 화면으로 복원되었습니다.");
         }
 #endif
+
+        // ── Card List Test Button & AnimContainer Handler ──────────────────────
+        [Header("Card List Test Button & AnimContainer")]
+        [SerializeField] private Button cardListTestBtn;
+        [SerializeField] private GameObject cardListTestAnimContainer;
+
+        public void OnCardListTestClicked()
+        {
+            var testHandler = FindObjectOfType<CardListTestButton>(true);
+            if (testHandler == null)
+            {
+                var testGO = new GameObject("CardListTestAutoWire", typeof(CardListTestButton));
+                testHandler = testGO.GetComponent<CardListTestButton>();
+            }
+
+            if (testHandler != null)
+            {
+                testHandler.OnTestButtonClicked();
+            }
+        }
+
+        private void PopulateCardListTestView(GameObject container, IReadOnlyList<CardEntry> cards)
+        {
+            if (container == null || cards == null) return;
+
+            // Find or create TestScrollView inside container
+            Transform scrollTrans = container.transform.Find("TestScrollView");
+            GameObject scrollObj = null;
+            if (scrollTrans == null)
+            {
+                scrollObj = new GameObject("TestScrollView", typeof(RectTransform), typeof(CanvasGroup), typeof(Image), typeof(ScrollRect));
+                scrollObj.transform.SetParent(container.transform, false);
+                var sRt = scrollObj.GetComponent<RectTransform>();
+                sRt.anchorMin = Vector2.zero; sRt.anchorMax = Vector2.one;
+                sRt.offsetMin = new Vector2(20f, 60f); sRt.offsetMax = new Vector2(-20f, -20f);
+
+                var sImg = scrollObj.GetComponent<Image>();
+                sImg.color = new Color(0.05f, 0.07f, 0.12f, 0.95f);
+
+                var viewObj = new GameObject("Viewport", typeof(RectTransform), typeof(Mask), typeof(Image));
+                viewObj.transform.SetParent(scrollObj.transform, false);
+                var vRt = viewObj.GetComponent<RectTransform>();
+                vRt.anchorMin = Vector2.zero; vRt.anchorMax = Vector2.one;
+                vRt.offsetMin = vRt.offsetMax = Vector2.zero;
+                viewObj.GetComponent<Image>().color = Color.white;
+
+                var contentObj = new GameObject("Content", typeof(RectTransform), typeof(GridLayoutGroup), typeof(ContentSizeFitter));
+                contentObj.transform.SetParent(viewObj.transform, false);
+                var cRt = contentObj.GetComponent<RectTransform>();
+                cRt.anchorMin = new Vector2(0f, 1f); cRt.anchorMax = new Vector2(1f, 1f);
+                cRt.pivot = new Vector2(0.5f, 1f);
+                cRt.offsetMin = cRt.offsetMax = Vector2.zero;
+
+                var grid = contentObj.GetComponent<GridLayoutGroup>();
+                grid.cellSize = new Vector2(130f, 190f);
+                grid.spacing = new Vector2(14f, 14f);
+                grid.padding = new RectOffset(20, 20, 20, 20);
+                grid.childAlignment = TextAnchor.UpperLeft;
+                grid.constraint = GridLayoutGroup.Constraint.Flexible;
+
+                var csf = contentObj.GetComponent<ContentSizeFitter>();
+                csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+                var sr = scrollObj.GetComponent<ScrollRect>();
+                sr.content = cRt;
+                sr.viewport = vRt;
+                sr.horizontal = false;
+                sr.vertical = true;
+            }
+            else
+            {
+                scrollObj = scrollTrans.gameObject;
+            }
+
+            scrollObj.SetActive(true);
+            Transform contentTrans = scrollObj.transform.Find("Viewport/Content") ?? scrollObj.transform;
+
+            // Clear previous items
+            var toDestroy = new List<GameObject>();
+            foreach (Transform child in contentTrans)
+                toDestroy.Add(child.gameObject);
+            foreach (var obj in toDestroy)
+                DestroyImmediate(obj);
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                var card = cards[i];
+                if (card == null) continue;
+
+                GameObject cardObj = null;
+                if (animCardTemplate != null)
+                {
+                    cardObj = Instantiate(animCardTemplate.gameObject, contentTrans, false);
+                }
+                else
+                {
+                    cardObj = new GameObject($"TestCard_{card.Id}", typeof(RectTransform));
+                    cardObj.transform.SetParent(contentTrans, false);
+                    var rt = cardObj.GetComponent<RectTransform>();
+                    rt.sizeDelta = new Vector2(130f, 190f);
+                }
+
+                cardObj.name = $"TestCard_{card.Id}";
+                cardObj.SetActive(true);
+
+                // Show Front, Hide Back
+                var backTrans = cardObj.transform.Find("Back");
+                if (backTrans != null) backTrans.gameObject.SetActive(false);
+
+                var frontTrans = cardObj.transform.Find("Front");
+                if (frontTrans == null) frontTrans = cardObj.transform;
+                frontTrans.gameObject.SetActive(true);
+
+                // Bind Front Face Data (Background, Frame, Art, Rarity Mark)
+                BindCardFrontData(frontTrans, card);
+
+                // Set Name & Card Number Text (No.X CardName)
+                var nameTx = frontTrans.Find("Name")?.GetComponent<TMP_Text>()
+                          ?? frontTrans.GetComponentInChildren<TMP_Text>(true);
+                if (nameTx != null)
+                {
+                    nameTx.text = $"No.{card.Id}\n{card.GetDisplayName()}";
+                    nameTx.enableWordWrapping = true;
+                    nameTx.alignment = TextAlignmentOptions.Center;
+                }
+            }
+
+            // Ensure close button at bottom of container or scrollObj
+            Transform closeBtnTrans = container.transform.Find("TestCloseBtn");
+            if (closeBtnTrans == null)
+            {
+                var closeObj = new GameObject("TestCloseBtn", typeof(RectTransform), typeof(Image), typeof(Button));
+                closeObj.transform.SetParent(container.transform, false);
+                var cRt = closeObj.GetComponent<RectTransform>();
+                cRt.anchorMin = new Vector2(0.5f, 0f); cRt.anchorMax = new Vector2(0.5f, 0f);
+                cRt.anchoredPosition = new Vector2(0f, 25f);
+                cRt.sizeDelta = new Vector2(140f, 36f);
+
+                closeObj.GetComponent<Image>().color = new Color(0.80f, 0.20f, 0.20f, 1f);
+                var closeBtn = closeObj.GetComponent<Button>();
+                closeBtn.onClick.AddListener(() =>
+                {
+                    scrollObj.SetActive(false);
+                    closeObj.SetActive(false);
+                    container.SetActive(false);
+                    if (resultObj != null) resultObj.SetActive(false);
+                    if (typeSelectionObj != null) typeSelectionObj.SetActive(true);
+                });
+
+                var txObj = new GameObject("Text", typeof(RectTransform));
+                txObj.transform.SetParent(closeObj.transform, false);
+                var tRt = txObj.GetComponent<RectTransform>();
+                tRt.anchorMin = Vector2.zero; tRt.anchorMax = Vector2.one;
+                tRt.offsetMin = tRt.offsetMax = Vector2.zero;
+
+                var txt = txObj.AddComponent<TextMeshProUGUI>();
+                if (txt != null)
+                {
+                    txt.text = "닫기 (Close)";
+                    txt.fontSize = 16;
+                    txt.alignment = TextAlignmentOptions.Center;
+                    txt.color = Color.white;
+                }
+
+                closeBtnTrans = closeObj.transform;
+            }
+            closeBtnTrans.gameObject.SetActive(true);
+            closeBtnTrans.SetAsLastSibling();
+        }
     }
 }

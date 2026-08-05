@@ -27,7 +27,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
-    GachaBgSprite: {fileID: -4516175497038575038, guid: 2a642fad3358d714bb8abf1913c0da08, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   - Id: 0002
     DisplayName: "\uC591\uCCA0 \uBAA8\uC790 \uACE0\uC591\uC774"
     DisplayName_EN: Tin Hat Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 100
     ClickGold: 1
     ShardValue: 1
@@ -51,7 +51,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
-    GachaBgSprite: {fileID: -7723656403230677013, guid: a9223e8180ff81c4bb3d9a032390325a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -59,13 +59,12 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC591\uCCA0 \uB0C4\uBE44\uB97C \uD22C\uAD6C\uCC98\uB7FC \uC4F0\uACE0
-      \uC6A9\uB9F9\uD558\uAC8C \uACE8\uBAA9\uC744 \uB204\uBE55\uB2C8\uB2E4."
+    Description: "\uC591\uCCA0 \uB0C4\uBE44\uB97C \uD22C\uAD6C\uCC98\uB7FC \uC4F0\uACE0"
     Description_EN: Wears a tin pot like a helmet and bravely roams the alley.
   - Id: 0003
     DisplayName: "\uC6B0\uC0B0 \uACE0\uC591\uC774"
     DisplayName_EN: Umbrella Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 100
     ClickGold: 1
     ShardValue: 1
@@ -76,7 +75,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
-    GachaBgSprite: {fileID: 3295895987065543284, guid: 44c3730e02cf4a44097063f19b3cb9f0, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -84,13 +83,12 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBE44 \uC624\uB294 \uB0A0\uC5D0\uB3C4 \uC6B0\uC0B0\uC744 \uC4F0\uACE0
-      \uC0B0\uCC45\uC744 \uC990\uAE30\uB294 \uAC10\uC131 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uBE44 \uC624\uB294 \uB0A0\uC5D0\uB3C4 \uC6B0\uC0B0\uC744 \uC4F0\uACE0"
     Description_EN: An emotional cat who enjoys walks with an umbrella on rainy days.
   - Id: 0004
     DisplayName: "\uC0DD\uC120\uAC00\uC2DC \uACE0\uC591\uC774"
     DisplayName_EN: Fishbone Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 100
     ClickGold: 1
     ShardValue: 1
@@ -101,7 +99,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
-    GachaBgSprite: {fileID: -2362264526385026833, guid: f204fb0dd817d18429d99a0e55f0efb6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -109,15 +107,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB9DB\uC788\uB294 \uC0DD\uC120\uAC00\uC2DC\uB97C \uC0AC\uC218\uD558\uACE0
-      \uB9CC\uC871\uC2A4\uB7EC\uC6B4 \uD45C\uC815\uC744 \uC9D3\uC2B5\uB2C8\uB2E4."
+    Description: "\uB9DB\uC788\uB294 \uC0DD\uC120\uAC00\uC2DC\uB97C \uC0AC\uC218\uD558\uACE0"
     Description_EN: Guards delicious fishbones with a satisfied expression.
   - Id: 0005
     DisplayName: "\uC2A4\uD504\uB808\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Spray Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 1
@@ -126,7 +123,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
-    GachaBgSprite: {fileID: -2520882840631159429, guid: 2f77d769dc195064f84e1eb303e85b75, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -134,15 +131,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBCBD\uBA74\uC5D0 \uBA4B\uC9C4 \uADF8\uB798\uD53C\uD2F0 \uC544\uD2B8\uB97C
-      \uADF8\uB9AC\uB294 \uC2A4\uD2B8\uB9AC\uD2B8 \uC544\uD2F0\uC2A4\uD2B8\uC785\uB2C8\uB2E4."
+    Description: "\uBCBD\uBA74\uC5D0 \uBA4B\uC9C4 \uADF8\uB798\uD53C\uD2F0 \uC544\uD2B8\uB97C"
     Description_EN: A street artist who paints awesome graffiti on walls.
   - Id: 0006
     DisplayName: "\uC57C\uAC04 \uBC30\uB2EC \uACE0\uC591\uC774"
     DisplayName_EN: Night Delivery Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 1
@@ -151,7 +147,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
-    GachaBgSprite: {fileID: -3191807182277657856, guid: e98017e699fc48949b687c3cbb4cb192, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -159,15 +155,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC24\uD558\uB298\uC744 \uAC00\uB974\uBA70 \uBE44\uBC00\uC2A4\uB7EC\uC6B4
-      \uC18C\uBB3C\uC744 \uBC30\uB2EC\uD569\uB2C8\uB2E4."
+    Description: "\uBC24\uD558\uB298\uC744 \uAC00\uB974\uBA70 \uBE44\uBC00\uC2A4\uB7EC\uC6B4"
     Description_EN: Cuts through the night sky to deliver secret parcels.
   - Id: 0007
     DisplayName: padlock_cat
     DisplayName_EN: Padlock Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 1
@@ -176,7 +171,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
-    GachaBgSprite: {fileID: 1002638029800963660, guid: 2b45e6de688d629479b93327394b5576, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -190,8 +185,8 @@ MonoBehaviour:
     DisplayName: pickpocket_cat
     DisplayName_EN: Pickpocket Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 1
@@ -200,7 +195,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
-    GachaBgSprite: {fileID: 9130047736290167982, guid: 5d077a9e8c8362f4992df68992509e1b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -214,9 +209,9 @@ MonoBehaviour:
     DisplayName: neon_hacker_cat
     DisplayName_EN: Neon Hacker Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -224,8 +219,8 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -629732559171994760, guid: 17fbeeafc8a3451489d5482a38314ec0, type: 3}
-    GachaBgSprite: {fileID: 1753254190764977791, guid: cf036fb385f0b4a4f80a12e93e8fc444, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -629732559171994760, guid: 17fbeeafc8a3451489d5482a38314ec0, type: 3}
     - {fileID: -4806006418256949508, guid: 580240c9bdaf25f408468d59055d8a7d, type: 3}
@@ -241,9 +236,9 @@ MonoBehaviour:
     DisplayName: pipe_boss_cat
     DisplayName_EN: Pipe Boss Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -252,7 +247,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -7728589829718341211, guid: 864f5096c98a1394bafcd7e2e8c3aac5, type: 3}
     GachaBgSprite: {fileID: -1116311167725357722, guid: 497d6f23606f30b44b57916a03071f3f, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -7728589829718341211, guid: 864f5096c98a1394bafcd7e2e8c3aac5, type: 3}
     - {fileID: -7319298322693289931, guid: ba3e77259affa714a920187326dd9a3d, type: 3}
@@ -268,9 +263,9 @@ MonoBehaviour:
     DisplayName: shadow_acrobat_cat
     DisplayName_EN: Shadow Acrobat Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -279,7 +274,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 328105972073285433, guid: 41f5f6ce32854fe41b7c6d6ef5f98c5c, type: 3}
     GachaBgSprite: {fileID: -4127908409571698264, guid: 34b7ed1fffad06340a8d89e689f669ea, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 328105972073285433, guid: 41f5f6ce32854fe41b7c6d6ef5f98c5c, type: 3}
     - {fileID: 8727979522936425103, guid: 617b08898e054f945beeac36b901560b, type: 3}
@@ -295,9 +290,9 @@ MonoBehaviour:
     DisplayName: eclipse_boss_cat
     DisplayName_EN: Eclipse Boss Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -306,20 +301,16 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -5558708260276741338, guid: f76eea66b177c044c9e771f416d6f1e2, type: 3}
     GachaBgSprite: {fileID: 1702557265059082293, guid: 0884f444f34407847b3d1d720dfc4ecd, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5558708260276741338, guid: f76eea66b177c044c9e771f416d6f1e2, type: 3}
     - {fileID: -4187429690785632571, guid: 9a4d09eca9bf1af4896331c87a519633, type: 3}
     - {fileID: 6696169535816684269, guid: a9d413fbf58e2e34f9dad7ba31600ce1, type: 3}
     - {fileID: -3095468961440387198, guid: 73ac895dab62f064191e3f6473efdf57, type: 3}
     - {fileID: -1934530168810041864, guid: ce664e35123060f4bacd0ccaa8bb74cb, type: 3}
-    UseBreakthroughDescriptions: 1
-    BreakthroughDescriptions:
-    - ' check2'
-    - ch2
-    BreakthroughDescriptions_EN:
-    - checj1
-    - ch2
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
     Description: "eclipse_boss_cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
@@ -328,9 +319,9 @@ MonoBehaviour:
     DisplayName: alley_witch_cat
     DisplayName_EN: Alley Witch Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -339,7 +330,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -1399989924830309392, guid: 56efaeb9ac9159e4eac9560b93f92690, type: 3}
     GachaBgSprite: {fileID: -7365032783659653994, guid: 7f2c7332c117d2047a21e7de8d307e85, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -1399989924830309392, guid: 56efaeb9ac9159e4eac9560b93f92690, type: 3}
     - {fileID: 4503967809443726102, guid: 54f9f31fb262bf7428391c44d7d419ad, type: 3}
@@ -357,9 +348,9 @@ MonoBehaviour:
     DisplayName: city_ghost_cat
     DisplayName_EN: City Ghost Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 1
     IsHidden: 0
@@ -368,7 +359,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -1577312984350915356, guid: a8d03c9a2d3906343b65372b84435256, type: 3}
     GachaBgSprite: {fileID: -6649377216373836046, guid: 23ff1777244059f4bacd965872ac89b6, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -1577312984350915356, guid: a8d03c9a2d3906343b65372b84435256, type: 3}
     - {fileID: 3354247788003229089, guid: e36e993c7ede3e244825cd916a01d4ad, type: 3}
@@ -404,8 +395,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB728\uAC70\uC6B4 \uC0AC\uB9C9 \uBAA8\uB798 \uC704\uB97C \uC0AC\uBFD0\uC0AC\uBFD0
-      \uAC78\uC5B4\uAC00\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uB728\uAC70\uC6B4 \uC0AC\uB9C9 \uBAA8\uB798 \uC704\uB97C \uC0AC\uBFD0\uC0AC\uBFD0"
     Description_EN: Lightly steps across the hot desert sands.
   - Id: 0016
     DisplayName: "\uD30C\uD53C\uB8E8\uC2A4 \uACE0\uC591\uC774"
@@ -429,8 +419,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uACE0\uB300 \uAE30\uB85D\uC774 \uB2F4\uAE34 \uD30C\uD53C\uB8E8\uC2A4
-      \uB450\uB8E8\uB9C8\uB9AC\uB97C \uC18C\uC911\uD788 \uD488\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uACE0\uB300 \uAE30\uB85D\uC774 \uB2F4\uAE34 \uD30C\uD53C\uB8E8\uC2A4"
     Description_EN: Preciously holds ancient papyrus scrolls.
   - Id: 0017
     DisplayName: "\uD56D\uC544\uB9AC \uACE0\uC591\uC774"
@@ -454,8 +443,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC11C\uB298\uD55C \uB3C4\uC790\uAE30 \uD56D\uC544\uB9AC \uC548\uC5D0
-      \uB4E4\uC5B4\uAC00 \uAFC0\uC7A0\uC744 \uCCAD\uD569\uB2C8\uB2E4."
+    Description: "\uC11C\uB298\uD55C \uB3C4\uC790\uAE30 \uD56D\uC544\uB9AC \uC548\uC5D0"
     Description_EN: Enjoys a cozy nap inside a cool ceramic jar.
   - Id: 0018
     DisplayName: "\uC2A4\uCE74\uB77C\uBCA0 \uACE0\uC591\uC774"
@@ -479,15 +467,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD589\uC6B4\uC744 \uAC00\uC838\uB2E4\uC8FC\uB294 \uC2E0\uBE44\uD55C
-      \uC2A4\uCE74\uB77C\uBCA0 \uC7A5\uC2DD\uC744 \uCC28\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uD589\uC6B4\uC744 \uAC00\uC838\uB2E4\uC8FC\uB294 \uC2E0\uBE44\uD55C"
     Description_EN: Wears a lucky scarab ornament that brings good fortune.
   - Id: 0019
     DisplayName: "\uC2E0\uC804 \uD544\uACBD\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Temple Scribe Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 2
@@ -504,15 +491,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2E0\uC804 \uBCBD\uBA74\uC5D0 \uBE44\uBC00 \uBB38\uC790\uB97C
-      \uC815\uC131\uC2A4\uB808 \uAE30\uB85D\uD569\uB2C8\uB2E4."
+    Description: "\uC2E0\uC804 \uBCBD\uBA74\uC5D0 \uBE44\uBC00 \uBB38\uC790\uB97C"
     Description_EN: Carefully inscribes secret hieroglyphs on temple walls.
   - Id: 0020
     DisplayName: "\uC0AC\uB9C9 \uAE38\uC7A1\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Desert Guide Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 2
@@ -529,15 +515,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAD11\uD65C\uD55C \uC0AC\uB9C9\uC5D0\uC11C \uC624\uC544\uC2DC\uC2A4\uB85C
-      \uD5A5\uD558\uB294 \uAE38\uC744 \uC548\uB0B4\uD574 \uC90D\uB2C8\uB2E4."
+    Description: "\uAD11\uD65C\uD55C \uC0AC\uB9C9\uC5D0\uC11C \uC624\uC544\uC2DC\uC2A4\uB85C"
     Description_EN: Guides lost travelers across the desert to lush oases.
   - Id: 0021
     DisplayName: nile_fisher_cat
     DisplayName_EN: Nile Fisher Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 2
@@ -560,8 +545,8 @@ MonoBehaviour:
     DisplayName: little_mummy_cat
     DisplayName_EN: Little Mummy Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 2
@@ -584,9 +569,9 @@ MonoBehaviour:
     DisplayName: sphinx_guardian_cat
     DisplayName_EN: Sphinx Guardian Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -595,7 +580,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -8424707557956092119, guid: cd12946248e6dd44299da7a5d0274eea, type: 3}
     GachaBgSprite: {fileID: 4920985359516455955, guid: 4cb741673e2a6a04c8f7e93fd149422a, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -8424707557956092119, guid: cd12946248e6dd44299da7a5d0274eea, type: 3}
     - {fileID: 1170449343229247946, guid: 66bbb55a747212f40984c7bbd50b0582, type: 3}
@@ -611,9 +596,9 @@ MonoBehaviour:
     DisplayName: "\uD0DC\uC591 \uC0AC\uC81C \uACE0\uC591\uC774"
     DisplayName_EN: Sun Priest Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -622,7 +607,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 7633563643119507704, guid: f3883584f0fce01419565e470993e85d, type: 3}
     GachaBgSprite: {fileID: 5147659021659322362, guid: f22b5f6a691a4b443a081ece41ab8a9d, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 7633563643119507704, guid: f3883584f0fce01419565e470993e85d, type: 3}
     - {fileID: -2077705405232490734, guid: dc1e7ec2f066a8f458a2d91089583cbc, type: 3}
@@ -632,16 +617,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBD89\uC740 \uD0DC\uC591\uC758 \uAE30\uC6B4\uC744 \uBE4C\uB824
-      \uAC00\uBB44\uC744 \uBB3C\uB9AC\uCE58\uB294 \uC758\uC2DD\uC744 \uC62C\uB9BD\uB2C8\uB2E4."
+    Description: "\uBD89\uC740 \uD0DC\uC591\uC758 \uAE30\uC6B4\uC744 \uBE4C\uB824"
     Description_EN: Performs sacred rituals to dispel droughts with solar power.
   - Id: 0025
     DisplayName: desert_chariot_cat
     DisplayName_EN: Desert Chariot Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -650,7 +634,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -744436053522702792, guid: 0a0dd7544974e5b44978a0321c5cc3b0, type: 3}
     GachaBgSprite: {fileID: -8919835989745857774, guid: f899e6d47e5f4a346a6a652cff23b1fb, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -744436053522702792, guid: 0a0dd7544974e5b44978a0321c5cc3b0, type: 3}
     - {fileID: -5059735079705357742, guid: cc46fed853ee538419bbc03bbe09b6e0, type: 3}
@@ -666,9 +650,9 @@ MonoBehaviour:
     DisplayName: bastet_avatar_cat
     DisplayName_EN: Bastet Avatar Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -677,7 +661,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -233772842115842097, guid: e1cac0b556ece22469bd612394c79077, type: 3}
     GachaBgSprite: {fileID: -478717604177080614, guid: 85edae548e723524192aa3808197703e, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -233772842115842097, guid: e1cac0b556ece22469bd612394c79077, type: 3}
     - {fileID: -3660970245978595716, guid: bc210e8ee3a6b1143943067286210e79, type: 3}
@@ -695,9 +679,9 @@ MonoBehaviour:
     DisplayName: "\uB77C\uC758 \uB208 \uACE0\uC591\uC774"
     DisplayName_EN: Eye of Ra Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -706,7 +690,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -8693618006376125015, guid: 35106a00abf5e0e49ad649e205065a5e, type: 3}
     GachaBgSprite: {fileID: 2661677602221873690, guid: a0f85362198f88b4a90bb053deae04e2, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -8693618006376125015, guid: 35106a00abf5e0e49ad649e205065a5e, type: 3}
     - {fileID: 91820184755837421, guid: d05a255405234964ba7ecc53894462dc, type: 3}
@@ -718,16 +702,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD0DC\uC591\uC2E0 \uB77C\uC758 \uB208\uB3D9\uC790\uB97C \uD1B5\uD574
-      \uC138\uC0C1\uC744 \uAFF0\uB6AB\uC5B4\uBCF4\uB294 \uC2E0\uC131\uD55C \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uD0DC\uC591\uC2E0 \uB77C\uC758 \uB208\uB3D9\uC790\uB97C \uD1B5\uD574"
     Description_EN: A sacred cat seeing through truth using the Eye of Ra.
   - Id: 0028
     DisplayName: "\uC544\uB204\uBE44\uC2A4 \uC2EC\uD310\uAD00 \uACE0\uC591\uC774"
     DisplayName_EN: Anubis Judge Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 2
     IsHidden: 0
@@ -736,7 +719,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -5090459998129317557, guid: fa84170cf72a1954ab64112d14bbddb1, type: 3}
     GachaBgSprite: {fileID: -8707567412051429345, guid: 58b10fbe5ee4dd84d8840c273ccc2c1b, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5090459998129317557, guid: fa84170cf72a1954ab64112d14bbddb1, type: 3}
     - {fileID: 6461188817643920901, guid: 48c809b44abaef549a2f6439c99771a8, type: 3}
@@ -748,9 +731,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC601\uD63C\uC758 \uBB34\uAC8C\uB97C \uCE21\uC815\uD558\uC5EC
-      \uC601\uC6D0\uC758 \uACE0\uC694\uB85C \uC778\uB3C4\uD558\uB294 \uC2E0\uC131\uD55C
-      \uC2EC\uD310\uAD00\uC785\uB2C8\uB2E4."
+    Description: "\uC601\uD63C\uC758 \uBB34\uAC8C\uB97C \uCE21\uC815\uD558\uC5EC"
     Description_EN: A divine judge weighing souls to guide them to eternity.
   - Id: 0029
     DisplayName: "\uBC00\uAC00\uB8E8 \uACE0\uC591\uC774"
@@ -774,8 +755,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC628\uBAB8\uC5D0 \uACE0\uC18C\uD55C \uBC00\uAC00\uB8E8\uB97C
-      \uBB3B\uD788\uACE0 \uBE75\uC9D1\uC744 \uAC70\uB2C8\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC628\uBAB8\uC5D0 \uACE0\uC18C\uD55C \uBC00\uAC00\uB8E8\uB97C"
     Description_EN: Strolls around the bakery dusted with savory flour.
   - Id: 0030
     DisplayName: "\uC124\uD0D5 \uACE0\uC591\uC774"
@@ -799,8 +779,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB2EC\uCF64\uD55C \uC124\uD0D5\uAC00\uB8E8\uCC98\uB7FC \uC0AC\uB974\uB974
-      \uB179\uC544\uB0B4\uB9AC\uB294 \uC560\uAD50\uC7C1\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uB2EC\uCF64\uD55C \uC124\uD0D5\uAC00\uB8E8\uCC98\uB7FC \uC0AC\uB974\uB974"
     Description_EN: A sweet cutie melting softly like powdered sugar.
   - Id: 0031
     DisplayName: "\uBC18\uC8FD \uACE0\uC591\uC774"
@@ -824,8 +803,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD479\uC2E0\uD55C \uBC18\uC8FD \uC704\uC5D0\uC11C \uC2DD\uBE75
-      \uC790\uC138\uB97C \uCDE8\uD558\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uD479\uC2E0\uD55C \uBC18\uC8FD \uC704\uC5D0\uC11C \uC2DD\uBE75"
     Description_EN: Takes a loaf pose on top of fluffy bread dough.
   - Id: 0032
     DisplayName: "\uCFE0\uD0A4 \uACE0\uC591\uC774"
@@ -849,15 +827,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC14\uC0AD\uD558\uAC8C \uAD6C\uC6CC\uC9C4 \uB2EC\uCF64\uD55C
-      \uCFE0\uD0A4 \uB0C4\uC0C8\uB97C \uD48D\uAE41\uB2C8\uB2E4."
+    Description: "\uBC14\uC0AD\uD558\uAC8C \uAD6C\uC6CC\uC9C4 \uB2EC\uCF64\uD55C"
     Description_EN: Smells sweet like freshly baked crispy cookies.
   - Id: 0033
     DisplayName: "\uB9C8\uCE74\uB871 \uACE0\uC591\uC774"
     DisplayName_EN: Macaron Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 3
@@ -874,15 +851,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC54C\uB85D\uB2EC\uB85D \uCAC0\uB4DD\uD55C \uB9C8\uCE74\uB871
-      \uAF2C\uAE54\uC744 \uC4F4 \uC0AC\uB791\uC2A4\uB7EC\uC6B4 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC54C\uB85D\uB2EC\uB85D \uCAC0\uB4DD\uD55C \uB9C8\uCE74\uB871"
     Description_EN: A lovely cat wearing a colorful, chewy macaron cone.
   - Id: 0034
     DisplayName: "\uCEF5\uCF00\uC774\uD06C \uACE0\uC591\uC774"
     DisplayName_EN: Cupcake Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 3
@@ -899,22 +875,21 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBA38\uB9AC \uC704\uC5D0 \uBD80\uB4DC\uB7EC\uC6B4 \uC0DD\uD06C\uB9BC\uACFC
-      \uCCB4\uB9AC\uB97C \uC62C\uB9AC\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uBA38\uB9AC \uC704\uC5D0 \uBD80\uB4DC\uB7EC\uC6B4 \uC0DD\uD06C\uB9BC\uACFC"
     Description_EN: Carries smooth whipped cream and a cherry on its head.
   - Id: 0035
     DisplayName: "\uCD08\uCF5C\uB9BF \uBD84\uC218 \uACE0\uC591\uC774"
     DisplayName_EN: Chocolate Fountain Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
-    IsShop: 1
+    IsShop: 0
     ShopCurrency: 0
-    ShopPrice: 1
+    ShopPrice: 1000
     CardSprite: {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
     GachaBgSprite: {fileID: 804888104013027942, guid: beb854b712d8f7f41833c96dd020cb01, type: 3}
     BreakthroughVariantStages: 
@@ -924,15 +899,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB2EC\uCF64\uD558\uAC8C \uD758\uB7EC\uB0B4\uB9AC\uB294 \uCD08\uCF5C\uB9BF\uC73C\uB85C
-      \uAC00\uB4DD\uD55C \uD401\uB4C0\uB97C \uC990\uAE41\uB2C8\uB2E4."
+    Description: "\uB2EC\uCF64\uD558\uAC8C \uD758\uB7EC\uB0B4\uB9AC\uB294 \uCD08\uCF5C\uB9BF\uC73C\uB85C"
     Description_EN: Enjoys fondue overflowing with rich, dripping chocolate.
   - Id: 0036
     DisplayName: "\uC824\uB9AC \uBC30\uB2EC\uBD80 \uACE0\uC591\uC774"
     DisplayName_EN: Jelly Courier Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 3
@@ -949,16 +923,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD0F1\uAE00\uD0F1\uAE00\uD55C \uC54C\uB85D\uB2EC\uB85D \uC824\uB9AC\uB97C
-      \uC774\uC6C3\uB4E4\uC5D0\uAC8C \uBC30\uB2EC\uD569\uB2C8\uB2E4."
+    Description: "\uD0F1\uAE00\uD0F1\uAE00\uD55C \uC54C\uB85D\uB2EC\uB85D \uC824\uB9AC\uB97C"
     Description_EN: Delivers bouncy, colorful jellies to neighbors.
   - Id: 0037
     DisplayName: "\uD06C\uB85C\uC544\uC0C1 \uAE30\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Croissant Knight Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -967,7 +940,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 1127625647247697915, guid: 84bf8f7b51d04104d877579f3d359881, type: 3}
     GachaBgSprite: {fileID: -816421865036546029, guid: 6ece3d12b61722243bebe398e0cc8ac1, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 1127625647247697915, guid: 84bf8f7b51d04104d877579f3d359881, type: 3}
     - {fileID: -5744816591142297795, guid: 89ab49a89a29b584f84f2060060245bb, type: 3}
@@ -977,16 +950,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC14\uC0AD\uD55C \uACB9\uACB9\uC758 \uD06C\uB85C\uC544\uC0C1
-      \uAC11\uC637\uC744 \uC785\uC740 \uAD73\uAC74\uD55C \uAE30\uC0AC\uC785\uB2C8\uB2E4."
+    Description: "\uBC14\uC0AD\uD55C \uACB9\uACB9\uC758 \uD06C\uB85C\uC544\uC0C1"
     Description_EN: A steadfast knight clad in flaky croissant armor.
   - Id: 0038
     DisplayName: "\uCF00\uC774\uD06C \uB9C8\uBC95\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Cake Wizard Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -995,7 +967,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 271473874684846499, guid: 10a855f17b1387d41a116f0f9ca5f37c, type: 3}
     GachaBgSprite: {fileID: 4834842240078756663, guid: d91917217fc41e343bba8e525dffe8fc, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 271473874684846499, guid: 10a855f17b1387d41a116f0f9ca5f37c, type: 3}
     - {fileID: 3539317155963949022, guid: c742e50e3c22b9840af930050753bd60, type: 3}
@@ -1005,16 +977,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB2EC\uCF64\uD55C \uB9C8\uBC95 \uC9C0\uD321\uC774\uB85C \uBAA8\uB450\uB97C
-      \uD589\uBCF5\uD558\uAC8C \uB9CC\uB4DC\uB294 \uC8FC\uBB38\uC744 \uAC81\uB2C8\uB2E4."
+    Description: "\uB2EC\uCF64\uD55C \uB9C8\uBC95 \uC9C0\uD321\uC774\uB85C \uBAA8\uB450\uB97C"
     Description_EN: Casts sweet magic spells to make everyone happy.
   - Id: 0039
     DisplayName: "\uC544\uC774\uC2A4\uD06C\uB9BC \uC5F0\uAE08\uC220\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Ice Cream Alchemist Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -1023,7 +994,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -5110028329436942283, guid: df00a34994bb3124885e6466d21d27bf, type: 3}
     GachaBgSprite: {fileID: 929874442922780167, guid: 5627864688809d143ab763ddf004c698, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5110028329436942283, guid: df00a34994bb3124885e6466d21d27bf, type: 3}
     - {fileID: 3515017796520737238, guid: 33d1a278f8a5f484aa751a16d7aac403, type: 3}
@@ -1033,16 +1004,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2DC\uC6D0\uD55C \uC544\uC774\uC2A4\uD06C\uB9BC \uC7AC\uB8CC\uB97C
-      \uC870\uD569\uD558\uC5EC \uC5F0\uAE08\uC220 \uC870\uD569\uC744 \uB9CC\uB4ED\uB2C8\uB2E4."
+    Description: "\uC2DC\uC6D0\uD55C \uC544\uC774\uC2A4\uD06C\uB9BC \uC7AC\uB8CC\uB97C"
     Description_EN: Mixes cool ice cream ingredients to create alchemy formulas.
   - Id: 0040
     DisplayName: "\uC81C\uACFC \uC5EC\uC655 \uACE0\uC591\uC774"
     DisplayName_EN: Confectionery Queen Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -1051,7 +1021,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -2611070205719007415, guid: 37fa340007a0d4445a46a2c819cf0b0c, type: 3}
     GachaBgSprite: {fileID: -5374948539189124139, guid: c547349f9f0b67d43a3e521572d3b765, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -2611070205719007415, guid: 37fa340007a0d4445a46a2c819cf0b0c, type: 3}
     - {fileID: -9149130606438349974, guid: 9e1cf1e0e81d4034ead4f5e6e25402af, type: 3}
@@ -1063,16 +1033,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uC131\uC758 \uC81C\uACFC
-      \uC81C\uAD6D\uC744 \uCD1D\uAD04\uD558\uB294 \uC6B0\uC544\uD55C \uC5EC\uC655\uC785\uB2C8\uB2E4."
+    Description: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uC131\uC758 \uC81C\uACFC"
     Description_EN: An elegant queen ruling the dessert castle realm.
   - Id: 0041
     DisplayName: "\uBCC4\uC0AC\uD0D5 \uCC9C\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Star Candy Angel Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -1081,7 +1050,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -4609627951141049997, guid: df0e8f737e54277479c643896215eb71, type: 3}
     GachaBgSprite: {fileID: 3212632049512784870, guid: 30544e183b1fd564194485acf5bcb1af, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -4609627951141049997, guid: df0e8f737e54277479c643896215eb71, type: 3}
     - {fileID: -6932514986731859473, guid: 8b0addaef5b337f45927ef0bc1ab9b7b, type: 3}
@@ -1093,16 +1062,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC24\uD558\uB298\uC758 \uBCC4\uC0AC\uD0D5\uC744 \uBAA8\uC544
-      \uC0AC\uB78C\uB4E4\uC5D0\uAC8C \uAE30\uC068\uC758 \uCD95\uBCF5\uC744 \uB0B4\uB9BD\uB2C8\uB2E4."
+    Description: "\uBC24\uD558\uB298\uC758 \uBCC4\uC0AC\uD0D5\uC744 \uBAA8\uC544"
     Description_EN: Gathers star candies from the night sky to bless people.
   - Id: 0042
     DisplayName: "\uBB34\uD55C \uB514\uC800\uD2B8 \uB4DC\uB798\uACE4 \uACE0\uC591\uC774"
     DisplayName_EN: Infinite Dessert Dragon Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 3
     IsHidden: 0
@@ -1111,7 +1079,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 5367177783233989934, guid: 03fd9373cf52e4349b2ae1a6958bc740, type: 3}
     GachaBgSprite: {fileID: 7746011374024969918, guid: 1388c997f31a575468eeb2e899069db9, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 5367177783233989934, guid: 03fd9373cf52e4349b2ae1a6958bc740, type: 3}
     - {fileID: -8097743299044130056, guid: 10bab25f921f592459f28ece39189f97, type: 3}
@@ -1123,9 +1091,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB9C8\uB974\uC9C0 \uC54A\uB294 \uB514\uC800\uD2B8 \uC0D8\uC744
-      \uC218\uD638\uD558\uB294 \uC804\uC124\uC758 \uB514\uC800\uD2B8 \uB4DC\uB798\uACE4
-      \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uB9C8\uB974\uC9C0 \uC54A\uB294 \uB514\uC800\uD2B8 \uC0D8\uC744"
     Description_EN: A legendary dragon cat guarding the endless dessert spring.
   - Id: 0043
     DisplayName: "\uBC29\uC6B8 \uC815\uCC30 \uACE0\uC591\uC774"
@@ -1149,8 +1115,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC14\uB2F7\uC18D \uBB3C\uBC29\uC6B8\uC744 \uD0C0\uACE0 \uC720\uC720\uD788
-      \uD5E4\uC5C4\uCE58\uB294 \uC815\uCC30 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uBC14\uB2F7\uC18D \uBB3C\uBC29\uC6B8\uC744 \uD0C0\uACE0 \uC720\uC720\uD788"
     Description_EN: A scout cat swimming gracefully inside water bubbles.
   - Id: 0044
     DisplayName: "\uC870\uAC1C \uC218\uC9D1\uAC00 \uACE0\uC591\uC774"
@@ -1174,8 +1139,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC608\uC05C \uC870\uAC1C\uAECD\uB370\uAE30\uB97C \uBAA8\uC544
-      \uBC14\uB2F7\uAC00\uC5D0 \uBAA8\uC544\uB461\uB2C8\uB2E4."
+    Description: "\uC608\uC05C \uC870\uAC1C\uAECD\uB370\uAE30\uB97C \uBAA8\uC544"
     Description_EN: Gathers pretty seashells and arranges them on the beach.
   - Id: 0045
     DisplayName: "\uC0B0\uD638 \uC815\uC6D0\uC0AC \uACE0\uC591\uC774"
@@ -1199,8 +1163,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC54C\uB85D\uB2EC\uB85D \uC0B0\uD638\uCD08\uB97C \uB2E4\uB4EC\uC5B4
-      \uCF8C\uC801\uD55C \uBCF4\uAE08\uC790\uB9AC\uB97C \uB9CC\uB4ED\uB2C8\uB2E4."
+    Description: "\uC54C\uB85D\uB2EC\uB85D \uC0B0\uD638\uCD08\uB97C \uB2E4\uB4EC\uC5B4"
     Description_EN: Trims colorful coral reefs to build a comfortable home.
   - Id: 0046
     DisplayName: "\uD574\uD30C\uB9AC \uB4F1\uBD88 \uACE0\uC591\uC774"
@@ -1224,15 +1187,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC740\uC740\uD558\uAC8C \uBE5B\uB098\uB294 \uD574\uD30C\uB9AC\uB97C
-      \uB4F1\uBD88 \uC0BC\uC544 \uAE4A\uC740 \uBC14\uB2E4\uB97C \uBC1D\uAE41\uB2C8\uB2E4."
+    Description: "\uC740\uC740\uD558\uAC8C \uBE5B\uB098\uB294 \uD574\uD30C\uB9AC\uB97C"
     Description_EN: Illuminates deep waters using glowing jellyfish as lanterns.
   - Id: 0047
     DisplayName: "\uD669\uAE08 \uD574\uB9C8 \uC804\uB839 \uACE0\uC591\uC774"
     DisplayName_EN: Golden Seahorse Herald Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 4
@@ -1249,21 +1211,20 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD669\uAE08 \uD574\uB9C8\uB97C \uD0C0\uACE0 \uBC14\uB2E4 \uC655\uAD6D\uC758
-      \uAE30\uC05C \uC18C\uC2DD\uC744 \uC804\uD569\uB2C8\uB2E4."
+    Description: "\uD669\uAE08 \uD574\uB9C8\uB97C \uD0C0\uACE0 \uBC14\uB2E4 \uC655\uAD6D\uC758"
     Description_EN: Rides a golden seahorse to deliver joyful news from the ocean
       kingdom.
   - Id: 0048
     DisplayName: "\uAC8C \uAC11\uC8FC \uACE0\uC591\uC774"
     DisplayName_EN: Crab Armor Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
-    IsShop: 1
+    IsShop: 0
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
@@ -1275,15 +1236,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB2E8\uB2E8\uD55C \uAC8C \uC9D1\uAC8C\uBC1C\uACFC \uAC11\uC637\uC73C\uB85C
-      \uBB34\uC7A5\uD55C \uC6A9\uAC10\uD55C \uD30C\uC218\uAFBC\uC785\uB2C8\uB2E4."
+    Description: "\uB2E8\uB2E8\uD55C \uAC8C \uC9D1\uAC8C\uBC1C\uACFC \uAC11\uC637\uC73C\uB85C"
     Description_EN: A brave sentinel armed with sturdy crab pincers and armor.
   - Id: 0049
     DisplayName: "\uC9C4\uC8FC \uD558\uD504 \uACE0\uC591\uC774"
     DisplayName_EN: Pearl Harp Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 4
@@ -1300,15 +1260,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBE5B\uB098\uB294 \uC9C4\uC8FC \uD558\uD504\uB97C \uCF1C\uBA70
-      \uC870\uC6A9\uD55C \uBC14\uB2F7\uC18D \uBA5C\uB85C\uB514\uB97C \uB9CC\uB4ED\uB2C8\uB2E4."
+    Description: "\uBE5B\uB098\uB294 \uC9C4\uC8FC \uD558\uD504\uB97C \uCF1C\uBA70"
     Description_EN: Plays a shimmering pearl harp to compose tranquil sea melodies.
   - Id: 0050
     DisplayName: "\uB2FB \uC218\uC601 \uACE0\uC591\uC774"
     DisplayName_EN: Anchor Swimmer Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 4
@@ -1325,16 +1284,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBB35\uC9C1\uD55C \uB2FB\uC744 \uAC00\uBFD0\uD788 \uB4E4\uACE0
-      \uD574\uC800 \uD0D0\uC0AC\uB97C \uC9C0\uD718\uD558\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uBB35\uC9C1\uD55C \uB2FB\uC744 \uAC00\uBFD0\uD788 \uB4E4\uACE0"
     Description_EN: Directs undersea exploration effortlessly carrying a heavy anchor.
   - Id: 0051
     DisplayName: "\uC7A0\uC218\uD568 \uC120\uC7A5 \uACE0\uC591\uC774"
     DisplayName_EN: Submarine Captain Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1343,7 +1301,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 4554943457834107941, guid: cdfbaef958da3774f92476918e86e78f, type: 3}
     GachaBgSprite: {fileID: -6529599478480117343, guid: 3194bf345424067448b54cd9ab00a551, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 4554943457834107941, guid: cdfbaef958da3774f92476918e86e78f, type: 3}
     - {fileID: 1701579967575812996, guid: 91aff2fec12f6c342849f876e93a34ba, type: 3}
@@ -1353,16 +1311,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uCCA8\uB2E8 \uC7A0\uC218\uD568\uC744 \uC870\uC885\uD558\uC5EC
-      \uC218\uC911 \uB300\uD0D0\uC0AC\uB97C \uC774\uB044\uB294 \uB9AC\uB354\uC785\uB2C8\uB2E4."
+    Description: "\uCCA8\uB2E8 \uC7A0\uC218\uD568\uC744 \uC870\uC885\uD558\uC5EC"
     Description_EN: A leader operating high-tech submarines for deep sea expeditions.
   - Id: 0052
     DisplayName: "\uD574\uC591 \uB9C8\uB3C4\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Ocean Archmage Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1371,7 +1328,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -6387608441997985420, guid: edcaecfd619d7f94388caa049946eb03, type: 3}
     GachaBgSprite: {fileID: -533711703290113594, guid: a549deeb008c0d84db9c230e960476c7, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -6387608441997985420, guid: edcaecfd619d7f94388caa049946eb03, type: 3}
     - {fileID: 380758849933688829, guid: b24599d4144764545b174d0b7961ffe3, type: 3}
@@ -1381,16 +1338,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD478\uB978 \uC18C\uC6A9\uB3CC\uC774\uC640 \uBC14\uB2E4\uC758
-      \uC6D0\uC18C \uB9C8\uBC95\uC744 \uC790\uC720\uC790\uC7AC\uB85C \uB2E4\uB8F9\uB2C8\uB2E4."
+    Description: "\uD478\uB978 \uC18C\uC6A9\uB3CC\uC774\uC640 \uBC14\uB2E4\uC758"
     Description_EN: Masterfully wields blue whirlpools and water elemental magic.
   - Id: 0053
     DisplayName: "\uC0B0\uD638 \uC655\uAD6D \uC218\uD638\uAE30\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Coral Guardian Knight Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1399,7 +1355,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 5843544794659751647, guid: 04c36d71b29b0b64d8a7723d9300dc17, type: 3}
     GachaBgSprite: {fileID: 1823331329214218871, guid: a70eced350f1caa4f93ba8c0cd4190eb, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 5843544794659751647, guid: 04c36d71b29b0b64d8a7723d9300dc17, type: 3}
     - {fileID: 8016641844317181251, guid: 4f392817fa9b26c459585b0db0ae8c03, type: 3}
@@ -1409,16 +1365,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC0B0\uD638 \uAC80\uC744 \uD718\uB450\uB974\uBA70 \uD574\uC800
-      \uC81C\uAD6D\uC758 \uC131\uBCBD\uC744 \uC218\uD638\uD569\uB2C8\uB2E4."
+    Description: "\uC0B0\uD638 \uAC80\uC744 \uD718\uB450\uB974\uBA70 \uD574\uC800"
     Description_EN: Swings a coral blade to protect undersea castle walls.
   - Id: 0054
     DisplayName: "\uC778\uC5B4 \uC5EC\uD669\uC81C \uACE0\uC591\uC774"
     DisplayName_EN: Mermaid Empress Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1427,7 +1382,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -3028023370934287481, guid: 645d6121a971d2940bf6bc5d27223e22, type: 3}
     GachaBgSprite: {fileID: -8902308870171797476, guid: 885ec152f949886488c31783f32fa3c6, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -3028023370934287481, guid: 645d6121a971d2940bf6bc5d27223e22, type: 3}
     - {fileID: -6824596971882948754, guid: 9d1523e6a78a0d24486a1b28007665ae, type: 3}
@@ -1439,16 +1394,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB9D1\uACE0 \uC601\uB871\uD55C \uBAA9\uC18C\uB9AC\uB85C \uD574\uC800
-      \uBAA8\uB4E0 \uC0DD\uBB3C\uB4E4\uC744 \uB2E4\uC2A4\uB9AC\uB294 \uC5EC\uD669\uC81C\uC785\uB2C8\uB2E4."
+    Description: "\uB9D1\uACE0 \uC601\uB871\uD55C \uBAA9\uC18C\uB9AC\uB85C \uD574\uC800"
     Description_EN: An empress governing all ocean creatures with her clear voice.
   - Id: 0055
     DisplayName: "\uC0AC\uD30C\uC774\uC5B4 \uB4DC\uB798\uACE4 \uACE0\uC591\uC774"
     DisplayName_EN: Sapphire Dragon Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1457,7 +1411,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 557149237349590793, guid: 421787137b619264da4be0ba0687486c, type: 3}
     GachaBgSprite: {fileID: 4064071394117644394, guid: 6571983b7dbc7f0499b7ba135db07c9a, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 557149237349590793, guid: 421787137b619264da4be0ba0687486c, type: 3}
     - {fileID: -4074111801575141931, guid: 941193e336f1c464e97f4597a2d397ef, type: 3}
@@ -1469,16 +1423,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2EC\uD574 \uAE4A\uC740 \uACF3 \uC0AC\uD30C\uC774\uC5B4 \uAD11\uC0B0\uC744
-      \uC218\uD638\uD558\uB294 \uD574\uC800 \uC6A9 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC2EC\uD574 \uAE4A\uC740 \uACF3 \uC0AC\uD30C\uC774\uC5B4 \uAD11\uC0B0\uC744"
     Description_EN: A sea dragon cat guarding sapphire mines in the deep abyss.
   - Id: 0056
     DisplayName: "\uD574\uC2E0 \uD3EC\uC138\uC774\uB3C8 \uACE0\uC591\uC774"
     DisplayName_EN: Poseidon Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 4
     IsHidden: 0
@@ -1487,7 +1440,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -4949265749237480570, guid: df43896ee2ee17d4e81586d042f2e1c3, type: 3}
     GachaBgSprite: {fileID: 3555967600818473111, guid: 076b0a76b981a0945b8aec0c67ff0e8e, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -4949265749237480570, guid: df43896ee2ee17d4e81586d042f2e1c3, type: 3}
     - {fileID: 3487861415792845777, guid: cf1052542b75ffd41acc314b875dce89, type: 3}
@@ -1499,9 +1452,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC0BC\uC9C0\uCC3D\uC744 \uAC70\uBA38\uC950\uACE0 \uCE60\uD574\uC758
-      \uD30C\uB3C4\uB97C \uC790\uC720\uC790\uC7AC\uB85C \uD638\uB839\uD558\uB294
-      \uD574\uC2E0 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC0BC\uC9C0\uCC3D\uC744 \uAC70\uBA38\uC950\uACE0 \uCE60\uD574\uC758"
     Description_EN: A sea god cat wielding a trident to command seven sea waves.
   - Id: 0057
     DisplayName: "\uD0C8\uCDA4 \uACE0\uC591\uC774"
@@ -1525,8 +1476,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBD09\uC0B0\uD0C8\uC744 \uC4F0\uACE0 \uB369\uC2E4\uB369\uC2E4
-      \uCDA4\uC744 \uCD94\uBA70 \uBCF5\uC744 \uAE30\uC6D0\uD558\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uBD09\uC0B0\uD0C8\uC744 \uC4F0\uACE0 \uB369\uC2E4\uB369\uC2E4"
     Description_EN: Dances cheerfully wearing a traditional mask to wish for good
       fortune.
   - Id: 0058
@@ -1551,8 +1501,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2E0\uC120\uD55C \uAC04\uACE0\uB4F1\uC5B4\uB97C \uC9C0\uAC8C\uC5D0
-      \uC9CA\uC5B4\uC9C0\uACE0 \uC800\uC790\uAC70\uB9AC\uB97C \uB2E4\uB2D9\uB2C8\uB2E4."
+    Description: "\uC2E0\uC120\uD55C \uAC04\uACE0\uB4F1\uC5B4\uB97C \uC9C0\uAC8C\uC5D0"
     Description_EN: Carries fresh salted mackerel in a A-frame carrier across the
       market.
   - Id: 0059
@@ -1577,8 +1526,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2DC\uC6D0\uD55C \uBC14\uB78C\uC744 \uD0C0\uB294 \uC54C\uB85D\uB2EC\uB85D
-      \uBC29\uD328\uC5F0\uC744 \uD558\uB298 \uB192\uC774 \uB0A0\uB9BD\uB2C8\uB2E4."
+    Description: "\uC2DC\uC6D0\uD55C \uBC14\uB78C\uC744 \uD0C0\uB294 \uC54C\uB85D\uB2EC\uB85D"
     Description_EN: Flies a colorful traditional kite high into the cool breeze.
   - Id: 0060
     DisplayName: "\uB300\uC7A5\uC7A5\uC774 \uACE0\uC591\uC774"
@@ -1602,15 +1550,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBD89\uC740 \uD654\uB85C \uC55E\uC5D0\uC11C \uB69D\uB531\uB69D\uB531
-      \uD638\uBBF8\uC640 \uB0AB\uC744 \uB9CC\uB4ED\uB2C8\uB2E4."
+    Description: "\uBD89\uC740 \uD654\uB85C \uC55E\uC5D0\uC11C \uB69D\uB531\uB69D\uB531"
     Description_EN: Crafts hoes and sickles diligently in front of a red forge.
   - Id: 0061
     DisplayName: "\uC0BF\uAC13 \uB18D\uBD80 \uACE0\uC591\uC774"
     DisplayName_EN: Bamboo Hat Farmer Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 5
@@ -1627,15 +1574,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBCBC \uC774\uC0AD\uC774 \uC601\uADF8\uB294 \uB4E4\uD310\uC5D0\uC11C
-      \uD48D\uB144\uC744 \uAE30\uC6D0\uD558\uBA70 \uB540\uC744 \uD758\uB9BD\uB2C8\uB2E4."
+    Description: "\uBCBC \uC774\uC0AD\uC774 \uC601\uADF8\uB294 \uB4E4\uD310\uC5D0\uC11C"
     Description_EN: Works hard in golden rice fields praying for a bountiful harvest.
   - Id: 0062
     DisplayName: "\uD48D\uB144 \uAD00\uB9AC\uC778 \uACE0\uC591\uC774"
     DisplayName_EN: Harvest Manager Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 5
@@ -1652,15 +1598,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC00\uC744\uCCA0 \uACE1\uC2DD\uC744 \uACF3\uAC04\uC5D0 \uAC00\uB4DD
-      \uC313\uACE0 \uC300\uAC00\uB9C8\uB2C8\uB97C \uAC80\uC218\uD569\uB2C8\uB2E4."
+    Description: "\uAC00\uC744\uCCA0 \uACE1\uC2DD\uC744 \uACF3\uAC04\uC5D0 \uAC00\uB4DD"
     Description_EN: Inspects rice sacks filling storehouses to the brim in autumn.
   - Id: 0063
     DisplayName: "\uC800\uC790\uAC70\uB9AC \uD3EC\uB3CC\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Market Officer Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 5
@@ -1677,15 +1622,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC641\uC790\uC9C0\uAEC4\uD55C \uC7A5\uD130\uC758 \uCE58\uC548\uC744
-      \uC9C0\uD0A4\uB294 \uB2A0\uB984\uD55C \uD30C\uC218\uAFBC\uC785\uB2C8\uB2E4."
+    Description: "\uC641\uC790\uC9C0\uAEC4\uD55C \uC7A5\uD130\uC758 \uCE58\uC548\uC744"
     Description_EN: A dependable officer keeping peace in the bustling marketplace.
   - Id: 0064
     DisplayName: "\uC30D\uD654\uD0D5 \uD55C\uC758\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Herbal Physician Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 5
@@ -1702,16 +1646,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB530\uC2A4\uD55C \uD55C\uC57D\uC7AC\uB97C \uC815\uC131\uAECF
-      \uB2EC\uC5EC \uB9C8\uC744 \uC774\uC6C3\uB4E4\uC758 \uAC74\uAC15\uC744 \uBCF4\uC0B4\uD54D\uB2C8\uB2E4."
+    Description: "\uB530\uC2A4\uD55C \uD55C\uC57D\uC7AC\uB97C \uC815\uC131\uAECF"
     Description_EN: Brews warm herbal medicine to care for neighbors' health.
   - Id: 0065
     DisplayName: "\uB2EC\uBE5B \uC804\uAE30\uC218 \uACE0\uC591\uC774"
     DisplayName_EN: Moonlight Storyteller Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 5
     IsHidden: 0
@@ -1720,7 +1663,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -681249148111682924, guid: cfbcdd7e51bfae74a9d3ee5784baad8a, type: 3}
     GachaBgSprite: {fileID: 5834400625472858878, guid: 38bdaeb3792667d42906c0c52cf40f7b, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -681249148111682924, guid: cfbcdd7e51bfae74a9d3ee5784baad8a, type: 3}
     - {fileID: 3931261114470759313, guid: 382cd090e49612b4a9f7906c97cae120, type: 3}
@@ -1730,16 +1673,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC24\uB9C8\uB2E4 \uCD1B\uBD88 \uC544\uB798\uC5D0\uC11C \uD765\uBBF8\uC9C4\uC9C4\uD55C
-      \uC61B\uB0A0\uC774\uC57C\uAE30\uB97C \uD480\uC5B4\uB193\uC2B5\uB2C8\uB2E4."
+    Description: "\uBC24\uB9C8\uB2E4 \uCD1B\uBD88 \uC544\uB798\uC5D0\uC11C \uD765\uBBF8\uC9C4\uC9C4\uD55C"
     Description_EN: Tells thrilling ancient folktales under candlelight every night.
   - Id: 0066
     DisplayName: "\uC0B0\uC2E0\uB839 \uACE0\uC591\uC774"
     DisplayName_EN: Mountain Spirit Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 5
     IsHidden: 0
@@ -1748,7 +1690,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 2437480936692776075, guid: 455053e56b95cb54a83a9cd67751dced, type: 3}
     GachaBgSprite: {fileID: -7154480328507943063, guid: 92df3b4c4c4f6ae4f88c3cff3d7f055a, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 2437480936692776075, guid: 455053e56b95cb54a83a9cd67751dced, type: 3}
     - {fileID: 2421854069170577902, guid: 5a96d40526e4dc9498a069c586a7b456, type: 3}
@@ -1758,16 +1700,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD558\uC580 \uC218\uC5FC\uC744 \uD718\uB0A0\uB9AC\uBA70 \uAE4A\uC740
-      \uC0B0\uC18D\uC5D0\uC11C \uC740\uB454\uD558\uB294 \uC0B0\uC2E0\uB839\uC785\uB2C8\uB2E4."
+    Description: "\uD558\uC580 \uC218\uC5FC\uC744 \uD718\uB0A0\uB9AC\uBA70 \uAE4A\uC740"
     Description_EN: A wise mountain spirit dwelling deep in misty mountains.
   - Id: 0067
     DisplayName: "\uB5A1\uBA54 \uCE58\uAE30 \uACE0\uC591\uC774"
     DisplayName_EN: Rice Cake Pounding Master Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 5
     IsHidden: 0
@@ -1776,7 +1717,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 8990090637826106241, guid: f3840023dac388f409b98b86ad3a54e8, type: 3}
     GachaBgSprite: {fileID: 5190657936528335910, guid: bc94cb2ef4383ce48b5215391cafd71f, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 8990090637826106241, guid: f3840023dac388f409b98b86ad3a54e8, type: 3}
     - {fileID: 6888482538055521157, guid: 3dea97a3296012b4ba4b7ebaddc2da4f, type: 3}
@@ -1786,16 +1727,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uCAC4\uAE43\uD55C \uC778\uC808\uBBF8\uB97C \uCFF5\uB355\uCFF5\uB355
-      \uCC27\uC5B4 \uB2EC\uCF64\uD55C \uB5A1\uC744 \uB9CC\uB4DC\uB294 \uC7A5\uC778\uC785\uB2C8\uB2E4."
+    Description: "\uCAC4\uAE43\uD55C \uC778\uC808\uBBF8\uB97C \uCFF5\uB355\uCFF5\uB355"
     Description_EN: A master pounding chewy rice dough to make sweet rice cakes.
   - Id: 0068
     DisplayName: "\uC0C1\uBAA8 \uC0AC\uBB3C\uB180\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Samulnori Drummer Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 5
     IsHidden: 0
@@ -1804,7 +1744,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -4897305829578270727, guid: 3d8ec912e41a51f4187d541066b8837a, type: 3}
     GachaBgSprite: {fileID: -41025047872896554, guid: e7490c8df788f584a8657dd81c33e2ba, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -4897305829578270727, guid: 3d8ec912e41a51f4187d541066b8837a, type: 3}
     - {fileID: -2741262325875432293, guid: c82c8d0037ba1a148a2efb85011d0904, type: 3}
@@ -1816,17 +1756,16 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC6C5\uC7A5\uD55C \uBD81\uC18C\uB9AC\uC640 \uC0C1\uBAA8\uB3CC\uB9AC\uAE30\uB85C
-      \uCD95\uC81C\uC758 \uD765\uC744 \uCD5C\uACE0\uC870\uB85C \uB04C\uC5B4\uC62C\uB9BD\uB2C8\uB2E4."
+    Description: "\uC6C5\uC7A5\uD55C \uBD81\uC18C\uB9AC\uC640 \uC0C1\uBAA8\uB3CC\uB9AC\uAE30\uB85C"
     Description_EN: Heightens festival excitement with grand drums and spinning hat
       ribbons.
   - Id: 0069
     DisplayName: "\uD638\uB791\uC774 \uD0C8 \uACE0\uC591\uC774"
     DisplayName_EN: Tiger Mask Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 5
     IsHidden: 0
@@ -1835,7 +1774,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 5555514950861750688, guid: ec1162c14d6a3a94081bfb654c52b81d, type: 3}
     GachaBgSprite: {fileID: -7553504023486998495, guid: 32710b5555740c94fbae42f208276848, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 5555514950861750688, guid: ec1162c14d6a3a94081bfb654c52b81d, type: 3}
     - {fileID: -8529267264769444248, guid: 7e61cb65e7196b24eaab8a2ceee36029, type: 3}
@@ -1847,26 +1786,24 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC561\uC6B4\uC744 \uCAD3\uC544\uB0B4\uACE0 \uAE30\uC6B4\uC744
-      \uBD81\uB3CB\uC544\uC8FC\uB294 \uC601\uD5D8\uD55C \uD638\uB791\uC774 \uD0C8\uC744
-      \uC4F0\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uC561\uC6B4\uC744 \uCAD3\uC544\uB0B4\uACE0 \uAE30\uC6B4\uC744"
     Description_EN: Wears a sacred tiger mask to ward off evil and boost spirits.
   - Id: 0070
     DisplayName: "\uBC31\uD638 \uC2E0\uC218 \uACE0\uC591\uC774"
     DisplayName_EN: White Tiger Guardian Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 5
-    IsHidden: 1
+    IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3632384083311525013, guid: 729209fff3c19504d9ddd1956a266e74, type: 3}
     GachaBgSprite: {fileID: 21300000, guid: e81ae13afbd2e4b48a5f07ffb31458c5, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -3632384083311525013, guid: 729209fff3c19504d9ddd1956a266e74, type: 3}
     - {fileID: 5800435568676860600, guid: 7e690eff6e423884cb337a022aec9770, type: 3}
@@ -1878,8 +1815,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC0AC\uBC29\uC2E0 \uC911 \uC2E0\uB839\uC2A4\uB7EC\uC6B4 \uBC31\uD638\uC758
-      \uC2E0\uD1B5\uB825\uC744 \uACC4\uC2B9\uD55C \uC218\uD638\uC2E0 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC0AC\uBC29\uC2E0 \uC911 \uC2E0\uB839\uC2A4\uB7EC\uC6B4 \uBC31\uD638\uC758"
     Description_EN: A guardian spirit inheriting divine powers of the sacred White
       Tiger.
   - Id: 0071
@@ -1904,8 +1840,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC815\uC758\uAC10 \uB118\uCE58\uB294 \uB808\uC778\uC800 \uD300\uC758
-      \uC5F4\uC815\uC801\uC778 \uB9AC\uB354\uC785\uB2C8\uB2E4."
+    Description: "\uC815\uC758\uAC10 \uB118\uCE58\uB294 \uB808\uC778\uC800 \uD300\uC758"
     Description_EN: A passionate leader of the justice-seeking ranger team.
   - Id: 0072
     DisplayName: "\uCF54\uBC1C\uD2B8 \uBE0C\uB808\uC778 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
@@ -1929,8 +1864,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBA85\uC11D\uD55C \uB450\uB1CC\uC640 \uCCA8\uB2E8 \uBC14\uC774\uC800\uB85C
-      \uC804\uC220\uC744 \uBD84\uC11D\uD569\uB2C8\uB2E4."
+    Description: "\uBA85\uC11D\uD55C \uB450\uB1CC\uC640 \uCCA8\uB2E8 \uBC14\uC774\uC800\uB85C"
     Description_EN: Analyzes tactics with brilliant intellect and high-tech visors.
   - Id: 0073
     DisplayName: "\uC610\uB85C\uC6B0 \uC2A4\uD53C\uB4DC \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
@@ -1954,12 +1888,10 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC14\uB78C\uBCF4\uB2E4 \uBE60\uB978 \uBC88\uAC1C \uAC19\uC740
-      \uC2A4\uD53C\uB4DC\uB85C \uC545\uB2F9\uC744 \uB4A4\uCAD3\uC2B5\uB2C8\uB2E4."
+    Description: "\uBC14\uB78C\uBCF4\uB2E4 \uBE60\uB978 \uBC88\uAC1C \uAC19\uC740"
     Description_EN: Chases villains with lightning speed faster than the wind.
   - Id: 0074
-    DisplayName: "\uC5D0\uBA54\uB784\uB4DC \uB9AC\uC2A4\uD050 \uD788\uC5B4\uB85C
-      \uACE0\uC591\uC774"
+    DisplayName: "\uC5D0\uBA54\uB784\uB4DC \uB9AC\uC2A4\uD050 \uD788\uC5B4\uB85C"
     DisplayName_EN: Emerald Rescue Hero Cat
     Rarity: 0
     BaseWeight: 100
@@ -1980,15 +1912,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAD73\uAC74\uD55C \uBC29\uD328\uC640 \uCE58\uC720 \uC288\uD2B8\uB85C
-      \uB300\uC6D0\uB4E4\uC744 \uBCF4\uD638\uD569\uB2C8\uB2E4."
+    Description: "\uAD73\uAC74\uD55C \uBC29\uD328\uC640 \uCE58\uC720 \uC288\uD2B8\uB85C"
     Description_EN: Protects teammates with a steadfast shield and healing suit.
   - Id: 0075
     DisplayName: "\uB85C\uC988 \uBE44\uD589 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
     DisplayName_EN: Rose Flight Hero Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 6
@@ -2005,15 +1936,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD654\uB824\uD55C \uB0A0\uAC1C \uC5D4\uC9C4\uC744 \uC7A5\uCC29\uD558\uACE0
-      \uACF5\uC911\uC804\uC744 \uB2F4\uB2F9\uD569\uB2C8\uB2E4."
+    Description: "\uD654\uB824\uD55C \uB0A0\uAC1C \uC5D4\uC9C4\uC744 \uC7A5\uCC29\uD558\uACE0"
     Description_EN: Equipped with wing engines to dominate aerial combat.
   - Id: 0076
     DisplayName: "\uBE14\uB799 \uC740\uC2E0 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
     DisplayName_EN: Black Stealth Hero Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 6
@@ -2030,15 +1960,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC24\uADF8\uB9BC\uC790 \uC18D\uC73C\uB85C \uC0AC\uB77C\uC9C0\uB294
-      \uC740\uBC00\uD55C \uCE68\uD22C \uC804\uBB38\uAC00\uC785\uB2C8\uB2E4."
+    Description: "\uBC24\uADF8\uB9BC\uC790 \uC18D\uC73C\uB85C \uC0AC\uB77C\uC9C0\uB294"
     Description_EN: A covert infiltration expert vanishing into night shadows.
   - Id: 0077
     DisplayName: "\uC624\uB80C\uC9C0 \uBC84\uC2A4\uD2B8 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
     DisplayName_EN: Orange Burst Hero Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 6
@@ -2055,15 +1984,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC15\uB825\uD55C \uD654\uC5FC \uBE0C\uB798\uC2A4\uD130\uB85C
-      \uC801\uC758 \uC9C4\uC9C0\uB97C \uD0C0\uACA9\uD569\uB2C8\uB2E4."
+    Description: "\uAC15\uB825\uD55C \uD654\uC5FC \uBE0C\uB798\uC2A4\uD130\uB85C"
     Description_EN: Strikes enemy bases with powerful flame blasters.
   - Id: 0078
     DisplayName: "\uD06C\uB9BC\uC2A8 \uD06C\uB85C \uCEA1\uD2F4 \uACE0\uC591\uC774"
     DisplayName_EN: Crimson Claw Captain Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 6
@@ -2080,16 +2008,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB0A0\uCE74\uB85C\uC6B4 \uC5D0\uB108\uC81C\uD2F1 \uD074\uB85C\uB97C
-      \uD718\uB450\uB974\uB294 \uCEA1\uD2F4\uC785\uB2C8\uB2E4."
+    Description: "\uB0A0\uCE74\uB85C\uC6B4 \uC5D0\uB108\uC81C\uD2F1 \uD074\uB85C\uB97C"
     Description_EN: A captain wielding energetic sharp claws.
   - Id: 0079
     DisplayName: "\uBE14\uB8E8 \uC0E4\uD06C \uB9C8\uB9B0 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
     DisplayName_EN: Blue Shark Marine Hero Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2098,7 +2025,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -1883212541428779620, guid: f8c8563215bc9ca4f9d450281e573758, type: 3}
     GachaBgSprite: {fileID: 21300000, guid: 1a4c492b8a7cb694697a5e81978d212d, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -1883212541428779620, guid: f8c8563215bc9ca4f9d450281e573758, type: 3}
     - {fileID: 3227689733438217283, guid: 8078375e6d80f1f43932f7f68def9d7f, type: 3}
@@ -2108,17 +2035,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC218\uC911 \uAE30\uC9C0\uB97C \uC9C0\uD0A4\uB294 \uC720\uC120\uD615
-      \uD574\uC591 \uC804\uD22C\uC6A9 \uD788\uC5B4\uB85C\uC785\uB2C8\uB2E4."
+    Description: "\uC218\uC911 \uAE30\uC9C0\uB97C \uC9C0\uD0A4\uB294 \uC720\uC120\uD615"
     Description_EN: A streamlined aquatic combat hero guarding underwater bases.
   - Id: 0080
-    DisplayName: "\uD654\uC774\uD2B8 \uBE14\uB9AC\uC790\uB4DC \uD788\uC5B4\uB85C
-      \uACE0\uC591\uC774"
+    DisplayName: "\uD654\uC774\uD2B8 \uBE14\uB9AC\uC790\uB4DC \uD788\uC5B4\uB85C"
     DisplayName_EN: White Blizzard Hero Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2127,7 +2052,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -7181920425200118495, guid: 7ef6a7b2bccfc0e448724926b6385910, type: 3}
     GachaBgSprite: {fileID: -8572794498208863748, guid: ae7f80eb016cd1c4ab0d17d15190e2e5, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -7181920425200118495, guid: 7ef6a7b2bccfc0e448724926b6385910, type: 3}
     - {fileID: 3531074250694538239, guid: 172f9e48a19e9344fb33a535a3b4d85e, type: 3}
@@ -2137,16 +2062,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC5BC\uC74C\uC758 \uB0C9\uAE30\uB85C \uC801\uB4E4\uC758 \uC6C0\uC9C1\uC784\uC744
-      \uC21C\uAC04 \uC5BC\uB824\uBC84\uB9BD\uB2C8\uB2E4."
+    Description: "\uC5BC\uC74C\uC758 \uB0C9\uAE30\uB85C \uC801\uB4E4\uC758 \uC6C0\uC9C1\uC784\uC744"
     Description_EN: Instantly freezes enemy movements with glacial frost.
   - Id: 0081
     DisplayName: "\uD37C\uD50C \uCD08\uB2A5\uB825 \uD788\uC5B4\uB85C \uACE0\uC591\uC774"
     DisplayName_EN: Purple Psychic Hero Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2155,7 +2079,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 3021209579418386874, guid: 3f0a31a2ea016e04599bb7372d9d6e2a, type: 3}
     GachaBgSprite: {fileID: -8607889242971330648, guid: c44036b11deedce4d85a20ef0ce1d05a, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 3021209579418386874, guid: 3f0a31a2ea016e04599bb7372d9d6e2a, type: 3}
     - {fileID: 4998815248872026260, guid: d51102f9158cb7345b6611e51c79bfdd, type: 3}
@@ -2165,16 +2089,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC5FC\uB3D9\uB825 \uBE54\uC73C\uB85C \uC0AC\uBB3C\uC744 \uC790\uC720\uC790\uC7AC\uB85C
-      \uC6C0\uC9C1\uC774\uB294 \uCD08\uB2A5\uB825\uC790\uC785\uB2C8\uB2E4."
+    Description: "\uC5FC\uB3D9\uB825 \uBE54\uC73C\uB85C \uC0AC\uBB3C\uC744 \uC790\uC720\uC790\uC7AC\uB85C"
     Description_EN: A telekinetic psychic freely moving objects with energy beams.
   - Id: 0082
     DisplayName: "\uACE8\uB4E0 \uB77C\uC774\uC628 \uC0AC\uB839\uAD00 \uACE0\uC591\uC774"
     DisplayName_EN: Golden Lion Commander Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2183,7 +2106,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -95060513583612190, guid: cf4c1ad4d945e3e46934d2c95881b1ed, type: 3}
     GachaBgSprite: {fileID: 5824479594283258006, guid: 6082c96df8667df4dbaf826068627606, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -95060513583612190, guid: cf4c1ad4d945e3e46934d2c95881b1ed, type: 3}
     - {fileID: 6420895899792473767, guid: fb24f7fde4ef87b43b6f388fa3e6da37, type: 3}
@@ -2195,17 +2118,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD669\uAE08 \uC0AC\uC790 \uB85C\uBD07\uC5D0 \uD0D1\uC2B9\uD558\uC5EC
-      \uC804 \uD568\uB300\uB97C \uC9C0\uD718\uD558\uB294 \uC0AC\uB839\uAD00\uC785\uB2C8\uB2E4."
+    Description: "\uD669\uAE08 \uC0AC\uC790 \uB85C\uBD07\uC5D0 \uD0D1\uC2B9\uD558\uC5EC"
     Description_EN: A commander piloting a golden lion robot to lead entire fleets.
   - Id: 0083
-    DisplayName: "\uC2E4\uBC84 \uC2A4\uCE74\uB81B \uC81C\uD2B8 \uD788\uC5B4\uB85C
-      \uACE0\uC591\uC774"
+    DisplayName: "\uC2E4\uBC84 \uC2A4\uCE74\uB81B \uC81C\uD2B8 \uD788\uC5B4\uB85C"
     DisplayName_EN: Silver Scarlet Jet Hero Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2214,7 +2135,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -1279973730320461289, guid: 8dd1513af68b3964f8ceaff165fb169b, type: 3}
     GachaBgSprite: {fileID: -8293952238849642560, guid: 11b1a96f152f1fb47974db0c5ae268ef, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -1279973730320461289, guid: 8dd1513af68b3964f8ceaff165fb169b, type: 3}
     - {fileID: 4897498223892138598, guid: 3271a94c24281ce4c9c009b84fb3258c, type: 3}
@@ -2226,16 +2147,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uCD08\uC74C\uC18D \uC81C\uD2B8 \uBCC0\uC2E0 \uAE30\uCCB4\uB85C
-      \uC6B0\uC8FC \uACF5\uAC04\uC744 \uB204\uBE44\uB294 \uC601\uC6C5\uC785\uB2C8\uB2E4."
+    Description: "\uCD08\uC74C\uC18D \uC81C\uD2B8 \uBCC0\uC2E0 \uAE30\uCCB4\uB85C"
     Description_EN: A hero roaming outer space in a supersonic jet craft.
   - Id: 0084
     DisplayName: "\uD504\uB9AC\uC998 \uC740\uD558 \uCD5C\uAC15\uC790 \uACE0\uC591\uC774"
     DisplayName_EN: Galactic Prism Supreme Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 6
     IsHidden: 0
@@ -2244,7 +2164,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 8381451804636628835, guid: 960cf8c0ae3e17a48a5a0bdda4474ebb, type: 3}
     GachaBgSprite: {fileID: -9014855874333638866, guid: 72572a8f3a97ada49866824176365233, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 8381451804636628835, guid: 960cf8c0ae3e17a48a5a0bdda4474ebb, type: 3}
     - {fileID: -2983826624871252893, guid: 6a6f4c1346aa8af488767eaee525320d, type: 3}
@@ -2256,8 +2176,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC6B0\uC8FC \uD504\uB9AC\uC998 \uC5D0\uB108\uC9C0\uB97C \uC9D1\uC18D\uD558\uC5EC
-      \uC545\uC744 \uBA78\uD558\uB294 \uC740\uD558\uC758 \uC808\uB300 \uC218\uD638\uC790\uC785\uB2C8\uB2E4."
+    Description: "\uC6B0\uC8FC \uD504\uB9AC\uC998 \uC5D0\uB108\uC9C0\uB97C \uC9D1\uC18D\uD558\uC5EC"
     Description_EN: The ultimate guardian focusing prism energy to vanquish evil.
   - Id: 0085
     DisplayName: "\uC2A4\uD300\uD391\uD06C \uC218\uC2B5 \uC120\uC6D0 \uACE0\uC591\uC774"
@@ -2281,8 +2200,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD1B1\uB2C8\uBC14\uD034 \uBAA8\uC790\uB97C \uC4F0\uACE0 \uBE44\uD589\uC120
-      \uAC11\uD310\uC744 \uCCAD\uC18C\uD558\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uD1B1\uB2C8\uBC14\uD034 \uBAA8\uC790\uB97C \uC4F0\uACE0 \uBE44\uD589\uC120"
     Description_EN: Sweeps airship decks wearing a cogwheel hat.
   - Id: 0086
     DisplayName: "\uC11D\uD0C4 \uBCF4\uC77C\uB7EC \uACE0\uC591\uC774"
@@ -2306,8 +2224,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC70\uB300\uD55C \uC99D\uAE30 \uBCF4\uC77C\uB7EC\uC5D0 \uC11D\uD0C4\uC744
-      \uC274 \uC0C8 \uC5C6\uC774 \uB123\uC2B5\uB2C8\uB2E4."
+    Description: "\uAC70\uB300\uD55C \uC99D\uAE30 \uBCF4\uC77C\uB7EC\uC5D0 \uC11D\uD0C4\uC744"
     Description_EN: Shovels coal continuously into giant steam boilers.
   - Id: 0087
     DisplayName: "\uBE44\uD589\uC120 \uB80C\uC988 \uC815\uCC30 \uACE0\uC591\uC774"
@@ -2331,8 +2248,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB9DD\uC6D0\uACBD \uC815\uCC30 \uC7A5\uBE44\uB85C \uAD6C\uB984
-      \uB108\uBA38 \uD56D\uB85C\uB97C \uD655\uC778\uD569\uB2C8\uB2E4."
+    Description: "\uB9DD\uC6D0\uACBD \uC815\uCC30 \uC7A5\uBE44\uB85C \uAD6C\uB984"
     Description_EN: Checks flight routes beyond clouds using telescope gear.
   - Id: 0088
     DisplayName: "\uACE0\uBB3C \uD1B1\uB2C8 \uC218\uC9D1\uAC00 \uACE0\uC591\uC774"
@@ -2356,15 +2272,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAD74\uB7EC\uB2E4\uB2C8\uB294 \uD1B1\uB2C8\uBC14\uD034\uC640 \uAE30\uC5B4\uB97C
-      \uBAA8\uC544 \uC694\uAE34\uD558\uAC8C \uC7AC\uD65C\uC6A9\uD569\uB2C8\uB2E4."
+    Description: "\uAD74\uB7EC\uB2E4\uB2C8\uB294 \uD1B1\uB2C8\uBC14\uD034\uC640 \uAE30\uC5B4\uB97C"
     Description_EN: Gathers rolling gears and cogs for handy recycling.
   - Id: 0089
     DisplayName: "\uAC15\uCCA0 \uC6A9\uC811\uACF5 \uACE0\uC591\uC774"
     DisplayName_EN: Steel Welder Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 7
@@ -2381,15 +2296,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD478\uB978 \uBD88\uAF43\uC744 \uB0B4\uBFDC\uC73C\uBA70 \uBE44\uD589\uC120\uC758
-      \uB3D9\uCCB4\uB97C \uD2BC\uD2BC\uD558\uAC8C \uC6A9\uC811\uD569\uB2C8\uB2E4."
+    Description: "\uD478\uB978 \uBD88\uAF43\uC744 \uB0B4\uBFDC\uC73C\uBA70 \uBE44\uD589\uC120\uC758"
     Description_EN: Firmly welds airship hulls while emitting blue sparks.
   - Id: 0090
     DisplayName: "\uAD6C\uB984 \uCE21\uC815\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Cloud Meterologist Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 7
@@ -2406,15 +2320,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uACE0\uB3C4\uACC4\uC640 \uAE30\uC555\uACC4\uB97C \uB4E4\uACE0
-      \uD558\uB298\uC758 \uAE30\uC0C1\uC744 \uC5F0\uAD6C\uD569\uB2C8\uB2E4."
+    Description: "\uACE0\uB3C4\uACC4\uC640 \uAE30\uC555\uACC4\uB97C \uB4E4\uACE0"
     Description_EN: Studies sky weather with altimeters and barometers.
   - Id: 0091
     DisplayName: "\uD504\uB85C\uD3A0\uB7EC \uACB0\uD22C\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Propeller Duelist Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 7
@@ -2431,15 +2344,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB4F1 \uB4A4\uC758 \uACE0\uC18D \uD504\uB85C\uD3A0\uB7EC\uB85C
-      \uACF5\uC911 \uACB0\uD22C\uB97C \uBC8C\uC774\uB294 \uACE0\uC218\uC785\uB2C8\uB2E4."
+    Description: "\uB4F1 \uB4A4\uC758 \uACE0\uC18D \uD504\uB85C\uD3A0\uB7EC\uB85C"
     Description_EN: A master engaging in aerial dueling with a high-speed propeller.
   - Id: 0092
     DisplayName: "\uC99D\uAE30 \uC704\uC0DD\uBCD1 \uACE0\uC591\uC774"
     DisplayName_EN: Steam Medic Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 7
@@ -2456,16 +2368,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC18C\uB3C5\uC6A9 \uC99D\uAE30 \uD329\uC73C\uB85C \uB300\uC6D0\uB4E4\uC758
-      \uC0C1\uCC98\uB97C \uCE58\uB8CC\uD574 \uC90D\uB2C8\uB2E4."
+    Description: "\uC18C\uB3C5\uC6A9 \uC99D\uAE30 \uD329\uC73C\uB85C \uB300\uC6D0\uB4E4\uC758"
     Description_EN: Treats crew members' wounds using sterilizing steam packs.
   - Id: 0093
     DisplayName: "\uD3ED\uD48D \uCD94\uC801\uC790 \uACE0\uC591\uC774"
     DisplayName_EN: Storm Tracker Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2474,7 +2385,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -5679890424089649838, guid: 6bc65c9395f94834c870b11a40c42038, type: 3}
     GachaBgSprite: {fileID: -7350589806149552241, guid: fc1dff3a049478c47954eb55827e3156, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5679890424089649838, guid: 6bc65c9395f94834c870b11a40c42038, type: 3}
     - {fileID: 7157094979342620569, guid: a7b604d009adf2440bdf6c9b00325d8d, type: 3}
@@ -2484,16 +2395,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC70\uCE5C \uB1CC\uC6B0 \uC18D\uC5D0\uC11C\uB3C4 \uC548\uC804\uD558\uAC8C
-      \uBE44\uD589\uC120\uC744 \uC6B4\uD56D\uD558\uB294 \uBCA0\uD14C\uB791 \uD56D\uD574\uC0AC\uC785\uB2C8\uB2E4."
+    Description: "\uAC70\uCE5C \uB1CC\uC6B0 \uC18D\uC5D0\uC11C\uB3C4 \uC548\uC804\uD558\uAC8C"
     Description_EN: A veteran navigator safely sailing airships through thunderstorms.
   - Id: 0094
     DisplayName: "\uC544\uC774\uC5B8\uC719 \uD30C\uC77C\uB7FF \uACE0\uC591\uC774"
     DisplayName_EN: Ironwing Pilot Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2502,7 +2412,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 126621054215486733, guid: 4877c244486c2f54ebaa9374e481fd5c, type: 3}
     GachaBgSprite: {fileID: 8230528618674687088, guid: e3e3f97ae9e9bcb4095f189349541720, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 126621054215486733, guid: 4877c244486c2f54ebaa9374e481fd5c, type: 3}
     - {fileID: -2642934532812526863, guid: af9e3913a05e8f14685b7cf2abb5fa37, type: 3}
@@ -2512,16 +2422,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC15\uCCA0 \uB0A0\uAC1C \uBE44\uD589\uAE30\uB97C \uD0C0\uACE0
-      \uACF5\uC911 \uBB18\uAE30\uB97C \uBD80\uB9AC\uB294 \uC5D0\uC774\uC2A4\uC785\uB2C8\uB2E4."
+    Description: "\uAC15\uCCA0 \uB0A0\uAC1C \uBE44\uD589\uAE30\uB97C \uD0C0\uACE0"
     Description_EN: An ace performing aerobatics in a steel-winged plane.
   - Id: 0095
     DisplayName: "\uC99D\uAE30\uAE30\uAD00 \uC5D4\uC9C0\uB2C8\uC5B4 \uACE0\uC591\uC774"
     DisplayName_EN: Steam Engine Engineer Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2530,7 +2439,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -8986323077731832687, guid: 5fc878f212cc1af49a0cde74775dd188, type: 3}
     GachaBgSprite: {fileID: -5744219371353007423, guid: 3d8f5f3af570dcf4ab228b19e02d29a6, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -8986323077731832687, guid: 5fc878f212cc1af49a0cde74775dd188, type: 3}
     - {fileID: 9136521388332406852, guid: 5d257fcbf22e4ad43b77731622715722, type: 3}
@@ -2540,17 +2449,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBCF5\uC7A1\uD55C \uC99D\uAE30 \uAE30\uAD00\uC758 \uC6D0\uB9AC\uB97C
-      \uC644\uBCBD\uD558\uAC8C \uD30C\uC545\uD558\uACE0 \uC788\uB294 \uCC9C\uC7AC
-      \uC815\uBE44\uC0AC\uC785\uB2C8\uB2E4."
+    Description: "\uBCF5\uC7A1\uD55C \uC99D\uAE30 \uAE30\uAD00\uC758 \uC6D0\uB9AC\uB97C"
     Description_EN: A genius mechanic understanding complex steam engines perfectly.
   - Id: 0096
     DisplayName: "\uD558\uB298 \uD574\uC801 \uC5EC\uC655 \uACE0\uC591\uC774"
     DisplayName_EN: Sky Pirate Queen Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2559,7 +2466,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 4492807739466007172, guid: b8d54bcb6cb562845bc849442a9cdfa1, type: 3}
     GachaBgSprite: {fileID: -2675013401884964885, guid: e887d0de893063345bc028d098d13e9a, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 4492807739466007172, guid: b8d54bcb6cb562845bc849442a9cdfa1, type: 3}
     - {fileID: 3977158539752809267, guid: 32739673ce163eb4fbd69333bef8148c, type: 3}
@@ -2571,16 +2478,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD558\uB298\uC744 \uB204\uBE44\uBA70 \uBCF4\uBB3C\uC744 \uD0D0\uD558\uB294
-      \uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120\uB2E8\uC758 \uC81C\uC655\uC785\uB2C8\uB2E4."
+    Description: "\uD558\uB298\uC744 \uB204\uBE44\uBA70 \uBCF4\uBB3C\uC744 \uD0D0\uD558\uB294"
     Description_EN: The ruler of steampunk airship fleets seeking sky treasures.
   - Id: 0097
     DisplayName: "\uD669\uAE08 \uBE44\uD589\uC120 \uD568\uC7A5 \uACE0\uC591\uC774"
     DisplayName_EN: Golden Airship Flagship Captain Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2589,7 +2495,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -7811617950008986487, guid: 4619ef94e25b12b4a8d981b1f3503bc4, type: 3}
     GachaBgSprite: {fileID: -1859543322534547546, guid: d869b90f5f61a6147be59b77106a8cd4, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -7811617950008986487, guid: 4619ef94e25b12b4a8d981b1f3503bc4, type: 3}
     - {fileID: -5390662063887211437, guid: 76f66f6894433864b91cec39ec3fbdb2, type: 3}
@@ -2601,16 +2507,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uAC70\uB300\uD55C \uAE30\uD568\uC758 \uD0A4\uB97C \uC7A1\uACE0
-      \uC804\uC124\uC758 \uC720\uD1A0\uD53C\uC544\uB85C \uD5A5\uD558\uB294 \uD568\uC7A5\uC785\uB2C8\uB2E4."
+    Description: "\uAC70\uB300\uD55C \uAE30\uD568\uC758 \uD0A4\uB97C \uC7A1\uACE0"
     Description_EN: A captain steering giant flagships toward legendary Utopias.
   - Id: 0098
     DisplayName: "\uC601\uC6D0\uC758 \uD0DC\uC5FD \uC2DC\uACC4 \uACE0\uC591\uC774"
     DisplayName_EN: Eternal Clockwork Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 7
     IsHidden: 0
@@ -2619,7 +2524,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -8888588470781873622, guid: c8c8ad37d9cd5ff4f990f289b3d82c1b, type: 3}
     GachaBgSprite: {fileID: -360136667454601856, guid: d2918fe883662b244a18426417a4d060, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -8888588470781873622, guid: c8c8ad37d9cd5ff4f990f289b3d82c1b, type: 3}
     - {fileID: 7926093393788060896, guid: d8687e486fd8fdd44b4af74bbccb4979, type: 3}
@@ -2631,9 +2536,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2DC\uAC04\uACFC \uD1B1\uB2C8\uBC14\uD034\uC758 \uCC28\uC6D0\uC744
-      \uB118\uC5B4 \uBA48\uCD94\uC9C0 \uC54A\uB294 \uC2DC\uAC04\uC744 \uC8FC\uAD00\uD558\uB294
-      \uC874\uC7AC\uC785\uB2C8\uB2E4."
+    Description: "\uC2DC\uAC04\uACFC \uD1B1\uB2C8\uBC14\uD034\uC758 \uCC28\uC6D0\uC744"
     Description_EN: Governs unstoppable time across dimensions of gears and clocks.
   - Id: 0099
     DisplayName: "\uBBFC\uB4E4\uB808 \uC528\uC557 \uACE0\uC591\uC774"
@@ -2657,8 +2560,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBBFC\uB4E4\uB808 \uD640\uC528\uB97C \uD6C4 \uBD88\uC5B4 \uBD04\uBC14\uB78C\uC744
-      \uD0C0\uACE0 \uC5EC\uD589\uC744 \uB5A0\uB0A9\uB2C8\uB2E4."
+    Description: "\uBBFC\uB4E4\uB808 \uD640\uC528\uB97C \uD6C4 \uBD88\uC5B4 \uBD04\uBC14\uB78C\uC744"
     Description_EN: Blows dandelion seeds and travels on spring breezes.
   - Id: 0100
     DisplayName: "\uB178\uB780 \uC6B0\uBE44 \uACE0\uC591\uC774"
@@ -2682,8 +2584,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uB178\uB780 \uC7A5\uD654\uC640 \uC6B0\uBE44\uB97C \uC785\uACE0
-      \uBE57\uBB3C \uC6C5\uB369\uC774\uB97C \uC9DD\uC9DD \uB541\uB2C8\uB2E4."
+    Description: "\uB178\uB780 \uC7A5\uD654\uC640 \uC6B0\uBE44\uB97C \uC785\uACE0"
     Description_EN: Paddles through rain puddles wearing yellow boots and raincoat.
   - Id: 0101
     DisplayName: "\uC740\uBE5B \uB370\uC774\uC9C0 \uACE0\uC591\uC774"
@@ -2707,8 +2608,7 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD5A5\uAE30\uB85C\uC6B4 \uB370\uC774\uC9C0 \uAF43\uBC2D\uC5D0\uC11C
-      \uC740\uC740\uD558\uAC8C \uB0AE\uC7A0\uC744 \uCCAD\uD569\uB2C8\uB2E4."
+    Description: "\uD5A5\uAE30\uB85C\uC6B4 \uB370\uC774\uC9C0 \uAF43\uBC2D\uC5D0\uC11C"
     Description_EN: Takes a gentle nap in fragrant daisy fields.
   - Id: 0102
     DisplayName: "\uB2E8\uD48D\uC78E \uACE0\uC591\uC774"
@@ -2732,15 +2632,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBD89\uC740 \uB2E8\uD48D\uC78E \uB099\uC5FD\uC744 \uBAA8\uC544
-      \uB530\uC2A4\uD55C \uBCF4\uAE08\uC790\uB9AC\uB97C \uC9D3\uC2B5\uB2C8\uB2E4."
+    Description: "\uBD89\uC740 \uB2E8\uD48D\uC78E \uB099\uC5FD\uC744 \uBAA8\uC544"
     Description_EN: Builds a warm nest gathering red autumn maple leaves.
   - Id: 0103
     DisplayName: "\uBC9A\uAF43 \uC0BC\uC0C9 \uACE0\uC591\uC774"
     DisplayName_EN: Cherry Blossom Calico Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 8
@@ -2757,15 +2656,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD769\uB0A0\uB9AC\uB294 \uBD84\uD64D\uBE5B \uBC9A\uAF43 \uC78E\uC744
-      \uB9DE\uC73C\uBA70 \uB0AD\uB9CC\uC744 \uC990\uAE41\uB2C8\uB2E4."
+    Description: "\uD769\uB0A0\uB9AC\uB294 \uBD84\uD64D\uBE5B \uBC9A\uAF43 \uC78E\uC744"
     Description_EN: Enjoys romance under fluttering pink cherry blossom petals.
   - Id: 0104
     DisplayName: "\uB0A8\uC0C9 \uBAA9\uAC78\uC774 \uAC80\uC740 \uACE0\uC591\uC774"
     DisplayName_EN: Navy Collar Black Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 8
@@ -2782,15 +2680,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC2E0\uBE44\uB85C\uC6B4 \uD478\uB978 \uBE5B \uBAA9\uAC78\uC774\uB97C
-      \uD55C \uB9E4\uB825\uC801\uC778 \uAC80\uC740 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC2E0\uBE44\uB85C\uC6B4 \uD478\uB978 \uBE5B \uBAA9\uAC78\uC774\uB97C"
     Description_EN: A charming black cat wearing a mysterious blue collar.
   - Id: 0105
     DisplayName: "\uD55C\uC5EC\uB984 \uB1CC\uC6B0 \uACE0\uC591\uC774"
     DisplayName_EN: Midsummer Thunderstorm Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 8
@@ -2807,15 +2704,14 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC18C\uB098\uAE30\uAC00 \uADF8\uCE5C \uB4A4 \uB4E4\uD310\uC744
-      \uAC00\uB85C\uC9C0\uB974\uBA70 \uBB34\uC9C0\uAC1C\uB97C \uCC3E\uC544 \uB098\uC12D\uB2C8\uB2E4."
+    Description: "\uC18C\uB098\uAE30\uAC00 \uADF8\uCE5C \uB4A4 \uB4E4\uD310\uC744"
     Description_EN: Chases rainbows across fields after sudden summer rain showers.
   - Id: 0106
     DisplayName: "\uD55C\uAC00\uC704 \uBCF4\uB984\uB2EC \uACE0\uC591\uC774"
     DisplayName_EN: Chuseok Full Moon Cat
     Rarity: 1
-    BaseWeight: 100
-    ClickGold: 2
+    BaseWeight: 40
+    ClickGold: 5
     ShardValue: 3
     MaxStacks: 6
     SetId: 8
@@ -2832,16 +2728,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD718\uC601\uCCAD \uBC1D\uC740 \uBCF4\uB984\uB2EC \uC544\uB798\uC5D0\uC11C
-      \uC774\uC6C3\uB4E4\uACFC \uB530\uB73B\uD55C \uB9C8\uC74C\uC744 \uB098\uB215\uB2C8\uB2E4."
+    Description: "\uD718\uC601\uCCAD \uBC1D\uC740 \uBCF4\uB984\uB2EC \uC544\uB798\uC5D0\uC11C"
     Description_EN: Shares warm hearts with neighbors under the bright full moon.
   - Id: 0107
     DisplayName: "\uBD04\uBC14\uB78C \uC815\uB839 \uACE0\uC591\uC774"
     DisplayName_EN: Spring Breeze Spirit Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2850,7 +2745,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 4198396302676723282, guid: 358fde23e12713c42a64b3518fae9298, type: 3}
     GachaBgSprite: {fileID: -6773564207505128139, guid: 5e983cf17136f7043b34349b90b38fe9, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 4198396302676723282, guid: 358fde23e12713c42a64b3518fae9298, type: 3}
     - {fileID: -4769197639226508188, guid: 2e213f2379cf7924698127eacb19475d, type: 3}
@@ -2860,17 +2755,16 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD3EC\uADFC\uD55C \uBD04\uBC14\uB78C\uC744 \uBAB0\uACE0 \uC640
-      \uACA8\uC6B8 \uC0B0\uC744 \uAF43\uBC2D\uC73C\uB85C \uBC14\uAFC9\uB2C8\uB2E4."
+    Description: "\uD3EC\uADFC\uD55C \uBD04\uBC14\uB78C\uC744 \uBAB0\uACE0 \uC640"
     Description_EN: Brings cozy spring winds to turn winter mountains into flower
       fields.
   - Id: 0108
     DisplayName: "\uCCAB\uB208 \uC218\uD638 \uACE0\uC591\uC774"
     DisplayName_EN: First Snow Guardian Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2879,7 +2773,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -3794245925632563208, guid: 3ce34cf6164135449b83a94b06e77156, type: 3}
     GachaBgSprite: {fileID: 8292478270386787609, guid: 343ec0bdd22578c49bfdf8604d4b9b8b, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -3794245925632563208, guid: 3ce34cf6164135449b83a94b06e77156, type: 3}
     - {fileID: 397445692831631051, guid: ef2c024d2396a23458f9b57525f489ca, type: 3}
@@ -2889,16 +2783,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC0AC\uBFD0\uC0AC\uBFD0 \uCCAB\uB208 \uC704\uB97C \uAC78\uC73C\uBA70
-      \uB208\uC0AC\uB78C\uC744 \uD568\uAED8 \uB9CC\uB4DC\uB294 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uC0AC\uBFD0\uC0AC\uBFD0 \uCCAB\uB208 \uC704\uB97C \uAC78\uC73C\uBA70"
     Description_EN: Steps softly on first snow and builds snowmen with friends.
   - Id: 0109
     DisplayName: "\uACA8\uC6B8 \uC624\uB85C\uB77C \uC5EC\uC655 \uACE0\uC591\uC774"
     DisplayName_EN: Winter Aurora Queen Cat
     Rarity: 2
-    BaseWeight: 100
-    ClickGold: 5
-    ShardValue: 50
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2907,7 +2800,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -6540746013533115457, guid: a7e74405e7797db43bc14f9af35fc634, type: 3}
     GachaBgSprite: {fileID: 5794316763466627999, guid: 3cd8b1ecf92f65248a282b252cabbbf0, type: 3}
-    BreakthroughVariantStages: 010000000200000003000000
+    BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -6540746013533115457, guid: a7e74405e7797db43bc14f9af35fc634, type: 3}
     - {fileID: -3309000731290728070, guid: 1fb8b66cb1cc69b4bb34fe43e7c439ce, type: 3}
@@ -2917,16 +2810,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBC24\uD558\uB298\uC744 \uC77C\uB801\uC774\uB294 \uC601\uB871\uD55C
-      \uC624\uB85C\uB77C \uC7A5\uB9C9\uC744 \uB450\uB974\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+    Description: "\uBC24\uD558\uB298\uC744 \uC77C\uB801\uC774\uB294 \uC601\uB871\uD55C"
     Description_EN: Draped in a radiant aurora veil shimmering across night skies.
   - Id: 0110
     DisplayName: "\uB2E8\uD48D \uC0B0\uB9E5 \uC2E0\uB839 \uACE0\uC591\uC774"
     DisplayName_EN: Maple Mountain Spirit Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2935,7 +2827,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: 3726173105481520280, guid: 729cad227c98c5d488cfc622c1a3adc4, type: 3}
     GachaBgSprite: {fileID: -7737385165803744938, guid: c51c45addf114884a823a1587123c80b, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 3726173105481520280, guid: 729cad227c98c5d488cfc622c1a3adc4, type: 3}
     - {fileID: 3678296143694745119, guid: d2a4bb8d78e7a684aa8513877ecb93db, type: 3}
@@ -2947,17 +2839,16 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uC628 \uC0B0\uC744 \uBD88\uD0C0\uB294 \uBD89\uC740\uBE5B \uB2E8\uD48D\uC73C\uB85C
-      \uC7A5\uC5C4\uD558\uAC8C \uB2E8\uC7A5\uD558\uB294 \uC2E0\uB839\uC785\uB2C8\uB2E4."
+    Description: "\uC628 \uC0B0\uC744 \uBD88\uD0C0\uB294 \uBD89\uC740\uBE5B \uB2E8\uD48D\uC73C\uB85C"
     Description_EN: A deity solemnly decorating whole mountains in burning red autumn
       colors.
   - Id: 0111
     DisplayName: "\uC601\uC6D0\uC758 \uD558\uB298 \uC815\uB839 \uACE0\uC591\uC774"
     DisplayName_EN: Eternal Sky Spirit Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2966,7 +2857,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -1328007361483942785, guid: 680bb5b61ee34d74980a7107f1a4c6be, type: 3}
     GachaBgSprite: {fileID: 1586626842165369715, guid: 386fa475e4d27f14b82805bdfd316fc6, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -1328007361483942785, guid: 680bb5b61ee34d74980a7107f1a4c6be, type: 3}
     - {fileID: 1597032757815629535, guid: 11f9fe58054345648b78b2683afde5b0, type: 3}
@@ -2978,16 +2869,15 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD478\uB978 \uD558\uB298\uC758 \uAE30\uC6B4\uC744 \uB2F4\uC544
-      \uC138\uC0C1\uC758 \uC808\uAE30\uB97C \uD3C9\uD654\uB86D\uAC8C \uC21C\uD658\uC2DC\uD0B5\uB2C8\uB2E4."
+    Description: "\uD478\uB978 \uD558\uB298\uC758 \uAE30\uC6B4\uC744 \uB2F4\uC544"
     Description_EN: Holds blue sky energy to peacefully cycle natural seasons.
   - Id: 0112
     DisplayName: "\uC0AC\uACC4\uC808 \uC131\uC218 \uACE0\uC591\uC774"
     DisplayName_EN: Four Seasons Sacred Beast Cat
     Rarity: 3
-    BaseWeight: 100
-    ClickGold: 10
-    ShardValue: 100
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
     MaxStacks: 6
     SetId: 8
     IsHidden: 0
@@ -2996,7 +2886,7 @@ MonoBehaviour:
     ShopPrice: 1000
     CardSprite: {fileID: -4089136233936145731, guid: 231570e2d1410da4f9ab4c9abd6adea1, type: 3}
     GachaBgSprite: {fileID: -8402893129130656605, guid: 1c72cd84b80d3494ea493ce1b2a384a3, type: 3}
-    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -4089136233936145731, guid: 231570e2d1410da4f9ab4c9abd6adea1, type: 3}
     - {fileID: 1375190798644922964, guid: c49110b75dcc1cd4dad78d0fff81fa09, type: 3}
@@ -3008,7 +2898,1412 @@ MonoBehaviour:
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uBD04\xB7\uC5EC\uB984\xB7\uAC00\uC744\xB7\uACA8\uC6B8 \uC0BC\uB77C\uB9CC\uC0C1\uC758
-      \uC790\uC5F0\uC744 \uC9C0\uD0A4\uB294 \uC22D\uACE0\uD55C \uC131\uC218 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description: "\uBD04\xB7\uC5EC\uB984\xB7\uAC00\uC744\xB7\uACA8\uC6B8 \uC0BC\uB77C\uB9CC\uC0C1\uC758"
     Description_EN: A noble beast cat protecting nature across spring, summer, autumn,
       and winter.
+  - Id: 0113
+    DisplayName: Ink Drop Cat
+    DisplayName_EN: Ink Drop Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
+    GachaBgSprite: {fileID: 6102059257301845916, guid: 6eb9216e34b9d1142ad7d5afa8ea6131, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ink Drop Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ink Drop Cat cat.
+  - Id: 0114
+    DisplayName: Bookmark Cat
+    DisplayName_EN: Bookmark Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
+    GachaBgSprite: {fileID: 8951662480222509254, guid: 64ad1b3b5838e404eaab0ef28da202d0, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Bookmark Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Bookmark Cat cat.
+  - Id: 0115
+    DisplayName: Note Book Cat
+    DisplayName_EN: Note Book Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
+    GachaBgSprite: {fileID: -7393962280575117748, guid: 33fc6e5abac10514582bd7b1bf133d86, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Note Book Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Note Book Cat cat.
+  - Id: 0116
+    DisplayName: Candle Cat
+    DisplayName_EN: Candle Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
+    GachaBgSprite: {fileID: 836583232162010164, guid: a32ab110d069b11418f724163eaf0804, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Candle Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Candle Cat cat.
+  - Id: 0117
+    DisplayName: Silver Scholar Cat
+    DisplayName_EN: Silver Scholar Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
+    GachaBgSprite: {fileID: 2455325891033829186, guid: 610d13dd57f5de54595ff479ebe0f7ce, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Silver Scholar Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Silver Scholar Cat cat.
+  - Id: 0118
+    DisplayName: Crescent Moon Cat
+    DisplayName_EN: Crescent Moon Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
+    GachaBgSprite: {fileID: 21300000, guid: 48dfc0b361c393e4ca8675b6dd21a12b, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Crescent Moon Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Crescent Moon Cat cat.
+  - Id: 0119
+    DisplayName: Ancient Rune Book Cat
+    DisplayName_EN: Ancient Rune Book Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
+    GachaBgSprite: {fileID: -2176086600064815947, guid: 90f42ec1d0e478546b26269f300a0252, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ancient Rune Book Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ancient Rune Book Cat cat.
+  - Id: 0120
+    DisplayName: Spectacled Calico Librarian Cat
+    DisplayName_EN: Spectacled Calico Librarian Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
+    GachaBgSprite: {fileID: 4234786471563235213, guid: 78b8e001a0896304786b3b3778e6a502, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Spectacled Calico Librarian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Spectacled Calico Librarian Cat cat.
+  - Id: 0121
+    DisplayName: Starlight Apprentice Cat
+    DisplayName_EN: Starlight Apprentice Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8865067329474519633, guid: afb088b4b7a9a12cdb5896b7a79fbda8, type: 3}
+    GachaBgSprite: {fileID: 7692968484172225212, guid: 26ae93f48f3f8524d9a84a2f2746ce6e, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -8865067329474519633, guid: afb088b4b7a9a12cdb5896b7a79fbda8, type: 3}
+    - {fileID: -7558056042902195562, guid: 004e701891f78d792b04fa0a4fd6ae5f, type: 3}
+    - {fileID: -1641063795509877386, guid: da0b37b4d6e270f1fa75775c87704536, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Starlight Apprentice Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Starlight Apprentice Cat cat.
+  - Id: 0122
+    DisplayName: Purple Cloak Galaxy Cat
+    DisplayName_EN: Purple Cloak Galaxy Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1919444770414735937, guid: 7652475b2e106239684f19ceb614d3f2, type: 3}
+    GachaBgSprite: {fileID: -8975509540399521506, guid: 74c501d2d27d49945aeed6d50d9a231e, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -1919444770414735937, guid: 7652475b2e106239684f19ceb614d3f2, type: 3}
+    - {fileID: -2177002462646536693, guid: 6f6067b3b693cf896bddcabf1fdef5e3, type: 3}
+    - {fileID: -8677512579612006488, guid: a7d1595b2cd5bdcc28a6501567534f09, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Purple Cloak Galaxy Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Purple Cloak Galaxy Cat cat.
+  - Id: 0123
+    DisplayName: Clockwork Abyssinian Cat
+    DisplayName_EN: Clockwork Abyssinian Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7239469036725067523, guid: fd4979d82edf4bb9ca7cd91ece103f0d, type: 3}
+    GachaBgSprite: {fileID: 8980451151150265172, guid: aa78a8d2f31a4eb43bf7e8b3a9f4f78e, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 7239469036725067523, guid: fd4979d82edf4bb9ca7cd91ece103f0d, type: 3}
+    - {fileID: 272401816655185367, guid: 14643f1e07ce49dd984ff32d3837b8a9, type: 3}
+    - {fileID: 1130978830652198355, guid: ddfe131e7e86cbb95aa5c06bc403ad77, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Clockwork Abyssinian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Clockwork Abyssinian Cat cat.
+  - Id: 0124
+    DisplayName: Dark Grimoire Lord Cat
+    DisplayName_EN: Dark Grimoire Lord Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5490619166591414022, guid: d667bf915eed8716d9f7375bf616d831, type: 3}
+    GachaBgSprite: {fileID: -321869034922575627, guid: c2ac76bea9ecaf042b5a8c9048be82c3, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -5490619166591414022, guid: d667bf915eed8716d9f7375bf616d831, type: 3}
+    - {fileID: 4008361123148321527, guid: d653701de565f2671924c8856b6d2702, type: 3}
+    - {fileID: -4938822638006107188, guid: 8832638c67107a4c9b9470ef9e7f6784, type: 3}
+    - {fileID: 6115094676178696346, guid: c07b5213feca57dc9bc79f9005b0fc6f, type: 3}
+    - {fileID: -4714538132307618601, guid: 25f5e4ae0248c3a8aa936e84d2e2df6c, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Dark Grimoire Lord Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Dark Grimoire Lord Cat cat.
+  - Id: 0125
+    DisplayName: Space Library Dragon Cat
+    DisplayName_EN: Space Library Dragon Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2192662919297186954, guid: f6d41de511fd2a0368992f943da51566, type: 3}
+    GachaBgSprite: {fileID: -4886190266801598155, guid: 3e0912b1fccc0894b8f0c0a20c344eff, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -2192662919297186954, guid: f6d41de511fd2a0368992f943da51566, type: 3}
+    - {fileID: 3474735003793804722, guid: 349df32b242c34495a740a940cb0bc5a, type: 3}
+    - {fileID: 1736559225214916770, guid: bfb2279e545b9a36ab94d782e72d515d, type: 3}
+    - {fileID: -97233179094238315, guid: 4d6104da4ad9d638aa42f914588826a3, type: 3}
+    - {fileID: -1858618927481784208, guid: bafc9379550e65871832650ceedbe5ee, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Space Library Dragon Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Space Library Dragon Cat cat.
+  - Id: 0126
+    DisplayName: Akashic Oracle Cat
+    DisplayName_EN: Akashic Oracle Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3844901709600984805, guid: 9137347bce978d87d9511e902086b421, type: 3}
+    GachaBgSprite: {fileID: 3350966177286309358, guid: b1c5bee6d2fa12f41919bda4829591c7, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 3844901709600984805, guid: 9137347bce978d87d9511e902086b421, type: 3}
+    - {fileID: -6129917210002193284, guid: 9ea0c3ebbd310950987a8d40864da9d4, type: 3}
+    - {fileID: 4487426814865851646, guid: 074ffa31513342697ba21075bad83acc, type: 3}
+    - {fileID: -204889136741261853, guid: b3ce3c0adafd8c711bb12c947390cd99, type: 3}
+    - {fileID: -8780166578137770187, guid: 30c81c621ca05a7779e85ee2d8fa9075, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Akashic Oracle Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Akashic Oracle Cat cat.
+  - Id: 0127
+    DisplayName: Little Navigation Map Pirate Cat
+    DisplayName_EN: Little Navigation Map Pirate Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
+    GachaBgSprite: {fileID: 557590265199117858, guid: 6e208ab8f40231e4a8644d8bccbdfddd, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Little Navigation Map Pirate Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Little Navigation Map Pirate Cat cat.
+  - Id: 0128
+    DisplayName: Deck Scrubbing Rookie Pirate Cat
+    DisplayName_EN: Deck Scrubbing Rookie Pirate Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
+    GachaBgSprite: {fileID: 2890928977022477308, guid: 9e6f8a903c812624ab29cde4ea6a9503, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Deck Scrubbing Rookie Pirate Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Deck Scrubbing Rookie Pirate Cat cat.
+  - Id: 0129
+    DisplayName: Little Map Navigator Cat
+    DisplayName_EN: Little Map Navigator Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
+    GachaBgSprite: {fileID: -1739285354996992582, guid: 9ae19847adab9cf4da90a67a2e64bd5a, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Little Map Navigator Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Little Map Navigator Cat cat.
+  - Id: 0130
+    DisplayName: Pirate Ship Cook Cat
+    DisplayName_EN: Pirate Ship Cook Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
+    GachaBgSprite: {fileID: 9091889254303718394, guid: bbb264882f2609c428aaa6887104fc70, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Pirate Ship Cook Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Pirate Ship Cook Cat cat.
+  - Id: 0131
+    DisplayName: Powder Keg Courier Cat
+    DisplayName_EN: Powder Keg Courier Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
+    GachaBgSprite: {fileID: 5654900975129462605, guid: ca5675625733d704aada336b568b07a9, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Powder Keg Courier Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Powder Keg Courier Cat cat.
+  - Id: 0132
+    DisplayName: Storm Mast Lookout Cat
+    DisplayName_EN: Storm Mast Lookout Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
+    GachaBgSprite: {fileID: 7639818093751248264, guid: db23bdd8cac7d0a4b94b624123111351, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Storm Mast Lookout Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Storm Mast Lookout Cat cat.
+  - Id: 0133
+    DisplayName: Sunken Treasure Calico Diver Cat
+    DisplayName_EN: Sunken Treasure Calico Diver Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
+    GachaBgSprite: {fileID: -7082848351686739039, guid: d8d5820722124e94587822107b4785a5, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Sunken Treasure Calico Diver Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Sunken Treasure Calico Diver Cat cat.
+  - Id: 0134
+    DisplayName: Cannon Craftsman Pirate Cat
+    DisplayName_EN: Cannon Craftsman Pirate Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
+    GachaBgSprite: {fileID: -7890952956052229216, guid: b1318e595db270d4fa25003a1787280a, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Cannon Craftsman Pirate Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Cannon Craftsman Pirate Cat cat.
+  - Id: 0135
+    DisplayName: Pirate Violinist Cat
+    DisplayName_EN: Pirate Violinist Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
+    GachaBgSprite: {fileID: 7645169953968588111, guid: 85c181e12aa60b14dab47999b237c12e, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Pirate Violinist Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Pirate Violinist Cat cat.
+  - Id: 0136
+    DisplayName: Ghost Navigator Cat
+    DisplayName_EN: Ghost Navigator Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6849194206482147940, guid: 7f351055486e4c7c8ba5f6dc81d94f9d, type: 3}
+    GachaBgSprite: {fileID: -3526187301002766734, guid: 210e6ccc64207bf44b6a779873ac0e67, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 6849194206482147940, guid: 7f351055486e4c7c8ba5f6dc81d94f9d, type: 3}
+    - {fileID: -1427883343524102295, guid: a33f5368eb5d526689bfa21d870ab4ca, type: 3}
+    - {fileID: -5140221285717622349, guid: 8ea3ec58ac78e0dc8875a7b4f3673cab, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ghost Navigator Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ghost Navigator Cat cat.
+  - Id: 0137
+    DisplayName: Crimson Cutlass Duelist Cat
+    DisplayName_EN: Crimson Cutlass Duelist Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7970985495286462922, guid: 5f20e2e4d2ce7a7f6852efe68e4dd2fc, type: 3}
+    GachaBgSprite: {fileID: 293660233328448151, guid: aec168f7a17f42f4c8c71e3c18154cac, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 7970985495286462922, guid: 5f20e2e4d2ce7a7f6852efe68e4dd2fc, type: 3}
+    - {fileID: 3939660558048842164, guid: 25e5a21fed2042939a2c966a8d8c2470, type: 3}
+    - {fileID: 8156397075585544577, guid: caed934a70a021db68de085562be5944, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Crimson Cutlass Duelist Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Crimson Cutlass Duelist Cat cat.
+  - Id: 0138
+    DisplayName: Ghost Fleet Navigator Cat
+    DisplayName_EN: Ghost Fleet Navigator Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8301140656049028278, guid: 152010734c4027cde8eea901fc3c5791, type: 3}
+    GachaBgSprite: {fileID: 3446536341268842896, guid: a0318e3fa9f13e0488a94b4c9e47fe52, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -8301140656049028278, guid: 152010734c4027cde8eea901fc3c5791, type: 3}
+    - {fileID: 336386371893004268, guid: a395956211d214a69845c6da01190ba1, type: 3}
+    - {fileID: -4749759264763778899, guid: 5fb8cc6f89916859dbdd38a5caff524c, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ghost Fleet Navigator Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ghost Fleet Navigator Cat cat.
+  - Id: 0139
+    DisplayName: Kraken Cat Lord
+    DisplayName_EN: Kraken Cat Lord
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 10
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4586573144910586291, guid: cad82440603f333bca373417dcd2590a, type: 3}
+    GachaBgSprite: {fileID: 6992567469191671373, guid: be82da2f3df41984282208e7b45d78cb, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 4586573144910586291, guid: cad82440603f333bca373417dcd2590a, type: 3}
+    - {fileID: -6134044146856419297, guid: e9bfaa0be458d2c94bd5f96ffedfd6ff, type: 3}
+    - {fileID: 4416220019922942620, guid: 79f9cf8133e6b08ebbcf574ef97e7647, type: 3}
+    - {fileID: -5886086298742286499, guid: 3aecb988573525b3086ef8071dcaf9b3, type: 3}
+    - {fileID: 7016594582836310699, guid: 7d3972d6dfca744c39fe5fbc85b2acd0, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Kraken Cat Lord \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Kraken Cat Lord cat.
+  - Id: 0140
+    DisplayName: Firewood Gatherer Cat
+    DisplayName_EN: Firewood Gatherer Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
+    GachaBgSprite: {fileID: -4494982657345629481, guid: c6986fefbc530ae4caf62303016511a4, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Firewood Gatherer Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Firewood Gatherer Cat cat.
+  - Id: 0141
+    DisplayName: Snowfield Scout Cat
+    DisplayName_EN: Snowfield Scout Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
+    GachaBgSprite: {fileID: -8582238694525330430, guid: 4f30a76bd3383d841902c42b8e1bb393, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Snowfield Scout Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Snowfield Scout Cat cat.
+  - Id: 0142
+    DisplayName: Ice Fishing Cat
+    DisplayName_EN: Ice Fishing Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
+    GachaBgSprite: {fileID: -1067999991837148762, guid: 091db09370d6266498c307ac52e20d16, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ice Fishing Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ice Fishing Cat cat.
+  - Id: 0143
+    DisplayName: Night Raven Cloak Cat
+    DisplayName_EN: Night Raven Cloak Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
+    GachaBgSprite: {fileID: -1507154118534954527, guid: 3772b42a94a402b4580d8a1a6ec865ac, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Night Raven Cloak Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Night Raven Cloak Cat cat.
+  - Id: 0144
+    DisplayName: Snow Leopard Bone Hunter Cat
+    DisplayName_EN: Snow Leopard Bone Hunter Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
+    GachaBgSprite: {fileID: 3603820152395615872, guid: 111ccdabb142f5540b394d190a1df8b2, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Snow Leopard Bone Hunter Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Snow Leopard Bone Hunter Cat cat.
+  - Id: 0145
+    DisplayName: Tundra Herbalist Cat
+    DisplayName_EN: Tundra Herbalist Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
+    GachaBgSprite: {fileID: 4115465952107050296, guid: a066ce02707f5924b8d6b51e0ee31b86, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Tundra Herbalist Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Tundra Herbalist Cat cat.
+  - Id: 0146
+    DisplayName: Sled Guide Cat
+    DisplayName_EN: Sled Guide Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
+    GachaBgSprite: {fileID: -8839361690942130088, guid: 2fb0578957e76d74c8d2eb7040fa9768, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Sled Guide Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Sled Guide Cat cat.
+  - Id: 0147
+    DisplayName: Saber Fang Cat
+    DisplayName_EN: Saber Fang Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
+    GachaBgSprite: {fileID: 4296589735984321906, guid: 6b29ed822153398408ca742636c69a3c, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Saber Fang Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Saber Fang Cat cat.
+  - Id: 0148
+    DisplayName: Glacier Sword Guardian Cat
+    DisplayName_EN: Glacier Sword Guardian Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -6447672365172123936, guid: 3ff6bc0b5e2eb320197c46e572d3e76e, type: 3}
+    GachaBgSprite: {fileID: -2137103858649107318, guid: d6a4255d2f0ddab41a316be92affd8e8, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -6447672365172123936, guid: 3ff6bc0b5e2eb320197c46e572d3e76e, type: 3}
+    - {fileID: -4391780929366174099, guid: ce2612d076580d0d3a880f8af9f007fb, type: 3}
+    - {fileID: 7064812004572647735, guid: f9c2049bd6d7fede3a54671c5a6a54ef, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Glacier Sword Guardian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Glacier Sword Guardian Cat cat.
+  - Id: 0149
+    DisplayName: Frost Hunter Cat
+    DisplayName_EN: Frost Hunter Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1703009385497063897, guid: 62949d645805b40d2be4163a574a2c07, type: 3}
+    GachaBgSprite: {fileID: -1615167542915599335, guid: c6db1417f168b0d4fbd37bb9ad2cc437, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 1703009385497063897, guid: 62949d645805b40d2be4163a574a2c07, type: 3}
+    - {fileID: -2077464519576066076, guid: 2334edcf45beb967bab222fd6fdd6aab, type: 3}
+    - {fileID: -6099972990419091258, guid: 34edf64b1d2470d19ab40b3d485757f5, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Frost Hunter Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Frost Hunter Cat cat.
+  - Id: 0150
+    DisplayName: Glacier Shaman Cat
+    DisplayName_EN: Glacier Shaman Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 751930741060082301, guid: fe52225905ce412b8b21ea3ecd283871, type: 3}
+    GachaBgSprite: {fileID: -3862754176544530486, guid: 9b6763189eec9da47ad926881b354fdd, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 751930741060082301, guid: fe52225905ce412b8b21ea3ecd283871, type: 3}
+    - {fileID: -6725690860390486340, guid: e90da0393c8d96684a727c512a2d95e1, type: 3}
+    - {fileID: 877035343485320439, guid: 7df721bd6bb05731bb4f3af3fedffbfe, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Glacier Shaman Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Glacier Shaman Cat cat.
+  - Id: 0151
+    DisplayName: Mammoth Cat Emperor
+    DisplayName_EN: Mammoth Cat Emperor
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -465105690550796323, guid: 80bcb17a6ec488c10a368ac3fd1b8ec2, type: 3}
+    GachaBgSprite: {fileID: 4496541406792713470, guid: a861d051cd935244cbc35fb3aa598e93, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -465105690550796323, guid: 80bcb17a6ec488c10a368ac3fd1b8ec2, type: 3}
+    - {fileID: -2174320799021218641, guid: 1cc72d551e5e36b0e863da47dc712ad1, type: 3}
+    - {fileID: -231215048705971241, guid: cc4505bdaaee80fc38aae02d033df1fd, type: 3}
+    - {fileID: 7442576520876429702, guid: b2a00b689e9d54e00923ab9a402fd188, type: 3}
+    - {fileID: 2383279383575152934, guid: e705afe89da505ea1b5d006d7e09ae1b, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Mammoth Cat Emperor \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Mammoth Cat Emperor cat.
+  - Id: 0152
+    DisplayName: Ice Dragon Guardian Cat
+    DisplayName_EN: Ice Dragon Guardian Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3456463445416911797, guid: 40f5fcde6f65561c6bcba111a1b7294f, type: 3}
+    GachaBgSprite: {fileID: -3787155894860865394, guid: 2a9ae33cf7ba24d48b7d6ff0ea869969, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -3456463445416911797, guid: 40f5fcde6f65561c6bcba111a1b7294f, type: 3}
+    - {fileID: -1056014284193920019, guid: 3fd223365851b088eb1f63c49c91b1b2, type: 3}
+    - {fileID: -5166885745946190411, guid: ce4f4b9d26573c905acc182fd6657a10, type: 3}
+    - {fileID: 1286878692872044900, guid: 121dacf7fd3d0bd68aed8a19e46e78aa, type: 3}
+    - {fileID: 64194487038872942, guid: 6e96de38f6c78286c96b6afb0f2868a2, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Ice Dragon Guardian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Ice Dragon Guardian Cat cat.
+  - Id: 0153
+    DisplayName: Snowfield Cat Queen
+    DisplayName_EN: Snowfield Cat Queen
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 11
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2600618944019023201, guid: f1c7cc2cd2bac29e280f6b3660f693d7, type: 3}
+    GachaBgSprite: {fileID: 5194407171216233907, guid: 588ce5146f94c2046bc0027e15c11ab1, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -2600618944019023201, guid: f1c7cc2cd2bac29e280f6b3660f693d7, type: 3}
+    - {fileID: -7501806171509697042, guid: a38c4bcd2456d4059adbba485e3bc523, type: 3}
+    - {fileID: -5819459247285404820, guid: c8853d841a34f837c8af41aa037b00d7, type: 3}
+    - {fileID: -1555126228566369276, guid: 42795cfa63b5e56aba1179bae1a8653d, type: 3}
+    - {fileID: 3203695224216268598, guid: 7eb59a05f2d3a7402886577180614107, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Snowfield Cat Queen \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Snowfield Cat Queen cat.
+  - Id: 0154
+    DisplayName: Cyber Street Scavenger Cat
+    DisplayName_EN: Cyber Street Scavenger Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
+    GachaBgSprite: {fileID: -4494982657345629481, guid: 78c53cb54d5e9fd46945319b060dd615, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Cyber Street Scavenger Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Cyber Street Scavenger Cat cat.
+  - Id: 0155
+    DisplayName: Battery Pendant Cat
+    DisplayName_EN: Battery Pendant Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
+    GachaBgSprite: {fileID: -8582238694525330430, guid: c9c8e69e15cd0c04592a715ba4c939f2, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Battery Pendant Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Battery Pendant Cat cat.
+  - Id: 0156
+    DisplayName: Data Visor Tuxedo Cat
+    DisplayName_EN: Data Visor Tuxedo Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
+    GachaBgSprite: {fileID: -1067999991837148762, guid: 9fa6057c3ee41254da14c678884b0ed6, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Data Visor Tuxedo Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Data Visor Tuxedo Cat cat.
+  - Id: 0157
+    DisplayName: Rookie Neon Courier Cat
+    DisplayName_EN: Rookie Neon Courier Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
+    GachaBgSprite: {fileID: -1507154118534954527, guid: 4dbebc8a61199974780ba1d3720f140f, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Rookie Neon Courier Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Rookie Neon Courier Cat cat.
+  - Id: 0158
+    DisplayName: Hologram Dj Cat
+    DisplayName_EN: Hologram Dj Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
+    GachaBgSprite: {fileID: 3603820152395615872, guid: 9b48261675664b443bfbbdef685591e8, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Hologram Dj Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Hologram Dj Cat cat.
+  - Id: 0159
+    DisplayName: Retro Hacker Cat
+    DisplayName_EN: Retro Hacker Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
+    GachaBgSprite: {fileID: 4115465952107050296, guid: 46b3b3b9a7108f14494b4db7e0de4543, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Retro Hacker Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Retro Hacker Cat cat.
+  - Id: 0160
+    DisplayName: Neon Medical Cat
+    DisplayName_EN: Neon Medical Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
+    GachaBgSprite: {fileID: -8839361690942130088, guid: 58b28c69aca969b4aaef269c30a517b7, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Neon Medical Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Neon Medical Cat cat.
+  - Id: 0161
+    DisplayName: Cyber Racer Cat
+    DisplayName_EN: Cyber Racer Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
+    GachaBgSprite: {fileID: 4296589735984321906, guid: 658bdb005107716428cd5210d46bb29d, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Cyber Racer Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Cyber Racer Cat cat.
+  - Id: 0162
+    DisplayName: Quantum Signal Hacker Cat
+    DisplayName_EN: Quantum Signal Hacker Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
+    GachaBgSprite: {fileID: -2137103858649107318, guid: d6b81260696ccea41ac18fe284265711, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
+    - {fileID: -2637783978601447673, guid: 1eec3bd028b5ee62fa77af38615911ff, type: 3}
+    - {fileID: 2819097834325262549, guid: 3d8864c629cf02836b3b73863022dfb1, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Quantum Signal Hacker Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Quantum Signal Hacker Cat cat.
+  - Id: 0163
+    DisplayName: Memory Core Persian Cat
+    DisplayName_EN: Memory Core Persian Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
+    GachaBgSprite: {fileID: -1615167542915599335, guid: e17f13aa7176a3841965a30e580d7e59, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
+    - {fileID: 1981524844343953069, guid: 78b187134a3f729b0a63e193496c425b, type: 3}
+    - {fileID: -4480507050534076270, guid: 49751744d663d42c2b5b82a05c2cba99, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Memory Core Persian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Memory Core Persian Cat cat.
+  - Id: 0164
+    DisplayName: Plasma Express Courier Cat
+    DisplayName_EN: Plasma Express Courier Cat
+    Rarity: 2
+    BaseWeight: 15
+    ClickGold: 25
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
+    GachaBgSprite: {fileID: -3862754176544530486, guid: faf81f2391e47644fbf2f802e24d81a9, type: 3}
+    BreakthroughVariantStages: f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
+    - {fileID: 4211661409612569461, guid: db03fa464922e427099c78e4d4c5b276, type: 3}
+    - {fileID: -5754587073123537175, guid: dc2ac1a7895754979aef8f90fe20c043, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Plasma Express Courier Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Plasma Express Courier Cat cat.
+  - Id: 0165
+    DisplayName: Neon Shogun Cat
+    DisplayName_EN: Neon Shogun Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
+    GachaBgSprite: {fileID: 4496541406792713470, guid: 993847c7b93d8a74e855c266077dbe62, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
+    - {fileID: 8452598481600743815, guid: 5f47176093a07dbe687f045dda65c84c, type: 3}
+    - {fileID: 1831226033772552862, guid: 51447d944d9020a15953828c3cb27be6, type: 3}
+    - {fileID: 1256891338148001751, guid: ced33bd972bc5f79196cefe1e3f10c9c, type: 3}
+    - {fileID: -1794743464737851464, guid: 7b7089dc0d14d04fe8fdb2c1a5a0bd5d, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Neon Shogun Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Neon Shogun Cat cat.
+  - Id: 0166
+    DisplayName: Quantum Pop Sovereign Cat
+    DisplayName_EN: Quantum Pop Sovereign Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
+    GachaBgSprite: {fileID: -3787155894860865394, guid: ae06f2e2764a9e547ab2f6e63b76fda6, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
+    - {fileID: -3460218439442003154, guid: 1139f9947b88ed971b3346084a0ade65, type: 3}
+    - {fileID: -1834006970093311328, guid: 376bf53ef91094e6c9c431fcadd30c4f, type: 3}
+    - {fileID: 3057223243048076107, guid: f11e23aef30415cc58687799c165cac6, type: 3}
+    - {fileID: 4124540962526643392, guid: f887be115329df751a17f927895dd8c7, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Quantum Pop Sovereign Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Quantum Pop Sovereign Cat cat.
+  - Id: 0167
+    DisplayName: Megacity Guardian Titan Cat
+    DisplayName_EN: Megacity Guardian Titan Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 50
+    MaxStacks: 6
+    SetId: 12
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
+    GachaBgSprite: {fileID: 5194407171216233907, guid: 52f15f2120c2b1245a06686d50f855a1, type: 3}
+    BreakthroughVariantStages: f0f0f0f0f0f0f0f0
+    BreakthroughSprites:
+    - {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
+    - {fileID: 5246430892439416407, guid: 36e64a766c271c7149c9eb50c6f19dc9, type: 3}
+    - {fileID: -1183426981835718628, guid: 2edaa48df63a104c78bdca531208ad16, type: 3}
+    - {fileID: -8823024264788829102, guid: 544127cef78c1a52faf528676d20ce3c, type: 3}
+    - {fileID: 8367650896054130851, guid: 2d6f04fb57339849ca97290fa1f2bc35, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Megacity Guardian Titan Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Megacity Guardian Titan Cat cat.

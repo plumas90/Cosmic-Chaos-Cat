@@ -116,6 +116,11 @@ namespace CosmicChaosCat
                 EnsureShopButtonBuilt();
                 EnsureCollectionButtonBuilt();
 
+                if (FindObjectOfType<CardListTestButton>(true) == null)
+                {
+                    var testGO = new GameObject("CardListTestAutoWire", typeof(CardListTestButton));
+                }
+
                 Debug.Log($"[GameHud] Panels: gacha={gachaPanel!=null}, ency={encyclopediaPanel!=null}, shop={shopPanel!=null}, mgr={gameManager!=null}");
 
                 SetPanelActive(gachaPanel,         false);
