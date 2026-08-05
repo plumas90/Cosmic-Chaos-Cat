@@ -12,6 +12,7 @@ namespace CosmicChaosCat
     {
         [SerializeField] private GameManager gameManager;
         [SerializeField] private ClickEffectPlayer effectPlayer;
+        [SerializeField] private Transform clickTargetTransform;
 
         public event Action Clicked;
 
@@ -19,6 +20,13 @@ namespace CosmicChaosCat
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (effectPlayer == null) effectPlayer = FindObjectOfType<ClickEffectPlayer>(true);
+            if (clickTargetTransform == null) clickTargetTransform = transform;
+
+            if (effectPlayer != null && clickTargetTransform != null)
+            {
+                effectPlayer.CardTransform = clickTargetTransform;
+            }
+
             if (GetComponent<CardImageDisplay>() == null)
                 gameObject.AddComponent<CardImageDisplay>();
 

@@ -48,10 +48,15 @@ namespace CosmicChaosCat
 
         private void OnEnable()
         {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager != null)
             {
+                gameManager.StateChanged -= Refresh;
                 gameManager.StateChanged += Refresh;
+                gameManager.CardDrawn    -= OnCardDrawn;
                 gameManager.CardDrawn    += OnCardDrawn;
+                gameManager.CardClicked  -= TriggerClickBounce;
+                gameManager.CardClicked  += TriggerClickBounce;
             }
             Refresh();
         }
@@ -62,6 +67,7 @@ namespace CosmicChaosCat
             {
                 gameManager.StateChanged -= Refresh;
                 gameManager.CardDrawn    -= OnCardDrawn;
+                gameManager.CardClicked  -= TriggerClickBounce;
             }
         }
 
@@ -151,6 +157,73 @@ namespace CosmicChaosCat
                 case CardRarity.UR:  return colorUR;
                 default:             return colorN;
             }
+        }
+
+        private Vector3 defaultTargetScale = Vector3.zero;
+
+        private void EnsureBaseScale(Transform targetTf)
+        {
+            if (defaultTargetScale.sqrMagnitude < 0.01f)
+            {
+                defaultTargetScale = targetTf != null && targetTf.localScale.sqrMagnitude >= 0.01f
+                    ? targetTf.localScale
+                    : Vector3.one;
+            }
+        }
+
+        private Coroutine clickBounceRoutine;
+
+        public void TriggerClickBounce()
+        {
+            Transform targetTf = cardImage != null ? cardImage.transform : transform;
+            EnsureBaseScale(targetTf);
+
+            // Reset to clean default scale before starting a new click bounce
+            if (targetTf != null) targetTf.localScale = defaultTargetScale;
+            transform.localScale = defaultTargetScale;
+
+            if (clickBounceRoutine != null) StopCoroutine(clickBounceRoutine);
+            clickBounceRoutine = StartCoroutine(ClickBounceRoutine(targetTf));
+        }
+
+        private System.Collections.IEnumerator ClickBounceRoutine(Transform targetTf)
+        {
+            if (targetTf == null) yield break;
+            EnsureBaseScale(targetTf);
+            Vector3 baseScale = defaultTargetScale;
+
+            float duration = 0.14f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float mult;
+                if (t < 0.35f)
+                {
+                    float subT = t / 0.35f;
+                    mult = Mathf.Lerp(1.0f, 0.85f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+                else if (t < 0.70f)
+                {
+                    float subT = (t - 0.35f) / 0.35f;
+                    mult = Mathf.Lerp(0.85f, 1.15f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+                else
+                {
+                    float subT = (t - 0.70f) / 0.30f;
+                    mult = Mathf.Lerp(1.15f, 1.0f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+
+                targetTf.localScale = baseScale * mult;
+                if (targetTf != transform) transform.localScale = baseScale * mult;
+                yield return null;
+            }
+
+            targetTf.localScale = baseScale;
+            transform.localScale = baseScale;
+            clickBounceRoutine = null;
         }
     }
 }

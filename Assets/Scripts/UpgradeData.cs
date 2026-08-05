@@ -42,11 +42,35 @@ namespace CosmicChaosCat
     {
         public string UpgradeId;
         public string DisplayName;
+        public string DisplayName_EN;
         [TextArea(2, 4)] public string Description;
+        [TextArea(2, 4)] public string Description_EN;
         public UpgradeCategory Category;
         public int MaxLevel;
         public double[] CostPerLevel;
         public UpgradeEffectType EffectType;
         public float[] EffectValuePerLevel;
+
+        public string GetDisplayName(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(DisplayName_EN)) return DisplayName_EN;
+            return !string.IsNullOrEmpty(DisplayName) ? DisplayName : UpgradeId;
+        }
+
+        public string GetDescription(string lang = null)
+        {
+            if (string.IsNullOrEmpty(lang))
+            {
+                var gm = GameManager.Instance != null ? GameManager.Instance : UnityEngine.Object.FindObjectOfType<GameManager>(true);
+                lang = gm != null ? gm.SelectedLanguage : "KR";
+            }
+            if (lang == "EN" && !string.IsNullOrEmpty(Description_EN)) return Description_EN;
+            return !string.IsNullOrEmpty(Description) ? Description : string.Empty;
+        }
     }
 }

@@ -652,8 +652,8 @@ namespace CosmicChaosCat
                     var labels = row.GetComponentsInChildren<TMP_Text>();
                     if (labels != null && labels.Length >= 2)
                     {
-                        labels[0].text = upg.DisplayName;
-                        labels[1].text = upg.Description + GetUpgradeValuesString(upg);
+                        labels[0].text = upg.GetDisplayName();
+                        labels[1].text = upg.GetDescription() + GetUpgradeValuesString(upg);
                     }
 
                     // UpgradeRowInfo binding
@@ -842,11 +842,11 @@ namespace CosmicChaosCat
                     var labels = row.GetComponentsInChildren<TMP_Text>(true);
                     if (labels != null && labels.Length >= 1)
                     {
-                        labels[0].text = upg.DisplayName;
+                        labels[0].text = upg.GetDisplayName();
                     }
                     if (labels != null && labels.Length >= 2)
                     {
-                        labels[1].text = upg.Description;
+                        labels[1].text = upg.GetDescription();
                     }
                 }
             }

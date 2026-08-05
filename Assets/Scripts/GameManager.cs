@@ -114,6 +114,7 @@ namespace CosmicChaosCat
         public event Action          CriticalHit;
         public event Action<string>  SetCompleted;           // setId
         public event Action          GameEnded;
+        public event Action          CardClicked;
 
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
@@ -184,6 +185,8 @@ namespace CosmicChaosCat
         public void HandleCardClicked(Vector2 screenPos)
         {
             if (IsGameEnded) return;
+
+            CardClicked?.Invoke();
 
             if (Time.unscaledTime - lastClickTime <= ComboWindowSeconds)
                 comboCount++;

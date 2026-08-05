@@ -12,8 +12,20 @@ namespace CosmicChaosCat
     {
         [Header("Card Transform (for scale bounce)")]
         [SerializeField] private Transform cardTransform;
-        [SerializeField] private float clickScaleAmount = 1.15f;
-        [SerializeField] private float clickScaleDuration = 0.12f;
+        [SerializeField] private float shrinkScaleAmount = 0.85f;
+        [SerializeField] private float overshootScaleAmount = 1.15f;
+        [SerializeField] private float clickScaleDuration = 0.15f;
+
+        public Transform CardTransform
+        {
+            get => cardTransform;
+            set
+            {
+                cardTransform = value;
+                if (cardTransform != null && cardTransform.localScale.sqrMagnitude >= 0.01f)
+                    originalScale = cardTransform.localScale;
+            }
+        }
 
         [Header("Particles — place in scene, assign here")]
         [SerializeField] private ParticleSystem normalClickParticle;
@@ -32,13 +44,90 @@ namespace CosmicChaosCat
         [Header("UR Fake Loading Panel — place in scene, start inactive")]
         [SerializeField] private GameObject urFakeLoadingPanel;
 
-        private Vector3 originalScale;
+        private Vector3 originalScale = Vector3.one;
         private Coroutine scaleRoutine;
 
         private void Awake()
         {
-            if (cardTransform != null)
-                originalScale = cardTransform.localScale;
+            ResolveCardTransform();
+        }
+
+        private void OnEnable()
+        {
+            ResolveCardTransform();
+            var gm = GameManager.Instance != null ? GameManager.Instance : FindObjectOfType<GameManager>(true);
+            if (gm != null)
+            {
+                gm.CardClicked -= PlayNormalClick;
+                gm.CardClicked += PlayNormalClick;
+            }
+        }
+
+        private void OnDisable()
+        {
+            var gm = GameManager.Instance != null ? GameManager.Instance : FindObjectOfType<GameManager>(true);
+            if (gm != null)
+            {
+                gm.CardClicked -= PlayNormalClick;
+            }
+        }
+
+        private Transform activeTargetTransform;
+
+        private Transform GetTargetTransform()
+        {
+            Transform t = cardTransform;
+
+            // 1. If explicitly set in Inspector and has visible renderer/image, use it!
+            if (t == null)
+            {
+                var disp = FindObjectOfType<CardImageDisplay>(true);
+                if (disp != null) t = disp.transform;
+            }
+
+            if (t == null)
+            {
+                var clicker = FindObjectOfType<Clicker>(true);
+                if (clicker != null) t = clicker.transform;
+            }
+
+            if (t == null) t = transform;
+
+            // 2. If t points to an invisible overlay button (alpha == 0), automatically redirect to the visible cat image!
+            if (t != null)
+            {
+                var img = t.GetComponent<UnityEngine.UI.Image>();
+                if (img != null && img.color.a < 0.05f)
+                {
+                    var disp = t.transform.parent != null ? t.transform.parent.GetComponentInChildren<CardImageDisplay>(true) : null;
+                    if (disp != null) return disp.transform;
+
+                    var visibleImgs = t.transform.parent != null ? t.transform.parent.GetComponentsInChildren<UnityEngine.UI.Image>(true) : null;
+                    if (visibleImgs != null)
+                    {
+                        foreach (var vi in visibleImgs)
+                        {
+                            if (vi != null && vi != img && vi.enabled && vi.color.a > 0.05f)
+                                return vi.transform;
+                        }
+                    }
+                }
+            }
+
+            return t;
+        }
+
+        private void ResolveCardTransform()
+        {
+            Transform target = GetTargetTransform();
+            if (target != null)
+            {
+                if (activeTargetTransform != target || originalScale.sqrMagnitude < 0.01f)
+                {
+                    activeTargetTransform = target;
+                    originalScale = target.localScale.sqrMagnitude >= 0.01f ? target.localScale : Vector3.one;
+                }
+            }
         }
 
         // Called on every normal click (N/R) via Clicker
@@ -80,23 +169,60 @@ namespace CosmicChaosCat
 
         private void BounceScale()
         {
-            if (cardTransform == null) return;
+            Transform target = GetTargetTransform();
+            if (target == null) return;
+
+            if (target != activeTargetTransform || originalScale.sqrMagnitude < 0.01f)
+            {
+                activeTargetTransform = target;
+                if (target.localScale.sqrMagnitude >= 0.01f)
+                    originalScale = target.localScale;
+                else
+                    originalScale = Vector3.one;
+            }
+
+            // Always reset scale back to originalScale before starting a new click bounce
+            if (activeTargetTransform != null)
+                activeTargetTransform.localScale = originalScale;
+
             if (scaleRoutine != null) StopCoroutine(scaleRoutine);
-            scaleRoutine = StartCoroutine(ScaleBounceRoutine());
+            scaleRoutine = StartCoroutine(ScaleBounceRoutine(target));
         }
 
-        private IEnumerator ScaleBounceRoutine()
+        private IEnumerator ScaleBounceRoutine(Transform target)
         {
+            if (target == null) yield break;
+
             float elapsed = 0f;
             while (elapsed < clickScaleDuration)
             {
                 elapsed += Time.unscaledDeltaTime;
-                float t     = elapsed / clickScaleDuration;
-                float scale = 1f + (clickScaleAmount - 1f) * Mathf.Sin(t * Mathf.PI);
-                cardTransform.localScale = originalScale * scale;
+                float t = Mathf.Clamp01(elapsed / clickScaleDuration);
+
+                float scaleMultiplier;
+                if (t < 0.35f)
+                {
+                    // 0% ~ 35%: 1.0 -> shrinkScaleAmount (0.85f) [확실히 작아짐]
+                    float subT = t / 0.35f;
+                    scaleMultiplier = Mathf.Lerp(1.0f, shrinkScaleAmount, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+                else if (t < 0.70f)
+                {
+                    // 35% ~ 70%: shrinkScaleAmount (0.85f) -> overshootScaleAmount (1.15f) [확실히 커짐]
+                    float subT = (t - 0.35f) / 0.35f;
+                    scaleMultiplier = Mathf.Lerp(shrinkScaleAmount, overshootScaleAmount, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+                else
+                {
+                    // 70% ~ 100%: overshootScaleAmount (1.15f) -> 1.0f [원래대로 복구]
+                    float subT = (t - 0.70f) / 0.30f;
+                    scaleMultiplier = Mathf.Lerp(overshootScaleAmount, 1.0f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+
+                target.localScale = originalScale * scaleMultiplier;
                 yield return null;
             }
-            cardTransform.localScale = originalScale;
+            target.localScale = originalScale;
             scaleRoutine = null;
         }
 

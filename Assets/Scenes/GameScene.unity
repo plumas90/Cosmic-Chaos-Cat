@@ -3141,6 +3141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   effectPlayer: {fileID: 0}
+  clickTargetTransform: {fileID: 792971770}
 --- !u!1 &800576275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3898,6 +3899,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588103453}
     m_Modifications:
+    - target: {fileID: 1630506783546432401, guid: 837c1381840210b3fbc844e019c1aaf0, type: 3}
+      propertyPath: m_Colors.m_ColorMultiplier
+      value: 4.46
+      objectReference: {fileID: 0}
     - target: {fileID: 5109677508278821631, guid: 837c1381840210b3fbc844e019c1aaf0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3977,6 +3982,10 @@ PrefabInstance:
     - target: {fileID: 5109677508278821631, guid: 837c1381840210b3fbc844e019c1aaf0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057601803790604944, guid: 837c1381840210b3fbc844e019c1aaf0, type: 3}
+      propertyPath: m_Colors.m_ColorMultiplier
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7068107990489986422, guid: 837c1381840210b3fbc844e019c1aaf0, type: 3}
       propertyPath: m_Name

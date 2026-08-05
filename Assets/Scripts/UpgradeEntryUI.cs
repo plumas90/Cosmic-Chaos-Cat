@@ -55,8 +55,10 @@ namespace CosmicChaosCat
             int  level  = gm.GetUpgradeLevel(upgradeId);
             bool maxed  = level >= entry.MaxLevel;
 
-            if (nameText  != null) nameText.text  = entry.DisplayName;
-            if (descText  != null) descText.text  = entry.Description;
+            bool isEN = gm != null && gm.SelectedLanguage == "EN";
+
+            if (nameText  != null) nameText.text  = entry.GetDisplayName();
+            if (descText  != null) descText.text  = entry.GetDescription();
             if (levelText != null) levelText.text = $"Lv.{level} / {entry.MaxLevel}";
 
             if (maxed)
@@ -71,7 +73,7 @@ namespace CosmicChaosCat
                 double cost    = entry.CostPerLevel != null && level < entry.CostPerLevel.Length
                     ? entry.CostPerLevel[level] : 0;
 
-                if (costText  != null) costText.text         = $"{GameManager.FormatNumber(cost)} 코인";
+                if (costText  != null) costText.text         = isEN ? $"{GameManager.FormatNumber(cost)} Coins" : $"{GameManager.FormatNumber(cost)} 코인";
                 if (bgImage   != null) bgImage.color         = canAfford ? affordableColor : unaffordableColor;
                 if (buyButton != null) buyButton.interactable = canAfford;
             }
