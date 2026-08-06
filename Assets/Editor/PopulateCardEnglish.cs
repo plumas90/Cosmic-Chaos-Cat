@@ -19,6 +19,7 @@ namespace CosmicChaosCat.EditorTools
             PopulateCards();
             PopulateSets();
             PopulateDecorations();
+            PopulateBackgrounds();
         }
 
         [MenuItem("CosmicChaosCat/Prepare Set Reward Test (Unlock Cards x5, Lock BGs & Decos)")]
@@ -207,19 +208,52 @@ namespace CosmicChaosCat.EditorTools
             };
 
             int updatedCount = 0;
+            int bgCount = 0;
+
+            // Auto-link GachaBgSprite for each card from Assets/image/A_Frame_bg
+            string[] bgGuids = AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/image/A_Frame_bg" });
+            var bgSpriteMap = new Dictionary<int, Sprite>();
+
+            foreach (string guid in bgGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                string numStr = "";
+                foreach (char c in fileName)
+                {
+                    if (char.IsDigit(c)) numStr += c;
+                    else break;
+                }
+                if (!string.IsNullOrEmpty(numStr) && int.TryParse(numStr, out int num))
+                {
+                    var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                    if (sprite != null && !bgSpriteMap.ContainsKey(num))
+                    {
+                        bgSpriteMap[num] = sprite;
+                    }
+                }
+            }
+
             foreach (var card in cat.CardsList)
             {
-                if (card != null && dict.TryGetValue(card.Id, out var val))
+                if (card == null) continue;
+                if (dict.TryGetValue(card.Id, out var val))
                 {
                     card.DisplayName_EN = val[0];
                     card.Description_EN = val[1];
                     updatedCount++;
                 }
+
+                if (int.TryParse(card.Id, out int numId) && bgSpriteMap.TryGetValue(numId, out Sprite sp))
+                {
+                    card.GachaBgSprite = sp;
+                    bgCount++;
+                }
             }
 
             EditorUtility.SetDirty(cat);
             AssetDatabase.SaveAssets();
-            Debug.Log($"[PopulateCardEnglish] Populated {updatedCount} cards in CardCatalog.asset!");
+            Debug.Log($"[PopulateCardEnglish] Populated {updatedCount} cards and linked {bgCount} GachaBgSprites in CardCatalog.asset!");
         }
 
         private static void PopulateSets()
@@ -313,6 +347,55 @@ namespace CosmicChaosCat.EditorTools
             EditorUtility.SetDirty(cat);
             AssetDatabase.SaveAssets();
             Debug.Log($"[PopulateDecorationEnglish] Populated {updatedCount} decorations in DecorationCatalog.asset!");
+        }
+
+        private static void PopulateBackgrounds()
+        {
+            var cat = AssetDatabase.LoadAssetAtPath<BackgroundCatalogSO>("Assets/ScriptableObjects/BackgroundCatalog.asset");
+            if (cat == null) return;
+
+            var bgList = cat.BackgroundsList;
+            if (bgList == null) return;
+
+            var bgDefs = new (string id, string name, string setId, string spriteName, string desc)[]
+            {
+                ("bg",    "기본 배경",              "",   "a_default.png",                             "기본으로 제공되는 배경입니다."),
+                ("bg_s1", "골목길의 수호자 배경",   "1",  "set1_Desolate_Street.png",                  "세트 1 수집 완료 보상! 골목길 수호자 테마 배경입니다."),
+                ("bg_s2", "사막 오아시스 배경",     "2",  "set2_The_Pharaoh's_Wrath.png",              "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다."),
+                ("bg_s3", "달콤한 디저트 배경",    "3",  "set3_Toppings_for_Cookie.png",              "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다."),
+                ("bg_s4", "심해 수족관 배경",       "4",  "set4_ Under_the_Deep_Sea.png",              "세트 4 수집 완료 보상! 신비로운 푸른 심해 수족관 배경입니다."),
+                ("bg_s5", "저자거리 축제 배경",    "5",  "set5_Moonlight_Cat_Festival.png",           "세트 5 수집 완료 보상! 흥겨운 민속 저자거리 축제 배경입니다."),
+                ("bg_s6", "우주 레인저 배경",      "6",  "set6_Super_Cat_Sentai.png",                 "세트 6 수집 완료 보상! 우주를 지키는 레인저 히어로 배경입니다."),
+                ("bg_s7", "스팀펑크 비행선 배경",  "7",  "set7_Cateam_Punk.png",                      "세트 7 수집 완료 보상! 하늘을 누비는 스팀펑크 비행선 배경입니다."),
+                ("bg_s8", "사계절의 정령 배경",    "8",  "set8_Cat_of_Four_Seasons.png",              "세트 8 수집 완료 보상! 사계절의 아름다움을 품은 정령 배경입니다."),
+                ("bg_s9", "세트 9 배경",           "9",  "set9_Starlight_Magic_Library.png",          "세트 9 수집 완료 보상! 특별한 테마 배경입니다."),
+                ("bg_s10", "세트 10 배경",         "10", "set10_The_Meow_Meow_Pirate_Crew.png",        "세트 10 수집 완료 보상! 특별한 테마 배경입니다."),
+                ("bg_s11", "세트 11 배경",         "11", "set11_Does Spring Come Even for Cats.png",  "세트 11 수집 완료 보상! 특별한 테마 배경입니다."),
+                ("bg_s12", "세트 12 배경",         "12", "set_12.png",                                "세트 12 수집 완료 보상! 특별한 테마 배경입니다."),
+                ("bg_s13", "세트 13 배경",         "13", "set_13.png",                                "세트 13 수집 완료 보상! 특별한 테마 배경입니다."),
+                ("bg_s14", "세트 14 배경",         "14", "set_14.png",                                "세트 14 수집 완료 보상! 특별한 테마 배경입니다.")
+            };
+
+            foreach (var def in bgDefs)
+            {
+                var entry = bgList.Find(x => x != null && x.Id == def.id);
+                if (entry == null)
+                {
+                    entry = new BackgroundEntry { Id = def.id };
+                    bgList.Add(entry);
+                }
+                entry.DisplayName = def.name;
+                entry.SetId = def.setId;
+                entry.Description = def.desc;
+                if (entry.BackgroundSprite == null)
+                {
+                    entry.BackgroundSprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_BG/{def.spriteName}");
+                }
+            }
+
+            EditorUtility.SetDirty(cat);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[PopulateBackgrounds] Populated {bgDefs.Length} backgrounds in BackgroundCatalog.asset!");
         }
     }
 }
