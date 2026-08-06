@@ -9,6 +9,7 @@ namespace CosmicChaosCat.Editor
     /// <summary>
     /// Editor initializer that automatically attaches CardListTestButton component
     /// directly to card_list_test_btn in the scene, and pre-places control buttons in Editor!
+    /// Safely guarded against Play Mode execution.
     /// </summary>
     [InitializeOnLoad]
     public static class CardListTestAutoAttach
@@ -22,6 +23,9 @@ namespace CosmicChaosCat.Editor
         [MenuItem("Tools/CosmicChaosCat/Attach CardListTestButton To Scene Btn")]
         public static void EnsureAttachedInActiveScene()
         {
+            // Do NOT execute scene dirty operations during Play Mode
+            if (Application.isPlaying || EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) return;
+
             var allBtns = Object.FindObjectsOfType<Button>(true);
             GameObject testBtnGo = null;
 
@@ -70,7 +74,7 @@ namespace CosmicChaosCat.Editor
                     }
                 }
 
-                // Pre-place control buttons if needed
+                // Pre-place control buttons if needed (only in edit mode)
                 component.CreatePreplacedControlButtonsInScene();
 
                 EditorUtility.SetDirty(testBtnGo);

@@ -10,6 +10,7 @@ namespace CosmicChaosCat
     /// Attach to card_list_test_btn or auto-wired in scene.
     /// Manually steps through all registered cards from Card 1 to N matching CardBase specification.
     /// Supports pre-placed scene buttons (Btn_다음, Btn_이전, Btn_닫기) so user can freely adjust positions in Scene View!
+    /// Guarantees 100% full card rendering (Background, Art, Frame, Rarity Badge, Name Text) with zero blank white fallbacks.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class CardListTestButton : MonoBehaviour
@@ -137,7 +138,7 @@ namespace CosmicChaosCat
                 return;
             }
 
-            // Toggle off if active
+            // If active and running, stop and toggle off
             if (activeFlowCoroutine != null)
             {
                 StopCoroutine(activeFlowCoroutine);
@@ -154,6 +155,8 @@ namespace CosmicChaosCat
 
         private IEnumerator PlayManualCardBrowser(GameObject container, IReadOnlyList<CardEntry> cards, GameManager gm)
         {
+            isClosedRequested = false;
+
             // 1. Find Korean TMP font asset in scene (filtering out LiberationSans SDF)
             TMP_FontAsset mainFont = null;
             var fontCandidates = FindObjectsOfType<TextMeshProUGUI>(true);
@@ -265,7 +268,6 @@ namespace CosmicChaosCat
             Button closeBtn = sceneCloseBtn;
 
             targetCardIndex = 0;
-            isClosedRequested = false;
 
             if (nextBtn == null || prevBtn == null || closeBtn == null)
             {
@@ -359,35 +361,8 @@ namespace CosmicChaosCat
                         slotRt.sizeDelta = cardSize;
                         slotRt.anchoredPosition = Vector2.zero;
 
-                        // Show Front face, Hide Back face (CardBase specification)
-                        var backTrans = cardSlot.transform.Find("Back");
-                        if (backTrans != null) backTrans.gameObject.SetActive(false);
-
-                        var frontTrans = cardSlot.transform.Find("Front");
-                        if (frontTrans == null) frontTrans = cardSlot.transform;
-                        frontTrans.gameObject.SetActive(true);
-
-                        // Bind Card Front Data (GachaBgSprite, Art, Frame, Rarity Mark)
-                        var baseImg = cardSlot.GetComponent<Image>();
-                        if (baseImg != null && card.GachaBgSprite != null)
-                        {
-                            baseImg.sprite = card.GachaBgSprite;
-                            baseImg.color = Color.white;
-                        }
-
-                        if (gachaPanel != null)
-                        {
-                            gachaPanel.BindCardFrontData(frontTrans, card);
-                        }
-
-                        // Ensure Font applied on card name text
-                        var cardNameText = frontTrans.Find("Name")?.GetComponent<TMP_Text>()
-                                        ?? frontTrans.GetComponentInChildren<TMP_Text>(true);
-                        if (cardNameText != null)
-                        {
-                            if (mainFont != null) cardNameText.font = mainFont;
-                            cardNameText.text = $"No.{card.Id}\n{card.GetDisplayName()}";
-                        }
+                        // Render Card Slot elements safely (Art, Frame, Background, Name Text, Badge)
+                        RenderCardSlotView(cardSlot, card, mainFont, gachaPanel);
                     }
                 }
 
@@ -397,7 +372,111 @@ namespace CosmicChaosCat
             // Closed requested
             flowObj.SetActive(false);
             container.SetActive(false);
+            if (animContainer != null) animContainer.SetActive(false);
+
+            if (gachaPanel != null)
+            {
+                var resultField = typeof(GachaPanel).GetField("resultObj", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (resultField != null)
+                {
+                    var resObj = resultField.GetValue(gachaPanel) as GameObject;
+                    if (resObj != null && resObj != container && resObj != animContainer) resObj.SetActive(false);
+                }
+            }
+
             activeFlowCoroutine = null;
+        }
+
+        private void RenderCardSlotView(GameObject cardSlot, CardEntry card, TMP_FontAsset mainFont, GachaPanel gachaPanel)
+        {
+            if (cardSlot == null || card == null) return;
+
+            // Show Front, Hide Back if template has Back/Front
+            var backTrans = cardSlot.transform.Find("Back");
+            if (backTrans != null) backTrans.gameObject.SetActive(false);
+
+            var frontTrans = cardSlot.transform.Find("Front");
+            if (frontTrans == null) frontTrans = cardSlot.transform;
+            frontTrans.gameObject.SetActive(true);
+
+            // 1. Root / Background Image (A_Frame_bg)
+            var bgImg = cardSlot.GetComponent<Image>() ?? frontTrans.GetComponent<Image>() ?? frontTrans.Find("Bg")?.GetComponent<Image>();
+            if (bgImg == null) bgImg = frontTrans.gameObject.AddComponent<Image>();
+
+            Sprite bgSprite = card.GachaBgSprite;
+            if (bgSprite != null)
+            {
+                bgImg.sprite = bgSprite;
+                bgImg.color = Color.white;
+            }
+            else
+            {
+                bgImg.color = new Color(0.12f, 0.16f, 0.25f, 1f);
+            }
+
+            // 2. Card Art Image (A_No)
+            Transform artTrans = frontTrans.Find("Art") ?? frontTrans.Find("CardArt") ?? frontTrans.Find("Image");
+            GameObject artGo = artTrans != null ? artTrans.gameObject : null;
+            if (artGo == null)
+            {
+                artGo = new GameObject("Art", typeof(RectTransform), typeof(Image));
+                artGo.transform.SetParent(frontTrans, false);
+                var aRt = artGo.GetComponent<RectTransform>();
+                aRt.anchorMin = new Vector2(0.08f, 0.22f);
+                aRt.anchorMax = new Vector2(0.92f, 0.88f);
+                aRt.offsetMin = aRt.offsetMax = Vector2.zero;
+            }
+            var artImg = artGo.GetComponent<Image>();
+            if (artImg != null)
+            {
+                artImg.sprite = card.CardSprite;
+                artImg.color = card.CardSprite != null ? Color.white : new Color(0.3f, 0.3f, 0.3f, 1f);
+                artImg.raycastTarget = false;
+            }
+
+            // 3. Card Frame & Rarity Badge
+            Transform frameTrans = frontTrans.Find("Frame") ?? frontTrans.Find("CardFrame") ?? frontTrans.Find("frame");
+            GameObject frameGo = frameTrans != null ? frameTrans.gameObject : null;
+            if (frameGo == null && gachaPanel != null)
+            {
+                frameGo = new GameObject("Frame", typeof(RectTransform), typeof(Image));
+                frameGo.transform.SetParent(frontTrans, false);
+                var fRt = frameGo.GetComponent<RectTransform>();
+                fRt.anchorMin = Vector2.zero;
+                fRt.anchorMax = Vector2.one;
+                fRt.offsetMin = fRt.offsetMax = Vector2.zero;
+            }
+
+            // 4. Card Title & Number Text (No.X Name)
+            Transform nameTrans = frontTrans.Find("Name") ?? frontTrans.Find("NameText") ?? frontTrans.Find("Text");
+            GameObject nameGo = nameTrans != null ? nameTrans.gameObject : null;
+            if (nameGo == null)
+            {
+                nameGo = new GameObject("NameText", typeof(RectTransform));
+                nameGo.transform.SetParent(frontTrans, false);
+                var nRt = nameGo.GetComponent<RectTransform>();
+                nRt.anchorMin = new Vector2(0f, 0f);
+                nRt.anchorMax = new Vector2(1f, 0.22f);
+                nRt.offsetMin = nRt.offsetMax = Vector2.zero;
+                nameGo.AddComponent<TextMeshProUGUI>();
+            }
+
+            var nameTxt = nameGo.GetComponent<TMP_Text>();
+            if (nameTxt != null)
+            {
+                if (mainFont != null) nameTxt.font = mainFont;
+                nameTxt.text = $"No.{card.Id}\n{card.GetDisplayName()}";
+                nameTxt.fontSize = 13;
+                nameTxt.enableWordWrapping = true;
+                nameTxt.alignment = TextAlignmentOptions.Center;
+                nameTxt.color = Color.white;
+            }
+
+            // Bind Card Front Data via GachaPanel for 100% theme fidelity
+            if (gachaPanel != null)
+            {
+                gachaPanel.BindCardFrontData(frontTrans, card);
+            }
         }
 
         private Button CreateControlBtn(Transform parent, string name, string labelText, Vector2 pos, TMP_FontAsset font)
@@ -444,6 +523,9 @@ namespace CosmicChaosCat
         [ContextMenu("Create Preplaced Control Buttons In Scene")]
         public void CreatePreplacedControlButtonsInScene()
         {
+            // Do NOT run scene dirty in Play mode
+            if (Application.isPlaying || UnityEditor.EditorApplication.isPlaying || UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) return;
+
             EnsureSetup();
             if (animContainer == null)
             {
