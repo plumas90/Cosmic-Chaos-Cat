@@ -1802,6 +1802,12 @@ namespace CosmicChaosCat
             return go;
         }
 
+        public RectTransform GetAnimCardTemplate()
+        {
+            EnsureGachaUIPartsBuilt();
+            return animCardTemplate;
+        }
+
         private static void SafeDestroy(GameObject obj)
         {
             if (obj == null) return;
