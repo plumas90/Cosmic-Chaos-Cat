@@ -110,8 +110,8 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     SetId: 9
-    Description: "\uC138\uD2B8 9 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uD2B9\uBCC4\uD55C
-      \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
+    Description: "\uC138\uD2B8 9 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uBCC4\uBE5B
+      \uB9C8\uBC95 \uB3C4\uC11C\uAD00 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s10
     DisplayName: "\uC138\uD2B8 10 \uBC30\uACBD"
     BackgroundSprite: {fileID: 2864977535551872477, guid: eb62f650b15b1fb4690db40d6efd3bcc, type: 3}
@@ -120,8 +120,8 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     SetId: 10
-    Description: "\uC138\uD2B8 10 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uD2B9\uBCC4\uD55C
-      \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
+    Description: "\uC138\uD2B8 10 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uC57C\uC639\uC57C\uC639
+      \uD574\uC801\uB2E8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s11
     DisplayName: "\uC138\uD2B8 11 \uBC30\uACBD"
     BackgroundSprite: {fileID: -4435262931183940686, guid: 0d6085716da9e7f4b95932d8e9749097, type: 3}
@@ -130,8 +130,8 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     SetId: 11
-    Description: "\uC138\uD2B8 11 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uD2B9\uBCC4\uD55C
-      \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
+    Description: "\uC138\uD2B8 11 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uBD04\uB0A0
+      \uACE0\uC591\uC774 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s12
     DisplayName: "\uC138\uD2B8 12 \uBC30\uACBD"
     BackgroundSprite: {fileID: -6505302766685458233, guid: c025d25a4aad7144595ed0e465007115, type: 3}
@@ -140,8 +140,8 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     SetId: 12
-    Description: "\uC138\uD2B8 12 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uD2B9\uBCC4\uD55C
-      \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
+    Description: "\uC138\uD2B8 12 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uB124\uC628\uC0AC\uC778
+      \uB3C4\uC2DC \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s13
     DisplayName: "\uC138\uD2B8 13 \uBC30\uACBD"
     BackgroundSprite: {fileID: 0}

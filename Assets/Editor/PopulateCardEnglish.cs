@@ -308,14 +308,18 @@ namespace CosmicChaosCat.EditorTools
 
             var rewardBgs = new Dictionary<string, string[]>()
             {
-                { "1", new string[] { "bg_s1", "deco-cat-house" } },
-                { "2", new string[] { "bg_s2", "deco-pyramid" } },
-                { "3", new string[] { "bg_s3", "deco-cake" } },
-                { "4", new string[] { "bg_s4", "deco-aquarium" } },
-                { "5", new string[] { "bg_s5", "deco-drum" } },
-                { "6", new string[] { "bg_s6", "deco-robot" } },
-                { "7", new string[] { "bg_s7", "deco-airship" } },
-                { "8", new string[] { "bg_s8", "deco-aurora" } }
+                { "1", new string[] { "bg_s1", "deco_s1_0" } },
+                { "2", new string[] { "bg_s2", "deco_s2_0" } },
+                { "3", new string[] { "bg_s3", "deco_s3_0" } },
+                { "4", new string[] { "bg_s4", "deco_s4_0" } },
+                { "5", new string[] { "bg_s5", "deco_s5_0" } },
+                { "6", new string[] { "bg_s6", "deco_s6_0" } },
+                { "7", new string[] { "bg_s7", "deco_s7_0" } },
+                { "8", new string[] { "bg_s8", "deco_s8_0" } },
+                { "9", new string[] { "bg_s9", "deco_s9_0" } },
+                { "10", new string[] { "bg_s10", "deco_s10_0" } },
+                { "11", new string[] { "bg_s11", "deco_s11_0" } },
+                { "12", new string[] { "bg_s12", "deco_s12_0" } }
             };
 
             int updatedCount = 0;
@@ -347,26 +351,73 @@ namespace CosmicChaosCat.EditorTools
             var cat = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
             if (cat == null) return;
 
-            var dict = new Dictionary<string, string[]>()
+            var list = cat.DecorationsList;
+            if (list == null) return;
+
+            // deco-none 기본 항목 보장
+            var noneEntry = list.Find(x => x != null && x.Id == "deco-none");
+            if (noneEntry == null)
             {
-                { "deco-none", new string[] { "No Decoration", "Does not place decorations on background." } },
-                { "deco-cat-house", new string[] { "Fluffy Cat Tower", "Fluffy cat tower decoration loved by cats." } },
-                { "deco-pyramid", new string[] { "Mini Pyramid", "Desert oasis guardian pyramid object." } },
-                { "deco-cake", new string[] { "3-Tier Dessert Cake", "Sweet whipped cream cake decoration." } },
-                { "deco-aquarium", new string[] { "Rainbow Coral Aquarium", "Radiant undersea coral aquarium ornament." } },
-                { "deco-drum", new string[] { "Samulnori Drum", "Traditional Samulnori drum heightening festival excitement." } },
-                { "deco-robot", new string[] { "Golden Lion Robot", "Majestic commander transforming robot figure." } },
-                { "deco-airship", new string[] { "Steampunk Golden Airship", "Elaborate clockwork airship model decoration." } },
-                { "deco-aurora", new string[] { "Four Seasons Aurora Crystal", "Crystal sphere shimmering with mysterious four seasons aurora." } }
-            };
+                noneEntry = new DecorationEntry { Id = "deco-none", DisplayName = "장식 없음", DisplayName_EN = "No Decoration", Description = "장식을 배치하지 않습니다." };
+                list.Add(noneEntry);
+            }
 
             int updatedCount = 0;
-            foreach (var deco in cat.DecorationsList)
+            for (int setNum = 1; setNum <= 12; setNum++)
             {
-                if (deco != null && dict.TryGetValue(deco.Id, out var val))
+                string numStr = setNum.ToString("D2");
+                string sheetPath = $"Assets/image/A_Deco/set_{numStr}_original_sheet_900.png";
+                var subSprites = AssetDatabase.LoadAllAssetsAtPath(sheetPath);
+
+                for (int subIdx = 0; subIdx < 3; subIdx++)
                 {
-                    deco.DisplayName_EN = val[0];
-                    deco.Description_EN = val[1];
+                    string id = $"deco_s{setNum}_{subIdx}";
+                    var entry = list.Find(x => x != null && x.Id == id);
+                    if (entry == null)
+                    {
+                        entry = new DecorationEntry { Id = id };
+                        list.Add(entry);
+                    }
+
+                    entry.SetId = setNum.ToString();
+
+                    if (subIdx == 0)
+                    {
+                        entry.DisplayName = $"세트 {setNum} 장식 A";
+                        entry.DisplayName_EN = $"Set {setNum} Decoration A";
+                        entry.Description = $"세트 {setNum} 수집 완료 보상 장식입니다.";
+                        entry.IsShop = false;
+                    }
+                    else if (subIdx == 1)
+                    {
+                        entry.DisplayName = $"세트 {setNum} 장식 B";
+                        entry.DisplayName_EN = $"Set {setNum} Decoration B";
+                        entry.Description = $"세트 {setNum} 수집 완료 보상 장식입니다.";
+                        entry.IsShop = false;
+                    }
+                    else
+                    {
+                        entry.DisplayName = $"세트 {setNum} 특별 장식";
+                        entry.DisplayName_EN = $"Set {setNum} Special Decoration";
+                        entry.Description = "상점에서 100골드로 구매 가능한 전용 장식입니다.";
+                        entry.IsShop = true;
+                        entry.ShopCurrency = CardShopCurrency.Coin;
+                        entry.ShopPrice = 100;
+                    }
+
+                    // 서브 스프라이트 로드
+                    if (subSprites != null)
+                    {
+                        foreach (var obj in subSprites)
+                        {
+                            if (obj is Sprite sp && sp.name == id)
+                            {
+                                entry.DecorationSprite = sp;
+                                break;
+                            }
+                        }
+                    }
+
                     updatedCount++;
                 }
             }
@@ -395,12 +446,10 @@ namespace CosmicChaosCat.EditorTools
                 ("bg_s6", "우주 레인저 배경",      "6",  "set6_Super_Cat_Sentai.png",                 "세트 6 수집 완료 보상! 우주를 지키는 레인저 히어로 배경입니다."),
                 ("bg_s7", "스팀펑크 비행선 배경",  "7",  "set7_Cateam_Punk.png",                      "세트 7 수집 완료 보상! 하늘을 누비는 스팀펑크 비행선 배경입니다."),
                 ("bg_s8", "사계절의 정령 배경",    "8",  "set8_Cat_of_Four_Seasons.png",              "세트 8 수집 완료 보상! 사계절의 아름다움을 품은 정령 배경입니다."),
-                ("bg_s9", "세트 9 배경",           "9",  "set9_Starlight_Magic_Library.png",          "세트 9 수집 완료 보상! 특별한 테마 배경입니다."),
-                ("bg_s10", "세트 10 배경",         "10", "set10_The_Meow_Meow_Pirate_Crew.png",        "세트 10 수집 완료 보상! 특별한 테마 배경입니다."),
-                ("bg_s11", "세트 11 배경",         "11", "set11_Does Spring Come Even for Cats.png",  "세트 11 수집 완료 보상! 특별한 테마 배경입니다."),
-                ("bg_s12", "세트 12 배경",         "12", "set_12.png",                                "세트 12 수집 완료 보상! 특별한 테마 배경입니다."),
-                ("bg_s13", "세트 13 배경",         "13", "set_13.png",                                "세트 13 수집 완료 보상! 특별한 테마 배경입니다."),
-                ("bg_s14", "세트 14 배경",         "14", "set_14.png",                                "세트 14 수집 완료 보상! 특별한 테마 배경입니다.")
+                ("bg_s9", "세트 9 배경",           "9",  "set9_Starlight_Magic_Library.png",          "세트 9 수집 완료 보상! 별빛 마법 도서관 배경입니다."),
+                ("bg_s10", "세트 10 배경",         "10", "set10_The_Meow_Meow_Pirate_Crew.png",        "세트 10 수집 완료 보상! 야옹야옹 해적단 배경입니다."),
+                ("bg_s11", "세트 11 배경",         "11", "set11_Does Spring Come Even for Cats.png",  "세트 11 수집 완료 보상! 봄날 고양이 배경입니다."),
+                ("bg_s12", "세트 12 배경",         "12", "set12_The_City_Beneath_Neon_Signs.png",     "세트 12 수집 완료 보상! 네온사인 도시 배경입니다.")
             };
 
             foreach (var def in bgDefs)

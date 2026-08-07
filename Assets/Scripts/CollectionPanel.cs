@@ -233,6 +233,11 @@ namespace CosmicChaosCat
         {
             if (string.IsNullOrEmpty(id) || id == "deco-none" || id == "deco-00" || id.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
                 return null;
+            if (gameManager != null && gameManager.DecorationCatalog != null)
+            {
+                var entry = gameManager.DecorationCatalog.FindById(id);
+                if (entry != null && entry.DecorationSprite != null) return entry.DecorationSprite;
+            }
             EnsureInit();
             var item = decorations.Find(x => x.id == id);
             return item?.displaySprite;
@@ -1037,16 +1042,27 @@ namespace CosmicChaosCat
             {
                 decorations = new List<CollectibleItem>
                 {
-                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = LoadShopCloseSprite() },
-                    new CollectibleItem { id = "deco-cat-house", displayName = "푹신한 캣타워", description = "고양이들이 좋아하는 푹신한 캣타워 장식입니다.", unlockSetId = "1", rarity = CardRarity.N, displaySprite = CreateDecorationSprite(new Color(0.8f, 0.6f, 0.4f, 1f)) },
-                    new CollectibleItem { id = "deco-pyramid", displayName = "미니 피라미드", description = "사막 오아시스 수호 피라미드 오브제입니다.", unlockSetId = "2", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.8f, 0.3f, 1f)) },
-                    new CollectibleItem { id = "deco-cake", displayName = "3단 디저트 케이크", description = "달콤한 생크림 케이크 장식입니다.", unlockSetId = "3", rarity = CardRarity.R, displaySprite = CreateDecorationSprite(new Color(0.9f, 0.5f, 0.7f, 1f)) },
-                    new CollectibleItem { id = "deco-aquarium", displayName = "무지개 산호 수족관", description = "영롱한 해저 산호 수족관 장식입니다.", unlockSetId = "4", rarity = CardRarity.SR, displaySprite = CreateDecorationSprite(new Color(0.3f, 0.7f, 0.9f, 1f)) },
-                    new CollectibleItem { id = "deco-drum", displayName = "사물놀이 북", description = "축제의 흥을 끌어올리는 사물놀이 북 장식입니다.", unlockSetId = "5", rarity = CardRarity.SR, displaySprite = CreateDecorationSprite(new Color(0.8f, 0.4f, 0.2f, 1f)) },
-                    new CollectibleItem { id = "deco-robot", displayName = "골든 라이온 로봇", description = "위풍당당한 사령관 변신 로봇 피규어입니다.", unlockSetId = "6", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.95f, 0.75f, 0.1f, 1f)) },
-                    new CollectibleItem { id = "deco-airship", displayName = "스팀펑크 황금 비행선", description = "정교한 태엽 비행선 모형 장식입니다.", unlockSetId = "7", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.7f, 0.45f, 0.2f, 1f)) },
-                    new CollectibleItem { id = "deco-aurora", displayName = "사계절 오로라 수정구", description = "신비로운 사계절 오로라가 일렁이는 수정구입니다.", unlockSetId = "8", rarity = CardRarity.SSR, displaySprite = CreateDecorationSprite(new Color(0.4f, 0.8f, 0.6f, 1f)) }
+                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = LoadShopCloseSprite() }
                 };
+
+                if (gameManager != null && gameManager.DecorationCatalog != null && gameManager.DecorationCatalog.Decorations != null && gameManager.DecorationCatalog.Decorations.Count > 0)
+                {
+                    foreach (var deco in gameManager.DecorationCatalog.Decorations)
+                    {
+                        if (deco != null && deco.Id != "deco-none")
+                        {
+                            decorations.Add(new CollectibleItem
+                            {
+                                id = deco.Id,
+                                displayName = deco.GetDisplayName(),
+                                description = deco.GetDescription(),
+                                unlockSetId = deco.SetId,
+                                rarity = deco.IsShop ? CardRarity.R : CardRarity.N,
+                                displaySprite = deco.DecorationSprite
+                            });
+                        }
+                    }
+                }
             }
         }
 

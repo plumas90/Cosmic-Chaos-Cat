@@ -593,6 +593,13 @@ namespace CosmicChaosCat
                 if (!string.IsNullOrEmpty(set.RewardDecorationId))
                     UnlockDecoration(set.RewardDecorationId);
 
+                // 세트 해금시 0번과 1번 데코 스프라이트 자동 보상 해금
+                if (!string.IsNullOrEmpty(setId))
+                {
+                    UnlockDecoration($"deco_s{setId}_0");
+                    UnlockDecoration($"deco_s{setId}_1");
+                }
+
                 // Fallback for sets with no explicit rewards specified
                 if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId))
                 {

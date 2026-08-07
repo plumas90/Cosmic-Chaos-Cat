@@ -332,6 +332,60 @@ namespace CosmicChaosCat
                 }
             }
 
+            // 데코레이션 상점 상품 등록 (2번 장식: 100 골드)
+            if (gm != null && gm.DecorationCatalog != null && gm.DecorationCatalog.Decorations != null)
+            {
+                foreach (var deco in gm.DecorationCatalog.Decorations)
+                {
+                    if (deco != null && deco.IsShop)
+                    {
+                        ProductCurrencyType cur = (deco.ShopCurrency == CardShopCurrency.Shard) 
+                            ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
+                        double p = deco.ShopPrice > 0 ? deco.ShopPrice : 100;
+
+                        productCatalog.Add(new ShopProductItem
+                        {
+                            id = "prod-deco-" + deco.Id,
+                            displayName = deco.GetDisplayName(),
+                            description = string.IsNullOrEmpty(deco.GetDescription()) ? "상점에서 100골드로 구매 가능한 전용 장식입니다." : deco.GetDescription(),
+                            currencyType = cur,
+                            price = p,
+                            productType = ShopProductType.Decoration,
+                            targetId = deco.Id,
+                            rarity = CardRarity.R,
+                            iconSprite = deco.DecorationSprite
+                        });
+                    }
+                }
+            }
+
+            // 배경 상점 상품 등록
+            if (gm != null && gm.BackgroundCatalog != null && gm.BackgroundCatalog.Backgrounds != null)
+            {
+                foreach (var bg in gm.BackgroundCatalog.Backgrounds)
+                {
+                    if (bg != null && bg.IsShop)
+                    {
+                        ProductCurrencyType cur = (bg.ShopCurrency == CardShopCurrency.Shard) 
+                            ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
+                        double p = bg.ShopPrice > 0 ? bg.ShopPrice : 1000;
+
+                        productCatalog.Add(new ShopProductItem
+                        {
+                            id = "prod-bg-" + bg.Id,
+                            displayName = string.IsNullOrEmpty(bg.DisplayName) ? bg.Id : bg.DisplayName,
+                            description = string.IsNullOrEmpty(bg.Description) ? "상점 배경" : bg.Description,
+                            currencyType = cur,
+                            price = p,
+                            productType = ShopProductType.Background,
+                            targetId = bg.Id,
+                            rarity = CardRarity.SR,
+                            iconSprite = bg.BackgroundSprite
+                        });
+                    }
+                }
+            }
+
             if (selectedProduct != null)
             {
                 var match = productCatalog.Find(p => p.id == selectedProduct.id);
@@ -1374,10 +1428,12 @@ namespace CosmicChaosCat
             }
             else if (selectedProduct.productType == ShopProductType.Background)
             {
+                gm.UnlockBackground(selectedProduct.targetId);
                 gm.EquipBackground(selectedProduct.targetId);
             }
             else if (selectedProduct.productType == ShopProductType.Decoration)
             {
+                gm.UnlockDecoration(selectedProduct.targetId);
                 gm.EquipDecoration(selectedProduct.targetId);
             }
             else if (selectedProduct.productType == ShopProductType.Card)
@@ -1405,13 +1461,13 @@ namespace CosmicChaosCat
             else if (prod.productType == ShopProductType.Background)
             {
                 if (gm.EquippedBackgroundId == prod.targetId) return "Equipped";
-                if (gm.IsSetCompleted(prod.id)) return "Purchased";
+                if (gm.IsBackgroundUnlocked(prod.targetId)) return "Purchased";
                 return "NotPurchased";
             }
             else if (prod.productType == ShopProductType.Decoration)
             {
                 if (gm.EquippedDecorationId == prod.targetId) return "Equipped";
-                if (gm.IsSetCompleted(prod.id)) return "Purchased";
+                if (gm.IsDecorationUnlocked(prod.targetId)) return "Purchased";
                 return "NotPurchased";
             }
             else if (prod.productType == ShopProductType.Card)

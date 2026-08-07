@@ -12,4 +12,423 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9046a72be2dd7438878e5e5a11cd20, type: 3}
   m_Name: DecorationCatalog
   m_EditorClassIdentifier: 
-  decorations: []
+  decorations:
+  - Id: deco-none
+    DisplayName: "\uC7A5\uC2DD \uC5C6\uC74C"
+    DisplayName_EN: No Decoration
+    DecorationSprite: {fileID: 0}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uC7A5\uC2DD\uC744 \uBC30\uCE58\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s1_0
+    DisplayName: "\uC138\uD2B8 1 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 1 Decoration A
+    DecorationSprite: {fileID: -8235564932712894119, guid: e0ae14712fe14c47caffd2b38f330630, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 1
+    Description: "\uC138\uD2B8 1 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s1_1
+    DisplayName: "\uC138\uD2B8 1 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 1 Decoration B
+    DecorationSprite: {fileID: -4420718250713037562, guid: e0ae14712fe14c47caffd2b38f330630, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 1
+    Description: "\uC138\uD2B8 1 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s1_2
+    DisplayName: "\uC138\uD2B8 1 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 1 Special Decoration
+    DecorationSprite: {fileID: 416693052351594165, guid: e0ae14712fe14c47caffd2b38f330630, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 1
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s2_0
+    DisplayName: "\uC138\uD2B8 2 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 2 Decoration A
+    DecorationSprite: {fileID: 7968403636442900769, guid: 008b96b11160e0f43864c8b197941791, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 2
+    Description: "\uC138\uD2B8 2 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s2_1
+    DisplayName: "\uC138\uD2B8 2 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 2 Decoration B
+    DecorationSprite: {fileID: 2897681948509238141, guid: 008b96b11160e0f43864c8b197941791, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 2
+    Description: "\uC138\uD2B8 2 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s2_2
+    DisplayName: "\uC138\uD2B8 2 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 2 Special Decoration
+    DecorationSprite: {fileID: -7325128249890124073, guid: 008b96b11160e0f43864c8b197941791, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 2
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s3_0
+    DisplayName: "\uC138\uD2B8 3 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 3 Decoration A
+    DecorationSprite: {fileID: 8032459632651073483, guid: feb5e8f4182ef807d8e0a490c14b3ea9, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 3
+    Description: "\uC138\uD2B8 3 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s3_1
+    DisplayName: "\uC138\uD2B8 3 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 3 Decoration B
+    DecorationSprite: {fileID: 1534457746694105370, guid: feb5e8f4182ef807d8e0a490c14b3ea9, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 3
+    Description: "\uC138\uD2B8 3 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s3_2
+    DisplayName: "\uC138\uD2B8 3 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 3 Special Decoration
+    DecorationSprite: {fileID: -161304282440864876, guid: feb5e8f4182ef807d8e0a490c14b3ea9, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 3
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s4_0
+    DisplayName: "\uC138\uD2B8 4 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 4 Decoration A
+    DecorationSprite: {fileID: -4881011370061213926, guid: c85df87a610bb18aebffe71f9d6fab67, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 4
+    Description: "\uC138\uD2B8 4 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s4_1
+    DisplayName: "\uC138\uD2B8 4 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 4 Decoration B
+    DecorationSprite: {fileID: 5950231374814316357, guid: c85df87a610bb18aebffe71f9d6fab67, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 4
+    Description: "\uC138\uD2B8 4 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s4_2
+    DisplayName: "\uC138\uD2B8 4 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 4 Special Decoration
+    DecorationSprite: {fileID: 4252409185318423349, guid: c85df87a610bb18aebffe71f9d6fab67, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 4
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s5_0
+    DisplayName: "\uC138\uD2B8 5 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 5 Decoration A
+    DecorationSprite: {fileID: 1911376625794595326, guid: 73e604fa9c0eeaadda77b2cdf4e568d7, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 5
+    Description: "\uC138\uD2B8 5 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s5_1
+    DisplayName: "\uC138\uD2B8 5 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 5 Decoration B
+    DecorationSprite: {fileID: 8236365575150025035, guid: 73e604fa9c0eeaadda77b2cdf4e568d7, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 5
+    Description: "\uC138\uD2B8 5 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s5_2
+    DisplayName: "\uC138\uD2B8 5 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 5 Special Decoration
+    DecorationSprite: {fileID: 8561710371103068868, guid: 73e604fa9c0eeaadda77b2cdf4e568d7, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 5
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s6_0
+    DisplayName: "\uC138\uD2B8 6 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 6 Decoration A
+    DecorationSprite: {fileID: -3767542966410808870, guid: e16bb11dc5cae1c7dae2b0bf5e36034b, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 6
+    Description: "\uC138\uD2B8 6 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s6_1
+    DisplayName: "\uC138\uD2B8 6 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 6 Decoration B
+    DecorationSprite: {fileID: 5572528841682825802, guid: e16bb11dc5cae1c7dae2b0bf5e36034b, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 6
+    Description: "\uC138\uD2B8 6 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s6_2
+    DisplayName: "\uC138\uD2B8 6 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 6 Special Decoration
+    DecorationSprite: {fileID: -3438028328640198742, guid: e16bb11dc5cae1c7dae2b0bf5e36034b, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 6
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s7_0
+    DisplayName: "\uC138\uD2B8 7 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 7 Decoration A
+    DecorationSprite: {fileID: 5175480562616812416, guid: b389798b93fb2613eb38cb39765f4a4a, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 7
+    Description: "\uC138\uD2B8 7 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s7_1
+    DisplayName: "\uC138\uD2B8 7 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 7 Decoration B
+    DecorationSprite: {fileID: -2226096831389064529, guid: b389798b93fb2613eb38cb39765f4a4a, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 7
+    Description: "\uC138\uD2B8 7 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s7_2
+    DisplayName: "\uC138\uD2B8 7 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 7 Special Decoration
+    DecorationSprite: {fileID: 6902124390727209386, guid: b389798b93fb2613eb38cb39765f4a4a, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 7
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s8_0
+    DisplayName: "\uC138\uD2B8 8 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 8 Decoration A
+    DecorationSprite: {fileID: 5913156028660495940, guid: 887f6f0a8df09448c9dcf93f54113107, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 8
+    Description: "\uC138\uD2B8 8 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s8_1
+    DisplayName: "\uC138\uD2B8 8 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 8 Decoration B
+    DecorationSprite: {fileID: 8402648964956496611, guid: 887f6f0a8df09448c9dcf93f54113107, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 8
+    Description: "\uC138\uD2B8 8 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s8_2
+    DisplayName: "\uC138\uD2B8 8 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 8 Special Decoration
+    DecorationSprite: {fileID: 2625551315216842793, guid: 887f6f0a8df09448c9dcf93f54113107, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 8
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s9_0
+    DisplayName: "\uC138\uD2B8 9 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 9 Decoration A
+    DecorationSprite: {fileID: -8524632573965254136, guid: 872ee47668615bba18ddb46a4f96a3e4, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 9
+    Description: "\uC138\uD2B8 9 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s9_1
+    DisplayName: "\uC138\uD2B8 9 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 9 Decoration B
+    DecorationSprite: {fileID: 4887120587513978192, guid: 872ee47668615bba18ddb46a4f96a3e4, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 9
+    Description: "\uC138\uD2B8 9 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s9_2
+    DisplayName: "\uC138\uD2B8 9 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 9 Special Decoration
+    DecorationSprite: {fileID: -313004104909461079, guid: 872ee47668615bba18ddb46a4f96a3e4, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 9
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s10_0
+    DisplayName: "\uC138\uD2B8 10 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 10 Decoration A
+    DecorationSprite: {fileID: 6103867771584472104, guid: 96f177e5703357d5dbc4c25a5a4e4c83, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 10
+    Description: "\uC138\uD2B8 10 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s10_1
+    DisplayName: "\uC138\uD2B8 10 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 10 Decoration B
+    DecorationSprite: {fileID: -3255554181577080774, guid: 96f177e5703357d5dbc4c25a5a4e4c83, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 10
+    Description: "\uC138\uD2B8 10 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s10_2
+    DisplayName: "\uC138\uD2B8 10 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 10 Special Decoration
+    DecorationSprite: {fileID: 8806566041143483489, guid: 96f177e5703357d5dbc4c25a5a4e4c83, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 10
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s11_0
+    DisplayName: "\uC138\uD2B8 11 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 11 Decoration A
+    DecorationSprite: {fileID: -972442841041500289, guid: 3883eaeda55c7ba25992d3deb5913c2f, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 11
+    Description: "\uC138\uD2B8 11 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s11_1
+    DisplayName: "\uC138\uD2B8 11 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 11 Decoration B
+    DecorationSprite: {fileID: 9064681030314002971, guid: 3883eaeda55c7ba25992d3deb5913c2f, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 11
+    Description: "\uC138\uD2B8 11 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s11_2
+    DisplayName: "\uC138\uD2B8 11 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 11 Special Decoration
+    DecorationSprite: {fileID: 458369400688070023, guid: 3883eaeda55c7ba25992d3deb5913c2f, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 11
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s12_0
+    DisplayName: "\uC138\uD2B8 12 \uC7A5\uC2DD A"
+    DisplayName_EN: Set 12 Decoration A
+    DecorationSprite: {fileID: 6118065671890810392, guid: 0ad460d5f4ecf09cab72a7dcf46f9972, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 12
+    Description: "\uC138\uD2B8 12 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s12_1
+    DisplayName: "\uC138\uD2B8 12 \uC7A5\uC2DD B"
+    DisplayName_EN: Set 12 Decoration B
+    DecorationSprite: {fileID: 5197883137604889399, guid: 0ad460d5f4ecf09cab72a7dcf46f9972, type: 3}
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 12
+    Description: "\uC138\uD2B8 12 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco_s12_2
+    DisplayName: "\uC138\uD2B8 12 \uD2B9\uBCC4 \uC7A5\uC2DD"
+    DisplayName_EN: Set 12 Special Decoration
+    DecorationSprite: {fileID: -7962573187009384754, guid: 0ad460d5f4ecf09cab72a7dcf46f9972, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 12
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
+      \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 

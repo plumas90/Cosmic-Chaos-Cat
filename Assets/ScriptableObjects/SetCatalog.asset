@@ -24,7 +24,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s1
-    RewardDecorationId: deco-cat-house
+    RewardDecorationId: deco_s1_0
     EffectDesc: "\uACE8\uBAA9\uAE38 \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Alley Cats!
   - SetId: 2
@@ -38,7 +38,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s2
-    RewardDecorationId: deco-pyramid
+    RewardDecorationId: deco_s2_0
     EffectDesc: "\uC0AC\uB9C9 \uC720\uC801\uC9C0\uC758 \uBAA8\uB4E0 \uACE0\uC591\uC774\uB97C
       \uD574\uAE08\uD588\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Desert Cats!
@@ -53,7 +53,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s3
-    RewardDecorationId: deco-cake
+    RewardDecorationId: deco_s3_0
     EffectDesc: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Dessert Cats!
@@ -68,7 +68,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s4
-    RewardDecorationId: deco-aquarium
+    RewardDecorationId: deco_s4_0
     EffectDesc: "\uAE4A\uC740 \uBC14\uB2F7\uC18D \uD574\uC800 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Ocean Cats!
@@ -83,7 +83,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s5
-    RewardDecorationId: deco-drum
+    RewardDecorationId: deco_s5_0
     EffectDesc: "\uC804\uD1B5 \uC800\uC790\uAC70\uB9AC\uC758 \uACE0\uC591\uC774\uB4E4\uC744
       \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Traditional Cats!
@@ -98,7 +98,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s6
-    RewardDecorationId: deco-robot
+    RewardDecorationId: deco_s6_0
     EffectDesc: "\uC6B0\uC8FC\uB97C \uC9C0\uD0A4\uB294 \uB808\uC778\uC800 \uD788\uC5B4\uB85C
       \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Hero Cats!
@@ -113,7 +113,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s7
-    RewardDecorationId: deco-airship
+    RewardDecorationId: deco_s7_0
     EffectDesc: "\uD558\uB298\uC744 \uB204\uBE44\uB294 \uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120\uB2E8
       \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uBAA8\uC558\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Steampunk Cats!
@@ -128,7 +128,7 @@ MonoBehaviour:
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s8
-    RewardDecorationId: deco-aurora
+    RewardDecorationId: deco_s8_0
     EffectDesc: "\uC0AC\uACC4\uC808\uC758 \uC544\uB984\uB2E4\uC6C0\uC744 \uD488\uC740
       \uC815\uB839 \uACE0\uC591\uC774\uB4E4\uC744 \uBAA8\uB450 \uC218\uC9D1\uD588\uC2B5\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting all Seasons Cats!
