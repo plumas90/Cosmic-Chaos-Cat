@@ -1038,12 +1038,20 @@ namespace CosmicChaosCat
             };
             }
 
-            if (decorations == null || decorations.Count == 0)
+            Sprite LoadDecoSprite(string fileName)
             {
-                decorations = new List<CollectibleItem>
-                {
-                    new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, displaySprite = LoadShopCloseSprite() }
-                };
+#if UNITY_EDITOR
+                var sp = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_Deco/{fileName}");
+                if (sp != null) return sp;
+#endif
+                return null;
+            }
+
+            if (decorations == null) decorations = new List<CollectibleItem>();
+
+            if (decorations.Count == 0)
+            {
+                decorations.Add(new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, isTestUnlocked = true, displaySprite = LoadShopCloseSprite() });
 
                 if (gameManager != null && gameManager.DecorationCatalog != null && gameManager.DecorationCatalog.Decorations != null && gameManager.DecorationCatalog.Decorations.Count > 0)
                 {
@@ -1063,6 +1071,92 @@ namespace CosmicChaosCat
                         }
                     }
                 }
+            }
+
+            // 캣휠 및 태엽 쥐 장난감 무조건 장식 목록 첫 머리에 해금 상태로 등록 보장
+            if (decorations.Find(x => x.id == "deco-cat-wheel") == null)
+            {
+                int insertIdx = Mathf.Min(1, decorations.Count);
+                decorations.Insert(insertIdx, new CollectibleItem
+                {
+                    id = "deco-cat-wheel",
+                    displayName = "캣휠",
+                    displayName_EN = "Cat Wheel",
+                    description = "화면 안에서 회전하는 고양이 캣휠 장식입니다.",
+                    unlockSetId = "",
+                    rarity = CardRarity.R,
+                    isTestUnlocked = true,
+                    displaySprite = LoadDecoSprite("Cat_Wheel.png")
+                });
+            }
+            else
+            {
+                var item = decorations.Find(x => x.id == "deco-cat-wheel");
+                if (item != null)
+                {
+                    item.isTestUnlocked = true;
+                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("Cat_Wheel.png");
+                }
+            }
+
+            if (decorations.Find(x => x.id == "deco-mouse-toy") == null)
+            {
+                int insertIdx = Mathf.Min(2, decorations.Count);
+                decorations.Insert(insertIdx, new CollectibleItem
+                {
+                    id = "deco-mouse-toy",
+                    displayName = "태엽 쥐 장난감",
+                    displayName_EN = "Mouse Toy",
+                    description = "화면 맨 아래를 끊임없이 달려가는 쥐 장난감입니다.",
+                    unlockSetId = "",
+                    rarity = CardRarity.R,
+                    isTestUnlocked = true,
+                    displaySprite = LoadDecoSprite("Mouse_Toy.png")
+                });
+            }
+            else
+            {
+                var item = decorations.Find(x => x.id == "deco-mouse-toy");
+                if (item != null)
+                {
+                    item.isTestUnlocked = true;
+                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("Mouse_Toy.png");
+                }
+            }
+
+            if (decorations.Find(x => x.id == "deco-fish-toy") == null)
+            {
+                int insertIdx = Mathf.Min(3, decorations.Count);
+                decorations.Insert(insertIdx, new CollectibleItem
+                {
+                    id = "deco-fish-toy",
+                    displayName = "태엽 생선 장난감",
+                    displayName_EN = "Fish Toy",
+                    description = "화면 맨 아래를 끊임없이 헤엄쳐 다니는 생선 장난감입니다.",
+                    unlockSetId = "",
+                    rarity = CardRarity.R,
+                    isTestUnlocked = true,
+                    displaySprite = LoadDecoSprite("fish_toy_spritesheet_200x100.png")
+                });
+            }
+            else
+            {
+                var item = decorations.Find(x => x.id == "deco-fish-toy");
+                if (item != null)
+                {
+                    item.isTestUnlocked = true;
+                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("fish_toy_spritesheet_200x100.png");
+                }
+            }
+
+            // 세트 2 이후(세트 3~) 배경 및 장식 게임 내 표출 제외 처리
+            if (backgrounds != null)
+            {
+                backgrounds.RemoveAll(bg => bg != null && !SetCatalogSO.IsSetAllowed(bg.unlockSetId));
+            }
+            if (decorations != null)
+            {
+                decorations.RemoveAll(deco => deco != null && !SetCatalogSO.IsSetAllowed(deco.unlockSetId));
             }
         }
 

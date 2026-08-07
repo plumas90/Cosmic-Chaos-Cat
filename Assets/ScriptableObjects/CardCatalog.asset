@@ -4413,15 +4413,15 @@ MonoBehaviour:
     IsShop: 0
     ShopCurrency: 0
     ShopPrice: 1000
-    CardSprite: {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
-    GachaBgSprite: {fileID: 4198128224699089176, guid: 13d9fdd19e8edce40a09c65e12367aa8, type: 3}
+    CardSprite: {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
-    - {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
-    - {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
-    - {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
-    - {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
-    - {fileID: -8826973772877174949, guid: f73ef2578b74e17139eaa5077ad98bf5, type: 3}
+    - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
     BreakthroughDescriptions_EN: []

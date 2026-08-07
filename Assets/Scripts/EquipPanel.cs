@@ -33,6 +33,7 @@ namespace CosmicChaosCat
 
         [Header("Buttons (auto-found by name if null)")]
         [SerializeField] private Button changeBtn;
+        [SerializeField] private Button unchangeBtn;
         [SerializeField] private Button closeBtn;
 
         [Header("Lock Icon Sprite (assign in Inspector)")]
@@ -46,6 +47,7 @@ namespace CosmicChaosCat
 
         private GameObject[] allSlotGOs;       // Center, LeftUp, RightUp, LeftDown, RightDown 순
         private ClickSocketSlot[] allSlotKeys;
+        private Vector3[] slotBaseScales;
 
         // 색상
         private static readonly Color SelectedTint   = new Color(1.0f, 0.92f, 0.45f, 1f);
@@ -62,12 +64,19 @@ namespace CosmicChaosCat
         private void OnEnable()
         {
             EnsureSetup();
+            LocalizationManager.OnLanguageChanged += OnLanguageChanged;
             Refresh();
         }
 
         private void OnDisable()
         {
+            LocalizationManager.OnLanguageChanged -= OnLanguageChanged;
             StopAllCoroutines();
+        }
+
+        private void OnLanguageChanged()
+        {
+            Refresh();
         }
 
         // ── 공개 API ──────────────────────────────────────────────────────────
@@ -107,11 +116,32 @@ namespace CosmicChaosCat
                 ClickSocketSlot.LeftDown, ClickSocketSlot.RightDown
             };
 
+            if (slotBaseScales == null || slotBaseScales.Length != allSlotGOs.Length)
+            {
+                slotBaseScales = new Vector3[allSlotGOs.Length];
+                for (int i = 0; i < allSlotGOs.Length; i++)
+                {
+                    if (allSlotGOs[i] != null && allSlotGOs[i].transform.localScale.sqrMagnitude >= 0.01f)
+                    {
+                        slotBaseScales[i] = allSlotGOs[i].transform.localScale;
+                    }
+                    else
+                    {
+                        slotBaseScales[i] = new Vector3(1.5f, 1.5f, 1f);
+                    }
+                }
+            }
+
             // 버튼 자동 탐색
             if (changeBtn == null)
             {
                 var t = FindChildTransform("Change_Btn");
                 if (t != null) changeBtn = t.GetComponent<Button>();
+            }
+            if (unchangeBtn == null)
+            {
+                var t = FindChildTransform("UnChange_Btn") ?? FindChildTransform("Unchange_Btn") ?? FindChildTransform("UnChangeBtn") ?? FindChildTransform("UnchangeBtn");
+                if (t != null) unchangeBtn = t.GetComponent<Button>();
             }
             if (closeBtn == null)
             {
@@ -120,8 +150,9 @@ namespace CosmicChaosCat
             }
 
             // 버튼 이벤트
-            if (changeBtn != null) { changeBtn.onClick.RemoveAllListeners(); changeBtn.onClick.AddListener(OnChangeClicked); }
-            if (closeBtn  != null) { closeBtn.onClick.RemoveAllListeners();  closeBtn.onClick.AddListener(OnCloseClicked); }
+            if (changeBtn   != null) { changeBtn.onClick.RemoveAllListeners();   changeBtn.onClick.AddListener(OnChangeClicked); }
+            if (unchangeBtn != null) { unchangeBtn.onClick.RemoveAllListeners(); unchangeBtn.onClick.AddListener(OnUnchangeClicked); }
+            if (closeBtn    != null) { closeBtn.onClick.RemoveAllListeners();    closeBtn.onClick.AddListener(OnCloseClicked); }
 
             // 각 슬롯 버튼에 클릭 이벤트 등록
             BindSlotButtonListeners();
@@ -257,35 +288,43 @@ namespace CosmicChaosCat
                             }
                         }
 
-                        Sprite stageSprite = gm.GetCardSpriteForDisplay(cardId);
-                        if (stageSprite == null) stageSprite = entry.CardSprite ?? entry.GachaBgSprite;
+                        if (artImg != null)
+                        {
+                            if (!artImg.gameObject.activeSelf) artImg.gameObject.SetActive(true);
+                            Sprite stageSprite = gm.GetCardSpriteForDisplay(cardId);
+                            if (stageSprite == null) stageSprite = entry.CardSprite ?? entry.GachaBgSprite;
 
-                        artImg.sprite = stageSprite;
-                        artImg.color  = Color.white;
-                        artImg.preserveAspect = true;
+                            artImg.sprite = stageSprite;
+                            artImg.color  = Color.white;
+                            artImg.preserveAspect = true;
 
-                        LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, entry);
+                            LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, entry);
+                        }
                         
                         if (nameTxt != null) nameTxt.text = entry.GetDisplayName();
                     }
                 }
                 else
                 {
+                    // 비어있는 슬롯 (UnChange 해제 상태)
                     if (frameImg != null)
                     {
                         frameImg.color = UnlockedTint;
                         if (ep != null)
                         {
-                            Sprite fSp = ep.GetFrameSpriteForRarity(CardRarity.N);
+                            Sprite fSp = ep.GetFrameSpriteForRarity(CardRarity.N); // card_frame_n으로 변경
                             if (fSp != null) frameImg.sprite = fSp;
                         }
                     }
-                    if (markImg != null) markImg.gameObject.SetActive(false);
+                    if (markImg != null) markImg.gameObject.SetActive(false); // rareMark 꺼둠
 
-                    artImg.sprite = null;
-                    artImg.color  = new Color(0.5f, 0.5f, 0.6f, 0.5f);
-                    LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, null);
-                    if (nameTxt != null) nameTxt.text = "비어있음";
+                    if (artImg != null)
+                    {
+                        artImg.sprite = null;
+                        artImg.gameObject.SetActive(false); // Art 이미지 꺼둠
+                        LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, null);
+                    }
+                    if (nameTxt != null) nameTxt.text = "";
                 }
             }
         }
@@ -301,29 +340,74 @@ namespace CosmicChaosCat
             if (slotGO == null) return;
             bool isSelected = slot == selectedSlot;
 
-            // 배경 이미지 색상만 강조
+            int index = System.Array.IndexOf(allSlotGOs, slotGO);
+            Vector3 baseScale = (index >= 0 && slotBaseScales != null && index < slotBaseScales.Length)
+                ? slotBaseScales[index]
+                : (slotGO.transform.localScale.sqrMagnitude >= 0.01f ? slotGO.transform.localScale : new Vector3(1.5f, 1.5f, 1f));
+
+            // 1. 선택된 슬롯 원래 크기(예: 1.5배)의 1.12배 확대 강조 (1.5 * 1.12 = 1.68배)
+            slotGO.transform.localScale = isSelected ? baseScale * 1.12f : baseScale;
+
+            // 2. 슬롯 배경 및 테두리 이미지 황금빛 강조 색상 적용
             var bg = slotGO.GetComponent<Image>();
             if (bg != null) bg.color = isSelected ? SelectedTint : Color.white;
+
+            var frameImg = FindFrameImage(slotGO);
+            if (frameImg != null && gm != null && gm.IsSocketUnlocked(slot))
+            {
+                frameImg.color = isSelected ? SelectedTint : Color.white;
+            }
+
+            // 3. Highlight / Select / Outline 자식 오브젝트가 있다면 켜고 끔
+            var hl = FindChildImage(slotGO, "Highlight") ?? FindChildImage(slotGO, "Select") ?? FindChildImage(slotGO, "Outline");
+            if (hl != null) hl.gameObject.SetActive(isSelected);
         }
 
         private void UpdateChangeBtnLabel()
         {
-            if (changeBtn == null) return;
-            var lbl = changeBtn.GetComponentInChildren<TMP_Text>();
-            if (lbl == null) return;
-
-            bool isKR = (gm == null || gm.SelectedLanguage != "EN");
-
-            if (gm != null && !gm.IsSocketUnlocked(selectedSlot))
+            // 1. 교체 / 장착 버튼 텍스트 언어 갱신
+            if (changeBtn != null)
             {
-                // 잠긴 슬롯: 버튼 비활성화 (상점에서 구매하도록 유도)
-                lbl.text = isKR ? "상점에서 해금" : "Unlock in Shop";
-                changeBtn.interactable = false;
+                var lbl = changeBtn.GetComponentInChildren<TMP_Text>();
+                if (lbl != null)
+                {
+                    if (gm != null && !gm.IsSocketUnlocked(selectedSlot))
+                    {
+                        lbl.text = LocalizationManager.Get("equip_btn_unlock_shop");
+                        changeBtn.interactable = false;
+                    }
+                    else
+                    {
+                        lbl.text = LocalizationManager.Get("equip_btn_change");
+                        changeBtn.interactable = true;
+                    }
+                }
             }
-            else
+
+            // 2. 장착 해제 버튼 텍스트 언어 갱신
+            if (unchangeBtn != null)
             {
-                lbl.text = isKR ? "교체" : "Equip";
-                changeBtn.interactable = true;
+                var lbl = unchangeBtn.GetComponentInChildren<TMP_Text>();
+                if (lbl != null)
+                {
+                    lbl.text = LocalizationManager.Get("equip_btn_unequip");
+                }
+            }
+
+            // 3. 팝업 타이틀 및 닫기 버튼 텍스트 언어 갱신
+            var titleTxt = FindChildText(gameObject, "Title") ?? FindChildText(gameObject, "Header");
+            if (titleTxt != null)
+            {
+                titleTxt.text = LocalizationManager.Get("equip_panel_title");
+            }
+
+            if (closeBtn != null)
+            {
+                var closeTxt = closeBtn.GetComponentInChildren<TMP_Text>();
+                if (closeTxt != null && closeTxt.text != "✕")
+                {
+                    closeTxt.text = LocalizationManager.Get("common_btn_close");
+                }
             }
         }
 
@@ -349,6 +433,21 @@ namespace CosmicChaosCat
             Refresh();
             encPanel?.RefreshAfterEquip(pendingCardId);
             // GameManager.StateChanged가 발생하므로 CenterClick/SubClick의 CardImageDisplay가 자동 갱신됨
+        }
+
+        private void OnUnchangeClicked()
+        {
+            if (gm == null) return;
+
+            if (!gm.IsSocketUnlocked(selectedSlot))
+            {
+                return;
+            }
+
+            // 해제 버튼 클릭 시 해당 소켓을 비움("")
+            gm.EquipCardToSocket(selectedSlot, "");
+            Refresh();
+            encPanel?.RefreshAfterEquip(pendingCardId);
         }
 
         private void OnCloseClicked()

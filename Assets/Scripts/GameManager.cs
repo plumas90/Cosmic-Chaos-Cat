@@ -549,7 +549,7 @@ namespace CosmicChaosCat
             string.IsNullOrEmpty(id) || id == "bg-none" || unlockedBackgrounds.Contains(id);
 
         public bool IsDecorationUnlocked(string id) =>
-            string.IsNullOrEmpty(id) || id == "deco-none" || unlockedDecorations.Contains(id);
+            string.IsNullOrEmpty(id) || id == "deco-none" || id == "deco-cat-wheel" || id == "deco-mouse-toy" || id == "deco-fish-toy" || id.Contains("fish") || id.Contains("mouse") || id.Contains("wheel") || unlockedDecorations.Contains(id);
 
         public void UnlockBackground(string id)
         {
@@ -631,12 +631,9 @@ namespace CosmicChaosCat
             Debug.Log("[GameManager] ResetBackgroundsAndDecorationsForTest completed: All cards unlocked with 5 copies, Breakthrough reset to 0, Sets completed, Rewards unclaimed, BGs & Decos locked!");
         }
 
-        [ContextMenu("Grant All Cards x5 & 100k Resources")]
-        public void GrantAllCardsAndResourcesForTest()
+        [ContextMenu("Grant All Cards x5 (Full Collection)")]
+        public void GrantCardFullCollection()
         {
-            Money = 100000d;
-            Shards = 100000;
-
             if (cardCatalog != null && cardCatalog.Cards != null)
             {
                 foreach (var card in cardCatalog.Cards)
@@ -662,7 +659,26 @@ namespace CosmicChaosCat
             Save();
             NotifyState();
 
-            Debug.Log("[GameManager] ✅ 올컬렉팅 테스트 적용 완료! (모든 카드 5장, 골드 100k, 조각 100k)");
+            Debug.Log("[GameManager] ✅ 모든 카드 5장 풀컬렉션 테스트 적용 완료!");
+        }
+
+        [ContextMenu("Grant 100k Resources")]
+        public void GrantResources100k()
+        {
+            Money += 100000d;
+            Shards += 100000;
+
+            Save();
+            NotifyState();
+
+            Debug.Log("[GameManager] ✅ 자원/재화 +100k 테스트 지급 완료!");
+        }
+
+        [ContextMenu("Grant All Cards x5 & 100k Resources")]
+        public void GrantAllCardsAndResourcesForTest()
+        {
+            GrantCardFullCollection();
+            GrantResources100k();
         }
 
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);

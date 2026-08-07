@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 3207df103521c934eb183b7ad27da34a
+guid: 02e06eaa62f75274ba2d8197e4945acc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2300116448897117417
-    second: missingno_cat_glitch_sheet_transparent_0
+      213: 4931529948314774693
+    second: catwheel_8_unique_spritesheet_1200x600_0
   - first:
-      213: -2802283180987402157
-    second: missingno_cat_glitch_sheet_transparent_1
+      213: -8887887582732842018
+    second: catwheel_8_unique_spritesheet_1200x600_1
   - first:
-      213: 6763172479524897376
-    second: missingno_cat_glitch_sheet_transparent_2
+      213: -7747095812308949390
+    second: catwheel_8_unique_spritesheet_1200x600_2
   - first:
-      213: -1285177412771697821
-    second: missingno_cat_glitch_sheet_transparent_3
+      213: -2314330447070459627
+    second: catwheel_8_unique_spritesheet_1200x600_3
   - first:
-      213: -1114741362290152111
-    second: missingno_cat_glitch_sheet_transparent_4
+      213: 1496906625079973264
+    second: catwheel_8_unique_spritesheet_1200x600_4
   - first:
-      213: 6883533200304840523
-    second: missingno_cat_glitch_sheet_transparent_5
+      213: 8086363823962981491
+    second: catwheel_8_unique_spritesheet_1200x600_5
   - first:
-      213: 7808718169314209445
-    second: missingno_cat_glitch_sheet_transparent_6
+      213: -9031637568684201064
+    second: catwheel_8_unique_spritesheet_1200x600_6
   - first:
-      213: 7899493542987921221
-    second: missingno_cat_glitch_sheet_transparent_7
+      213: 770822745726232293
+    second: catwheel_8_unique_spritesheet_1200x600_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -121,13 +121,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_0
+      name: catwheel_8_unique_spritesheet_1200x600_0
       rect:
         serializedVersion: 2
-        x: 53
-        y: 589
-        width: 333
-        height: 425
+        x: 12
+        y: 305
+        width: 275
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +136,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7135479b6485410e0800000000000000
-      internalID: -2300116448897117417
+      spriteID: 5aca0801c50507440800000000000000
+      internalID: 4931529948314774693
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_1
+      name: catwheel_8_unique_spritesheet_1200x600_1
       rect:
         serializedVersion: 2
-        x: 394
-        y: 589
-        width: 326
-        height: 426
+        x: 313
+        y: 305
+        width: 273
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 358b1354b4a4c19d0800000000000000
-      internalID: -2802283180987402157
+      spriteID: edb8a936551e7a480800000000000000
+      internalID: -8887887582732842018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_2
+      name: catwheel_8_unique_spritesheet_1200x600_2
       rect:
         serializedVersion: 2
-        x: 734
-        y: 589
-        width: 327
-        height: 429
+        x: 610
+        y: 305
+        width: 273
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,20 +180,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06287cc898d9bdd50800000000000000
-      internalID: 6763172479524897376
+      spriteID: 276a8629769cc7490800000000000000
+      internalID: -7747095812308949390
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_3
+      name: catwheel_8_unique_spritesheet_1200x600_3
       rect:
         serializedVersion: 2
-        x: 1069
-        y: 591
-        width: 324
-        height: 427
+        x: 911
+        y: 305
+        width: 273
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,20 +202,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 36b2366c3f12a2ee0800000000000000
-      internalID: -1285177412771697821
+      spriteID: 5198e7168b8d1efd0800000000000000
+      internalID: -2314330447070459627
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_4
+      name: catwheel_8_unique_spritesheet_1200x600_4
       rect:
         serializedVersion: 2
-        x: 47
-        y: 78
-        width: 334
-        height: 425
+        x: 13
+        y: 5
+        width: 274
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +224,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 15da24c13a4a780f0800000000000000
-      internalID: -1114741362290152111
+      spriteID: 09512d105a416c410800000000000000
+      internalID: 1496906625079973264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_5
+      name: catwheel_8_unique_spritesheet_1200x600_5
       rect:
         serializedVersion: 2
-        x: 396
-        y: 78
-        width: 321
-        height: 426
+        x: 313
+        y: 5
+        width: 273
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,20 +246,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4f17c3a9f8378f50800000000000000
-      internalID: 6883533200304840523
+      spriteID: 37402e3fd09883070800000000000000
+      internalID: 8086363823962981491
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_6
+      name: catwheel_8_unique_spritesheet_1200x600_6
       rect:
         serializedVersion: 2
-        x: 726
-        y: 78
-        width: 327
-        height: 426
+        x: 610
+        y: 5
+        width: 271
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,20 +268,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5aeac197dc32e5c60800000000000000
-      internalID: 7808718169314209445
+      spriteID: 89b6182ab7d29a280800000000000000
+      internalID: -9031637568684201064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_7
+      name: catwheel_8_unique_spritesheet_1200x600_7
       rect:
         serializedVersion: 2
-        x: 1060
-        y: 78
-        width: 328
-        height: 426
+        x: 910
+        y: 5
+        width: 274
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,8 +290,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54779472683a0ad60800000000000000
-      internalID: 7899493542987921221
+      spriteID: 5e6adc7043382ba00800000000000000
+      internalID: 770822745726232293
       vertices: []
       indices: 
       edges: []
@@ -310,14 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      missingno_cat_glitch_sheet_transparent_0: -2300116448897117417
-      missingno_cat_glitch_sheet_transparent_1: -2802283180987402157
-      missingno_cat_glitch_sheet_transparent_2: 6763172479524897376
-      missingno_cat_glitch_sheet_transparent_3: -1285177412771697821
-      missingno_cat_glitch_sheet_transparent_4: -1114741362290152111
-      missingno_cat_glitch_sheet_transparent_5: 6883533200304840523
-      missingno_cat_glitch_sheet_transparent_6: 7808718169314209445
-      missingno_cat_glitch_sheet_transparent_7: 7899493542987921221
+      catwheel_8_unique_spritesheet_1200x600_0: 4931529948314774693
+      catwheel_8_unique_spritesheet_1200x600_1: -8887887582732842018
+      catwheel_8_unique_spritesheet_1200x600_2: -7747095812308949390
+      catwheel_8_unique_spritesheet_1200x600_3: -2314330447070459627
+      catwheel_8_unique_spritesheet_1200x600_4: 1496906625079973264
+      catwheel_8_unique_spritesheet_1200x600_5: 8086363823962981491
+      catwheel_8_unique_spritesheet_1200x600_6: -9031637568684201064
+      catwheel_8_unique_spritesheet_1200x600_7: 770822745726232293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

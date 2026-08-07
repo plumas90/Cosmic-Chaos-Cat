@@ -205,5 +205,20 @@ MonoBehaviour:
   - key: common_confirm
     kr: "\uD655\uC778"
     en: Confirm
+  - key: equip_panel_title
+    kr: "\uC18C\uCF13 \uBC30\uCE61 \uC124\uC815"
+    en: Slot Equip
+  - key: equip_btn_change
+    kr: "\uC7A5\uCC29"
+    en: Equip
+  - key: equip_btn_unequip
+    kr: "\uC7A5\uCC29\uD574\uC81C"
+    en: Unequip
+  - key: equip_btn_unlock_shop
+    kr: "\uC0C1\uC810\uC5D0\uC11C \uD574\uAE08"
+    en: Unlock in Shop
+  - key: common_btn_close
+    kr: "\uB2EB\uAE30"
+    en: Close
 
 

@@ -10,11 +10,52 @@ namespace CosmicChaosCat
     {
         [SerializeField] private List<SetEntry> sets = new List<SetEntry>();
 
-        public IReadOnlyList<SetEntry> Sets => sets;
-        public List<SetEntry> SetsList => sets;
+        public static bool IsSetAllowed(string setIdStr)
+        {
+            if (string.IsNullOrEmpty(setIdStr)) return true;
+            string digits = System.Text.RegularExpressions.Regex.Match(setIdStr, @"\d+").Value;
+            if (int.TryParse(digits, out int num))
+            {
+                return num <= 2; // 세트 2까지만 허용 (세트 3 이후 제한)
+            }
+            return true;
+        }
+
+        public IReadOnlyList<SetEntry> Sets
+        {
+            get
+            {
+                var allowed = new List<SetEntry>();
+                if (sets != null)
+                {
+                    foreach (var s in sets)
+                    {
+                        if (s != null && IsSetAllowed(s.SetId)) allowed.Add(s);
+                    }
+                }
+                return allowed;
+            }
+        }
+
+        public List<SetEntry> SetsList
+        {
+            get
+            {
+                var allowed = new List<SetEntry>();
+                if (sets != null)
+                {
+                    foreach (var s in sets)
+                    {
+                        if (s != null && IsSetAllowed(s.SetId)) allowed.Add(s);
+                    }
+                }
+                return allowed;
+            }
+        }
 
         public SetEntry FindById(string setId)
         {
+            if (!IsSetAllowed(setId)) return null;
             for (int i = 0; i < sets.Count; i++)
                 if (sets[i] != null && sets[i].SetId == setId) return sets[i];
             return null;

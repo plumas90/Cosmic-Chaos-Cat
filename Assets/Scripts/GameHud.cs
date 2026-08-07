@@ -34,6 +34,10 @@ namespace CosmicChaosCat
         [SerializeField] private Button shopButton;
         [SerializeField] private Button collectionButton;
 
+        [Header("Test Cheat Buttons (Auto-Built next to Gacha Button)")]
+        [SerializeField] private Button cardFullCollectionButton;
+        [SerializeField] private Button resourceCheatButton;
+
         [Header("HUD Localized Text Fields (Inspector Explicit Bindings)")]
         [SerializeField] private TMP_Text gachaButtonLabel;
         [SerializeField] private TMP_Text encyclopediaButtonLabel;
@@ -115,6 +119,7 @@ namespace CosmicChaosCat
 
                 EnsureShopButtonBuilt();
                 EnsureCollectionButtonBuilt();
+                EnsureCheatButtonsBuilt();
 
                 if (FindObjectOfType<CardListTestButton>(true) == null)
                 {
@@ -427,11 +432,10 @@ namespace CosmicChaosCat
 
         private void OnGoToMainMenuClicked()
         {
-            if (confirmDialog != null)
-            {
-                confirmDialog.transform.SetAsLastSibling();
-                confirmDialog.SetActive(true);
-            }
+            if (gameManager == null) gameManager = GameManager.Instance ?? FindObjectOfType<GameManager>(true);
+            gameManager?.SaveGame();
+            Debug.Log("[GameHud] 게임 진행 상황 저장 완료. 메인 메뉴로 이동합니다.");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
         }
 
         private void OnResumeClicked()
@@ -617,9 +621,17 @@ namespace CosmicChaosCat
                 saveBtn.onClick.AddListener(OnSaveClicked);
             }
 
-            var mainBtn = FindChildRecursive(go.transform, "Btn_MainMenu")?.GetComponent<Button>()
+            Button mainBtn = null;
+            if (mainMenuLabel != null) mainBtn = mainMenuLabel.GetComponentInParent<Button>();
+            if (mainBtn == null)
+            {
+                mainBtn = FindChildRecursive(go.transform, "Btn_MainMenu")?.GetComponent<Button>()
                        ?? FindChildRecursive(go.transform, "MainMenuBtn")?.GetComponent<Button>()
-                       ?? FindChildWithSubstring(go.transform, "main")?.GetComponent<Button>();
+                       ?? FindChildRecursive(go.transform, "Btn_Main")?.GetComponent<Button>()
+                       ?? FindChildWithSubstring(go.transform, "main")?.GetComponent<Button>()
+                       ?? FindChildWithSubstring(go.transform, "메인")?.GetComponent<Button>();
+            }
+
             if (mainBtn != null)
             {
                 mainBtn.onClick.RemoveAllListeners();
@@ -1085,6 +1097,185 @@ namespace CosmicChaosCat
 
             var loc = tx.gameObject.AddComponent<LocalizeText>();
             loc.Key = "hud_btn_collection";
+        }
+
+        private void EnsureCheatButtonsBuilt()
+        {
+            GameObject mainGachaGO = GameObject.Find("GachaButton");
+            if (mainGachaGO == null)
+            {
+                var buttons = FindObjectsOfType<Button>(true);
+                foreach (var b in buttons)
+                {
+                    if (b != null && b.name.Equals("GachaButton", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        mainGachaGO = b.gameObject;
+                        break;
+                    }
+                }
+            }
+
+            if (mainGachaGO == null && gachaButton != null)
+            {
+                mainGachaGO = gachaButton.gameObject;
+            }
+
+            if (mainGachaGO == null) return;
+
+            var gachaRT = mainGachaGO.GetComponent<RectTransform>();
+            if (gachaRT == null) return;
+
+            var parent = gachaRT.parent;
+
+            // 게임 메인 폰트 (Galmuri9 SDF) 명시적 로드
+            TMP_FontAsset mainFont = null;
+#if UNITY_EDITOR
+            mainFont = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Font/Galmuri9 SDF.asset");
+#endif
+            if (mainFont == null)
+            {
+                var fonts = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
+                foreach (var f in fonts)
+                {
+                    if (f != null && f.name.Contains("Galmuri")) { mainFont = f; break; }
+                }
+            }
+            if (mainFont == null)
+            {
+                mainFont = mainGachaGO.GetComponentInChildren<TMP_Text>(true)?.font ?? FindObjectOfType<TextMeshProUGUI>(true)?.font;
+            }
+
+            // 1. 메인 씬 카드 풀컬렉션 버튼 ("풀컬렉션")
+            if (cardFullCollectionButton == null)
+            {
+                var existing = parent.Find("Btn_CardFullCollection") ?? transform.Find("Btn_CardFullCollection");
+                if (existing != null)
+                {
+                    cardFullCollectionButton = existing.GetComponent<Button>();
+                }
+                else
+                {
+                    var go = new GameObject("Btn_CardFullCollection");
+                    go.transform.SetParent(parent, false);
+                    var rt = go.AddComponent<RectTransform>();
+                    rt.anchorMin = gachaRT.anchorMin;
+                    rt.anchorMax = gachaRT.anchorMax;
+                    rt.pivot = gachaRT.pivot;
+                    rt.sizeDelta = new Vector2(140f, 55f);
+                    // 메인 씬 GachaButton 좌측에 정밀 배치
+                    rt.anchoredPosition = gachaRT.anchoredPosition + new Vector2(-295f, 0f);
+
+                    var img = go.AddComponent<Image>();
+                    var gachaImg = mainGachaGO.GetComponent<Image>();
+                    if (gachaImg != null && gachaImg.sprite != null)
+                    {
+                        img.sprite = gachaImg.sprite;
+                        img.type = gachaImg.type;
+                    }
+                    img.color = new Color(0.55f, 0.25f, 0.85f, 0.95f); // 보라/골드 테마
+
+                    var btn = go.AddComponent<Button>();
+                    cardFullCollectionButton = btn;
+
+                    var labelGO = new GameObject("Label");
+                    labelGO.transform.SetParent(go.transform, false);
+                    var lrt = labelGO.AddComponent<RectTransform>();
+                    lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+                    lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+
+                    var tx = labelGO.AddComponent<TextMeshProUGUI>();
+                    if (mainFont != null) tx.font = mainFont;
+                    tx.text = "풀컬렉션";
+                    tx.alignment = TextAlignmentOptions.Center;
+                    tx.color = Color.white;
+                    tx.fontSize = 18;
+                    tx.fontWeight = FontWeight.Bold;
+                }
+            }
+            else
+            {
+                var tx = cardFullCollectionButton.GetComponentInChildren<TMP_Text>(true);
+                if (tx != null && mainFont != null) tx.font = mainFont;
+            }
+
+            // 2. 메인 씬 자원 재화 버튼 ("자원재화")
+            if (resourceCheatButton == null)
+            {
+                var existing = parent.Find("Btn_ResourceCheat") ?? transform.Find("Btn_ResourceCheat");
+                if (existing != null)
+                {
+                    resourceCheatButton = existing.GetComponent<Button>();
+                }
+                else
+                {
+                    var go = new GameObject("Btn_ResourceCheat");
+                    go.transform.SetParent(parent, false);
+                    var rt = go.AddComponent<RectTransform>();
+                    rt.anchorMin = gachaRT.anchorMin;
+                    rt.anchorMax = gachaRT.anchorMax;
+                    rt.pivot = gachaRT.pivot;
+                    rt.sizeDelta = new Vector2(140f, 55f);
+                    // 메인 씬 GachaButton 우측에 정밀 배치
+                    rt.anchoredPosition = gachaRT.anchoredPosition + new Vector2(295f, 0f);
+
+                    var img = go.AddComponent<Image>();
+                    var gachaImg = mainGachaGO.GetComponent<Image>();
+                    if (gachaImg != null && gachaImg.sprite != null)
+                    {
+                        img.sprite = gachaImg.sprite;
+                        img.type = gachaImg.type;
+                    }
+                    img.color = new Color(0.15f, 0.65f, 0.85f, 0.95f); // 청록/시안 테마
+
+                    var btn = go.AddComponent<Button>();
+                    resourceCheatButton = btn;
+
+                    var labelGO = new GameObject("Label");
+                    labelGO.transform.SetParent(go.transform, false);
+                    var lrt = labelGO.AddComponent<RectTransform>();
+                    lrt.anchorMin = Vector2.zero; lrt.anchorMax = Vector2.one;
+                    lrt.offsetMin = Vector2.zero; lrt.offsetMax = Vector2.zero;
+
+                    var tx = labelGO.AddComponent<TextMeshProUGUI>();
+                    if (mainFont != null) tx.font = mainFont;
+                    tx.text = "자원재화";
+                    tx.alignment = TextAlignmentOptions.Center;
+                    tx.color = Color.white;
+                    tx.fontSize = 18;
+                    tx.fontWeight = FontWeight.Bold;
+                }
+            }
+            else
+            {
+                var tx = resourceCheatButton.GetComponentInChildren<TMP_Text>(true);
+                if (tx != null && mainFont != null) tx.font = mainFont;
+            }
+
+            // Click Handlers
+            if (cardFullCollectionButton != null)
+            {
+                cardFullCollectionButton.onClick.RemoveAllListeners();
+                cardFullCollectionButton.onClick.AddListener(OnCardFullCollectionClicked);
+            }
+            if (resourceCheatButton != null)
+            {
+                resourceCheatButton.onClick.RemoveAllListeners();
+                resourceCheatButton.onClick.AddListener(OnResourceCheatClicked);
+            }
+        }
+
+        private void OnCardFullCollectionClicked()
+        {
+            if (gameManager == null) gameManager = GameManager.Instance ?? FindObjectOfType<GameManager>(true);
+            gameManager?.GrantCardFullCollection();
+            OnLog("모든 카드 5장 풀컬렉션 지급 완료!");
+        }
+
+        private void OnResourceCheatClicked()
+        {
+            if (gameManager == null) gameManager = GameManager.Instance ?? FindObjectOfType<GameManager>(true);
+            gameManager?.GrantResources100k();
+            OnLog("골드 +100k, 조각 +100k 재화 지급 완료!");
         }
 
         private void BindHudButtonLocalizations()

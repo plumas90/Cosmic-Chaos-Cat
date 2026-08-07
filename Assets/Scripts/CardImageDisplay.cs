@@ -45,8 +45,16 @@ namespace CosmicChaosCat
         private bool socketDetected = false;
         private int currentSpriteIndex = 0;
 
+        // ── 152_missing_cat 자동 연속 루프 애니메이션 ───────────────────────────
+        private float autoIdleTimer = 0f;
+        private int autoIdleFrameIndex = 0;
+        private List<Sprite> autoIdleSprites = null;
+        private bool isAutoIdleActive = false;
+
         public void CycleMemeCatImage()
         {
+            if (isAutoIdleActive) return; // 152번 자동 연속 회전 카드는 클릭과 무관하게 자동 애니메이션 수행
+
             string socketCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
             if (string.IsNullOrEmpty(socketCardId)) return;
 
@@ -175,6 +183,26 @@ namespace CosmicChaosCat
                     }
                 }
             }
+
+            // 152번 missing_cat 등 클릭 무관 자동 연속 프레임 루프 애니메이션
+            UpdateAutoIdleAnimation();
+        }
+
+        private void UpdateAutoIdleAnimation()
+        {
+            if (!isAutoIdleActive || autoIdleSprites == null || autoIdleSprites.Count < 2) return;
+
+            autoIdleTimer += Time.deltaTime;
+            const float frameRate = 0.12f; // ~8 FPS 자동 회전
+            if (autoIdleTimer >= frameRate)
+            {
+                autoIdleTimer = 0f;
+                autoIdleFrameIndex = (autoIdleFrameIndex + 1) % autoIdleSprites.Count;
+                if (cardImage != null && autoIdleSprites[autoIdleFrameIndex] != null)
+                {
+                    cardImage.sprite = autoIdleSprites[autoIdleFrameIndex];
+                }
+            }
         }
 
         private void Refresh()
@@ -222,36 +250,60 @@ namespace CosmicChaosCat
             {
                 lastEquippedId = curCardId;
                 currentSpriteIndex = 0;
+                autoIdleFrameIndex = 0;
+                autoIdleTimer = 0f;
+            }
+
+            if (curCardId != null && AutoIdleCatAnimationHelper.IsAutoIdleCat(curCardId))
+            {
+                isAutoIdleActive = true;
+                autoIdleSprites = AutoIdleCatAnimationHelper.GetAutoIdleSprites(curCardId, card);
+            }
+            else
+            {
+                isAutoIdleActive = false;
+                autoIdleSprites = null;
             }
 
             // 스프라이트 및 색상
             if (cardImage != null)
             {
                 cardImage.preserveAspect = true;
-                var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card);
-                if (sprites != null && sprites.Count >= 2)
+                if (isAutoIdleActive && autoIdleSprites != null && autoIdleSprites.Count > 0)
                 {
-                    if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
-                    Sprite currentSp = sprites[currentSpriteIndex];
+                    if (autoIdleFrameIndex >= autoIdleSprites.Count) autoIdleFrameIndex = 0;
+                    Sprite currentSp = autoIdleSprites[autoIdleFrameIndex];
                     if (currentSp == null) currentSp = defaultCardSprite;
                     cardImage.sprite = currentSp;
                     cardImage.color  = Color.white;
                 }
                 else
                 {
-                    Sprite sprite = (card != null)
-                        ? gameManager.GetCardSpriteForDisplay(card.Id)
-                        : defaultCardSprite;
-                    if (sprite == null) sprite = defaultCardSprite;
-                    
-                    bool spriteChanged = cardImage.sprite != sprite;
-                    cardImage.sprite = sprite;
-                    if (sprite != null)
+                    var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card);
+                    if (sprites != null && sprites.Count >= 2)
                     {
-                        cardImage.color = Color.white;
-                        if (spriteChanged)
+                        if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
+                        Sprite currentSp = sprites[currentSpriteIndex];
+                        if (currentSp == null) currentSp = defaultCardSprite;
+                        cardImage.sprite = currentSp;
+                        cardImage.color  = Color.white;
+                    }
+                    else
+                    {
+                        Sprite sprite = (card != null)
+                            ? gameManager.GetCardSpriteForDisplay(card.Id)
+                            : defaultCardSprite;
+                        if (sprite == null) sprite = defaultCardSprite;
+                        
+                        bool spriteChanged = cardImage.sprite != sprite;
+                        cardImage.sprite = sprite;
+                        if (sprite != null)
                         {
-                            cardImage.SetNativeSize();
+                            cardImage.color = Color.white;
+                            if (spriteChanged)
+                            {
+                                cardImage.SetNativeSize();
+                            }
                         }
                     }
                 }
@@ -410,6 +462,8 @@ namespace CosmicChaosCat
             longNeckContainer.anchorMax = Vector2.one;
             longNeckContainer.offsetMin = Vector2.zero;
             longNeckContainer.offsetMax = Vector2.zero;
+
+            // 상단 UI 버튼 및 메뉴를 가리지 않도록 overrideSorting Canvas를 제거하고 Canvas 표준 계층 순서 적용
 
             if (longNeckHeadSprite == null) longNeckHeadSprite = LongNeckCatDisplayHelper.GetHeadSprite();
             if (longNeckBodySprite == null) longNeckBodySprite = LongNeckCatDisplayHelper.GetBodySprite();

@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 3207df103521c934eb183b7ad27da34a
+guid: fda525c7f012277479fe9c89d05337e3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2300116448897117417
-    second: missingno_cat_glitch_sheet_transparent_0
+      213: 3204965859543225424
+    second: mouse_toy_spritesheet_200x100_0
   - first:
-      213: -2802283180987402157
-    second: missingno_cat_glitch_sheet_transparent_1
+      213: 8046631528111635451
+    second: mouse_toy_spritesheet_200x100_1
   - first:
-      213: 6763172479524897376
-    second: missingno_cat_glitch_sheet_transparent_2
+      213: 5237048691629970030
+    second: mouse_toy_spritesheet_200x100_2
   - first:
-      213: -1285177412771697821
-    second: missingno_cat_glitch_sheet_transparent_3
+      213: 5375291274419143672
+    second: mouse_toy_spritesheet_200x100_3
   - first:
-      213: -1114741362290152111
-    second: missingno_cat_glitch_sheet_transparent_4
+      213: -3283036641547573011
+    second: mouse_toy_spritesheet_200x100_4
   - first:
-      213: 6883533200304840523
-    second: missingno_cat_glitch_sheet_transparent_5
+      213: 6293910627293298534
+    second: mouse_toy_spritesheet_200x100_5
   - first:
-      213: 7808718169314209445
-    second: missingno_cat_glitch_sheet_transparent_6
+      213: 8081865347130053118
+    second: mouse_toy_spritesheet_200x100_6
   - first:
-      213: 7899493542987921221
-    second: missingno_cat_glitch_sheet_transparent_7
+      213: 7053700192379478519
+    second: mouse_toy_spritesheet_200x100_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -121,13 +121,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_0
+      name: mouse_toy_spritesheet_200x100_0
       rect:
         serializedVersion: 2
-        x: 53
-        y: 589
-        width: 333
-        height: 425
+        x: 0
+        y: 57
+        width: 50
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +136,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7135479b6485410e0800000000000000
-      internalID: -2300116448897117417
+      spriteID: 0541457f7735a7c20800000000000000
+      internalID: 3204965859543225424
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_1
+      name: mouse_toy_spritesheet_200x100_1
       rect:
         serializedVersion: 2
-        x: 394
-        y: 589
-        width: 326
-        height: 426
+        x: 50
+        y: 57
+        width: 50
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 358b1354b4a4c19d0800000000000000
-      internalID: -2802283180987402157
+      spriteID: bfb7d8fedb06baf60800000000000000
+      internalID: 8046631528111635451
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_2
+      name: mouse_toy_spritesheet_200x100_2
       rect:
         serializedVersion: 2
-        x: 734
-        y: 589
-        width: 327
-        height: 429
+        x: 100
+        y: 53
+        width: 50
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,20 +180,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06287cc898d9bdd50800000000000000
-      internalID: 6763172479524897376
+      spriteID: e625708b90cbda840800000000000000
+      internalID: 5237048691629970030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_3
+      name: mouse_toy_spritesheet_200x100_3
       rect:
         serializedVersion: 2
-        x: 1069
-        y: 591
-        width: 324
-        height: 427
+        x: 150
+        y: 57
+        width: 50
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,20 +202,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 36b2366c3f12a2ee0800000000000000
-      internalID: -1285177412771697821
+      spriteID: 8f382004feed89a40800000000000000
+      internalID: 5375291274419143672
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_4
+      name: mouse_toy_spritesheet_200x100_4
       rect:
         serializedVersion: 2
-        x: 47
-        y: 78
-        width: 334
-        height: 425
+        x: 0
+        y: 9
+        width: 50
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +224,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 15da24c13a4a780f0800000000000000
-      internalID: -1114741362290152111
+      spriteID: de827fb919f4072d0800000000000000
+      internalID: -3283036641547573011
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_5
+      name: mouse_toy_spritesheet_200x100_5
       rect:
         serializedVersion: 2
-        x: 396
-        y: 78
-        width: 321
-        height: 426
+        x: 50
+        y: 3
+        width: 50
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,20 +246,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4f17c3a9f8378f50800000000000000
-      internalID: 6883533200304840523
+      spriteID: 66f7fd37e56785750800000000000000
+      internalID: 6293910627293298534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_6
+      name: mouse_toy_spritesheet_200x100_6
       rect:
         serializedVersion: 2
-        x: 726
-        y: 78
-        width: 327
-        height: 426
+        x: 100
+        y: 8
+        width: 50
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,20 +268,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5aeac197dc32e5c60800000000000000
-      internalID: 7808718169314209445
+      spriteID: ef1d932b6bd882070800000000000000
+      internalID: 8081865347130053118
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missingno_cat_glitch_sheet_transparent_7
+      name: mouse_toy_spritesheet_200x100_7
       rect:
         serializedVersion: 2
-        x: 1060
-        y: 78
-        width: 328
-        height: 426
+        x: 150
+        y: 8
+        width: 50
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,8 +290,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54779472683a0ad60800000000000000
-      internalID: 7899493542987921221
+      spriteID: 7f122eee3f6c3e160800000000000000
+      internalID: 7053700192379478519
       vertices: []
       indices: 
       edges: []
@@ -310,14 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      missingno_cat_glitch_sheet_transparent_0: -2300116448897117417
-      missingno_cat_glitch_sheet_transparent_1: -2802283180987402157
-      missingno_cat_glitch_sheet_transparent_2: 6763172479524897376
-      missingno_cat_glitch_sheet_transparent_3: -1285177412771697821
-      missingno_cat_glitch_sheet_transparent_4: -1114741362290152111
-      missingno_cat_glitch_sheet_transparent_5: 6883533200304840523
-      missingno_cat_glitch_sheet_transparent_6: 7808718169314209445
-      missingno_cat_glitch_sheet_transparent_7: 7899493542987921221
+      mouse_toy_spritesheet_200x100_0: 3204965859543225424
+      mouse_toy_spritesheet_200x100_1: 8046631528111635451
+      mouse_toy_spritesheet_200x100_2: 5237048691629970030
+      mouse_toy_spritesheet_200x100_3: 5375291274419143672
+      mouse_toy_spritesheet_200x100_4: -3283036641547573011
+      mouse_toy_spritesheet_200x100_5: 6293910627293298534
+      mouse_toy_spritesheet_200x100_6: 8081865347130053118
+      mouse_toy_spritesheet_200x100_7: 7053700192379478519
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
