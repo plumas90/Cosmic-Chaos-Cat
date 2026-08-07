@@ -74,16 +74,30 @@ namespace CosmicChaosCat
 
         private void Update()
         {
-            if (!isPulsing) return;
-            pulseTimer += Time.unscaledDeltaTime;
-            float t = pulseTimer / pulseDuration;
-            float s = 1f + (pulseScale - 1f) * Mathf.Sin(t * Mathf.PI);
-            transform.localScale = originalScale * s;
-            if (pulseTimer >= pulseDuration)
+            if (isPulsing)
             {
-                transform.localScale = originalScale;
-                isPulsing = false;
-                pulseTimer = 0f;
+                pulseTimer += Time.unscaledDeltaTime;
+                float t = pulseTimer / pulseDuration;
+                float s = 1f + (pulseScale - 1f) * Mathf.Sin(t * Mathf.PI);
+                transform.localScale = originalScale * s;
+                if (pulseTimer >= pulseDuration)
+                {
+                    transform.localScale = originalScale;
+                    isPulsing = false;
+                    pulseTimer = 0f;
+                }
+            }
+
+            // 171 롱넥캣 콤보 중단 시 역방향 복귀 감지
+            if (longNeckContainer != null && longNeckContainer.gameObject.activeSelf && !isRetracting)
+            {
+                if (spawnedNeckData.Count > 0 && gameManager != null)
+                {
+                    if (gameManager.ComboCount == 0)
+                    {
+                        StartReverseRetract();
+                    }
+                }
             }
         }
 
@@ -169,14 +183,92 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite longNeckBodySprite;
         [SerializeField] private Sprite longNeckNeckSprite;
         
+        private struct NeckSegmentData
+        {
+            public GameObject go;
+            public Vector2 startPos;
+            public float angle;
+        }
+
+        private List<NeckSegmentData> spawnedNeckData = new List<NeckSegmentData>();
+        private Vector2 currentNeckTipPos = new Vector2(0f, -10f);
+        private float currentNeckAngle = 0f;
+        private const float SINGLE_NECK_HEIGHT = 93.33f; // 원본 비율(600x200)에 정확히 맞춘 1개 목 마디 높이
+        private bool isRetracting = false;
+        private Coroutine retractRoutine;
+
         private RectTransform longNeckContainer;
         private Image         longNeckHeadImage;
         private Image         longNeckBodyImage;
         private Image         longNeckNeckImage;
         private Coroutine     longNeckRoutine;
 
-        private List<GameObject> spawnedNeckObjects = new List<GameObject>();
-        private const float SINGLE_NECK_HEIGHT = 60f; // 1개 목 마디 높이
+        private void StartReverseRetract()
+        {
+            if (isRetracting) return;
+            if (retractRoutine != null) StopCoroutine(retractRoutine);
+            retractRoutine = StartCoroutine(ReverseRetractRoutine());
+        }
+
+        private System.Collections.IEnumerator ReverseRetractRoutine()
+        {
+            isRetracting = true;
+
+            int initialSegments = spawnedNeckData.Count;
+            if (initialSegments > 0)
+            {
+                // 100 콤보 이하는 마디당 0.01초 (예: 50마디 = 0.5초, 100마디 = 1.0초)
+                // 100 콤보 초과는 무조건 실제 벽시계 시간(Time.unscaledDeltaTime) 기준 1.0초 정밀 고정!
+                float totalRetractDuration = (initialSegments <= 100)
+                    ? (initialSegments * 0.01f)
+                    : 1.0f;
+
+                float elapsed = 0f;
+
+                while (elapsed < totalRetractDuration && spawnedNeckData.Count > 0)
+                {
+                    elapsed += Time.unscaledDeltaTime;
+                    float progress = Mathf.Clamp01(elapsed / totalRetractDuration);
+                    int targetRemaining = Mathf.RoundToInt(Mathf.Lerp(initialSegments, 0, progress));
+
+                    // 유니티 프레임 레이트(60FPS 등)에 상관없이 1개 프레임에 필요한 개수만큼 동시 파괴하여 시간 정확도 100% 보장
+                    while (spawnedNeckData.Count > targetRemaining)
+                    {
+                        int lastIdx = spawnedNeckData.Count - 1;
+                        var lastData = spawnedNeckData[lastIdx];
+
+                        if (lastData.go != null) Destroy(lastData.go);
+                        spawnedNeckData.RemoveAt(lastIdx);
+
+                        if (spawnedNeckData.Count > 0)
+                        {
+                            var prevData = spawnedNeckData[spawnedNeckData.Count - 1];
+                            Vector2 dir = Quaternion.Euler(0f, 0f, prevData.angle) * Vector2.up;
+                            currentNeckTipPos = prevData.startPos + dir * SINGLE_NECK_HEIGHT;
+                            currentNeckAngle = prevData.angle;
+                        }
+                        else
+                        {
+                            currentNeckTipPos = new Vector2(0f, -10f);
+                            currentNeckAngle = 0f;
+                        }
+
+                        if (longNeckHeadImage != null)
+                        {
+                            longNeckHeadImage.rectTransform.anchoredPosition = currentNeckTipPos;
+                            longNeckHeadImage.rectTransform.localRotation = Quaternion.Euler(0f, 0f, currentNeckAngle);
+                            longNeckHeadImage.transform.SetAsLastSibling();
+                        }
+                    }
+
+                    yield return null;
+                }
+            }
+
+            ClearSpawnedNecks();
+            isRetracting = false;
+            retractRoutine = null;
+        }
 
         private void EnsureLongNeckSetup()
         {
@@ -194,7 +286,7 @@ namespace CosmicChaosCat
             if (longNeckBodySprite == null) longNeckBodySprite = LongNeckCatDisplayHelper.GetBodySprite();
             if (longNeckNeckSprite == null) longNeckNeckSprite = LongNeckCatDisplayHelper.GetNeckSprite();
 
-            // 1. Body
+            // 1. Body (Original rect 600x377 -> 280x176)
             GameObject bodyGO = new GameObject("Body", typeof(RectTransform), typeof(Image));
             bodyGO.transform.SetParent(longNeckContainer, false);
             longNeckBodyImage = bodyGO.GetComponent<Image>();
@@ -206,10 +298,10 @@ namespace CosmicChaosCat
             bodyRt.anchorMin = new Vector2(0.5f, 0.5f);
             bodyRt.anchorMax = new Vector2(0.5f, 0.5f);
             bodyRt.pivot = new Vector2(0.5f, 0f);
-            bodyRt.anchoredPosition = new Vector2(0f, -140f);
-            bodyRt.sizeDelta = new Vector2(280f, 130f);
+            bodyRt.anchoredPosition = new Vector2(0f, -186f);
+            bodyRt.sizeDelta = new Vector2(280f, 176f);
 
-            // 2. Head (Top section, moves UPWARD from Y = -10f as necks are spawned)
+            // 2. Head (Original rect 600x424 -> 280x198, moves UPWARD as necks spawn)
             GameObject headGO = new GameObject("Head", typeof(RectTransform), typeof(Image));
             headGO.transform.SetParent(longNeckContainer, false);
             longNeckHeadImage = headGO.GetComponent<Image>();
@@ -222,7 +314,7 @@ namespace CosmicChaosCat
             headRt.anchorMax = new Vector2(0.5f, 0.5f);
             headRt.pivot = new Vector2(0.5f, 0f);
             headRt.anchoredPosition = new Vector2(0f, -10f);
-            headRt.sizeDelta = new Vector2(280f, 150f);
+            headRt.sizeDelta = new Vector2(280f, 198f);
 
             longNeckContainer.gameObject.SetActive(false);
         }
@@ -232,9 +324,24 @@ namespace CosmicChaosCat
             EnsureLongNeckSetup();
             if (longNeckContainer == null) return;
 
-            int index = spawnedNeckObjects.Count + 1;
+            int index = spawnedNeckData.Count + 1;
             string neckName = $"neck{index}";
 
+            // Calculate camera screen bounds relative to longNeckContainer
+            Canvas canvas = GetComponentInParent<Canvas>();
+            float maxHalfW = 400f;
+            float maxHalfH = 500f;
+            if (canvas != null)
+            {
+                var canvasRt = canvas.GetComponent<RectTransform>();
+                if (canvasRt != null && canvasRt.rect.width > 100f)
+                {
+                    maxHalfW = canvasRt.rect.width * 0.50f;
+                    maxHalfH = canvasRt.rect.height * 0.50f;
+                }
+            }
+
+            // 1. Spawn current neck segment at current tip pos
             GameObject neckGO = new GameObject(neckName, typeof(RectTransform), typeof(Image));
             neckGO.transform.SetParent(longNeckContainer, false);
 
@@ -248,31 +355,77 @@ namespace CosmicChaosCat
             neckRt.anchorMin = new Vector2(0.5f, 0.5f);
             neckRt.anchorMax = new Vector2(0.5f, 0.5f);
             neckRt.pivot = new Vector2(0.5f, 0f);
-            float neckPosY = -10f + (index - 1) * SINGLE_NECK_HEIGHT;
-            neckRt.anchoredPosition = new Vector2(0f, neckPosY);
+            neckRt.anchoredPosition = currentNeckTipPos;
+            neckRt.localRotation = Quaternion.Euler(0f, 0f, currentNeckAngle);
             neckRt.sizeDelta = new Vector2(280f, SINGLE_NECK_HEIGHT + 2f);
 
-            spawnedNeckObjects.Add(neckGO);
+            spawnedNeckData.Add(new NeckSegmentData
+            {
+                go = neckGO,
+                startPos = currentNeckTipPos,
+                angle = currentNeckAngle
+            });
 
-            // Move Head upwards by 1 segment step
+            // 2. Advance tip position along current neck direction
+            Vector2 dir = Quaternion.Euler(0f, 0f, currentNeckAngle) * Vector2.up;
+            Vector2 nextTipPos = currentNeckTipPos + dir * SINGLE_NECK_HEIGHT;
+
+            // 3. Check if neck tip has gone COMPLETELY outside screen boundary (+100px off-screen margin)
+            float outBoundW = maxHalfW + 100f;
+            float outBoundH = maxHalfH + 100f;
+            bool isNeckAtEdge = Mathf.Abs(nextTipPos.x) > outBoundW || nextTipPos.y > outBoundH || nextTipPos.y < -outBoundH;
+
+            if (isNeckAtEdge)
+            {
+                // Teleport start position FULLY OUTSIDE the screen (+100px off-screen margin) so head/neck enter from outside!
+                int edgeIndex = UnityEngine.Random.Range(0, 4); // 0: Top, 1: Bottom, 2: Left, 3: Right
+                switch (edgeIndex)
+                {
+                    case 0: // Top edge (starts outside top screen), facing downwards
+                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(-maxHalfW * 0.6f, maxHalfW * 0.6f), outBoundH);
+                        currentNeckAngle = 180f + UnityEngine.Random.Range(-35f, 35f);
+                        break;
+                    case 1: // Bottom edge (starts outside bottom screen), facing upwards
+                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(-maxHalfW * 0.6f, maxHalfW * 0.6f), -outBoundH);
+                        currentNeckAngle = 0f + UnityEngine.Random.Range(-35f, 35f);
+                        break;
+                    case 2: // Left edge (starts outside left screen), facing rightwards
+                        currentNeckTipPos = new Vector2(-outBoundW, UnityEngine.Random.Range(-maxHalfH * 0.6f, maxHalfH * 0.6f));
+                        currentNeckAngle = -90f + UnityEngine.Random.Range(-35f, 35f);
+                        break;
+                    case 3: // Right edge (starts outside right screen), facing leftwards
+                        currentNeckTipPos = new Vector2(outBoundW, UnityEngine.Random.Range(-maxHalfH * 0.6f, maxHalfH * 0.6f));
+                        currentNeckAngle = 90f + UnityEngine.Random.Range(-35f, 35f);
+                        break;
+                }
+            }
+            else
+            {
+                currentNeckTipPos = nextTipPos;
+            }
+
+            // 4. Update Head position & rotation to current tip position (or new edge position)
             if (longNeckHeadImage != null)
             {
-                float headY = -10f + spawnedNeckObjects.Count * SINGLE_NECK_HEIGHT;
-                longNeckHeadImage.rectTransform.anchoredPosition = new Vector2(0f, headY);
+                longNeckHeadImage.rectTransform.anchoredPosition = currentNeckTipPos;
+                longNeckHeadImage.rectTransform.localRotation = Quaternion.Euler(0f, 0f, currentNeckAngle);
                 longNeckHeadImage.transform.SetAsLastSibling(); // 머리는 항상 최상단 목 위에 배치!
             }
         }
 
         private void ClearSpawnedNecks()
         {
-            foreach (var go in spawnedNeckObjects)
+            foreach (var data in spawnedNeckData)
             {
-                if (go != null) Destroy(go);
+                if (data.go != null) Destroy(data.go);
             }
-            spawnedNeckObjects.Clear();
+            spawnedNeckData.Clear();
+            currentNeckTipPos = new Vector2(0f, -10f);
+            currentNeckAngle = 0f;
             if (longNeckHeadImage != null)
             {
                 longNeckHeadImage.rectTransform.anchoredPosition = new Vector2(0f, -10f);
+                longNeckHeadImage.rectTransform.localRotation = Quaternion.identity;
             }
         }
 
@@ -312,6 +465,8 @@ namespace CosmicChaosCat
 
         public void TriggerClickBounce()
         {
+            if (isRetracting) return; // 콤보가 끊겨 역방향 복귀 중일 때는 클릭 입력 잠금!
+
             Transform targetTf = cardImage != null ? cardImage.transform : transform;
             EnsureBaseScale(targetTf);
 
