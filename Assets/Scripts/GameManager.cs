@@ -81,6 +81,19 @@ namespace CosmicChaosCat
         public int    ComboCount     => comboCount;
         public int    ClicksPerSecond => clicksInWindow;
 
+        // ── Socket slot system ──────────────────────────────────────────────────
+        // Center socket is always unlocked.
+        public bool SocketLeftUpUnlocked   { get; private set; } = false;
+        public bool SocketRightUpUnlocked  { get; private set; } = false;
+        public bool SocketLeftDownUnlocked { get; private set; } = false;
+        public bool SocketRightDownUnlocked { get; private set; } = false;
+
+        // Card equipped in each sub-socket (Center uses EquippedCardId)
+        public string SocketLeftUpCardId    { get; private set; } = "";
+        public string SocketRightUpCardId   { get; private set; } = "";
+        public string SocketLeftDownCardId  { get; private set; } = "";
+        public string SocketRightDownCardId { get; private set; } = "";
+
         public CardCatalogSO       CardCatalog       => cardCatalog;
         public SetCatalogSO        SetCatalog        => setCatalog;
         public UpgradeCatalogSO    UpgradeCatalog    => upgradeCatalog;
@@ -393,11 +406,27 @@ namespace CosmicChaosCat
             NotifyState();
         }
 
+        public bool TryGetCardProgress(string cardId, out CardProgress progress)
+        {
+            progress = null;
+            if (string.IsNullOrEmpty(cardId)) return false;
+            if (cardState.TryGetValue(cardId, out progress)) return true;
+            if (int.TryParse(cardId, out int idNum))
+            {
+                string formatted = idNum.ToString("D4");
+                if (cardState.TryGetValue(formatted, out progress)) return true;
+                string unpadded = idNum.ToString();
+                if (cardState.TryGetValue(unpadded, out progress)) return true;
+            }
+            return false;
+        }
+
         public void EquipCard(string cardId)
         {
             if (string.IsNullOrEmpty(cardId)) return;
-            if (!cardState.TryGetValue(cardId, out var s) || !s.Unlocked) return;
-            EquippedCardId = cardId;
+            var entry = cardCatalog?.FindById(cardId);
+            string targetId = entry != null ? entry.Id : cardId;
+            EquippedCardId = targetId;
             Save();
             NotifyState();
         }
@@ -414,6 +443,70 @@ namespace CosmicChaosCat
         {
             if (string.IsNullOrEmpty(id)) return;
             EquippedDecorationId = id;
+            Save();
+            NotifyState();
+        }
+
+        // ── Socket API ─────────────────────────────────────────────────────────
+        public bool IsSocketUnlocked(ClickSocketSlot slot)
+        {
+            switch (slot)
+            {
+                case ClickSocketSlot.Center:    return true;
+                case ClickSocketSlot.LeftUp:    return SocketLeftUpUnlocked;
+                case ClickSocketSlot.RightUp:   return SocketRightUpUnlocked;
+                case ClickSocketSlot.LeftDown:  return SocketLeftDownUnlocked;
+                case ClickSocketSlot.RightDown: return SocketRightDownUnlocked;
+                default: return false;
+            }
+        }
+
+        public string GetSocketCardId(ClickSocketSlot slot)
+        {
+            switch (slot)
+            {
+                case ClickSocketSlot.Center:    return EquippedCardId;
+                case ClickSocketSlot.LeftUp:    return SocketLeftUpCardId;
+                case ClickSocketSlot.RightUp:   return SocketRightUpCardId;
+                case ClickSocketSlot.LeftDown:  return SocketLeftDownCardId;
+                case ClickSocketSlot.RightDown: return SocketRightDownCardId;
+                default: return "";
+            }
+        }
+
+        /// <summary>Unlocks a sub-socket slot (purchased from shop).</summary>
+        public bool UnlockSocket(ClickSocketSlot slot, double cost)
+        {
+            if (slot == ClickSocketSlot.Center) return true; // always unlocked
+            if (IsSocketUnlocked(slot)) return true;          // already unlocked
+            if (Money < cost) { Log("돈이 부족해요."); return false; }
+            Money -= cost;
+            switch (slot)
+            {
+                case ClickSocketSlot.LeftUp:    SocketLeftUpUnlocked = true;    break;
+                case ClickSocketSlot.RightUp:   SocketRightUpUnlocked = true;   break;
+                case ClickSocketSlot.LeftDown:  SocketLeftDownUnlocked = true;  break;
+                case ClickSocketSlot.RightDown: SocketRightDownUnlocked = true; break;
+            }
+            Save();
+            NotifyState();
+            return true;
+        }
+
+        /// <summary>Equips a card into a specific socket slot.</summary>
+        public void EquipCardToSocket(ClickSocketSlot slot, string cardId)
+        {
+            if (!IsSocketUnlocked(slot)) return;
+            var entry = string.IsNullOrEmpty(cardId) ? null : cardCatalog?.FindById(cardId);
+            string targetId = entry != null ? entry.Id : (cardId ?? "");
+            switch (slot)
+            {
+                case ClickSocketSlot.Center:    EquipCard(targetId); return;
+                case ClickSocketSlot.LeftUp:    SocketLeftUpCardId = targetId;    break;
+                case ClickSocketSlot.RightUp:   SocketRightUpCardId = targetId;   break;
+                case ClickSocketSlot.LeftDown:  SocketLeftDownCardId = targetId;  break;
+                case ClickSocketSlot.RightDown: SocketRightDownCardId = targetId; break;
+            }
             Save();
             NotifyState();
         }
@@ -663,12 +756,13 @@ namespace CosmicChaosCat
             if (string.IsNullOrEmpty(cardId) || cardCatalog == null) return null;
             var card = cardCatalog.FindById(cardId);
             if (card == null) return null;
-            if (cardState.TryGetValue(cardId, out var prog))
+            if (TryGetCardProgress(cardId, out var prog))
             {
                 int stage = prog.SelectedStage > 0 ? prog.SelectedStage : 1;
-                return card.GetSpriteForStage(stage);
+                Sprite s = card.GetSpriteForStage(stage);
+                if (s != null) return s;
             }
-            return card.CardSprite;
+            return card.GetSpriteForStage(1) ?? card.CardSprite ?? card.GachaBgSprite;
         }
 
         public double GetCurrentGachaCost(GachaType type = GachaType.Normal)
@@ -1050,7 +1144,15 @@ namespace CosmicChaosCat
                 BgmVolume = BgmVolume,
                 SfxVolume = SfxVolume,
                 IsMuted = IsMuted,
-                SelectedLanguage = SelectedLanguage
+                SelectedLanguage = SelectedLanguage,
+                SocketLeftUpUnlocked   = SocketLeftUpUnlocked,
+                SocketRightUpUnlocked  = SocketRightUpUnlocked,
+                SocketLeftDownUnlocked = SocketLeftDownUnlocked,
+                SocketRightDownUnlocked = SocketRightDownUnlocked,
+                SocketLeftUpCardId    = SocketLeftUpCardId ?? "",
+                SocketRightUpCardId   = SocketRightUpCardId ?? "",
+                SocketLeftDownCardId  = SocketLeftDownCardId ?? "",
+                SocketRightDownCardId = SocketRightDownCardId ?? "",
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
@@ -1137,6 +1239,16 @@ namespace CosmicChaosCat
             SfxVolume = data.SfxVolume;
             IsMuted = data.IsMuted;
             SelectedLanguage = string.IsNullOrEmpty(data.SelectedLanguage) ? "KR" : data.SelectedLanguage;
+
+            // Socket unlocks
+            SocketLeftUpUnlocked   = data.SocketLeftUpUnlocked;
+            SocketRightUpUnlocked  = data.SocketRightUpUnlocked;
+            SocketLeftDownUnlocked = data.SocketLeftDownUnlocked;
+            SocketRightDownUnlocked = data.SocketRightDownUnlocked;
+            SocketLeftUpCardId    = data.SocketLeftUpCardId ?? "";
+            SocketRightUpCardId   = data.SocketRightUpCardId ?? "";
+            SocketLeftDownCardId  = data.SocketLeftDownCardId ?? "";
+            SocketRightDownCardId = data.SocketRightDownCardId ?? "";
 
             // Ensure any new cards added to CardCatalog.asset are automatically registered in cardState for gacha
             if (cardCatalog != null && cardCatalog.Cards != null)

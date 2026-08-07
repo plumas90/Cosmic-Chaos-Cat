@@ -81,13 +81,13 @@ namespace CosmicChaosCat
             // 1. If explicitly set in Inspector and has visible renderer/image, use it!
             if (t == null)
             {
-                var disp = FindObjectOfType<CardImageDisplay>(true);
+                var disp = GetComponent<CardImageDisplay>() ?? GetComponentInParent<CardImageDisplay>() ?? FindObjectOfType<CardImageDisplay>(true);
                 if (disp != null) t = disp.transform;
             }
 
             if (t == null)
             {
-                var clicker = FindObjectOfType<Clicker>(true);
+                var clicker = GetComponent<Clicker>() ?? GetComponentInParent<Clicker>() ?? FindObjectOfType<Clicker>(true);
                 if (clicker != null) t = clicker.transform;
             }
 

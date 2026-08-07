@@ -13,8 +13,13 @@ namespace CosmicChaosCat
 
         public CardEntry FindById(string id)
         {
+            if (string.IsNullOrEmpty(id)) return null;
             for (int i = 0; i < cards.Count; i++)
-                if (cards[i] != null && cards[i].Id == id) return cards[i];
+            {
+                if (cards[i] == null || string.IsNullOrEmpty(cards[i].Id)) continue;
+                if (cards[i].Id == id) return cards[i];
+                if (int.TryParse(cards[i].Id, out int a) && int.TryParse(id, out int b) && a == b) return cards[i];
+            }
             return null;
         }
     }

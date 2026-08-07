@@ -40,11 +40,80 @@ namespace CosmicChaosCat
         private float    pulseTimer;
         private bool     isPulsing;
 
+        // ── 소켓 슬롯 감지 ─────────────────────────────────────────────────
+        private ClickSocketSlot mySocket = ClickSocketSlot.Center;
+        private bool socketDetected = false;
+        private int currentSpriteIndex = 0;
+
+        public void CycleMemeCatImage()
+        {
+            string socketCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (string.IsNullOrEmpty(socketCardId)) return;
+
+            var entry = gameManager.CardCatalog?.FindById(socketCardId);
+            var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry);
+            if (sprites != null && sprites.Count >= 2)
+            {
+                currentSpriteIndex = (currentSpriteIndex + 1) % sprites.Count;
+                Sprite targetSp = sprites[currentSpriteIndex];
+                if (cardImage != null && targetSp != null)
+                {
+                    cardImage.sprite = targetSp;
+                }
+            }
+        }
+
+        public void ToggleMemeCatImage()
+        {
+            CycleMemeCatImage();
+        }
+
         private void Awake()
         {
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (cardImage == null) cardImage = GetComponent<Image>();
+            DetectMySocket();
+
             originalScale = transform.localScale;
+        }
+
+        private void DetectMySocket()
+        {
+            if (socketDetected) return;
+            switch (gameObject.name)
+            {
+                case "LeftUpSubClick":    mySocket = ClickSocketSlot.LeftUp;    break;
+                case "RightUpSubClick":   mySocket = ClickSocketSlot.RightUp;   break;
+                case "LeftDownSubClick":  mySocket = ClickSocketSlot.LeftDown;  break;
+                case "RightDownSubClick": mySocket = ClickSocketSlot.RightDown; break;
+                default:                  mySocket = ClickSocketSlot.Center;    break;
+            }
+            socketDetected = true;
+        }
+
+        private void Start()
+        {
+            if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
+            if (gameManager != null)
+            {
+                gameManager.StateChanged -= Refresh;
+                gameManager.StateChanged += Refresh;
+            }
+
+            if (mySocket != ClickSocketSlot.Center)
+            {
+                breathPhaseOffset = Random.Range(0f, Mathf.PI * 2f);
+            }
+
+            Refresh();
+        }
+
+        private void OnDestroy()
+        {
+            if (gameManager != null)
+            {
+                gameManager.StateChanged -= Refresh;
+            }
         }
 
         private void OnEnable()
@@ -52,8 +121,6 @@ namespace CosmicChaosCat
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager != null)
             {
-                gameManager.StateChanged -= Refresh;
-                gameManager.StateChanged += Refresh;
                 gameManager.CardDrawn    -= OnCardDrawn;
                 gameManager.CardDrawn    += OnCardDrawn;
                 gameManager.CardClicked  -= TriggerClickBounce;
@@ -66,11 +133,12 @@ namespace CosmicChaosCat
         {
             if (gameManager != null)
             {
-                gameManager.StateChanged -= Refresh;
                 gameManager.CardDrawn    -= OnCardDrawn;
                 gameManager.CardClicked  -= TriggerClickBounce;
             }
         }
+
+        private float breathPhaseOffset;
 
         private void Update()
         {
@@ -86,6 +154,14 @@ namespace CosmicChaosCat
                     isPulsing = false;
                     pulseTimer = 0f;
                 }
+            }
+            else if (mySocket != ClickSocketSlot.Center && clickBounceRoutine == null)
+            {
+                // 서브 소켓 숨쉬기 애니메이션 (클릭 바운스 중이 아닐 때)
+                const float speed = 1.4f;
+                const float amp = 0.04f;
+                float s = 1f + amp * Mathf.Sin(Time.time * speed * Mathf.PI * 2f + breathPhaseOffset);
+                transform.localScale = originalScale * s;
             }
 
             // 171 롱넥캣 콤보 중단 시 역방향 복귀 감지
@@ -104,26 +180,79 @@ namespace CosmicChaosCat
         private void Refresh()
         {
             if (gameManager == null) return;
-            var card   = gameManager.GetEquippedCard();
+
+            DetectMySocket();
+
+            if (mySocket != ClickSocketSlot.Center)
+            {
+                bool isUnlocked = gameManager.IsSocketUnlocked(mySocket);
+                string socketCardId = gameManager.GetSocketCardId(mySocket);
+                bool hasCard = !string.IsNullOrEmpty(socketCardId);
+                bool shouldShow = isUnlocked && hasCard;
+
+                var graphics = GetComponentsInChildren<UnityEngine.UI.Graphic>(true);
+                foreach (var g in graphics) g.enabled = shouldShow;
+
+                var renderers = GetComponentsInChildren<Renderer>(true);
+                foreach (var r in renderers) r.enabled = shouldShow;
+
+                var clicker = GetComponent<Clicker>();
+                if (clicker != null) clicker.enabled = shouldShow;
+
+                if (!shouldShow) return;
+            }
+
+            // 이 GO가 속한 소켓의 장착 카드를 읽음
+            CardEntry card = null;
+            if (mySocket == ClickSocketSlot.Center)
+            {
+                card = gameManager.GetEquippedCard();
+            }
+            else
+            {
+                string socketCardId = gameManager.GetSocketCardId(mySocket);
+                if (!string.IsNullOrEmpty(socketCardId))
+                    card = gameManager.CardCatalog?.FindById(socketCardId);
+            }
+
             var states = gameManager.GetCardStates();
+
+            string curCardId = card != null ? card.Id : null;
+            if (lastEquippedId != curCardId)
+            {
+                lastEquippedId = curCardId;
+                currentSpriteIndex = 0;
+            }
 
             // 스프라이트 및 색상
             if (cardImage != null)
             {
                 cardImage.preserveAspect = true;
-                Sprite sprite = (card != null)
-                    ? gameManager.GetCardSpriteForDisplay(card.Id)
-                    : defaultCardSprite;
-                if (sprite == null) sprite = defaultCardSprite;
-                
-                bool spriteChanged = cardImage.sprite != sprite;
-                cardImage.sprite = sprite;
-                if (sprite != null)
+                var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card);
+                if (sprites != null && sprites.Count >= 2)
                 {
-                    cardImage.color = Color.white;
-                    if (spriteChanged)
+                    if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
+                    Sprite currentSp = sprites[currentSpriteIndex];
+                    if (currentSp == null) currentSp = defaultCardSprite;
+                    cardImage.sprite = currentSp;
+                    cardImage.color  = Color.white;
+                }
+                else
+                {
+                    Sprite sprite = (card != null)
+                        ? gameManager.GetCardSpriteForDisplay(card.Id)
+                        : defaultCardSprite;
+                    if (sprite == null) sprite = defaultCardSprite;
+                    
+                    bool spriteChanged = cardImage.sprite != sprite;
+                    cardImage.sprite = sprite;
+                    if (sprite != null)
                     {
-                        cardImage.SetNativeSize();
+                        cardImage.color = Color.white;
+                        if (spriteChanged)
+                        {
+                            cardImage.SetNativeSize();
+                        }
                     }
                 }
             }
@@ -327,10 +456,12 @@ namespace CosmicChaosCat
             int index = spawnedNeckData.Count + 1;
             string neckName = $"neck{index}";
 
-            // Calculate camera screen bounds relative to longNeckContainer
+            // Calculate camera screen bounds relative to longNeckContainer's current position
             Canvas canvas = GetComponentInParent<Canvas>();
             float maxHalfW = 400f;
             float maxHalfH = 500f;
+            Vector2 selfPosInCanvas = Vector2.zero;
+
             if (canvas != null)
             {
                 var canvasRt = canvas.GetComponent<RectTransform>();
@@ -338,8 +469,21 @@ namespace CosmicChaosCat
                 {
                     maxHalfW = canvasRt.rect.width * 0.50f;
                     maxHalfH = canvasRt.rect.height * 0.50f;
+                    selfPosInCanvas = canvasRt.InverseTransformPoint(longNeckContainer.position);
                 }
             }
+
+            // Calculate screen edges relative to longNeckContainer's local origin
+            float localTop    =  maxHalfH - selfPosInCanvas.y;
+            float localBottom = -maxHalfH - selfPosInCanvas.y;
+            float localRight  =  maxHalfW - selfPosInCanvas.x;
+            float localLeft   = -maxHalfW - selfPosInCanvas.x;
+
+            float margin = 100f;
+            float outBoundTop    = localTop + margin;
+            float outBoundBottom = localBottom - margin;
+            float outBoundRight  = localRight + margin;
+            float outBoundLeft   = localLeft - margin;
 
             // 1. Spawn current neck segment at current tip pos
             GameObject neckGO = new GameObject(neckName, typeof(RectTransform), typeof(Image));
@@ -370,31 +514,30 @@ namespace CosmicChaosCat
             Vector2 dir = Quaternion.Euler(0f, 0f, currentNeckAngle) * Vector2.up;
             Vector2 nextTipPos = currentNeckTipPos + dir * SINGLE_NECK_HEIGHT;
 
-            // 3. Check if neck tip has gone COMPLETELY outside screen boundary (+100px off-screen margin)
-            float outBoundW = maxHalfW + 100f;
-            float outBoundH = maxHalfH + 100f;
-            bool isNeckAtEdge = Mathf.Abs(nextTipPos.x) > outBoundW || nextTipPos.y > outBoundH || nextTipPos.y < -outBoundH;
+            // 3. Check if neck tip has gone COMPLETELY outside screen boundary relative to current position
+            bool isNeckAtEdge = nextTipPos.y > outBoundTop || nextTipPos.y < outBoundBottom ||
+                                nextTipPos.x > outBoundRight || nextTipPos.x < outBoundLeft;
 
             if (isNeckAtEdge)
             {
-                // Teleport start position FULLY OUTSIDE the screen (+100px off-screen margin) so head/neck enter from outside!
+                // Teleport start position FULLY OUTSIDE the screen boundary relative to current object!
                 int edgeIndex = UnityEngine.Random.Range(0, 4); // 0: Top, 1: Bottom, 2: Left, 3: Right
                 switch (edgeIndex)
                 {
                     case 0: // Top edge (starts outside top screen), facing downwards
-                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(-maxHalfW * 0.6f, maxHalfW * 0.6f), outBoundH);
+                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(localLeft + 50f, localRight - 50f), outBoundTop);
                         currentNeckAngle = 180f + UnityEngine.Random.Range(-35f, 35f);
                         break;
                     case 1: // Bottom edge (starts outside bottom screen), facing upwards
-                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(-maxHalfW * 0.6f, maxHalfW * 0.6f), -outBoundH);
+                        currentNeckTipPos = new Vector2(UnityEngine.Random.Range(localLeft + 50f, localRight - 50f), outBoundBottom);
                         currentNeckAngle = 0f + UnityEngine.Random.Range(-35f, 35f);
                         break;
                     case 2: // Left edge (starts outside left screen), facing rightwards
-                        currentNeckTipPos = new Vector2(-outBoundW, UnityEngine.Random.Range(-maxHalfH * 0.6f, maxHalfH * 0.6f));
+                        currentNeckTipPos = new Vector2(outBoundLeft, UnityEngine.Random.Range(localBottom + 50f, localTop - 50f));
                         currentNeckAngle = -90f + UnityEngine.Random.Range(-35f, 35f);
                         break;
                     case 3: // Right edge (starts outside right screen), facing leftwards
-                        currentNeckTipPos = new Vector2(outBoundW, UnityEngine.Random.Range(-maxHalfH * 0.6f, maxHalfH * 0.6f));
+                        currentNeckTipPos = new Vector2(outBoundRight, UnityEngine.Random.Range(localBottom + 50f, localTop - 50f));
                         currentNeckAngle = 90f + UnityEngine.Random.Range(-35f, 35f);
                         break;
                 }
@@ -467,14 +610,18 @@ namespace CosmicChaosCat
         {
             if (isRetracting) return; // 콤보가 끊겨 역방향 복귀 중일 때는 클릭 입력 잠금!
 
+            // 메인 클릭 시 공명하여 170, 174 등 밈 카드의 이미지 루프 전환
+            CycleMemeCatImage();
+
             Transform targetTf = cardImage != null ? cardImage.transform : transform;
             EnsureBaseScale(targetTf);
 
+            string socketCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+
             bool is171Active = (longNeckContainer != null && longNeckContainer.gameObject.activeSelf);
-            if (!is171Active)
+            if (!is171Active && !string.IsNullOrEmpty(socketCardId))
             {
-                var card = gameManager != null ? gameManager.GetEquippedCard() : null;
-                if (card != null && (card.Id == "0171" || card.Id == "171"))
+                if (socketCardId == "0171" || socketCardId == "171" || (int.TryParse(socketCardId, out int num) && num == 171))
                     is171Active = true;
             }
 

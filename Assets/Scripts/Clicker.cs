@@ -40,16 +40,30 @@ namespace CosmicChaosCat
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (gameObject.name != "CenterClick" && gameObject.name.Contains("SubClick"))
+            {
+                GetComponent<CardImageDisplay>()?.TriggerClickBounce();
+                effectPlayer?.PlayNormalClick();
+                Clicked?.Invoke();
+                return;
+            }
+
             Vector2 clickPos = eventData != null ? eventData.position : (Vector2)Input.mousePosition;
             gameManager?.HandleCardClicked(clickPos);
-            effectPlayer?.PlayNormalClick();
             Clicked?.Invoke();
         }
 
         public void TriggerClick()
         {
+            if (gameObject.name != "CenterClick" && gameObject.name.Contains("SubClick"))
+            {
+                GetComponent<CardImageDisplay>()?.TriggerClickBounce();
+                effectPlayer?.PlayNormalClick();
+                Clicked?.Invoke();
+                return;
+            }
+
             gameManager?.HandleCardClicked(Input.mousePosition);
-            effectPlayer?.PlayNormalClick();
             Clicked?.Invoke();
         }
     }

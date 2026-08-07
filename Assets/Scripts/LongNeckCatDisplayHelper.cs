@@ -68,7 +68,8 @@ namespace CosmicChaosCat
 
             var mainImg = artTrans.GetComponent<Image>();
 
-            if (card != null && card.Id == "0171")
+            bool is171 = card != null && (card.Id == "0171" || card.Id == "171" || (int.TryParse(card.Id, out int num) && num == 171));
+            if (is171)
             {
                 EnsureSpritesLoaded();
 

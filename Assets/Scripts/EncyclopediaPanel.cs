@@ -88,6 +88,9 @@ namespace CosmicChaosCat
         [SerializeField] private GameObject tabSetBtn;
         [SerializeField] private GameObject closeBtn;
 
+        // EquipPanel popup (assign in Inspector or auto-found as child named "EquipPanel")
+        [SerializeField] private EquipPanel equipPanel;
+
         // ── field guide sprite references (assign in Inspector) ──────────────
         [Header("Field Guide Sprites (assign in Inspector)")]
         [SerializeField] private Sprite spriteBookOpen;
@@ -205,7 +208,7 @@ namespace CosmicChaosCat
             ReplicateLockTextToAllSlots();
 
             // Re-initialize/ensure init for all CardSlotUIs so they bind their lockText field
-            var allSlots = GetComponentsInChildren<CardSlotUI>(true);
+            var allSlots = GetEncyclopediaCardSlots(this);
             foreach (var slot in allSlots)
             {
                 if (slot != null)
@@ -348,7 +351,7 @@ namespace CosmicChaosCat
                 return;
             }
 
-            var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
+            var childSlots = GetEncyclopediaCardSlots(noPanel);
             if (childSlots == null || childSlots.Length == 0) return;
 
             // Find slot0
@@ -373,7 +376,7 @@ namespace CosmicChaosCat
             }
 
             // Gather all slots (noPanel + setPanel)
-            var allSlots = GetComponentsInChildren<CardSlotUI>(true);
+            var allSlots = GetEncyclopediaCardSlots(this);
             int count = 0;
 
             foreach (var slot in allSlots)
@@ -766,7 +769,7 @@ namespace CosmicChaosCat
             slots.Clear();
             if (noPanel != null)
             {
-                var childSlots = noPanel.GetComponentsInChildren<CardSlotUI>(true);
+                var childSlots = GetEncyclopediaCardSlots(noPanel);
                 for (int i = 0; i < childSlots.Length; i++)
                 {
                     int idx = i;
@@ -860,14 +863,14 @@ namespace CosmicChaosCat
             leftSetSlots.Clear();
             if (leftSetPage != null)
             {
-                leftSetSlots.AddRange(leftSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                leftSetSlots.AddRange(GetEncyclopediaCardSlots(leftSetPage.transform));
                 Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: leftSetSlots found {leftSetSlots.Count} under '{leftSetPage.name}'");
             }
 
             rightSetSlots.Clear();
             if (rightSetPage != null)
             {
-                rightSetSlots.AddRange(rightSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                rightSetSlots.AddRange(GetEncyclopediaCardSlots(rightSetPage.transform));
                 Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: rightSetSlots found {rightSetSlots.Count} under '{rightSetPage.name}'");
             }
             else
@@ -876,7 +879,7 @@ namespace CosmicChaosCat
                 if (rPage != null)
                 {
                     rightSetPage = rPage.gameObject;
-                    rightSetSlots.AddRange(rightSetPage.GetComponentsInChildren<CardSlotUI>(true));
+                    rightSetSlots.AddRange(GetEncyclopediaCardSlots(rightSetPage.transform));
                     Debug.Log($"[EncyclopediaPanel] AutoWireSetPanel: rightSetSlots fallback found {rightSetSlots.Count} under '{rightSetPage.name}'");
                 }
             }
@@ -1091,16 +1094,19 @@ namespace CosmicChaosCat
                 if (ci < total)
                 {
                     slot.go.SetActive(true);
-                    var card = filteredCards[ci];
-                    cardStates.TryGetValue(card.Id, out var prog);
-                    Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
-                    Sprite markSp  = GetMarkSpriteForRarity(card.Rarity);
-                    slot.ui.SetSprites(frameSp, spriteCardLocked, markSp);
-                    slot.ui.SetData(card, FindOriginalIndex(card, allCards), prog, gm, OnSlotClickedById);
+                    if (slot.ui != null && slot.ui.GetComponentInParent<EquipPanel>() == null)
+                    {
+                        var card = filteredCards[ci];
+                        cardStates.TryGetValue(card.Id, out var prog);
+                        Sprite frameSp = GetFrameSpriteForRarity(card.Rarity);
+                        Sprite markSp  = GetMarkSpriteForRarity(card.Rarity);
+                        slot.ui.SetSprites(frameSp, spriteCardLocked, markSp);
+                        slot.ui.SetData(card, FindOriginalIndex(card, allCards), prog, gm, OnSlotClickedById);
+                    }
                 }
                 else
                 {
-                    slot.go.SetActive(false);
+                    if (slot.go != null) slot.go.SetActive(false);
                 }
             }
 
@@ -1682,11 +1688,39 @@ namespace CosmicChaosCat
 
         private void OnDetailEquip()
         {
-            if (!string.IsNullOrEmpty(selectedCardId))
+            if (string.IsNullOrEmpty(selectedCardId)) return;
+
+            // Auto-find EquipPanel if not assigned
+            if (equipPanel == null)
             {
+                equipPanel = GetComponentInChildren<EquipPanel>(true);
+                if (equipPanel == null)
+                {
+                    var t = FindChildByNameRecursive(transform, "EquipPanel");
+                    if (t != null) equipPanel = t.GetComponent<EquipPanel>();
+                }
+            }
+
+            if (equipPanel != null)
+            {
+                // Open the socket selection popup
+                equipPanel.Open(selectedCardId, this, gm);
+            }
+            else
+            {
+                // Fallback: directly equip to center socket (original behavior)
                 gm?.EquipCard(selectedCardId);
                 RefreshDetailPanel(selectedCardId);
             }
+        }
+
+        /// <summary>
+        /// Called by EquipPanel after a card has been equipped to refresh this panel's state.
+        /// </summary>
+        public void RefreshAfterEquip(string cardId)
+        {
+            if (!string.IsNullOrEmpty(cardId))
+                RefreshDetailPanel(cardId);
         }
 
         private void OnDetailBreakthrough()
@@ -1710,11 +1744,10 @@ namespace CosmicChaosCat
                 Sprite newSprite = card.GetSpriteForStage(newStage);
                 if (newSprite == null) newSprite = card.CardSprite;
 
-                // Check if this new stage has a new illustration variant
-                bool hasNewIllustration = (validStages != null && validStages.Contains(newStage))
-                                       || (newSprite != card.CardSprite && newSprite != oldSprite);
+                // Check if this new stage has a new illustration variant image
+                bool isImageChanged = (oldSprite != null && newSprite != null && oldSprite != newSprite);
 
-                if (hasNewIllustration)
+                if (isImageChanged)
                 {
                     selectedIllustrationStage = newStage;
                 }
@@ -1725,21 +1758,30 @@ namespace CosmicChaosCat
                     gm.SetCardSelectedStage(card.Id, selectedIllustrationStage);
                 }
 
-                // ── 한계돌파 연출 (모든 카드 한계돌파 시 연출 재생) ───────────────────────────
-                bool enableStarParticles = card.Rarity >= CardRarity.SR;
-                bool isSSR = card.Rarity >= CardRarity.SSR;
-
-                var cutscene = BreakthroughCutsceneUI.GetOrCreate();
-                if (cutscene != null)
+                // ── 한계돌파 연출 (일러스트 이미지가 실제로 변경될 때만 연출 재생) ───────────────────────────
+                if (isImageChanged)
                 {
-                    cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
+                    bool enableStarParticles = card.Rarity >= CardRarity.SR;
+                    bool isSSR = card.Rarity >= CardRarity.SSR;
+
+                    var cutscene = BreakthroughCutsceneUI.GetOrCreate();
+                    if (cutscene != null)
+                    {
+                        cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
+                        {
+                            RefreshDetailPanel(selectedCardId);
+                            if (showNoTab) RefreshNoTab();
+                        }, enableStarParticles: enableStarParticles, isSSR: isSSR);
+                    }
+                    else
                     {
                         RefreshDetailPanel(selectedCardId);
                         if (showNoTab) RefreshNoTab();
-                    }, enableStarParticles: enableStarParticles, isSSR: isSSR);
+                    }
                 }
                 else
                 {
+                    // 일러스트 이미지가 바뀌지 않는 한계돌파는 컷씬 연출 없이 즉시 UI 갱신
                     RefreshDetailPanel(selectedCardId);
                     if (showNoTab) RefreshNoTab();
                 }
@@ -2726,7 +2768,7 @@ namespace CosmicChaosCat
             }
 
             // Clone this template to any other slots if they don't have it
-            var allSlotsInPanel = GetComponentsInChildren<CardSlotUI>(true);
+            var allSlotsInPanel = GetEncyclopediaCardSlots(this);
             foreach (var slot in allSlotsInPanel)
             {
                 if (slot == slot0) continue;
@@ -2761,6 +2803,25 @@ namespace CosmicChaosCat
                     }
                 }
             }
+        }
+
+        private CardSlotUI[] GetEncyclopediaCardSlots(GameObject root)
+        {
+            if (root == null) return new CardSlotUI[0];
+            return GetEncyclopediaCardSlots(root.transform);
+        }
+
+        private CardSlotUI[] GetEncyclopediaCardSlots(Component root)
+        {
+            if (root == null) return new CardSlotUI[0];
+            var all = root.GetComponentsInChildren<CardSlotUI>(true);
+            var list = new List<CardSlotUI>();
+            foreach (var s in all)
+            {
+                if (s != null && s.GetComponentInParent<EquipPanel>() == null)
+                    list.Add(s);
+            }
+            return list.ToArray();
         }
 
         // ── Inner types ──────────────────────────────────────────────────────

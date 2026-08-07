@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+// Socket slot identifiers for the 5-socket click system
+public enum ClickSocketSlot { Center = 0, LeftUp = 1, RightUp = 2, LeftDown = 3, RightDown = 4 }
+
 namespace CosmicChaosCat
 {
     public enum GachaType
@@ -45,6 +48,18 @@ namespace CosmicChaosCat
         public List<string> ClaimedSetRewards = new List<string>();
         public List<string> UnlockedBackgrounds = new List<string>();
         public List<string> UnlockedDecorations = new List<string>();
+
+        // Socket unlock flags (Center is always unlocked; sub-sockets purchased from shop)
+        public bool SocketLeftUpUnlocked   = false;
+        public bool SocketRightUpUnlocked  = false;
+        public bool SocketLeftDownUnlocked = false;
+        public bool SocketRightDownUnlocked = false;
+
+        // Card ID equipped in each socket slot (Center = EquippedCardId for backward compat)
+        public string SocketLeftUpCardId    = "";
+        public string SocketRightUpCardId   = "";
+        public string SocketLeftDownCardId  = "";
+        public string SocketRightDownCardId = "";
 
         public bool UnlockedRareGacha;
         public bool UnlockedSuperGacha;

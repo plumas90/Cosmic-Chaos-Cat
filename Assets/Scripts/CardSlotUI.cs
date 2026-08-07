@@ -50,6 +50,7 @@ namespace CosmicChaosCat
         public void EnsureInit()
         {
             if (initialized) return;
+            if (GetComponentInParent<EquipPanel>() != null) return;
             initialized = true;
 
             var txts = GetComponentsInChildren<TMP_Text>(true);
@@ -180,6 +181,7 @@ namespace CosmicChaosCat
         public void SetData(CardEntry card, int cardIndex, CardProgress progress,
             GameManager gameManager, System.Action<string> onSlotClicked)
         {
+            if (GetComponentInParent<EquipPanel>() != null) return;
             EnsureInit();
 
             gm     = gameManager;

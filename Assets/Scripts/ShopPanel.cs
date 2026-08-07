@@ -16,13 +16,15 @@ namespace CosmicChaosCat
         GachaUnlock,
         Background,
         Decoration,
-        Card
+        Card,
+        SocketUnlock
     }
 
     [System.Serializable]
     public class ShopProductItem
     {
         public string id;
+        public ClickSocketSlot socketSlot;
         public string displayName;
         public string description;
         public ProductCurrencyType currencyType;
@@ -383,6 +385,35 @@ namespace CosmicChaosCat
                             iconSprite = bg.BackgroundSprite
                         });
                     }
+                }
+            }
+
+            // 소켓 해금 상품 등록
+            if (gm != null)
+            {
+                var sockets = new (ClickSocketSlot slot, string name, string desc, double price)[]
+                {
+                    (ClickSocketSlot.LeftUp, "좌상단 소켓", "추가로 카드를 장착할 수 있는 좌상단 소켓을 해금합니다.", 100),
+                    (ClickSocketSlot.RightUp, "우상단 소켓", "추가로 카드를 장착할 수 있는 우상단 소켓을 해금합니다.", 200),
+                    (ClickSocketSlot.LeftDown, "좌하단 소켓", "추가로 카드를 장착할 수 있는 좌하단 소켓을 해금합니다.", 300),
+                    (ClickSocketSlot.RightDown, "우하단 소켓", "추가로 카드를 장착할 수 있는 우하단 소켓을 해금합니다.", 400)
+                };
+
+                foreach (var s in sockets)
+                {
+                    productCatalog.Add(new ShopProductItem
+                    {
+                        id = "prod-socket-" + s.slot.ToString(),
+                        socketSlot = s.slot,
+                        displayName = s.name,
+                        description = s.desc,
+                        currencyType = ProductCurrencyType.Coin,
+                        price = s.price,
+                        productType = ShopProductType.SocketUnlock,
+                        targetId = s.slot.ToString(),
+                        rarity = CardRarity.SSR, // 좀 비싼 아이템이니까 높은 등급 표시
+                        iconSprite = null // UI에서 따로 예외 처리하거나 lock 아이콘 사용
+                    });
                 }
             }
 
@@ -1436,6 +1467,10 @@ namespace CosmicChaosCat
                 gm.UnlockDecoration(selectedProduct.targetId);
                 gm.EquipDecoration(selectedProduct.targetId);
             }
+            else if (selectedProduct.productType == ShopProductType.SocketUnlock)
+            {
+                gm.UnlockSocket(selectedProduct.socketSlot, 0);
+            }
             else if (selectedProduct.productType == ShopProductType.Card)
             {
                 gm.GrantCard(selectedProduct.targetId);
@@ -1468,6 +1503,11 @@ namespace CosmicChaosCat
             {
                 if (gm.EquippedDecorationId == prod.targetId) return "Equipped";
                 if (gm.IsDecorationUnlocked(prod.targetId)) return "Purchased";
+                return "NotPurchased";
+            }
+            else if (prod.productType == ShopProductType.SocketUnlock)
+            {
+                if (gm.IsSocketUnlocked(prod.socketSlot)) return "Purchased";
                 return "NotPurchased";
             }
             else if (prod.productType == ShopProductType.Card)
