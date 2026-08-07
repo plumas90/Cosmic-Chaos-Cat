@@ -3890,6 +3890,30 @@ MonoBehaviour:
     Description: "Mammoth Cat Emperor \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Mammoth Cat Emperor cat.
   - Id: 0152
+    DisplayName: Missing Cat
+    DisplayName_EN: Missing Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 0}
+    GachaBgSprite: {fileID: 4198128224699089176, guid: 13d9fdd19e8edce40a09c65e12367aa8, type: 3}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "Missing Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Missing Cat cat.
+  - Id: 0153
     DisplayName: Ice Dragon Guardian Cat
     DisplayName_EN: Ice Dragon Guardian Cat
     Rarity: 3
@@ -3918,7 +3942,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Ice Dragon Guardian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Ice Dragon Guardian Cat cat.
-  - Id: 0153
+  - Id: 0154
     DisplayName: Snowfield Cat Queen
     DisplayName_EN: Snowfield Cat Queen
     Rarity: 3
@@ -3947,7 +3971,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Snowfield Cat Queen \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Snowfield Cat Queen cat.
-  - Id: 0154
+  - Id: 0155
     DisplayName: Cyber Street Scavenger Cat
     DisplayName_EN: Cyber Street Scavenger Cat
     Rarity: 0
@@ -3961,7 +3985,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
-    GachaBgSprite: {fileID: -4494982657345629481, guid: 78c53cb54d5e9fd46945319b060dd615, type: 3}
+    GachaBgSprite: {fileID: 2999320548563150324, guid: abc8b86f6f1974e9e915aeb41e1de112, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -3971,7 +3995,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Cyber Street Scavenger Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Cyber Street Scavenger Cat cat.
-  - Id: 0155
+  - Id: 0156
     DisplayName: Battery Pendant Cat
     DisplayName_EN: Battery Pendant Cat
     Rarity: 0
@@ -3985,7 +4009,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
-    GachaBgSprite: {fileID: -8582238694525330430, guid: c9c8e69e15cd0c04592a715ba4c939f2, type: 3}
+    GachaBgSprite: {fileID: 3099525820854196045, guid: 4276a5b889f9039218b594030751f07e, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -3995,7 +4019,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Battery Pendant Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Battery Pendant Cat cat.
-  - Id: 0156
+  - Id: 0157
     DisplayName: Data Visor Tuxedo Cat
     DisplayName_EN: Data Visor Tuxedo Cat
     Rarity: 0
@@ -4009,7 +4033,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
-    GachaBgSprite: {fileID: -1067999991837148762, guid: 9fa6057c3ee41254da14c678884b0ed6, type: 3}
+    GachaBgSprite: {fileID: -7738607878554436627, guid: 2fd243fb3d9a5521b8b6cb869775787f, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4019,7 +4043,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Data Visor Tuxedo Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Data Visor Tuxedo Cat cat.
-  - Id: 0157
+  - Id: 0158
     DisplayName: Rookie Neon Courier Cat
     DisplayName_EN: Rookie Neon Courier Cat
     Rarity: 0
@@ -4033,7 +4057,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
-    GachaBgSprite: {fileID: -1507154118534954527, guid: 4dbebc8a61199974780ba1d3720f140f, type: 3}
+    GachaBgSprite: {fileID: 8083368887191677052, guid: 6cfa2c9ec18966658a14d0ddf29fcf01, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4043,7 +4067,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Rookie Neon Courier Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Rookie Neon Courier Cat cat.
-  - Id: 0158
+  - Id: 0159
     DisplayName: Hologram Dj Cat
     DisplayName_EN: Hologram Dj Cat
     Rarity: 1
@@ -4057,7 +4081,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
-    GachaBgSprite: {fileID: 3603820152395615872, guid: 9b48261675664b443bfbbdef685591e8, type: 3}
+    GachaBgSprite: {fileID: 2741465742195731392, guid: 968dcbcea9b187e8cbd09c93baebb0ec, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4067,7 +4091,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Hologram Dj Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Hologram Dj Cat cat.
-  - Id: 0159
+  - Id: 0160
     DisplayName: Retro Hacker Cat
     DisplayName_EN: Retro Hacker Cat
     Rarity: 1
@@ -4081,7 +4105,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
-    GachaBgSprite: {fileID: 4115465952107050296, guid: 46b3b3b9a7108f14494b4db7e0de4543, type: 3}
+    GachaBgSprite: {fileID: -8781397078748819833, guid: 3984e74cd4f349a8e83654bfbe468286, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4091,7 +4115,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Retro Hacker Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Retro Hacker Cat cat.
-  - Id: 0160
+  - Id: 0161
     DisplayName: Neon Medical Cat
     DisplayName_EN: Neon Medical Cat
     Rarity: 1
@@ -4105,7 +4129,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
-    GachaBgSprite: {fileID: -8839361690942130088, guid: 58b28c69aca969b4aaef269c30a517b7, type: 3}
+    GachaBgSprite: {fileID: -3679327960365323947, guid: da3842e5371b1657287fae5a860dece8, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4115,7 +4139,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Neon Medical Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Neon Medical Cat cat.
-  - Id: 0161
+  - Id: 0162
     DisplayName: Cyber Racer Cat
     DisplayName_EN: Cyber Racer Cat
     Rarity: 1
@@ -4129,7 +4153,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
-    GachaBgSprite: {fileID: 4296589735984321906, guid: 658bdb005107716428cd5210d46bb29d, type: 3}
+    GachaBgSprite: {fileID: 2806884182296175786, guid: 7f31d84fc3ecf1c8a9a6fbe7578ba068, type: 3}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
     UseBreakthroughDescriptions: 0
@@ -4139,7 +4163,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Cyber Racer Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Cyber Racer Cat cat.
-  - Id: 0162
+  - Id: 0163
     DisplayName: Quantum Signal Hacker Cat
     DisplayName_EN: Quantum Signal Hacker Cat
     Rarity: 2
@@ -4153,7 +4177,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
-    GachaBgSprite: {fileID: -2137103858649107318, guid: d6b81260696ccea41ac18fe284265711, type: 3}
+    GachaBgSprite: {fileID: -5920210979045925325, guid: 8e1148a1aa25898699800fde28ccaee3, type: 3}
     BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
@@ -4166,7 +4190,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Quantum Signal Hacker Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Quantum Signal Hacker Cat cat.
-  - Id: 0163
+  - Id: 0164
     DisplayName: Memory Core Persian Cat
     DisplayName_EN: Memory Core Persian Cat
     Rarity: 2
@@ -4180,7 +4204,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
-    GachaBgSprite: {fileID: -1615167542915599335, guid: e17f13aa7176a3841965a30e580d7e59, type: 3}
+    GachaBgSprite: {fileID: 1285226242277227703, guid: 6e19bd405de9c7ea389f3a3c9a3b54ba, type: 3}
     BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
@@ -4193,7 +4217,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Memory Core Persian Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Memory Core Persian Cat cat.
-  - Id: 0164
+  - Id: 0165
     DisplayName: Plasma Express Courier Cat
     DisplayName_EN: Plasma Express Courier Cat
     Rarity: 2
@@ -4207,7 +4231,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
-    GachaBgSprite: {fileID: -3862754176544530486, guid: faf81f2391e47644fbf2f802e24d81a9, type: 3}
+    GachaBgSprite: {fileID: -4949545528020448172, guid: 68359c37c11e9093f986ab5eab754e36, type: 3}
     BreakthroughVariantStages: f0f0f0f0
     BreakthroughSprites:
     - {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
@@ -4220,7 +4244,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Plasma Express Courier Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Plasma Express Courier Cat cat.
-  - Id: 0165
+  - Id: 0166
     DisplayName: Neon Shogun Cat
     DisplayName_EN: Neon Shogun Cat
     Rarity: 3
@@ -4234,7 +4258,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
-    GachaBgSprite: {fileID: 4496541406792713470, guid: 993847c7b93d8a74e855c266077dbe62, type: 3}
+    GachaBgSprite: {fileID: -4452873835243257274, guid: 32d688a5f666ffc2fbb013a1446d92b5, type: 3}
     BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
@@ -4249,7 +4273,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Neon Shogun Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Neon Shogun Cat cat.
-  - Id: 0166
+  - Id: 0167
     DisplayName: Quantum Pop Sovereign Cat
     DisplayName_EN: Quantum Pop Sovereign Cat
     Rarity: 3
@@ -4263,7 +4287,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
-    GachaBgSprite: {fileID: -3787155894860865394, guid: ae06f2e2764a9e547ab2f6e63b76fda6, type: 3}
+    GachaBgSprite: {fileID: 642284475035493213, guid: 77941d24c539ac599aa10370d777eb21, type: 3}
     BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
@@ -4278,7 +4302,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Quantum Pop Sovereign Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A Quantum Pop Sovereign Cat cat.
-  - Id: 0167
+  - Id: 0168
     DisplayName: Megacity Guardian Titan Cat
     DisplayName_EN: Megacity Guardian Titan Cat
     Rarity: 3
@@ -4292,7 +4316,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
-    GachaBgSprite: {fileID: 5194407171216233907, guid: 52f15f2120c2b1245a06686d50f855a1, type: 3}
+    GachaBgSprite: {fileID: 7837050385362355678, guid: cae1ceaded62d7b1a869b1c9baf1ffd7, type: 3}
     BreakthroughVariantStages: f0f0f0f0f0f0f0f0
     BreakthroughSprites:
     - {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
