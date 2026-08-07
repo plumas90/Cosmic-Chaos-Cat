@@ -203,17 +203,17 @@ namespace CosmicChaosCat
                 if (t < 0.35f)
                 {
                     float subT = t / 0.35f;
-                    mult = Mathf.Lerp(1.0f, 0.85f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                    mult = Mathf.Lerp(1.0f, 0.94f, Mathf.Sin(subT * Mathf.PI * 0.5f));
                 }
                 else if (t < 0.70f)
                 {
                     float subT = (t - 0.35f) / 0.35f;
-                    mult = Mathf.Lerp(0.85f, 1.15f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                    mult = Mathf.Lerp(0.94f, 1.06f, Mathf.Sin(subT * Mathf.PI * 0.5f));
                 }
                 else
                 {
                     float subT = (t - 0.70f) / 0.30f;
-                    mult = Mathf.Lerp(1.15f, 1.0f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                    mult = Mathf.Lerp(1.06f, 1.0f, Mathf.Sin(subT * Mathf.PI * 0.5f));
                 }
 
                 targetTf.localScale = baseScale * mult;

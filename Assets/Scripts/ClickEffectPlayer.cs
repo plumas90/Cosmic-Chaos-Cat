@@ -12,8 +12,8 @@ namespace CosmicChaosCat
     {
         [Header("Card Transform (for scale bounce)")]
         [SerializeField] private Transform cardTransform;
-        [SerializeField] private float shrinkScaleAmount = 0.85f;
-        [SerializeField] private float overshootScaleAmount = 1.15f;
+        [SerializeField] private float shrinkScaleAmount = 0.94f;
+        [SerializeField] private float overshootScaleAmount = 1.06f;
         [SerializeField] private float clickScaleDuration = 0.15f;
 
         public Transform CardTransform
