@@ -171,6 +171,7 @@ namespace CosmicChaosCat
                     cardArtImage.gameObject.SetActive(true);
                     cardArtImage.sprite = sp;
                     cardArtImage.color  = Color.white;
+                    cardArtImage.preserveAspect = true;
                 }
             }
         }
@@ -256,8 +257,8 @@ namespace CosmicChaosCat
                     if (cardArtImage.gameObject.activeSelf) cardArtImage.gameObject.SetActive(false);
                 }
 
-                // 171 롱넥캣 머리+몸통 결합 처리
-                LongNeckCatDisplayHelper.BindLongNeckCardSlot(transform, card);
+                // 171 롱넥캣 머리+몸통 결합 처리 (cardArtImage.transform 에 직격 연결)
+                LongNeckCatDisplayHelper.BindLongNeckCardSlot(cardArtImage.transform, card);
             }
 
             // ── Rarity Mark (rereMark / rareMark) ───────────────────────────

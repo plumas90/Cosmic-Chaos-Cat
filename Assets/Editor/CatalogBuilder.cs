@@ -15,7 +15,7 @@ namespace CosmicChaosCat.Editor
     {
         private const string SoDir = "Assets/ScriptableObjects";
 
-        [MenuItem("CosmicChaosCat/Build All Catalogs %#b")]
+        // [MenuItem("CosmicChaosCat/Build All Catalogs %#b")]
         public static void BuildAll()
         {
             EnsureDirectory(SoDir);
@@ -33,7 +33,7 @@ namespace CosmicChaosCat.Editor
 
         // ── Card Catalog ───────────────────────────────────────────────────────
 
-        [MenuItem("CosmicChaosCat/Build Card Catalog Only")]
+        // [MenuItem("CosmicChaosCat/Build Card Catalog Only")]
         public static void BuildCardCatalog()
         {
             EnsureDirectory(SoDir);

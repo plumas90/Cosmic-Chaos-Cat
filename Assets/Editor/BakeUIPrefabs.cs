@@ -8,7 +8,7 @@ namespace CosmicChaosCat.Editor
 {
     public static class BakeUIPrefabs
     {
-        [MenuItem("Tools/Bake UI Prefabs and Apply Font")]
+        // [MenuItem("Tools/Bake UI Prefabs and Apply Font")]
         public static void Execute()
         {
             if (EditorApplication.isPlaying || Application.isPlaying)

@@ -1348,13 +1348,23 @@ namespace CosmicChaosCat
 
             if (detailCardArt == null && searchRoot != null)
             {
-                var ar = FindChildByNameRecursive(searchRoot, "Art")
+                var ar = FindChildByNameRecursive(searchRoot, "Art_image")
+                      ?? FindChildByNameRecursive(searchRoot, "art_image")
+                      ?? FindChildByNameRecursive(searchRoot, "Art")
                       ?? FindChildByNameRecursive(searchRoot, "art")
                       ?? FindChildByNameRecursive(searchRoot, "DetailArt")
                       ?? FindChildByNameRecursive(searchRoot, "CardArt")
                       ?? FindChildByNameRecursive(searchRoot, "Image")
                       ?? FindChildByNameRecursive(searchRoot, "image");
-                if (ar != null) detailCardArt = ar.GetComponent<Image>();
+                if (ar != null)
+                {
+                    var innerArt = ar.Find("Art_image") ?? ar.Find("art_image") ?? ar.Find("Art") ?? ar.Find("art") ?? ar.Find("image") ?? ar.Find("Image") ?? ar.Find("CardArt") ?? ar.Find("DetailArt");
+                    if (innerArt != null && innerArt != ar && innerArt.GetComponent<Image>() != null)
+                    {
+                        ar = innerArt;
+                    }
+                    detailCardArt = ar.GetComponent<Image>();
+                }
             }
 
             if (detailDescription == null && searchRoot != null)
@@ -1437,9 +1447,24 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Card art (실제 image)
+            // Card art (Art_image 오브젝트 감지 및 바인딩)
+            if (detailPanel != null)
+            {
+                var artImgGO = FindChildByNameRecursive(detailPanel.transform, "Art_image")
+                            ?? FindChildByNameRecursive(detailPanel.transform, "art_image");
+                if (artImgGO != null && artImgGO.GetComponent<Image>() != null)
+                {
+                    if (detailCardArt != null && detailCardArt.gameObject != artImgGO.gameObject)
+                    {
+                        if (detailCardArt.sprite != null) detailCardArt.sprite = null;
+                    }
+                    detailCardArt = artImgGO.GetComponent<Image>();
+                }
+            }
+
             if (detailCardArt != null)
             {
+                detailCardArt.preserveAspect = true;
                 if (unlocked)
                 {
                     if (!detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(true);
@@ -1467,6 +1492,12 @@ namespace CosmicChaosCat
 
             // NumBtn (illustration variant buttons 1..5)
             UpdateNumBtnState(card, prog, unlocked);
+
+            if (detailCardArt != null)
+            {
+                // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리 (모든 서브 갱신 후 최종적으로 적용!)
+                LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
+            }
 
             // Income stat (Description에 통합되었으므로 별도 항목은 숨김)
             if (detailIncomeText != null)
@@ -1619,6 +1650,9 @@ namespace CosmicChaosCat
                     detailCardArt.sprite = stageSprite;
                     detailCardArt.color  = Color.white;
                 }
+
+                // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리
+                LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
             }
 
             // Also update detailDescription text corresponding to stage
@@ -1691,29 +1725,18 @@ namespace CosmicChaosCat
                     gm.SetCardSelectedStage(card.Id, selectedIllustrationStage);
                 }
 
-                // ── 한계돌파 연출 규칙 ───────────────────────────
-                // 1. N 등급: 컷씬 연출 없음 (즉시 강화)
-                // 2. R, SR, SSR 등급 중 신규 일러스트(한돌 일러스트)가 해금되는 단계: 컷씬 연출 재생!
-                // 3. 신규 일러스트가 없는 일반 강화 단계: 컷씬 연출 없음 (즉시 강화)
-                if (card.Rarity != CardRarity.N && hasNewIllustration)
-                {
-                    bool enableStarParticles = card.Rarity >= CardRarity.SR;
-                    bool isSSR = card.Rarity >= CardRarity.SSR;
+                // ── 한계돌파 연출 (모든 카드 한계돌파 시 연출 재생) ───────────────────────────
+                bool enableStarParticles = card.Rarity >= CardRarity.SR;
+                bool isSSR = card.Rarity >= CardRarity.SSR;
 
-                    var cutscene = BreakthroughCutsceneUI.GetOrCreate();
-                    if (cutscene != null)
-                    {
-                        cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
-                        {
-                            RefreshDetailPanel(selectedCardId);
-                            if (showNoTab) RefreshNoTab();
-                        }, enableStarParticles: enableStarParticles, isSSR: isSSR);
-                    }
-                    else
+                var cutscene = BreakthroughCutsceneUI.GetOrCreate();
+                if (cutscene != null)
+                {
+                    cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
                     {
                         RefreshDetailPanel(selectedCardId);
                         if (showNoTab) RefreshNoTab();
-                    }
+                    }, enableStarParticles: enableStarParticles, isSSR: isSSR);
                 }
                 else
                 {
@@ -2190,16 +2213,26 @@ namespace CosmicChaosCat
                         if (fr != null) detailCardFrameImage = fr.GetComponent<Image>();
                     }
 
-                    // Art → detailCardArt (Art/art/DetailArt/CardArt/image 오브젝트 순서로 탐색)
+                    // Art → detailCardArt (Art_image/art_image/Art/art/DetailArt/CardArt/image 오브젝트 순서로 탐색)
                     if (detailCardArt == null)
                     {
-                        var ar = FindChildByNameRecursive(rt, "Art")
+                        var ar = FindChildByNameRecursive(rt, "Art_image")
+                              ?? FindChildByNameRecursive(rt, "art_image")
+                              ?? FindChildByNameRecursive(rt, "Art")
                               ?? FindChildByNameRecursive(rt, "art")
                               ?? FindChildByNameRecursive(rt, "DetailArt")
                               ?? FindChildByNameRecursive(rt, "CardArt")
                               ?? FindChildByNameRecursive(rt, "image")
                               ?? FindChildByNameRecursive(rt, "Image");
-                        if (ar != null) detailCardArt = ar.GetComponent<Image>();
+                        if (ar != null)
+                        {
+                            var innerArt = ar.Find("Art_image") ?? ar.Find("art_image") ?? ar.Find("Art") ?? ar.Find("art") ?? ar.Find("image") ?? ar.Find("Image") ?? ar.Find("CardArt") ?? ar.Find("DetailArt");
+                            if (innerArt != null && innerArt != ar && innerArt.GetComponent<Image>() != null)
+                            {
+                                ar = innerArt;
+                            }
+                            detailCardArt = ar.GetComponent<Image>();
+                        }
                     }
 
                     // Rair_Mark / rereMark / rareMark → detailCardRarityMark

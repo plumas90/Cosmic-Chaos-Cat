@@ -1090,8 +1090,10 @@ namespace CosmicChaosCat
                 frameImg.color = Color.white;
             }
 
-            // 2. Card Art Image (Art, CardArt, Image)
-            var artImg = frontTrans.Find("Art")?.GetComponent<Image>()
+            // 2. Card Art Image (Art_image, art_image, Art, CardArt, Image)
+            var artImg = frontTrans.Find("Art_image")?.GetComponent<Image>()
+                      ?? frontTrans.Find("art_image")?.GetComponent<Image>()
+                      ?? frontTrans.Find("Art")?.GetComponent<Image>()
                       ?? frontTrans.Find("CardArt")?.GetComponent<Image>()
                       ?? frontTrans.Find("Image")?.GetComponent<Image>();
             if (artImg != null)

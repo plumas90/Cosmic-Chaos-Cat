@@ -41,79 +41,105 @@ namespace CosmicChaosCat
         {
             if (frontTrans == null) return;
 
-            Transform artTrans = frontTrans.Find("Art")
-                       ?? frontTrans.Find("CardArt")
-                       ?? frontTrans.Find("Image");
-            if (artTrans == null) return;
+            Transform artTrans = frontTrans.Find("Art_image")
+                        ?? frontTrans.Find("art_image")
+                        ?? frontTrans.Find("Art")
+                        ?? frontTrans.Find("CardArt")
+                        ?? frontTrans.Find("Image")
+                        ?? frontTrans;
 
-            var artRt = artTrans.GetComponent<RectTransform>();
-            Transform parentTrans = artTrans.parent != null ? artTrans.parent : frontTrans;
-            Transform bodyTrans = parentTrans.Find("Art (1)") ?? parentTrans.Find("Body");
+            Transform headTrans = artTrans.Find("LN_Head");
+            Transform bodyTrans = artTrans.Find("LN_Body");
+
+            // Also check for any LN_Head / LN_Body that were attached to parent/children previously
+            if (artTrans.parent != null)
+            {
+                var parentH = artTrans.parent.Find("LN_Head"); if (parentH != null && parentH != headTrans) parentH.gameObject.SetActive(false);
+                var parentB = artTrans.parent.Find("LN_Body"); if (parentB != null && parentB != bodyTrans) parentB.gameObject.SetActive(false);
+            }
+
+            var mainImg = artTrans.GetComponent<Image>();
 
             if (card != null && card.Id == "0171")
             {
                 EnsureSpritesLoaded();
 
-                var headImg = artTrans.GetComponent<Image>();
+                // 1. Set Image component opacity (alpha) to 0 for composite card (171) & clear sprite
+                if (mainImg != null)
+                {
+                    mainImg.sprite = null;
+                    mainImg.color = new Color(1f, 1f, 1f, 0f); // Opacity 0 (transparent)
+                }
+
+                // 1.5 Unconditionally clear outer parent Image sprite so outer frame never draws head sprite
+                if (artTrans.parent != null)
+                {
+                    var parentImg = artTrans.parent.GetComponent<Image>();
+                    if (parentImg != null && parentImg.gameObject.name.ToLower() == "image")
+                    {
+                        parentImg.sprite = null;
+                    }
+                }
+
+                // 2. Ensure Head child
+                if (headTrans == null)
+                {
+                    var headGo = new GameObject("LN_Head", typeof(RectTransform), typeof(Image));
+                    headGo.transform.SetParent(artTrans, false);
+                    headTrans = headGo.transform;
+                }
+                headTrans.gameObject.SetActive(true);
+                var headImg = headTrans.GetComponent<Image>();
                 if (headImg != null)
                 {
                     if (cachedHeadSprite != null) headImg.sprite = cachedHeadSprite;
-                    headImg.preserveAspect = false;
+                    headImg.preserveAspect = true;
                     headImg.color = Color.white;
+                    headImg.raycastTarget = false;
+                }
+                var headRt = headTrans.GetComponent<RectTransform>();
+                if (headRt != null)
+                {
+                    headRt.anchorMin = new Vector2(0f, 0.4707f);
+                    headRt.anchorMax = new Vector2(1f, 1f);
+                    headRt.offsetMin = Vector2.zero;
+                    headRt.offsetMax = Vector2.zero;
                 }
 
+                // 3. Ensure Body child
                 if (bodyTrans == null)
                 {
-                    var bodyGo = new GameObject("Art (1)", typeof(RectTransform), typeof(Image));
-                    bodyGo.transform.SetParent(parentTrans, false);
+                    var bodyGo = new GameObject("LN_Body", typeof(RectTransform), typeof(Image));
+                    bodyGo.transform.SetParent(artTrans, false);
                     bodyTrans = bodyGo.transform;
                 }
-
                 bodyTrans.gameObject.SetActive(true);
                 var bodyImg = bodyTrans.GetComponent<Image>();
                 if (bodyImg != null)
                 {
                     if (cachedBodySprite != null) bodyImg.sprite = cachedBodySprite;
-                    bodyImg.preserveAspect = false;
+                    bodyImg.preserveAspect = true;
                     bodyImg.color = Color.white;
+                    bodyImg.raycastTarget = false;
                 }
-
-                // Mathematical ratio: Head height = 424, Body height = 377, Total = 801
-                // Head ratio = 424 / 801 = 0.5293 (top 52.93%), Body ratio = 377 / 801 = 0.4707 (bottom 47.07%)
-                // Head bottom line & Body top line touch exactly at y = 0.4707 with ZERO GAP!
-                if (artRt != null)
+                var bodyRt = bodyTrans.GetComponent<RectTransform>();
+                if (bodyRt != null)
                 {
-                    artRt.anchorMin = new Vector2(0f, 0.4707f);
-                    artRt.anchorMax = new Vector2(1f, 1f);
-                    artRt.offsetMin = Vector2.zero;
-                    artRt.offsetMax = Vector2.zero;
-
-                    var bodyRt = bodyTrans.GetComponent<RectTransform>();
-                    if (bodyRt != null)
-                    {
-                        bodyRt.anchorMin = new Vector2(0f, 0f);
-                        bodyRt.anchorMax = new Vector2(1f, 0.4707f);
-                        bodyRt.offsetMin = Vector2.zero;
-                        bodyRt.offsetMax = Vector2.zero;
-                    }
+                    bodyRt.anchorMin = new Vector2(0f, 0f);
+                    bodyRt.anchorMax = new Vector2(1f, 0.4707f);
+                    bodyRt.offsetMin = Vector2.zero;
+                    bodyRt.offsetMax = Vector2.zero;
                 }
             }
             else
             {
-                if (bodyTrans != null)
-                {
-                    bodyTrans.gameObject.SetActive(false);
-                }
+                if (headTrans != null) headTrans.gameObject.SetActive(false);
+                if (bodyTrans != null) bodyTrans.gameObject.SetActive(false);
 
-                if (artRt != null)
+                if (mainImg != null)
                 {
-                    artRt.anchorMin = Vector2.zero;
-                    artRt.anchorMax = Vector2.one;
-                    artRt.offsetMin = Vector2.zero;
-                    artRt.offsetMax = Vector2.zero;
-
-                    var headImg = artTrans.GetComponent<Image>();
-                    if (headImg != null) headImg.preserveAspect = true;
+                    mainImg.color = Color.white;
+                    mainImg.preserveAspect = true;
                 }
             }
         }

@@ -6,7 +6,7 @@ namespace CosmicChaosCat.Editor
 {
     public static class CreateCharacterSet1
     {
-        [MenuItem("Tools/Build Character Set 1 Cards")]
+        // [MenuItem("Tools/Build Character Set 1 Cards")]
         public static void BuildSet1()
         {
             var cardCatalog = AssetDatabase.LoadAssetAtPath<CardCatalogSO>("Assets/ScriptableObjects/CardCatalog.asset");

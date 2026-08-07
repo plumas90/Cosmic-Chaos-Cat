@@ -8,7 +8,7 @@ namespace CosmicChaosCat.Editor
 {
     public static class AddShopButton
     {
-        [MenuItem("Tools/Add Shop Button and Panel")]
+        // [MenuItem("Tools/Add Shop Button and Panel")]
         public static void Execute()
         {
             var hud = Object.FindObjectOfType<GameHud>(true);

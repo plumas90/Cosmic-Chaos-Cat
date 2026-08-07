@@ -12,7 +12,7 @@ namespace CosmicChaosCat
             EditorApplication.delayCall += EnsureCatalogsExist;
         }
 
-        [MenuItem("Tools/Ensure Catalogs Exist")]
+        // [MenuItem("Tools/Ensure Catalogs Exist")]
         public static void EnsureCatalogsExist()
         {
             if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects"))

@@ -8,7 +8,7 @@ namespace CosmicChaosCat.Editor
 {
     public static class DuplicateSlot0
     {
-        [MenuItem("Tools/Encyclopedia/Slot_0 구조를 다른 Slot들로 복사")]
+        // [MenuItem("Tools/Encyclopedia/Slot_0 구조를 다른 Slot들로 복사")]
         public static void SyncSlot0Structure()
         {
             var encyPanel = Object.FindObjectOfType<EncyclopediaPanel>(true);

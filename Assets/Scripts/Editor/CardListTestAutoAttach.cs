@@ -20,7 +20,7 @@ namespace CosmicChaosCat.Editor
             EditorSceneManager.sceneOpened += (scene, mode) => EnsureAttachedInActiveScene();
         }
 
-        [MenuItem("Tools/CosmicChaosCat/Attach CardListTestButton To Scene Btn")]
+        // [MenuItem("Tools/CosmicChaosCat/Attach CardListTestButton To Scene Btn")]
         public static void EnsureAttachedInActiveScene()
         {
             // Do NOT execute scene dirty operations during Play Mode

@@ -22,7 +22,27 @@ namespace CosmicChaosCat.EditorTools
             PopulateBackgrounds();
         }
 
-        [MenuItem("CosmicChaosCat/Prepare Set Reward Test (Unlock Cards x5, Lock BGs & Decos)")]
+        [MenuItem("CosmicChaosCat/Grant All Cards x5 & 100k Money and Shards")]
+        public static void GrantAllCardsAndResourcesPlayMode()
+        {
+            var gm = Object.FindObjectOfType<GameManager>(true);
+            if (gm == null)
+            {
+                EditorUtility.DisplayDialog("올컬렉팅 테스트", "씬에서 GameManager를 찾을 수 없습니다. (Play 모드 실행 중인지 확인하세요)", "확인");
+                return;
+            }
+
+            gm.GrantAllCardsAndResourcesForTest();
+
+            var ency = Object.FindObjectOfType<EncyclopediaPanel>(true);
+            if (ency != null && ency.gameObject.activeInHierarchy)
+            {
+                var method = typeof(EncyclopediaPanel).GetMethod("OnStateChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                method?.Invoke(ency, null);
+            }
+
+            EditorUtility.DisplayDialog("올컬렉팅 테스트 완료", "모든 카드 5장 보유, 골드 100k, 조각 100k가 적용되었습니다!", "확인");
+        }
         public static void PrepareSetRewardTest()
         {
             var gm = Object.FindObjectOfType<GameManager>(true);

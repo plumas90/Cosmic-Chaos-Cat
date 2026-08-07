@@ -8,7 +8,7 @@ namespace CosmicChaosCat.Editor
 {
     public class FixCardSlots : MonoBehaviour
     {
-        [MenuItem("Tools/Fix Card Slots (Rename RareText & Delete StackText)")]
+        // [MenuItem("Tools/Fix Card Slots (Rename RareText & Delete StackText)")]
         public static void FixSlots()
         {
             var slots = Object.FindObjectsOfType<CardSlotUI>(true);
@@ -135,7 +135,7 @@ namespace CosmicChaosCat.Editor
             }
         }
 
-        [MenuItem("Tools/Print Encyclopedia Hierarchy")]
+        // [MenuItem("Tools/Print Encyclopedia Hierarchy")]
         public static void PrintHierarchy()
         {
             var panel = Object.FindObjectOfType<EncyclopediaPanel>(true);
@@ -150,7 +150,7 @@ namespace CosmicChaosCat.Editor
             Debug.Log("[PrintHierarchy] Hierarchy print finished.");
         }
 
-        [MenuItem("Tools/Print Prefab Hierarchy")]
+        // [MenuItem("Tools/Print Prefab Hierarchy")]
         public static void PrintPrefabHierarchy()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/EncyclopediaPanel.prefab");
@@ -165,7 +165,7 @@ namespace CosmicChaosCat.Editor
             Debug.Log("[PrintHierarchy] PREFAB Hierarchy print finished.");
         }
 
-        [MenuItem("Tools/Print Detail Panel Children")]
+        // [MenuItem("Tools/Print Detail Panel Children")]
         public static void PrintDetailPanelChildren()
         {
             var panel = Object.FindObjectOfType<EncyclopediaPanel>(true);

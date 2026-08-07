@@ -508,12 +508,14 @@ namespace CosmicChaosCat
                     {
                         if (!cardState.TryGetValue(card.Id, out var state))
                         {
-                            cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 5, Unlocked = true };
+                            cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 5, Unlocked = true, BreakthroughCount = 0, SelectedStage = 1 };
                         }
                         else
                         {
                             state.Unlocked = true;
                             state.Copies = 5;
+                            state.BreakthroughCount = 0;
+                            state.SelectedStage = 1;
                         }
                     }
                 }
@@ -533,7 +535,41 @@ namespace CosmicChaosCat
 
             Save();
             NotifyState();
-            Debug.Log("[GameManager] ResetBackgroundsAndDecorationsForTest completed: All cards unlocked with 5 copies, Sets completed, Rewards unclaimed, BGs & Decos locked!");
+            Debug.Log("[GameManager] ResetBackgroundsAndDecorationsForTest completed: All cards unlocked with 5 copies, Breakthrough reset to 0, Sets completed, Rewards unclaimed, BGs & Decos locked!");
+        }
+
+        [ContextMenu("Grant All Cards x5 & 100k Resources")]
+        public void GrantAllCardsAndResourcesForTest()
+        {
+            Money = 100000d;
+            Shards = 100000;
+
+            if (cardCatalog != null && cardCatalog.Cards != null)
+            {
+                foreach (var card in cardCatalog.Cards)
+                {
+                    if (card != null && !string.IsNullOrEmpty(card.Id))
+                    {
+                        if (!cardState.TryGetValue(card.Id, out var state))
+                        {
+                            cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 5, Unlocked = true, BreakthroughCount = 0, SelectedStage = 1 };
+                        }
+                        else
+                        {
+                            state.Unlocked = true;
+                            state.Copies = 5;
+                            state.BreakthroughCount = 0;
+                            state.SelectedStage = 1;
+                        }
+                    }
+                }
+            }
+
+            RebuildSetState();
+            Save();
+            NotifyState();
+
+            Debug.Log("[GameManager] ✅ 올컬렉팅 테스트 적용 완료! (모든 카드 5장, 골드 100k, 조각 100k)");
         }
 
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);

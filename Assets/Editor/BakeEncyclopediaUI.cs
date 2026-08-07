@@ -10,7 +10,7 @@ namespace CosmicChaosCat.Editor
     /// </summary>
     public static class BakeEncyclopediaUI
     {
-        [MenuItem("Tools/Encyclopedia/씬에 UI 빌드 (에디터 전용)")]
+        // [MenuItem("Tools/Encyclopedia/씬에 UI 빌드 (에디터 전용)")]
         public static void Execute()
         {
             if (EditorApplication.isPlaying)
@@ -63,7 +63,7 @@ namespace CosmicChaosCat.Editor
                 "확인");
         }
 
-        [MenuItem("Tools/Encyclopedia/씬에 UI 빌드 (에디터 전용)", true)]
+        // [MenuItem("Tools/Encyclopedia/씬에 UI 빌드 (에디터 전용)", true)]
         private static bool ValidateExecute() => !EditorApplication.isPlaying;
     }
 }

@@ -44,8 +44,8 @@ namespace CosmicChaosCat.EditorTools
                 }
             }
 
-            // Map card ID -> List of Sprites
-            var cardSpritesMap = new Dictionary<string, List<Sprite>>();
+            // Map card ID -> Stage Dict (stageNum -> Sprite)
+            var cardStageMap = new Dictionary<string, SortedDictionary<int, Sprite>>();
             foreach (var filePath in cardImageFiles)
             {
                 string fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -55,24 +55,34 @@ namespace CosmicChaosCat.EditorTools
                 int num = int.Parse(match.Groups[1].Value);
                 string cardId = num.ToString("D4");
 
-                // Load all sub-sprites (in case of sprite sheet like 171_SR_long_neck_cat)
+                int stageNum = 1;
+                var stageMatch = Regex.Match(fileName, @"stage_?(\d+)", RegexOptions.IgnoreCase);
+                if (stageMatch.Success)
+                {
+                    stageNum = int.Parse(stageMatch.Groups[1].Value);
+                }
+
                 var assets = AssetDatabase.LoadAllAssetsAtPath(filePath);
-                var sprites = new List<Sprite>();
+                Sprite sprite = null;
                 foreach (var a in assets)
                 {
-                    if (a is Sprite sp) sprites.Add(sp);
+                    if (a is Sprite sp)
+                    {
+                        sprite = sp;
+                        break;
+                    }
+                }
+                if (sprite == null)
+                {
+                    sprite = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
                 }
 
-                if (sprites.Count == 0)
+                if (sprite != null)
                 {
-                    var mainSp = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
-                    if (mainSp != null) sprites.Add(mainSp);
-                }
-
-                if (sprites.Count > 0)
-                {
-                    if (!cardSpritesMap.ContainsKey(cardId)) cardSpritesMap[cardId] = new List<Sprite>();
-                    cardSpritesMap[cardId].AddRange(sprites);
+                    if (!cardStageMap.ContainsKey(cardId))
+                        cardStageMap[cardId] = new SortedDictionary<int, Sprite>();
+                    
+                    cardStageMap[cardId][stageNum] = sprite;
                 }
             }
 
@@ -150,9 +160,14 @@ namespace CosmicChaosCat.EditorTools
 
                 // Link Sprites for the card
                 var cardElem = existingCards[cardId];
-                if (cardSpritesMap.TryGetValue(cardId, out var sprites) && sprites.Count > 0)
+                if (cardStageMap.TryGetValue(cardId, out var stageDict) && stageDict.Count > 0)
                 {
-                    var mainSp = sprites[0];
+                    Sprite mainSp = stageDict.ContainsKey(1) ? stageDict[1] : null;
+                    if (mainSp == null)
+                    {
+                        foreach (var kvp in stageDict) { mainSp = kvp.Value; break; }
+                    }
+
                     cardElem.FindPropertyRelative("CardSprite").objectReferenceValue = mainSp;
                     
                     if (bgSpriteMap.TryGetValue(cardId, out var bgSp))
@@ -160,21 +175,30 @@ namespace CosmicChaosCat.EditorTools
                     else
                         cardElem.FindPropertyRelative("GachaBgSprite").objectReferenceValue = null;
 
-                    // Breakthrough sprites setup
+                    // BreakthroughVariantStages setup (stages that have distinct sprites)
+                    var varStagesProp = cardElem.FindPropertyRelative("BreakthroughVariantStages");
+                    varStagesProp.ClearArray();
+                    int stageIdx = 0;
+                    foreach (var kvp in stageDict)
+                    {
+                        varStagesProp.InsertArrayElementAtIndex(stageIdx);
+                        varStagesProp.GetArrayElementAtIndex(stageIdx).intValue = kvp.Key;
+                        stageIdx++;
+                    }
+
+                    // BreakthroughSprites setup (5 elements for stages 1..5)
                     var btProp = cardElem.FindPropertyRelative("BreakthroughSprites");
                     btProp.ClearArray();
+                    Sprite currentSp = mainSp;
                     for (int s = 0; s < 5; s++)
                     {
+                        int targetStage = s + 1;
+                        if (stageDict.TryGetValue(targetStage, out var stSp) && stSp != null)
+                        {
+                            currentSp = stSp;
+                        }
                         btProp.InsertArrayElementAtIndex(s);
-                        // Special rule for 170: 5th stage uses 2nd sprite if available
-                        if (num == 170 && s == 4 && sprites.Count > 1)
-                        {
-                            btProp.GetArrayElementAtIndex(s).objectReferenceValue = sprites[1];
-                        }
-                        else
-                        {
-                            btProp.GetArrayElementAtIndex(s).objectReferenceValue = mainSp;
-                        }
+                        btProp.GetArrayElementAtIndex(s).objectReferenceValue = currentSp;
                     }
                 }
             }

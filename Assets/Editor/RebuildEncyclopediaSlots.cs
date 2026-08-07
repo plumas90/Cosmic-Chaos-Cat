@@ -7,7 +7,7 @@ using CosmicChaosCat;
 
 public class RebuildEncyclopediaSlots : MonoBehaviour
 {
-    [MenuItem("Tools/Rebuild Encyclopedia Slots (2x Size)")]
+    // [MenuItem("Tools/Rebuild Encyclopedia Slots (2x Size)")]
     public static void RebuildSlots()
     {
         var panel = FindObjectOfType<EncyclopediaPanel>(true);
