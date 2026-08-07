@@ -7,10 +7,11 @@ namespace CosmicChaosCat
     {
         private static Sprite cachedHeadSprite;
         private static Sprite cachedBodySprite;
+        private static Sprite cachedNeckSprite;
 
         public static void EnsureSpritesLoaded()
         {
-            if (cachedHeadSprite != null && cachedBodySprite != null) return;
+            if (cachedHeadSprite != null && cachedBodySprite != null && cachedNeckSprite != null) return;
 
 #if UNITY_EDITOR
             var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_No/169_174meme_cat/171_SR_long_neck_cat.png");
@@ -20,6 +21,7 @@ namespace CosmicChaosCat
                 {
                     if (s.name.Contains("head")) cachedHeadSprite = s;
                     else if (s.name.Contains("body")) cachedBodySprite = s;
+                    else if (s.name.Contains("neck")) cachedNeckSprite = s;
                 }
             }
 #endif
@@ -35,6 +37,12 @@ namespace CosmicChaosCat
         {
             EnsureSpritesLoaded();
             return cachedBodySprite;
+        }
+
+        public static Sprite GetNeckSprite()
+        {
+            EnsureSpritesLoaded();
+            return cachedNeckSprite;
         }
 
         public static void BindLongNeckCardSlot(Transform frontTrans, CardEntry card)
