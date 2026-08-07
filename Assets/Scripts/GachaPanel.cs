@@ -1098,7 +1098,11 @@ namespace CosmicChaosCat
             {
                 artImg.sprite = card.CardSprite;
                 artImg.color = card.CardSprite != null ? Color.white : new Color(0.2f, 0.2f, 0.2f);
+                artImg.preserveAspect = true;
             }
+
+            // 171 롱넥캣 머리+몸통 결합 처리
+            LongNeckCatDisplayHelper.BindLongNeckCardSlot(frontTrans, card);
 
             // 3. Rare_Mark Image (Rare_Mark, RareMark, RarityMark, RarityBadge, Rarity)
             var rareMarkImg = frontTrans.Find("Rare_Mark")?.GetComponent<Image>()

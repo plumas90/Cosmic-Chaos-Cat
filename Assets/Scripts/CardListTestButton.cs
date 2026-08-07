@@ -104,16 +104,25 @@ namespace CosmicChaosCat
         public void OnTestButtonClicked()
         {
             var gm = GameManager.Instance != null ? GameManager.Instance : FindObjectOfType<GameManager>(true);
-            if (gm == null || gm.CardCatalog == null || gm.CardCatalog.Cards == null)
+
+            IReadOnlyList<CardEntry> cards = null;
+#if UNITY_EDITOR
+            var editorCat = UnityEditor.AssetDatabase.LoadAssetAtPath<CardCatalogSO>("Assets/ScriptableObjects/CardCatalog.asset");
+            if (editorCat != null && editorCat.Cards != null && editorCat.Cards.Count > 0)
+                cards = editorCat.Cards;
+#endif
+            if (cards == null && gm != null && gm.CardCatalog != null)
+                cards = gm.CardCatalog.Cards;
+
+            if (cards == null || cards.Count == 0)
             {
                 Debug.LogWarning("[CardListTestButton] GameManager or CardCatalog not found!");
                 return;
             }
 
-            var cards = gm.CardCatalog.Cards;
-            if (cards.Count == 0) return;
+            Debug.Log($"[CardListTestButton] Loaded {cards.Count} total cards from CardCatalog!");
 
-            // Locate AnimContainer
+            // Locate or Auto-Create AnimContainer
             if (animContainer == null && testButton != null)
             {
                 var ac = testButton.transform.Find("AnimContainer")
@@ -124,11 +133,15 @@ namespace CosmicChaosCat
 
             if (animContainer == null)
             {
-                var gachaPanel = FindObjectOfType<GachaPanel>(true);
-                if (gachaPanel != null)
+                var canvas = FindObjectOfType<Canvas>();
+                if (canvas != null)
                 {
-                    gachaPanel.OnCardListTestClicked();
-                    return;
+                    var acGo = new GameObject("AnimContainerAuto", typeof(RectTransform));
+                    acGo.transform.SetParent(canvas.transform, false);
+                    var rt = acGo.GetComponent<RectTransform>();
+                    rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+                    rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+                    animContainer = acGo;
                 }
             }
 
@@ -256,31 +269,47 @@ namespace CosmicChaosCat
             Button nextBtn = sceneNextBtn;
             Button closeBtn = sceneCloseBtn;
 
+            Button prev10Btn = null;
+            Button next10Btn = null;
+            Button prev100Btn = null;
+            Button next100Btn = null;
+
             targetCardIndex = 0;
 
-            if (nextBtn == null || prevBtn == null || closeBtn == null)
+            Transform ctrlTrans = flowObj.transform.Find("Controls");
+            if (ctrlTrans == null)
             {
-                Transform ctrlTrans = flowObj.transform.Find("Controls");
-                if (ctrlTrans == null)
-                {
-                    var ctrlGo = new GameObject("Controls", typeof(RectTransform));
-                    ctrlGo.transform.SetParent(flowObj.transform, false);
-                    var cRt = ctrlGo.GetComponent<RectTransform>();
-                    cRt.anchorMin = new Vector2(0.5f, 0f); cRt.anchorMax = new Vector2(0.5f, 0f);
-                    cRt.anchoredPosition = new Vector2(0f, 25f);
-                    cRt.sizeDelta = new Vector2(360f, 45f);
+                var ctrlGo = new GameObject("Controls", typeof(RectTransform));
+                ctrlGo.transform.SetParent(flowObj.transform, false);
+                var cRt = ctrlGo.GetComponent<RectTransform>();
+                cRt.anchorMin = new Vector2(0.5f, 0.5f); cRt.anchorMax = new Vector2(0.5f, 0.5f);
+                cRt.anchoredPosition = new Vector2(0f, -260f);
+                cRt.sizeDelta = new Vector2(360f, 130f);
+                ctrlTrans = ctrlGo.transform;
 
-                    if (prevBtn == null) prevBtn  = CreateControlBtn(ctrlGo.transform, "Btn_이전", "◀ 이전", new Vector2(-110f, 0f), mainFont);
-                    if (nextBtn == null) nextBtn  = CreateControlBtn(ctrlGo.transform, "Btn_다음", "다음 ▶", new Vector2(0f, 0f), mainFont);
-                    if (closeBtn == null) closeBtn = CreateControlBtn(ctrlGo.transform, "Btn_닫기", "닫기 ✕", new Vector2(110f, 0f), mainFont);
-                }
-                else
-                {
-                    if (prevBtn == null) prevBtn  = ctrlTrans.Find("Btn_이전")?.GetComponent<Button>() ?? ctrlTrans.Find("PrevBtn")?.GetComponent<Button>();
-                    if (nextBtn == null) nextBtn  = ctrlTrans.Find("Btn_다음")?.GetComponent<Button>() ?? ctrlTrans.Find("NextBtn")?.GetComponent<Button>();
-                    if (closeBtn == null) closeBtn = ctrlTrans.Find("Btn_닫기")?.GetComponent<Button>() ?? ctrlTrans.Find("CloseBtn")?.GetComponent<Button>();
-                }
+                if (prevBtn == null) prevBtn  = CreateControlBtn(ctrlTrans, "Btn_이전", "◀ 이전", new Vector2(-110f, 0f), mainFont);
+                if (nextBtn == null) nextBtn  = CreateControlBtn(ctrlTrans, "Btn_다음", "다음 ▶", new Vector2(0f, 0f), mainFont);
+                if (closeBtn == null) closeBtn = CreateControlBtn(ctrlTrans, "Btn_닫기", "닫기 ✕", new Vector2(110f, 0f), mainFont);
             }
+            else
+            {
+                var cRt = ctrlTrans.GetComponent<RectTransform>();
+                if (cRt != null)
+                {
+                    cRt.anchorMin = new Vector2(0.5f, 0.5f); cRt.anchorMax = new Vector2(0.5f, 0.5f);
+                    cRt.anchoredPosition = new Vector2(0f, -260f);
+                }
+
+                if (prevBtn == null) prevBtn  = ctrlTrans.Find("Btn_이전")?.GetComponent<Button>() ?? ctrlTrans.Find("PrevBtn")?.GetComponent<Button>();
+                if (nextBtn == null) nextBtn  = ctrlTrans.Find("Btn_다음")?.GetComponent<Button>() ?? ctrlTrans.Find("NextBtn")?.GetComponent<Button>();
+                if (closeBtn == null) closeBtn = ctrlTrans.Find("Btn_닫기")?.GetComponent<Button>() ?? ctrlTrans.Find("CloseBtn")?.GetComponent<Button>();
+            }
+
+            // Create -10/+10 and -100/+100 buttons below Row 1 (at Y = -50f and Y = -100f)
+            prev10Btn  = ctrlTrans.Find("Btn_이전10")?.GetComponent<Button>()  ?? CreateControlBtn(ctrlTrans, "Btn_이전10", "◀ -10", new Vector2(-60f, -50f), mainFont);
+            next10Btn  = ctrlTrans.Find("Btn_다음10")?.GetComponent<Button>()  ?? CreateControlBtn(ctrlTrans, "Btn_다음10", "+10 ▶", new Vector2(60f, -50f), mainFont);
+            prev100Btn = ctrlTrans.Find("Btn_이전100")?.GetComponent<Button>() ?? CreateControlBtn(ctrlTrans, "Btn_이전100", "◀ -100", new Vector2(-60f, -100f), mainFont);
+            next100Btn = ctrlTrans.Find("Btn_다음100")?.GetComponent<Button>() ?? CreateControlBtn(ctrlTrans, "Btn_다음100", "+100 ▶", new Vector2(60f, -100f), mainFont);
 
             if (prevBtn != null)
             {
@@ -297,6 +326,42 @@ namespace CosmicChaosCat
                 nextBtn.onClick.RemoveAllListeners();
                 nextBtn.onClick.AddListener(() => { targetCardIndex = Mathf.Min(cards.Count - 1, targetCardIndex + 1); });
                 var txt = nextBtn.GetComponentInChildren<TMP_Text>();
+                if (txt != null && mainFont != null) txt.font = mainFont;
+            }
+
+            if (prev10Btn != null)
+            {
+                prev10Btn.gameObject.SetActive(true);
+                prev10Btn.onClick.RemoveAllListeners();
+                prev10Btn.onClick.AddListener(() => { targetCardIndex = Mathf.Max(0, targetCardIndex - 10); });
+                var txt = prev10Btn.GetComponentInChildren<TMP_Text>();
+                if (txt != null && mainFont != null) txt.font = mainFont;
+            }
+
+            if (next10Btn != null)
+            {
+                next10Btn.gameObject.SetActive(true);
+                next10Btn.onClick.RemoveAllListeners();
+                next10Btn.onClick.AddListener(() => { targetCardIndex = Mathf.Min(cards.Count - 1, targetCardIndex + 10); });
+                var txt = next10Btn.GetComponentInChildren<TMP_Text>();
+                if (txt != null && mainFont != null) txt.font = mainFont;
+            }
+
+            if (prev100Btn != null)
+            {
+                prev100Btn.gameObject.SetActive(true);
+                prev100Btn.onClick.RemoveAllListeners();
+                prev100Btn.onClick.AddListener(() => { targetCardIndex = Mathf.Max(0, targetCardIndex - 100); });
+                var txt = prev100Btn.GetComponentInChildren<TMP_Text>();
+                if (txt != null && mainFont != null) txt.font = mainFont;
+            }
+
+            if (next100Btn != null)
+            {
+                next100Btn.gameObject.SetActive(true);
+                next100Btn.onClick.RemoveAllListeners();
+                next100Btn.onClick.AddListener(() => { targetCardIndex = Mathf.Min(cards.Count - 1, targetCardIndex + 100); });
+                var txt = next100Btn.GetComponentInChildren<TMP_Text>();
                 if (txt != null && mainFont != null) txt.font = mainFont;
             }
 

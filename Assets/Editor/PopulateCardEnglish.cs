@@ -204,7 +204,14 @@ namespace CosmicChaosCat.EditorTools
                 { "0109", new string[] { "Winter Aurora Queen Cat", "Draped in a radiant aurora veil shimmering across night skies." } },
                 { "0110", new string[] { "Maple Mountain Spirit Cat", "A deity solemnly decorating whole mountains in burning red autumn colors." } },
                 { "0111", new string[] { "Eternal Sky Spirit Cat", "Holds blue sky energy to peacefully cycle natural seasons." } },
-                { "0112", new string[] { "Four Seasons Sacred Beast Cat", "A noble beast cat protecting nature across spring, summer, autumn, and winter." } }
+                { "0112", new string[] { "Four Seasons Sacred Beast Cat", "A noble beast cat protecting nature across spring, summer, autumn, and winter." } },
+                { "0152", new string[] { "Missing Cat", "A mysterious missing cat photo poster." } },
+                { "0169", new string[] { "Buff Half Cat", "A muscular half cat showing off immense power." } },
+                { "0170", new string[] { "Huh Cat", "A confused cat asking Huh?" } },
+                { "0171", new string[] { "Long Neck Cat", "A long neck cat stretching infinitely into the sky." } },
+                { "0172", new string[] { "OIIA OIIA Cat", "An OIIA OIIA spinning meme cat." } },
+                { "0173", new string[] { "Polite Cat Ollie", "A polite cat named Ollie smiling politely." } },
+                { "0174", new string[] { "Pop Cat", "A popping cat opening and closing its mouth." } }
             };
 
             int updatedCount = 0;

@@ -228,6 +228,7 @@ namespace CosmicChaosCat
             if (cardArtImage != null)
             {
                 cardArtImage.raycastTarget = false;
+                cardArtImage.preserveAspect = true;
 
                 if (unlocked)
                 {
@@ -254,6 +255,9 @@ namespace CosmicChaosCat
                     if (cardArtImage.color != new Color(0, 0, 0, 0)) cardArtImage.color = new Color(0, 0, 0, 0);
                     if (cardArtImage.gameObject.activeSelf) cardArtImage.gameObject.SetActive(false);
                 }
+
+                // 171 롱넥캣 머리+몸통 결합 처리
+                LongNeckCatDisplayHelper.BindLongNeckCardSlot(transform, card);
             }
 
             // ── Rarity Mark (rereMark / rareMark) ───────────────────────────

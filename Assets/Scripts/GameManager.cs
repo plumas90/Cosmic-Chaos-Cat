@@ -1094,6 +1094,19 @@ namespace CosmicChaosCat
             SfxVolume = data.SfxVolume;
             IsMuted = data.IsMuted;
             SelectedLanguage = string.IsNullOrEmpty(data.SelectedLanguage) ? "KR" : data.SelectedLanguage;
+
+            // Ensure any new cards added to CardCatalog.asset are automatically registered in cardState for gacha
+            if (cardCatalog != null && cardCatalog.Cards != null)
+            {
+                foreach (var card in cardCatalog.Cards)
+                {
+                    if (card != null && !string.IsNullOrEmpty(card.Id) && !cardState.ContainsKey(card.Id))
+                    {
+                        cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 0, Unlocked = false };
+                    }
+                }
+            }
+
             NotifyState();
         }
 

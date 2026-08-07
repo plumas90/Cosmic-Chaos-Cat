@@ -95,6 +95,7 @@ namespace CosmicChaosCat
             // 스프라이트 및 색상
             if (cardImage != null)
             {
+                cardImage.preserveAspect = true;
                 Sprite sprite = (card != null)
                     ? gameManager.GetCardSpriteForDisplay(card.Id)
                     : defaultCardSprite;
@@ -111,6 +112,9 @@ namespace CosmicChaosCat
                     }
                 }
             }
+
+            // 171 롱넥캣 전용 커스텀 디스플레이 토글
+            RefreshLongNeckDisplay(card != null && card.Id == "0171");
 
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;
@@ -159,6 +163,143 @@ namespace CosmicChaosCat
             }
         }
 
+        [Header("Long Neck Cat (0171) Special Setup")]
+        [SerializeField] private Sprite longNeckHeadSprite;
+        [SerializeField] private Sprite longNeckBodySprite;
+        [SerializeField] private Sprite longNeckNeckSprite;
+        
+        private RectTransform longNeckContainer;
+        private Image         longNeckHeadImage;
+        private Image         longNeckBodyImage;
+        private Image         longNeckNeckImage;
+        private Coroutine     longNeckRoutine;
+
+        private void EnsureLongNeckSetup()
+        {
+            if (longNeckContainer != null) return;
+
+            GameObject containerGO = new GameObject("LongNeckContainer", typeof(RectTransform));
+            containerGO.transform.SetParent(transform, false);
+            longNeckContainer = containerGO.GetComponent<RectTransform>();
+            longNeckContainer.anchorMin = new Vector2(0.5f, 0.5f);
+            longNeckContainer.anchorMax = new Vector2(0.5f, 0.5f);
+            longNeckContainer.sizeDelta = new Vector2(300, 300);
+
+            // Body
+            GameObject bodyGO = new GameObject("Body", typeof(Image));
+            bodyGO.transform.SetParent(longNeckContainer, false);
+            longNeckBodyImage = bodyGO.GetComponent<Image>();
+            RectTransform bodyRt = bodyGO.GetComponent<RectTransform>();
+            bodyRt.anchorMin = new Vector2(0.5f, 0.5f);
+            bodyRt.anchorMax = new Vector2(0.5f, 0.5f);
+            bodyRt.anchoredPosition = new Vector2(0, -60);
+            bodyRt.sizeDelta = new Vector2(240, 150);
+
+            #if UNITY_EDITOR
+            if (longNeckBodySprite == null || longNeckHeadSprite == null || longNeckNeckSprite == null)
+            {
+                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_No/169_174meme_cat/171_SR_long_neck_cat.png");
+                foreach (var a in assets)
+                {
+                    if (a is Sprite s)
+                    {
+                        if (s.name.Contains("head")) longNeckHeadSprite = s;
+                        else if (s.name.Contains("body")) longNeckBodySprite = s;
+                        else if (s.name.Contains("neck")) longNeckNeckSprite = s;
+                    }
+                }
+            }
+            #endif
+
+            if (longNeckBodySprite != null) longNeckBodyImage.sprite = longNeckBodySprite;
+
+            // Neck
+            GameObject neckGO = new GameObject("Neck", typeof(Image));
+            neckGO.transform.SetParent(longNeckContainer, false);
+            longNeckNeckImage = neckGO.GetComponent<Image>();
+            RectTransform neckRt = neckGO.GetComponent<RectTransform>();
+            neckRt.anchorMin = new Vector2(0.5f, 0.5f);
+            neckRt.anchorMax = new Vector2(0.5f, 0.5f);
+            neckRt.pivot = new Vector2(0.5f, 0.0f); // Grow upward
+            neckRt.anchoredPosition = new Vector2(0, 0);
+            neckRt.sizeDelta = new Vector2(240, 0);
+            if (longNeckNeckSprite != null) longNeckNeckImage.sprite = longNeckNeckSprite;
+
+            // Head
+            GameObject headGO = new GameObject("Head", typeof(Image));
+            headGO.transform.SetParent(longNeckContainer, false);
+            longNeckHeadImage = headGO.GetComponent<Image>();
+            RectTransform headRt = headGO.GetComponent<RectTransform>();
+            headRt.anchorMin = new Vector2(0.5f, 0.5f);
+            headRt.anchorMax = new Vector2(0.5f, 0.5f);
+            headRt.anchoredPosition = new Vector2(0, 20);
+            headRt.sizeDelta = new Vector2(240, 160);
+            if (longNeckHeadSprite != null) longNeckHeadImage.sprite = longNeckHeadSprite;
+
+            longNeckContainer.gameObject.SetActive(false);
+        }
+
+        private void RefreshLongNeckDisplay(bool isLongNeck)
+        {
+            EnsureLongNeckSetup();
+            if (longNeckContainer != null)
+            {
+                longNeckContainer.gameObject.SetActive(isLongNeck);
+                if (cardImage != null) cardImage.enabled = !isLongNeck;
+                
+                if (isLongNeck)
+                {
+                    // Reset head & neck position
+                    RectTransform headRt = longNeckHeadImage.GetComponent<RectTransform>();
+                    RectTransform neckRt = longNeckNeckImage.GetComponent<RectTransform>();
+                    headRt.anchoredPosition = new Vector2(0, 20);
+                    neckRt.sizeDelta = new Vector2(240, 0);
+                    longNeckNeckImage.enabled = false;
+                }
+            }
+        }
+
+        private System.Collections.IEnumerator LongNeckStretchRoutine()
+        {
+            EnsureLongNeckSetup();
+            if (longNeckContainer == null || longNeckHeadImage == null || longNeckNeckImage == null) yield break;
+
+            longNeckNeckImage.enabled = true;
+            RectTransform headRt = longNeckHeadImage.GetComponent<RectTransform>();
+            RectTransform neckRt = longNeckNeckImage.GetComponent<RectTransform>();
+
+            float duration = 0.28f;
+            float maxStretch = 130f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                float currentStretch;
+                if (t < 0.40f)
+                {
+                    float subT = t / 0.40f;
+                    currentStretch = Mathf.Lerp(0f, maxStretch, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+                else
+                {
+                    float subT = (t - 0.40f) / 0.60f;
+                    currentStretch = Mathf.Lerp(maxStretch, 0f, Mathf.Sin(subT * Mathf.PI * 0.5f));
+                }
+
+                neckRt.sizeDelta = new Vector2(240, currentStretch);
+                headRt.anchoredPosition = new Vector2(0, 20f + currentStretch);
+                yield return null;
+            }
+
+            neckRt.sizeDelta = new Vector2(240, 0f);
+            headRt.anchoredPosition = new Vector2(0, 20f);
+            longNeckNeckImage.enabled = false;
+            longNeckRoutine = null;
+        }
+
         private Vector3 defaultTargetScale = Vector3.zero;
 
         private void EnsureBaseScale(Transform targetTf)
@@ -177,6 +318,15 @@ namespace CosmicChaosCat
         {
             Transform targetTf = cardImage != null ? cardImage.transform : transform;
             EnsureBaseScale(targetTf);
+
+            // Check if 171 Long Neck Cat is equipped
+            var equipped = gameManager != null ? gameManager.GetEquippedCard() : null;
+            if (equipped != null && equipped.Id == "0171")
+            {
+                EnsureLongNeckSetup();
+                if (longNeckRoutine != null) StopCoroutine(longNeckRoutine);
+                longNeckRoutine = StartCoroutine(LongNeckStretchRoutine());
+            }
 
             // Reset to clean default scale before starting a new click bounce
             if (targetTf != null) targetTf.localScale = defaultTargetScale;
