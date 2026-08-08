@@ -7780,6 +7780,22 @@ MonoBehaviour:
   baseCriticalChance: 0.1
   baseCriticalMultiplier: 3
   autoClickerVisual: {fileID: 1572585743}
+  autoClickerRockImage: {fileID: 2118558487}
+  autoClickerRockSprites:
+  - {fileID: 3693939330818283045, guid: 3bb701e08dcaed5da9e697684ec1321a, type: 3}
+  - {fileID: 2896407415269949640, guid: 3bb701e08dcaed5da9e697684ec1321a, type: 3}
+  - {fileID: 2055301208, guid: 3bb701e08dcaed5da9e697684ec1321a, type: 3}
+  - {fileID: 7179887837594361351, guid: 3bb701e08dcaed5da9e697684ec1321a, type: 3}
+  autoClickerMinerImages:
+  - {fileID: 524897532}
+  - {fileID: 266246535}
+  autoClickerMinerSprites:
+  - {fileID: 5478077517411653636, guid: ed815b4da81b22c7e8467bf0ea5bb6ed, type: 3}
+  - {fileID: 8966573890823727023, guid: ed815b4da81b22c7e8467bf0ea5bb6ed, type: 3}
+  - {fileID: 5763921421157445365, guid: 712be8f7a639e8fa59486d7ee2f64040, type: 3}
+  - {fileID: -4578943400353955762, guid: 712be8f7a639e8fa59486d7ee2f64040, type: 3}
+  - {fileID: -4585313898788501278, guid: 5553462a27e63abcc92f68f774ef3ccf, type: 3}
+  - {fileID: 5974743909674192588, guid: 5553462a27e63abcc92f68f774ef3ccf, type: 3}
 --- !u!114 &860310177782388711 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6927828973642533557, guid: d0aeeccecdd3ba90d8b538909dbeaa10, type: 3}

@@ -54,6 +54,10 @@ namespace CosmicChaosCat
         [SerializeField] private UnityEngine.UI.Image autoClickerRockImage;
         [Tooltip("Rock sprites for unlock, income x2, x3 and x4 respectively.")]
         [SerializeField] private Sprite[] autoClickerRockSprites = new Sprite[4];
+        [Tooltip("AutoClicker/Miner1 and Miner2 images.")]
+        [SerializeField] private UnityEngine.UI.Image[] autoClickerMinerImages = new UnityEngine.UI.Image[2];
+        [Tooltip("Two animation frames for Miner1, Miner2 and Miner3 appearances, in that order.")]
+        [SerializeField] private Sprite[] autoClickerMinerSprites = new Sprite[6];
 
         // ── Private State ──────────────────────────────────────────────────────
         private readonly GachaService gachaService = new GachaService();
@@ -71,6 +75,7 @@ namespace CosmicChaosCat
         private int   clicksInWindow;
         private TMPro.TMP_FontAsset cachedFont;
         private float autoClickTimer;
+        private bool autoClickerMinerSecondFrame;
         private Transform centerClickTransform;
 
         // ── Public State ───────────────────────────────────────────────────────
@@ -186,6 +191,28 @@ namespace CosmicChaosCat
         {
             LocalizationManager.NotifyLanguageChanged();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (autoClickerMinerImages == null || autoClickerMinerImages.Length != 2)
+                autoClickerMinerImages = new UnityEngine.UI.Image[2];
+            if (autoClickerVisual != null)
+            {
+                foreach (var image in autoClickerVisual.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+                {
+                    if (autoClickerRockImage == null && image.name.Equals("Rock", StringComparison.OrdinalIgnoreCase))
+                        autoClickerRockImage = image;
+                    else if (image.name.Equals("Miner1", StringComparison.OrdinalIgnoreCase))
+                        autoClickerMinerImages[0] = image;
+                    else if (image.name.Equals("Miner2", StringComparison.OrdinalIgnoreCase))
+                        autoClickerMinerImages[1] = image;
+                }
+            }
+            EnsureAutoClickerRockSpritesLoadedInEditor();
+            EnsureAutoClickerMinerSpritesLoadedInEditor();
+        }
+#endif
 
 
         private void Update()
@@ -637,8 +664,21 @@ namespace CosmicChaosCat
                     }
                 }
             }
+            if (autoClickerVisual != null)
+            {
+                if (autoClickerMinerImages == null || autoClickerMinerImages.Length != 2)
+                    autoClickerMinerImages = new UnityEngine.UI.Image[2];
+                foreach (var image in autoClickerVisual.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+                {
+                    if (image.name.Equals("Miner1", StringComparison.OrdinalIgnoreCase))
+                        autoClickerMinerImages[0] = image;
+                    else if (image.name.Equals("Miner2", StringComparison.OrdinalIgnoreCase))
+                        autoClickerMinerImages[1] = image;
+                }
+            }
 #if UNITY_EDITOR
             EnsureAutoClickerRockSpritesLoadedInEditor();
+            EnsureAutoClickerMinerSpritesLoadedInEditor();
 #endif
             if (centerClickTransform == null)
             {
@@ -653,7 +693,43 @@ namespace CosmicChaosCat
             if (autoClickerVisual != null)
                 autoClickerVisual.SetActive(IsAutoClickerUnlocked);
             RefreshAutoClickerRockVisual();
-            if (!IsAutoClickerUnlocked) autoClickTimer = 0f;
+            RefreshAutoClickerMinerVisual();
+            if (!IsAutoClickerUnlocked)
+            {
+                autoClickTimer = 0f;
+                autoClickerMinerSecondFrame = false;
+            }
+        }
+
+        private void RefreshAutoClickerMinerVisual()
+        {
+            if (autoClickerMinerImages == null || autoClickerMinerImages.Length != 2 ||
+                autoClickerMinerImages[0] == null || autoClickerMinerImages[1] == null)
+                ResolveAutoClickerObjects();
+            if (autoClickerMinerImages == null || autoClickerMinerImages.Length != 2) return;
+
+            int speedLevel = Mathf.Clamp(AutoClickerSpeedMultiplier, 1, 4);
+            int appearance = Mathf.Clamp(speedLevel - 2, 0, 2);
+            int firstFrame = appearance * 2;
+            bool showSecondMiner = IsAutoClickerUnlocked && speedLevel >= 2;
+
+            for (int i = 0; i < autoClickerMinerImages.Length; i++)
+            {
+                var image = autoClickerMinerImages[i];
+                if (image == null) continue;
+                image.gameObject.SetActive(IsAutoClickerUnlocked && (i == 0 || showSecondMiner));
+
+                bool secondFrame = i == 0
+                    ? autoClickerMinerSecondFrame
+                    : !autoClickerMinerSecondFrame;
+                int spriteIndex = firstFrame + (secondFrame ? 1 : 0);
+                if (autoClickerMinerSprites != null && spriteIndex < autoClickerMinerSprites.Length &&
+                    autoClickerMinerSprites[spriteIndex] != null)
+                {
+                    image.sprite = autoClickerMinerSprites[spriteIndex];
+                    image.preserveAspect = true;
+                }
+            }
         }
 
         private void RefreshAutoClickerRockVisual()
@@ -683,6 +759,18 @@ namespace CosmicChaosCat
             {
                 if (autoClickerRockSprites[level - 1] != null) continue;
 
+                // The current project stores Rock1..Rock4 as named slices in Mine.png.
+                foreach (var asset in UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/Cliker/Mine.png"))
+                {
+                    if (asset is Sprite sheetSprite &&
+                        sheetSprite.name.Equals($"Rock{level}", StringComparison.OrdinalIgnoreCase))
+                    {
+                        autoClickerRockSprites[level - 1] = sheetSprite;
+                        break;
+                    }
+                }
+                if (autoClickerRockSprites[level - 1] != null) continue;
+
                 string[] candidates =
                 {
                     $"Assets/image/Cliker/rock{level}.png",
@@ -706,6 +794,28 @@ namespace CosmicChaosCat
                 }
             }
         }
+
+        private void EnsureAutoClickerMinerSpritesLoadedInEditor()
+        {
+            if (autoClickerMinerSprites == null || autoClickerMinerSprites.Length != 6)
+                autoClickerMinerSprites = new Sprite[6];
+
+            for (int appearance = 1; appearance <= 3; appearance++)
+            {
+                string path = $"Assets/image/Cliker/Miner{appearance}.png";
+                foreach (var asset in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path))
+                {
+                    if (!(asset is Sprite sprite)) continue;
+                    for (int frame = 1; frame <= 2; frame++)
+                    {
+                        int index = (appearance - 1) * 2 + frame - 1;
+                        if (autoClickerMinerSprites[index] == null &&
+                            sprite.name.Equals($"Miner{appearance}_{frame}", StringComparison.OrdinalIgnoreCase))
+                            autoClickerMinerSprites[index] = sprite;
+                    }
+                }
+            }
+        }
 #endif
 
         private void UpdateAutoClicker()
@@ -717,6 +827,8 @@ namespace CosmicChaosCat
             while (autoClickTimer >= interval)
             {
                 autoClickTimer -= interval;
+                autoClickerMinerSecondFrame = !autoClickerMinerSecondFrame;
+                RefreshAutoClickerMinerVisual();
                 AddAutoClickerIncome();
             }
         }
@@ -752,7 +864,12 @@ namespace CosmicChaosCat
             Vector2 motionPosition = motionOrigin != null
                 ? (Vector2)RectTransformUtility.WorldToScreenPoint(null, motionOrigin.position)
                 : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            SpawnFloatingText(motionPosition, income, isCrit: false);
+            SpawnFloatingText(
+                motionPosition,
+                income,
+                isCrit: false,
+                parent: autoClickerVisual != null ? autoClickerVisual.transform : null
+            );
 
             Save();
             NotifyState();
@@ -1561,19 +1678,32 @@ namespace CosmicChaosCat
             SpawnFloatingText(screenPos, amount, isCrit: true);
         }
 
-        private void SpawnFloatingText(Vector2 screenPos, double amount, bool isCrit)
+        private void SpawnFloatingText(
+            Vector2 screenPos,
+            double amount,
+            bool isCrit,
+            Transform parent = null)
         {
-            var canvas = FindObjectOfType<Canvas>();
+            var canvas = parent != null
+                ? parent.GetComponentInParent<Canvas>()
+                : FindObjectOfType<Canvas>();
             if (canvas == null) return;
 
             var go = new GameObject("FloatingText", typeof(RectTransform));
-            go.transform.SetParent(canvas.transform, false);
+            Transform textParent = parent != null ? parent : canvas.transform;
+            go.transform.SetParent(textParent, false);
             var rt = go.GetComponent<RectTransform>();
+            var parentRect = textParent as RectTransform;
+            if (parentRect == null)
+            {
+                Destroy(go);
+                return;
+            }
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
+                parentRect,
                 screenPos,
-                canvas.worldCamera,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
                 out Vector2 localPos
             );
 

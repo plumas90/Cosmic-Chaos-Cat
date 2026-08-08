@@ -540,6 +540,27 @@ namespace CosmicChaosCat
         {
             if (label == null) return;
 
+            // Runtime-created headers (notably SecHdr_Socket) must use the same
+            // font as the serialized section headers. MakeLabel's global font
+            // fallback can otherwise pick an unrelated TMP text from the scene.
+            Transform header = label.transform.parent;
+            Transform content = header != null ? header.parent : null;
+            if (content != null)
+            {
+                foreach (Transform sibling in content)
+                {
+                    if (sibling == header || !sibling.name.StartsWith("SecHdr_", System.StringComparison.Ordinal))
+                        continue;
+
+                    var referenceLabel = sibling.GetComponentInChildren<TMP_Text>(true);
+                    if (referenceLabel == null || referenceLabel.font == null) continue;
+
+                    label.font = referenceLabel.font;
+                    customFont = referenceLabel.font;
+                    break;
+                }
+            }
+
             var rect = label.rectTransform;
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
