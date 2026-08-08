@@ -50,6 +50,10 @@ namespace CosmicChaosCat
         [Header("Auto Clicker")]
         [Tooltip("Main scene object shown after the auto clicker is unlocked. Auto-found by name when empty.")]
         [SerializeField] private GameObject autoClickerVisual;
+        [Tooltip("AutoClicker/Rock image. Auto-found by child name when empty.")]
+        [SerializeField] private UnityEngine.UI.Image autoClickerRockImage;
+        [Tooltip("Rock sprites for unlock, income x2, x3 and x4 respectively.")]
+        [SerializeField] private Sprite[] autoClickerRockSprites = new Sprite[4];
 
         // ── Private State ──────────────────────────────────────────────────────
         private readonly GachaService gachaService = new GachaService();
@@ -622,6 +626,20 @@ namespace CosmicChaosCat
                 var autoObject = GameObject.Find("AutoClicker");
                 if (autoObject != null) autoClickerVisual = autoObject;
             }
+            if (autoClickerVisual != null && autoClickerRockImage == null)
+            {
+                foreach (var image in autoClickerVisual.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+                {
+                    if (image.name.Equals("Rock", StringComparison.OrdinalIgnoreCase))
+                    {
+                        autoClickerRockImage = image;
+                        break;
+                    }
+                }
+            }
+#if UNITY_EDITOR
+            EnsureAutoClickerRockSpritesLoadedInEditor();
+#endif
             if (centerClickTransform == null)
             {
                 var centerObject = GameObject.Find("CenterClick");
@@ -634,8 +652,61 @@ namespace CosmicChaosCat
             if (autoClickerVisual == null) ResolveAutoClickerObjects();
             if (autoClickerVisual != null)
                 autoClickerVisual.SetActive(IsAutoClickerUnlocked);
+            RefreshAutoClickerRockVisual();
             if (!IsAutoClickerUnlocked) autoClickTimer = 0f;
         }
+
+        private void RefreshAutoClickerRockVisual()
+        {
+            if (autoClickerVisual == null || autoClickerRockImage == null)
+                ResolveAutoClickerObjects();
+            if (autoClickerRockImage == null) return;
+
+            int level = Mathf.Clamp(AutoClickerIncomeMultiplier, 1, 4);
+            Sprite target = autoClickerRockSprites != null && autoClickerRockSprites.Length >= level
+                ? autoClickerRockSprites[level - 1]
+                : null;
+            if (target != null)
+            {
+                autoClickerRockImage.sprite = target;
+                autoClickerRockImage.preserveAspect = true;
+            }
+        }
+
+#if UNITY_EDITOR
+        private void EnsureAutoClickerRockSpritesLoadedInEditor()
+        {
+            if (autoClickerRockSprites == null || autoClickerRockSprites.Length != 4)
+                autoClickerRockSprites = new Sprite[4];
+
+            for (int level = 1; level <= 4; level++)
+            {
+                if (autoClickerRockSprites[level - 1] != null) continue;
+
+                string[] candidates =
+                {
+                    $"Assets/image/Cliker/rock{level}.png",
+                    $"Assets/image/Cliker/Rock{level}.png",
+                    $"Assets/image/Cliker/rock_{level}.png",
+                    $"Assets/image/Cliker/Rock_{level}.png"
+                };
+                foreach (string path in candidates)
+                {
+                    Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                    if (sprite == null)
+                    {
+                        foreach (var asset in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path))
+                        {
+                            if (asset is Sprite slicedSprite) { sprite = slicedSprite; break; }
+                        }
+                    }
+                    if (sprite == null) continue;
+                    autoClickerRockSprites[level - 1] = sprite;
+                    break;
+                }
+            }
+        }
+#endif
 
         private void UpdateAutoClicker()
         {
