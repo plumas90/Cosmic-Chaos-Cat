@@ -245,3 +245,87 @@ MonoBehaviour:
     - 0.3
     - 0.4
     - 0.5
+  - UpgradeId: upg-auto-unlock
+    DisplayName: "오토클리커 해금"
+    DisplayName_EN: Auto Clicker Unlock
+    Description: "오토클리커를 해금합니다. 해금 후 초당 1회 메인 클릭 효과가 발생합니다."
+    Description_EN: "Unlocks the auto clicker. It performs one main click per second."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 1000
+    EffectType: 12
+    EffectValuePerLevel:
+    - 1
+  - UpgradeId: upg-auto-income-2
+    DisplayName: "오토클리커 효율 ×2"
+    DisplayName_EN: Auto Click Income x2
+    Description: "오토클리커가 획득하는 클릭 수익을 2배로 강화합니다."
+    Description_EN: "Doubles the income earned by auto clicks."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 5000
+    EffectType: 13
+    EffectValuePerLevel:
+    - 2
+  - UpgradeId: upg-auto-income-3
+    DisplayName: "오토클리커 효율 ×3"
+    DisplayName_EN: Auto Click Income x3
+    Description: "오토클리커가 획득하는 클릭 수익을 3배로 강화합니다."
+    Description_EN: "Triples the income earned by auto clicks."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 25000
+    EffectType: 13
+    EffectValuePerLevel:
+    - 3
+  - UpgradeId: upg-auto-income-4
+    DisplayName: "오토클리커 효율 ×4"
+    DisplayName_EN: Auto Click Income x4
+    Description: "오토클리커가 획득하는 클릭 수익을 4배로 강화합니다."
+    Description_EN: "Quadruples the income earned by auto clicks."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 100000
+    EffectType: 13
+    EffectValuePerLevel:
+    - 4
+  - UpgradeId: upg-auto-speed-2
+    DisplayName: "오토클리커 속도 ×2"
+    DisplayName_EN: Auto Click Speed x2
+    Description: "오토클리커가 초당 2회 클릭합니다."
+    Description_EN: "The auto clicker clicks twice per second."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 10000
+    EffectType: 14
+    EffectValuePerLevel:
+    - 2
+  - UpgradeId: upg-auto-speed-3
+    DisplayName: "오토클리커 속도 ×3"
+    DisplayName_EN: Auto Click Speed x3
+    Description: "오토클리커가 초당 3회 클릭합니다."
+    Description_EN: "The auto clicker clicks three times per second."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 50000
+    EffectType: 14
+    EffectValuePerLevel:
+    - 3
+  - UpgradeId: upg-auto-speed-4
+    DisplayName: "오토클리커 속도 ×4"
+    DisplayName_EN: Auto Click Speed x4
+    Description: "오토클리커가 초당 4회 클릭합니다."
+    Description_EN: "The auto clicker clicks four times per second."
+    Category: 3
+    MaxLevel: 1
+    CostPerLevel:
+    - 200000
+    EffectType: 14
+    EffectValuePerLevel:
+    - 4

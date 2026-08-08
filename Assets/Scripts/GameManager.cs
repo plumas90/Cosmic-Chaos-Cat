@@ -23,6 +23,13 @@ namespace CosmicChaosCat
         private const string UPG_SHARD_REFUND = "upg-shard-refund";
         private const string UPG_EXTRA_PULL   = "upg-extra-pull";
         private const string UPG_GACHA_DISC   = "upg-gacha-disc";
+        private const string UPG_AUTO_UNLOCK  = "upg-auto-unlock";
+        private const string UPG_AUTO_INCOME2 = "upg-auto-income-2";
+        private const string UPG_AUTO_INCOME3 = "upg-auto-income-3";
+        private const string UPG_AUTO_INCOME4 = "upg-auto-income-4";
+        private const string UPG_AUTO_SPEED2  = "upg-auto-speed-2";
+        private const string UPG_AUTO_SPEED3  = "upg-auto-speed-3";
+        private const string UPG_AUTO_SPEED4  = "upg-auto-speed-4";
 
         // Hidden card IDs — must match CardCatalog entries
         private const string HIDDEN_SPEED   = "hidden-speed";
@@ -40,6 +47,10 @@ namespace CosmicChaosCat
         [SerializeField] private float baseCriticalChance     = 0f;
         [SerializeField] private float baseCriticalMultiplier = 3f;
 
+        [Header("Auto Clicker")]
+        [Tooltip("Main scene object shown after the auto clicker is unlocked. Auto-found by name when empty.")]
+        [SerializeField] private GameObject autoClickerVisual;
+
         // ── Private State ──────────────────────────────────────────────────────
         private readonly GachaService gachaService = new GachaService();
         private readonly Dictionary<string, CardProgress>    cardState    = new Dictionary<string, CardProgress>();
@@ -55,6 +66,8 @@ namespace CosmicChaosCat
         private float clickWindowTimer;
         private int   clicksInWindow;
         private TMPro.TMP_FontAsset cachedFont;
+        private float autoClickTimer;
+        private Transform centerClickTransform;
 
         // ── Public State ───────────────────────────────────────────────────────
         public double Money          { get; private set; }
@@ -80,6 +93,11 @@ namespace CosmicChaosCat
         public string EquippedDecorationId { get; private set; }
         public int    ComboCount     => comboCount;
         public int    ClicksPerSecond => clicksInWindow;
+        public bool   IsAutoClickerUnlocked => GetUpgradeLevel(UPG_AUTO_UNLOCK) > 0;
+        public int    AutoClickerIncomeMultiplier => GetHighestPurchasedAutoMultiplier(
+            UPG_AUTO_INCOME2, UPG_AUTO_INCOME3, UPG_AUTO_INCOME4);
+        public int    AutoClickerSpeedMultiplier => GetHighestPurchasedAutoMultiplier(
+            UPG_AUTO_SPEED2, UPG_AUTO_SPEED3, UPG_AUTO_SPEED4);
 
         // ── Socket slot system ──────────────────────────────────────────────────
         // Center socket is always unlocked.
@@ -148,7 +166,9 @@ namespace CosmicChaosCat
                 return;
             }
             InitCardState();
+            ResolveAutoClickerObjects();
             Load();
+            RefreshAutoClickerVisual();
             RebuildSetState();
             NotifyState();
         }
@@ -156,15 +176,6 @@ namespace CosmicChaosCat
         private void Start()
         {
             LocalizationManager.NotifyLanguageChanged();
-        }
-
-
-        [ContextMenu("Add 100,000 Gold")]
-        public void AddTestMoney(double amount = 100000d)
-        {
-            Money += amount;
-            Save();
-            NotifyState();
         }
 
 
@@ -186,6 +197,8 @@ namespace CosmicChaosCat
                 comboCount = 0;
                 NotifyState();
             }
+
+            UpdateAutoClicker();
         }
 
         // ── Public Actions ─────────────────────────────────────────────────────
@@ -196,6 +209,11 @@ namespace CosmicChaosCat
         }
 
         public void HandleCardClicked(Vector2 screenPos)
+        {
+            HandleCardClickedInternal(screenPos, 1d);
+        }
+
+        private void HandleCardClickedInternal(Vector2 screenPos, double incomeMultiplier)
         {
             if (IsGameEnded) return;
 
@@ -212,29 +230,32 @@ namespace CosmicChaosCat
 
             double comboBonus = GetUpgradeEffectValue(UPG_COMBO);
             
-            // Check combo milestones for instant gold rewards and reset combo to 0
+            // Award milestone gold; the combo resets only after reaching the 9999 cap.
             double comboReward = 0d;
             if (comboCount == 100)
             {
                 comboReward = 10d * (1.0 + comboBonus);
-                Money += comboReward;
                 SpawnComboRewardFloatingText(comboReward);
                 Log($"[100 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
             else if (comboCount == 500)
             {
                 comboReward = 100d * (1.0 + comboBonus);
-                Money += comboReward;
                 SpawnComboRewardFloatingText(comboReward);
                 Log($"[500 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
-            else if (comboCount >= 999)
+            else if (comboCount == 9999)
             {
-                comboReward = 1000d * (1.0 + comboBonus);
-                Money += comboReward;
+                comboReward = 10000d * (1.0 + comboBonus);
                 SpawnComboRewardFloatingText(comboReward);
                 comboCount = 0;
-                Log($"[999 콤보 달성!] +{comboReward:F0} 골드 획득 및 콤보 초기화!");
+                Log($"[9999 콤보 달성!] +{comboReward:F0} 골드 획득 및 콤보 초기화!");
+            }
+            else if (comboCount >= 1000 && comboCount % 1000 == 0)
+            {
+                comboReward = 1000d * (1.0 + comboBonus);
+                SpawnComboRewardFloatingText(comboReward);
+                Log($"[{comboCount} 콤보 보상] +{comboReward:F0} 골드 획득!");
             }
 
             bool   isCrit     = UnityEngine.Random.value <= GetEffectiveCritChance();
@@ -250,7 +271,8 @@ namespace CosmicChaosCat
                 }
             }
 
-            double income     = (BaseClickIncome * GetEquippedIncomeMultiplier() * critMult) + flatSetIncome;
+            double income     = ((BaseClickIncome * GetEquippedIncomeMultiplier() * critMult) + flatSetIncome)
+                * Math.Max(1d, incomeMultiplier);
 
             Money += income + comboReward;
             if (isCrit) CriticalHit?.Invoke();
@@ -376,6 +398,7 @@ namespace CosmicChaosCat
             if (upgradeCatalog == null) return;
             var entry = upgradeCatalog.FindById(upgradeId);
             if (entry == null) return;
+            if (!IsUpgradeAvailable(upgradeId)) { Log("이전 오토클리커 업그레이드를 먼저 해금해야 합니다."); return; }
 
             if (!upgradeState.TryGetValue(upgradeId, out var progress))
             {
@@ -401,6 +424,7 @@ namespace CosmicChaosCat
             }
 
             progress.Level++;
+            RefreshAutoClickerVisual();
             Log($"{entry.DisplayName} Lv.{progress.Level} 업그레이드!");
             Save();
             NotifyState();
@@ -545,6 +569,66 @@ namespace CosmicChaosCat
             return Money >= entry.CostPerLevel[lv];
         }
 
+        public bool IsUpgradeAvailable(string upgradeId)
+        {
+            switch (upgradeId)
+            {
+                case UPG_AUTO_INCOME2:
+                case UPG_AUTO_SPEED2:  return IsAutoClickerUnlocked;
+                case UPG_AUTO_INCOME3: return GetUpgradeLevel(UPG_AUTO_INCOME2) > 0;
+                case UPG_AUTO_INCOME4: return GetUpgradeLevel(UPG_AUTO_INCOME3) > 0;
+                case UPG_AUTO_SPEED3:  return GetUpgradeLevel(UPG_AUTO_SPEED2) > 0;
+                case UPG_AUTO_SPEED4:  return GetUpgradeLevel(UPG_AUTO_SPEED3) > 0;
+                default: return true;
+            }
+        }
+
+        private int GetHighestPurchasedAutoMultiplier(string level2Id, string level3Id, string level4Id)
+        {
+            if (GetUpgradeLevel(level4Id) > 0) return 4;
+            if (GetUpgradeLevel(level3Id) > 0) return 3;
+            if (GetUpgradeLevel(level2Id) > 0) return 2;
+            return 1;
+        }
+
+        private void ResolveAutoClickerObjects()
+        {
+            if (autoClickerVisual == null)
+            {
+                var autoObject = GameObject.Find("AutoClicker");
+                if (autoObject != null) autoClickerVisual = autoObject;
+            }
+            var centerObject = GameObject.Find("CenterClick");
+            if (centerObject != null) centerClickTransform = centerObject.transform;
+        }
+
+        private void RefreshAutoClickerVisual()
+        {
+            if (autoClickerVisual == null) ResolveAutoClickerObjects();
+            if (autoClickerVisual != null)
+                autoClickerVisual.SetActive(IsAutoClickerUnlocked);
+            if (!IsAutoClickerUnlocked) autoClickTimer = 0f;
+        }
+
+        private void UpdateAutoClicker()
+        {
+            if (!IsAutoClickerUnlocked) return;
+
+            float interval = 1f / Mathf.Max(1, AutoClickerSpeedMultiplier);
+            autoClickTimer += Time.unscaledDeltaTime;
+            while (autoClickTimer >= interval)
+            {
+                autoClickTimer -= interval;
+                Transform textOrigin = autoClickerVisual != null
+                    ? autoClickerVisual.transform
+                    : centerClickTransform;
+                Vector2 clickPosition = textOrigin != null
+                    ? (Vector2)RectTransformUtility.WorldToScreenPoint(null, textOrigin.position)
+                    : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+                HandleCardClickedInternal(clickPosition, AutoClickerIncomeMultiplier);
+            }
+        }
+
         public bool IsBackgroundUnlocked(string id) =>
             string.IsNullOrEmpty(id) || id == "bg-none" || unlockedBackgrounds.Contains(id);
 
@@ -577,58 +661,6 @@ namespace CosmicChaosCat
                 Save();
                 NotifyState();
             }
-        }
-
-        public void ResetBackgroundsAndDecorationsForTest()
-        {
-            unlockedBackgrounds.Clear();
-            unlockedBackgrounds.Add("bg");
-            unlockedBackgrounds.Add("bg-none");
-            EquippedBackgroundId = "bg";
-
-            unlockedDecorations.Clear();
-            unlockedDecorations.Add("deco-none");
-            EquippedDecorationId = "deco-none";
-
-            claimedSetRewards.Clear();
-
-            // Grant all cards with 5 copies to complete sets
-            if (cardCatalog != null && cardCatalog.Cards != null)
-            {
-                foreach (var card in cardCatalog.Cards)
-                {
-                    if (card != null && !string.IsNullOrEmpty(card.Id))
-                    {
-                        if (!cardState.TryGetValue(card.Id, out var state))
-                        {
-                            cardState[card.Id] = new CardProgress { CardId = card.Id, Copies = 5, Unlocked = true, BreakthroughCount = 0, SelectedStage = 1 };
-                        }
-                        else
-                        {
-                            state.Unlocked = true;
-                            state.Copies = 5;
-                            state.BreakthroughCount = 0;
-                            state.SelectedStage = 1;
-                        }
-                    }
-                }
-            }
-
-            // Mark all sets completed
-            if (setCatalog != null && setCatalog.Sets != null)
-            {
-                foreach (var s in setCatalog.Sets)
-                {
-                    if (s != null && !completedSets.Contains(s.SetId))
-                    {
-                        completedSets.Add(s.SetId);
-                    }
-                }
-            }
-
-            Save();
-            NotifyState();
-            Debug.Log("[GameManager] ResetBackgroundsAndDecorationsForTest completed: All cards unlocked with 5 copies, Breakthrough reset to 0, Sets completed, Rewards unclaimed, BGs & Decos locked!");
         }
 
         [ContextMenu("Grant All Cards x5 (Full Collection)")]
@@ -674,12 +706,32 @@ namespace CosmicChaosCat
             Debug.Log("[GameManager] ✅ 자원/재화 +100k 테스트 지급 완료!");
         }
 
-        [ContextMenu("Grant All Cards x5 & 100k Resources")]
+#if UNITY_EDITOR
+        // Editor menu support only. These methods are excluded from player builds.
         public void GrantAllCardsAndResourcesForTest()
         {
             GrantCardFullCollection();
             GrantResources100k();
         }
+
+        public void ResetBackgroundsAndDecorationsForTest()
+        {
+            unlockedBackgrounds.Clear();
+            unlockedBackgrounds.Add("bg");
+            unlockedBackgrounds.Add("bg-none");
+            EquippedBackgroundId = "bg";
+
+            unlockedDecorations.Clear();
+            unlockedDecorations.Add("deco-none");
+            EquippedDecorationId = "deco-none";
+            claimedSetRewards.Clear();
+
+            GrantCardFullCollection();
+            Save();
+            NotifyState();
+            Debug.Log("[GameManager] 에디터용 세트 보상 테스트 상태를 준비했습니다.");
+        }
+#endif
 
         public bool   IsSetCompleted(string setId) => completedSets.Contains(setId);
         public bool   IsSetRewardClaimed(string setId) => claimedSetRewards.Contains(setId);
@@ -1324,11 +1376,6 @@ namespace CosmicChaosCat
             RebuildSetState();
             Save();
             NotifyState();
-        }
-
-        public void EnsureTestCardsFirst12()
-        {
-            // Do not wipe user save data on launch
         }
 
         private void SpawnComboRewardFloatingText(double amount)

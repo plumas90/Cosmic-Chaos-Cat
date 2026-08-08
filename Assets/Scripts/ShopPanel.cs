@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -81,13 +82,17 @@ namespace CosmicChaosCat
         [SerializeField] private Sprite secHdrSpriteClick;
         [SerializeField] private Sprite secHdrSpriteGacha;
         [SerializeField] private Sprite secHdrSpriteEconomy;
-        [SerializeField] private Sprite secHdrSpriteSpecial;
+        [FormerlySerializedAs("secHdrSpriteSpecial")]
+        [SerializeField] private Sprite secHdrSpriteSocket;
+        [SerializeField] private Sprite secHdrSpriteAutoClicker;
 
         [Header("Category Row Background/Icon Sprites")]
         [SerializeField] private Sprite rowSpriteClick;
         [SerializeField] private Sprite rowSpriteGacha;
         [SerializeField] private Sprite rowSpriteEconomy;
-        [SerializeField] private Sprite rowSpriteSpecial;
+        [FormerlySerializedAs("rowSpriteSpecial")]
+        [SerializeField] private Sprite rowSpriteSocket;
+        [SerializeField] private Sprite rowSpriteAutoClicker;
 
         [Header("Particle Sprites")]
         [SerializeField] private Sprite pawPrintParticleSprite;
@@ -97,12 +102,14 @@ namespace CosmicChaosCat
         public Sprite SecHdrSpriteClick { get => secHdrSpriteClick; set => secHdrSpriteClick = value; }
         public Sprite SecHdrSpriteGacha { get => secHdrSpriteGacha; set => secHdrSpriteGacha = value; }
         public Sprite SecHdrSpriteEconomy { get => secHdrSpriteEconomy; set => secHdrSpriteEconomy = value; }
-        public Sprite SecHdrSpriteSpecial { get => secHdrSpriteSpecial; set => secHdrSpriteSpecial = value; }
+        public Sprite SecHdrSpriteSocket { get => secHdrSpriteSocket; set => secHdrSpriteSocket = value; }
+        public Sprite SecHdrSpriteAutoClicker { get => secHdrSpriteAutoClicker; set => secHdrSpriteAutoClicker = value; }
 
         public Sprite RowSpriteClick { get => rowSpriteClick; set => rowSpriteClick = value; }
         public Sprite RowSpriteGacha { get => rowSpriteGacha; set => rowSpriteGacha = value; }
         public Sprite RowSpriteEconomy { get => rowSpriteEconomy; set => rowSpriteEconomy = value; }
-        public Sprite RowSpriteSpecial { get => rowSpriteSpecial; set => rowSpriteSpecial = value; }
+        public Sprite RowSpriteSocket { get => rowSpriteSocket; set => rowSpriteSocket = value; }
+        public Sprite RowSpriteAutoClicker { get => rowSpriteAutoClicker; set => rowSpriteAutoClicker = value; }
 
         // Shard Exchange UI References
         private Button buyNBtn, buyRBtn, buySRBtn, buySSRBtn;
@@ -388,35 +395,6 @@ namespace CosmicChaosCat
                 }
             }
 
-            // 소켓 해금 상품 등록
-            if (gm != null)
-            {
-                var sockets = new (ClickSocketSlot slot, string name, string desc, double price)[]
-                {
-                    (ClickSocketSlot.LeftUp, "좌상단 소켓", "추가로 카드를 장착할 수 있는 좌상단 소켓을 해금합니다.", 100),
-                    (ClickSocketSlot.RightUp, "우상단 소켓", "추가로 카드를 장착할 수 있는 우상단 소켓을 해금합니다.", 200),
-                    (ClickSocketSlot.LeftDown, "좌하단 소켓", "추가로 카드를 장착할 수 있는 좌하단 소켓을 해금합니다.", 300),
-                    (ClickSocketSlot.RightDown, "우하단 소켓", "추가로 카드를 장착할 수 있는 우하단 소켓을 해금합니다.", 400)
-                };
-
-                foreach (var s in sockets)
-                {
-                    productCatalog.Add(new ShopProductItem
-                    {
-                        id = "prod-socket-" + s.slot.ToString(),
-                        socketSlot = s.slot,
-                        displayName = s.name,
-                        description = s.desc,
-                        currencyType = ProductCurrencyType.Coin,
-                        price = s.price,
-                        productType = ShopProductType.SocketUnlock,
-                        targetId = s.slot.ToString(),
-                        rarity = CardRarity.SSR, // 좀 비싼 아이템이니까 높은 등급 표시
-                        iconSprite = null // UI에서 따로 예외 처리하거나 lock 아이콘 사용
-                    });
-                }
-            }
-
             if (selectedProduct != null)
             {
                 var match = productCatalog.Find(p => p.id == selectedProduct.id);
@@ -541,6 +519,7 @@ namespace CosmicChaosCat
                 case UpgradeCategory.Click: return secHdrSpriteClick;
                 case UpgradeCategory.Gacha: return secHdrSpriteGacha;
                 case UpgradeCategory.Economy: return secHdrSpriteEconomy;
+                case UpgradeCategory.AutoClicker: return secHdrSpriteAutoClicker;
                 default: return secHdrSpriteClick;
             }
         }
@@ -552,8 +531,30 @@ namespace CosmicChaosCat
                 case UpgradeCategory.Click: return rowSpriteClick;
                 case UpgradeCategory.Gacha: return rowSpriteGacha;
                 case UpgradeCategory.Economy: return rowSpriteEconomy;
+                case UpgradeCategory.AutoClicker: return rowSpriteAutoClicker;
                 default: return rowSpriteClick;
             }
+        }
+
+        private static void ApplySectionHeaderLabelStyle(TMP_Text label)
+        {
+            if (label == null) return;
+
+            var rect = label.rectTransform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.localScale = Vector3.one;
+
+            label.fontSize = 36;
+            label.color = Color.black;
+            label.fontStyle = FontStyles.Normal;
+            label.alignment = TextAlignmentOptions.Center;
+            label.margin = new Vector4(10, 0, 0, 0);
+            label.enableAutoSizing = false;
+            label.overflowMode = TextOverflowModes.Ellipsis;
         }
 
         // ── Upgrades Tab ─────────────────────────────────────────────────────
@@ -633,9 +634,9 @@ namespace CosmicChaosCat
 
             Transform templateRow = upgradeScrollContent.Find("Row_upg-crit-chance");
 
-            var cats  = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
-            var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열" };
-            var cCols  = new[] { CatClick, CatGacha, CatEcon };
+            var cats  = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy, UpgradeCategory.AutoClicker };
+            var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열", "오토클리커 계열" };
+            var cCols  = new[] { CatClick, CatGacha, CatEcon, new Color(0.78f, 0.20f, 0.20f, 1f) };
 
             foreach (var cat in cats)
             {
@@ -658,11 +659,13 @@ namespace CosmicChaosCat
                     hdrGO.transform.SetParent(upgradeScrollContent, false);
                     hdr = hdrGO.transform;
                     var hdrRT = hdr.GetComponent<RectTransform>();
-                    hdrRT.sizeDelta = new Vector2(0, 32);
+                    hdrRT.sizeDelta = new Vector2(0, 116);
 
-                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
-                    hdrTxt.alignment = TextAlignmentOptions.Left; hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 36, Color.black, FontStyles.Normal);
+                    ApplySectionHeaderLabelStyle(hdrTxt);
                 }
+
+                ApplySectionHeaderLabelStyle(hdr.GetComponentInChildren<TMP_Text>(true));
 
                 var hdrImg = hdr.GetComponent<Image>();
                 if (hdrImg == null) hdrImg = hdr.gameObject.AddComponent<Image>();
@@ -774,6 +777,144 @@ namespace CosmicChaosCat
                     upgradeRows.Add(row.gameObject);
                 }
             }
+
+            // ── 추가 슬롯 (소켓 해금 계열) 섹션 ─────────────────────────────────
+            if (gm != null)
+            {
+                var sockets = new (ClickSocketSlot slot, string id, string name, string desc, double price)[]
+                {
+                    (ClickSocketSlot.LeftUp,    "socket-LeftUp",    "좌상단 소켓 해금", "추가로 카드를 장착할 수 있는 좌상단 소켓을 해금합니다.", 100),
+                    (ClickSocketSlot.RightUp,   "socket-RightUp",   "우상단 소켓 해금", "추가로 카드를 장착할 수 있는 우상단 소켓을 해금합니다.", 200),
+                    (ClickSocketSlot.LeftDown,  "socket-LeftDown",  "좌하단 소켓 해금", "추가로 카드를 장착할 수 있는 좌하단 소켓을 해금합니다.", 300),
+                    (ClickSocketSlot.RightDown, "socket-RightDown", "우하단 소켓 해금", "추가로 카드를 장착할 수 있는 우하단 소켓을 해금합니다.", 400)
+                };
+
+                // Section Header for Sockets
+                Transform socketHdr = upgradeScrollContent.Find("SecHdr_Socket");
+                if (socketHdr == null)
+                {
+                    var hdrGO = new GameObject("SecHdr_Socket", typeof(RectTransform));
+                    hdrGO.transform.SetParent(upgradeScrollContent, false);
+                    socketHdr = hdrGO.transform;
+
+                    var hdrTxt = MakeLabel(socketHdr, "소켓 해금 (추가 슬롯)", Vector2.zero, Vector2.zero, 36, Color.black, FontStyles.Normal);
+                    ApplySectionHeaderLabelStyle(hdrTxt);
+                }
+
+                ApplySectionHeaderLabelStyle(socketHdr.GetComponentInChildren<TMP_Text>(true));
+
+                var socketHdrRT = socketHdr.GetComponent<RectTransform>();
+                socketHdrRT.sizeDelta = new Vector2(0, 116);
+
+                var socketHdrImg = socketHdr.GetComponent<Image>();
+                if (socketHdrImg == null) socketHdrImg = socketHdr.gameObject.AddComponent<Image>();
+                if (secHdrSpriteSocket != null)
+                {
+                    socketHdrImg.sprite = secHdrSpriteSocket;
+                    socketHdrImg.color = Color.white;
+                }
+                else
+                {
+                    socketHdrImg.color = CatClick * new Color(1, 1, 1, 0.45f);
+                }
+                socketHdr.SetAsLastSibling();
+
+                foreach (var s in sockets)
+                {
+                    Transform row = upgradeScrollContent.Find("Row_" + s.id);
+                    if (row == null)
+                    {
+                        if (templateRow != null)
+                        {
+                            var rowGO = Instantiate(templateRow.gameObject, upgradeScrollContent, false);
+                            rowGO.name = "Row_" + s.id;
+                            row = rowGO.transform;
+                        }
+                        else
+                        {
+                            var rowGO = new GameObject("Row_" + s.id, typeof(RectTransform));
+                            rowGO.transform.SetParent(upgradeScrollContent, false);
+                            row = rowGO.transform;
+                        }
+                    }
+
+                    row.SetAsLastSibling();
+                    row.gameObject.SetActive(true);
+
+                    // Apply category row background sprite if assigned
+                    var rImg = row.GetComponent<Image>();
+                    if (rImg != null)
+                    {
+                        if (rowSpriteSocket != null)
+                        {
+                            rImg.sprite = rowSpriteSocket;
+                            rImg.color = Color.white;
+                        }
+                    }
+
+                    // Apply accent side bar color if present
+                    var acc = row.Find("Acc");
+                    if (acc != null)
+                    {
+                        var accImg = acc.GetComponent<Image>();
+                        if (accImg != null) accImg.color = CatClick;
+                    }
+
+                    // Title & Description text update
+                    var labels = row.GetComponentsInChildren<TMP_Text>();
+                    if (labels != null && labels.Length >= 2)
+                    {
+                        labels[0].text = s.name;
+                        labels[1].text = s.desc;
+                    }
+
+                    // UpgradeRowInfo binding
+                    var info = row.GetComponent<UpgradeRowInfo>();
+                    if (info == null) info = row.gameObject.AddComponent<UpgradeRowInfo>();
+                    info.UpgradeId = s.id;
+
+                    var lvBadge = row.Find("LvBadge");
+                    if (lvBadge != null) info.LevelText = lvBadge.GetComponentInChildren<TMP_Text>();
+
+                    var buyBtn = row.Find("BuyBtn");
+                    if (buyBtn != null)
+                    {
+                        var btn = buyBtn.GetComponent<Button>();
+                        if (btn == null) btn = buyBtn.gameObject.AddComponent<Button>();
+                        info.BuyButton = btn;
+                        info.CostText = buyBtn.GetComponentInChildren<TMP_Text>();
+                        info.BgImage = buyBtn.GetComponent<Image>();
+                        if (info.BgImage == null) info.BgImage = buyBtn.gameObject.AddComponent<Image>();
+                        info.BgImage.raycastTarget = true;
+                        btn.targetGraphic = info.BgImage;
+
+                        foreach (var cg in buyBtn.GetComponentsInChildren<Graphic>(true))
+                        {
+                            if (cg != info.BgImage) cg.raycastTarget = false;
+                        }
+
+                        info.SymbolImage = buyBtn.Find("Symbol")?.GetComponent<Image>()
+                                        ?? buyBtn.Find("CoinSymbol")?.GetComponent<Image>()
+                                        ?? buyBtn.Find("ShardSymbol")?.GetComponent<Image>();
+
+                        if (buyBtn.GetComponent<UIHoverClickEffect>() == null)
+                            buyBtn.gameObject.AddComponent<UIHoverClickEffect>();
+
+                        btn.onClick.RemoveAllListeners();
+                        ClickSocketSlot targetSlot = s.slot;
+                        double targetPrice = s.price;
+                        btn.onClick.AddListener(() => {
+                            Debug.Log($"[ShopPanel] Socket Buy Clicked for {targetSlot}, price {targetPrice}");
+                            if (gm != null && gm.UnlockSocket(targetSlot, targetPrice))
+                            {
+                                Refresh();
+                            }
+                        });
+                    }
+
+                    upgradeRows.Add(row.gameObject);
+                }
+            }
         }
 
 #if UNITY_EDITOR
@@ -817,9 +958,9 @@ namespace CosmicChaosCat
                 return;
             }
 
-            var cats = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy };
-            var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열" };
-            var cCols = new[] { CatClick, CatGacha, CatEcon };
+            var cats = new[] { UpgradeCategory.Click, UpgradeCategory.Gacha, UpgradeCategory.Economy, UpgradeCategory.AutoClicker };
+            var cNames = new[] { "클릭 계열", "가챠 계열", "경제 계열", "오토클리커 계열" };
+            var cCols = new[] { CatClick, CatGacha, CatEcon, new Color(0.78f, 0.20f, 0.20f, 1f) };
 
             UnityEditor.Undo.RegisterFullObjectHierarchyUndo(upgradeScrollContent.gameObject, "Generate Upgrade Rows");
 
@@ -839,16 +980,15 @@ namespace CosmicChaosCat
                     hdrGO.transform.SetParent(upgradeScrollContent, false);
                     hdr = hdrGO.transform;
                     var hdrRT = hdr.GetComponent<RectTransform>();
-                    hdrRT.sizeDelta = new Vector2(0, 32);
+                    hdrRT.sizeDelta = new Vector2(0, 116);
 
-                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 13, Color.white, FontStyles.Bold);
-                    hdrTxt.alignment = TextAlignmentOptions.Left; hdrTxt.margin = new Vector4(10, 0, 0, 0);
+                    var hdrTxt = MakeLabel(hdr, cNames[ci], Vector2.zero, Vector2.zero, 36, Color.black, FontStyles.Normal);
+                    ApplySectionHeaderLabelStyle(hdrTxt);
                     hdrGO.AddComponent<Image>().color = cCols[ci] * new Color(1, 1, 1, 0.45f);
                 }
-                else
-                {
-                    hdr.name = "SecHdr_" + cat;
-                }
+
+                hdr.name = "SecHdr_" + cat;
+                ApplySectionHeaderLabelStyle(hdr.GetComponentInChildren<TMP_Text>(true));
 
                 var hdrImg = hdr.GetComponent<Image>();
                 if (hdrImg == null) hdrImg = hdr.gameObject.AddComponent<Image>();
@@ -1633,12 +1773,70 @@ namespace CosmicChaosCat
 
         private void RefreshUpgrades()
         {
-            if (gm == null || gm.UpgradeCatalog == null) return;
+            if (gm == null) return;
             foreach (var row in upgradeRows)
             {
                 if (row == null) continue;
                 var info = row.GetComponent<UpgradeRowInfo>();
-                if (info == null) continue;
+                if (info == null || string.IsNullOrEmpty(info.UpgradeId)) continue;
+
+                // 추가 슬롯 (소켓 해금 계열) 행 처리
+                if (info.UpgradeId.StartsWith("socket-"))
+                {
+                    ClickSocketSlot slot = ClickSocketSlot.Center;
+                    double cost = 100;
+                    if (info.UpgradeId == "socket-LeftUp") { slot = ClickSocketSlot.LeftUp; cost = 100; }
+                    else if (info.UpgradeId == "socket-RightUp") { slot = ClickSocketSlot.RightUp; cost = 200; }
+                    else if (info.UpgradeId == "socket-LeftDown") { slot = ClickSocketSlot.LeftDown; cost = 300; }
+                    else if (info.UpgradeId == "socket-RightDown") { slot = ClickSocketSlot.RightDown; cost = 400; }
+
+                    bool unlocked = gm.IsSocketUnlocked(slot);
+                    if (info.LevelText != null) info.LevelText.text = unlocked ? "1/1" : "0/1";
+
+                    if (unlocked)
+                    {
+                        if (info.SymbolImage != null) info.SymbolImage.gameObject.SetActive(false);
+                        if (info.CostText != null)
+                        {
+                            info.CostText.text = "MAX";
+                            info.CostText.color = new Color(0.65f, 0.65f, 0.70f, 1f);
+                        }
+                        if (info.BuyButton != null) info.BuyButton.interactable = false;
+                        if (info.BgImage != null) info.BgImage.color = new Color(0.12f, 0.12f, 0.15f, 0.95f);
+                    }
+                    else
+                    {
+                        bool afford = gm.Money >= cost;
+                        if (info.SymbolImage != null)
+                        {
+                            if (coinSymbolSprite != null) info.SymbolImage.sprite = coinSymbolSprite;
+                            info.SymbolImage.gameObject.SetActive(true);
+                        }
+                        if (info.CostText != null)
+                        {
+                            info.CostText.text = GameManager.FormatNumber(cost);
+                            info.CostText.color = GoldColor;
+                        }
+                        if (info.BuyButton != null)
+                        {
+                            info.BuyButton.interactable = afford;
+                            info.BuyButton.onClick.RemoveAllListeners();
+                            ClickSocketSlot targetSlot = slot;
+                            double targetPrice = cost;
+                            info.BuyButton.onClick.AddListener(() => {
+                                Debug.Log($"[ShopPanel] Socket Buy Clicked for {targetSlot}, price {targetPrice}");
+                                if (gm != null && gm.UnlockSocket(targetSlot, targetPrice))
+                                {
+                                    Refresh();
+                                }
+                            });
+                        }
+                        if (info.BgImage != null) info.BgImage.color = afford ? BtnBuy : BtnDisabled;
+                    }
+                    continue;
+                }
+
+                if (gm.UpgradeCatalog == null) continue;
                 var entry = gm.UpgradeCatalog.FindById(info.UpgradeId);
                 if (entry == null) continue;
                 int level = gm.GetUpgradeLevel(info.UpgradeId);
@@ -1663,7 +1861,8 @@ namespace CosmicChaosCat
                     double cost = (entry.CostPerLevel != null && level < entry.CostPerLevel.Length)
                         ? entry.CostPerLevel[level] : 0;
                     bool isShardUpgrade = entry.UpgradeId.StartsWith("upg-unlock-");
-                    bool afford = isShardUpgrade ? (gm.Shards >= (int)cost) : (gm.Money >= cost);
+                    bool afford = gm.IsUpgradeAvailable(entry.UpgradeId)
+                        && (isShardUpgrade ? (gm.Shards >= (int)cost) : (gm.Money >= cost));
 
                     if (info.SymbolImage != null)
                     {

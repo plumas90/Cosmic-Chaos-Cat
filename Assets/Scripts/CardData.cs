@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace CosmicChaosCat
 {
+    [Serializable]
+    public sealed class BreakthroughStageSpriteSet
+    {
+        public int Stage;
+        public Sprite[] Sprites;
+    }
+
     public enum CardRarity { N, R, SR, SSR, UR, H }
 
     public enum CardShardValue
@@ -69,6 +76,8 @@ namespace CosmicChaosCat
 
         public int[] BreakthroughVariantStages; // e.g. {1, 2, 3, 4, 5} or {1, 3, 5}
         public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
+        [Tooltip("한 단계에 여러 이미지가 있을 때 사용하는 단계별 이미지 묶음")]
+        public BreakthroughStageSpriteSet[] BreakthroughSpriteVariants;
 
         [Tooltip("한계돌파 단계별 설명문 사용 여부")]
         public bool UseBreakthroughDescriptions;
@@ -101,6 +110,10 @@ namespace CosmicChaosCat
 
         public Sprite GetSpriteForStage(int stage)
         {
+            var stageSprites = GetSpritesForStage(stage);
+            if (stageSprites.Count > 0 && stageSprites[0] != null)
+                return stageSprites[0];
+
             if (BreakthroughSprites != null && BreakthroughSprites.Length > 0)
             {
                 if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length == BreakthroughSprites.Length)
@@ -116,6 +129,39 @@ namespace CosmicChaosCat
                     return BreakthroughSprites[idx];
             }
             return CardSprite;
+        }
+
+        public System.Collections.Generic.List<Sprite> GetSpritesForStage(int stage)
+        {
+            var result = new System.Collections.Generic.List<Sprite>();
+            if (BreakthroughSpriteVariants != null)
+            {
+                foreach (var set in BreakthroughSpriteVariants)
+                {
+                    if (set == null || set.Stage != stage || set.Sprites == null) continue;
+                    foreach (var sprite in set.Sprites)
+                        if (sprite != null && !result.Contains(sprite)) result.Add(sprite);
+                    break;
+                }
+            }
+
+#if UNITY_EDITOR
+            // Newly sliced 169 sprites can be temporarily unresolved after a meta/catalog edit.
+            // Resolve them by their stable slice names so breakthrough preview and cutscene still work.
+            if (result.Count == 0 && int.TryParse(Id, out int cardNumber) && cardNumber == 169 && stage >= 2)
+            {
+                string path = stage <= 3
+                    ? "Assets/image/A_No/169_174meme_cat/169_SR_Buff_Half_Cat2_3.png"
+                    : "Assets/image/A_No/169_174meme_cat/169_SR_Buff_Half_Cat4_5.png";
+                string prefix = $"169_SR_Buff_Half_Cat{stage}-";
+                var loaded = new System.Collections.Generic.List<Sprite>();
+                foreach (var asset in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path))
+                    if (asset is Sprite sprite && sprite.name.StartsWith(prefix)) loaded.Add(sprite);
+                loaded.Sort((a, b) => string.CompareOrdinal(a.name, b.name));
+                result.AddRange(loaded);
+            }
+#endif
+            return result;
         }
 
         public string GetDisplayName(string lang = null)

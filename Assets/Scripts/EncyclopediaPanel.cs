@@ -1744,10 +1744,12 @@ namespace CosmicChaosCat
                 Sprite newSprite = card.GetSpriteForStage(newStage);
                 if (newSprite == null) newSprite = card.CardSprite;
 
+                bool isValidNewStage = validStages.Contains(newStage);
+
                 // Check if this new stage has a new illustration variant image
                 bool isImageChanged = (oldSprite != null && newSprite != null && oldSprite != newSprite);
 
-                if (isImageChanged)
+                if (isValidNewStage)
                 {
                     selectedIllustrationStage = newStage;
                 }

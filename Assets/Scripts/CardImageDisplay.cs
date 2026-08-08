@@ -59,7 +59,10 @@ namespace CosmicChaosCat
             if (string.IsNullOrEmpty(socketCardId)) return;
 
             var entry = gameManager.CardCatalog?.FindById(socketCardId);
-            var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry);
+            int selectedStage = 1;
+            if (gameManager.TryGetCardProgress(socketCardId, out var progress) && progress != null)
+                selectedStage = Mathf.Clamp(progress.SelectedStage, 1, 5);
+            var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry, selectedStage);
             if (sprites != null && sprites.Count >= 2)
             {
                 currentSpriteIndex = (currentSpriteIndex + 1) % sprites.Count;
@@ -279,7 +282,10 @@ namespace CosmicChaosCat
                 }
                 else
                 {
-                    var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card);
+                    int selectedStage = 1;
+                    if (gameManager.TryGetCardProgress(curCardId, out var selectedProgress) && selectedProgress != null)
+                        selectedStage = Mathf.Clamp(selectedProgress.SelectedStage, 1, 5);
+                    var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage);
                     if (sprites != null && sprites.Count >= 2)
                     {
                         if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;

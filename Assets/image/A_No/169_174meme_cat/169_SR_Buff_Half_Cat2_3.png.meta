@@ -1,0 +1,248 @@
+fileFormatVersion: 2
+guid: 2312c498b45669c888e92d2f8cef803a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8689671514677752862
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_0
+  - first:
+      213: -6533028770261388903
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_1
+  - first:
+      213: 4755509048322140688
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_2
+  - first:
+      213: 1034290185581944155
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_3
+  - first:
+      213: -3529663515167358801
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_4
+  - first:
+      213: 4091409571367250763
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_5
+  - first:
+      213: 3423292848993338397
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_6
+  - first:
+      213: -344396747522799618
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_7
+  - first:
+      213: -3442597115050278789
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_8
+  - first:
+      213: -5663446922523443225
+    second: ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 169_SR_Buff_Half_Cat2-1
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 933
+        width: 300
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eb4dc81cc5186780800000000000000
+      internalID: -8689671514677752862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 169_SR_Buff_Half_Cat2-2
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 936
+        width: 283
+        height: 262
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ffc97b69dab5707488b4666a3a6a8c9
+      internalID: -581495150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 169_SR_Buff_Half_Cat3-1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 316
+        width: 250
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55879293bdea754ed8e80b7abbbf4a86
+      internalID: 1150646008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 169_SR_Buff_Half_Cat3-2
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 30
+        width: 270
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2dcd3a10c995434381b0a06f07e69f2
+      internalID: -1264840406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 13b3414389252b7bdb254f9c393f5df8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      169_SR_Buff_Half_Cat2-1: -8689671514677752862
+      169_SR_Buff_Half_Cat2-2: -581495150
+      169_SR_Buff_Half_Cat3-1: 1150646008
+      169_SR_Buff_Half_Cat3-2: -1264840406
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_1: -6533028770261388903
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_2: 4755509048322140688
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_3: 1034290185581944155
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_4: -3529663515167358801
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_5: 4091409571367250763
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_6: 3423292848993338397
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_7: -344396747522799618
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_8: -3442597115050278789
+      ChatGPT Image Aug 8, 2026, 02_45_02 PM-Photoroom_9: -5663446922523443225
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

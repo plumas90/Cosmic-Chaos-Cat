@@ -35,10 +35,20 @@ namespace CosmicChaosCat
             return list != null && list.Count >= 2;
         }
 
-        public static List<Sprite> GetSpriteListForCard(string cardId, CardEntry entry)
+        public static List<Sprite> GetSpriteListForCard(string cardId, CardEntry entry, int stage = 0)
         {
             EnsureSpritesLoaded();
             List<Sprite> sprites = new List<Sprite>();
+
+            int num = 0;
+            if (int.TryParse(cardId, out int parsed)) num = parsed;
+
+            // 169 Buff Half Cat uses a separate sprite set for each breakthrough stage.
+            if (num == 169 && entry != null && stage > 0)
+            {
+                var stageSprites = entry.GetSpritesForStage(stage);
+                if (stageSprites.Count > 0) return stageSprites;
+            }
 
             // 1. Gather all sprites from entry.BreakthroughSprites
             if (entry != null && entry.BreakthroughSprites != null)
@@ -53,9 +63,6 @@ namespace CosmicChaosCat
             }
 
             // 2. Editor / Fallback overrides for 170 / 174
-            int num = 0;
-            if (int.TryParse(cardId, out int parsed)) num = parsed;
-
             if (num == 170 || cardId == "0170" || cardId == "170")
             {
                 if (sprite170_A != null && !sprites.Contains(sprite170_A)) sprites.Insert(0, sprite170_A);

@@ -21,6 +21,7 @@ namespace CosmicChaosCat
     /// CardImageDisplay 컴포넌트가 GameManager.StateChanged를 구독하여
     /// 소켓 장착 카드를 자동 갱신합니다 (별도 연결 불필요).
     /// </summary>
+    [DisallowMultipleComponent]
     public sealed class EquipPanel : MonoBehaviour
     {
         // ── 소켓 슬롯 GO 참조 (Inspector 또는 자동 검색) ──────────────────────
@@ -50,9 +51,9 @@ namespace CosmicChaosCat
         private Vector3[] slotBaseScales;
 
         // 색상
-        private static readonly Color SelectedTint   = new Color(1.0f, 0.92f, 0.45f, 1f);
+        private static readonly Color SelectedTint   = Color.white;
         private static readonly Color UnlockedTint   = Color.white;
-        private static readonly Color LockedTint     = new Color(0.45f, 0.45f, 0.55f, 0.9f);
+        private static readonly Color LockedTint     = Color.white;
 
         // ── Lifecycle ─────────────────────────────────────────────────────────
 

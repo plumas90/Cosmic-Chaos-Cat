@@ -19,7 +19,8 @@ namespace CosmicChaosCat
         }
     }
 
-    public enum UpgradeCategory { Click, Gacha, Economy }
+    // Append new values only: existing assets serialize this enum as an integer.
+    public enum UpgradeCategory { Click, Gacha, Economy, AutoClicker }
 
     public enum UpgradeEffectType
     {
@@ -34,7 +35,10 @@ namespace CosmicChaosCat
         UnlockRCard,
         UnlockSRCard,
         UnlockSSRCard,
-        UnlockURCard
+        UnlockURCard,
+        AutoClickerUnlock,
+        AutoClickerIncome,
+        AutoClickerSpeed
     }
 
     [Serializable]

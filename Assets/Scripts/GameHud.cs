@@ -123,7 +123,7 @@ namespace CosmicChaosCat
 
                 if (FindObjectOfType<CardListTestButton>(true) == null)
                 {
-                    var testGO = new GameObject("CardListTestAutoWire", typeof(CardListTestButton));
+                    new GameObject("CardListTestAutoWire", typeof(CardListTestButton));
                 }
 
                 Debug.Log($"[GameHud] Panels: gacha={gachaPanel!=null}, ency={encyclopediaPanel!=null}, shop={shopPanel!=null}, mgr={gameManager!=null}");
@@ -435,7 +435,28 @@ namespace CosmicChaosCat
             if (gameManager == null) gameManager = GameManager.Instance ?? FindObjectOfType<GameManager>(true);
             gameManager?.SaveGame();
             Debug.Log("[GameHud] 게임 진행 상황 저장 완료. 메인 메뉴로 이동합니다.");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
+            if (Application.CanStreamedLevelBeLoaded("MainMenuScene"))
+                SceneManager.LoadScene("MainMenuScene");
+            else
+                SceneManager.LoadScene(0);
+        }
+
+        private void BindMainMenuButton()
+        {
+            if (menuWindow == null) return;
+
+            Button mainBtn = FindChildRecursive(menuWindow.transform, "Btn_MainMenu")?.GetComponent<Button>()
+                          ?? FindChildRecursive(menuWindow.transform, "MainMenuBtn")?.GetComponent<Button>()
+                          ?? mainMenuLabel?.GetComponentInParent<Button>(true);
+            if (mainBtn == null)
+            {
+                Debug.LogError("[GameHud] 메뉴 창에서 메인 메뉴 버튼을 찾지 못했습니다.");
+                return;
+            }
+
+            mainBtn.onClick.RemoveAllListeners();
+            mainBtn.onClick.AddListener(OnGoToMainMenuClicked);
+            mainBtn.interactable = true;
         }
 
         private void OnResumeClicked()
@@ -900,32 +921,40 @@ namespace CosmicChaosCat
             if (Time.frameCount == lastMenuFrame) return;
             lastMenuFrame = Time.frameCount;
 
-            if (menuWindow == null) EnsureMenuWindowBound();
-                menuWindow.transform.SetAsLastSibling();
-                bool nextActive = !menuWindow.activeSelf;
-                menuWindow.SetActive(nextActive);
-                if (nextActive)
+            if (menuWindow == null)
+                EnsureMenuWindowBound();
+            if (menuWindow == null)
+            {
+                Debug.LogError("[GameHud] MenuSettingsWindow를 찾지 못했습니다.");
+                return;
+            }
+
+            BindMainMenuButton();
+            menuWindow.transform.SetAsLastSibling();
+            bool nextActive = !menuWindow.activeSelf;
+            menuWindow.SetActive(nextActive);
+            if (nextActive)
+            {
+                Canvas.ForceUpdateCanvases();
+                if (gameManager != null)
                 {
-                    Canvas.ForceUpdateCanvases();
-                    if (gameManager != null)
+                    if (bgmSlider != null)
                     {
-                        if (bgmSlider != null)
-                        {
-                            bgmSlider.value = gameManager.BgmVolume;
-                            OnBgmSliderChanged(gameManager.BgmVolume);
-                        }
-                        if (sfxSlider != null)
-                        {
-                            sfxSlider.value = gameManager.SfxVolume;
-                            OnSfxSliderChanged(gameManager.SfxVolume);
-                        }
-                        if (langDropdown != null)
-                        {
-                            langDropdown.value = (gameManager.SelectedLanguage == "EN") ? 1 : 0;
-                            langDropdown.RefreshShownValue();
-                        }
+                        bgmSlider.value = gameManager.BgmVolume;
+                        OnBgmSliderChanged(gameManager.BgmVolume);
+                    }
+                    if (sfxSlider != null)
+                    {
+                        sfxSlider.value = gameManager.SfxVolume;
+                        OnSfxSliderChanged(gameManager.SfxVolume);
+                    }
+                    if (langDropdown != null)
+                    {
+                        langDropdown.value = (gameManager.SelectedLanguage == "EN") ? 1 : 0;
+                        langDropdown.RefreshShownValue();
                     }
                 }
+            }
         }
 
         private void LogHierarchy(GameObject go, int depth)

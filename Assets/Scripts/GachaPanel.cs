@@ -294,7 +294,6 @@ namespace CosmicChaosCat
             if (gm != null)
             {
                 gm.StateChanged += RefreshCosts;
-                gm.AddTestMoney(100000d);
             }
             SelectType(GachaType.Normal);
             if (resultObj != null) resultObj.SetActive(false);
@@ -2076,8 +2075,8 @@ namespace CosmicChaosCat
         }
 #endif
 
-        // ── Card List Test Button & AnimContainer Handler ──────────────────────
-        [Header("Card List Test Button & AnimContainer")]
+        // ── Optional Card List Test (controlled by the scene object's active state) ──
+        [Header("Optional Card List Test")]
         [SerializeField] private Button cardListTestBtn;
         [SerializeField] private GameObject cardListTestAnimContainer;
 
@@ -2090,12 +2089,11 @@ namespace CosmicChaosCat
                 testHandler = testGO.GetComponent<CardListTestButton>();
             }
 
-            if (testHandler != null)
-            {
-                testHandler.OnTestButtonClicked();
-            }
+            testHandler?.OnTestButtonClicked();
         }
 
+        // Legacy view builder remains editor-only; the runtime button uses CardListTestButton.
+#if UNITY_EDITOR
         private void PopulateCardListTestView(GameObject container, IReadOnlyList<CardEntry> cards)
         {
             if (container == null || cards == null) return;
@@ -2244,5 +2242,6 @@ namespace CosmicChaosCat
             closeBtnTrans.gameObject.SetActive(true);
             closeBtnTrans.SetAsLastSibling();
         }
+#endif
     }
 }
