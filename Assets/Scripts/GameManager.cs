@@ -111,6 +111,11 @@ namespace CosmicChaosCat
         public string SocketRightUpCardId   { get; private set; } = "";
         public string SocketLeftDownCardId  { get; private set; } = "";
         public string SocketRightDownCardId { get; private set; } = "";
+        public int SocketCenterStage    { get; private set; } = 1;
+        public int SocketLeftUpStage    { get; private set; } = 1;
+        public int SocketRightUpStage   { get; private set; } = 1;
+        public int SocketLeftDownStage  { get; private set; } = 1;
+        public int SocketRightDownStage { get; private set; } = 1;
 
         public CardCatalogSO       CardCatalog       => cardCatalog;
         public SetCatalogSO        SetCatalog        => setCatalog;
@@ -498,6 +503,21 @@ namespace CosmicChaosCat
             }
         }
 
+        public int GetSocketSelectedStage(ClickSocketSlot slot)
+        {
+            int stage;
+            switch (slot)
+            {
+                case ClickSocketSlot.Center:    stage = SocketCenterStage;    break;
+                case ClickSocketSlot.LeftUp:    stage = SocketLeftUpStage;    break;
+                case ClickSocketSlot.RightUp:   stage = SocketRightUpStage;   break;
+                case ClickSocketSlot.LeftDown:  stage = SocketLeftDownStage;  break;
+                case ClickSocketSlot.RightDown: stage = SocketRightDownStage; break;
+                default:                        stage = 1;                    break;
+            }
+            return Mathf.Clamp(stage, 1, 5);
+        }
+
         /// <summary>Unlocks a sub-socket slot (purchased from shop).</summary>
         public bool UnlockSocket(ClickSocketSlot slot, double cost)
         {
@@ -518,18 +538,22 @@ namespace CosmicChaosCat
         }
 
         /// <summary>Equips a card into a specific socket slot.</summary>
-        public void EquipCardToSocket(ClickSocketSlot slot, string cardId)
+        public void EquipCardToSocket(ClickSocketSlot slot, string cardId, int selectedStage = 1)
         {
             if (!IsSocketUnlocked(slot)) return;
             var entry = string.IsNullOrEmpty(cardId) ? null : cardCatalog?.FindById(cardId);
             string targetId = entry != null ? entry.Id : (cardId ?? "");
+            int targetStage = string.IsNullOrEmpty(targetId) ? 1 : Mathf.Clamp(selectedStage, 1, 5);
             switch (slot)
             {
-                case ClickSocketSlot.Center:    EquipCard(targetId); return;
-                case ClickSocketSlot.LeftUp:    SocketLeftUpCardId = targetId;    break;
-                case ClickSocketSlot.RightUp:   SocketRightUpCardId = targetId;   break;
-                case ClickSocketSlot.LeftDown:  SocketLeftDownCardId = targetId;  break;
-                case ClickSocketSlot.RightDown: SocketRightDownCardId = targetId; break;
+                case ClickSocketSlot.Center:
+                    EquippedCardId = targetId;
+                    SocketCenterStage = targetStage;
+                    break;
+                case ClickSocketSlot.LeftUp:    SocketLeftUpCardId = targetId;    SocketLeftUpStage = targetStage;    break;
+                case ClickSocketSlot.RightUp:   SocketRightUpCardId = targetId;   SocketRightUpStage = targetStage;   break;
+                case ClickSocketSlot.LeftDown:  SocketLeftDownCardId = targetId;  SocketLeftDownStage = targetStage;  break;
+                case ClickSocketSlot.RightDown: SocketRightDownCardId = targetId; SocketRightDownStage = targetStage; break;
             }
             Save();
             NotifyState();
@@ -598,8 +622,11 @@ namespace CosmicChaosCat
                 var autoObject = GameObject.Find("AutoClicker");
                 if (autoObject != null) autoClickerVisual = autoObject;
             }
-            var centerObject = GameObject.Find("CenterClick");
-            if (centerObject != null) centerClickTransform = centerObject.transform;
+            if (centerClickTransform == null)
+            {
+                var centerObject = GameObject.Find("CenterClick");
+                if (centerObject != null) centerClickTransform = centerObject.transform;
+            }
         }
 
         private void RefreshAutoClickerVisual()
@@ -619,14 +646,45 @@ namespace CosmicChaosCat
             while (autoClickTimer >= interval)
             {
                 autoClickTimer -= interval;
-                Transform textOrigin = autoClickerVisual != null
-                    ? autoClickerVisual.transform
-                    : centerClickTransform;
-                Vector2 clickPosition = textOrigin != null
-                    ? (Vector2)RectTransformUtility.WorldToScreenPoint(null, textOrigin.position)
-                    : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-                HandleCardClickedInternal(clickPosition, AutoClickerIncomeMultiplier);
+                AddAutoClickerIncome();
             }
+        }
+
+        private void AddAutoClickerIncome()
+        {
+            if (IsGameEnded) return;
+
+            // The auto clicker is passive income based on the center card's normal
+            // click value. It must not behave like player input: no combo, click
+            // count, critical roll, click event, click effect, or combo reward.
+            double flatSetIncome = 0d;
+            if (setCatalog != null)
+            {
+                foreach (var setId in completedSets)
+                {
+                    var set = setCatalog.FindById(setId);
+                    if (set != null) flatSetIncome += set.FlatIncomeBonus;
+                }
+            }
+
+            double income = (BaseClickIncome * GetEquippedIncomeMultiplier() + flatSetIncome)
+                * Math.Max(1d, AutoClickerIncomeMultiplier);
+
+            Money += income;
+
+            // Passive income text belongs above the auto-clicker itself. This is
+            // only a gold-gain motion and does not invoke real-click behavior.
+            if (autoClickerVisual == null) ResolveAutoClickerObjects();
+            Transform motionOrigin = autoClickerVisual != null
+                ? autoClickerVisual.transform
+                : centerClickTransform;
+            Vector2 motionPosition = motionOrigin != null
+                ? (Vector2)RectTransformUtility.WorldToScreenPoint(null, motionOrigin.position)
+                : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            SpawnFloatingText(motionPosition, income, isCrit: false);
+
+            Save();
+            NotifyState();
         }
 
         public bool IsBackgroundUnlocked(string id) =>
@@ -1221,6 +1279,11 @@ namespace CosmicChaosCat
                 SocketRightUpCardId   = SocketRightUpCardId ?? "",
                 SocketLeftDownCardId  = SocketLeftDownCardId ?? "",
                 SocketRightDownCardId = SocketRightDownCardId ?? "",
+                SocketCenterStage    = SocketCenterStage,
+                SocketLeftUpStage    = SocketLeftUpStage,
+                SocketRightUpStage   = SocketRightUpStage,
+                SocketLeftDownStage  = SocketLeftDownStage,
+                SocketRightDownStage = SocketRightDownStage,
             };
             foreach (var kv in cardState)
                 data.Cards.Add(new CardProgress
@@ -1249,7 +1312,7 @@ namespace CosmicChaosCat
             string defaultCardId = GetDefaultFirstCardId();
             if (!PlayerPrefs.HasKey(SaveKey))
             {
-                Money = 1000d;
+                Money = 0d;
                 EquippedCardId = defaultCardId;
                 EquippedBackgroundId = "bg";
                 EquippedDecorationId = "deco-none";
@@ -1317,6 +1380,11 @@ namespace CosmicChaosCat
             SocketRightUpCardId   = data.SocketRightUpCardId ?? "";
             SocketLeftDownCardId  = data.SocketLeftDownCardId ?? "";
             SocketRightDownCardId = data.SocketRightDownCardId ?? "";
+            SocketCenterStage    = data.SocketCenterStage > 0 ? Mathf.Clamp(data.SocketCenterStage, 1, 5) : 1;
+            SocketLeftUpStage    = data.SocketLeftUpStage > 0 ? Mathf.Clamp(data.SocketLeftUpStage, 1, 5) : 1;
+            SocketRightUpStage   = data.SocketRightUpStage > 0 ? Mathf.Clamp(data.SocketRightUpStage, 1, 5) : 1;
+            SocketLeftDownStage  = data.SocketLeftDownStage > 0 ? Mathf.Clamp(data.SocketLeftDownStage, 1, 5) : 1;
+            SocketRightDownStage = data.SocketRightDownStage > 0 ? Mathf.Clamp(data.SocketRightDownStage, 1, 5) : 1;
 
             // Ensure any new cards added to CardCatalog.asset are automatically registered in cardState for gacha
             if (cardCatalog != null && cardCatalog.Cards != null)
@@ -1372,6 +1440,15 @@ namespace CosmicChaosCat
             EquippedCardId = defaultCardId;
             EquippedBackgroundId = "bg";
             EquippedDecorationId = "deco-none";
+            SocketLeftUpCardId = "";
+            SocketRightUpCardId = "";
+            SocketLeftDownCardId = "";
+            SocketRightDownCardId = "";
+            SocketCenterStage = 1;
+            SocketLeftUpStage = 1;
+            SocketRightUpStage = 1;
+            SocketLeftDownStage = 1;
+            SocketRightDownStage = 1;
 
             RebuildSetState();
             Save();

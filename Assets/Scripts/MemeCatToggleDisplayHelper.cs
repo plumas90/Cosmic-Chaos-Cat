@@ -43,21 +43,21 @@ namespace CosmicChaosCat
             int num = 0;
             if (int.TryParse(cardId, out int parsed)) num = parsed;
 
-            // 169 Buff Half Cat uses a separate sprite set for each breakthrough stage.
-            if (num == 169 && entry != null)
+            // A stage can contain multiple illustrations. Always keep that group
+            // separate from the other breakthrough stages.
+            if (entry != null && stage >= 1)
             {
-                if (stage <= 1)
-                {
-                    if (entry.CardSprite != null) sprites.Add(entry.CardSprite);
-                    return sprites;
-                }
-
                 var stageSprites = entry.GetSpritesForStage(stage);
                 if (stageSprites.Count > 0) return stageSprites;
 
-                Sprite representative = entry.GetSpriteForStage(stage);
-                if (representative != null) sprites.Add(representative);
-                return sprites;
+                // 170 / 174 are legacy two-image toggle cards whose images are
+                // stored in separate files rather than per-stage variant groups.
+                if (num != 170 && num != 174)
+                {
+                    Sprite representative = entry.GetSpriteForStage(stage);
+                    if (representative != null) sprites.Add(representative);
+                    return sprites;
+                }
             }
 
             // 1. Gather all sprites from entry.BreakthroughSprites

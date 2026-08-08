@@ -37,6 +37,8 @@ namespace CosmicChaosCat
 
         private string   lastEquippedId;
         private Vector3  originalScale;
+        private Vector2  originalSizeDelta;
+        private bool     hasOriginalRectSize;
         private float    pulseTimer;
         private bool     isPulsing;
 
@@ -59,9 +61,7 @@ namespace CosmicChaosCat
             if (string.IsNullOrEmpty(socketCardId)) return;
 
             var entry = gameManager.CardCatalog?.FindById(socketCardId);
-            int selectedStage = 1;
-            if (gameManager.TryGetCardProgress(socketCardId, out var progress) && progress != null)
-                selectedStage = Mathf.Clamp(progress.SelectedStage, 1, 5);
+            int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
             var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry, selectedStage);
             if (sprites != null && sprites.Count >= 2)
             {
@@ -70,6 +70,7 @@ namespace CosmicChaosCat
                 if (cardImage != null && targetSp != null)
                 {
                     cardImage.sprite = targetSp;
+                    FitSubClickSpriteToBounds(targetSp);
                 }
             }
         }
@@ -86,6 +87,11 @@ namespace CosmicChaosCat
             DetectMySocket();
 
             originalScale = transform.localScale;
+            if (transform is RectTransform rectTransform)
+            {
+                originalSizeDelta = rectTransform.sizeDelta;
+                hasOriginalRectSize = true;
+            }
         }
 
         private void DetectMySocket()
@@ -204,6 +210,7 @@ namespace CosmicChaosCat
                 if (cardImage != null && autoIdleSprites[autoIdleFrameIndex] != null)
                 {
                     cardImage.sprite = autoIdleSprites[autoIdleFrameIndex];
+                    FitSubClickSpriteToBounds(autoIdleSprites[autoIdleFrameIndex]);
                 }
             }
         }
@@ -216,6 +223,11 @@ namespace CosmicChaosCat
 
             if (mySocket != ClickSocketSlot.Center)
             {
+                // A previously displayed sprite must never leave a sub-click at
+                // its PNG native dimensions. Keep the scene's fixed slot bounds.
+                if (hasOriginalRectSize && transform is RectTransform rectTransform)
+                    rectTransform.sizeDelta = originalSizeDelta;
+
                 bool isUnlocked = gameManager.IsSocketUnlocked(mySocket);
                 string socketCardId = gameManager.GetSocketCardId(mySocket);
                 bool hasCard = !string.IsNullOrEmpty(socketCardId);
@@ -278,13 +290,12 @@ namespace CosmicChaosCat
                     Sprite currentSp = autoIdleSprites[autoIdleFrameIndex];
                     if (currentSp == null) currentSp = defaultCardSprite;
                     cardImage.sprite = currentSp;
+                    FitSubClickSpriteToBounds(currentSp);
                     cardImage.color  = Color.white;
                 }
                 else
                 {
-                    int selectedStage = 1;
-                    if (gameManager.TryGetCardProgress(curCardId, out var selectedProgress) && selectedProgress != null)
-                        selectedStage = Mathf.Clamp(selectedProgress.SelectedStage, 1, 5);
+                    int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
                     var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage);
                     if (sprites != null && sprites.Count >= 2)
                     {
@@ -292,21 +303,23 @@ namespace CosmicChaosCat
                         Sprite currentSp = sprites[currentSpriteIndex];
                         if (currentSp == null) currentSp = defaultCardSprite;
                         cardImage.sprite = currentSp;
+                        FitSubClickSpriteToBounds(currentSp);
                         cardImage.color  = Color.white;
                     }
                     else
                     {
-                        Sprite sprite = (card != null)
-                            ? gameManager.GetCardSpriteForDisplay(card.Id)
+                        Sprite sprite = card != null
+                            ? card.GetSpriteForStage(selectedStage)
                             : defaultCardSprite;
                         if (sprite == null) sprite = defaultCardSprite;
                         
                         bool spriteChanged = cardImage.sprite != sprite;
                         cardImage.sprite = sprite;
+                        FitSubClickSpriteToBounds(sprite);
                         if (sprite != null)
                         {
                             cardImage.color = Color.white;
-                            if (spriteChanged)
+                            if (spriteChanged && mySocket == ClickSocketSlot.Center)
                             {
                                 cardImage.SetNativeSize();
                             }
@@ -340,6 +353,28 @@ namespace CosmicChaosCat
                 stackText.text = $"×{progress.Copies}";
             else if (stackText != null)
                 stackText.text = string.Empty;
+        }
+
+        /// <summary>
+        /// Fits a sub-click illustration inside its scene-defined bounds while
+        /// preserving the sprite's native aspect ratio (equivalent to CSS contain).
+        /// Example: a 200x500 sprite in a 400x400 slot becomes 160x400.
+        /// </summary>
+        private void FitSubClickSpriteToBounds(Sprite sprite)
+        {
+            if (mySocket == ClickSocketSlot.Center || cardImage == null || sprite == null || !hasOriginalRectSize)
+                return;
+
+            float maxWidth = Mathf.Abs(originalSizeDelta.x);
+            float maxHeight = Mathf.Abs(originalSizeDelta.y);
+            float spriteWidth = sprite.rect.width;
+            float spriteHeight = sprite.rect.height;
+            if (maxWidth <= 0f || maxHeight <= 0f || spriteWidth <= 0f || spriteHeight <= 0f)
+                return;
+
+            float scale = Mathf.Min(maxWidth / spriteWidth, maxHeight / spriteHeight);
+            cardImage.rectTransform.sizeDelta = new Vector2(spriteWidth * scale, spriteHeight * scale);
+            cardImage.preserveAspect = true;
         }
 
         private void OnCardDrawn(string cardId, CardRarity rarity)

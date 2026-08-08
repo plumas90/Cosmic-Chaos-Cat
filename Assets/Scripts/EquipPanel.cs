@@ -44,6 +44,7 @@ namespace CosmicChaosCat
         private GameManager gm;
         private EncyclopediaPanel encPanel;
         private string pendingCardId;
+        private int pendingStage = 1;
         private ClickSocketSlot selectedSlot = ClickSocketSlot.Center;
 
         private GameObject[] allSlotGOs;       // Center, LeftUp, RightUp, LeftDown, RightDown 순
@@ -85,9 +86,10 @@ namespace CosmicChaosCat
         /// <summary>
         /// EncyclopediaPanel의 "대표 설정" 버튼 클릭 시 호출.
         /// </summary>
-        public void Open(string cardId, EncyclopediaPanel encyclopedia, GameManager gameManager)
+        public void Open(string cardId, int selectedStage, EncyclopediaPanel encyclopedia, GameManager gameManager)
         {
             pendingCardId = cardId;
+            pendingStage  = Mathf.Clamp(selectedStage, 1, 5);
             encPanel      = encyclopedia;
             gm            = gameManager;
             selectedSlot  = ClickSocketSlot.Center;
@@ -292,7 +294,7 @@ namespace CosmicChaosCat
                         if (artImg != null)
                         {
                             if (!artImg.gameObject.activeSelf) artImg.gameObject.SetActive(true);
-                            Sprite stageSprite = gm.GetCardSpriteForDisplay(cardId);
+                            Sprite stageSprite = entry.GetSpriteForStage(gm.GetSocketSelectedStage(slot));
                             if (stageSprite == null) stageSprite = entry.CardSprite ?? entry.GachaBgSprite;
 
                             artImg.sprite = stageSprite;
@@ -430,7 +432,7 @@ namespace CosmicChaosCat
                 return; // 해금은 상점에서만 가능
             }
 
-            gm.EquipCardToSocket(selectedSlot, pendingCardId);
+            gm.EquipCardToSocket(selectedSlot, pendingCardId, pendingStage);
             Refresh();
             encPanel?.RefreshAfterEquip(pendingCardId);
             // GameManager.StateChanged가 발생하므로 CenterClick/SubClick의 CardImageDisplay가 자동 갱신됨

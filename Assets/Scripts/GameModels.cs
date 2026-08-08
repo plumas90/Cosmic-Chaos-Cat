@@ -61,6 +61,13 @@ namespace CosmicChaosCat
         public string SocketLeftDownCardId  = "";
         public string SocketRightDownCardId = "";
 
+        // Illustration stage assigned independently to each click socket.
+        public int SocketCenterStage    = 1;
+        public int SocketLeftUpStage    = 1;
+        public int SocketRightUpStage   = 1;
+        public int SocketLeftDownStage  = 1;
+        public int SocketRightDownStage = 1;
+
         public bool UnlockedRareGacha;
         public bool UnlockedSuperGacha;
 

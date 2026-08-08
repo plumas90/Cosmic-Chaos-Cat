@@ -1704,12 +1704,12 @@ namespace CosmicChaosCat
             if (equipPanel != null)
             {
                 // Open the socket selection popup
-                equipPanel.Open(selectedCardId, this, gm);
+                equipPanel.Open(selectedCardId, selectedIllustrationStage, this, gm);
             }
             else
             {
                 // Fallback: directly equip to center socket (original behavior)
-                gm?.EquipCard(selectedCardId);
+                gm?.EquipCardToSocket(ClickSocketSlot.Center, selectedCardId, selectedIllustrationStage);
                 RefreshDetailPanel(selectedCardId);
             }
         }

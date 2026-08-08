@@ -55,6 +55,16 @@ namespace CosmicChaosCat.EditorTools
                 int num = int.Parse(match.Groups[1].Value);
                 string cardId = num.ToString("D4");
 
+                // 169's 2_3 / 4_5 sheets contain breakthrough animation slices.
+                // They do not have a "stage" token in the filename, so the generic
+                // parser would otherwise classify them as stage 1 and overwrite the
+                // actual unevolved card image, depending on filesystem enumeration order.
+                if (num == 169 &&
+                    !fileName.Equals("169_SR_Buff_Half_Cat", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
                 int stageNum = 1;
                 var stageMatch = Regex.Match(fileName, @"stage_?(\d+)", RegexOptions.IgnoreCase);
                 if (stageMatch.Success)
