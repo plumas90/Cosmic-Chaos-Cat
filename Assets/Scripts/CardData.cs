@@ -96,6 +96,9 @@ namespace CosmicChaosCat
 
         public System.Collections.Generic.List<int> GetBreakthroughStages()
         {
+            if (int.TryParse(Id, out int cardNumber) && cardNumber == 169)
+                return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
+
             if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
             {
                 var list = new System.Collections.Generic.List<int>();
@@ -110,6 +113,10 @@ namespace CosmicChaosCat
 
         public Sprite GetSpriteForStage(int stage)
         {
+            bool isBuffHalfCat = int.TryParse(Id, out int cardNumber) && cardNumber == 169;
+            if (isBuffHalfCat && stage <= 1)
+                return CardSprite;
+
             var stageSprites = GetSpritesForStage(stage);
             if (stageSprites.Count > 0 && stageSprites[0] != null)
                 return stageSprites[0];

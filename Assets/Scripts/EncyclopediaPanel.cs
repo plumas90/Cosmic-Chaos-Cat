@@ -1729,7 +1729,9 @@ namespace CosmicChaosCat
             var card = gm.CardCatalog?.FindById(selectedCardId);
             if (card == null) return;
 
-            int oldStage = selectedIllustrationStage;
+            int oldStage = 1;
+            if (gm.TryGetCardProgress(selectedCardId, out var beforeProgress) && beforeProgress != null)
+                oldStage = Mathf.Clamp(beforeProgress.BreakthroughCount + 1, 1, 5);
             Sprite oldSprite = card.GetSpriteForStage(oldStage);
             if (oldSprite == null) oldSprite = card.CardSprite;
 
