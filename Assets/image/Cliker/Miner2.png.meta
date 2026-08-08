@@ -1,0 +1,197 @@
+fileFormatVersion: 2
+guid: 712be8f7a639e8fa59486d7ee2f64040
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5763921421157445365
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_0
+  - first:
+      213: -7801516416057919624
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_1
+  - first:
+      213: -4578943400353955762
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_2
+  - first:
+      213: -4596063350710817192
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_3
+  - first:
+      213: 4674727829485808460
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_4
+  - first:
+      213: -749303331395728471
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_5
+  - first:
+      213: -1956611543806825695
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_6
+  - first:
+      213: 7305687903257467226
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_7
+  - first:
+      213: 8935805677875727974
+    second: ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Miner2_1
+      rect:
+        serializedVersion: 2
+        x: 701
+        y: 667
+        width: 439
+        height: 532
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5feaa557eff8dff40800000000000000
+      internalID: 5763921421157445365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Miner2_2
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 104
+        width: 493
+        height: 483
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e408847dc335470c0800000000000000
+      internalID: -4578943400353955762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 28d1d1c94f7984b69a5151f90f54079f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_1: -7801516416057919624
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_3: -4596063350710817192
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_4: 4674727829485808460
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_5: -749303331395728471
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_6: -1956611543806825695
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_7: 7305687903257467226
+      ChatGPT Image Aug 8, 2026, 04_58_02 PM-Photoroom_8: 8935805677875727974
+      Miner2_1: 5763921421157445365
+      Miner2_2: -4578943400353955762
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
