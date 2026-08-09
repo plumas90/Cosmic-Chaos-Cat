@@ -43,6 +43,12 @@ namespace CosmicChaosCat
         [SerializeField] private BackgroundCatalogSO backgroundCatalog;
         [SerializeField] private DecorationCatalogSO decorationCatalog;
 
+        [Header("Runtime Assets")]
+        [SerializeField] private LocalizationDataSO localizationData;
+        [SerializeField] private Sprite longNeckHeadSprite;
+        [SerializeField] private Sprite longNeckBodySprite;
+        [SerializeField] private Sprite longNeckNeckSprite;
+
         [Header("Base Settings")]
         [SerializeField] private float baseCriticalChance     = 0f;
         [SerializeField] private float baseCriticalMultiplier = 3f;
@@ -173,6 +179,12 @@ namespace CosmicChaosCat
             backgroundCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<BackgroundCatalogSO>("Assets/ScriptableObjects/BackgroundCatalog.asset");
             decorationCatalog = UnityEditor.AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
 #endif
+
+            LocalizationManager.SetData(localizationData);
+            LongNeckCatDisplayHelper.SetSprites(
+                longNeckHeadSprite,
+                longNeckBodySprite,
+                longNeckNeckSprite);
 
             if (cardCatalog == null)
             {

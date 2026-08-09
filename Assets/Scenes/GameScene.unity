@@ -7784,8 +7784,12 @@ MonoBehaviour:
   cardCatalog: {fileID: 11400000, guid: cc98a3576c396774cbf5273e0c27d88b, type: 2}
   setCatalog: {fileID: 11400000, guid: f8aad84eab616094090798c2612ea803, type: 2}
   upgradeCatalog: {fileID: 11400000, guid: fff33262309875445ba9cb081ffd98fe, type: 2}
-  backgroundCatalog: {fileID: 0}
-  decorationCatalog: {fileID: 0}
+  backgroundCatalog: {fileID: 11400000, guid: 6793a0a4e3dd85d5c921d4412e35ce9c, type: 2}
+  decorationCatalog: {fileID: 11400000, guid: 0220632d5748c1948b4abb53e62936e9, type: 2}
+  localizationData: {fileID: 11400000, guid: 0bff496e2caa400469410c37f87d0f19, type: 2}
+  longNeckHeadSprite: {fileID: -467173753, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
+  longNeckBodySprite: {fileID: 1186368763, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
+  longNeckNeckSprite: {fileID: -499945616, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
   baseCriticalChance: 0.1
   baseCriticalMultiplier: 3
   autoClickerVisual: {fileID: 1572585743}

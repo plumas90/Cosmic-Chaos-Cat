@@ -25,6 +25,12 @@ namespace CosmicChaosCat
             }
         }
 
+        public static void SetData(LocalizationDataSO data)
+        {
+            dataSO = data;
+            RefreshRuntimeTable();
+        }
+
         private static void LoadSO()
         {
 #if UNITY_EDITOR

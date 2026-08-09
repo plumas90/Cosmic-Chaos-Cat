@@ -9,6 +9,13 @@ namespace CosmicChaosCat
         private static Sprite cachedBodySprite;
         private static Sprite cachedNeckSprite;
 
+        public static void SetSprites(Sprite head, Sprite body, Sprite neck)
+        {
+            cachedHeadSprite = head;
+            cachedBodySprite = body;
+            cachedNeckSprite = neck;
+        }
+
         public static void EnsureSpritesLoaded()
         {
             if (cachedHeadSprite != null && cachedBodySprite != null && cachedNeckSprite != null) return;

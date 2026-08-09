@@ -48,20 +48,18 @@ namespace CosmicChaosCat
                 return;
             }
 
-            if (CollectionPanel.Instance != null)
+            var entry = gameManager.BackgroundCatalog != null
+                ? gameManager.BackgroundCatalog.FindById(bgId)
+                : null;
+            var sprite = entry != null ? entry.BackgroundSprite : null;
+
+            if (sprite == null && CollectionPanel.Instance != null)
             {
-                var sprite = CollectionPanel.Instance.GetBackgroundSprite(bgId);
-                if (sprite != null)
-                {
-                    bgImage.sprite = sprite;
-                    bgImage.color = Color.white;
-                }
-                else
-                {
-                    bgImage.sprite = null;
-                    bgImage.color = Color.white;
-                }
+                sprite = CollectionPanel.Instance.GetBackgroundSprite(bgId);
             }
+
+            bgImage.sprite = sprite;
+            bgImage.color = Color.white;
         }
     }
 }
