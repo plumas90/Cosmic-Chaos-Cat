@@ -1773,7 +1773,7 @@ namespace CosmicChaosCat
                     var cutscene = BreakthroughCutsceneUI.GetOrCreate();
                     if (cutscene != null)
                     {
-                        cutscene.PlayCutscene(oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
+                        cutscene.PlayCutscene(card, oldSprite, newSprite, card.GetDisplayName(), newStage, () =>
                         {
                             RefreshDetailPanel(selectedCardId);
                             if (showNoTab) RefreshNoTab();

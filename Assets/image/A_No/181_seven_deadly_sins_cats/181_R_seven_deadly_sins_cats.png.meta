@@ -1,0 +1,329 @@
+fileFormatVersion: 2
+guid: cce6d3d55a9dfc430b109b832a5323a6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6130405391043685099
+    second: seven_deadly_sins_cats_sheet_0
+  - first:
+      213: 6763450869596664488
+    second: seven_deadly_sins_cats_sheet_1
+  - first:
+      213: -1437192315205690837
+    second: seven_deadly_sins_cats_sheet_2
+  - first:
+      213: 4332595053905623634
+    second: seven_deadly_sins_cats_sheet_3
+  - first:
+      213: -7760733436313817252
+    second: seven_deadly_sins_cats_sheet_4
+  - first:
+      213: -6433603529299538084
+    second: seven_deadly_sins_cats_sheet_5
+  - first:
+      213: -3334693106859756212
+    second: seven_deadly_sins_cats_sheet_6
+  - first:
+      213: -3367640755522405554
+    second: seven_deadly_sins_cats_sheet_7
+  - first:
+      213: 544069119018914416
+    second: seven_deadly_sins_cats_sheet_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Pride
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 779
+        width: 398
+        height: 602
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bea6c4e0933931550800000000000000
+      internalID: 6130405391043685099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Greed
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 1012
+        width: 395
+        height: 369
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a2bd1a4bba9cdd50800000000000000
+      internalID: 6763450869596664488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Lust
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 935
+        width: 402
+        height: 446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2a5e3234311e0ce0800000000000000
+      internalID: -1437192315205690837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Envy
+      rect:
+        serializedVersion: 2
+        x: 1583
+        y: 1083
+        width: 401
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5fa40cce065c4490800000000000000
+      internalID: -7760733436313817252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 1049
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5fc6624daf37b6a0800000000000000
+      internalID: -6433603529299538084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Gluttony
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 301
+        width: 402
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c453eaa894ac8b1d0800000000000000
+      internalID: -3334693106859756212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Wrath
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 231
+        width: 402
+        height: 430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b75fb439cb341d0800000000000000
+      internalID: -3367640755522405554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Sloth
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 395
+        width: 402
+        height: 266
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 072d16c2bfbec8700800000000000000
+      internalID: 544069119018914416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 68449d16219b0504fb51e355521ec9a8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      seven_deadly_sins_cats_Envy: -7760733436313817252
+      seven_deadly_sins_cats_Gluttony: -3334693106859756212
+      seven_deadly_sins_cats_Greed: 6763450869596664488
+      seven_deadly_sins_cats_Lust: -1437192315205690837
+      seven_deadly_sins_cats_Pride: 6130405391043685099
+      seven_deadly_sins_cats_Sloth: 544069119018914416
+      seven_deadly_sins_cats_Wrath: -3367640755522405554
+      seven_deadly_sins_cats_sheet_3: 4332595053905623634
+      seven_deadly_sins_cats_sheet_5: -6433603529299538084
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

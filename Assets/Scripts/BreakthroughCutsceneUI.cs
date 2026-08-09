@@ -29,6 +29,8 @@ namespace CosmicChaosCat
         [SerializeField] private TMP_Text        subtitleText;
         [SerializeField] private Button         skipButton;
 
+        private GameObject  gachaCardBase;
+        private Transform   gachaCardFront;
         private Material    silhouetteMaterial;
         private Coroutine   animationCoroutine;
         private bool        isCutscenePlaying = false;
@@ -96,6 +98,8 @@ namespace CosmicChaosCat
         {
             if (canvasGroup != null && bgOverlay != null && cardImage != null)
             {
+                NormalizeAuraGlowStretch();
+                EnsureGachaCardBase(null);
                 ApplyGameFont();
                 return;
             }
@@ -149,7 +153,8 @@ namespace CosmicChaosCat
                 var auraRT = auraGO.GetComponent<RectTransform>();
                 auraRT.anchorMin = Vector2.zero;
                 auraRT.anchorMax = Vector2.one;
-                auraRT.sizeDelta = new Vector2(100f, 100f);
+                auraRT.offsetMin = Vector2.zero;
+                auraRT.offsetMax = Vector2.zero;
 
                 auraGlowImage = auraGO.GetComponent<Image>();
                 auraGlowImage.color = new Color(1f, 1f, 1f, 0f);
@@ -189,7 +194,7 @@ namespace CosmicChaosCat
                 txtRT.anchoredPosition = Vector2.zero;
 
                 titleText = txtGO.GetComponent<TextMeshProUGUI>();
-                titleText.text = "⭐ 한계 돌파! ⭐";
+                titleText.text = "한계 돌파!";
                 titleText.fontSize = 42;
                 titleText.alignment = TextAlignmentOptions.Center;
                 titleText.color = new Color(1f, 0.9f, 0.4f);
@@ -248,7 +253,87 @@ namespace CosmicChaosCat
             }
 
             ApplyGameFont();
+            NormalizeAuraGlowStretch();
+            EnsureGachaCardBase(null);
             gameObject.SetActive(false);
+        }
+
+        private void NormalizeAuraGlowStretch()
+        {
+            if (auraGlowImage == null) return;
+            var auraRect = auraGlowImage.rectTransform;
+            auraRect.anchorMin = Vector2.zero;
+            auraRect.anchorMax = Vector2.one;
+            auraRect.offsetMin = Vector2.zero;
+            auraRect.offsetMax = Vector2.zero;
+        }
+
+        private void EnsureGachaCardBase(CardEntry card)
+        {
+            if (cardContainer == null) return;
+
+            if (gachaCardBase == null)
+            {
+                var existing = cardContainer.Find("CardBase");
+                if (existing != null)
+                {
+                    gachaCardBase = existing.gameObject;
+                }
+                else
+                {
+                    var gachaPanel = FindObjectOfType<GachaPanel>(true);
+                    if (gachaPanel != null)
+                        gachaCardBase = gachaPanel.CreateCardBase(cardContainer);
+                }
+            }
+
+            if (gachaCardBase == null) return;
+
+            gachaCardBase.name = "CardBase";
+            gachaCardBase.SetActive(true);
+            var baseRect = gachaCardBase.GetComponent<RectTransform>();
+            if (baseRect != null)
+            {
+                baseRect.anchoredPosition = Vector2.zero;
+                baseRect.localScale = Vector3.one;
+            }
+
+            var back = gachaCardBase.transform.Find("Back");
+            if (back != null) back.gameObject.SetActive(false);
+
+            gachaCardFront = gachaCardBase.transform.Find("Front");
+            if (gachaCardFront == null) return;
+            gachaCardFront.gameObject.SetActive(true);
+
+            var artImage = gachaCardFront.Find("Art_image")?.GetComponent<Image>()
+                        ?? gachaCardFront.Find("art_image")?.GetComponent<Image>()
+                        ?? gachaCardFront.Find("Art")?.GetComponent<Image>()
+                        ?? gachaCardFront.Find("CardArt")?.GetComponent<Image>()
+                        ?? gachaCardFront.Find("Image")?.GetComponent<Image>();
+            if (artImage == null) return;
+
+            if (cardImage != null && cardImage != artImage && !cardImage.transform.IsChildOf(gachaCardBase.transform))
+                cardImage.gameObject.SetActive(false);
+            cardImage = artImage;
+            cardImage.raycastTarget = false;
+
+            var panel = FindObjectOfType<GachaPanel>(true);
+            if (panel != null && card != null)
+                panel.BindCardFrontData(gachaCardFront, card);
+
+            EnsureSilhouetteMaterial();
+            gachaCardBase.transform.SetAsLastSibling();
+        }
+
+        private void EnsureSilhouetteMaterial()
+        {
+            if (silhouetteMaterial == null)
+            {
+                var shader = Shader.Find("UI/BreakthroughSilhouette");
+                if (shader != null) silhouetteMaterial = new Material(shader);
+            }
+            if (cardImage != null && silhouetteMaterial != null)
+                cardImage.material = silhouetteMaterial;
         }
 
         private void ApplyGameFont()
@@ -513,12 +598,13 @@ namespace CosmicChaosCat
 
         private Sprite targetNewSprite;
 
-        public void PlayCutscene(Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true, bool isSSR = false)
+        public void PlayCutscene(CardEntry card, Sprite oldSprite, Sprite newSprite, string cardName, int newStage, Action onComplete, bool enableStarParticles = true, bool isSSR = false)
         {
             EnsureParentedToRootCanvas();
             gameObject.SetActive(true);
 
             EnsureUIBuilt();
+            EnsureGachaCardBase(card);
             WireSkipButton();
 
             targetNewSprite = newSprite;

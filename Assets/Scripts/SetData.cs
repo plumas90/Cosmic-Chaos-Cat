@@ -16,7 +16,7 @@ namespace CosmicChaosCat
             string digits = System.Text.RegularExpressions.Regex.Match(setIdStr, @"\d+").Value;
             if (int.TryParse(digits, out int num))
             {
-                return num <= 2; // 세트 2까지만 허용 (세트 3 이후 제한)
+                return num <= 2 || num == 9; // 기존 공개 세트와 황도 12궁 세트만 허용
             }
             return true;
         }
@@ -77,6 +77,7 @@ namespace CosmicChaosCat
         public float ShardBonusMultiplier = 1.0f;
         public string RewardBackgroundId;
         public string RewardDecorationId;
+        public string RewardCardId;
         [TextArea(2, 4)]
         public string EffectDesc;   // 세트 보상 효과 설명 (비어있으면 "아무 효과 없음" 표시)
         [TextArea(2, 4)]
@@ -110,6 +111,7 @@ namespace CosmicChaosCat
             if (GachaDiscountBonus > 0f) parts.Add(isEN ? $"Gacha Discount +{GachaDiscountBonus * 100:F0}%" : $"뽑기 할인 +{GachaDiscountBonus * 100:F0}%");
             if (!string.IsNullOrEmpty(RewardBackgroundId)) parts.Add(isEN ? "Unlock BG" : "배경 해금");
             if (!string.IsNullOrEmpty(RewardDecorationId)) parts.Add(isEN ? "Unlock Deco" : "데코 해금");
+            if (!string.IsNullOrEmpty(RewardCardId)) parts.Add(isEN ? "Reward Card" : "보상 카드");
 
             if (parts.Count > 0) return string.Join(", ", parts);
             if (isEN && !string.IsNullOrWhiteSpace(EffectDesc_EN)) return EffectDesc_EN;

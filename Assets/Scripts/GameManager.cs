@@ -999,9 +999,19 @@ namespace CosmicChaosCat
                     UnlockBackground(set.RewardBackgroundId);
                 if (!string.IsNullOrEmpty(set.RewardDecorationId))
                     UnlockDecoration(set.RewardDecorationId);
+                if (!string.IsNullOrEmpty(set.RewardCardId))
+                {
+                    var rewardCard = cardCatalog?.FindById(set.RewardCardId);
+                    if (rewardCard != null && cardState.TryGetValue(rewardCard.Id, out var rewardState))
+                    {
+                        rewardState.Unlocked = true;
+                        rewardState.Copies = Mathf.Max(1, rewardState.Copies);
+                        SurprisePopUp.ShowCard(rewardCard);
+                    }
+                }
 
                 // Fallback for sets with no explicit rewards specified
-                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId))
+                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId) && string.IsNullOrEmpty(set.RewardCardId))
                 {
                     Shards += 1000;
                 }
@@ -1011,7 +1021,8 @@ namespace CosmicChaosCat
                 if (set.RewardShards > 0) msg += $" 조각 +{set.RewardShards:N0}";
                 if (!string.IsNullOrEmpty(set.RewardBackgroundId)) msg += $" 배경 해금({set.RewardBackgroundId})";
                 if (!string.IsNullOrEmpty(set.RewardDecorationId)) msg += $" 데코 해금({set.RewardDecorationId})";
-                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId)) msg += " 조각 +1,000";
+                if (!string.IsNullOrEmpty(set.RewardCardId)) msg += $" 카드 획득({set.RewardCardId})";
+                if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId) && string.IsNullOrEmpty(set.RewardCardId)) msg += " 조각 +1,000";
 
                 Log(msg);
                 Save();

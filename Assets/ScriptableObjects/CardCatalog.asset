@@ -5419,3 +5419,366 @@ MonoBehaviour:
       \uC0AC\uD68C\uC758 \uAC01\uB3C4\uAC00 \uBC14\uB00C\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: An R-grade Earth Cat Society card that changes angle with every
       click.
+  - Id: 0181
+    DisplayName: "\uC77C\uACF1 \uB300\uC8C4 \uACE0\uC591\uC774"
+    DisplayName_EN: Seven Deadly Sins Cats
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6130405391043685099, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 6130405391043685099, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: 6763450869596664488, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: -1437192315205690837, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: -7760733436313817252, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: -3334693106859756212, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: -3367640755522405554, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    - {fileID: 544069119018914416, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uC77C\uACF1 \uB300\uC8C4
+      \uACE0\uC591\uC774\uC758 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294 R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card that cycles through the Seven Deadly Sins Cats
+      when clicked.
+  - Id: 0182
+    DisplayName: "\uC591\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Aries Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1659024637040391137, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC591\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Aries Cat of the zodiac.
+  - Id: 0183
+    DisplayName: "\uD669\uC18C\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Taurus Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5038902663156145065, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uD669\uC18C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Taurus Cat of the zodiac.
+  - Id: 0184
+    DisplayName: "\uC30D\uB465\uC774\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Gemini Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4853693165383279266, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC30D\uB465\uC774\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Gemini Cat of the zodiac.
+  - Id: 0185
+    DisplayName: "\uAC8C\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Cancer Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -9189646269551741013, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uAC8C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Cancer Cat of the zodiac.
+  - Id: 0186
+    DisplayName: "\uC0AC\uC790\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Leo Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3600560624476213181, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC0AC\uC790\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Leo Cat of the zodiac.
+  - Id: 0187
+    DisplayName: "\uCC98\uB140\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Virgo Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -90493045406488182, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uCC98\uB140\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Virgo Cat of the zodiac.
+  - Id: 0188
+    DisplayName: "\uCC9C\uCE6D\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Libra Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -777725298137423385, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uCC9C\uCE6D\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Libra Cat of the zodiac.
+  - Id: 0189
+    DisplayName: "\uC804\uAC08\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Scorpio Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3018473229513532869, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC804\uAC08\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Scorpio Cat of the zodiac.
+  - Id: 0190
+    DisplayName: "\uC0AC\uC218\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Sagittarius Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5528888952080508091, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC0AC\uC218\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Sagittarius Cat of the zodiac.
+  - Id: 0191
+    DisplayName: "\uC5FC\uC18C\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Capricorn Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4696250348693478101, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uC5FC\uC18C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Capricorn Cat of the zodiac.
+  - Id: 0192
+    DisplayName: "\uBB3C\uBCD1\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Aquarius Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6060146826417794802, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uBB3C\uBCD1\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Aquarius Cat of the zodiac.
+  - Id: 0193
+    DisplayName: "\uBB3C\uACE0\uAE30\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Pisces Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 9
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8224038566061892462, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81\uC758 \uBB3C\uACE0\uAE30\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The Pisces Cat of the zodiac.
+  - Id: 0194
+    DisplayName: "\uBC40\uC8FC\uC778\uC790\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Ophiuchus Cat
+    Rarity: 1
+    BaseWeight: 0
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 526952673173197011, guid: 62d7fccdbe597869a80b1c6651605ad9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD669\uB3C4 12\uAD81 \uC138\uD2B8 \uC644\uC131 \uBCF4\uC0C1\uC73C\uB85C
+      \uD68D\uB4DD\uD558\uB294 \uC228\uACA8\uC9C4 \uBC40\uC8FC\uC778\uC790\uB9AC
+      \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: The hidden Ophiuchus Cat awarded for completing the Zodiac Twelve
+      set.

@@ -52,6 +52,8 @@ namespace CosmicChaosCat
         private int autoIdleFrameIndex = 0;
         private List<Sprite> autoIdleSprites = null;
         private bool isAutoIdleActive = false;
+        private bool isSchrodingerActive = false;
+        private bool isSchrodingerSpecialSequence = false;
 
         public void CycleMemeCatImage()
         {
@@ -206,7 +208,33 @@ namespace CosmicChaosCat
             if (autoIdleTimer >= frameRate)
             {
                 autoIdleTimer = 0f;
-                autoIdleFrameIndex = (autoIdleFrameIndex + 1) % autoIdleSprites.Count;
+                if (isSchrodingerActive && autoIdleSprites.Count >= 5)
+                {
+                    if (isSchrodingerSpecialSequence)
+                    {
+                        if (autoIdleFrameIndex == 2) autoIdleFrameIndex = 3;
+                        else if (autoIdleFrameIndex == 3) autoIdleFrameIndex = 4;
+                        else if (autoIdleFrameIndex == 4) autoIdleFrameIndex = 1;
+                        else
+                        {
+                            autoIdleFrameIndex = 0;
+                            isSchrodingerSpecialSequence = false;
+                        }
+                    }
+                    else if (autoIdleFrameIndex == 0)
+                    {
+                        isSchrodingerSpecialSequence = Random.value < 0.01f;
+                        autoIdleFrameIndex = isSchrodingerSpecialSequence ? 2 : 1;
+                    }
+                    else
+                    {
+                        autoIdleFrameIndex = 0;
+                    }
+                }
+                else
+                {
+                    autoIdleFrameIndex = (autoIdleFrameIndex + 1) % autoIdleSprites.Count;
+                }
                 if (cardImage != null && autoIdleSprites[autoIdleFrameIndex] != null)
                 {
                     cardImage.sprite = autoIdleSprites[autoIdleFrameIndex];
@@ -267,17 +295,21 @@ namespace CosmicChaosCat
                 currentSpriteIndex = 0;
                 autoIdleFrameIndex = 0;
                 autoIdleTimer = 0f;
+                isSchrodingerSpecialSequence = false;
             }
 
             if (curCardId != null && AutoIdleCatAnimationHelper.IsAutoIdleCat(curCardId))
             {
                 isAutoIdleActive = true;
                 autoIdleSprites = AutoIdleCatAnimationHelper.GetAutoIdleSprites(curCardId, card);
+                isSchrodingerActive = int.TryParse(curCardId, out int autoCardNumber) && autoCardNumber == 195;
             }
             else
             {
                 isAutoIdleActive = false;
                 autoIdleSprites = null;
+                isSchrodingerActive = false;
+                isSchrodingerSpecialSequence = false;
             }
 
             // 스프라이트 및 색상

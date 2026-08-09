@@ -6,18 +6,36 @@ namespace CosmicChaosCat
     public static class AutoIdleCatAnimationHelper
     {
         private static List<Sprite> cached152Sprites = null;
+        private static List<Sprite> cached195Sprites = null;
 
         public static bool IsAutoIdleCat(string cardId)
         {
             if (string.IsNullOrEmpty(cardId)) return false;
-            if (cardId == "0152" || cardId == "152") return true;
-            if (int.TryParse(cardId, out int num) && num == 152) return true;
+            if (cardId == "0152" || cardId == "152" || cardId == "0195" || cardId == "195") return true;
+            if (int.TryParse(cardId, out int num) && (num == 152 || num == 195)) return true;
             return false;
         }
 
         public static List<Sprite> GetAutoIdleSprites(string cardId, CardEntry entry)
         {
             if (!IsAutoIdleCat(cardId)) return null;
+
+            int cardNumber = int.TryParse(cardId, out int parsed) ? parsed : 0;
+            if (cardNumber == 195)
+            {
+                if (cached195Sprites != null && cached195Sprites.Count > 0)
+                    return cached195Sprites;
+
+                cached195Sprites = new List<Sprite>();
+                if (entry != null && entry.BreakthroughSprites != null)
+                {
+                    foreach (var sprite in entry.BreakthroughSprites)
+                        if (sprite != null && !cached195Sprites.Contains(sprite)) cached195Sprites.Add(sprite);
+                }
+                if (cached195Sprites.Count == 0 && entry != null && entry.CardSprite != null)
+                    cached195Sprites.Add(entry.CardSprite);
+                return cached195Sprites;
+            }
 
             if (cached152Sprites != null && cached152Sprites.Count > 0)
                 return cached152Sprites;

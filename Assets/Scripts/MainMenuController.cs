@@ -16,10 +16,6 @@ namespace CosmicChaosCat
         private Button   continueButton;
         private const string SaveKey = "ccc_save_v3";
 
-        // ─── Style ──────────────────────────────────────────────────────────
-        private static readonly Color BtnNew      = new Color(0.20f, 0.55f, 0.90f, 1.00f);
-        private static readonly Color BtnContinue = new Color(0.18f, 0.52f, 0.28f, 1.00f);
-
         // ─── Lifecycle ───────────────────────────────────────────────────────
         private void Awake()
         {
@@ -53,7 +49,9 @@ namespace CosmicChaosCat
             // startButton이 있으면 그 부모 캔버스에 붙임, 없으면 자신의 캔버스
             Canvas canvas = GetComponentInParent<Canvas>();
             if (canvas == null) canvas = FindObjectOfType<Canvas>();
-            Transform uiParent = canvas != null ? canvas.transform : transform;
+            Transform uiParent = startButton != null
+                ? startButton.transform.parent
+                : (canvas != null ? canvas.transform : transform);
 
             // ── 이어하기 버튼 ──────────────────────────────────────────────
             if (hasSave)
@@ -68,28 +66,30 @@ namespace CosmicChaosCat
                     ? GetAnchoredPos(startButton) + new Vector2(0, -(startSize.y + 65f))
                     : new Vector2(0, -120);
 
-                var contGO = MakeButton(uiParent, "이어하기", contPos, startSize, BtnContinue);
-                continueButton = contGO.GetComponent<Button>();
-
-                // 시작버튼의 텍스트 컴포넌트에서 폰트 및 글자 크기 복사
+                GameObject contGO;
                 if (startButton != null)
                 {
-                    var startTxt = startButton.GetComponentInChildren<TMP_Text>();
-                    var contTxt = contGO.GetComponentInChildren<TMP_Text>();
-                    if (startTxt != null && contTxt != null)
+                    contGO = Instantiate(startButton.gameObject, uiParent, false);
+                    contGO.name = "Btn_이어하기";
+                    var contRT = contGO.GetComponent<RectTransform>();
+                    if (contRT != null)
                     {
-                        contTxt.font = startTxt.font;
-                        contTxt.fontSize = startTxt.fontSize;
+                        contRT.anchoredPosition = contPos;
+                        contRT.sizeDelta = startSize;
                     }
+                    var copiedText = contGO.GetComponentInChildren<TMP_Text>(true);
+                    if (copiedText != null) copiedText.text = "이어하기";
                 }
+                else
+                {
+                    contGO = MakeButton(uiParent, "이어하기", contPos, startSize, Color.white);
+                }
+                continueButton = contGO.GetComponent<Button>();
+                ApplyDarkButtonTransitions(continueButton);
             }
 
-            // startButton 색상 세팅 (씬에서 직접 바꾸기 어려우므로 코드로)
-            if (startButton != null)
-            {
-                var img = startButton.GetComponent<Image>();
-                if (img != null) img.color = BtnNew;
-            }
+            // Keep the scene-authored background sprite/image tint and only set interaction colors.
+            ApplyDarkButtonTransitions(startButton);
         }
 
         // ─── Game Logic ──────────────────────────────────────────────────────
@@ -107,6 +107,21 @@ namespace CosmicChaosCat
         {
             var rt = btn.GetComponent<RectTransform>();
             return rt != null ? rt.anchoredPosition : Vector2.zero;
+        }
+
+        private static void ApplyDarkButtonTransitions(Button button)
+        {
+            if (button == null) return;
+
+            var colors = button.colors;
+            colors.normalColor = Color.white;
+            colors.highlightedColor = new Color(0.32f, 0.32f, 0.32f, 1f);
+            colors.pressedColor = new Color(0.08f, 0.08f, 0.08f, 1f);
+            colors.selectedColor = new Color(0.20f, 0.20f, 0.20f, 1f);
+            colors.disabledColor = new Color(0.10f, 0.10f, 0.10f, 0.5f);
+            colors.colorMultiplier = 1f;
+            colors.fadeDuration = 0.1f;
+            button.colors = colors;
         }
 
         private static GameObject MakeButton(Transform parent, string label, Vector2 pos, Vector2 size, Color bg)

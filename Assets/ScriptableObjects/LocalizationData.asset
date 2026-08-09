@@ -197,8 +197,8 @@ MonoBehaviour:
     kr: "\uC2A4\uD0B5 >>"
     en: Skip >>
   - key: hud_title_breakthrough
-    kr: "\u2B50 \uD55C\uACC4 \uB3CC\uD30C! \u2B50"
-    en: ⭐ Breakthrough! ⭐
+    kr: "\uD55C\uACC4 \uB3CC\uD30C!"
+    en: Breakthrough!
   - key: encyclopedia_move_btn
     kr: "\uC774\uB3D9\uD558\uAE30"
     en: Go to Card
@@ -220,5 +220,4 @@ MonoBehaviour:
   - key: common_btn_close
     kr: "\uB2EB\uAE30"
     en: Close
-
 

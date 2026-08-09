@@ -1,0 +1,475 @@
+fileFormatVersion: 2
+guid: 62d7fccdbe597869a80b1c6651605ad9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1659024637040391137
+    second: zodiac_13_0
+  - first:
+      213: 5038902663156145065
+    second: zodiac_13_1
+  - first:
+      213: 4853693165383279266
+    second: zodiac_13_2
+  - first:
+      213: -9189646269551741013
+    second: zodiac_13_3
+  - first:
+      213: -3600560624476213181
+    second: zodiac_13_4
+  - first:
+      213: 3808461943643328908
+    second: zodiac_13_5
+  - first:
+      213: -90493045406488182
+    second: zodiac_13_6
+  - first:
+      213: 3018473229513532869
+    second: zodiac_13_7
+  - first:
+      213: -777725298137423385
+    second: zodiac_13_8
+  - first:
+      213: 5528888952080508091
+    second: zodiac_13_9
+  - first:
+      213: -4696250348693478101
+    second: zodiac_13_10
+  - first:
+      213: 6060146826417794802
+    second: zodiac_13_11
+  - first:
+      213: 8224038566061892462
+    second: zodiac_13_12
+  - first:
+      213: 4117196697160928590
+    second: zodiac_13_13
+  - first:
+      213: -8534251548941544280
+    second: zodiac_13_14
+  - first:
+      213: 5959738997525142818
+    second: zodiac_13_15
+  - first:
+      213: 526952673173197011
+    second: zodiac_13_16
+  - first:
+      213: -6886299792345523985
+    second: zodiac_13_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: zodiac_13_Aries
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1482
+        width: 300
+        height: 370
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e3f9641e1a060710800000000000000
+      internalID: 1659024637040391137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Taurus
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1482
+        width: 300
+        height: 380
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ab113f5647cde540800000000000000
+      internalID: 5038902663156145065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Gemini
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 1482
+        width: 300
+        height: 380
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2696bc738cb5340800000000000000
+      internalID: 4853693165383279266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Cancer
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 1482
+        width: 300
+        height: 380
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba7ffdb1861d77080800000000000000
+      internalID: -9189646269551741013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Leo
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1092
+        width: 320
+        height: 370
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34036d9403d380ec0800000000000000
+      internalID: -3600560624476213181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Virgo
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 1092
+        width: 320
+        height: 370
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8927edfd018ebef0800000000000000
+      internalID: -90493045406488182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Scorpius
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1107
+        width: 320
+        height: 365
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c52e21e865c3e920800000000000000
+      internalID: 3018473229513532869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Libra
+      rect:
+        serializedVersion: 2
+        x: 706
+        y: 1092
+        width: 320
+        height: 365
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e12faf36f6f435f0800000000000000
+      internalID: -777725298137423385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Sagittarius
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 638
+        width: 380
+        height: 437
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb42757653f8abc40800000000000000
+      internalID: 5528888952080508091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Capricorn
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 638
+        width: 322
+        height: 424
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2522dd803193deb0800000000000000
+      internalID: -4696250348693478101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Aquarius
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 637
+        width: 321
+        height: 432
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fee75b3e67f91450800000000000000
+      internalID: 6060146826417794802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Pisces
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 649
+        width: 342
+        height: 422
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e636b35c087a12270800000000000000
+      internalID: 8224038566061892462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zodiac_13_Ophiuchus
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 123
+        width: 332
+        height: 465
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d05ee11aac105700800000000000000
+      internalID: 526952673173197011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ec82d09b1f8d40cf9b0a2fb5f09debcf
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      zodiac_13_13: 4117196697160928590
+      zodiac_13_14: -8534251548941544280
+      zodiac_13_15: 5959738997525142818
+      zodiac_13_17: -6886299792345523985
+      zodiac_13_5: 3808461943643328908
+      zodiac_13_Aquarius: 6060146826417794802
+      zodiac_13_Aries: 1659024637040391137
+      zodiac_13_Cancer: -9189646269551741013
+      zodiac_13_Capricorn: -4696250348693478101
+      zodiac_13_Gemini: 4853693165383279266
+      zodiac_13_Leo: -3600560624476213181
+      zodiac_13_Libra: -777725298137423385
+      zodiac_13_Ophiuchus: 526952673173197011
+      zodiac_13_Pisces: 8224038566061892462
+      zodiac_13_Sagittarius: 5528888952080508091
+      zodiac_13_Scorpius: 3018473229513532869
+      zodiac_13_Taurus: 5038902663156145065
+      zodiac_13_Virgo: -90493045406488182
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

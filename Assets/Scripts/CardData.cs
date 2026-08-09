@@ -113,9 +113,21 @@ namespace CosmicChaosCat
 
         public Sprite GetSpriteForStage(int stage)
         {
-            // Earth Cat Society changes angle only through clicks, never through breakthrough.
-            if (int.TryParse(Id, out int earthCardNumber) && earthCardNumber == 180)
-                return CardSprite;
+            if (int.TryParse(Id, out int clickVariantCardNumber))
+            {
+                // These multi-sprite cards change only through clicks, never through breakthrough.
+                if (clickVariantCardNumber == 180 || clickVariantCardNumber == 181)
+                    return CardSprite;
+
+                // Schrodinger shows frame 2 only as its 5-star encyclopedia illustration.
+                // Its equipped auto animation still starts independently from frame 0.
+                if (clickVariantCardNumber == 195)
+                {
+                    if (stage >= 5 && BreakthroughSprites != null && BreakthroughSprites.Length > 2 && BreakthroughSprites[2] != null)
+                        return BreakthroughSprites[2];
+                    return CardSprite;
+                }
+            }
 
             bool isBuffHalfCat = int.TryParse(Id, out int cardNumber) && cardNumber == 169;
             if (isBuffHalfCat && stage <= 1)
