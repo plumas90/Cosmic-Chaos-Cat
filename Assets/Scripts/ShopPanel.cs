@@ -1325,8 +1325,25 @@ namespace CosmicChaosCat
                 }
             }
 
-            // 3. Recursive Deep Scan for Slots across all subtrees under productsContent
+            // 3. Find only actual product slots. Container names such as ProductSlots or
+            // CardGrid must not consume a product index, and prefab serialization order
+            // is not guaranteed to match the visible Slot_0..Slot_9 order.
             var slotsFound = new List<GameObject>();
+
+            bool TryGetProductSlotIndex(Transform candidate, out int index)
+            {
+                index = -1;
+                if (candidate == null) return false;
+
+                string n = candidate.name;
+                string suffix = null;
+                if (n.StartsWith("Slot_", System.StringComparison.OrdinalIgnoreCase))
+                    suffix = n.Substring("Slot_".Length);
+                else if (n.StartsWith("ProductSlot_", System.StringComparison.OrdinalIgnoreCase))
+                    suffix = n.Substring("ProductSlot_".Length);
+
+                return suffix != null && int.TryParse(suffix, out index) && index >= 0;
+            }
 
             void FindSlotsRecursive(Transform current)
             {
@@ -1337,12 +1354,10 @@ namespace CosmicChaosCat
                     if (buyProductBtn != null && (child == buyProductBtn.transform || child.gameObject == buyProductBtn.gameObject)) continue;
                     if (buyPanelTrans != null && (child == buyPanelTrans || child.gameObject == buyPanelTrans.gameObject)) continue;
 
-                    string n = child.name.ToLower();
+                    string n = child.name.ToLowerInvariant();
                     if (n.Contains("page") || n.Contains("title") || n.Contains("header") || n == "infobox" || n == "buypanel" || n == "bottompanel") continue;
 
-                    bool isSlot = n.Contains("slot") || n.Contains("card_") || n.StartsWith("card") || n.StartsWith("item") || n.StartsWith("prod");
-
-                    if (isSlot)
+                    if (TryGetProductSlotIndex(child, out _))
                     {
                         slotsFound.Add(child.gameObject);
                     }
@@ -1355,24 +1370,12 @@ namespace CosmicChaosCat
 
             FindSlotsRecursive(productsContent.transform);
 
-            if (slotsFound.Count == 0)
+            slotsFound.Sort((a, b) =>
             {
-                foreach (var t in productsContent.GetComponentsInChildren<Transform>(true))
-                {
-                    string n = t.name.ToLower();
-                    if (n == "content" || n.Contains("grid") || n.Contains("slots") || n.Contains("goods"))
-                    {
-                        foreach (Transform child in t)
-                        {
-                            if (child.name != "Viewport" && child.name != "Scrollbar" && !child.name.Contains("Page") && !child.name.Contains("Btn"))
-                            {
-                                slotsFound.Add(child.gameObject);
-                            }
-                        }
-                        if (slotsFound.Count > 0) break;
-                    }
-                }
-            }
+                TryGetProductSlotIndex(a.transform, out int aIndex);
+                TryGetProductSlotIndex(b.transform, out int bIndex);
+                return aIndex.CompareTo(bIndex);
+            });
 
             productSlotGOs.Clear();
             productSlotGOs.AddRange(slotsFound);
@@ -1384,7 +1387,7 @@ namespace CosmicChaosCat
                 var slotGO = productSlotGOs[i];
                 if (slotGO == null) continue;
 
-                int idx = i;
+                TryGetProductSlotIndex(slotGO.transform, out int idx);
 
                 // Ensure slotGO root itself has an Image raycast target
                 var slotImg = slotGO.GetComponent<Image>();
@@ -1400,30 +1403,23 @@ namespace CosmicChaosCat
                     slotImg.raycastTarget = true;
                 }
 
-                // Bind ALL Button components on slotGO and its children!
-                var buttonsInSlot = slotGO.GetComponentsInChildren<Button>(true);
-                if (buttonsInSlot.Length == 0)
+                // Use one root button per slot so nested decorative buttons cannot
+                // intercept the pointer event with a different/cleared listener.
+                var slotButton = slotGO.GetComponent<Button>();
+                if (slotButton == null) slotButton = slotGO.AddComponent<Button>();
+                slotButton.targetGraphic = slotImg;
+                slotButton.interactable = true;
+                slotButton.onClick.RemoveAllListeners();
+                slotButton.onClick.AddListener(() =>
                 {
-                    var newBtn = slotGO.AddComponent<Button>();
-                    newBtn.targetGraphic = slotImg;
-                    buttonsInSlot = new[] { newBtn };
-                }
-
-                foreach (var b in buttonsInSlot)
-                {
-                    b.interactable = true;
-                    if (b.targetGraphic != null) b.targetGraphic.raycastTarget = true;
-                    b.onClick.RemoveAllListeners();
-                    b.onClick.AddListener(() => {
-                        Debug.Log($"[ShopPanel] Slot Button {idx} Clicked on {b.name}!");
-                        OnProductSlotClicked(idx);
-                    });
-                }
+                    Debug.Log($"[ShopPanel] Product slot {idx} clicked.");
+                    OnProductSlotClicked(idx);
+                });
 
                 // Ensure raycastTarget = false on non-button child graphics so clicks cleanly land on the slot button
                 foreach (var graphic in slotGO.GetComponentsInChildren<Graphic>(true))
                 {
-                    if (graphic != slotImg && graphic.GetComponent<Button>() == null)
+                    if (graphic != slotImg)
                     {
                         graphic.raycastTarget = false;
                     }

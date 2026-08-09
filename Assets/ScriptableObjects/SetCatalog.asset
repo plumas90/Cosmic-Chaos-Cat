@@ -150,9 +150,10 @@ MonoBehaviour:
     CriticalDamageBonus: 0
     GachaDiscountBonus: 0
     ShardBonusMultiplier: 1
-    RewardBackgroundId:
-    RewardDecorationId:
+    RewardBackgroundId: bg_s9
+    RewardDecorationId: deco_s9_0
     RewardCardId: 0194
-    EffectDesc: "\uD669\uB3C4 12\uAD81\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74 13\uBC88\uC9F8 \uBCC4\uC790\uB9AC \uCE74\uB4DC\uC778
-      \uBC40\uC8FC\uC778\uC790\uB9AC \uACE0\uC591\uC774\uB97C \uD68D\uB4DD\uD569\uB2C8\uB2E4."
-    EffectDesc_EN: Complete the Zodiac Twelve to unlock the 13th zodiac card, Ophiuchus Cat.
+    EffectDesc: "\uD669\uB3C4 12\uAD81\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74 13\uBC88\uC9F8
+      \uBCC4\uC790\uB9AC \uCE74\uB4DC\uC778 \uBC40\uC8FC\uC778\uC790\uB9AC \uACE0\uC591\uC774\uB97C
+      \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting Special Cats!
