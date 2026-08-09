@@ -33,10 +33,11 @@ namespace CosmicChaosCat.Editor
             Directory.CreateDirectory(OutputDirectory);
 
             // GitHub Pages cannot provide Unity-specific Content-Encoding headers.
-            // Brotli plus Unity's JavaScript fallback keeps committed files below
-            // GitHub's size limit and still works on a static Pages host.
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli;
-            PlayerSettings.WebGL.decompressionFallback = true;
+            // Keep the build uncompressed so the browser does not need Unity's
+            // JavaScript decompressor for the large data file. Git LFS handles
+            // the repository's individual file-size limit.
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.decompressionFallback = false;
             PlayerSettings.WebGL.dataCaching = true;
 
             BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions

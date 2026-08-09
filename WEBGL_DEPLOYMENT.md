@@ -25,6 +25,7 @@ to `docs`. Commit the updated directory, then push it to `main`. Test it through
 a local HTTP server; opening `index.html`
 directly with a `file://` URL is not supported by browsers.
 
-The build uses Brotli compression with Unity's decompression fallback. GitHub
-Pages cannot set Unity's `Content-Encoding` response headers, so the fallback
-lets the compressed build run without custom server configuration.
+The build is uncompressed because GitHub Pages cannot set Unity-specific
+`Content-Encoding` response headers. This also avoids loading the large game
+data through Unity's JavaScript decompressor. Git LFS stores the large `.data`
+and `.wasm` files.
