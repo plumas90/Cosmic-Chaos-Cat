@@ -1,0 +1,363 @@
+fileFormatVersion: 2
+guid: bfea433b0be5c964d83283561eabcbae
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3031002982098488133
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_0
+  - first:
+      213: 3647055993959577418
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_1
+  - first:
+      213: -5389108904078241370
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_2
+  - first:
+      213: 1047010755629354730
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_3
+  - first:
+      213: 7912790564359529220
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_4
+  - first:
+      213: -6186897077628811635
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_5
+  - first:
+      213: -5587418496633290388
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_6
+  - first:
+      213: 3313503429432088067
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_7
+  - first:
+      213: -7879786460983969619
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_8
+  - first:
+      213: 6429554619392335465
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_9
+  - first:
+      213: 4775917799319531453
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_10
+  - first:
+      213: -5741692216085636569
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_11
+  - first:
+      213: -7971025467020112266
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_12
+  - first:
+      213: -8672706458361207736
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_13
+  - first:
+      213: -7577369765527752658
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_14
+  - first:
+      213: -3620508329699625879
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_15
+  - first:
+      213: -2135440696289263694
+    second: ChatGPT Image Aug 8, 2026, 04_34_06 PM_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Earth_Cat_Society1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 702
+        width: 330
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb4bed2c8d6bfe5d0800000000000000
+      internalID: -3031002982098488133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society2
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 704
+        width: 250
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a477be38a12fc9230800000000000000
+      internalID: 3647055993959577418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society3
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 704
+        width: 330
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da83e1f66ff55a290800000000000000
+      internalID: -7879786460983969619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society4
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 704
+        width: 483
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96e1ad07cdd5a3950800000000000000
+      internalID: 6429554619392335465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society5
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 130
+        width: 350
+        height: 320
+      alignment: 9
+      pivot: {x: 0.52670753, y: 0.9915708}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67e8caee19a316190800000000000000
+      internalID: -7971025467020112266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society6
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 130
+        width: 172
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 844e4241d6b54a780800000000000000
+      internalID: -8672706458361207736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society7
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 130
+        width: 360
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96439ed3bde51cdc0800000000000000
+      internalID: -3620508329699625879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth_Cat_Society8
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 130
+        width: 504
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bff3c230046d52e0800000000000000
+      internalID: -2135440696289263694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 862467526141669c2b7e6f12c42d5b24
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      3301: -3031002982098488133
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_10: 4775917799319531453
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_11: -5741692216085636569
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_14: -7577369765527752658
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_2: -5389108904078241370
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_3: 1047010755629354730
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_4: 7912790564359529220
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_5: -6186897077628811635
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_6: -5587418496633290388
+      ChatGPT Image Aug 8, 2026, 04_34_06 PM_7: 3313503429432088067
+      Earth_Cat_Society1: -3031002982098488133
+      Earth_Cat_Society2: 3647055993959577418
+      Earth_Cat_Society3: -7879786460983969619
+      Earth_Cat_Society4: 6429554619392335465
+      Earth_Cat_Society5: -7971025467020112266
+      Earth_Cat_Society6: -8672706458361207736
+      Earth_Cat_Society7: -3620508329699625879
+      Earth_Cat_Society8: -2135440696289263694
+      Earth_Cat_Society_0: 1301249893
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
