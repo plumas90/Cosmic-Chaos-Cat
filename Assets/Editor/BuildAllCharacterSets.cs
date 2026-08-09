@@ -198,6 +198,17 @@ namespace CosmicChaosCat.Editor
                         if (baseSprite == null && variantSprites.Length > 0) baseSprite = variantSprites[0];
                     }
 
+                    // Set 1/2 balancing: completed three-stage interaction cards are
+                    // promoted from SR to SSR; the former SSR cards are lowered to R.
+                    // Apply this after loading variants so each card keeps its authored stages.
+                    if (s <= 2)
+                    {
+                        if (rarity == CardRarity.SR)
+                            rarity = CardRarity.SSR;
+                        else if (rarity == CardRarity.SSR)
+                            rarity = CardRarity.R;
+                    }
+
                     var cardEntry = new CardEntry
                     {
                         Id = idStr,

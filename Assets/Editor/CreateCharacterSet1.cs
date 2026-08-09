@@ -120,11 +120,11 @@ namespace CosmicChaosCat.Editor
                 spritePath: $"{folderPath}/08_R_pickpocket_cat.png"
             ));
 
-            // 09: SR - Neon Hacker Cat (Stage 1, 2, 3 -> Breakthrough 1, 3, 5)
+            // 09: SSR - Neon Hacker Cat (completed three-stage interaction)
             newCards.Add(MakeBreakthroughCard(
                 id: "09",
                 name: "Neon Hacker Cat",
-                rarity: CardRarity.SR,
+                rarity: CardRarity.SSR,
                 shardValue: CardShardValue.Value_10,
                 setId: "1",
                 spritePaths: new[]
@@ -135,11 +135,11 @@ namespace CosmicChaosCat.Editor
                 }
             ));
 
-            // 10: SR - Pipe Boss Cat (Stage 1, 2, 3 -> Breakthrough 1, 3, 5)
+            // 10: SSR - Pipe Boss Cat (completed three-stage interaction)
             newCards.Add(MakeBreakthroughCard(
                 id: "10",
                 name: "Pipe Boss Cat",
-                rarity: CardRarity.SR,
+                rarity: CardRarity.SSR,
                 shardValue: CardShardValue.Value_10,
                 setId: "1",
                 spritePaths: new[]

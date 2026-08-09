@@ -256,7 +256,7 @@ MonoBehaviour:
   - Id: 0009
     DisplayName: neon_hacker_cat
     DisplayName_EN: Neon Hacker Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -286,7 +286,7 @@ MonoBehaviour:
   - Id: 0010
     DisplayName: pipe_boss_cat
     DisplayName_EN: Pipe Boss Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -316,7 +316,7 @@ MonoBehaviour:
   - Id: 0011
     DisplayName: shadow_acrobat_cat
     DisplayName_EN: Shadow Acrobat Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -346,7 +346,7 @@ MonoBehaviour:
   - Id: 0012
     DisplayName: eclipse_boss_cat
     DisplayName_EN: Eclipse Boss Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -376,7 +376,7 @@ MonoBehaviour:
   - Id: 0013
     DisplayName: alley_witch_cat
     DisplayName_EN: Alley Witch Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -406,7 +406,7 @@ MonoBehaviour:
   - Id: 0014
     DisplayName: city_ghost_cat
     DisplayName_EN: City Ghost Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -676,7 +676,7 @@ MonoBehaviour:
   - Id: 0023
     DisplayName: sphinx_guardian_cat
     DisplayName_EN: Sphinx Guardian Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -706,7 +706,7 @@ MonoBehaviour:
   - Id: 0024
     DisplayName: "\uD0DC\uC591 \uC0AC\uC81C \uACE0\uC591\uC774"
     DisplayName_EN: Sun Priest Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -736,7 +736,7 @@ MonoBehaviour:
   - Id: 0025
     DisplayName: desert_chariot_cat
     DisplayName_EN: Desert Chariot Cat
-    Rarity: 0
+    Rarity: 3
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -766,7 +766,7 @@ MonoBehaviour:
   - Id: 0026
     DisplayName: bastet_avatar_cat
     DisplayName_EN: Bastet Avatar Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -796,7 +796,7 @@ MonoBehaviour:
   - Id: 0027
     DisplayName: "\uB77C\uC758 \uB208 \uACE0\uC591\uC774"
     DisplayName_EN: Eye of Ra Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -826,7 +826,7 @@ MonoBehaviour:
   - Id: 0028
     DisplayName: "\uC544\uB204\uBE44\uC2A4 \uC2EC\uD310\uAD00 \uACE0\uC591\uC774"
     DisplayName_EN: Anubis Judge Cat
-    Rarity: 0
+    Rarity: 1
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
