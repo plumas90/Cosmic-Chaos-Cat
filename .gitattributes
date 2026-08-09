@@ -1,0 +1,1 @@
+docs/Build/*.unityweb filter=lfs diff=lfs merge=lfs -text
