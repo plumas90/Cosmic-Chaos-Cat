@@ -102,6 +102,9 @@ namespace CosmicChaosCat
                 lang = gm != null ? gm.SelectedLanguage : "KR";
             }
             bool isEN = lang == "EN";
+            if (SetId == "9" && RewardCardId == "0194")
+                return isEN ? "Unlock Ophiuchus Cat" : "뱀주인자리 고양이 해금";
+
             var parts = new List<string>();
             if (RewardGold > 0d) parts.Add(isEN ? $"Gold +{RewardGold:N0}" : $"골드 +{RewardGold:N0}");
             if (RewardShards > 0) parts.Add(isEN ? $"Shards +{RewardShards:N0}" : $"조각 +{RewardShards:N0}");
@@ -109,8 +112,9 @@ namespace CosmicChaosCat
             if (FlatIncomeBonus > 0d) parts.Add(isEN ? $"Gold Prod +{FlatIncomeBonus:N0}" : $"골드 생산 +{FlatIncomeBonus:N0}");
             if (CriticalDamageBonus > 0f) parts.Add(isEN ? $"Crit Dmg +{CriticalDamageBonus * 100:F0}%" : $"크리티컬 데미지 +{CriticalDamageBonus * 100:F0}%");
             if (GachaDiscountBonus > 0f) parts.Add(isEN ? $"Gacha Discount +{GachaDiscountBonus * 100:F0}%" : $"뽑기 할인 +{GachaDiscountBonus * 100:F0}%");
-            if (!string.IsNullOrEmpty(RewardBackgroundId)) parts.Add(isEN ? "Unlock BG" : "배경 해금");
-            if (!string.IsNullOrEmpty(RewardDecorationId)) parts.Add(isEN ? "Unlock Deco" : "데코 해금");
+            bool showCollectionUnlocks = SetId != "1" && SetId != "2";
+            if (showCollectionUnlocks && !string.IsNullOrEmpty(RewardBackgroundId)) parts.Add(isEN ? "Unlock BG" : "배경 해금");
+            if (showCollectionUnlocks && !string.IsNullOrEmpty(RewardDecorationId)) parts.Add(isEN ? "Unlock Deco" : "데코 해금");
             if (!string.IsNullOrEmpty(RewardCardId)) parts.Add(isEN ? "Reward Card" : "보상 카드");
 
             if (parts.Count > 0) return string.Join(", ", parts);

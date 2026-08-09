@@ -30,9 +30,8 @@ namespace CosmicChaosCat
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
-                if (card == null || card.IsHidden || card.IsShop) continue;
+                if (!IsDrawableCard(card, stateById)) continue;
                 if (card.Rarity != chosenRarity) continue;
-                if (!stateById.TryGetValue(card.Id, out var progress)) continue;
 
                 candidates.Add(card);
             }
@@ -67,9 +66,8 @@ namespace CosmicChaosCat
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
-                if (card == null || card.IsHidden || card.IsShop) continue;
+                if (!IsDrawableCard(card, stateById)) continue;
                 if (card.Rarity != rarity) continue;
-                if (!stateById.ContainsKey(card.Id)) continue;
                 candidates.Add(card);
             }
         }
@@ -82,10 +80,21 @@ namespace CosmicChaosCat
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
-                if (card == null || card.IsHidden || card.IsShop) continue;
-                if (card.Rarity == rarity && stateById.ContainsKey(card.Id)) return true;
+                if (IsDrawableCard(card, stateById) && card.Rarity == rarity) return true;
             }
             return false;
+        }
+
+        private static bool IsDrawableCard(
+            CardEntry card,
+            Dictionary<string, CardProgress> stateById)
+        {
+            if (card == null || card.IsShop || stateById == null) return false;
+            if (!stateById.TryGetValue(card.Id, out var progress)) return false;
+
+            // Event/set rewards stay out of gacha while hidden, then permanently join
+            // their normal rarity pool as soon as the reward marks them unlocked.
+            return !card.IsHidden || (progress != null && progress.Unlocked);
         }
 
         private static CardRarity ChooseRarityTier(GachaType type, float nToRMod, float rToSRMod)
