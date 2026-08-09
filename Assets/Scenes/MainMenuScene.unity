@@ -990,6 +990,7 @@ GameObject:
   - component: {fileID: 2143425003}
   - component: {fileID: 2143425002}
   - component: {fileID: 2143425004}
+  - component: {fileID: 2143425005}
   m_Layer: 0
   m_Name: Carth
   m_TagString: Untagged
@@ -1014,7 +1015,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -4, y: -331}
-  m_SizeDelta: {x: 328, y: 333}
+  m_SizeDelta: {x: 330, y: 320}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2143425002
 MonoBehaviour:
@@ -1076,6 +1077,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2143425005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143425000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77928f42195a43b48842743cad208a1c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  rotationSpeed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

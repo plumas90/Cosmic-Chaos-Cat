@@ -173,9 +173,9 @@ TextureImporter:
       name: Earth_Cat_Society2
       rect:
         serializedVersion: 2
-        x: 329
+        x: 337
         y: 704
-        width: 250
+        width: 242
         height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
