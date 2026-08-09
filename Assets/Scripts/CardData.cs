@@ -113,6 +113,10 @@ namespace CosmicChaosCat
 
         public Sprite GetSpriteForStage(int stage)
         {
+            // Earth Cat Society changes angle only through clicks, never through breakthrough.
+            if (int.TryParse(Id, out int earthCardNumber) && earthCardNumber == 180)
+                return CardSprite;
+
             bool isBuffHalfCat = int.TryParse(Id, out int cardNumber) && cardNumber == 169;
             if (isBuffHalfCat && stage <= 1)
                 return CardSprite;

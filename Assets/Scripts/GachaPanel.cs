@@ -189,6 +189,7 @@ namespace CosmicChaosCat
                 var t = resultObj.transform.Find("AnimContainer/Btn_스킵") ?? resultObj.transform.Find("Btn_스킵") ?? resultObj.transform.Find("SkipBtn") ?? FindChildByNameRecursive(resultObj.transform, "skip");
                 if (t != null) skipBtn = t.gameObject;
             }
+
         }
 
         private void BindListeners()
@@ -802,7 +803,7 @@ namespace CosmicChaosCat
                 rightPaw.SetActive(pct >= 25.0f);
             }
 
-            // 40.0% 이상일 때 Head 활성화 & (40% ~ 80%) 구간에서 y 좌표 (0 ~ 338) 조정
+            // 40.0% 이상일 때 Head 활성화 & (40% ~ 80%) 구간에서 y 좌표 (0 ~ 528) 조정
             if (headObj != null)
             {
                 bool showHead = pct >= 40.0f;
@@ -812,7 +813,7 @@ namespace CosmicChaosCat
 
                 if (showHead)
                 {
-                    float targetY = Mathf.Lerp(0f, 338f, headT);
+                    float targetY = Mathf.Lerp(0f, 528f, headT);
 
                     var headRt = headObj.GetComponent<RectTransform>();
                     if (headRt != null)
@@ -1051,7 +1052,9 @@ namespace CosmicChaosCat
             if (frontTrans == null || card == null) return;
             var theme = GetRarityTheme(card.Rarity);
 
-            Sprite gachaBgSprite = card.GachaBgSprite != null ? card.GachaBgSprite : theme.frontSprite;
+            // The rarity background belongs to the Front object. Card-specific legacy
+            // backgrounds are only a fallback when a rarity Front sprite is not assigned.
+            Sprite gachaBgSprite = theme.frontSprite != null ? theme.frontSprite : card.GachaBgSprite;
 
             // 0. CardBase root Image (if frontTrans is a child of CardBase)
             Transform rootTrans = (frontTrans.parent != null && (frontTrans.name.ToLower() == "front")) ? frontTrans.parent : frontTrans;

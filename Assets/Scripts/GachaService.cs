@@ -19,14 +19,13 @@ namespace CosmicChaosCat
             // ── Step 1: Draw Rarity Tier based on gacha parameters & rate upgrades ──
             CardRarity chosenRarity = ChooseRarityTier(type, nToRMod, rToSRMod);
 
-            // ── Step 2: Fallback checks for locked tiers ──────────────────────────
-            // If the rolled rarity tier isn't unlocked in the shop, fall back to N tier (except during Normal Gacha R test)
-            if (type != GachaType.Normal && !IsRarityUnlocked(chosenRarity, rUnlocked, srUnlocked, ssrUnlocked, urUnlocked))
-            {
-                chosenRarity = CardRarity.N;
-            }
+            // Preserve the SSR probability as SR when the catalog has no drawable SSR cards.
+            bool ssrFellBackToSR = chosenRarity == CardRarity.SSR &&
+                                   !HasCandidateForRarity(allCards, stateById, CardRarity.SSR);
+            if (ssrFellBackToSR)
+                chosenRarity = CardRarity.SR;
 
-            // ── Step 3: Draw card from the chosen tier pool flatly ─────────────────
+            // ── Step 2: Draw card from the chosen tier pool flatly ─────────────────
             var candidates = new List<CardEntry>();
             for (int i = 0; i < allCards.Count; i++)
             {
@@ -38,19 +37,18 @@ namespace CosmicChaosCat
                 candidates.Add(card);
             }
 
-            // If selected pool is empty, fall back to N pool as safety guard
+            // An SSR roll falls back to SR when no drawable SSR card exists.
+            if (candidates.Count == 0 && chosenRarity == CardRarity.SSR)
+            {
+                chosenRarity = CardRarity.SR;
+                AddCandidatesForRarity(allCards, stateById, chosenRarity, candidates);
+            }
+
+            // If the selected pool is still empty, fall back to N as a safety guard.
             if (candidates.Count == 0 && chosenRarity != CardRarity.N)
             {
                 chosenRarity = CardRarity.N;
-                for (int i = 0; i < allCards.Count; i++)
-                {
-                    var card = allCards[i];
-                    if (card == null || card.IsHidden || card.IsShop) continue;
-                    if (card.Rarity != chosenRarity) continue;
-                    if (!stateById.TryGetValue(card.Id, out var progress)) continue;
-
-                    candidates.Add(card);
-                }
+                AddCandidatesForRarity(allCards, stateById, chosenRarity, candidates);
             }
 
             if (candidates.Count == 0) return null;
@@ -60,18 +58,48 @@ namespace CosmicChaosCat
             return candidates[randomIndex];
         }
 
+        private static void AddCandidatesForRarity(
+            IReadOnlyList<CardEntry> allCards,
+            Dictionary<string, CardProgress> stateById,
+            CardRarity rarity,
+            List<CardEntry> candidates)
+        {
+            for (int i = 0; i < allCards.Count; i++)
+            {
+                var card = allCards[i];
+                if (card == null || card.IsHidden || card.IsShop) continue;
+                if (card.Rarity != rarity) continue;
+                if (!stateById.ContainsKey(card.Id)) continue;
+                candidates.Add(card);
+            }
+        }
+
+        private static bool HasCandidateForRarity(
+            IReadOnlyList<CardEntry> allCards,
+            Dictionary<string, CardProgress> stateById,
+            CardRarity rarity)
+        {
+            for (int i = 0; i < allCards.Count; i++)
+            {
+                var card = allCards[i];
+                if (card == null || card.IsHidden || card.IsShop) continue;
+                if (card.Rarity == rarity && stateById.ContainsKey(card.Id)) return true;
+            }
+            return false;
+        }
+
         private static CardRarity ChooseRarityTier(GachaType type, float nToRMod, float rToSRMod)
         {
             // Base Rarity Drop Rates per Gacha Type
-            float pN = 0.90f, pR = 0.09f, pSR = 0.01f, pSSR = 0f, pUR = 0f;
+            float pN = 0.90f, pR = 0.10f, pSR = 0f, pSSR = 0f, pUR = 0f;
 
             if (type == GachaType.Rare)
             {
-                pN = 0.50f; pR = 0.40f; pSR = 0.08f; pSSR = 0.02f; pUR = 0f;
+                pN = 0.50f; pR = 0.30f; pSR = 0.10f; pSSR = 0.10f; pUR = 0f;
             }
             else if (type == GachaType.Super)
             {
-                pN = 0.10f; pR = 0.30f; pSR = 0.40f; pSSR = 0.15f; pUR = 0.05f;
+                pN = 0.30f; pR = 0.30f; pSR = 0.20f; pSSR = 0.20f; pUR = 0f;
             }
 
             // Apply upg-n-weight (reduces N, adds to R)

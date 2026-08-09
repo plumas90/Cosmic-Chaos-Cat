@@ -1,0 +1,351 @@
+fileFormatVersion: 2
+guid: 1906c76169b010dfc92171b955639b64
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1335125198396136695
+    second: 178_N_Bremen_Horse_1
+  - first:
+      213: -2602646907951096563
+    second: 178_N_Bremen_Horse_2
+  - first:
+      213: 883760371375059225
+    second: 179_R_Bremen_Allin
+  - first:
+      213: -1905406307316673891
+    second: 177_N_Bremen_Dog_1
+  - first:
+      213: 6325355470225590374
+    second: 177_N_Bremen_Dog_2
+  - first:
+      213: 7238030847020706711
+    second: 175_N_Bremen_Cat_1
+  - first:
+      213: -6812441263873712917
+    second: 175_N_Bremen_Cat_2
+  - first:
+      213: 9053567753236939946
+    second: 176_N_Bremen_Chicken_1
+  - first:
+      213: 3430497986870726072
+    second: 176_N_Bremen_Chicken_2
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 178_N_Bremen_Horse_1
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 826
+        width: 288
+        height: 272
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fc131d4b41578210800000000000000
+      internalID: 1335125198396136695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 178_N_Bremen_Horse_2
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 829
+        width: 288
+        height: 272
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d5ec73d6a81ebd0800000000000000
+      internalID: -2602646907951096563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 179_R_Bremen_Allin
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 326
+        width: 260
+        height: 560
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 911b06a106fb34c00800000000000000
+      internalID: 883760371375059225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 177_N_Bremen_Dog_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 580
+        width: 255
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d92d99b0f03ae85e0800000000000000
+      internalID: -1905406307316673891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 177_N_Bremen_Dog_2
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 581
+        width: 279
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 668ced8794d28c750800000000000000
+      internalID: 6325355470225590374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 175_N_Bremen_Cat_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 344
+        width: 230
+        height: 191
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79b2df5e4b6a27460800000000000000
+      internalID: 7238030847020706711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 175_N_Bremen_Cat_2
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 343
+        width: 231
+        height: 188
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bec189da3c85571a0800000000000000
+      internalID: -6812441263873712917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 176_N_Bremen_Chicken_1
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 86
+        width: 184
+        height: 203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa48e9957ebb4ad70800000000000000
+      internalID: 9053567753236939946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 176_N_Bremen_Chicken_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 87
+        width: 221
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bd4f165eb39b9f20800000000000000
+      internalID: 3430497986870726072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 56e97757d4f644aacaa9a42dbc52a1fe
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      175_N_Bremen_Cat_1: 7238030847020706711
+      175_N_Bremen_Cat_2: -6812441263873712917
+      176_N_Bremen_Chicken_1: 9053567753236939946
+      176_N_Bremen_Chicken_2: 3430497986870726072
+      177_N_Bremen_Dog_1: -1905406307316673891
+      177_N_Bremen_Dog_2: 6325355470225590374
+      178_N_Bremen_Horse_1: 1335125198396136695
+      178_N_Bremen_Horse_2: -2602646907951096563
+      179_R_Bremen_Allin: 883760371375059225
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -42,6 +42,8 @@ namespace CosmicChaosCat
 
             int num = 0;
             if (int.TryParse(cardId, out int parsed)) num = parsed;
+            bool isBremenClickToggle = num >= 175 && num <= 178;
+            bool isEarthCatSocietyAngleToggle = num == 180;
 
             // A stage can contain multiple illustrations. Always keep that group
             // separate from the other breakthrough stages.
@@ -52,7 +54,7 @@ namespace CosmicChaosCat
 
                 // 170 / 174 are legacy two-image toggle cards whose images are
                 // stored in separate files rather than per-stage variant groups.
-                if (num != 170 && num != 174)
+                if (num != 170 && num != 174 && !isBremenClickToggle && !isEarthCatSocietyAngleToggle)
                 {
                     Sprite representative = entry.GetSpriteForStage(stage);
                     if (representative != null) sprites.Add(representative);

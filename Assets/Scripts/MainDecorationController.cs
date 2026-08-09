@@ -7,7 +7,7 @@ namespace CosmicChaosCat
     /// <summary>
     /// Attach to the MainDecoration Image component in the scene.
     /// Automatically updates the decoration sprite based on the equipped decoration.
-    /// Supports continuous 8-frame sprite animations for Mouse_Toy and Cat_Wheel.
+    /// Animates the fish and mouse decorations while they cross the screen.
     /// </summary>
     public sealed class MainDecorationController : MonoBehaviour
     {
@@ -18,17 +18,18 @@ namespace CosmicChaosCat
         private Canvas rootCanvas;
 
         // Sub-sprite frame animation fields
-        private Sprite[] wheelSprites;
-        private Sprite[] mouseSprites;
-        private Sprite[] fishSprites;
+        [SerializeField] private Sprite[] mouseSprites;
+        [SerializeField] private Sprite[] fishSprites;
         private float frameTimer = 0f;
         private int frameIndex = 0;
-        private const float FRAME_DURATION = 0.12f; // ~8 FPS continuous frame animation
+        private const float FRAME_DURATION = 0.25f;
+        private static readonly int[] FRAME_SEQUENCE = { 0, 1, 2, 1 };
+        private static readonly Vector3 DECORATION_SCALE = new Vector3(0.5f, 0.5f, 1f);
 
         // Movement parameters
         private float moveX = 0f;
-        private float mouseSpeed = 220f; // Horizontal move speed for Mouse_Toy / Fish_Toy (pixels/sec)
-        private string currentDecoId = "";
+        [SerializeField] private float moveSpeed = 220f;
+        private string currentDecoId = string.Empty;
 
         private void Awake()
         {
@@ -42,19 +43,9 @@ namespace CosmicChaosCat
         private void LoadDecoSubSprites()
         {
 #if UNITY_EDITOR
-            if (wheelSprites == null || wheelSprites.Length == 0)
-            {
-                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_Deco/Cat_Wheel.png");
-                var list = new List<Sprite>();
-                foreach (var a in assets)
-                    if (a is Sprite s) list.Add(s);
-                list.Sort((a, b) => string.Compare(a.name, b.name, System.StringComparison.OrdinalIgnoreCase));
-                wheelSprites = list.ToArray();
-            }
-
             if (mouseSprites == null || mouseSprites.Length == 0)
             {
-                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_Deco/Mouse_Toy.png");
+                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_Deco/Deco_Mouse.png");
                 var list = new List<Sprite>();
                 foreach (var a in assets)
                     if (a is Sprite s) list.Add(s);
@@ -64,7 +55,7 @@ namespace CosmicChaosCat
 
             if (fishSprites == null || fishSprites.Length == 0)
             {
-                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_Deco/fish_toy_spritesheet_200x100.png");
+                var assets = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/image/A_Deco/Deco_Fish.png");
                 var list = new List<Sprite>();
                 foreach (var a in assets)
                     if (a is Sprite s) list.Add(s);
@@ -100,7 +91,7 @@ namespace CosmicChaosCat
             string decoId = gameManager.EquippedDecorationId;
             if (string.IsNullOrEmpty(decoId)) return;
 
-            // 8프레임 연속 스프라이트 애니메이션 타이머
+            // 세 프레임을 1 → 2 → 3 → 2 → 1 순서로 왕복 재생한다.
             frameTimer += Time.deltaTime;
             if (frameTimer >= FRAME_DURATION)
             {
@@ -108,51 +99,41 @@ namespace CosmicChaosCat
                 frameIndex++;
             }
 
-            // 1. Mouse Toy (8프레임 쥐 달리기 연출 + 화면 아래 오른쪽 이동 & 무한 재등장)
             if (IsMouseToy(decoId))
             {
                 LoadDecoSubSprites();
                 if (mouseSprites != null && mouseSprites.Length > 0)
                 {
-                    decoImage.sprite = mouseSprites[frameIndex % mouseSprites.Length];
+                    decoImage.sprite = mouseSprites[GetSequenceFrame(frameIndex, mouseSprites.Length)];
                 }
                 rectTransform.localRotation = Quaternion.identity;
-                UpdateMouseToyMovement();
+                UpdateLeftwardMovement();
             }
-            // 2. Fish Toy (8프레임 생선 튀기기 연출 + 화면 아래 오른쪽 이동 & 무한 재등장)
             else if (IsFishToy(decoId))
             {
                 LoadDecoSubSprites();
                 if (fishSprites != null && fishSprites.Length > 0)
                 {
-                    decoImage.sprite = fishSprites[frameIndex % fishSprites.Length];
+                    decoImage.sprite = fishSprites[GetSequenceFrame(frameIndex, fishSprites.Length)];
                 }
                 rectTransform.localRotation = Quaternion.identity;
-                UpdateMouseToyMovement();
-            }
-            // 3. Cat Wheel (8프레임 캣휠 자체 회전 프레임 연출 + 트랜스폼 회전 없이 화면 경계 자동 보정)
-            else if (IsCatWheel(decoId))
-            {
-                LoadDecoSubSprites();
-                if (wheelSprites != null && wheelSprites.Length > 0)
-                {
-                    decoImage.sprite = wheelSprites[frameIndex % wheelSprites.Length];
-                }
-                rectTransform.localRotation = Quaternion.identity; // 오브젝트 트랜스폼 직접 회전 방지
-                UpdateCatWheelBehavior();
+                UpdateLeftwardMovement();
             }
         }
 
+        private static int GetSequenceFrame(int index, int frameCount)
+        {
+            if (frameCount <= 1) return 0;
+            return Mathf.Min(FRAME_SEQUENCE[index % FRAME_SEQUENCE.Length], frameCount - 1);
+        }
+
         private bool IsMouseToy(string id) =>
-            !string.IsNullOrEmpty(id) && (id.Equals("deco-mouse-toy", System.StringComparison.OrdinalIgnoreCase) || id.Equals("Mouse_Toy", System.StringComparison.OrdinalIgnoreCase) || id.ToLower().Contains("mouse"));
+            !string.IsNullOrEmpty(id) && id.Equals("deco-mouse", System.StringComparison.OrdinalIgnoreCase);
 
         private bool IsFishToy(string id) =>
-            !string.IsNullOrEmpty(id) && (id.Equals("deco-fish-toy", System.StringComparison.OrdinalIgnoreCase) || id.Equals("Fish_Toy", System.StringComparison.OrdinalIgnoreCase) || id.ToLower().Contains("fish"));
+            !string.IsNullOrEmpty(id) && id.Equals("deco-fish", System.StringComparison.OrdinalIgnoreCase);
 
-        private bool IsCatWheel(string id) =>
-            !string.IsNullOrEmpty(id) && (id.Equals("deco-cat-wheel", System.StringComparison.OrdinalIgnoreCase) || id.Equals("Cat_Wheel", System.StringComparison.OrdinalIgnoreCase) || id.ToLower().Contains("wheel"));
-
-        private void UpdateMouseToyMovement()
+        private void UpdateLeftwardMovement()
         {
             if (rectTransform == null) return;
             var canvasRT = GetCanvasRectTransform();
@@ -171,30 +152,20 @@ namespace CosmicChaosCat
             float itemWidth = rectTransform.rect.width * rectTransform.localScale.x;
             if (itemWidth < 10f) itemWidth = 120f;
 
-            moveX += mouseSpeed * Time.deltaTime;
+            moveX -= moveSpeed * Time.deltaTime;
 
             float rightLimit = halfWidth + itemWidth * 0.6f;
             float leftLimit = -halfWidth - itemWidth * 0.6f;
 
-            if (moveX > rightLimit)
+            if (moveX < leftLimit)
             {
-                moveX = leftLimit;
+                moveX = rightLimit;
             }
 
             // 화면 맨 아래 위치 (하단에서 35px 띄움)
             float bottomY = -halfHeight + (rectTransform.rect.height * rectTransform.localScale.y * 0.5f) + 35f;
             rectTransform.anchoredPosition = new Vector2(moveX, bottomY);
             rectTransform.localRotation = Quaternion.identity;
-        }
-
-        private void UpdateCatWheelBehavior()
-        {
-            if (rectTransform == null) return;
-            var canvasRT = GetCanvasRectTransform();
-            if (canvasRT == null) return;
-
-            // 오브젝트 자체 회전은 하지 않고, 이미지 일부가 화면 밖으로 나가는 경우 화면 안으로 위치 및 크기 자동 조정
-            ClampRectTransformToScreen(canvasRT);
         }
 
         private void ClampRectTransformToScreen(RectTransform canvasRT)
@@ -279,12 +250,24 @@ namespace CosmicChaosCat
             }
 
             string decoId = gameManager.EquippedDecorationId;
+            bool decorationChanged = !string.Equals(currentDecoId, decoId, System.StringComparison.OrdinalIgnoreCase);
             currentDecoId = decoId;
-
+            if (decorationChanged)
+            {
+                frameIndex = 0;
+                frameTimer = 0f;
+            }
             if (string.IsNullOrEmpty(decoId) || decoId == "deco-none" || decoId == "deco-00" || decoId.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
             {
                 decoImage.sprite = null;
                 decoImage.enabled = false;
+                return;
+            }
+
+            // StateChanged is raised for many unrelated game updates. Do not overwrite
+            // an animated decoration with its catalog thumbnail unless the deco changed.
+            if (!decorationChanged && decoImage.enabled && (IsMouseToy(decoId) || IsFishToy(decoId)))
+            {
                 return;
             }
 
@@ -300,9 +283,9 @@ namespace CosmicChaosCat
                 {
                     sprite = mouseSprites[0];
                 }
-                else if (IsCatWheel(decoId) && wheelSprites != null && wheelSprites.Length > 0)
+                else if (IsFishToy(decoId) && fishSprites != null && fishSprites.Length > 0)
                 {
-                    sprite = wheelSprites[0];
+                    sprite = fishSprites[0];
                 }
             }
 
@@ -314,19 +297,18 @@ namespace CosmicChaosCat
                 decoImage.preserveAspect = true;
                 decoImage.SetNativeSize(); // 네이티브 사이즈 적용
 
+                if (IsMouseToy(decoId) || IsFishToy(decoId))
+                {
+                    rectTransform.localScale = DECORATION_SCALE;
+                }
+
                 var canvasRT = GetCanvasRectTransform();
-                if (IsMouseToy(decoId))
+                if (decorationChanged && (IsMouseToy(decoId) || IsFishToy(decoId)))
                 {
                     if (canvasRT != null)
                     {
-                        moveX = -canvasRT.rect.width * 0.5f - 100f;
+                        moveX = canvasRT.rect.width * 0.5f + 100f;
                     }
-                }
-                else if (IsCatWheel(decoId))
-                {
-                    // 화면 중앙(0,0)에 강제 고정하지 않고, 기존 배치 위치를 유지하되 화면 가장자리(외곽)를 벗어날 경우에만 안쪽으로 자동 클램핑 보정
-                    rectTransform.localRotation = Quaternion.identity;
-                    ClampRectTransformToScreen(canvasRT);
                 }
             }
             else

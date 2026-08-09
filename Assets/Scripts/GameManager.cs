@@ -66,7 +66,7 @@ namespace CosmicChaosCat
         private readonly HashSet<string> completedSets       = new HashSet<string>();
         private readonly HashSet<string> claimedSetRewards   = new HashSet<string>();
         private readonly HashSet<string> unlockedHiddenCards = new HashSet<string>();
-        private readonly HashSet<string> unlockedBackgrounds = new HashSet<string> { "bg-none" };
+        private readonly HashSet<string> unlockedBackgrounds = new HashSet<string> { "bg-none", "bg" };
         private readonly HashSet<string> unlockedDecorations = new HashSet<string> { "deco-none" };
 
         private float lastClickTime = -999f;
@@ -876,10 +876,10 @@ namespace CosmicChaosCat
         }
 
         public bool IsBackgroundUnlocked(string id) =>
-            string.IsNullOrEmpty(id) || id == "bg-none" || unlockedBackgrounds.Contains(id);
+            string.IsNullOrEmpty(id) || id == "bg-none" || id == "bg" || unlockedBackgrounds.Contains(id);
 
         public bool IsDecorationUnlocked(string id) =>
-            string.IsNullOrEmpty(id) || id == "deco-none" || id == "deco-cat-wheel" || id == "deco-mouse-toy" || id == "deco-fish-toy" || id.Contains("fish") || id.Contains("mouse") || id.Contains("wheel") || unlockedDecorations.Contains(id);
+            string.IsNullOrEmpty(id) || id == "deco-none" || unlockedDecorations.Contains(id);
 
         public void UnlockBackground(string id)
         {
@@ -999,13 +999,6 @@ namespace CosmicChaosCat
                     UnlockBackground(set.RewardBackgroundId);
                 if (!string.IsNullOrEmpty(set.RewardDecorationId))
                     UnlockDecoration(set.RewardDecorationId);
-
-                // 세트 해금시 0번과 1번 데코 스프라이트 자동 보상 해금
-                if (!string.IsNullOrEmpty(setId))
-                {
-                    UnlockDecoration($"deco_s{setId}_0");
-                    UnlockDecoration($"deco_s{setId}_1");
-                }
 
                 // Fallback for sets with no explicit rewards specified
                 if (set.RewardGold <= 0d && set.RewardShards <= 0 && string.IsNullOrEmpty(set.RewardBackgroundId) && string.IsNullOrEmpty(set.RewardDecorationId))

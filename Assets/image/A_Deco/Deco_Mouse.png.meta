@@ -1,0 +1,247 @@
+fileFormatVersion: 2
+guid: 02b174cd1ef5e300da73993ae07f8905
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5092648374921186930
+    second: Deco_Mouse_0
+  - first:
+      213: 1715444743975855199
+    second: Deco_Mouse_1
+  - first:
+      213: -1499303586699706335
+    second: Deco_Mouse_2
+  - first:
+      213: 4161843495545285357
+    second: Deco_Mouse_3
+  - first:
+      213: -5220108549625351884
+    second: Deco_Mouse_4
+  - first:
+      213: 6525755526536650862
+    second: Deco_Mouse_5
+  - first:
+      213: -2165758049256667946
+    second: Deco_Mouse_6
+  - first:
+      213: -7851965477484215295
+    second: Deco_Mouse_7
+  - first:
+      213: -7246115312095740170
+    second: Deco_Mouse_8
+  - first:
+      213: -4590325490474966563
+    second: Deco_Mouse_9
+  - first:
+      213: -6509103888962429126
+    second: Deco_Mouse_10
+  - first:
+      213: 5198292541521111228
+    second: Deco_Mouse_11
+  - first:
+      213: 8838079308044038147
+    second: Deco_Mouse_12
+  - first:
+      213: -5860176441138773615
+    second: Deco_Mouse_13
+  - first:
+      213: 1281410879727827119
+    second: Deco_Mouse_14
+  - first:
+      213: 7155094957335104508
+    second: Deco_Mouse_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Deco_Mouse_
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 535
+        width: 700
+        height: 400
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27ec52907b8bca640800000000000000
+      internalID: 5092648374921186930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deco_Mouse_1
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 536
+        width: 635
+        height: 400
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f54ed74e7eb7ec710800000000000000
+      internalID: 1715444743975855199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deco_Mouse_2
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 105
+        width: 700
+        height: 400
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1208b40e457613be0800000000000000
+      internalID: -1499303586699706335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 6bf2b13f79ed8664c974cd875783a3dd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Deco_Mouse_: 5092648374921186930
+      Deco_Mouse_1: 1715444743975855199
+      Deco_Mouse_10: -6509103888962429126
+      Deco_Mouse_11: 5198292541521111228
+      Deco_Mouse_12: 8838079308044038147
+      Deco_Mouse_13: -5860176441138773615
+      Deco_Mouse_14: 1281410879727827119
+      Deco_Mouse_15: 7155094957335104508
+      Deco_Mouse_2: -1499303586699706335
+      Deco_Mouse_3: 4161843495545285357
+      Deco_Mouse_4: -5220108549625351884
+      Deco_Mouse_5: 6525755526536650862
+      Deco_Mouse_6: -2165758049256667946
+      Deco_Mouse_7: -7851965477484215295
+      Deco_Mouse_8: -7246115312095740170
+      Deco_Mouse_9: -4590325490474966563
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

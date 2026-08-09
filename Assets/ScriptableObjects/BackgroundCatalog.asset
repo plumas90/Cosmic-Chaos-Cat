@@ -15,7 +15,7 @@ MonoBehaviour:
   backgrounds:
   - Id: bg
     DisplayName: "\uAE30\uBCF8 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -2369867600477939372, guid: a7559bb298b8f654389d5ed558afe2cf, type: 3}
+    BackgroundSprite: {fileID: -5092616068864373055, guid: d7bd01701410114ffb013982d1b52cb6, type: 3}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
     Description: "\uAE30\uBCF8\uC73C\uB85C \uC81C\uACF5\uB418\uB294 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s1
     DisplayName: "\uACE8\uBAA9\uAE38\uC758 \uC218\uD638\uC790 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -8746842200279654653, guid: 4d0e074fa4dcf1145b9e0b024e263adc, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
       \uC218\uD638\uC790 \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s2
     DisplayName: "\uC0AC\uB9C9 \uC624\uC544\uC2DC\uC2A4 \uBC30\uACBD"
-    BackgroundSprite: {fileID: 544899849579671817, guid: 75b1bfd9b19fb3e43931327d9ade0098, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       \uC0AC\uB9C9 \uC624\uC544\uC2DC\uC2A4 \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s3
     DisplayName: "\uB2EC\uCF64\uD55C \uB514\uC800\uD2B8 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -3980520408682763379, guid: b6737f0b0e586d2488d1bd405d49d5b3, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
       \uACFC\uC790\uC640 \uCF00\uC774\uD06C \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s4
     DisplayName: "\uC2EC\uD574 \uC218\uC871\uAD00 \uBC30\uACBD"
-    BackgroundSprite: {fileID: 5715262693434267175, guid: 6521ebdc76001d74c8587cdd27b8ebd0, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
       \uD478\uB978 \uC2EC\uD574 \uC218\uC871\uAD00 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s5
     DisplayName: "\uC800\uC790\uAC70\uB9AC \uCD95\uC81C \uBC30\uACBD"
-    BackgroundSprite: {fileID: 4454673505696001914, guid: 940bb1e97cc1a09449c4cbd5d1fb278f, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
       \uBBFC\uC18D \uC800\uC790\uAC70\uB9AC \uCD95\uC81C \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s6
     DisplayName: "\uC6B0\uC8FC \uB808\uC778\uC800 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -1304465468391788282, guid: d068d41e51871d849abbea25125f3376, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
       \uC9C0\uD0A4\uB294 \uB808\uC778\uC800 \uD788\uC5B4\uB85C \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s7
     DisplayName: "\uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -3570828775386159294, guid: 87a8077dadf85414b813a5e4c2de8f6d, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       \uB204\uBE44\uB294 \uC2A4\uD300\uD391\uD06C \uBE44\uD589\uC120 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s8
     DisplayName: "\uC0AC\uACC4\uC808\uC758 \uC815\uB839 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -6697797145661698192, guid: 44f52fc87712f8848a54a14e27b7562f, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
       \uC544\uB984\uB2E4\uC6C0\uC744 \uD488\uC740 \uC815\uB839 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s9
     DisplayName: "\uC138\uD2B8 9 \uBC30\uACBD"
-    BackgroundSprite: {fileID: 4397779503961168323, guid: 4498b597b23786a439e58b525d416ff2, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
       \uB9C8\uBC95 \uB3C4\uC11C\uAD00 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s10
     DisplayName: "\uC138\uD2B8 10 \uBC30\uACBD"
-    BackgroundSprite: {fileID: 2864977535551872477, guid: eb62f650b15b1fb4690db40d6efd3bcc, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       \uD574\uC801\uB2E8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s11
     DisplayName: "\uC138\uD2B8 11 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -4435262931183940686, guid: 0d6085716da9e7f4b95932d8e9749097, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
       \uACE0\uC591\uC774 \uBC30\uACBD\uC785\uB2C8\uB2E4."
   - Id: bg_s12
     DisplayName: "\uC138\uD2B8 12 \uBC30\uACBD"
-    BackgroundSprite: {fileID: -6505302766685458233, guid: c025d25a4aad7144595ed0e465007115, type: 3}
+    BackgroundSprite: {fileID: 0}
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -162,3 +162,13 @@ MonoBehaviour:
     SetId: 14
     Description: "\uC138\uD2B8 14 \uC218\uC9D1 \uC644\uB8CC \uBCF4\uC0C1! \uD2B9\uBCC4\uD55C
       \uD14C\uB9C8 \uBC30\uACBD\uC785\uB2C8\uB2E4."
+  - Id: bg-sky
+    DisplayName: "\uD558\uB298 \uBC30\uACBD"
+    BackgroundSprite: {fileID: 2410671940745902572, guid: b2ea88ae231afe698bb4f462f16ec2f5, type: 3}
+    IsHidden: 0
+    IsShop: 1
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 
+    Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4\uD560
+      \uC218 \uC788\uB294 \uD558\uB298 \uBC30\uACBD\uC785\uB2C8\uB2E4."

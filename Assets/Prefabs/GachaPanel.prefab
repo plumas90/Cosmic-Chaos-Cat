@@ -102,7 +102,7 @@ RectTransform:
   m_GameObject: {fileID: 105616716892016465}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75000006, y: 0.75000006, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7669251530447288198}
@@ -110,7 +110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -501, y: 375}
-  m_SizeDelta: {x: 453, y: 429}
+  m_SizeDelta: {x: 571, y: 426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6564350673573778845
 CanvasRenderer:
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2075232658180968294, guid: f5a8145a19708a1e5b4557f931b2e1d5, type: 3}
+  m_Sprite: {fileID: 1684652937, guid: 3e4cf887d2a7ece6da7bfa50f6bc12da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1359,7 +1359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 665, y: 182}
+  m_AnchoredPosition: {x: 665, y: 123}
   m_SizeDelta: {x: 234, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5678170038263020875
@@ -5470,10 +5470,10 @@ RectTransform:
   m_Children:
   - {fileID: 1579189039604789389}
   - {fileID: 9213739578399801151}
-  - {fileID: 2586329125062450810}
-  - {fileID: 5097291833098083007}
   - {fileID: 9071978063524434068}
   - {fileID: 603376108639730970}
+  - {fileID: 2586329125062450810}
+  - {fileID: 5097291833098083007}
   m_Father: {fileID: 5858456667632155579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5771,15 +5771,15 @@ RectTransform:
   m_GameObject: {fileID: 5137330799285364921}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5858456667632155579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 338}
-  m_SizeDelta: {x: 453, y: 429}
+  m_AnchoredPosition: {x: 2, y: 528}
+  m_SizeDelta: {x: 1500, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4315710749168377322
 CanvasRenderer:
@@ -5809,9 +5809,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5582965907780640459, guid: 8cf9ccb485bf388cdbcdea9e3d3bace4, type: 3}
+  m_Sprite: {fileID: 5439429242949446837, guid: 780b67fc6ba3a0d5083aaf96b6ef0808, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -6491,7 +6491,7 @@ RectTransform:
   m_GameObject: {fileID: 5595401797485453982}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75000006, y: 0.75000006, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7669251530447288198}
@@ -6499,7 +6499,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 534, y: 390.00006}
-  m_SizeDelta: {x: 453, y: 429}
+  m_SizeDelta: {x: 560, y: 429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2301443794518341762
 CanvasRenderer:
@@ -6529,7 +6529,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -9137986905787408734, guid: d9144a4f71441955ca6607062cf9a9cc, type: 3}
+  m_Sprite: {fileID: -2700478796267551192, guid: 3e4cf887d2a7ece6da7bfa50f6bc12da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10436,22 +10436,22 @@ MonoBehaviour:
   resultObj: {fileID: 5481437498086353899}
   cardGrid: {fileID: 0}
   normalRaritySprites:
-    frontSprite: {fileID: 0}
+    frontSprite: {fileID: 1672171504213289176, guid: 4136c1007551d1ff28fd0dcdb25e4673, type: 3}
     frameSprite: {fileID: 3948898425152768676, guid: 3fb87459b8e24d7ffb1c94b0ef0b1f9e, type: 3}
     rareMarkSprite: {fileID: 2426711846563004696, guid: 77207dbe1125d0845b411fe9aea21941, type: 3}
     nameLabelSprite: {fileID: 4685536331518508013, guid: d75de4f80c2147a499ea9939f7fadd87, type: 3}
   rareRaritySprites:
-    frontSprite: {fileID: 0}
+    frontSprite: {fileID: -7150884512672335769, guid: 4136c1007551d1ff28fd0dcdb25e4673, type: 3}
     frameSprite: {fileID: 3203960685634476298, guid: 2cd81dabc9d1f1e4696a486d91f1a85e, type: 3}
     rareMarkSprite: {fileID: -8998710655568907166, guid: 8927adc32fa038c45ae90f81ef2101b3, type: 3}
     nameLabelSprite: {fileID: 866454579748509942, guid: 0b76417ac39b5d44c91d6a3f93960025, type: 3}
   superRareRaritySprites:
-    frontSprite: {fileID: 0}
+    frontSprite: {fileID: 2026027260056610567, guid: 4136c1007551d1ff28fd0dcdb25e4673, type: 3}
     frameSprite: {fileID: 6028889764088358090, guid: 3912476f7652e454b874c69df5339fab, type: 3}
     rareMarkSprite: {fileID: -495318246514489379, guid: e69af286793f2d74aba0dc73d3858d9e, type: 3}
     nameLabelSprite: {fileID: 2434000047375686906, guid: 9f774e25b2fc9c94ea469ae8e9cf8bba, type: 3}
   ssrRaritySprites:
-    frontSprite: {fileID: 0}
+    frontSprite: {fileID: -8207258035403640021, guid: 4136c1007551d1ff28fd0dcdb25e4673, type: 3}
     frameSprite: {fileID: 3225039916928284805, guid: f375ec14e558854439ee2af5ae8954e6, type: 3}
     rareMarkSprite: {fileID: -6477239136278236436, guid: 0c255a97aed4dcb4c89c2ca6436f16ca, type: 3}
     nameLabelSprite: {fileID: -1813711985481884373, guid: 073ea190ce6d9744281d6de2cb9af598, type: 3}
@@ -10470,6 +10470,8 @@ MonoBehaviour:
   rightPaw: {fileID: 5595401797485453982}
   headObj: {fileID: 5137330799285364921}
   panelBodyObj: {fileID: 4753913307063413259}
+  cardListTestBtn: {fileID: 0}
+  cardListTestAnimContainer: {fileID: 0}
 --- !u!222 &3797193236535563375
 CanvasRenderer:
   m_ObjectHideFlags: 0

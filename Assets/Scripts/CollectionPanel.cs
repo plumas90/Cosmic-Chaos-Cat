@@ -459,9 +459,8 @@ namespace CosmicChaosCat
                 }
             }
 
-            // Update Main Background & Decoration in scene
+            // Update Main Background in scene. Decorations are owned by MainDecorationController.
             UpdateMainBackground();
-            UpdateMainDecoration();
         }
 
         private void UpdateSlot(Transform slotTf, CollectibleItem item, bool isBg)
@@ -941,48 +940,6 @@ namespace CosmicChaosCat
             }
         }
 
-        private void UpdateMainDecoration()
-        {
-            if (gameManager == null) return;
-            string decoId = gameManager.EquippedDecorationId;
-
-            var canvas = FindObjectOfType<Canvas>();
-            if (canvas != null)
-            {
-                var mainDecoTf = canvas.transform.Find("MainDecoration")
-                              ?? canvas.transform.Find("MainDeco")
-                              ?? canvas.transform.Find("Decoration");
-                if (mainDecoTf != null)
-                {
-                    var img = mainDecoTf.GetComponent<Image>();
-                    if (img != null)
-                    {
-                        if (string.IsNullOrEmpty(decoId) || decoId == "deco-none" || decoId == "deco-00" || decoId.Equals("deco-none", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            img.sprite = null;
-                            img.enabled = false;
-                        }
-                        else
-                        {
-                            var sprite = GetDecorationSprite(decoId);
-                            if (sprite != null)
-                            {
-                                img.sprite = sprite;
-                                img.enabled = true;
-                                img.color = Color.white;
-                                img.preserveAspect = true;
-                            }
-                            else
-                            {
-                                img.sprite = null;
-                                img.enabled = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         private void InitializeDefaultItems()
         {
             Sprite LoadBgSprite(string fileName)
@@ -990,9 +947,11 @@ namespace CosmicChaosCat
 #if UNITY_EDITOR
                 var sp = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_BG/{fileName}");
                 if (sp != null) return sp;
+                sp = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/BG/{fileName}");
+                if (sp != null) return sp;
 
                 string prefix = fileName.Split('_')[0].ToLower(); // e.g. "set1", "set4"
-                var guids = UnityEditor.AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/image/A_BG" });
+                var guids = UnityEditor.AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/image/A_BG", "Assets/image/BG" });
                 foreach (var g in guids)
                 {
                     string p = UnityEditor.AssetDatabase.GUIDToAssetPath(g);
@@ -1020,7 +979,8 @@ namespace CosmicChaosCat
             {
             backgrounds = new List<CollectibleItem>
             {
-                new CollectibleItem { id = "bg",    displayName = "기본 배경",              description = "기본으로 제공되는 배경입니다.",                               unlockSetId = "",   rarity = CardRarity.N,   isTestUnlocked = true,  displaySprite = LoadBgSprite("a_default.png") },
+                new CollectibleItem { id = "bg",    displayName = "기본 배경",              description = "기본으로 제공되는 배경입니다.",                               unlockSetId = "",   rarity = CardRarity.N,   isTestUnlocked = true,  displaySprite = LoadBgSprite("Default_Ground.png") },
+                new CollectibleItem { id = "bg-sky", displayName = "하늘 배경",             description = "상점에서 구매할 수 있는 하늘 배경입니다.",                     unlockSetId = "",   rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("Sky.png") },
                 new CollectibleItem { id = "bg_s1", displayName = "골목길의 수호자 배경",   description = "세트 1 수집 완료 보상! 골목길 수호자 테마 배경입니다.",         unlockSetId = "1",  rarity = CardRarity.N,   isTestUnlocked = false, displaySprite = LoadBgSprite("set1_Desolate_Street.png") },
                 new CollectibleItem { id = "bg_s2", displayName = "사막 오아시스 배경",     description = "세트 2 수집 완료 보상! 신비로운 사막 오아시스 테마 배경입니다.", unlockSetId = "2",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set2_The_Pharaoh's_Wrath.png") },
                 new CollectibleItem { id = "bg_s3", displayName = "달콤한 디저트 배경",    description = "세트 3 수집 완료 보상! 달콤한 과자와 케이크 테마 배경입니다.",   unlockSetId = "3",  rarity = CardRarity.R,   isTestUnlocked = false, displaySprite = LoadBgSprite("set3_Toppings_for_Cookie.png") },
@@ -1038,125 +998,40 @@ namespace CosmicChaosCat
             };
             }
 
-            Sprite LoadDecoSprite(string fileName)
-            {
-#if UNITY_EDITOR
-                var sp = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/image/A_Deco/{fileName}");
-                if (sp != null) return sp;
-#endif
-                return null;
-            }
-
             if (decorations == null) decorations = new List<CollectibleItem>();
+            decorations.Clear();
+            decorations.Add(new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, isTestUnlocked = true, displaySprite = LoadShopCloseSprite() });
 
-            if (decorations.Count == 0)
+            if (gameManager != null && gameManager.DecorationCatalog != null && gameManager.DecorationCatalog.Decorations != null)
             {
-                decorations.Add(new CollectibleItem { id = "deco-none", displayName = "장식 없음", description = "배경에 장식을 배치하지 않습니다.", unlockSetId = "", rarity = CardRarity.N, isTestUnlocked = true, displaySprite = LoadShopCloseSprite() });
-
-                if (gameManager != null && gameManager.DecorationCatalog != null && gameManager.DecorationCatalog.Decorations != null && gameManager.DecorationCatalog.Decorations.Count > 0)
+                foreach (var deco in gameManager.DecorationCatalog.Decorations)
                 {
-                    foreach (var deco in gameManager.DecorationCatalog.Decorations)
+                    if (deco != null && deco.Id != "deco-none" && deco.DecorationSprite != null)
                     {
-                        if (deco != null && deco.Id != "deco-none")
+                        decorations.Add(new CollectibleItem
                         {
-                            decorations.Add(new CollectibleItem
-                            {
-                                id = deco.Id,
-                                displayName = deco.GetDisplayName(),
-                                description = deco.GetDescription(),
-                                unlockSetId = deco.SetId,
-                                rarity = deco.IsShop ? CardRarity.R : CardRarity.N,
-                                displaySprite = deco.DecorationSprite
-                            });
-                        }
+                            id = deco.Id,
+                            displayName = deco.GetDisplayName(),
+                            description = deco.GetDescription(),
+                            unlockSetId = deco.SetId,
+                            rarity = deco.IsShop ? CardRarity.R : CardRarity.N,
+                            isTestUnlocked = !deco.IsShop,
+                            displaySprite = deco.DecorationSprite
+                        });
                     }
-                }
-            }
-
-            // 캣휠 및 태엽 쥐 장난감 무조건 장식 목록 첫 머리에 해금 상태로 등록 보장
-            if (decorations.Find(x => x.id == "deco-cat-wheel") == null)
-            {
-                int insertIdx = Mathf.Min(1, decorations.Count);
-                decorations.Insert(insertIdx, new CollectibleItem
-                {
-                    id = "deco-cat-wheel",
-                    displayName = "캣휠",
-                    displayName_EN = "Cat Wheel",
-                    description = "화면 안에서 회전하는 고양이 캣휠 장식입니다.",
-                    unlockSetId = "",
-                    rarity = CardRarity.R,
-                    isTestUnlocked = true,
-                    displaySprite = LoadDecoSprite("Cat_Wheel.png")
-                });
-            }
-            else
-            {
-                var item = decorations.Find(x => x.id == "deco-cat-wheel");
-                if (item != null)
-                {
-                    item.isTestUnlocked = true;
-                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("Cat_Wheel.png");
-                }
-            }
-
-            if (decorations.Find(x => x.id == "deco-mouse-toy") == null)
-            {
-                int insertIdx = Mathf.Min(2, decorations.Count);
-                decorations.Insert(insertIdx, new CollectibleItem
-                {
-                    id = "deco-mouse-toy",
-                    displayName = "태엽 쥐 장난감",
-                    displayName_EN = "Mouse Toy",
-                    description = "화면 맨 아래를 끊임없이 달려가는 쥐 장난감입니다.",
-                    unlockSetId = "",
-                    rarity = CardRarity.R,
-                    isTestUnlocked = true,
-                    displaySprite = LoadDecoSprite("Mouse_Toy.png")
-                });
-            }
-            else
-            {
-                var item = decorations.Find(x => x.id == "deco-mouse-toy");
-                if (item != null)
-                {
-                    item.isTestUnlocked = true;
-                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("Mouse_Toy.png");
-                }
-            }
-
-            if (decorations.Find(x => x.id == "deco-fish-toy") == null)
-            {
-                int insertIdx = Mathf.Min(3, decorations.Count);
-                decorations.Insert(insertIdx, new CollectibleItem
-                {
-                    id = "deco-fish-toy",
-                    displayName = "태엽 생선 장난감",
-                    displayName_EN = "Fish Toy",
-                    description = "화면 맨 아래를 끊임없이 헤엄쳐 다니는 생선 장난감입니다.",
-                    unlockSetId = "",
-                    rarity = CardRarity.R,
-                    isTestUnlocked = true,
-                    displaySprite = LoadDecoSprite("fish_toy_spritesheet_200x100.png")
-                });
-            }
-            else
-            {
-                var item = decorations.Find(x => x.id == "deco-fish-toy");
-                if (item != null)
-                {
-                    item.isTestUnlocked = true;
-                    if (item.displaySprite == null) item.displaySprite = LoadDecoSprite("fish_toy_spritesheet_200x100.png");
                 }
             }
 
             // 세트 2 이후(세트 3~) 배경 및 장식 게임 내 표출 제외 처리
             if (backgrounds != null)
             {
-                backgrounds.RemoveAll(bg => bg != null && !SetCatalogSO.IsSetAllowed(bg.unlockSetId));
+                backgrounds.RemoveAll(bg => bg != null && bg.id != "bg" &&
+                    (bg.displaySprite == null || !SetCatalogSO.IsSetAllowed(bg.unlockSetId)));
             }
             if (decorations != null)
             {
-                decorations.RemoveAll(deco => deco != null && !SetCatalogSO.IsSetAllowed(deco.unlockSetId));
+                decorations.RemoveAll(deco => deco != null && deco.id != "deco-none" &&
+                    (deco.displaySprite == null || !SetCatalogSO.IsSetAllowed(deco.unlockSetId)));
             }
         }
 

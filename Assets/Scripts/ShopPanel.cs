@@ -321,6 +321,7 @@ namespace CosmicChaosCat
                         {
                             iconSp = gm.GetCardSpriteForDisplay(card.Id);
                         }
+                        if (iconSp == null) continue;
 
                         string nameStr = card.GetDisplayName();
                         string descStr = card.GetDescription();
@@ -346,7 +347,7 @@ namespace CosmicChaosCat
             {
                 foreach (var deco in gm.DecorationCatalog.Decorations)
                 {
-                    if (deco != null && deco.IsShop)
+                    if (deco != null && deco.IsShop && deco.DecorationSprite != null)
                     {
                         ProductCurrencyType cur = (deco.ShopCurrency == CardShopCurrency.Shard) 
                             ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
@@ -373,7 +374,7 @@ namespace CosmicChaosCat
             {
                 foreach (var bg in gm.BackgroundCatalog.Backgrounds)
                 {
-                    if (bg != null && bg.IsShop)
+                    if (bg != null && bg.IsShop && bg.BackgroundSprite != null)
                     {
                         ProductCurrencyType cur = (bg.ShopCurrency == CardShopCurrency.Shard) 
                             ? ProductCurrencyType.Shard : ProductCurrencyType.Coin;
@@ -1595,6 +1596,14 @@ namespace CosmicChaosCat
             }
 
             string status = GetProductStatus(selectedProduct);
+            bool isUniqueCosmetic = selectedProduct.productType == ShopProductType.Background ||
+                                    selectedProduct.productType == ShopProductType.Decoration;
+            if (isUniqueCosmetic && (status == "Purchased" || status == "Equipped"))
+            {
+                Debug.LogWarning($"[ShopPanel] Buy blocked: Cosmetic already owned. Product={selectedProduct.displayName}");
+                return;
+            }
+
             if (status == "MaxBreakthrough")
             {
                 Debug.LogWarning("[ShopPanel] Buy failed: Already at Max Breakthrough.");
@@ -1626,7 +1635,6 @@ namespace CosmicChaosCat
             else if (selectedProduct.productType == ShopProductType.Decoration)
             {
                 gm.UnlockDecoration(selectedProduct.targetId);
-                gm.EquipDecoration(selectedProduct.targetId);
             }
             else if (selectedProduct.productType == ShopProductType.SocketUnlock)
             {
@@ -2065,7 +2073,13 @@ namespace CosmicChaosCat
                     }
                     if (iconImg != null)
                     {
-                        if (prod.iconSprite != null) { iconImg.sprite = prod.iconSprite; iconImg.color = Color.white; iconImg.gameObject.SetActive(true); }
+                        if (prod.iconSprite != null)
+                        {
+                            iconImg.sprite = prod.iconSprite;
+                            iconImg.color = Color.white;
+                            iconImg.preserveAspect = prod.productType != ShopProductType.Background;
+                            iconImg.gameObject.SetActive(true);
+                        }
                         else { iconImg.gameObject.SetActive(false); }
                     }
 
@@ -2327,10 +2341,18 @@ namespace CosmicChaosCat
                         buyProductBtn.interactable = false;
                         SetTextComponent(buyProductBtnText, isEN ? "Max Breakthrough" : "최대 한계돌파 완료", null, buyFontSize);
                     }
-                    else if (status == "Equipped" && selectedProduct.productType != ShopProductType.Card)
+                    else if ((selectedProduct.productType == ShopProductType.Background ||
+                              selectedProduct.productType == ShopProductType.Decoration) &&
+                             (status == "Purchased" || status == "Equipped"))
                     {
                         buyProductBtn.interactable = false;
-                        SetTextComponent(buyProductBtnText, isEN ? "Equipped" : "장착중", null, buyFontSize);
+                        SetTextComponent(
+                            buyProductBtnText,
+                            status == "Equipped"
+                                ? (isEN ? "Equipped" : "장착중")
+                                : (isEN ? "Owned" : "보유중"),
+                            null,
+                            buyFontSize);
                     }
                     else
                     {
@@ -2425,7 +2447,12 @@ namespace CosmicChaosCat
         }
 
         // ── Shard Purchase Animation Cutscene (AnimContainer) ──────────────────
+        [Header("Shard Purchase Animation")]
+        [Tooltip("Assign the inactive CheckBtn source here. A runtime copy is created under ShardAnimContainer.")]
+        [SerializeField] private Button shardCheckButtonTemplate;
+
         private GameObject shardAnimContainer;
+        private Button shardCheckButtonInstance;
         private RectTransform shardCardContainer;
         private RectTransform shardCardRT;
         private GameObject shardCardBack;
@@ -2560,6 +2587,29 @@ namespace CosmicChaosCat
             }
 
             shardAnimContainer.transform.SetAsLastSibling();
+
+            if (shardCheckButtonTemplate != null)
+            {
+                shardCheckButtonTemplate.gameObject.SetActive(false);
+                if (shardCheckButtonInstance == null)
+                {
+                    // Preserve the template's visible screen position when moving it
+                    // from ShopPanel/AnimContainer to the full-screen shard overlay.
+                    var copy = Instantiate(shardCheckButtonTemplate.gameObject, shardAnimContainer.transform, true);
+                    copy.name = "CheckBtn";
+                    var copyRect = copy.GetComponent<RectTransform>();
+                    if (copyRect != null)
+                    {
+                        var anchoredPosition = copyRect.anchoredPosition;
+                        anchoredPosition.y = 0f;
+                        copyRect.anchoredPosition = anchoredPosition;
+                    }
+                    copy.SetActive(false);
+                    copy.transform.SetAsLastSibling();
+                    shardCheckButtonInstance = copy.GetComponent<Button>();
+                }
+            }
+
             shardAnimContainer.SetActive(false);
         }
 
@@ -2571,6 +2621,9 @@ namespace CosmicChaosCat
 
         private Button GetCheckButton()
         {
+            if (shardCheckButtonInstance != null)
+                return shardCheckButtonInstance;
+
             if (shardAnimContainer != null)
             {
                 var buttons = shardAnimContainer.GetComponentsInChildren<Button>(true);

@@ -1050,6 +1050,7 @@ namespace CosmicChaosCat
             var cardStates = gm.GetCardStates();
             foreach (var c in allCards)
             {
+                if (c == null || c.CardSprite == null) continue;
                 bool isUnlocked = cardStates != null && cardStates.TryGetValue(c.Id, out var p) && p != null && p.Unlocked;
                 if (c.IsHidden && !isUnlocked) continue;
 
@@ -1139,6 +1140,7 @@ namespace CosmicChaosCat
             var states = gm.GetCardStates();
             foreach (var c in allCards)
             {
+                if (c == null || c.CardSprite == null) continue;
                 states.TryGetValue(c.Id, out var p);
                 bool isUnlocked = p != null && p.Unlocked;
                 if (c.IsHidden && !isUnlocked) continue;
@@ -2054,6 +2056,7 @@ namespace CosmicChaosCat
             var allStates = gm?.GetCardStates();
             foreach (var c in allCards)
             {
+                if (c == null || c.CardSprite == null) continue;
                 bool isUnlocked = allStates != null && allStates.TryGetValue(c.Id, out var p) && p != null && p.Unlocked;
                 if (!c.IsHidden || isUnlocked) filteredCards.Add(c);
             }

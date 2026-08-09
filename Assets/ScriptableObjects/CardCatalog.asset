@@ -27,7 +27,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
-    GachaBgSprite: {fileID: -4516175497038575038, guid: 2a642fad3358d714bb8abf1913c0da08, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
@@ -57,7 +57,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
-    GachaBgSprite: {fileID: -7723656403230677013, guid: a9223e8180ff81c4bb3d9a032390325a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
@@ -87,7 +87,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
-    GachaBgSprite: {fileID: 3295895987065543284, guid: 44c3730e02cf4a44097063f19b3cb9f0, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
@@ -117,7 +117,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
-    GachaBgSprite: {fileID: -2362264526385026833, guid: f204fb0dd817d18429d99a0e55f0efb6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
@@ -136,7 +136,7 @@ MonoBehaviour:
   - Id: 0005
     DisplayName: "\uC2A4\uD504\uB808\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Spray Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -147,7 +147,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
-    GachaBgSprite: {fileID: -2520882840631159429, guid: 2f77d769dc195064f84e1eb303e85b75, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
@@ -166,7 +166,7 @@ MonoBehaviour:
   - Id: 0006
     DisplayName: "\uC57C\uAC04 \uBC30\uB2EC \uACE0\uC591\uC774"
     DisplayName_EN: Night Delivery Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -177,7 +177,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
-    GachaBgSprite: {fileID: -3191807182277657856, guid: e98017e699fc48949b687c3cbb4cb192, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
@@ -196,7 +196,7 @@ MonoBehaviour:
   - Id: 0007
     DisplayName: padlock_cat
     DisplayName_EN: Padlock Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -207,7 +207,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
-    GachaBgSprite: {fileID: 1002638029800963660, guid: 2b45e6de688d629479b93327394b5576, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
@@ -226,7 +226,7 @@ MonoBehaviour:
   - Id: 0008
     DisplayName: pickpocket_cat
     DisplayName_EN: Pickpocket Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -237,7 +237,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
-    GachaBgSprite: {fileID: 9130047736290167982, guid: 5d077a9e8c8362f4992df68992509e1b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
@@ -256,7 +256,7 @@ MonoBehaviour:
   - Id: 0009
     DisplayName: neon_hacker_cat
     DisplayName_EN: Neon Hacker Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -267,7 +267,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -629732559171994760, guid: 17fbeeafc8a3451489d5482a38314ec0, type: 3}
-    GachaBgSprite: {fileID: 1753254190764977791, guid: cf036fb385f0b4a4f80a12e93e8fc444, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -629732559171994760, guid: 17fbeeafc8a3451489d5482a38314ec0, type: 3}
@@ -286,7 +286,7 @@ MonoBehaviour:
   - Id: 0010
     DisplayName: pipe_boss_cat
     DisplayName_EN: Pipe Boss Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -297,7 +297,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7728589829718341211, guid: 864f5096c98a1394bafcd7e2e8c3aac5, type: 3}
-    GachaBgSprite: {fileID: -1116311167725357722, guid: 497d6f23606f30b44b57916a03071f3f, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -7728589829718341211, guid: 864f5096c98a1394bafcd7e2e8c3aac5, type: 3}
@@ -316,7 +316,7 @@ MonoBehaviour:
   - Id: 0011
     DisplayName: shadow_acrobat_cat
     DisplayName_EN: Shadow Acrobat Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -327,7 +327,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 328105972073285433, guid: 41f5f6ce32854fe41b7c6d6ef5f98c5c, type: 3}
-    GachaBgSprite: {fileID: -4127908409571698264, guid: 34b7ed1fffad06340a8d89e689f669ea, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 328105972073285433, guid: 41f5f6ce32854fe41b7c6d6ef5f98c5c, type: 3}
@@ -346,7 +346,7 @@ MonoBehaviour:
   - Id: 0012
     DisplayName: eclipse_boss_cat
     DisplayName_EN: Eclipse Boss Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -357,7 +357,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5558708260276741338, guid: f76eea66b177c044c9e771f416d6f1e2, type: 3}
-    GachaBgSprite: {fileID: 1702557265059082293, guid: 0884f444f34407847b3d1d720dfc4ecd, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -5558708260276741338, guid: f76eea66b177c044c9e771f416d6f1e2, type: 3}
@@ -376,7 +376,7 @@ MonoBehaviour:
   - Id: 0013
     DisplayName: alley_witch_cat
     DisplayName_EN: Alley Witch Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -387,7 +387,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1399989924830309392, guid: 56efaeb9ac9159e4eac9560b93f92690, type: 3}
-    GachaBgSprite: {fileID: -7365032783659653994, guid: 7f2c7332c117d2047a21e7de8d307e85, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -1399989924830309392, guid: 56efaeb9ac9159e4eac9560b93f92690, type: 3}
@@ -406,7 +406,7 @@ MonoBehaviour:
   - Id: 0014
     DisplayName: city_ghost_cat
     DisplayName_EN: City Ghost Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -417,7 +417,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1577312984350915356, guid: a8d03c9a2d3906343b65372b84435256, type: 3}
-    GachaBgSprite: {fileID: -6649377216373836046, guid: 23ff1777244059f4bacd965872ac89b6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -1577312984350915356, guid: a8d03c9a2d3906343b65372b84435256, type: 3}
@@ -447,7 +447,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -6447830751409005662, guid: 25849c48e40e29c4688f085089523a1b, type: 3}
-    GachaBgSprite: {fileID: 538801172872575697, guid: e7fb666e8ade8c948b1497e6c496e411, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -6447830751409005662, guid: 25849c48e40e29c4688f085089523a1b, type: 3}
@@ -477,7 +477,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5078492549978649002, guid: 21756a80927421447a521b2fb35ff9d4, type: 3}
-    GachaBgSprite: {fileID: 3542894911948164009, guid: dd601a7a7fd757343a5c4d424fe7fddd, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -5078492549978649002, guid: 21756a80927421447a521b2fb35ff9d4, type: 3}
@@ -507,7 +507,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4064959150436951410, guid: 846c52ddbfd756e4da55d46d957e5edb, type: 3}
-    GachaBgSprite: {fileID: -5135360456242910512, guid: c9bd3f2b34ed2aa449937e4c082e7037, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4064959150436951410, guid: 846c52ddbfd756e4da55d46d957e5edb, type: 3}
@@ -537,7 +537,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2870436645723556058, guid: 571490b2f8ba01b40a288b47b976828c, type: 3}
-    GachaBgSprite: {fileID: -7419300260172835000, guid: eecfb39bb3bd44141a1b2313ebf9c716, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2870436645723556058, guid: 571490b2f8ba01b40a288b47b976828c, type: 3}
@@ -556,7 +556,7 @@ MonoBehaviour:
   - Id: 0019
     DisplayName: "\uC2E0\uC804 \uD544\uACBD\uC0AC \uACE0\uC591\uC774"
     DisplayName_EN: Temple Scribe Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -567,7 +567,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3351835795015529355, guid: a9cd8e1d7239b5c42b4b6305b8337184, type: 3}
-    GachaBgSprite: {fileID: 2072074599622659272, guid: 9e0ba02ba62f2ac4fbfd67e39758e21d, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3351835795015529355, guid: a9cd8e1d7239b5c42b4b6305b8337184, type: 3}
@@ -586,7 +586,7 @@ MonoBehaviour:
   - Id: 0020
     DisplayName: "\uC0AC\uB9C9 \uAE38\uC7A1\uC774 \uACE0\uC591\uC774"
     DisplayName_EN: Desert Guide Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -597,7 +597,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4697672788147617693, guid: e88218383e0278943a411975d22c40e0, type: 3}
-    GachaBgSprite: {fileID: -1692143808687280704, guid: d93a5d3384119bf4b8bf1566daf746de, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4697672788147617693, guid: e88218383e0278943a411975d22c40e0, type: 3}
@@ -616,7 +616,7 @@ MonoBehaviour:
   - Id: 0021
     DisplayName: nile_fisher_cat
     DisplayName_EN: Nile Fisher Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -627,7 +627,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1650184978739835375, guid: 381afa054e4c4994d9a215ca143a9283, type: 3}
-    GachaBgSprite: {fileID: -7922904030651963817, guid: 3f59e2a62129f7a48839f82e7a61634c, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1650184978739835375, guid: 381afa054e4c4994d9a215ca143a9283, type: 3}
@@ -646,7 +646,7 @@ MonoBehaviour:
   - Id: 0022
     DisplayName: little_mummy_cat
     DisplayName_EN: Little Mummy Cat
-    Rarity: 1
+    Rarity: 0
     BaseWeight: 40
     ClickGold: 5
     ShardValue: 3
@@ -657,7 +657,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4915405092596894788, guid: a20d62b22a3f30d488b49b5c55861c2e, type: 3}
-    GachaBgSprite: {fileID: 6947702383645344997, guid: dfb643a9589072f40856a03ff9f47200, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4915405092596894788, guid: a20d62b22a3f30d488b49b5c55861c2e, type: 3}
@@ -676,7 +676,7 @@ MonoBehaviour:
   - Id: 0023
     DisplayName: sphinx_guardian_cat
     DisplayName_EN: Sphinx Guardian Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -687,7 +687,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8424707557956092119, guid: cd12946248e6dd44299da7a5d0274eea, type: 3}
-    GachaBgSprite: {fileID: 4920985359516455955, guid: 4cb741673e2a6a04c8f7e93fd149422a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -8424707557956092119, guid: cd12946248e6dd44299da7a5d0274eea, type: 3}
@@ -706,7 +706,7 @@ MonoBehaviour:
   - Id: 0024
     DisplayName: "\uD0DC\uC591 \uC0AC\uC81C \uACE0\uC591\uC774"
     DisplayName_EN: Sun Priest Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -717,7 +717,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7633563643119507704, guid: f3883584f0fce01419565e470993e85d, type: 3}
-    GachaBgSprite: {fileID: 5147659021659322362, guid: f22b5f6a691a4b443a081ece41ab8a9d, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 7633563643119507704, guid: f3883584f0fce01419565e470993e85d, type: 3}
@@ -736,7 +736,7 @@ MonoBehaviour:
   - Id: 0025
     DisplayName: desert_chariot_cat
     DisplayName_EN: Desert Chariot Cat
-    Rarity: 2
+    Rarity: 0
     BaseWeight: 15
     ClickGold: 25
     ShardValue: 10
@@ -747,7 +747,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -744436053522702792, guid: 0a0dd7544974e5b44978a0321c5cc3b0, type: 3}
-    GachaBgSprite: {fileID: -8919835989745857774, guid: f899e6d47e5f4a346a6a652cff23b1fb, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -744436053522702792, guid: 0a0dd7544974e5b44978a0321c5cc3b0, type: 3}
@@ -766,7 +766,7 @@ MonoBehaviour:
   - Id: 0026
     DisplayName: bastet_avatar_cat
     DisplayName_EN: Bastet Avatar Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -777,7 +777,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -233772842115842097, guid: e1cac0b556ece22469bd612394c79077, type: 3}
-    GachaBgSprite: {fileID: -478717604177080614, guid: 85edae548e723524192aa3808197703e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -233772842115842097, guid: e1cac0b556ece22469bd612394c79077, type: 3}
@@ -796,7 +796,7 @@ MonoBehaviour:
   - Id: 0027
     DisplayName: "\uB77C\uC758 \uB208 \uACE0\uC591\uC774"
     DisplayName_EN: Eye of Ra Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -807,7 +807,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8693618006376125015, guid: 35106a00abf5e0e49ad649e205065a5e, type: 3}
-    GachaBgSprite: {fileID: 2661677602221873690, guid: a0f85362198f88b4a90bb053deae04e2, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -8693618006376125015, guid: 35106a00abf5e0e49ad649e205065a5e, type: 3}
@@ -826,7 +826,7 @@ MonoBehaviour:
   - Id: 0028
     DisplayName: "\uC544\uB204\uBE44\uC2A4 \uC2EC\uD310\uAD00 \uACE0\uC591\uC774"
     DisplayName_EN: Anubis Judge Cat
-    Rarity: 3
+    Rarity: 0
     BaseWeight: 4
     ClickGold: 125
     ShardValue: 50
@@ -837,7 +837,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5090459998129317557, guid: fa84170cf72a1954ab64112d14bbddb1, type: 3}
-    GachaBgSprite: {fileID: -8707567412051429345, guid: 58b10fbe5ee4dd84d8840c273ccc2c1b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -5090459998129317557, guid: fa84170cf72a1954ab64112d14bbddb1, type: 3}
@@ -867,7 +867,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 598541716916486125, guid: 108586202b5d9034aadcb522f034ea3e, type: 3}
-    GachaBgSprite: {fileID: 7041898013532799354, guid: 7c5253a15a720fd449f34631931a00ee, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 598541716916486125, guid: 108586202b5d9034aadcb522f034ea3e, type: 3}
@@ -897,7 +897,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -6138895176206741726, guid: bd079a573920b404aa84471dcbccd93a, type: 3}
-    GachaBgSprite: {fileID: 6570634678546313978, guid: 16aecf801f009464395f2a5a9435d495, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -6138895176206741726, guid: bd079a573920b404aa84471dcbccd93a, type: 3}
@@ -927,7 +927,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -9088154906054805990, guid: e77eb85faf4de8b4b89c84b01df73941, type: 3}
-    GachaBgSprite: {fileID: 3877020750007598623, guid: 0f55c21397cb3ce41992c8fca76dba3d, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -9088154906054805990, guid: e77eb85faf4de8b4b89c84b01df73941, type: 3}
@@ -957,7 +957,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7534220790757238807, guid: 0d49eabae892b6a4cbcd6229c7c6d48d, type: 3}
-    GachaBgSprite: {fileID: 4839632816412878921, guid: 29316400171e6ff41b075b5a01afe150, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 7534220790757238807, guid: 0d49eabae892b6a4cbcd6229c7c6d48d, type: 3}
@@ -987,7 +987,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4349310348001564199, guid: 545aa2b741fc3d047a6f5bd1a950c82f, type: 3}
-    GachaBgSprite: {fileID: -5633585872257365271, guid: ba97730816306db408a7e9057688fe9b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4349310348001564199, guid: 545aa2b741fc3d047a6f5bd1a950c82f, type: 3}
@@ -1017,7 +1017,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2769202813752679297, guid: 84053487f95aac244b65c14e6d965061, type: 3}
-    GachaBgSprite: {fileID: -592682524497314701, guid: 7d408caa10283204b96de5517b861f87, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2769202813752679297, guid: 84053487f95aac244b65c14e6d965061, type: 3}
@@ -1047,7 +1047,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
-    GachaBgSprite: {fileID: 804888104013027942, guid: beb854b712d8f7f41833c96dd020cb01, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
@@ -1077,7 +1077,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4300487954951230239, guid: df913e5c15c7c7c47a0940994fcc5f76, type: 3}
-    GachaBgSprite: {fileID: -8344217957625391017, guid: 871e336493971bb4196d9daf7a6c7439, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4300487954951230239, guid: df913e5c15c7c7c47a0940994fcc5f76, type: 3}
@@ -1107,7 +1107,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 1127625647247697915, guid: 84bf8f7b51d04104d877579f3d359881, type: 3}
-    GachaBgSprite: {fileID: -816421865036546029, guid: 6ece3d12b61722243bebe398e0cc8ac1, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 1127625647247697915, guid: 84bf8f7b51d04104d877579f3d359881, type: 3}
@@ -1137,7 +1137,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 271473874684846499, guid: 10a855f17b1387d41a116f0f9ca5f37c, type: 3}
-    GachaBgSprite: {fileID: 4834842240078756663, guid: d91917217fc41e343bba8e525dffe8fc, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 271473874684846499, guid: 10a855f17b1387d41a116f0f9ca5f37c, type: 3}
@@ -1167,7 +1167,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5110028329436942283, guid: df00a34994bb3124885e6466d21d27bf, type: 3}
-    GachaBgSprite: {fileID: 929874442922780167, guid: 5627864688809d143ab763ddf004c698, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -5110028329436942283, guid: df00a34994bb3124885e6466d21d27bf, type: 3}
@@ -1197,7 +1197,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2611070205719007415, guid: 37fa340007a0d4445a46a2c819cf0b0c, type: 3}
-    GachaBgSprite: {fileID: -5374948539189124139, guid: c547349f9f0b67d43a3e521572d3b765, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -2611070205719007415, guid: 37fa340007a0d4445a46a2c819cf0b0c, type: 3}
@@ -1227,7 +1227,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4609627951141049997, guid: df0e8f737e54277479c643896215eb71, type: 3}
-    GachaBgSprite: {fileID: 3212632049512784870, guid: 30544e183b1fd564194485acf5bcb1af, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -4609627951141049997, guid: df0e8f737e54277479c643896215eb71, type: 3}
@@ -1257,7 +1257,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5367177783233989934, guid: 03fd9373cf52e4349b2ae1a6958bc740, type: 3}
-    GachaBgSprite: {fileID: 7746011374024969918, guid: 1388c997f31a575468eeb2e899069db9, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 5367177783233989934, guid: 03fd9373cf52e4349b2ae1a6958bc740, type: 3}
@@ -1287,7 +1287,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3363890200380225608, guid: 5ab903dc2da494b47a4339142f7addd4, type: 3}
-    GachaBgSprite: {fileID: 3719126902984199508, guid: 0e8871bcaa33b52499d7ca9c9cb19160, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3363890200380225608, guid: 5ab903dc2da494b47a4339142f7addd4, type: 3}
@@ -1317,7 +1317,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -690558664212558695, guid: 252f64a10e4dcc94aba90199464f2117, type: 3}
-    GachaBgSprite: {fileID: -8030349851338481067, guid: 12ef798477eace54797574c1aca57c4e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -690558664212558695, guid: 252f64a10e4dcc94aba90199464f2117, type: 3}
@@ -1347,7 +1347,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6228768241096040613, guid: b4071f3121355e045900042b428585a7, type: 3}
-    GachaBgSprite: {fileID: 4449092366321945312, guid: 0a4dc1ffc459e374f87446dda66d8f12, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 6228768241096040613, guid: b4071f3121355e045900042b428585a7, type: 3}
@@ -1377,7 +1377,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -232832842420887298, guid: 5fd5dcf078b0a444fbbbb5d72829cf96, type: 3}
-    GachaBgSprite: {fileID: 2487404873701927920, guid: 05764cf5aee8760489894ad58e96cb8a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -232832842420887298, guid: 5fd5dcf078b0a444fbbbb5d72829cf96, type: 3}
@@ -1407,7 +1407,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 1130931377579669439, guid: 358bf10e0a2cbd2418ce20d37d7f2c2a, type: 3}
-    GachaBgSprite: {fileID: -5006366274325380518, guid: 277283e106eea1142b6ce03f8cfbd95c, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 1130931377579669439, guid: 358bf10e0a2cbd2418ce20d37d7f2c2a, type: 3}
@@ -1438,7 +1438,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
-    GachaBgSprite: {fileID: 2703633929101583824, guid: b4abde624af9fb74f8d950d3e93b418c, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
@@ -1468,7 +1468,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5020826799863134761, guid: d04afc204c35fc743a56a77a8de29f87, type: 3}
-    GachaBgSprite: {fileID: 228836485542238930, guid: e8809b962f727eb4a961947d1538c6f3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 5020826799863134761, guid: d04afc204c35fc743a56a77a8de29f87, type: 3}
@@ -1498,7 +1498,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 178504356847497677, guid: 0d64057139678794db5a013745abc305, type: 3}
-    GachaBgSprite: {fileID: 2681787908734280102, guid: 14534f727bd9b3144a38c81cb044fcff, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 178504356847497677, guid: 0d64057139678794db5a013745abc305, type: 3}
@@ -1528,7 +1528,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4554943457834107941, guid: cdfbaef958da3774f92476918e86e78f, type: 3}
-    GachaBgSprite: {fileID: -6529599478480117343, guid: 3194bf345424067448b54cd9ab00a551, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 4554943457834107941, guid: cdfbaef958da3774f92476918e86e78f, type: 3}
@@ -1558,7 +1558,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -6387608441997985420, guid: edcaecfd619d7f94388caa049946eb03, type: 3}
-    GachaBgSprite: {fileID: -533711703290113594, guid: a549deeb008c0d84db9c230e960476c7, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -6387608441997985420, guid: edcaecfd619d7f94388caa049946eb03, type: 3}
@@ -1588,7 +1588,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5843544794659751647, guid: 04c36d71b29b0b64d8a7723d9300dc17, type: 3}
-    GachaBgSprite: {fileID: 1823331329214218871, guid: a70eced350f1caa4f93ba8c0cd4190eb, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 5843544794659751647, guid: 04c36d71b29b0b64d8a7723d9300dc17, type: 3}
@@ -1618,7 +1618,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3028023370934287481, guid: 645d6121a971d2940bf6bc5d27223e22, type: 3}
-    GachaBgSprite: {fileID: -8902308870171797476, guid: 885ec152f949886488c31783f32fa3c6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -3028023370934287481, guid: 645d6121a971d2940bf6bc5d27223e22, type: 3}
@@ -1648,7 +1648,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 557149237349590793, guid: 421787137b619264da4be0ba0687486c, type: 3}
-    GachaBgSprite: {fileID: 4064071394117644394, guid: 6571983b7dbc7f0499b7ba135db07c9a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 557149237349590793, guid: 421787137b619264da4be0ba0687486c, type: 3}
@@ -1678,7 +1678,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4949265749237480570, guid: df43896ee2ee17d4e81586d042f2e1c3, type: 3}
-    GachaBgSprite: {fileID: 3555967600818473111, guid: 076b0a76b981a0945b8aec0c67ff0e8e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -4949265749237480570, guid: df43896ee2ee17d4e81586d042f2e1c3, type: 3}
@@ -1708,7 +1708,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3208966271761190345, guid: fc3aabb59f27c244592ebf086de79ce5, type: 3}
-    GachaBgSprite: {fileID: 258529888974361115, guid: 14f8505322ea75e4d8243c33c8f3547c, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3208966271761190345, guid: fc3aabb59f27c244592ebf086de79ce5, type: 3}
@@ -1739,7 +1739,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7229965477910575171, guid: c40ff66fd9334ae43aecfdb165d3901b, type: 3}
-    GachaBgSprite: {fileID: -8953556741559385878, guid: d49bf174bada0264db4ce2d3df43cb9a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 7229965477910575171, guid: c40ff66fd9334ae43aecfdb165d3901b, type: 3}
@@ -1770,7 +1770,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3484479248857261238, guid: 15806a223f6eb964e9fee9ff46cf0fc7, type: 3}
-    GachaBgSprite: {fileID: -2352184418385245632, guid: 535b6dd049ef8074ca4fbb00f219142b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 3484479248857261238, guid: 15806a223f6eb964e9fee9ff46cf0fc7, type: 3}
@@ -1800,7 +1800,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2005751689375486218, guid: 650c6cb8d116aee45be8f65bfd9f4c14, type: 3}
-    GachaBgSprite: {fileID: -4166538632010819877, guid: 63ac21ea27635304392331b1de8f784a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 2005751689375486218, guid: 650c6cb8d116aee45be8f65bfd9f4c14, type: 3}
@@ -1830,7 +1830,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2210115900580082746, guid: 742bc87572396eb4e9716bde4dfed871, type: 3}
-    GachaBgSprite: {fileID: -5482670376986315338, guid: 13d4c7878e71eaf4cbb08b1ff0fa18f8, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2210115900580082746, guid: 742bc87572396eb4e9716bde4dfed871, type: 3}
@@ -1860,7 +1860,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6809950908022592207, guid: b1c84fcf767f5a44d8529d90960dd1a2, type: 3}
-    GachaBgSprite: {fileID: 4363612033394633445, guid: 2cc95f951907c9744874f465602b2a2d, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 6809950908022592207, guid: b1c84fcf767f5a44d8529d90960dd1a2, type: 3}
@@ -1890,7 +1890,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1353126186253318908, guid: 6b396e8a004cbdc4abed122afe409bb5, type: 3}
-    GachaBgSprite: {fileID: -7365712706002071624, guid: dd025ab550d7c6c44980f93d94dd7ec5, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1353126186253318908, guid: 6b396e8a004cbdc4abed122afe409bb5, type: 3}
@@ -1920,7 +1920,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5412741982480308563, guid: 0e9b1c37338c99e478e9b4d86c6913fb, type: 3}
-    GachaBgSprite: {fileID: -4873177570319709987, guid: f85ca2d64fe37334c98d5e95ec4924b3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 5412741982480308563, guid: 0e9b1c37338c99e478e9b4d86c6913fb, type: 3}
@@ -1950,7 +1950,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -681249148111682924, guid: cfbcdd7e51bfae74a9d3ee5784baad8a, type: 3}
-    GachaBgSprite: {fileID: 5834400625472858878, guid: 38bdaeb3792667d42906c0c52cf40f7b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -681249148111682924, guid: cfbcdd7e51bfae74a9d3ee5784baad8a, type: 3}
@@ -1980,7 +1980,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2437480936692776075, guid: 455053e56b95cb54a83a9cd67751dced, type: 3}
-    GachaBgSprite: {fileID: -7154480328507943063, guid: 92df3b4c4c4f6ae4f88c3cff3d7f055a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 2437480936692776075, guid: 455053e56b95cb54a83a9cd67751dced, type: 3}
@@ -2010,7 +2010,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 8990090637826106241, guid: f3840023dac388f409b98b86ad3a54e8, type: 3}
-    GachaBgSprite: {fileID: 5190657936528335910, guid: bc94cb2ef4383ce48b5215391cafd71f, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 8990090637826106241, guid: f3840023dac388f409b98b86ad3a54e8, type: 3}
@@ -2040,7 +2040,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4897305829578270727, guid: 3d8ec912e41a51f4187d541066b8837a, type: 3}
-    GachaBgSprite: {fileID: -41025047872896554, guid: e7490c8df788f584a8657dd81c33e2ba, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -4897305829578270727, guid: 3d8ec912e41a51f4187d541066b8837a, type: 3}
@@ -2071,7 +2071,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5555514950861750688, guid: ec1162c14d6a3a94081bfb654c52b81d, type: 3}
-    GachaBgSprite: {fileID: -7553504023486998495, guid: 32710b5555740c94fbae42f208276848, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 5555514950861750688, guid: ec1162c14d6a3a94081bfb654c52b81d, type: 3}
@@ -2101,7 +2101,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3632384083311525013, guid: 729209fff3c19504d9ddd1956a266e74, type: 3}
-    GachaBgSprite: {fileID: 1998538428554086358, guid: fccf7cbb97b806fa9a827cbe1998aa9a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -3632384083311525013, guid: 729209fff3c19504d9ddd1956a266e74, type: 3}
@@ -2132,7 +2132,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1808762308219830901, guid: d1c27d2dc9e81334d961269c31d0b99e, type: 3}
-    GachaBgSprite: {fileID: -6673611117479736709, guid: db26a675a10901e479579a9c95c1d33e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1808762308219830901, guid: d1c27d2dc9e81334d961269c31d0b99e, type: 3}
@@ -2162,7 +2162,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7413441262261756365, guid: 9688e687d3b298e4ab9a9376c3e94ee8, type: 3}
-    GachaBgSprite: {fileID: -6239126234999975318, guid: 26981e94517990f40b99680acc8e48a3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7413441262261756365, guid: 9688e687d3b298e4ab9a9376c3e94ee8, type: 3}
@@ -2192,7 +2192,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6081511511028213847, guid: c334fb8a8b9395b4986e293421e6681a, type: 3}
-    GachaBgSprite: {fileID: -108213058579118028, guid: 3b94db2b67069b24795775e52c25147f, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 6081511511028213847, guid: c334fb8a8b9395b4986e293421e6681a, type: 3}
@@ -2222,7 +2222,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2695384098414888785, guid: 289911da544a6dc478cdecf061861d25, type: 3}
-    GachaBgSprite: {fileID: 7996499245053531048, guid: 91a32dff7db2db3418de783bb2c8ac8e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2695384098414888785, guid: 289911da544a6dc478cdecf061861d25, type: 3}
@@ -2252,7 +2252,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1664073708258026668, guid: af3fcf6659d65954ea1e66686060819d, type: 3}
-    GachaBgSprite: {fileID: 6512534494824992018, guid: bc42b19880de5fb409d58562cff85a0d, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1664073708258026668, guid: af3fcf6659d65954ea1e66686060819d, type: 3}
@@ -2282,7 +2282,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 796899553089492237, guid: cfb244c0948823843be0e31345f4ec2b, type: 3}
-    GachaBgSprite: {fileID: 469085613359505161, guid: ae8ae7cb6995266468e47b9f86536d5b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 796899553089492237, guid: cfb244c0948823843be0e31345f4ec2b, type: 3}
@@ -2312,7 +2312,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3615114431104894633, guid: b3e8cbed961c6c1479811ec2d88d2959, type: 3}
-    GachaBgSprite: {fileID: 1430034961110636680, guid: b28369f5f5ea928468b349fd3c3d0cfe, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3615114431104894633, guid: b3e8cbed961c6c1479811ec2d88d2959, type: 3}
@@ -2342,7 +2342,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -896258578649207782, guid: 7799bdd4895143f41b4acc10f6f82b77, type: 3}
-    GachaBgSprite: {fileID: -320173619213076021, guid: 51029dfec790e5346b55de5474f2b409, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -896258578649207782, guid: 7799bdd4895143f41b4acc10f6f82b77, type: 3}
@@ -2372,7 +2372,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1883212541428779620, guid: f8c8563215bc9ca4f9d450281e573758, type: 3}
-    GachaBgSprite: {fileID: 2261129805049355357, guid: 681a217d294e8e5f9acc09f6097fb128, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -1883212541428779620, guid: f8c8563215bc9ca4f9d450281e573758, type: 3}
@@ -2402,7 +2402,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7181920425200118495, guid: 7ef6a7b2bccfc0e448724926b6385910, type: 3}
-    GachaBgSprite: {fileID: -8572794498208863748, guid: ae7f80eb016cd1c4ab0d17d15190e2e5, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -7181920425200118495, guid: 7ef6a7b2bccfc0e448724926b6385910, type: 3}
@@ -2432,7 +2432,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3021209579418386874, guid: 3f0a31a2ea016e04599bb7372d9d6e2a, type: 3}
-    GachaBgSprite: {fileID: -8607889242971330648, guid: c44036b11deedce4d85a20ef0ce1d05a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 3021209579418386874, guid: 3f0a31a2ea016e04599bb7372d9d6e2a, type: 3}
@@ -2462,7 +2462,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -95060513583612190, guid: cf4c1ad4d945e3e46934d2c95881b1ed, type: 3}
-    GachaBgSprite: {fileID: 5824479594283258006, guid: 6082c96df8667df4dbaf826068627606, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -95060513583612190, guid: cf4c1ad4d945e3e46934d2c95881b1ed, type: 3}
@@ -2492,7 +2492,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1279973730320461289, guid: 8dd1513af68b3964f8ceaff165fb169b, type: 3}
-    GachaBgSprite: {fileID: -8293952238849642560, guid: 11b1a96f152f1fb47974db0c5ae268ef, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -1279973730320461289, guid: 8dd1513af68b3964f8ceaff165fb169b, type: 3}
@@ -2522,7 +2522,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 8381451804636628835, guid: 960cf8c0ae3e17a48a5a0bdda4474ebb, type: 3}
-    GachaBgSprite: {fileID: -9014855874333638866, guid: 72572a8f3a97ada49866824176365233, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 8381451804636628835, guid: 960cf8c0ae3e17a48a5a0bdda4474ebb, type: 3}
@@ -2552,7 +2552,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4029450831246904612, guid: ae920b33a869a5144a62aa41389ce9b4, type: 3}
-    GachaBgSprite: {fileID: 1878258345111326925, guid: dfe8019ec9857eb48a4cb89ef0f58672, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4029450831246904612, guid: ae920b33a869a5144a62aa41389ce9b4, type: 3}
@@ -2582,7 +2582,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3640465769129112223, guid: 644bcc43724001446b63ad16ab2c828d, type: 3}
-    GachaBgSprite: {fileID: -7456135312472451303, guid: a29ce759534cca547bf8b2956c03dc10, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 3640465769129112223, guid: 644bcc43724001446b63ad16ab2c828d, type: 3}
@@ -2612,7 +2612,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8727393730017109208, guid: f27bffe243681d749a9f8ff762c8a6e3, type: 3}
-    GachaBgSprite: {fileID: 5651473886807753313, guid: 6a6fd99c7cc62f74eba29918d63e6399, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -8727393730017109208, guid: f27bffe243681d749a9f8ff762c8a6e3, type: 3}
@@ -2642,7 +2642,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -511980434820452939, guid: 28d16700cf766cb43bfe0661d4ad9285, type: 3}
-    GachaBgSprite: {fileID: -8298272119512312651, guid: 39de525306dc446419adf4dbf886528a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -511980434820452939, guid: 28d16700cf766cb43bfe0661d4ad9285, type: 3}
@@ -2672,7 +2672,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5750260743689596146, guid: ea3e06043f204ed43b01b09a4d8fac10, type: 3}
-    GachaBgSprite: {fileID: -3241077359133589753, guid: 78ac07c30c268804a9e0946e82b8f330, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 5750260743689596146, guid: ea3e06043f204ed43b01b09a4d8fac10, type: 3}
@@ -2702,7 +2702,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3913049594329747393, guid: 7d13d796b626832418a1664f71ab34d3, type: 3}
-    GachaBgSprite: {fileID: -8193500989716654280, guid: 3806510aeb1661643b65067341799ad8, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 3913049594329747393, guid: 7d13d796b626832418a1664f71ab34d3, type: 3}
@@ -2732,7 +2732,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6005869051061648938, guid: 2ea06948247820e48ae6f96a5b4b5d12, type: 3}
-    GachaBgSprite: {fileID: -8768923201145302759, guid: 23832d604174af04d8207e7f3616e194, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 6005869051061648938, guid: 2ea06948247820e48ae6f96a5b4b5d12, type: 3}
@@ -2762,7 +2762,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4149325901330202284, guid: 1de0f4de3b182ad4ca457ba6163b9780, type: 3}
-    GachaBgSprite: {fileID: 207370796499193465, guid: 6fee39c4414053f4980747083f1d41b1, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4149325901330202284, guid: 1de0f4de3b182ad4ca457ba6163b9780, type: 3}
@@ -2792,7 +2792,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5679890424089649838, guid: 6bc65c9395f94834c870b11a40c42038, type: 3}
-    GachaBgSprite: {fileID: -7350589806149552241, guid: fc1dff3a049478c47954eb55827e3156, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -5679890424089649838, guid: 6bc65c9395f94834c870b11a40c42038, type: 3}
@@ -2822,7 +2822,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 126621054215486733, guid: 4877c244486c2f54ebaa9374e481fd5c, type: 3}
-    GachaBgSprite: {fileID: 8230528618674687088, guid: e3e3f97ae9e9bcb4095f189349541720, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 126621054215486733, guid: 4877c244486c2f54ebaa9374e481fd5c, type: 3}
@@ -2852,7 +2852,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8986323077731832687, guid: 5fc878f212cc1af49a0cde74775dd188, type: 3}
-    GachaBgSprite: {fileID: -5744219371353007423, guid: 3d8f5f3af570dcf4ab228b19e02d29a6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -8986323077731832687, guid: 5fc878f212cc1af49a0cde74775dd188, type: 3}
@@ -2882,7 +2882,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4492807739466007172, guid: b8d54bcb6cb562845bc849442a9cdfa1, type: 3}
-    GachaBgSprite: {fileID: -2675013401884964885, guid: e887d0de893063345bc028d098d13e9a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 4492807739466007172, guid: b8d54bcb6cb562845bc849442a9cdfa1, type: 3}
@@ -2912,7 +2912,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7811617950008986487, guid: 4619ef94e25b12b4a8d981b1f3503bc4, type: 3}
-    GachaBgSprite: {fileID: -1859543322534547546, guid: d869b90f5f61a6147be59b77106a8cd4, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -7811617950008986487, guid: 4619ef94e25b12b4a8d981b1f3503bc4, type: 3}
@@ -2942,7 +2942,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8888588470781873622, guid: c8c8ad37d9cd5ff4f990f289b3d82c1b, type: 3}
-    GachaBgSprite: {fileID: -360136667454601856, guid: d2918fe883662b244a18426417a4d060, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -8888588470781873622, guid: c8c8ad37d9cd5ff4f990f289b3d82c1b, type: 3}
@@ -2972,7 +2972,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5748012774135201731, guid: 9e4486b8d2b2e2c409f2783a42939595, type: 3}
-    GachaBgSprite: {fileID: -1372898106693924593, guid: bc07a6a65c484114bb51d82086744ecb, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 5748012774135201731, guid: 9e4486b8d2b2e2c409f2783a42939595, type: 3}
@@ -3002,7 +3002,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1408779021100990820, guid: c79bdceac837c50479415196434ff8da, type: 3}
-    GachaBgSprite: {fileID: -411988886496218385, guid: 80c120285c906f943b381fecb13c4253, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1408779021100990820, guid: c79bdceac837c50479415196434ff8da, type: 3}
@@ -3032,7 +3032,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7096284636100414267, guid: aa315374656d8a147baaf3692ae7d320, type: 3}
-    GachaBgSprite: {fileID: 1306658559095917962, guid: 21e19af75f648bc4a8eefe0964673cb0, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 7096284636100414267, guid: aa315374656d8a147baaf3692ae7d320, type: 3}
@@ -3062,7 +3062,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2488555510765284557, guid: 5e87a6b166df36f4bbb9313919717670, type: 3}
-    GachaBgSprite: {fileID: 7136905745889242040, guid: a68d77ccf50d45545ae12d3734634a4f, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 2488555510765284557, guid: 5e87a6b166df36f4bbb9313919717670, type: 3}
@@ -3092,7 +3092,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -9068346944411710357, guid: 068277182f8c43641990b895290009fb, type: 3}
-    GachaBgSprite: {fileID: -7890150868075874182, guid: c68a7b25fd3419841a762adbb22d75b1, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -9068346944411710357, guid: 068277182f8c43641990b895290009fb, type: 3}
@@ -3122,7 +3122,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7072383367612336633, guid: fa6361eb2a3f3b54c9614237bf26a917, type: 3}
-    GachaBgSprite: {fileID: 1757687320388813967, guid: f74e4e6640d3c2e4ca3e5452306fc86a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7072383367612336633, guid: fa6361eb2a3f3b54c9614237bf26a917, type: 3}
@@ -3152,7 +3152,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7037690886312317952, guid: abdf1968d5a163f48ad1727677ff741a, type: 3}
-    GachaBgSprite: {fileID: -4739562567862844443, guid: 7c7578b8d3f7d044c808fbeda5ee6cee, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7037690886312317952, guid: abdf1968d5a163f48ad1727677ff741a, type: 3}
@@ -3182,7 +3182,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4899172708024425042, guid: b4bc185ce1d530e47940913279fe9bbd, type: 3}
-    GachaBgSprite: {fileID: 207494916413974395, guid: e705170d17e57094a93587a42dd05b98, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4899172708024425042, guid: b4bc185ce1d530e47940913279fe9bbd, type: 3}
@@ -3212,7 +3212,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4198396302676723282, guid: 358fde23e12713c42a64b3518fae9298, type: 3}
-    GachaBgSprite: {fileID: -6773564207505128139, guid: 5e983cf17136f7043b34349b90b38fe9, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 4198396302676723282, guid: 358fde23e12713c42a64b3518fae9298, type: 3}
@@ -3243,7 +3243,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3794245925632563208, guid: 3ce34cf6164135449b83a94b06e77156, type: 3}
-    GachaBgSprite: {fileID: 8292478270386787609, guid: 343ec0bdd22578c49bfdf8604d4b9b8b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -3794245925632563208, guid: 3ce34cf6164135449b83a94b06e77156, type: 3}
@@ -3273,7 +3273,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -6540746013533115457, guid: a7e74405e7797db43bc14f9af35fc634, type: 3}
-    GachaBgSprite: {fileID: 5794316763466627999, guid: 3cd8b1ecf92f65248a282b252cabbbf0, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -6540746013533115457, guid: a7e74405e7797db43bc14f9af35fc634, type: 3}
@@ -3303,7 +3303,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3726173105481520280, guid: 729cad227c98c5d488cfc622c1a3adc4, type: 3}
-    GachaBgSprite: {fileID: -7737385165803744938, guid: c51c45addf114884a823a1587123c80b, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 3726173105481520280, guid: 729cad227c98c5d488cfc622c1a3adc4, type: 3}
@@ -3334,7 +3334,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1328007361483942785, guid: 680bb5b61ee34d74980a7107f1a4c6be, type: 3}
-    GachaBgSprite: {fileID: 1586626842165369715, guid: 386fa475e4d27f14b82805bdfd316fc6, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -1328007361483942785, guid: 680bb5b61ee34d74980a7107f1a4c6be, type: 3}
@@ -3364,7 +3364,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4089136233936145731, guid: 231570e2d1410da4f9ab4c9abd6adea1, type: 3}
-    GachaBgSprite: {fileID: -8402893129130656605, guid: 1c72cd84b80d3494ea493ce1b2a384a3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -4089136233936145731, guid: 231570e2d1410da4f9ab4c9abd6adea1, type: 3}
@@ -3395,7 +3395,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
-    GachaBgSprite: {fileID: 6102059257301845916, guid: 6eb9216e34b9d1142ad7d5afa8ea6131, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
@@ -3425,7 +3425,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
-    GachaBgSprite: {fileID: 8951662480222509254, guid: 64ad1b3b5838e404eaab0ef28da202d0, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
@@ -3455,7 +3455,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
-    GachaBgSprite: {fileID: -7393962280575117748, guid: 33fc6e5abac10514582bd7b1bf133d86, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
@@ -3485,7 +3485,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
-    GachaBgSprite: {fileID: 836583232162010164, guid: a32ab110d069b11418f724163eaf0804, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
@@ -3515,7 +3515,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
-    GachaBgSprite: {fileID: 2455325891033829186, guid: 610d13dd57f5de54595ff479ebe0f7ce, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
@@ -3545,7 +3545,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
-    GachaBgSprite: {fileID: -7486673390401144982, guid: d4b96a1828b671ac9bf2e7c726c41129, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
@@ -3575,7 +3575,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
-    GachaBgSprite: {fileID: -2176086600064815947, guid: 90f42ec1d0e478546b26269f300a0252, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
@@ -3605,7 +3605,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
-    GachaBgSprite: {fileID: 4234786471563235213, guid: 78b8e001a0896304786b3b3778e6a502, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
@@ -3635,7 +3635,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8865067329474519633, guid: afb088b4b7a9a12cdb5896b7a79fbda8, type: 3}
-    GachaBgSprite: {fileID: 7692968484172225212, guid: 26ae93f48f3f8524d9a84a2f2746ce6e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -8865067329474519633, guid: afb088b4b7a9a12cdb5896b7a79fbda8, type: 3}
@@ -3665,7 +3665,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1919444770414735937, guid: 7652475b2e106239684f19ceb614d3f2, type: 3}
-    GachaBgSprite: {fileID: -8975509540399521506, guid: 74c501d2d27d49945aeed6d50d9a231e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -1919444770414735937, guid: 7652475b2e106239684f19ceb614d3f2, type: 3}
@@ -3695,7 +3695,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7239469036725067523, guid: fd4979d82edf4bb9ca7cd91ece103f0d, type: 3}
-    GachaBgSprite: {fileID: 8980451151150265172, guid: aa78a8d2f31a4eb43bf7e8b3a9f4f78e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 7239469036725067523, guid: fd4979d82edf4bb9ca7cd91ece103f0d, type: 3}
@@ -3725,7 +3725,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5490619166591414022, guid: d667bf915eed8716d9f7375bf616d831, type: 3}
-    GachaBgSprite: {fileID: -321869034922575627, guid: c2ac76bea9ecaf042b5a8c9048be82c3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -5490619166591414022, guid: d667bf915eed8716d9f7375bf616d831, type: 3}
@@ -3755,7 +3755,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2192662919297186954, guid: f6d41de511fd2a0368992f943da51566, type: 3}
-    GachaBgSprite: {fileID: -4886190266801598155, guid: 3e0912b1fccc0894b8f0c0a20c344eff, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -2192662919297186954, guid: f6d41de511fd2a0368992f943da51566, type: 3}
@@ -3785,7 +3785,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 3844901709600984805, guid: 9137347bce978d87d9511e902086b421, type: 3}
-    GachaBgSprite: {fileID: 3350966177286309358, guid: b1c5bee6d2fa12f41919bda4829591c7, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 3844901709600984805, guid: 9137347bce978d87d9511e902086b421, type: 3}
@@ -3815,7 +3815,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
-    GachaBgSprite: {fileID: 557590265199117858, guid: 6e208ab8f40231e4a8644d8bccbdfddd, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
@@ -3845,7 +3845,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
-    GachaBgSprite: {fileID: 2890928977022477308, guid: 9e6f8a903c812624ab29cde4ea6a9503, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
@@ -3875,7 +3875,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
-    GachaBgSprite: {fileID: -1739285354996992582, guid: 9ae19847adab9cf4da90a67a2e64bd5a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
@@ -3905,7 +3905,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
-    GachaBgSprite: {fileID: 9091889254303718394, guid: bbb264882f2609c428aaa6887104fc70, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
@@ -3935,7 +3935,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
-    GachaBgSprite: {fileID: 5654900975129462605, guid: ca5675625733d704aada336b568b07a9, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
@@ -3965,7 +3965,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
-    GachaBgSprite: {fileID: 7639818093751248264, guid: db23bdd8cac7d0a4b94b624123111351, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
@@ -3995,7 +3995,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
-    GachaBgSprite: {fileID: -7082848351686739039, guid: d8d5820722124e94587822107b4785a5, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
@@ -4025,7 +4025,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
-    GachaBgSprite: {fileID: -7890952956052229216, guid: b1318e595db270d4fa25003a1787280a, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
@@ -4055,7 +4055,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
-    GachaBgSprite: {fileID: 7645169953968588111, guid: 85c181e12aa60b14dab47999b237c12e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
@@ -4085,7 +4085,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 6849194206482147940, guid: 7f351055486e4c7c8ba5f6dc81d94f9d, type: 3}
-    GachaBgSprite: {fileID: -3526187301002766734, guid: 210e6ccc64207bf44b6a779873ac0e67, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 6849194206482147940, guid: 7f351055486e4c7c8ba5f6dc81d94f9d, type: 3}
@@ -4115,7 +4115,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7970985495286462922, guid: 5f20e2e4d2ce7a7f6852efe68e4dd2fc, type: 3}
-    GachaBgSprite: {fileID: 293660233328448151, guid: aec168f7a17f42f4c8c71e3c18154cac, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 7970985495286462922, guid: 5f20e2e4d2ce7a7f6852efe68e4dd2fc, type: 3}
@@ -4145,7 +4145,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8301140656049028278, guid: 152010734c4027cde8eea901fc3c5791, type: 3}
-    GachaBgSprite: {fileID: 3446536341268842896, guid: a0318e3fa9f13e0488a94b4c9e47fe52, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -8301140656049028278, guid: 152010734c4027cde8eea901fc3c5791, type: 3}
@@ -4175,7 +4175,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4586573144910586291, guid: cad82440603f333bca373417dcd2590a, type: 3}
-    GachaBgSprite: {fileID: 6992567469191671373, guid: be82da2f3df41984282208e7b45d78cb, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 4586573144910586291, guid: cad82440603f333bca373417dcd2590a, type: 3}
@@ -4205,7 +4205,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
-    GachaBgSprite: {fileID: -4494982657345629481, guid: c6986fefbc530ae4caf62303016511a4, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
@@ -4235,7 +4235,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
-    GachaBgSprite: {fileID: -8582238694525330430, guid: 4f30a76bd3383d841902c42b8e1bb393, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
@@ -4265,7 +4265,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
-    GachaBgSprite: {fileID: -1067999991837148762, guid: 091db09370d6266498c307ac52e20d16, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
@@ -4295,7 +4295,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
-    GachaBgSprite: {fileID: -1507154118534954527, guid: 3772b42a94a402b4580d8a1a6ec865ac, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
@@ -4325,7 +4325,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
-    GachaBgSprite: {fileID: 3603820152395615872, guid: 111ccdabb142f5540b394d190a1df8b2, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
@@ -4355,7 +4355,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
-    GachaBgSprite: {fileID: 4115465952107050296, guid: a066ce02707f5924b8d6b51e0ee31b86, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
@@ -4385,7 +4385,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
-    GachaBgSprite: {fileID: -8839361690942130088, guid: 2fb0578957e76d74c8d2eb7040fa9768, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
@@ -4415,7 +4415,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
-    GachaBgSprite: {fileID: 4296589735984321906, guid: 6b29ed822153398408ca742636c69a3c, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
@@ -4445,7 +4445,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -6447672365172123936, guid: 3ff6bc0b5e2eb320197c46e572d3e76e, type: 3}
-    GachaBgSprite: {fileID: -2137103858649107318, guid: d6a4255d2f0ddab41a316be92affd8e8, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -6447672365172123936, guid: 3ff6bc0b5e2eb320197c46e572d3e76e, type: 3}
@@ -4475,7 +4475,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 1703009385497063897, guid: 62949d645805b40d2be4163a574a2c07, type: 3}
-    GachaBgSprite: {fileID: -1615167542915599335, guid: c6db1417f168b0d4fbd37bb9ad2cc437, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 1703009385497063897, guid: 62949d645805b40d2be4163a574a2c07, type: 3}
@@ -4505,7 +4505,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 751930741060082301, guid: fe52225905ce412b8b21ea3ecd283871, type: 3}
-    GachaBgSprite: {fileID: -3862754176544530486, guid: 9b6763189eec9da47ad926881b354fdd, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 751930741060082301, guid: fe52225905ce412b8b21ea3ecd283871, type: 3}
@@ -4535,7 +4535,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -465105690550796323, guid: 80bcb17a6ec488c10a368ac3fd1b8ec2, type: 3}
-    GachaBgSprite: {fileID: 4496541406792713470, guid: a861d051cd935244cbc35fb3aa598e93, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -465105690550796323, guid: 80bcb17a6ec488c10a368ac3fd1b8ec2, type: 3}
@@ -4595,7 +4595,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3456463445416911797, guid: 40f5fcde6f65561c6bcba111a1b7294f, type: 3}
-    GachaBgSprite: {fileID: -3787155894860865394, guid: 2a9ae33cf7ba24d48b7d6ff0ea869969, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -3456463445416911797, guid: 40f5fcde6f65561c6bcba111a1b7294f, type: 3}
@@ -4625,7 +4625,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2600618944019023201, guid: f1c7cc2cd2bac29e280f6b3660f693d7, type: 3}
-    GachaBgSprite: {fileID: 5194407171216233907, guid: 588ce5146f94c2046bc0027e15c11ab1, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -2600618944019023201, guid: f1c7cc2cd2bac29e280f6b3660f693d7, type: 3}
@@ -4655,7 +4655,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
-    GachaBgSprite: {fileID: 2999320548563150324, guid: abc8b86f6f1974e9e915aeb41e1de112, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
@@ -4685,7 +4685,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
-    GachaBgSprite: {fileID: 3099525820854196045, guid: 4276a5b889f9039218b594030751f07e, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
@@ -4715,7 +4715,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
-    GachaBgSprite: {fileID: -7738607878554436627, guid: 2fd243fb3d9a5521b8b6cb869775787f, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
@@ -4745,7 +4745,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
-    GachaBgSprite: {fileID: 8083368887191677052, guid: 6cfa2c9ec18966658a14d0ddf29fcf01, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
@@ -4775,7 +4775,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
-    GachaBgSprite: {fileID: 2741465742195731392, guid: 968dcbcea9b187e8cbd09c93baebb0ec, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
@@ -4805,7 +4805,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
-    GachaBgSprite: {fileID: -8781397078748819833, guid: 3984e74cd4f349a8e83654bfbe468286, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
@@ -4835,7 +4835,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
-    GachaBgSprite: {fileID: -3679327960365323947, guid: da3842e5371b1657287fae5a860dece8, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
@@ -4865,7 +4865,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
-    GachaBgSprite: {fileID: 2806884182296175786, guid: 7f31d84fc3ecf1c8a9a6fbe7578ba068, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 01000000
     BreakthroughSprites:
     - {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
@@ -4895,7 +4895,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
-    GachaBgSprite: {fileID: -5920210979045925325, guid: 8e1148a1aa25898699800fde28ccaee3, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: -2938790801539823122, guid: 06dc004a73a57a119a1da3373ad7a7fa, type: 3}
@@ -4925,7 +4925,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
-    GachaBgSprite: {fileID: 1285226242277227703, guid: 6e19bd405de9c7ea389f3a3c9a3b54ba, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 7731885100902877355, guid: fb135a345319e5c7b833529a691fa3b5, type: 3}
@@ -4955,7 +4955,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
-    GachaBgSprite: {fileID: -4949545528020448172, guid: 68359c37c11e9093f986ab5eab754e36, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 010000000200000003000000
     BreakthroughSprites:
     - {fileID: 2729481513579059390, guid: 39be8a755514dfcfd98f133b4d9bb447, type: 3}
@@ -4985,7 +4985,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
-    GachaBgSprite: {fileID: -4452873835243257274, guid: 32d688a5f666ffc2fbb013a1446d92b5, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -5193292496636309776, guid: 964c99ba73d8229fc8921e7356e4ea36, type: 3}
@@ -5015,7 +5015,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
-    GachaBgSprite: {fileID: 642284475035493213, guid: 77941d24c539ac599aa10370d777eb21, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: 5392803134361726196, guid: 9ea0378d6f3dee64a87af740584fbf90, type: 3}
@@ -5045,7 +5045,7 @@ MonoBehaviour:
     ShopCurrency: 0
     ShopPrice: 1000
     CardSprite: {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
-    GachaBgSprite: {fileID: 7837050385362355678, guid: cae1ceaded62d7b1a869b1c9baf1ffd7, type: 3}
+    GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 0100000002000000030000000400000005000000
     BreakthroughSprites:
     - {fileID: -5934251020545989291, guid: 685f8e63455af3d8ba9d2a402fde1961, type: 3}
@@ -5241,3 +5241,181 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "Pop Cat \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A popping cat opening and closing its mouth.
+  - Id: 0175
+    DisplayName: "\uBE0C\uB808\uBA58 \uACE0\uC591\uC774"
+    DisplayName_EN: Bremen Cat
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7238030847020706711, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000
+    BreakthroughSprites:
+    - {fileID: 7238030847020706711, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: -6812441263873712917, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294
+      \uBE0C\uB808\uBA58 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A Bremen cat that changes pose when clicked.
+  - Id: 0176
+    DisplayName: "\uBE0C\uB808\uBA58 \uB2ED"
+    DisplayName_EN: Bremen Chicken
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 9053567753236939946, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000
+    BreakthroughSprites:
+    - {fileID: 9053567753236939946, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 3430497986870726072, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294
+      \uBE0C\uB808\uBA58 \uB2ED\uC785\uB2C8\uB2E4."
+    Description_EN: A Bremen chicken that changes pose when clicked.
+  - Id: 0177
+    DisplayName: "\uBE0C\uB808\uBA58 \uAC1C"
+    DisplayName_EN: Bremen Dog
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1905406307316673891, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000
+    BreakthroughSprites:
+    - {fileID: -1905406307316673891, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 6325355470225590374, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294
+      \uBE0C\uB808\uBA58 \uAC1C\uC785\uB2C8\uB2E4."
+    Description_EN: A Bremen dog that changes pose when clicked.
+  - Id: 0178
+    DisplayName: "\uBE0C\uB808\uBA58 \uB9D0"
+    DisplayName_EN: Bremen Horse
+    Rarity: 0
+    BaseWeight: 100
+    ClickGold: 1
+    ShardValue: 1
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1335125198396136695, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000
+    BreakthroughSprites:
+    - {fileID: 1335125198396136695, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: -2602646907951096563, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294
+      \uBE0C\uB808\uBA58 \uB9D0\uC785\uB2C8\uB2E4."
+    Description_EN: A Bremen horse that changes pose when clicked.
+  - Id: 0179
+    DisplayName: "\uBE0C\uB808\uBA58 \uC74C\uC545\uB300"
+    DisplayName_EN: Bremen Town Musicians
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000
+    BreakthroughSprites:
+    - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBE0C\uB808\uBA58 \uC74C\uC545\uB300\uAC00 \uBAA8\uB450 \uBAA8\uC778
+      R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card featuring all Bremen Town Musicians together.
+  - Id: 0180
+    DisplayName: Earth Cat Society
+    DisplayName_EN: Earth Cat Society
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3031002982098488133, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -3031002982098488133, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: 3647055993959577418, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: -7879786460983969619, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: 6429554619392335465, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: -7971025467020112266, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: -8672706458361207736, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: -3620508329699625879, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    - {fileID: -2135440696289263694, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uC9C0\uAD6C \uACE0\uC591\uC774
+      \uC0AC\uD68C\uC758 \uAC01\uB3C4\uAC00 \uBC14\uB00C\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Earth Cat Society card that changes angle with every
+      click.

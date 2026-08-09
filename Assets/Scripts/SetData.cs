@@ -126,7 +126,7 @@ namespace CosmicChaosCat
             for (int i = 0; i < allCards.Count; i++)
             {
                 var card = allCards[i];
-                if (card != null && card.SetId == SetId)
+                if (card != null && card.CardSprite != null && card.SetId == SetId)
                     result.Add(card);
             }
             return result;

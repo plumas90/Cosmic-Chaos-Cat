@@ -6441,7 +6441,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7083246039597063554}
-  - {fileID: 6259384653651966207}
   m_Father: {fileID: 4580301885442342679}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -21538,6 +21537,7 @@ MonoBehaviour:
   rowSpriteSocket: {fileID: 1154050735075728277, guid: b984b5445f8207c48a430432e4db6eea, type: 3}
   rowSpriteAutoClicker: {fileID: -6165103216088945333, guid: a5daa98ce93c5cb44a096b16606719f8, type: 3}
   pawPrintParticleSprite: {fileID: 0}
+  shardCheckButtonTemplate: {fileID: 1356448836426529827}
 --- !u!222 &4354616484194166117
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25980,7 +25980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6259384653651966207
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25994,11 +25994,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2485911815310773032}
-  m_Father: {fileID: 7577086147222318858}
+  m_Father: {fileID: 6025941853877763572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.12}
   m_AnchorMax: {x: 0.5, y: 0.12}
-  m_AnchoredPosition: {x: 0.00018310547, y: -71.49287}
+  m_AnchoredPosition: {x: 0.00018310547, y: 0}
   m_SizeDelta: {x: 232, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1618082695440098904
@@ -26490,6 +26490,7 @@ RectTransform:
   m_LocalScale: {x: 0.95238584, y: 0.95238584, z: 0.66666996}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6259384653651966207}
   - {fileID: 4580301885442342679}
   m_Father: {fileID: 879582323818035738}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
