@@ -1476,7 +1476,9 @@ namespace CosmicChaosCat
                 if (unlocked)
                 {
                     if (!detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(true);
-                    Sprite targetSprite = card != null ? card.GetSpriteForStage(selectedIllustrationStage) : null;
+                    Sprite targetSprite = card != null && gm != null
+                        ? gm.GetCardSpriteForDisplay(card.Id, selectedIllustrationStage)
+                        : (card != null ? card.GetSpriteForStage(selectedIllustrationStage) : null);
                     if (targetSprite == null && card != null) targetSprite = card.CardSprite;
 
                     if (targetSprite != null)
@@ -1647,7 +1649,9 @@ namespace CosmicChaosCat
         private void UpdateDetailCardArtForStage(CardEntry card, int stage)
         {
             if (card == null) return;
-            Sprite stageSprite = card.GetSpriteForStage(stage);
+            Sprite stageSprite = gm != null
+                ? gm.GetCardSpriteForDisplay(card.Id, stage)
+                : card.GetSpriteForStage(stage);
             if (stageSprite == null) stageSprite = card.CardSprite;
 
             if (detailCardArt != null)
@@ -1734,7 +1738,7 @@ namespace CosmicChaosCat
             int oldStage = 1;
             if (gm.TryGetCardProgress(selectedCardId, out var beforeProgress) && beforeProgress != null)
                 oldStage = Mathf.Clamp(beforeProgress.BreakthroughCount + 1, 1, 5);
-            Sprite oldSprite = card.GetSpriteForStage(oldStage);
+            Sprite oldSprite = gm.GetCardSpriteForDisplay(card.Id, oldStage);
             if (oldSprite == null) oldSprite = card.CardSprite;
 
             if (gm.BreakthroughCard(selectedCardId))
@@ -1745,7 +1749,7 @@ namespace CosmicChaosCat
                 int newStage = newCount + 1; // Stage unlocked by new breakthrough level
 
                 var validStages = card.GetBreakthroughStages();
-                Sprite newSprite = card.GetSpriteForStage(newStage);
+                Sprite newSprite = gm.GetCardSpriteForDisplay(card.Id, newStage);
                 if (newSprite == null) newSprite = card.CardSprite;
 
                 bool isValidNewStage = validStages.Contains(newStage);

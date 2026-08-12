@@ -44,8 +44,17 @@ namespace CosmicChaosCat
             if (int.TryParse(cardId, out int parsed)) num = parsed;
             bool isBremenClickToggle = num >= 175 && num <= 178;
             bool isEarthCatSocietyAngleToggle = num == 180;
-            bool isSevenDeadlySinsToggle = num == 181;
-            bool isSpadeDeck = num == 209;
+            bool isSevenDeadlySinsToggle = false;
+            bool isSpadeDeck = num == 215;
+            bool isFistClashReward = num == 224;
+
+            // The reward stores its two movable halves in BreakthroughSprites,
+            // but its normal/encyclopedia view must remain the combined artwork.
+            if (isFistClashReward)
+            {
+                if (entry != null && entry.CardSprite != null) sprites.Add(entry.CardSprite);
+                return sprites;
+            }
 
             // A stage can contain multiple illustrations. Always keep that group
             // separate from the other breakthrough stages.

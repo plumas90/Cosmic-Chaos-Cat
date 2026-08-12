@@ -16,7 +16,7 @@ namespace CosmicChaosCat
             string digits = System.Text.RegularExpressions.Regex.Match(setIdStr, @"\d+").Value;
             if (int.TryParse(digits, out int num))
             {
-                return num <= 2 || num == 9 || num == 13; // 기존 공개 세트, 황도 12궁, 스페이드 덱 세트
+                return num <= 2 || num == 9 || num == 13 || num == 14; // 기존 공개 세트와 특수 카드 세트
             }
             return true;
         }
@@ -102,7 +102,7 @@ namespace CosmicChaosCat
                 lang = gm != null ? gm.SelectedLanguage : "KR";
             }
             bool isEN = lang == "EN";
-            if (SetId == "9" && RewardCardId == "0194")
+            if (SetId == "9" && RewardCardId == "0200")
                 return isEN ? "Unlock Ophiuchus Cat" : "뱀주인자리 고양이 해금";
 
             var parts = new List<string>();

@@ -55,7 +55,24 @@ namespace CosmicChaosCat
         private bool isSchrodingerActive = false;
         private bool isSchrodingerSpecialSequence = false;
         private Coroutine spadeDeckShuffleRoutine;
+        private Coroutine fistClashRoutine;
         private readonly List<Image> spadeDeckLayers = new List<Image>();
+        private RectTransform misfortuneContainer;
+        private Image misfortuneRearLadder;
+        private Image misfortuneCat;
+        private Image misfortuneFrontLadder;
+        private Sprite misfortuneCatA;
+        private Sprite misfortuneCatB;
+        private float misfortuneCatX;
+        private bool misfortuneUsesSecondFrame;
+        private readonly List<GameObject> hungryBiscuits = new List<GameObject>();
+        private Vector2 originalAnchorMin;
+        private Vector2 originalAnchorMax;
+        private Vector2 originalPivot;
+        private Vector2 originalAnchoredPosition;
+        private Sprite hungryBaseSprite;
+        private Sprite hungryBiteSprite;
+        private Coroutine hungryBiteRoutine;
 
         public void CycleMemeCatImage()
         {
@@ -66,12 +83,32 @@ namespace CosmicChaosCat
 
             var entry = gameManager.CardCatalog?.FindById(socketCardId);
             int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
-            var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry, selectedStage);
+            var sprites = GetActiveSpriteList(socketCardId, entry, selectedStage);
+
+            if (IsHungry(socketCardId))
+            {
+                SpawnHungryBiscuit(entry);
+                return;
+            }
+
+            if (IsMisfortune(socketCardId))
+            {
+                MoveMisfortuneCat();
+                return;
+            }
 
             if (IsSpadeDeck(socketCardId))
             {
                 if (sprites != null && sprites.Count >= 2 && spadeDeckShuffleRoutine == null)
                     spadeDeckShuffleRoutine = StartCoroutine(ShuffleSpadeDeck(sprites));
+                return;
+            }
+
+            if (IsFistClashReward(socketCardId))
+            {
+                if (entry != null && entry.BreakthroughSprites != null &&
+                    entry.BreakthroughSprites.Length >= 2 && fistClashRoutine == null)
+                    fistClashRoutine = StartCoroutine(PlayFistClash(entry.BreakthroughSprites[0], entry.BreakthroughSprites[1], entry.CardSprite));
                 return;
             }
 
@@ -94,7 +131,178 @@ namespace CosmicChaosCat
 
         private static bool IsSpadeDeck(string cardId)
         {
-            return int.TryParse(cardId, out int cardNumber) && cardNumber == 209;
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 215;
+        }
+
+        private static bool IsFistClashReward(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 224;
+        }
+
+        private static bool IsMisfortune(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 232;
+        }
+
+        private static bool IsHungry(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 233;
+        }
+
+        private System.Collections.IEnumerator PlayFistClash(Sprite dog, Sprite cat, Sprite combined)
+        {
+            if (cardImage == null || dog == null || cat == null)
+            {
+                fistClashRoutine = null;
+                yield break;
+            }
+
+            RectTransform front = cardImage.rectTransform;
+            Transform parent = front.parent;
+            Image left = CreateEffectImage("DogFistClashHalf", parent, dog);
+            Image right = CreateEffectImage("CatFistClashHalf", parent, cat);
+            RectTransform leftRect = left.rectTransform;
+            RectTransform rightRect = right.rectTransform;
+            CopyImageLayout(cardImage, left);
+            CopyImageLayout(cardImage, right);
+            leftRect.SetSiblingIndex(front.GetSiblingIndex() + 1);
+            rightRect.SetSiblingIndex(front.GetSiblingIndex() + 2);
+
+            Vector2 center = front.anchoredPosition;
+            float textureWidth = dog.texture != null ? dog.texture.width : 1536f;
+            float textureHeight = dog.texture != null ? dog.texture.height : 1024f;
+            float fitScale = Mathf.Min(front.rect.width / textureWidth, front.rect.height / textureHeight);
+            float fittedWidth = textureWidth * fitScale;
+
+            // Rebuild both cropped sprites at their exact source-PNG coordinates.
+            // Then close the source's 10 px transparent seam equally from both sides,
+            // so the two inner sprite edges (the fist tips) meet at one point.
+            Vector2 leftTarget = center + new Vector2(
+                (dog.rect.x + dog.rect.width * 0.5f - textureWidth * 0.5f) * fitScale,
+                (dog.rect.y + dog.rect.height * 0.5f - textureHeight * 0.5f) * fitScale);
+            Vector2 rightTarget = center + new Vector2(
+                (cat.rect.x + cat.rect.width * 0.5f - textureWidth * 0.5f) * fitScale,
+                (cat.rect.y + cat.rect.height * 0.5f - textureHeight * 0.5f) * fitScale);
+            float sourceGap = Mathf.Max(0f, cat.rect.xMin - dog.rect.xMax) * fitScale;
+            leftTarget.x += sourceGap * 0.5f;
+            rightTarget.x -= sourceGap * 0.5f;
+
+            leftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, dog.rect.width * fitScale);
+            leftRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, dog.rect.height * fitScale);
+            rightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cat.rect.width * fitScale);
+            rightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cat.rect.height * fitScale);
+
+            // Define the opening pose by the visible gap between the two fist tips.
+            // Each half moves outward by half the requested gap, keeping the pose centered.
+            float openingGap = Mathf.Max(130f, fittedWidth * 0.55f);
+            float halfOpeningGap = openingGap * 0.5f;
+            Vector2 leftStart = leftTarget + Vector2.left * halfOpeningGap;
+            Vector2 rightStart = rightTarget + Vector2.right * halfOpeningGap;
+            leftRect.anchoredPosition = leftStart;
+            rightRect.anchoredPosition = rightStart;
+            leftRect.localScale = front.localScale;
+            rightRect.localScale = front.localScale;
+            // Remove the original button art entirely while the two animation
+            // pieces are visible, preventing any combined-image overlap.
+            cardImage.enabled = false;
+
+            const float openingHoldDuration = 0.10f;
+            float openingHoldElapsed = 0f;
+            while (openingHoldElapsed < openingHoldDuration)
+            {
+                openingHoldElapsed += Time.unscaledDeltaTime;
+                leftRect.anchoredPosition = leftStart;
+                rightRect.anchoredPosition = rightStart;
+                cardImage.enabled = false;
+                yield return null;
+            }
+
+            const float approachDuration = 0.16f;
+            float elapsed = 0f;
+            while (elapsed < approachDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = SmoothStep(elapsed / approachDuration);
+                leftRect.anchoredPosition = Vector2.Lerp(leftStart, leftTarget, t);
+                rightRect.anchoredPosition = Vector2.Lerp(rightStart, rightTarget, t);
+                cardImage.enabled = false;
+                yield return null;
+            }
+
+            // Contact: start the explosion now, while both fists continue through
+            // one another instead of stopping at the collision point.
+            Vector2 impactPoint = center + new Vector2(
+                ((dog.rect.xMax + cat.rect.xMin) * 0.5f - textureWidth * 0.5f) * fitScale,
+                (544f - textureHeight * 0.5f) * fitScale);
+
+            Image explosion = CreateEffectImage("FistClashShaderExplosion", parent, null);
+            RectTransform explosionRect = explosion.rectTransform;
+            explosionRect.anchorMin = front.anchorMin;
+            explosionRect.anchorMax = front.anchorMax;
+            explosionRect.pivot = new Vector2(0.5f, 0.5f);
+            float explosionSize = Mathf.Max(240f, Mathf.Min(front.rect.width, front.rect.height) * 1.25f);
+            explosionRect.sizeDelta = new Vector2(explosionSize, explosionSize);
+            explosionRect.anchoredPosition = impactPoint;
+            explosionRect.SetSiblingIndex(front.GetSiblingIndex() + 3);
+
+            Shader explosionShader = Resources.Load<Shader>("Shaders/UIFistClashExplosion");
+            if (explosionShader == null) explosionShader = Shader.Find("CosmicChaosCat/UIFistClashExplosion");
+            Material explosionMaterial = explosionShader != null ? new Material(explosionShader) : null;
+            if (explosionMaterial != null) explosion.material = explosionMaterial;
+            explosion.color = Color.white;
+
+            const float followThroughDuration = 0.22f;
+            float passDistance = Mathf.Max(75f, fittedWidth * 0.18f);
+            Vector2 leftPassed = leftTarget + Vector2.right * passDistance;
+            Vector2 rightPassed = rightTarget + Vector2.left * passDistance;
+            elapsed = 0f;
+            while (elapsed < followThroughDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / followThroughDuration);
+                float moveT = 1f - Mathf.Pow(1f - t, 3f);
+                leftRect.anchoredPosition = Vector2.Lerp(leftTarget, leftPassed, moveT);
+                rightRect.anchoredPosition = Vector2.Lerp(rightTarget, rightPassed, moveT);
+                cardImage.enabled = false;
+                if (explosionMaterial != null) explosionMaterial.SetFloat("_Progress", t);
+                explosionRect.localScale = Vector3.one * Mathf.Lerp(0.45f, 1.35f, Mathf.Sin(t * Mathf.PI * 0.5f));
+                yield return null;
+            }
+
+            // Let the expanding shock ring remain briefly after the fists pass.
+            const float burstDuration = 0.10f;
+            elapsed = 0f;
+            while (elapsed < burstDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / burstDuration);
+                cardImage.enabled = false;
+                Color c = explosion.color;
+                c.a = 1f - t;
+                explosion.color = c;
+                yield return null;
+            }
+
+            if (explosionMaterial != null) Destroy(explosionMaterial);
+            Destroy(explosion.gameObject);
+            Destroy(left.gameObject);
+            Destroy(right.gameObject);
+            cardImage.sprite = combined != null ? combined : cardImage.sprite;
+            cardImage.color = Color.white;
+            cardImage.enabled = true;
+            FitSubClickSpriteToBounds(cardImage.sprite);
+            fistClashRoutine = null;
+        }
+
+        private static Image CreateEffectImage(string objectName, Transform parent, Sprite sprite)
+        {
+            GameObject go = new GameObject(objectName, typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent, false);
+            Image image = go.GetComponent<Image>();
+            image.sprite = sprite;
+            image.preserveAspect = sprite != null;
+            image.raycastTarget = false;
+            return image;
         }
 
         private System.Collections.IEnumerator ShuffleSpadeDeck(List<Sprite> sprites)
@@ -205,6 +413,22 @@ namespace CosmicChaosCat
             }
         }
 
+        private void SyncSpadeDeckLayerMotion()
+        {
+            if (cardImage == null || spadeDeckLayers.Count == 0) return;
+            RectTransform frontRect = cardImage.rectTransform;
+            for (int i = 0; i < spadeDeckLayers.Count; i++)
+            {
+                Image layer = spadeDeckLayers[i];
+                if (layer == null || !layer.gameObject.activeSelf) continue;
+                float depth = spadeDeckLayers.Count - i;
+                RectTransform rect = layer.rectTransform;
+                rect.anchoredPosition = frontRect.anchoredPosition + new Vector2(depth * 4f, depth * -4f);
+                rect.localScale = frontRect.localScale;
+                rect.localRotation = frontRect.localRotation * Quaternion.Euler(0f, 0f, depth * -0.65f);
+            }
+        }
+
         private static void CopyImageLayout(Image source, Image target)
         {
             RectTransform src = source.rectTransform;
@@ -239,6 +463,10 @@ namespace CosmicChaosCat
             {
                 originalSizeDelta = rectTransform.sizeDelta;
                 hasOriginalRectSize = true;
+                originalAnchorMin = rectTransform.anchorMin;
+                originalAnchorMax = rectTransform.anchorMax;
+                originalPivot = rectTransform.pivot;
+                originalAnchoredPosition = rectTransform.anchoredPosition;
             }
         }
 
@@ -343,6 +571,9 @@ namespace CosmicChaosCat
 
             // 152번 missing_cat 등 클릭 무관 자동 연속 프레임 루프 애니메이션
             UpdateAutoIdleAnimation();
+
+            // Spade Deck rear cards share the same breathing/click motion as the front card.
+            SyncSpadeDeckLayerMotion();
         }
 
         private void UpdateAutoIdleAnimation()
@@ -408,13 +639,17 @@ namespace CosmicChaosCat
                 bool shouldShow = isUnlocked && hasCard;
 
                 var graphics = GetComponentsInChildren<UnityEngine.UI.Graphic>(true);
-                foreach (var g in graphics) g.enabled = shouldShow;
+                foreach (var g in graphics)
+                {
+                    g.enabled = shouldShow;
+                    g.raycastTarget = false;
+                }
 
                 var renderers = GetComponentsInChildren<Renderer>(true);
                 foreach (var r in renderers) r.enabled = shouldShow;
 
                 var clicker = GetComponent<Clicker>();
-                if (clicker != null) clicker.enabled = shouldShow;
+                if (clicker != null) clicker.enabled = false;
 
                 if (!shouldShow) return;
             }
@@ -448,7 +683,7 @@ namespace CosmicChaosCat
             {
                 isAutoIdleActive = true;
                 autoIdleSprites = AutoIdleCatAnimationHelper.GetAutoIdleSprites(curCardId, card);
-                isSchrodingerActive = int.TryParse(curCardId, out int autoCardNumber) && autoCardNumber == 195;
+                isSchrodingerActive = int.TryParse(curCardId, out int autoCardNumber) && autoCardNumber == 201;
             }
             else
             {
@@ -474,7 +709,7 @@ namespace CosmicChaosCat
                 else
                 {
                     int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
-                    var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage);
+                    var sprites = GetActiveSpriteList(curCardId, card, selectedStage);
                     if (sprites != null && sprites.Count >= 2)
                     {
                         if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
@@ -520,6 +755,12 @@ namespace CosmicChaosCat
             // 171 롱넥캣 전용 커스텀 디스플레이 토글
             RefreshLongNeckDisplay(card != null && card.Id == "0171");
 
+            // Run after Long Neck refresh because that helper restores the base
+            // image color. Misfortune must leave CenterClick transparent so only
+            // its dedicated walking-cat layer remains visible.
+            RefreshMisfortuneDisplay(IsMisfortune(curCardId), card);
+            RefreshHungryDisplay(IsHungry(curCardId), card);
+
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;
             if (frameImage != null) frameImage.color = rarityColor;
@@ -564,6 +805,15 @@ namespace CosmicChaosCat
             float scale = Mathf.Min(maxWidth / spriteWidth, maxHeight / spriteHeight);
             cardImage.rectTransform.sizeDelta = new Vector2(spriteWidth * scale, spriteHeight * scale);
             cardImage.preserveAspect = true;
+        }
+
+        private List<Sprite> GetActiveSpriteList(string cardId, CardEntry entry, int stage)
+        {
+            List<Sprite> hiddenSprites = gameManager != null
+                ? gameManager.GetHiddenReplacementSprites(cardId)
+                : null;
+            if (hiddenSprites != null && hiddenSprites.Count >= 2) return hiddenSprites;
+            return MemeCatToggleDisplayHelper.GetSpriteListForCard(cardId, entry, stage);
         }
 
         private void OnCardDrawn(string cardId, CardRarity rarity)
@@ -866,13 +1116,247 @@ namespace CosmicChaosCat
                 {
                     cardImage.enabled = true;
                     cardImage.color = isLongNeck ? new Color(1f, 1f, 1f, 0f) : Color.white;
-                    cardImage.raycastTarget = true;
+                    cardImage.raycastTarget = mySocket == ClickSocketSlot.Center;
                 }
                 
                 if (!isLongNeck)
                 {
                     ClearSpawnedNecks();
                 }
+            }
+        }
+
+        private void RefreshMisfortuneDisplay(bool active, CardEntry card)
+        {
+            if (!active)
+            {
+                if (misfortuneContainer != null) misfortuneContainer.gameObject.SetActive(false);
+                return;
+            }
+
+            EnsureMisfortuneSetup(card);
+            if (misfortuneContainer == null) return;
+            misfortuneContainer.gameObject.SetActive(true);
+            if (cardImage != null)
+            {
+                cardImage.enabled = true;
+                cardImage.color = new Color(1f, 1f, 1f, 0f);
+                cardImage.raycastTarget = mySocket == ClickSocketSlot.Center;
+            }
+        }
+
+        private void EnsureMisfortuneSetup(CardEntry card)
+        {
+            if (cardImage == null || card == null) return;
+
+            var sprites = card.BreakthroughSprites;
+            if (sprites == null || sprites.Length < 4) return;
+
+            // Catalog order: rear ladder, cat frame 1, cat frame 2, front ladder.
+            Sprite rear = sprites[0];
+            misfortuneCatA = sprites[1];
+            misfortuneCatB = sprites[2];
+            Sprite front = sprites[3];
+            if (rear == null || misfortuneCatA == null || misfortuneCatB == null || front == null) return;
+
+            if (misfortuneContainer == null)
+            {
+                var containerObject = new GameObject("MisfortuneLayers", typeof(RectTransform));
+                containerObject.transform.SetParent(cardImage.transform, false);
+                misfortuneContainer = containerObject.GetComponent<RectTransform>();
+                misfortuneContainer.anchorMin = Vector2.zero;
+                misfortuneContainer.anchorMax = Vector2.one;
+                misfortuneContainer.offsetMin = Vector2.zero;
+                misfortuneContainer.offsetMax = Vector2.zero;
+
+                misfortuneRearLadder = CreateMisfortuneLayer("MisfortuneRearLadder", misfortuneContainer);
+                misfortuneCat = CreateMisfortuneLayer("MisfortuneCat", misfortuneContainer);
+                misfortuneFrontLadder = CreateMisfortuneLayer("MisfortuneFrontLadder", misfortuneContainer);
+                misfortuneCatX = 0f;
+                misfortuneUsesSecondFrame = false;
+            }
+
+            SetMisfortuneSprite(misfortuneRearLadder, rear);
+            SetMisfortuneSprite(misfortuneCat, misfortuneUsesSecondFrame ? misfortuneCatB : misfortuneCatA);
+            SetMisfortuneSprite(misfortuneFrontLadder, front);
+
+            // ladder_1 is the left/front half and ladder_2 is the right/rear half.
+            // Place their inner crop edges directly next to each other to rebuild
+            // the original ladder instead of stacking both halves at the center.
+            float frontWidth = front.rect.width;
+            float rearWidth = rear.rect.width;
+            misfortuneFrontLadder.rectTransform.anchoredPosition = new Vector2(-rearWidth * 0.5f, 0f);
+            misfortuneRearLadder.rectTransform.anchoredPosition = new Vector2(frontWidth * 0.5f, 0f);
+            misfortuneCat.rectTransform.anchoredPosition = new Vector2(misfortuneCatX, -70f);
+        }
+
+        private static Image CreateMisfortuneLayer(string objectName, Transform parent)
+        {
+            var layerObject = new GameObject(objectName, typeof(RectTransform), typeof(Image));
+            layerObject.transform.SetParent(parent, false);
+            Image layer = layerObject.GetComponent<Image>();
+            layer.preserveAspect = true;
+            layer.raycastTarget = false;
+            return layer;
+        }
+
+        private static void SetMisfortuneSprite(Image image, Sprite sprite)
+        {
+            if (image == null || sprite == null) return;
+            image.sprite = sprite;
+            image.rectTransform.sizeDelta = sprite.rect.size;
+            image.color = Color.white;
+        }
+
+        private void MoveMisfortuneCat()
+        {
+            if (misfortuneCat == null || misfortuneContainer == null) return;
+
+            misfortuneUsesSecondFrame = !misfortuneUsesSecondFrame;
+            Sprite nextFrame = misfortuneUsesSecondFrame ? misfortuneCatB : misfortuneCatA;
+            SetMisfortuneSprite(misfortuneCat, nextFrame);
+            misfortuneCatX -= 100f;
+
+            float halfCatWidth = misfortuneCat.rectTransform.rect.width * 0.5f;
+            float halfViewportWidth = GetMisfortuneViewportWidth() * 0.5f;
+            if (misfortuneCatX + halfCatWidth < -halfViewportWidth)
+            {
+                // Re-enter already straddling the right edge instead of teleporting fully on-screen.
+                misfortuneCatX = halfViewportWidth + halfCatWidth * 0.5f;
+            }
+            misfortuneCat.rectTransform.anchoredPosition = new Vector2(misfortuneCatX, -70f);
+        }
+
+        private float GetMisfortuneViewportWidth()
+        {
+            Canvas canvas = cardImage != null ? cardImage.canvas : null;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect != null && canvasRect.rect.width > 0f)
+            {
+                Vector3 canvasScale = canvasRect.lossyScale;
+                Vector3 localScale = misfortuneContainer.lossyScale;
+                if (Mathf.Abs(localScale.x) > 0.0001f)
+                    return canvasRect.rect.width * Mathf.Abs(canvasScale.x / localScale.x);
+            }
+            return misfortuneContainer.rect.width > 0f ? misfortuneContainer.rect.width : Screen.width;
+        }
+
+        private void RefreshHungryDisplay(bool active, CardEntry card)
+        {
+            if (cardImage == null || !(cardImage.transform is RectTransform rect)) return;
+
+            if (active)
+            {
+                hungryBaseSprite = card != null ? card.CardSprite : null;
+                hungryBiteSprite = card != null && card.BreakthroughSprites != null &&
+                    card.BreakthroughSprites.Length > 0 ? card.BreakthroughSprites[0] : null;
+                if (hungryBiteRoutine == null && hungryBaseSprite != null)
+                    cardImage.sprite = hungryBaseSprite;
+
+                if (mySocket == ClickSocketSlot.Center)
+                {
+                    rect.anchorMin = new Vector2(0.5f, 0f);
+                    rect.anchorMax = new Vector2(0.5f, 0f);
+                    rect.pivot = new Vector2(0.5f, 0f);
+                    rect.anchoredPosition = Vector2.zero;
+                    if (cardImage.sprite != null) rect.sizeDelta = cardImage.sprite.rect.size;
+                }
+            }
+            else
+            {
+                if (mySocket == ClickSocketSlot.Center)
+                {
+                    rect.anchorMin = originalAnchorMin;
+                    rect.anchorMax = originalAnchorMax;
+                    rect.pivot = originalPivot;
+                    rect.anchoredPosition = originalAnchoredPosition;
+                    if (hasOriginalRectSize) rect.sizeDelta = originalSizeDelta;
+                }
+                ClearHungryBiscuits();
+            }
+        }
+
+        private void SpawnHungryBiscuit(CardEntry card)
+        {
+            if (cardImage == null || card == null) return;
+            var states = gameManager != null ? gameManager.GetCardStates() : null;
+            if (states == null || !states.TryGetValue(card.Id, out var progress)) return;
+
+            hungryBiscuits.RemoveAll(go => go == null);
+            // BreakthroughCount is zero-based internally: the unevolved card is
+            // visual stage 1, so it must already allow two biscuits.
+            int breakthroughStage = Mathf.Clamp(progress.BreakthroughCount + 1, 1, 5);
+            int maxBiscuits = breakthroughStage * 2;
+            if (card.BreakthroughSprites == null || card.BreakthroughSprites.Length < 2) return;
+            Sprite biscuitSprite = card.BreakthroughSprites[1];
+            if (biscuitSprite == null) return;
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+            // Every click socket owns and limits its own biscuit collection.
+            if (hungryBiscuits.Count >= maxBiscuits) return;
+
+            Image biscuit = CreateEffectImage("HungryBiscat", canvasRect, biscuitSprite);
+            RectTransform biscuitRect = biscuit.rectTransform;
+            biscuitRect.anchorMin = biscuitRect.anchorMax = new Vector2(0.5f, 0.5f);
+            biscuitRect.pivot = new Vector2(0.5f, 0.5f);
+
+            RectTransform hungryRect = cardImage.rectTransform;
+            float hungryScale = card.CardSprite != null && card.CardSprite.rect.width > 0f
+                ? hungryRect.rect.width / card.CardSprite.rect.width
+                : 1f;
+            biscuitRect.sizeDelta = biscuitSprite.rect.size * Mathf.Max(0.05f, hungryScale);
+            Vector3 mouthWorld = hungryRect.TransformPoint(new Vector3(
+                hungryRect.rect.xMin + hungryRect.rect.width * 0.95f,
+                hungryRect.rect.yMin + hungryRect.rect.height * 0.70f,
+                0f));
+            Vector2 mouthLocal = canvasRect.InverseTransformPoint(mouthWorld);
+            float spawnY = canvasRect.rect.yMax + biscuitRect.rect.height * 0.35f;
+            biscuitRect.anchoredPosition = new Vector2(mouthLocal.x, spawnY);
+            hungryBiscuits.Add(biscuit.gameObject);
+            StartCoroutine(DropHungryBiscuit(biscuitRect, mouthLocal.y));
+        }
+
+        private System.Collections.IEnumerator DropHungryBiscuit(RectTransform biscuit, float targetY)
+        {
+            const float fallSpeed = 950f;
+            while (biscuit != null && biscuit.anchoredPosition.y > targetY)
+            {
+                Vector2 position = biscuit.anchoredPosition;
+                position.y = Mathf.Max(targetY, position.y - fallSpeed * Time.unscaledDeltaTime);
+                biscuit.anchoredPosition = position;
+                biscuit.Rotate(0f, 0f, 240f * Time.unscaledDeltaTime);
+                yield return null;
+            }
+            if (biscuit != null)
+            {
+                hungryBiscuits.Remove(biscuit.gameObject);
+                Destroy(biscuit.gameObject);
+                if (hungryBiteRoutine != null) StopCoroutine(hungryBiteRoutine);
+                hungryBiteRoutine = StartCoroutine(PlayHungryBiteReaction());
+            }
+        }
+
+        private System.Collections.IEnumerator PlayHungryBiteReaction()
+        {
+            if (cardImage != null && hungryBiteSprite != null)
+                cardImage.sprite = hungryBiteSprite;
+            yield return new WaitForSecondsRealtime(0.14f);
+            if (cardImage != null && hungryBaseSprite != null)
+                cardImage.sprite = hungryBaseSprite;
+            hungryBiteRoutine = null;
+        }
+
+        private void ClearHungryBiscuits()
+        {
+            foreach (GameObject biscuit in hungryBiscuits)
+                if (biscuit != null) Destroy(biscuit);
+            hungryBiscuits.Clear();
+            if (hungryBiteRoutine != null)
+            {
+                StopCoroutine(hungryBiteRoutine);
+                hungryBiteRoutine = null;
             }
         }
 
@@ -917,7 +1401,7 @@ namespace CosmicChaosCat
                 {
                     cardImage.enabled = true;
                     cardImage.color = new Color(1f, 1f, 1f, 0f);
-                    cardImage.raycastTarget = true;
+                    cardImage.raycastTarget = mySocket == ClickSocketSlot.Center;
                 }
 
                 // 클릭할 때마다 하이어라키 맵에 neck1, neck2, neck3... 게임오브젝트를 즉시 새로 생성!

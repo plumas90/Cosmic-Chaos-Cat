@@ -42,9 +42,8 @@ namespace CosmicChaosCat
         {
             if (gameObject.name != "CenterClick" && gameObject.name.Contains("SubClick"))
             {
-                GetComponent<CardImageDisplay>()?.TriggerClickBounce();
-                effectPlayer?.PlayNormalClick();
-                Clicked?.Invoke();
+                // Sub-click sockets are passive displays/income slots.
+                // They may react to the main click event, but never accept input themselves.
                 return;
             }
 
@@ -57,9 +56,6 @@ namespace CosmicChaosCat
         {
             if (gameObject.name != "CenterClick" && gameObject.name.Contains("SubClick"))
             {
-                GetComponent<CardImageDisplay>()?.TriggerClickBounce();
-                effectPlayer?.PlayNormalClick();
-                Clicked?.Invoke();
                 return;
             }
 

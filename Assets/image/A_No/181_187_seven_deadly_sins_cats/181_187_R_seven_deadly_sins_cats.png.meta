@@ -1,22 +1,28 @@
 fileFormatVersion: 2
-guid: fbd0b24de012ad73ab246360a907fdbd
+guid: cce6d3d55a9dfc430b109b832a5323a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4555377621827256197
-    second: hawtu_0
+      213: 6130405391043685099
+    second: seven_deadly_sins_cats_Pride_181
   - first:
-      213: -9182514710002482540
-    second: hawtu_1
+      213: 6763450869596664488
+    second: seven_deadly_sins_cats_Greed_182
   - first:
-      213: 78013601941623888
-    second: hawtu_2
+      213: -1437192315205690837
+    second: seven_deadly_sins_cats_Lust_183
   - first:
-      213: 2568155100790645889
-    second: hawtu_3
+      213: -7760733436313817252
+    second: seven_deadly_sins_cats_Envy_184
   - first:
-      213: 5004027617864606322
-    second: hawtu_4
+      213: -3334693106859756212
+    second: seven_deadly_sins_cats_Gluttony_185
+  - first:
+      213: -3367640755522405554
+    second: seven_deadly_sins_cats_Wrath_186
+  - first:
+      213: 544069119018914416
+    second: seven_deadly_sins_cats_Sloth_187
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -112,13 +118,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hawtu_0
+      name: seven_deadly_sins_cats_Pride_181
       rect:
         serializedVersion: 2
-        x: 29
-        y: 254
-        width: 265
-        height: 581
+        x: 79
+        y: 779
+        width: 398
+        height: 602
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,20 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b700939303c08c0c0800000000000000
-      internalID: -4555377621827256197
+      spriteID: bea6c4e0933931550800000000000000
+      internalID: 6130405391043685099
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hawtu_1
+      name: seven_deadly_sins_cats_Greed_182
       rect:
         serializedVersion: 2
-        x: 316
-        y: 254
-        width: 286
-        height: 581
+        x: 586
+        y: 1012
+        width: 395
+        height: 369
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 492c085b587219080800000000000000
-      internalID: -9182514710002482540
+      spriteID: 8a2bd1a4bba9cdd50800000000000000
+      internalID: 6763450869596664488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hawtu_2
+      name: seven_deadly_sins_cats_Lust_183
       rect:
         serializedVersion: 2
-        x: 624
-        y: 254
-        width: 286
-        height: 581
+        x: 1079
+        y: 935
+        width: 402
+        height: 446
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 054116725f8251100800000000000000
-      internalID: 78013601941623888
+      spriteID: b2a5e3234311e0ce0800000000000000
+      internalID: -1437192315205690837
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hawtu_3
+      name: seven_deadly_sins_cats_Envy_184
       rect:
         serializedVersion: 2
-        x: 926
-        y: 254
-        width: 293
-        height: 582
+        x: 1583
+        y: 1083
+        width: 401
+        height: 298
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 184ebbe157be3a320800000000000000
-      internalID: 2568155100790645889
+      spriteID: c5fa40cce065c4490800000000000000
+      internalID: -7760733436313817252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hawtu_4
+      name: seven_deadly_sins_cats_Gluttony_185
       rect:
         serializedVersion: 2
-        x: 1243
-        y: 254
-        width: 267
-        height: 581
+        x: 79
+        y: 301
+        width: 402
+        height: 360
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,8 +221,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 27260112b90e17540800000000000000
-      internalID: 5004027617864606322
+      spriteID: c453eaa894ac8b1d0800000000000000
+      internalID: -3334693106859756212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Wrath_186
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 231
+        width: 402
+        height: 430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b75fb439cb341d0800000000000000
+      internalID: -3367640755522405554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: seven_deadly_sins_cats_Sloth_187
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 395
+        width: 402
+        height: 266
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 072d16c2bfbec8700800000000000000
+      internalID: 544069119018914416
       vertices: []
       indices: 
       edges: []
@@ -225,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e67fb6aab09758beeba269d3834153c4
+    spriteID: 68449d16219b0504fb51e355521ec9a8
     internalID: 0
     vertices: []
     indices: 
@@ -235,11 +285,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      hawtu_0: -4555377621827256197
-      hawtu_1: -9182514710002482540
-      hawtu_2: 78013601941623888
-      hawtu_3: 2568155100790645889
-      hawtu_4: 5004027617864606322
+      seven_deadly_sins_cats_Envy_184: -7760733436313817252
+      seven_deadly_sins_cats_Gluttony_185: -3334693106859756212
+      seven_deadly_sins_cats_Greed_182: 6763450869596664488
+      seven_deadly_sins_cats_Lust_183: -1437192315205690837
+      seven_deadly_sins_cats_Pride_181: 6130405391043685099
+      seven_deadly_sins_cats_Sloth_187: 544069119018914416
+      seven_deadly_sins_cats_Wrath_186: -3367640755522405554
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

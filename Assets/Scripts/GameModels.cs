@@ -33,6 +33,7 @@ namespace CosmicChaosCat
     [Serializable]
     public sealed class GameSaveData
     {
+        public int SaveVersion;
         public double Money;
         public int Shards;
         public float ElapsedSeconds;

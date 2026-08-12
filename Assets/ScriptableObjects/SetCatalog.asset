@@ -152,7 +152,7 @@ MonoBehaviour:
     ShardBonusMultiplier: 1
     RewardBackgroundId: bg_s9
     RewardDecorationId: deco_s9_0
-    RewardCardId: 0194
+    RewardCardId: 0200
     EffectDesc: "\uD669\uB3C4 12\uAD81\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74 13\uBC88\uC9F8
       \uBCC4\uC790\uB9AC \uCE74\uB4DC\uC778 \uBC40\uC8FC\uC778\uC790\uB9AC \uACE0\uC591\uC774\uB97C
       \uD68D\uB4DD\uD569\uB2C8\uB2E4."
@@ -169,7 +169,24 @@ MonoBehaviour:
     ShardBonusMultiplier: 1
     RewardBackgroundId: 
     RewardDecorationId: 
-    RewardCardId: 0209
+    RewardCardId: 0215
     EffectDesc: "\uC2A4\uD398\uC774\uB4DC A~K 13\uC7A5\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74
       SR \uB4F1\uAE09 \uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting Art Cats!
+  - SetId: 14
+    SetName: "\uAC1C\uC640 \uACE0\uC591\uC774\uC758 \uC8FC\uBA39 \uCDA9\uB3CC"
+    SetName_EN: Music & Orchestra Cats
+    RewardGold: 0
+    RewardShards: 0
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
+    ShardBonusMultiplier: 1
+    RewardBackgroundId: 
+    RewardDecorationId: 
+    RewardCardId: 0224
+    EffectDesc: "\uAC1C\uC758 \uC8FC\uBA39\uACFC \uACE0\uC591\uC774\uC758 \uC8FC\uBA39\uC744
+      \uBAA8\uB450 \uBAA8\uC73C\uBA74 SR \uB4F1\uAE09 \uC644\uC131 \uCE74\uB4DC\uB97C
+      \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    EffectDesc_EN: Bonus for collecting Music Cats!

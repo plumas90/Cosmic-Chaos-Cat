@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: -2597496237920175439
     second: dog_cat_fist_clash_transparent2-Photoroom_1
+  - first:
+      213: -2137157109
+    second: dog_cat_fist_clash_all
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -142,6 +145,28 @@ TextureImporter:
       bones: []
       spriteID: 1baba590fe6d3fbd0800000000000000
       internalID: -2597496237920175439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dog_cat_fist_clash_all
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1536
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55c43ab67d1141f8a000000000000000
+      internalID: -2137157109
       vertices: []
       indices: 
       edges: []

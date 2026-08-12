@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02cf207ca043409b9965f239096ac525, type: 3}
+  m_Name: HiddenEvolutionCatalog
+  m_EditorClassIdentifier: 
+  entries:
+  - Id: hidden-bremen-evolution
+    DisplayName: "\uD788\uB4E0 \uBE0C\uB808\uBA58 \uC74C\uC545\uB300"
+    Description: "\uB2E4\uC12F \uBE0C\uB808\uBA58 \uCE74\uB4DC\uB97C \uBAA8\uB4E0 \uD074\uB9AD \uC2AC\uB86F\uC5D0 \uD558\uB098\uC529 \uC7A5\uCC29\uD574 \uD788\uB4E0 \uC5F0\uCD9C\uC744 \uD574\uAE08\uD588\uC2B5\uB2C8\uB2E4."
+    RequiredCardIds:
+    - "0175"
+    - "0176"
+    - "0177"
+    - "0178"
+    - "0179"
+    PopupSprite: {fileID: -6439987662026436647, guid: b930fb7a321316e38a840ccc06df742a, type: 3}
+    Replacements:
+    - CardId: "0175"
+      Sprites:
+      - {fileID: -7101772409002882758, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+      - {fileID: 8016942394042808952, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+    - CardId: "0176"
+      Sprites:
+      - {fileID: 1346483701577808785, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+      - {fileID: -3620772422198402180, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+    - CardId: "0177"
+      Sprites:
+      - {fileID: 2866609586198688164, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+      - {fileID: -6487720904306782924, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+    - CardId: "0178"
+      Sprites:
+      - {fileID: -6048757892227323008, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+      - {fileID: -888764729305120085, guid: d991a6a17374fa19c9692c27f6c309c5, type: 3}
+    - CardId: "0179"
+      Sprites:
+      - {fileID: -6439987662026436647, guid: b930fb7a321316e38a840ccc06df742a, type: 3}
+      - {fileID: 2498846087553955542, guid: b930fb7a321316e38a840ccc06df742a, type: 3}

@@ -116,15 +116,38 @@ namespace CosmicChaosCat
             if (int.TryParse(Id, out int clickVariantCardNumber))
             {
                 // These multi-sprite cards change only through clicks, never through breakthrough.
-                if (clickVariantCardNumber == 180 || clickVariantCardNumber == 181)
+                if (clickVariantCardNumber == 180)
                     return CardSprite;
 
                 // Schrodinger shows frame 2 only as its 5-star encyclopedia illustration.
                 // Its equipped auto animation still starts independently from frame 0.
-                if (clickVariantCardNumber == 195)
+                if (clickVariantCardNumber == 201)
                 {
                     if (stage >= 5 && BreakthroughSprites != null && BreakthroughSprites.Length > 2 && BreakthroughSprites[2] != null)
                         return BreakthroughSprites[2];
+                    return CardSprite;
+                }
+
+                // The two stored sprites are animation pieces. Encyclopedia and
+                // normal card views always use the combined full illustration.
+                if (clickVariantCardNumber == 224)
+                    return CardSprite;
+
+                // Misfortune stores ladder layers and walking frames as effect
+                // pieces. Encyclopedia slots always show the representative cat.
+                if (clickVariantCardNumber == 232)
+                    return CardSprite;
+
+                // Hungry_2 is a momentary bite reaction, not a breakthrough image.
+                if (clickVariantCardNumber == 233)
+                    return CardSprite;
+
+                if (clickVariantCardNumber == 234)
+                {
+                    if (stage >= 5 && BreakthroughSprites != null && BreakthroughSprites.Length > 2 && BreakthroughSprites[2] != null)
+                        return BreakthroughSprites[2];
+                    if (stage >= 3 && BreakthroughSprites != null && BreakthroughSprites.Length > 1 && BreakthroughSprites[1] != null)
+                        return BreakthroughSprites[1];
                     return CardSprite;
                 }
             }

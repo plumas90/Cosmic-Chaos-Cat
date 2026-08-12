@@ -237,7 +237,9 @@ namespace CosmicChaosCat
                 {
                     if (!cardArtImage.gameObject.activeSelf) cardArtImage.gameObject.SetActive(true);
                     int selStage = (progress != null && progress.SelectedStage > 0) ? progress.SelectedStage : 1;
-                    Sprite stageSprite = card != null ? card.GetSpriteForStage(selStage) : null;
+                    Sprite stageSprite = card != null && gm != null
+                        ? gm.GetCardSpriteForDisplay(card.Id, selStage)
+                        : (card != null ? card.GetSpriteForStage(selStage) : null);
                     if (stageSprite == null && card != null) stageSprite = card.CardSprite;
                     if (stageSprite == null) stageSprite = _originalArtSprite;
 

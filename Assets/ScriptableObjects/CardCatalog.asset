@@ -5420,8 +5420,8 @@ MonoBehaviour:
     Description_EN: An R-grade Earth Cat Society card that changes angle with every
       click.
   - Id: 0181
-    DisplayName: "\uC77C\uACF1 \uB300\uC8C4 \uACE0\uC591\uC774"
-    DisplayName_EN: Seven Deadly Sins Cats
+    DisplayName: "\uAD50\uB9CC\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Pride Cat
     Rarity: 1
     BaseWeight: 40
     ClickGold: 5
@@ -5435,26 +5435,173 @@ MonoBehaviour:
     CardSprite: {fileID: 6130405391043685099, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
-    BreakthroughSprites:
-    - {fileID: 6130405391043685099, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: 6763450869596664488, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: -1437192315205690837, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: -7760733436313817252, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: -3334693106859756212, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: -3367640755522405554, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
-    - {fileID: 544069119018914416, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    BreakthroughSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
     BreakthroughDescriptions_EN: []
     SpecialEffect: 0
     SpecialEffectValue: 0
-    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uC77C\uACF1 \uB300\uC8C4
-      \uACE0\uC591\uC774\uC758 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uB294 R \uB4F1\uAE09
-      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
-    Description_EN: An R-grade card that cycles through the Seven Deadly Sins Cats
-      when clicked.
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uAD50\uB9CC\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Pride Cat of the Seven Deadly Sins.
   - Id: 0182
+    DisplayName: "\uD0D0\uC695\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Greed Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6763450869596664488, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uD0D0\uC695\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Greed Cat of the Seven Deadly Sins.
+  - Id: 0183
+    DisplayName: "\uC0C9\uC695\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Lust Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1437192315205690837, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uC0C9\uC695\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Lust Cat of the Seven Deadly Sins.
+  - Id: 0184
+    DisplayName: "\uC9C8\uD22C\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Envy Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7760733436313817252, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uC9C8\uD22C\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Envy Cat of the Seven Deadly Sins.
+  - Id: 0185
+    DisplayName: "\uD3ED\uC2DD\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Gluttony Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3334693106859756212, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uD3ED\uC2DD\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Gluttony Cat of the Seven Deadly Sins.
+  - Id: 0186
+    DisplayName: "\uBD84\uB178\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Wrath Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3367640755522405554, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uBD84\uB178\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Wrath Cat of the Seven Deadly Sins.
+  - Id: 0187
+    DisplayName: "\uB098\uD0DC\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Sloth Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 544069119018914416, guid: cce6d3d55a9dfc430b109b832a5323a6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC77C\uACF1 \uB300\uC8C4 \uC911 \uB098\uD0DC\uC744 \uB2F4\uC740
+      R \uB4F1\uAE09 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Sloth Cat of the Seven Deadly Sins.
+  - Id: 0188
     DisplayName: "\uC591\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Aries Cat
     Rarity: 1
@@ -5479,7 +5626,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC591\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Aries Cat of the zodiac.
-  - Id: 0183
+  - Id: 0189
     DisplayName: "\uD669\uC18C\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Taurus Cat
     Rarity: 1
@@ -5504,7 +5651,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uD669\uC18C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Taurus Cat of the zodiac.
-  - Id: 0184
+  - Id: 0190
     DisplayName: "\uC30D\uB465\uC774\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Gemini Cat
     Rarity: 1
@@ -5529,7 +5676,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC30D\uB465\uC774\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Gemini Cat of the zodiac.
-  - Id: 0185
+  - Id: 0191
     DisplayName: "\uAC8C\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Cancer Cat
     Rarity: 1
@@ -5554,7 +5701,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uAC8C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Cancer Cat of the zodiac.
-  - Id: 0186
+  - Id: 0192
     DisplayName: "\uC0AC\uC790\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Leo Cat
     Rarity: 1
@@ -5579,7 +5726,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC0AC\uC790\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Leo Cat of the zodiac.
-  - Id: 0187
+  - Id: 0193
     DisplayName: "\uCC98\uB140\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Virgo Cat
     Rarity: 1
@@ -5604,7 +5751,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uCC98\uB140\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Virgo Cat of the zodiac.
-  - Id: 0188
+  - Id: 0194
     DisplayName: "\uCC9C\uCE6D\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Libra Cat
     Rarity: 1
@@ -5629,7 +5776,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uCC9C\uCE6D\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Libra Cat of the zodiac.
-  - Id: 0189
+  - Id: 0195
     DisplayName: "\uC804\uAC08\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Scorpio Cat
     Rarity: 1
@@ -5654,7 +5801,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC804\uAC08\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Scorpio Cat of the zodiac.
-  - Id: 0190
+  - Id: 0196
     DisplayName: "\uC0AC\uC218\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Sagittarius Cat
     Rarity: 1
@@ -5679,7 +5826,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC0AC\uC218\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Sagittarius Cat of the zodiac.
-  - Id: 0191
+  - Id: 0197
     DisplayName: "\uC5FC\uC18C\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Capricorn Cat
     Rarity: 1
@@ -5704,7 +5851,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uC5FC\uC18C\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Capricorn Cat of the zodiac.
-  - Id: 0192
+  - Id: 0198
     DisplayName: "\uBB3C\uBCD1\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Aquarius Cat
     Rarity: 1
@@ -5729,7 +5876,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uBB3C\uBCD1\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Aquarius Cat of the zodiac.
-  - Id: 0193
+  - Id: 0199
     DisplayName: "\uBB3C\uACE0\uAE30\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Pisces Cat
     Rarity: 1
@@ -5754,7 +5901,7 @@ MonoBehaviour:
     SpecialEffectValue: 0
     Description: "\uD669\uB3C4 12\uAD81\uC758 \uBB3C\uACE0\uAE30\uC790\uB9AC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The Pisces Cat of the zodiac.
-  - Id: 0194
+  - Id: 0200
     DisplayName: "\uBC40\uC8FC\uC778\uC790\uB9AC \uACE0\uC591\uC774"
     DisplayName_EN: Ophiuchus Cat
     Rarity: 1
@@ -5782,7 +5929,39 @@ MonoBehaviour:
       \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The hidden Ophiuchus Cat awarded for completing the Zodiac Twelve
       set.
-  - Id: 0196
+  - Id: 0201
+    DisplayName: "\uC288\uB8B0\uB529\uAC70\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Schrodinger's Cat
+    Rarity: 2
+    BaseWeight: 20
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 994815776064752120, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 994815776064752120, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    - {fileID: 8982326672506836434, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    - {fileID: 3684672565919005833, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    - {fileID: 402864236775618271, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    - {fileID: 1064958208962536168, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC0C1\uC790 \uC18D \uC0C1\uD0DC\uAC00 \uACC4\uC18D \uBC14\uB00C\uB294
+      SR \uB4F1\uAE09 \uC288\uB8B0\uB529\uAC70\uC758 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR Schrodinger's Cat whose state continually changes inside
+      the box.
+  - Id: 0202
     DisplayName: "\uC2A4\uD398\uC774\uB4DC A"
     DisplayName_EN: Spade A
     Rarity: 1
@@ -5808,7 +5987,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       A \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade A card from the Spade Deck.
-  - Id: 0197
+  - Id: 0203
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 2"
     DisplayName_EN: Spade 2
     Rarity: 1
@@ -5834,7 +6013,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       2 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 2 card from the Spade Deck.
-  - Id: 0198
+  - Id: 0204
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 3"
     DisplayName_EN: Spade 3
     Rarity: 1
@@ -5860,7 +6039,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       3 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 3 card from the Spade Deck.
-  - Id: 0199
+  - Id: 0205
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 4"
     DisplayName_EN: Spade 4
     Rarity: 1
@@ -5886,7 +6065,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       4 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 4 card from the Spade Deck.
-  - Id: 0200
+  - Id: 0206
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 5"
     DisplayName_EN: Spade 5
     Rarity: 1
@@ -5912,7 +6091,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       5 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 5 card from the Spade Deck.
-  - Id: 0201
+  - Id: 0207
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 6"
     DisplayName_EN: Spade 6
     Rarity: 1
@@ -5938,7 +6117,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       6 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 6 card from the Spade Deck.
-  - Id: 0202
+  - Id: 0208
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 7"
     DisplayName_EN: Spade 7
     Rarity: 1
@@ -5964,7 +6143,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       7 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 7 card from the Spade Deck.
-  - Id: 0203
+  - Id: 0209
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 8"
     DisplayName_EN: Spade 8
     Rarity: 1
@@ -5990,7 +6169,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       8 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 8 card from the Spade Deck.
-  - Id: 0204
+  - Id: 0210
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 9"
     DisplayName_EN: Spade 9
     Rarity: 1
@@ -6016,7 +6195,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       9 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 9 card from the Spade Deck.
-  - Id: 0205
+  - Id: 0211
     DisplayName: "\uC2A4\uD398\uC774\uB4DC 10"
     DisplayName_EN: Spade 10
     Rarity: 1
@@ -6042,7 +6221,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       10 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade 10 card from the Spade Deck.
-  - Id: 0206
+  - Id: 0212
     DisplayName: "\uC2A4\uD398\uC774\uB4DC J"
     DisplayName_EN: Spade J
     Rarity: 1
@@ -6068,7 +6247,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       J \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade J card from the Spade Deck.
-  - Id: 0207
+  - Id: 0213
     DisplayName: "\uC2A4\uD398\uC774\uB4DC Q"
     DisplayName_EN: Spade Q
     Rarity: 1
@@ -6094,7 +6273,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       Q \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade Q card from the Spade Deck.
-  - Id: 0208
+  - Id: 0214
     DisplayName: "\uC2A4\uD398\uC774\uB4DC K"
     DisplayName_EN: Spade K
     Rarity: 1
@@ -6120,7 +6299,7 @@ MonoBehaviour:
     Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
       K \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: The R-grade Spade K card from the Spade Deck.
-  - Id: 0209
+  - Id: 0215
     DisplayName: "\uC2A4\uD398\uC774\uB4DC \uB371"
     DisplayName_EN: Spade Deck
     Rarity: 2
@@ -6147,6 +6326,7 @@ MonoBehaviour:
     - {fileID: -55519670917551791, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: 3476201106872170850, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: 1364253464878709931, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 9126241284607443225, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: -5512495268699000620, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: -7544771174804558494, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     BreakthroughSpriteVariants: []
@@ -6161,3 +6341,544 @@ MonoBehaviour:
       \uBC14\uB01D\uB2C8\uB2E4."
     Description_EN: An SR deck completed by collecting every Spade card from A to
       K. Click it to shuffle and reveal a random card on top.
+  - Id: 0216
+    DisplayName: "\uD654\uD22C 1"
+    DisplayName_EN: Hwatu 1
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4555377621827256197, guid: fbd0b24de012ad73ab246360a907fdbd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD654\uD22C \uADF8\uB9BC\uC744 \uB2F4\uC740 R \uB4F1\uAE09 \uACE0\uC591\uC774
+      \uCE74\uB4DC 1\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade Hwatu cat card 1.
+  - Id: 0217
+    DisplayName: "\uD654\uD22C 2"
+    DisplayName_EN: Hwatu 2
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -9182514710002482540, guid: fbd0b24de012ad73ab246360a907fdbd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD654\uD22C \uADF8\uB9BC\uC744 \uB2F4\uC740 R \uB4F1\uAE09 \uACE0\uC591\uC774
+      \uCE74\uB4DC 2\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade Hwatu cat card 2.
+  - Id: 0218
+    DisplayName: "\uD654\uD22C 3"
+    DisplayName_EN: Hwatu 3
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 78013601941623888, guid: fbd0b24de012ad73ab246360a907fdbd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD654\uD22C \uADF8\uB9BC\uC744 \uB2F4\uC740 R \uB4F1\uAE09 \uACE0\uC591\uC774
+      \uCE74\uB4DC 3\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade Hwatu cat card 3.
+  - Id: 0219
+    DisplayName: "\uD654\uD22C 4"
+    DisplayName_EN: Hwatu 4
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2568155100790645889, guid: fbd0b24de012ad73ab246360a907fdbd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD654\uD22C \uADF8\uB9BC\uC744 \uB2F4\uC740 R \uB4F1\uAE09 \uACE0\uC591\uC774
+      \uCE74\uB4DC 4\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade Hwatu cat card 4.
+  - Id: 0220
+    DisplayName: "\uD654\uD22C 5"
+    DisplayName_EN: Hwatu 5
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5004027617864606322, guid: fbd0b24de012ad73ab246360a907fdbd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD654\uD22C \uADF8\uB9BC\uC744 \uB2F4\uC740 R \uB4F1\uAE09 \uACE0\uC591\uC774
+      \uCE74\uB4DC 5\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade Hwatu cat card 5.
+  - Id: 0221
+    DisplayName: "\uBAA8\uC790 \uACE0\uC591\uC774"
+    DisplayName_EN: Hat Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
+    - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
+    - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
+    - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
+    - {fileID: 2982371285946844767, guid: 572ae044014a23677b00ed1c0660705e, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 5\uB2E8\uACC4\uC5D0\uC11C \uBAA8\uC2B5\uC774
+      \uBC14\uB00C\uB294 R \uB4F1\uAE09 \uBAA8\uC790 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Hat Cat card whose appearance changes at breakthrough
+      stage 5.
+  - Id: 0222
+    DisplayName: "\uAC1C\uC758 \uC8FC\uBA39"
+    DisplayName_EN: Dog Fist
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 14
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 970999503608378909, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uAC1C\uC640 \uACE0\uC591\uC774\uC758 \uC8FC\uBA39 \uCDA9\uB3CC
+      \uC138\uD2B8\uB97C \uC774\uB8E8\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card from the Dog & Cat Fist Clash set.
+  - Id: 0223
+    DisplayName: "\uACE0\uC591\uC774\uC758 \uC8FC\uBA39"
+    DisplayName_EN: Cat Fist
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 14
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2597496237920175439, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uAC1C\uC640 \uACE0\uC591\uC774\uC758 \uC8FC\uBA39 \uCDA9\uB3CC
+      \uC138\uD2B8\uB97C \uC774\uB8E8\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card from the Dog & Cat Fist Clash set.
+  - Id: 0224
+    DisplayName: "\uAC1C\uC640 \uACE0\uC591\uC774\uC758 \uC8FC\uBA39 \uCDA9\uB3CC"
+    DisplayName_EN: Dog & Cat Fist Clash
+    Rarity: 2
+    BaseWeight: 0
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2137157109, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 970999503608378909, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    - {fileID: -2597496237920175439, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uAC1C\uC640 \uACE0\uC591\uC774\uC758 \uC8FC\uBA39 \uCE74\uB4DC\uB97C
+      \uBAA8\uC544 \uC644\uC131\uD55C SR \uCE74\uB4DC\uC785\uB2C8\uB2E4. \uD074\uB9AD\uD558\uBA74
+      \uB450 \uC8FC\uBA39\uC774 \uC911\uC559\uC5D0\uC11C \uCDA9\uB3CC\uD569\uB2C8\uB2E4."
+    Description_EN: An SR reward completed from the Dog Fist and Cat Fist cards.
+      Click it to clash both fists at the center.
+  - Id: 0225
+    DisplayName: "\uCCB4\uC2A4 \uD3F0"
+    DisplayName_EN: Chess Pawn
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3126791905082641082, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uD3F0\uC744 \uD45C\uD604\uD55C R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess Pawn card.
+  - Id: 0226
+    DisplayName: "\uCCB4\uC2A4 \uB098\uC774\uD2B8"
+    DisplayName_EN: Chess Knight
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 9137956268137911521, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uB098\uC774\uD2B8\uC744 \uD45C\uD604\uD55C
+      R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess Knight card.
+  - Id: 0227
+    DisplayName: "\uCCB4\uC2A4 \uB8E9"
+    DisplayName_EN: Chess Rook
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1616936152527710571, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uB8E9\uC744 \uD45C\uD604\uD55C R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess Rook card.
+  - Id: 0228
+    DisplayName: "\uCCB4\uC2A4 \uD0B9"
+    DisplayName_EN: Chess King
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5793913985548570082, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uD0B9\uC744 \uD45C\uD604\uD55C R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess King card.
+  - Id: 0229
+    DisplayName: "\uCCB4\uC2A4 \uBE44\uC20D"
+    DisplayName_EN: Chess Bishop
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5766394591597166826, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uBE44\uC20D\uC744 \uD45C\uD604\uD55C R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess Bishop card.
+  - Id: 0230
+    DisplayName: "\uCCB4\uC2A4 \uD038"
+    DisplayName_EN: Chess Queen
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1610576572, guid: 1a71769c10750ed7c972352b7f278433, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCCB4\uC2A4\uC758 \uD038\uC744 \uD45C\uD604\uD55C R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Chess Queen card.
+  - Id: 0231
+    DisplayName: "\uACE0\uC591\uC774\uC785\uB2C8\uB2E4"
+    DisplayName_EN: It Is Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5537659530295366417, guid: ba8d51756115121ba92f2b5061909c52, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBD84\uBA85\uD788 \uACE0\uC591\uC774\uC778 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card. It is definitely a cat.
+  - Id: 0232
+    DisplayName: "\uBD88\uC6B4"
+    DisplayName_EN: Misfortune
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 311376289544011034, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -340305403, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    - {fileID: 311376289544011034, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    - {fileID: 1515007338021265971, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    - {fileID: 4407484197649482513, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC0AC\uB2E4\uB9AC \uC0AC\uC774\uB97C \uC9C0\uB098 \uD654\uBA74\uC744
+      \uC21C\uD658\uD558\uB294 SR \uB4F1\uAE09 \uBD88\uC6B4\uC758 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade unlucky cat that walks between the ladder layers
+      and loops across the screen.
+  - Id: 0233
+    DisplayName: "\uD5DD\uADF8\uB9AC"
+    DisplayName_EN: Hungry
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 300275878125860217, guid: fed5c1d5f62ca1fdeae5c7542245a79a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -7002151755912908487, guid: a977fe7698a278236b5ec2b42f2faaa4, type: 3}
+    - {fileID: 6978150929943743809, guid: fec302c288b28be07861f8a7b4ec52b4, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD558\uBA74 \uC785 \uC55E\uC73C\uB85C \uBE44\uC2A4\uCF13\uC774
+      \uB5A8\uC5B4\uC9C0\uACE0, \uBA39\uB294 \uC21C\uAC04 \uD45C\uC815\uC774 \uBCC0\uD558\uB294
+      SR \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade cat that drops biscuits toward its mouth and reacts
+      briefly when it eats one.
+  - Id: 0234
+    DisplayName: "\uB108\uB294 \uACE0\uC591\uC774"
+    DisplayName_EN: You Is Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6703542069709601874, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 010000000300000005000000
+    BreakthroughSprites:
+    - {fileID: 6703542069709601874, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
+    - {fileID: -3916816356798808325, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
+    - {fileID: 5819882299266781104, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "3\uB2E8\uACC4\uC640 5\uB2E8\uACC4\uC5D0\uC11C \uBAA8\uC2B5\uC774
+      \uBCC0\uD558\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose appearance changes at stages 3 and 5.
+  - Id: 0235
+    DisplayName: "\uB108\uBB34 \uB208\uBD80\uC154\uC11C"
+    DisplayName_EN: So Bright That
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3859503395290802471, guid: 8335899370f5531abbecd2726d03da9a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uB108\uBB34 \uB208\uBD80\uC154\uC11C \uBC14\uB77C\uBCFC \uC218\uBC16\uC5D0
+      \uC5C6\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: A dazzling single-illustration R-grade cat.

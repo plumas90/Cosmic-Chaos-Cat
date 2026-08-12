@@ -1,34 +1,22 @@
 fileFormatVersion: 2
-guid: d991a6a17374fa19c9692c27f6c309c5
+guid: fbd0b24de012ad73ab246360a907fdbd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6048757892227323008
-    second: bremen_evolve-Photoroom_0
+      213: -4555377621827256197
+    second: hawtu_216
   - first:
-      213: -888764729305120085
-    second: bremen_evolve-Photoroom_1
+      213: -9182514710002482540
+    second: hawtu_217
   - first:
-      213: -185165249161506244
-    second: bremen_evolve-Photoroom_2
+      213: 78013601941623888
+    second: hawtu_218
   - first:
-      213: 2866609586198688164
-    second: bremen_evolve-Photoroom_3
+      213: 2568155100790645889
+    second: hawtu_219
   - first:
-      213: -6487720904306782924
-    second: bremen_evolve-Photoroom_4
-  - first:
-      213: -7101772409002882758
-    second: bremen_evolve-Photoroom_5
-  - first:
-      213: 8016942394042808952
-    second: bremen_evolve-Photoroom_6
-  - first:
-      213: 1346483701577808785
-    second: bremen_evolve-Photoroom_7
-  - first:
-      213: -3620772422198402180
-    second: bremen_evolve-Photoroom_8
+      213: 5004027617864606322
+    second: hawtu_220
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -124,13 +112,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bremen_evolve-nothorse_1
+      name: hawtu_216
       rect:
         serializedVersion: 2
-        x: 15
-        y: 843
-        width: 283
-        height: 324
+        x: 29
+        y: 254
+        width: 265
+        height: 581
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +127,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 08b2375aebe7e0ca0800000000000000
-      internalID: -6048757892227323008
+      spriteID: b700939303c08c0c0800000000000000
+      internalID: -4555377621827256197
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bremen_evolve-nothorse_2
+      name: hawtu_217
       rect:
         serializedVersion: 2
-        x: 585
-        y: 860
+        x: 316
+        y: 254
         width: 286
-        height: 309
+        height: 581
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ba24fd400397aa3f0800000000000000
-      internalID: -888764729305120085
+      spriteID: 492c085b587219080800000000000000
+      internalID: -9182514710002482540
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bremen_evolve-allin1
+      name: hawtu_218
       rect:
         serializedVersion: 2
-        x: 931
-        y: 219
-        width: 381
-        height: 980
+        x: 624
+        y: 254
+        width: 286
+        height: 581
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c325bfadf292e6df0800000000000000
-      internalID: -185165249161506244
+      spriteID: 054116725f8251100800000000000000
+      internalID: 78013601941623888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bremen_evolve-dog_1
+      name: hawtu_219
       rect:
         serializedVersion: 2
-        x: 218
-        y: 581
-        width: 234
-        height: 227
+        x: 926
+        y: 254
+        width: 293
+        height: 582
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a13a1f0b3e38c720800000000000000
-      internalID: 2866609586198688164
+      spriteID: 184ebbe157be3a320800000000000000
+      internalID: 2568155100790645889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bremen_evolve-dog_2
+      name: hawtu_220
       rect:
         serializedVersion: 2
-        x: 534
-        y: 577
-        width: 250
-        height: 231
+        x: 1243
+        y: 254
+        width: 267
+        height: 581
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,96 +215,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43d0be0063cf6f5a0800000000000000
-      internalID: -6487720904306782924
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bremen_evolve-cat_1
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 331
-        width: 241
-        height: 221
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a3986bdee9f617d90800000000000000
-      internalID: -7101772409002882758
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bremen_evolve-cat_2
-      rect:
-        serializedVersion: 2
-        x: 535
-        y: 334
-        width: 249
-        height: 216
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 87af0bdb1a6e14f60800000000000000
-      internalID: 8016942394042808952
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bremen_evolve-chicken_1
-      rect:
-        serializedVersion: 2
-        x: 211
-        y: 63
-        width: 251
-        height: 227
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 19bf568eacbafa210800000000000000
-      internalID: 1346483701577808785
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bremen_evolve-chicken_2
-      rect:
-        serializedVersion: 2
-        x: 524
-        y: 65
-        width: 241
-        height: 225
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c73655a6aae60cdc0800000000000000
-      internalID: -3620772422198402180
+      spriteID: 27260112b90e17540800000000000000
+      internalID: 5004027617864606322
       vertices: []
       indices: 
       edges: []
@@ -325,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 61c2068f6ac7c971da5e63945ed2990b
+    spriteID: e67fb6aab09758beeba269d3834153c4
     internalID: 0
     vertices: []
     indices: 
@@ -335,15 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bremen_evolve-allin1: -185165249161506244
-      bremen_evolve-cat_1: -7101772409002882758
-      bremen_evolve-cat_2: 8016942394042808952
-      bremen_evolve-chicken_1: 1346483701577808785
-      bremen_evolve-chicken_2: -3620772422198402180
-      bremen_evolve-dog_1: 2866609586198688164
-      bremen_evolve-dog_2: -6487720904306782924
-      bremen_evolve-nothorse_1: -6048757892227323008
-      bremen_evolve-nothorse_2: -888764729305120085
+      hawtu_216: -4555377621827256197
+      hawtu_217: -9182514710002482540
+      hawtu_218: 78013601941623888
+      hawtu_219: 2568155100790645889
+      hawtu_220: 5004027617864606322
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

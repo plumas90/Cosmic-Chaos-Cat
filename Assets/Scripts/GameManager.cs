@@ -72,6 +72,8 @@ namespace CosmicChaosCat
         private readonly HashSet<string> completedSets       = new HashSet<string>();
         private readonly HashSet<string> claimedSetRewards   = new HashSet<string>();
         private readonly HashSet<string> unlockedHiddenCards = new HashSet<string>();
+        private const string HiddenBremenEvolutionId = "hidden-bremen-evolution";
+        private HiddenEvolutionCatalogSO hiddenEvolutionCatalog;
         private readonly HashSet<string> unlockedBackgrounds = new HashSet<string> { "bg-none", "bg" };
         private readonly HashSet<string> unlockedDecorations = new HashSet<string> { "deco-none" };
 
@@ -202,6 +204,7 @@ namespace CosmicChaosCat
         private void Start()
         {
             LocalizationManager.NotifyLanguageChanged();
+            EvaluateBremenHiddenEvolution();
         }
 
 #if UNITY_EDITOR
@@ -598,8 +601,56 @@ namespace CosmicChaosCat
                 case ClickSocketSlot.LeftDown:  SocketLeftDownCardId = targetId;  SocketLeftDownStage = targetStage;  break;
                 case ClickSocketSlot.RightDown: SocketRightDownCardId = targetId; SocketRightDownStage = targetStage; break;
             }
+            EvaluateBremenHiddenEvolution();
             Save();
             NotifyState();
+        }
+
+        public List<Sprite> GetHiddenReplacementSprites(string cardId)
+        {
+            if (!unlockedHiddenCards.Contains(HiddenBremenEvolutionId)) return null;
+            HiddenEvolutionEntry entry = GetBremenHiddenEvolution();
+            if (entry == null) return null;
+            List<Sprite> sprites = entry.GetSprites(cardId);
+            return sprites.Count >= 2 ? sprites : null;
+        }
+
+        private HiddenEvolutionEntry GetBremenHiddenEvolution()
+        {
+            if (hiddenEvolutionCatalog == null)
+                hiddenEvolutionCatalog = Resources.Load<HiddenEvolutionCatalogSO>("HiddenEvolutionCatalog");
+            return hiddenEvolutionCatalog != null
+                ? hiddenEvolutionCatalog.FindById(HiddenBremenEvolutionId)
+                : null;
+        }
+
+        private void EvaluateBremenHiddenEvolution()
+        {
+            if (unlockedHiddenCards.Contains(HiddenBremenEvolutionId)) return;
+            if (!SocketLeftUpUnlocked || !SocketRightUpUnlocked ||
+                !SocketLeftDownUnlocked || !SocketRightDownUnlocked) return;
+            HiddenEvolutionEntry entry = GetBremenHiddenEvolution();
+            if (entry == null || entry.RequiredCardIds == null || entry.RequiredCardIds.Length != 5) return;
+
+            string[] equipped =
+            {
+                EquippedCardId,
+                SocketLeftUpCardId,
+                SocketRightUpCardId,
+                SocketLeftDownCardId,
+                SocketRightDownCardId
+            };
+            var equippedNumbers = new HashSet<int>();
+            foreach (string id in equipped)
+                if (int.TryParse(id, out int number)) equippedNumbers.Add(number);
+            if (equippedNumbers.Count != 5) return;
+            foreach (string requiredId in entry.RequiredCardIds)
+                if (!int.TryParse(requiredId, out int requiredNumber) || !equippedNumbers.Contains(requiredNumber)) return;
+
+            unlockedHiddenCards.Add(HiddenBremenEvolutionId);
+            Save();
+            NotifyState();
+            SurprisePopUp.ShowPopup(entry.PopupSprite, entry.DisplayName, entry.Description);
         }
 
         public bool BreakthroughCard(string cardId)
@@ -1123,14 +1174,21 @@ namespace CosmicChaosCat
         public Sprite GetCardSpriteForDisplay(string cardId)
         {
             if (string.IsNullOrEmpty(cardId) || cardCatalog == null) return null;
+            int stage = 1;
+            if (TryGetCardProgress(cardId, out var prog))
+                stage = prog.SelectedStage > 0 ? prog.SelectedStage : 1;
+            return GetCardSpriteForDisplay(cardId, stage);
+        }
+
+        public Sprite GetCardSpriteForDisplay(string cardId, int stage)
+        {
+            if (string.IsNullOrEmpty(cardId) || cardCatalog == null) return null;
+            List<Sprite> hiddenSprites = GetHiddenReplacementSprites(cardId);
+            if (hiddenSprites != null && hiddenSprites.Count > 0) return hiddenSprites[0];
             var card = cardCatalog.FindById(cardId);
             if (card == null) return null;
-            if (TryGetCardProgress(cardId, out var prog))
-            {
-                int stage = prog.SelectedStage > 0 ? prog.SelectedStage : 1;
-                Sprite s = card.GetSpriteForStage(stage);
-                if (s != null) return s;
-            }
+            Sprite s = card.GetSpriteForStage(Mathf.Clamp(stage, 1, 5));
+            if (s != null) return s;
             return card.GetSpriteForStage(1) ?? card.CardSprite ?? card.GachaBgSprite;
         }
 
@@ -1497,6 +1555,7 @@ namespace CosmicChaosCat
         {
             var data = new GameSaveData
             {
+                SaveVersion = 2,
                 Money = Money, Shards = Shards, ElapsedSeconds = ElapsedSeconds,
                 EquippedCardId = EquippedCardId,
                 EquippedBackgroundId = EquippedBackgroundId,
@@ -1571,6 +1630,7 @@ namespace CosmicChaosCat
             if (string.IsNullOrEmpty(raw)) return;
             var data = JsonUtility.FromJson<GameSaveData>(raw);
             if (data == null) return;
+            MigrateCardIdsToSevenSinsSplit(data);
 
             Money          = Math.Max(0d, data.Money);
             Shards         = Math.Max(0, data.Shards);
@@ -1642,6 +1702,55 @@ namespace CosmicChaosCat
             }
 
             NotifyState();
+        }
+
+        private static void MigrateCardIdsToSevenSinsSplit(GameSaveData data)
+        {
+            if (data == null || data.SaveVersion >= 2) return;
+
+            CardProgress oldSevenSins = null;
+            if (data.Cards != null)
+            {
+                foreach (var progress in data.Cards)
+                {
+                    if (progress == null) continue;
+                    if (progress.CardId == "0181" || progress.CardId == "181") oldSevenSins = progress;
+                    progress.CardId = RemapLegacyCardId(progress.CardId);
+                }
+
+                if (oldSevenSins != null)
+                {
+                    for (int id = 182; id <= 187; id++)
+                    {
+                        data.Cards.Add(new CardProgress
+                        {
+                            CardId = id.ToString("D4"),
+                            Copies = oldSevenSins.Copies,
+                            Unlocked = oldSevenSins.Unlocked,
+                            BreakthroughCount = oldSevenSins.BreakthroughCount,
+                            SelectedStage = 1
+                        });
+                    }
+                }
+            }
+
+            data.EquippedCardId = RemapLegacyCardId(data.EquippedCardId);
+            data.SocketLeftUpCardId = RemapLegacyCardId(data.SocketLeftUpCardId);
+            data.SocketRightUpCardId = RemapLegacyCardId(data.SocketRightUpCardId);
+            data.SocketLeftDownCardId = RemapLegacyCardId(data.SocketLeftDownCardId);
+            data.SocketRightDownCardId = RemapLegacyCardId(data.SocketRightDownCardId);
+            if (data.UnlockedHiddenCards != null)
+                for (int i = 0; i < data.UnlockedHiddenCards.Count; i++)
+                    data.UnlockedHiddenCards[i] = RemapLegacyCardId(data.UnlockedHiddenCards[i]);
+            data.SaveVersion = 2;
+        }
+
+        private static string RemapLegacyCardId(string cardId)
+        {
+            if (!int.TryParse(cardId, out int number)) return cardId;
+            if (number >= 182 && number <= 194) return (number + 6).ToString("D4");
+            if (number >= 195 && number <= 209) return (number + 6).ToString("D4");
+            return number.ToString("D4");
         }
 
         [ContextMenu("Reset To Default Card Only")]
