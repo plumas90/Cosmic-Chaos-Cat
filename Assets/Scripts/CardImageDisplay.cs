@@ -54,6 +54,8 @@ namespace CosmicChaosCat
         private bool isAutoIdleActive = false;
         private bool isSchrodingerActive = false;
         private bool isSchrodingerSpecialSequence = false;
+        private Coroutine spadeDeckShuffleRoutine;
+        private readonly List<Image> spadeDeckLayers = new List<Image>();
 
         public void CycleMemeCatImage()
         {
@@ -65,6 +67,14 @@ namespace CosmicChaosCat
             var entry = gameManager.CardCatalog?.FindById(socketCardId);
             int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
             var sprites = MemeCatToggleDisplayHelper.GetSpriteListForCard(socketCardId, entry, selectedStage);
+
+            if (IsSpadeDeck(socketCardId))
+            {
+                if (sprites != null && sprites.Count >= 2 && spadeDeckShuffleRoutine == null)
+                    spadeDeckShuffleRoutine = StartCoroutine(ShuffleSpadeDeck(sprites));
+                return;
+            }
+
             if (sprites != null && sprites.Count >= 2)
             {
                 currentSpriteIndex = (currentSpriteIndex + 1) % sprites.Count;
@@ -80,6 +90,142 @@ namespace CosmicChaosCat
         public void ToggleMemeCatImage()
         {
             CycleMemeCatImage();
+        }
+
+        private static bool IsSpadeDeck(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 209;
+        }
+
+        private System.Collections.IEnumerator ShuffleSpadeDeck(List<Sprite> sprites)
+        {
+            if (cardImage == null) { spadeDeckShuffleRoutine = null; yield break; }
+
+            EnsureSpadeDeckLayers(sprites);
+            int frontIndex = UnityEngine.Random.Range(0, sprites.Count);
+            Sprite nextFront = sprites[frontIndex];
+            RectTransform frontRect = cardImage.rectTransform;
+            Transform parent = frontRect.parent;
+
+            GameObject movingObject = new GameObject("SpadeDeckDrawCard", typeof(RectTransform), typeof(Image));
+            movingObject.transform.SetParent(parent, false);
+            Image movingImage = movingObject.GetComponent<Image>();
+            CopyImageLayout(cardImage, movingImage);
+            movingImage.sprite = nextFront;
+            movingImage.raycastTarget = false;
+
+            RectTransform movingRect = movingImage.rectTransform;
+            Vector2 frontPosition = frontRect.anchoredPosition;
+            Vector2 backPosition = frontPosition + new Vector2(15f, -15f);
+            movingRect.anchoredPosition = backPosition;
+            movingRect.localRotation = Quaternion.Euler(0f, 0f, -4f);
+            movingRect.SetSiblingIndex(Mathf.Max(0, frontRect.GetSiblingIndex() - spadeDeckLayers.Count));
+
+            // The rear card first slides out to the side, then arcs over the deck to the front.
+            const float duration = 0.11f;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                Vector2 position;
+                float angle;
+                if (t < 0.4f)
+                {
+                    float u = t / 0.4f;
+                    position = Vector2.Lerp(backPosition, frontPosition + new Vector2(-92f, 12f), SmoothStep(u));
+                    angle = Mathf.Lerp(-4f, -17f, u);
+                }
+                else
+                {
+                    float u = (t - 0.4f) / 0.6f;
+                    Vector2 from = frontPosition + new Vector2(-92f, 12f);
+                    position = Vector2.Lerp(from, frontPosition, SmoothStep(u));
+                    position.y += Mathf.Sin(u * Mathf.PI) * 38f;
+                    angle = Mathf.Lerp(-17f, 0f, u);
+                    if (movingRect.GetSiblingIndex() < frontRect.GetSiblingIndex())
+                        movingRect.SetSiblingIndex(frontRect.GetSiblingIndex() + 1);
+                }
+                movingRect.anchoredPosition = position;
+                movingRect.localRotation = Quaternion.Euler(0f, 0f, angle);
+                yield return null;
+            }
+
+            currentSpriteIndex = frontIndex;
+            cardImage.sprite = nextFront;
+            FitSubClickSpriteToBounds(nextFront);
+            UpdateSpadeDeckLayerSprites(sprites);
+            Destroy(movingObject);
+            spadeDeckShuffleRoutine = null;
+        }
+
+        private static float SmoothStep(float t)
+        {
+            t = Mathf.Clamp01(t);
+            return t * t * (3f - 2f * t);
+        }
+
+        private void EnsureSpadeDeckLayers(List<Sprite> sprites)
+        {
+            if (cardImage == null || cardImage.transform.parent == null) return;
+            const int layerCount = 4;
+            while (spadeDeckLayers.Count < layerCount)
+            {
+                int layerIndex = spadeDeckLayers.Count;
+                GameObject layerObject = new GameObject($"SpadeDeckLayer{layerIndex + 1}", typeof(RectTransform), typeof(Image));
+                layerObject.transform.SetParent(cardImage.transform.parent, false);
+                Image layer = layerObject.GetComponent<Image>();
+                CopyImageLayout(cardImage, layer);
+                layer.raycastTarget = false;
+                spadeDeckLayers.Add(layer);
+            }
+
+            int frontSiblingIndex = cardImage.rectTransform.GetSiblingIndex();
+            for (int i = 0; i < spadeDeckLayers.Count; i++)
+            {
+                Image layer = spadeDeckLayers[i];
+                if (layer == null) continue;
+                layer.gameObject.SetActive(true);
+                RectTransform rect = layer.rectTransform;
+                float depth = spadeDeckLayers.Count - i;
+                rect.anchoredPosition = cardImage.rectTransform.anchoredPosition + new Vector2(depth * 4f, depth * -4f);
+                rect.localRotation = Quaternion.Euler(0f, 0f, depth * -0.65f);
+                rect.SetSiblingIndex(Mathf.Max(0, frontSiblingIndex - spadeDeckLayers.Count + i));
+            }
+            UpdateSpadeDeckLayerSprites(sprites);
+        }
+
+        private void UpdateSpadeDeckLayerSprites(List<Sprite> sprites)
+        {
+            if (sprites == null || sprites.Count == 0) return;
+            for (int i = 0; i < spadeDeckLayers.Count; i++)
+            {
+                Image layer = spadeDeckLayers[i];
+                if (layer != null) layer.sprite = sprites[(currentSpriteIndex + i + 1) % sprites.Count];
+            }
+        }
+
+        private static void CopyImageLayout(Image source, Image target)
+        {
+            RectTransform src = source.rectTransform;
+            RectTransform dst = target.rectTransform;
+            dst.anchorMin = src.anchorMin;
+            dst.anchorMax = src.anchorMax;
+            dst.pivot = src.pivot;
+            dst.sizeDelta = src.sizeDelta;
+            dst.anchoredPosition = src.anchoredPosition;
+            dst.localScale = src.localScale;
+            target.preserveAspect = true;
+            target.color = Color.white;
+            target.material = source.material;
+        }
+
+        private void SetSpadeDeckLayersVisible(bool visible, List<Sprite> sprites = null)
+        {
+            if (visible) EnsureSpadeDeckLayers(sprites);
+            else
+                foreach (Image layer in spadeDeckLayers)
+                    if (layer != null) layer.gameObject.SetActive(false);
         }
 
         private void Awake()
@@ -358,6 +504,17 @@ namespace CosmicChaosCat
                         }
                     }
                 }
+            }
+
+            if (IsSpadeDeck(curCardId))
+            {
+                int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
+                SetSpadeDeckLayersVisible(true,
+                    MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage));
+            }
+            else
+            {
+                SetSpadeDeckLayersVisible(false);
             }
 
             // 171 롱넥캣 전용 커스텀 디스플레이 토글

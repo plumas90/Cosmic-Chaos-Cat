@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 90bf96f3181d29ee491679cfe1beea37
+guid: 537d7e9e222498eabaee746b22e91197
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2412423213522973697
-    second: hat_bigsize_0
+      213: 8119338769497086870
+    second: punch_cat_hole-Photoroom_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hat_bigsize_0
+      name: punch_cat_hole
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1536
-        height: 1024
+        x: 9
+        y: 15
+        width: 136
+        height: 132
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ffb8e0e6ed9558ed0800000000000000
-      internalID: -2412423213522973697
+      spriteID: 69b5eeeb79fada070800000000000000
+      internalID: 8119338769497086870
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e7112a3401eb4751e9ace476a8c9df4b
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      hat_bigsize_0: -2412423213522973697
+      punch_cat_hole: 8119338769497086870
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

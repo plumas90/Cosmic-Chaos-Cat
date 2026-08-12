@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 1d7ef6304e0290b709171dc3fcb93283
+guid: 8335899370f5531abbecd2726d03da9a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3414745096666620955
-    second: hat_bigsize2_0
+      213: 5897550640184399193
+    second: flower_gazing_cat_transparent_0
+  - first:
+      213: -3859503395290802471
+    second: flower_gazing_cat_transparent_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +103,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hat_bigsize2_0
+      name: so_bright_that...
       rect:
         serializedVersion: 2
-        x: 224
-        y: 310
-        width: 1312
-        height: 714
+        x: 104
+        y: 227
+        width: 1316
+        height: 506
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b142255c29c936f20800000000000000
-      internalID: 3414745096666620955
+      spriteID: 9d6174a4c1a407ac0800000000000000
+      internalID: -3859503395290802471
       vertices: []
       indices: 
       edges: []
@@ -125,7 +128,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7152ed5d1898cd10ca94dda3d70b0d72
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +138,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      hat_bigsize2_0: 3414745096666620955
+      flower_gazing_cat_transparent_0: 5897550640184399193
+      so_bright_that...: -3859503395290802471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

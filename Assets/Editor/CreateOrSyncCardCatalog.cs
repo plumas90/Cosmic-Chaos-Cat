@@ -16,7 +16,7 @@ namespace CosmicChaosCat.EditorTools
             EditorApplication.delayCall += EnsureAllCardsInCatalog;
         }
 
-        [MenuItem("CosmicChaosCat/Sync All 174 Cards to CardCatalog.asset")]
+        [MenuItem("CosmicChaosCat/Sync All Cards to CardCatalog.asset")]
         public static void EnsureAllCardsInCatalog()
         {
             string path = "Assets/ScriptableObjects/CardCatalog.asset";
@@ -213,12 +213,117 @@ namespace CosmicChaosCat.EditorTools
                 }
             }
 
+            addedCount += EnsureSpadeDeckCards(cardsProp, existingCards);
+
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
             Debug.Log($"[CreateOrSyncCardCatalog] ✅ CardCatalog.asset successfully updated! Total cards: {cardsProp.arraySize} (Newly added: {addedCount})");
+        }
+
+        private static int EnsureSpadeDeckCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string spritePath = "Assets/image/A_No/196_209_spade_deck/cat_playing_cards_Spade.png";
+            var spriteByName = new Dictionary<string, Sprite>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(spritePath))
+                if (asset is Sprite sprite) spriteByName[sprite.name] = sprite;
+
+            string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+            var deckSprites = new List<Sprite>();
+            int added = 0;
+
+            for (int i = 0; i < ranks.Length; i++)
+            {
+                string spriteName = "cat_playing_cards_spade_" + ranks[i];
+                if (!spriteByName.TryGetValue(spriteName, out var sprite))
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Spade sprite: {spriteName}");
+                    continue;
+                }
+                deckSprites.Add(sprite);
+
+                string id = (196 + i).ToString("D4");
+                bool isNew = !existingCards.TryGetValue(id, out var elem);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[id] = elem;
+                    added++;
+                }
+                WriteSpadeCard(elem, id, ranks[i], sprite);
+            }
+
+            const string rewardId = "0209";
+            bool rewardIsNew = !existingCards.TryGetValue(rewardId, out var reward);
+            if (rewardIsNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                reward = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[rewardId] = reward;
+                added++;
+            }
+            WriteSpadeDeckReward(reward, deckSprites);
+            return added;
+        }
+
+        private static void WriteSpadeCard(SerializedProperty elem, string id, string rank, Sprite sprite)
+        {
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = $"스페이드 {rank}";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = $"Spade {rank}";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = "13";
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprite;
+            elem.FindPropertyRelative("Description").stringValue = $"스페이드 덱을 이루는 R 등급 {rank} 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = $"The R-grade Spade {rank} card from the Spade Deck.";
+            ClearCardVariants(elem);
+        }
+
+        private static void WriteSpadeDeckReward(SerializedProperty elem, List<Sprite> sprites)
+        {
+            elem.FindPropertyRelative("Id").stringValue = "0209";
+            elem.FindPropertyRelative("DisplayName").stringValue = "스페이드 덱";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Spade Deck";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 0f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 25f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = true;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites.Count > 0 ? sprites[0] : null;
+            elem.FindPropertyRelative("Description").stringValue = "스페이드 A부터 K까지 모두 모아 완성한 SR 등급 덱입니다. 클릭하면 덱을 섞고 맨 앞 카드가 무작위로 바뀝니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SR deck completed by collecting every Spade card from A to K. Click it to shuffle and reveal a random card on top.";
+            ClearCardVariants(elem);
+            var breakthroughSprites = elem.FindPropertyRelative("BreakthroughSprites");
+            breakthroughSprites.arraySize = sprites.Count;
+            for (int i = 0; i < sprites.Count; i++)
+                breakthroughSprites.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+        }
+
+        private static void ClearCardVariants(SerializedProperty elem)
+        {
+            elem.FindPropertyRelative("GachaBgSprite").objectReferenceValue = null;
+            elem.FindPropertyRelative("BreakthroughVariantStages").ClearArray();
+            elem.FindPropertyRelative("BreakthroughSprites").ClearArray();
+            elem.FindPropertyRelative("BreakthroughSpriteVariants").ClearArray();
+            elem.FindPropertyRelative("UseBreakthroughDescriptions").boolValue = false;
+            elem.FindPropertyRelative("BreakthroughDescriptions").ClearArray();
+            elem.FindPropertyRelative("BreakthroughDescriptions_EN").ClearArray();
+            elem.FindPropertyRelative("SpecialEffect").enumValueIndex = (int)CardSpecialEffect.None;
+            elem.FindPropertyRelative("SpecialEffectValue").floatValue = 0f;
         }
 
         private static string GetDefaultCardName(int num)

@@ -124,10 +124,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_0
       rect:
         serializedVersion: 2
-        x: 53
-        y: 589
-        width: 333
-        height: 425
+        x: 77
+        y: 670
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,10 +146,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_1
       rect:
         serializedVersion: 2
-        x: 394
-        y: 589
-        width: 326
-        height: 426
+        x: 669
+        y: 670
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_2
       rect:
         serializedVersion: 2
-        x: 734
-        y: 589
-        width: 327
-        height: 429
+        x: 1321
+        y: 670
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,10 +190,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_3
       rect:
         serializedVersion: 2
-        x: 1069
-        y: 591
-        width: 324
-        height: 427
+        x: 1852
+        y: 670
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,10 +212,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_4
       rect:
         serializedVersion: 2
-        x: 47
-        y: 78
-        width: 334
-        height: 425
+        x: 60
+        y: 80
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +234,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_5
       rect:
         serializedVersion: 2
-        x: 396
-        y: 78
-        width: 321
-        height: 426
+        x: 674
+        y: 80
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,10 +256,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_6
       rect:
         serializedVersion: 2
-        x: 726
-        y: 78
-        width: 327
-        height: 426
+        x: 1310
+        y: 80
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,10 +278,10 @@ TextureImporter:
       name: missingno_cat_glitch_sheet_transparent_7
       rect:
         serializedVersion: 2
-        x: 1060
-        y: 78
-        width: 328
-        height: 426
+        x: 1869
+        y: 80
+        width: 510
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

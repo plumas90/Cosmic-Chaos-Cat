@@ -1018,7 +1018,6 @@ namespace CosmicChaosCat
                     {
                         rewardState.Unlocked = true;
                         rewardState.Copies = Mathf.Max(1, rewardState.Copies);
-                        SurprisePopUp.ShowCard(rewardCard);
                     }
                 }
 
@@ -1043,6 +1042,42 @@ namespace CosmicChaosCat
                 Log(msg);
                 Save();
                 NotifyState();
+
+                // Equipable collection rewards use the same reveal popup as hidden rewards.
+                // The reward has already been persisted above, so these are display-only
+                // popups and cannot accidentally grant a second copy on confirmation.
+                if (!string.IsNullOrEmpty(set.RewardCardId))
+                {
+                    var rewardCard = cardCatalog?.FindById(set.RewardCardId);
+                    if (rewardCard != null)
+                    {
+                        SurprisePopUp.ShowPopup(rewardCard.CardSprite,
+                                                rewardCard.GetDisplayName(),
+                                                rewardCard.GetDescription());
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(set.RewardBackgroundId))
+                {
+                    var rewardBackground = backgroundCatalog?.FindById(set.RewardBackgroundId);
+                    if (rewardBackground != null)
+                    {
+                        SurprisePopUp.ShowPopup(rewardBackground.BackgroundSprite,
+                                                rewardBackground.DisplayName,
+                                                rewardBackground.Description);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(set.RewardDecorationId))
+                {
+                    var rewardDecoration = decorationCatalog?.FindById(set.RewardDecorationId);
+                    if (rewardDecoration != null)
+                    {
+                        SurprisePopUp.ShowPopup(rewardDecoration.DecorationSprite,
+                                                rewardDecoration.GetDisplayName(),
+                                                rewardDecoration.GetDescription());
+                    }
+                }
             }
         }
 

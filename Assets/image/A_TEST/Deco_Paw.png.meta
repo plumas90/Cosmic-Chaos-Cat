@@ -210,7 +210,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Deco_Paw
+      name: Deco_Paw2
       rect:
         serializedVersion: 2
         x: 136
@@ -218,7 +218,7 @@ TextureImporter:
         width: 370
         height: 300
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,8 +266,8 @@ TextureImporter:
       ChatGPT Image Aug 9, 2026, 09_39_21 PM-Photoroom_7: -7217551642053018455
       ChatGPT Image Aug 9, 2026, 09_39_21 PM-Photoroom_8: -8686830935313509274
       ChatGPT Image Aug 9, 2026, 09_39_21 PM-Photoroom_9: 177916128573625167
-      Deco_Paw: -444629935
       Deco_Paw1: -2062318267107679495
+      Deco_Paw2: -444629935
       Deco_Paw3: -1548069698360287567
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

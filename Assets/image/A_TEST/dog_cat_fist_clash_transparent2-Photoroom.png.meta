@@ -103,15 +103,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dog_cat_fist_clash_transparent2-Photoroom_0
+      name: dog_cat_fist_clash_dog
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 280
         width: 756
-        height: 1024
+        height: 514
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,15 +125,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dog_cat_fist_clash_transparent2-Photoroom_1
+      name: dog_cat_fist_clash_cat
       rect:
         serializedVersion: 2
         x: 766
         y: 292
         width: 770
-        height: 732
+        height: 594
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1b6c5109c7a2f4b9889b43f8a18a6780
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      dog_cat_fist_clash_transparent2-Photoroom_0: 970999503608378909
-      dog_cat_fist_clash_transparent2-Photoroom_1: -2597496237920175439
+      dog_cat_fist_clash_all: -2137157109
+      dog_cat_fist_clash_cat: -2597496237920175439
+      dog_cat_fist_clash_dog: 970999503608378909
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

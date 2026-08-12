@@ -115,15 +115,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chess_0
+      name: chess_pawn
       rect:
         serializedVersion: 2
-        x: 0
+        x: 231
         y: 555
-        width: 455
+        width: 224
         height: 439
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -137,15 +137,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chess_1
+      name: chess_knight
       rect:
         serializedVersion: 2
         x: 512
-        y: 0
+        y: 560
         width: 465
-        height: 1024
+        height: 464
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,15 +159,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chess_2
+      name: chess_rock
       rect:
         serializedVersion: 2
         x: 976
-        y: 557
-        width: 527
-        height: 467
+        y: 560
+        width: 327
+        height: 464
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,15 +181,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chess_3
+      name: chess_king
       rect:
         serializedVersion: 2
         x: 976
-        y: 16
+        y: 8
         width: 541
-        height: 554
+        height: 546
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,15 +203,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chess_4
+      name: chess_bishop
       rect:
         serializedVersion: 2
-        x: 64
+        x: 128
         y: 27
-        width: 447
+        width: 383
         height: 529
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,23 +225,23 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chess_5
+      name: chess_queen
       rect:
         serializedVersion: 2
-        x: 510
-        y: 305
-        width: 9
-        height: 10
+        x: 544
+        y: 10
+        width: 426
+        height: 550
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0c598eba2bdd5ca60800000000000000
-      internalID: 7693799297890424256
+      spriteID: 8dbb5f987a04467cf9ea51c20e455c1d
+      internalID: 1610576572
       vertices: []
       indices: 
       edges: []
@@ -250,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 078f27a1f01d770dc9f006e71c6c3817
     internalID: 0
     vertices: []
     indices: 
@@ -260,12 +260,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      chess_0: 3126791905082641082
-      chess_1: 9137956268137911521
-      chess_2: 1616936152527710571
-      chess_3: -5793913985548570082
-      chess_4: 5766394591597166826
       chess_5: 7693799297890424256
+      chess_bishop: 5766394591597166826
+      chess_king: -5793913985548570082
+      chess_knight: 9137956268137911521
+      chess_pawn: 3126791905082641082
+      chess_queen: 1610576572
+      chess_rock: 1616936152527710571
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

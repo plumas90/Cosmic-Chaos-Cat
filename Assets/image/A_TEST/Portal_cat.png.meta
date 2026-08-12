@@ -147,7 +147,7 @@ TextureImporter:
         width: 360
         height: 313
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -164,12 +164,12 @@ TextureImporter:
       name: Portal_cat_1
       rect:
         serializedVersion: 2
-        x: 382
+        x: 383
         y: 746
         width: 281
         height: 278
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,7 +191,7 @@ TextureImporter:
         width: 308
         height: 299
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -213,7 +213,7 @@ TextureImporter:
         width: 320
         height: 291
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -230,34 +230,12 @@ TextureImporter:
       name: Portal_cat_4
       rect:
         serializedVersion: 2
-        x: 44
-        y: 558
-        width: 7
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1a132f4a25170a020800000000000000
-      internalID: 2351003605255991713
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_5
-      rect:
-        serializedVersion: 2
         x: 58
-        y: 87
+        y: 440
         width: 346
-        height: 606
+        height: 253
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -271,7 +249,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Portal_cat_6
+      name: Portal_cat_portal_left
       rect:
         serializedVersion: 2
         x: 480
@@ -279,7 +257,7 @@ TextureImporter:
         width: 291
         height: 461
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -293,37 +271,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Portal_cat_7
+      name: Portal_cat_portal_right
       rect:
         serializedVersion: 2
-        x: 860
-        y: 540
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b8d8e052481455120800000000000000
-      internalID: 2401898012085226891
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_8
-      rect:
-        serializedVersion: 2
-        x: 877
-        y: 207
-        width: 396
+        x: 834
+        y: 211
+        width: 306
         height: 462
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -336,121 +292,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Portal_cat_9
-      rect:
-        serializedVersion: 2
-        x: 854
-        y: 496
-        width: 20
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2b4be9451d3cc0e60800000000000000
-      internalID: 7929928347727869106
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_10
-      rect:
-        serializedVersion: 2
-        x: 863
-        y: 458
-        width: 8
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e1ce9e4e87678d7d0800000000000000
-      internalID: -2893432498976855010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_11
-      rect:
-        serializedVersion: 2
-        x: 865
-        y: 429
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 55bfb4d4ae9c6c280800000000000000
-      internalID: -9023302795233854635
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_12
-      rect:
-        serializedVersion: 2
-        x: 872
-        y: 404
-        width: 10
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2cc2aa46d9b1b47f0800000000000000
-      internalID: -627377360275362622
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Portal_cat_13
-      rect:
-        serializedVersion: 2
-        x: 860
-        y: 348
-        width: 30
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 372a9147cf6264a40800000000000000
-      internalID: 5352008072897864307
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3d6c5b7f975b78ff0a77c58d0ab30135
     internalID: 0
     vertices: []
     indices: 
@@ -460,6 +306,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      0: 3526278515800463756
       Portal_cat_0: -3532757503255309494
       Portal_cat_1: 7769992655682737521
       Portal_cat_10: -2893432498976855010
@@ -468,12 +315,11 @@ TextureImporter:
       Portal_cat_13: 5352008072897864307
       Portal_cat_2: -9155528180873773335
       Portal_cat_3: -3350813301599428091
-      Portal_cat_4: 2351003605255991713
-      Portal_cat_5: 3526278515800463756
-      Portal_cat_6: 4396959984767900288
+      Portal_cat_4: 3526278515800463756
       Portal_cat_7: 2401898012085226891
-      Portal_cat_8: -6691335781570204296
       Portal_cat_9: 7929928347727869106
+      Portal_cat_portal_left: 4396959984767900288
+      Portal_cat_portal_right: -6691335781570204296
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

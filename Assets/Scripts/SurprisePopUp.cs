@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -83,6 +84,16 @@ namespace CosmicChaosCat
         [SerializeField] private Button getBtn;
 
         private Action currentOnConfirm;
+        private bool isDisplaying;
+        private readonly Queue<PopupRequest> pendingPopups = new Queue<PopupRequest>();
+
+        private struct PopupRequest
+        {
+            public Sprite Art;
+            public string Name;
+            public string Desc;
+            public Action OnConfirm;
+        }
 
         private void Awake()
         {
@@ -235,6 +246,20 @@ namespace CosmicChaosCat
         {
             AutoWireFields();
 
+            // A set can award more than one collectible. Keep every reward popup
+            // instead of letting the last DisplayPopup call overwrite the first.
+            if (isDisplaying)
+            {
+                pendingPopups.Enqueue(new PopupRequest
+                {
+                    Art = art,
+                    Name = name,
+                    Desc = desc,
+                    OnConfirm = onConfirm
+                });
+                return;
+            }
+
             if (artImage != null)
             {
                 artImage.sprite = art;
@@ -253,6 +278,7 @@ namespace CosmicChaosCat
             }
 
             currentOnConfirm = onConfirm;
+            isDisplaying = true;
 
             if (getBtn != null)
             {
@@ -276,7 +302,14 @@ namespace CosmicChaosCat
             gameObject.SetActive(false);
             var cb = currentOnConfirm;
             currentOnConfirm = null;
+            isDisplaying = false;
             cb?.Invoke();
+
+            if (pendingPopups.Count > 0)
+            {
+                var next = pendingPopups.Dequeue();
+                DisplayPopup(next.Art, next.Name, next.Desc, next.OnConfirm);
+            }
         }
 
         private Transform FindChildByName(Transform parent, string targetName)

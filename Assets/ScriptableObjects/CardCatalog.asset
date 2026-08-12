@@ -5782,3 +5782,382 @@ MonoBehaviour:
       \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: The hidden Ophiuchus Cat awarded for completing the Zodiac Twelve
       set.
+  - Id: 0196
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC A"
+    DisplayName_EN: Spade A
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 52024835733356549, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      A \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade A card from the Spade Deck.
+  - Id: 0197
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 2"
+    DisplayName_EN: Spade 2
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7994154932006599741, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      2 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 2 card from the Spade Deck.
+  - Id: 0198
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 3"
+    DisplayName_EN: Spade 3
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7863303825246541298, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      3 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 3 card from the Spade Deck.
+  - Id: 0199
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 4"
+    DisplayName_EN: Spade 4
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1469632905819227016, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      4 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 4 card from the Spade Deck.
+  - Id: 0200
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 5"
+    DisplayName_EN: Spade 5
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5312754036600985963, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      5 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 5 card from the Spade Deck.
+  - Id: 0201
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 6"
+    DisplayName_EN: Spade 6
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3518647890834535592, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      6 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 6 card from the Spade Deck.
+  - Id: 0202
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 7"
+    DisplayName_EN: Spade 7
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3486890448726016684, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      7 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 7 card from the Spade Deck.
+  - Id: 0203
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 8"
+    DisplayName_EN: Spade 8
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -55519670917551791, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      8 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 8 card from the Spade Deck.
+  - Id: 0204
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 9"
+    DisplayName_EN: Spade 9
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3476201106872170850, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      9 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 9 card from the Spade Deck.
+  - Id: 0205
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC 10"
+    DisplayName_EN: Spade 10
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1364253464878709931, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      10 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade 10 card from the Spade Deck.
+  - Id: 0206
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC J"
+    DisplayName_EN: Spade J
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 9126241284607443225, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      J \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade J card from the Spade Deck.
+  - Id: 0207
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC Q"
+    DisplayName_EN: Spade Q
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5512495268699000620, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      Q \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade Q card from the Spade Deck.
+  - Id: 0208
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC K"
+    DisplayName_EN: Spade K
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 13
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7544771174804558494, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC \uB371\uC744 \uC774\uB8E8\uB294 R \uB4F1\uAE09
+      K \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: The R-grade Spade K card from the Spade Deck.
+  - Id: 0209
+    DisplayName: "\uC2A4\uD398\uC774\uB4DC \uB371"
+    DisplayName_EN: Spade Deck
+    Rarity: 2
+    BaseWeight: 0
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 52024835733356549, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 52024835733356549, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 7994154932006599741, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 7863303825246541298, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: -1469632905819227016, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 5312754036600985963, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 3518647890834535592, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 3486890448726016684, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: -55519670917551791, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 3476201106872170850, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: 1364253464878709931, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: -5512495268699000620, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    - {fileID: -7544771174804558494, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2A4\uD398\uC774\uB4DC A\uBD80\uD130 K\uAE4C\uC9C0 \uBAA8\uB450
+      \uBAA8\uC544 \uC644\uC131\uD55C SR \uB4F1\uAE09 \uB371\uC785\uB2C8\uB2E4. \uD074\uB9AD\uD558\uBA74
+      \uB371\uC744 \uC11E\uACE0 \uB9E8 \uC55E \uCE74\uB4DC\uAC00 \uBB34\uC791\uC704\uB85C
+      \uBC14\uB01D\uB2C8\uB2E4."
+    Description_EN: An SR deck completed by collecting every Spade card from A to
+      K. Click it to shuffle and reveal a random card on top.

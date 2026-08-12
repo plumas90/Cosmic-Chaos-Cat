@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 8335899370f5531abbecd2726d03da9a
+guid: 9d2936e19e2631b40b95f34c490768ab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5897550640184399193
-    second: flower_gazing_cat_transparent_0
+      213: 1781925951881345715
+    second: punch_cat_cat-Photoroom_0
   - first:
-      213: -3859503395290802471
-    second: flower_gazing_cat_transparent_1
+      213: 8428917677649260908
+    second: punch_cat_cat-Photoroom_1
+  - first:
+      213: 344899623396092761
+    second: punch_cat_cat-Photoroom_2
+  - first:
+      213: 8643118605004986940
+    second: punch_cat_cat-Photoroom_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,45 +109,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flower_gazing_cat_transparent_0
+      name: punch_cat_cat0
       rect:
         serializedVersion: 2
-        x: 106
-        y: 230
-        width: 317
-        height: 405
+        x: 0
+        y: 644
+        width: 578
+        height: 607
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95591198f0f48d150800000000000000
-      internalID: 5897550640184399193
+      spriteID: 3baffe1563caab810800000000000000
+      internalID: 1781925951881345715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: flower_gazing_cat_transparent_1
+      name: punch_cat_cat1
       rect:
         serializedVersion: 2
-        x: 514
-        y: 227
-        width: 906
-        height: 506
+        x: 590
+        y: 644
+        width: 578
+        height: 610
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9d6174a4c1a407ac0800000000000000
-      internalID: -3859503395290802471
+      spriteID: c617b4138f789f470800000000000000
+      internalID: 8428917677649260908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: punch_cat_cat2
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 48
+        width: 578
+        height: 560
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95ba0bf416459c400800000000000000
+      internalID: 344899623396092761
       vertices: []
       indices: 
       edges: []
@@ -150,7 +178,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 70eff6d5b88f05c98b795d102a4b573e
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +188,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      flower_gazing_cat_transparent_0: 5897550640184399193
-      flower_gazing_cat_transparent_1: -3859503395290802471
+      punch_cat_cat-Photoroom_3: 8643118605004986940
+      punch_cat_cat0: 1781925951881345715
+      punch_cat_cat1: 8428917677649260908
+      punch_cat_cat2: 344899623396092761
+      punch_cat_hole: 1781925951881345715
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
