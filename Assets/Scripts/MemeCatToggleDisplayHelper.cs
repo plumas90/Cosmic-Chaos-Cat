@@ -47,6 +47,7 @@ namespace CosmicChaosCat
             bool isSevenDeadlySinsToggle = false;
             bool isSpadeDeck = num == 215;
             bool isFistClashReward = num == 224;
+            bool isPacmanClickToggle = num == 237;
 
             // The reward stores its two movable halves in BreakthroughSprites,
             // but its normal/encyclopedia view must remain the combined artwork.
@@ -66,7 +67,8 @@ namespace CosmicChaosCat
                 // 170 / 174 are legacy two-image toggle cards whose images are
                 // stored in separate files rather than per-stage variant groups.
                 if (num != 170 && num != 174 && !isBremenClickToggle &&
-                    !isEarthCatSocietyAngleToggle && !isSevenDeadlySinsToggle && !isSpadeDeck)
+                    !isEarthCatSocietyAngleToggle && !isSevenDeadlySinsToggle && !isSpadeDeck &&
+                    !isPacmanClickToggle)
                 {
                     Sprite representative = entry.GetSpriteForStage(stage);
                     if (representative != null) sprites.Add(representative);

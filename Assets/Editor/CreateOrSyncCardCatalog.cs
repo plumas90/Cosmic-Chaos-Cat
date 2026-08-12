@@ -223,6 +223,9 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureHungryCard(cardsProp, existingCards);
             addedCount += EnsureYouIsCatCard(cardsProp, existingCards);
             addedCount += EnsureSoBrightThatCard(cardsProp, existingCards);
+            addedCount += EnsurePortalCatCard(cardsProp, existingCards);
+            addedCount += EnsurePacmanCatCard(cardsProp, existingCards);
+            addedCount += EnsurePunchCatCard(cardsProp, existingCards);
 
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
@@ -746,6 +749,159 @@ namespace CosmicChaosCat.EditorTools
             elem.FindPropertyRelative("Description_EN").stringValue = "A dazzling single-illustration R-grade cat.";
             ClearCardVariants(elem);
             return isNew ? 1 : 0;
+        }
+
+        private static int EnsurePortalCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0236";
+            const string path = "Assets/image/A_No/236_portal_cat/236_SSR_Portal_cat.png";
+            var sprites = new Dictionary<string, Sprite>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (asset is Sprite sprite) sprites[sprite.name] = sprite;
+
+            string[] required =
+            {
+                "Portal_cat_0", "Portal_cat_1", "Portal_cat_2", "Portal_cat_3", "Portal_cat_4",
+                "Portal_cat_portal_left", "Portal_cat_portal_right"
+            };
+            foreach (string spriteName in required)
+                if (!sprites.ContainsKey(spriteName))
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Portal Cat sprite: {spriteName}");
+                    return 0;
+                }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "포털 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Portal Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SSR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 4f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 125f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[required[0]];
+            elem.FindPropertyRelative("Description").stringValue = "클릭할 때마다 포털과 함께 이동하며 현재 한계돌파 단계의 모습 중 하나로 변하는 SSR 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SSR card that teleports on every click and randomly assumes an appearance unlocked at its current breakthrough stage.";
+            ClearCardVariants(elem);
+            var stored = elem.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = required.Length;
+            for (int i = 0; i < required.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = sprites[required[i]];
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsurePacmanCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0237";
+            const string path = "Assets/image/A_No/237_pacman_cat/237_SR_pacman_cat_made_by_me.png";
+            var sprites = new Dictionary<string, Sprite>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (asset is Sprite sprite) sprites[sprite.name] = sprite;
+            string[] required = { "pacman_cat_made_by_me1", "pacman_cat_made_by_me2" };
+            foreach (string spriteName in required)
+                if (!sprites.ContainsKey(spriteName))
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Pacman Cat sprite: {spriteName}");
+                    return 0;
+                }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "팩맨 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Pacman Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 25f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[required[0]];
+            elem.FindPropertyRelative("Description").stringValue = "클릭할 때마다 두 모습이 반복되는 SR 등급 팩맨 고양이입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SR-grade Pacman Cat that alternates between two frames on every click.";
+            ClearCardVariants(elem);
+            var stored = elem.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = 2;
+            stored.GetArrayElementAtIndex(0).objectReferenceValue = sprites[required[0]];
+            stored.GetArrayElementAtIndex(1).objectReferenceValue = sprites[required[1]];
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsurePunchCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0238";
+            Sprite[] sprites =
+            {
+                LoadNamedSprite("Assets/image/A_No/238_punch_cat/238_SR_punch_cat_cat.png", "punch_cat_cat0"),
+                LoadNamedSprite("Assets/image/A_No/238_punch_cat/238_SR_punch_cat_cat.png", "punch_cat_cat1"),
+                LoadNamedSprite("Assets/image/A_No/238_punch_cat/238_SR_punch_cat_cat.png", "punch_cat_cat2"),
+                LoadFirstSprite("Assets/image/A_No/238_punch_cat/238_SR_punch_cat_door.png"),
+                LoadFirstSprite("Assets/image/A_No/238_punch_cat/238_SR_punch_cat_hole.png")
+            };
+            foreach (Sprite sprite in sprites)
+                if (sprite == null)
+                {
+                    Debug.LogWarning("[CreateOrSyncCardCatalog] Missing Punch Cat sprite.");
+                    return 0;
+                }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "펀치 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Punch Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 25f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[0];
+            elem.FindPropertyRelative("Description").stringValue = "문을 주먹으로 뚫는 SR 등급 고양이입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SR-grade cat that punches holes through a door.";
+            ClearCardVariants(elem);
+            var stored = elem.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = sprites.Length;
+            for (int i = 0; i < sprites.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+            return isNew ? 1 : 0;
+        }
+
+        private static Sprite LoadNamedSprite(string path, string spriteName)
+        {
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (asset is Sprite sprite && sprite.name == spriteName) return sprite;
+            return null;
         }
 
         private static void WriteSpadeCard(SerializedProperty elem, string id, string rank, Sprite sprite)

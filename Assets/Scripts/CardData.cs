@@ -98,6 +98,8 @@ namespace CosmicChaosCat
         {
             if (int.TryParse(Id, out int cardNumber) && cardNumber == 169)
                 return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
+            if (int.TryParse(Id, out cardNumber) && cardNumber == 236)
+                return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
 
             if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length > 0)
             {
@@ -150,6 +152,22 @@ namespace CosmicChaosCat
                         return BreakthroughSprites[1];
                     return CardSprite;
                 }
+
+                // Portal Cat stores five cumulative breakthrough appearances,
+                // followed by two portal-effect sprites.
+                if (clickVariantCardNumber == 236)
+                {
+                    int portalIndex = Mathf.Clamp(stage - 1, 0, 4);
+                    if (BreakthroughSprites != null && BreakthroughSprites.Length > portalIndex &&
+                        BreakthroughSprites[portalIndex] != null)
+                        return BreakthroughSprites[portalIndex];
+                    return CardSprite;
+                }
+
+                // These arrays contain click-effect frames and props, not
+                // breakthrough illustrations. Catalog/detail art stays fixed.
+                if (clickVariantCardNumber == 237 || clickVariantCardNumber == 238)
+                    return CardSprite;
             }
 
             bool isBuffHalfCat = int.TryParse(Id, out int cardNumber) && cardNumber == 169;

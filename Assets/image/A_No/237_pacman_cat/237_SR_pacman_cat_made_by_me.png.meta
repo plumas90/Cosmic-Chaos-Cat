@@ -103,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pacman_cat_cream_face_open_closed_1000x800_transparent(1)_0
+      name: pacman_cat_made_by_me1
       rect:
         serializedVersion: 2
         x: 89
@@ -111,7 +111,7 @@ TextureImporter:
         width: 446
         height: 483
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pacman_cat_cream_face_open_closed_1000x800_transparent(1)_1
+      name: pacman_cat_made_by_me2
       rect:
         serializedVersion: 2
         x: 553
@@ -133,7 +133,7 @@ TextureImporter:
         width: 358
         height: 483
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 50dfb117a8cca00dcad6093a0a340f98
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pacman_cat_cream_face_open_closed_1000x800_transparent(1)_0: 2299037852840566683
-      pacman_cat_cream_face_open_closed_1000x800_transparent(1)_1: -4188757240739705651
+      pacman_cat_made_by_me1: 2299037852840566683
+      pacman_cat_made_by_me2: -4188757240739705651
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

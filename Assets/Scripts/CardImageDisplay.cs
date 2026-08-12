@@ -73,6 +73,19 @@ namespace CosmicChaosCat
         private Sprite hungryBaseSprite;
         private Sprite hungryBiteSprite;
         private Coroutine hungryBiteRoutine;
+        private bool hungryWasActive;
+        private Image portalLeftImage;
+        private Image portalRightImage;
+        private List<Sprite> portalCatSprites;
+        private bool portalWasActive;
+        private Sprite portalCurrentCatSprite;
+        private Image punchDoorImage;
+        private readonly List<GameObject> punchHoleObjects = new List<GameObject>();
+        private int punchPhase;
+        private bool punchSequenceCompleted;
+        private Coroutine punchDoorRoutine;
+        private Sprite punchCurrentCatSprite;
+        private Material punchDoorMaterial;
 
         public void CycleMemeCatImage()
         {
@@ -84,6 +97,18 @@ namespace CosmicChaosCat
             var entry = gameManager.CardCatalog?.FindById(socketCardId);
             int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
             var sprites = GetActiveSpriteList(socketCardId, entry, selectedStage);
+
+            if (IsPortalCat(socketCardId))
+            {
+                TeleportPortalCat(entry);
+                return;
+            }
+
+            if (IsPunchCat(socketCardId))
+            {
+                AdvancePunchCat(entry);
+                return;
+            }
 
             if (IsHungry(socketCardId))
             {
@@ -147,6 +172,16 @@ namespace CosmicChaosCat
         private static bool IsHungry(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 233;
+        }
+
+        private static bool IsPortalCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 236;
+        }
+
+        private static bool IsPunchCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 238;
         }
 
         private System.Collections.IEnumerator PlayFistClash(Sprite dog, Sprite cat, Sprite combined)
@@ -540,10 +575,12 @@ namespace CosmicChaosCat
                 pulseTimer += Time.unscaledDeltaTime;
                 float t = pulseTimer / pulseDuration;
                 float s = 1f + (pulseScale - 1f) * Mathf.Sin(t * Mathf.PI);
-                transform.localScale = originalScale * s;
+                string pulseCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+                float pulseBaseScale = IsPortalCat(pulseCardId) ? 0.75f : 1f;
+                transform.localScale = originalScale * pulseBaseScale * s;
                 if (pulseTimer >= pulseDuration)
                 {
-                    transform.localScale = originalScale;
+                    transform.localScale = originalScale * pulseBaseScale;
                     isPulsing = false;
                     pulseTimer = 0f;
                 }
@@ -554,7 +591,9 @@ namespace CosmicChaosCat
                 const float speed = 1.4f;
                 const float amp = 0.04f;
                 float s = 1f + amp * Mathf.Sin(Time.time * speed * Mathf.PI * 2f + breathPhaseOffset);
-                transform.localScale = originalScale * s;
+                string breathingCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+                float cardScale = IsPortalCat(breathingCardId) ? 0.75f : 1f;
+                transform.localScale = originalScale * cardScale * s;
             }
 
             // 171 롱넥캣 콤보 중단 시 역방향 복귀 감지
@@ -677,6 +716,8 @@ namespace CosmicChaosCat
                 autoIdleFrameIndex = 0;
                 autoIdleTimer = 0f;
                 isSchrodingerSpecialSequence = false;
+                portalCurrentCatSprite = null;
+                ResetPunchCatDisplay();
             }
 
             if (curCardId != null && AutoIdleCatAnimationHelper.IsAutoIdleCat(curCardId))
@@ -760,6 +801,8 @@ namespace CosmicChaosCat
             // its dedicated walking-cat layer remains visible.
             RefreshMisfortuneDisplay(IsMisfortune(curCardId), card);
             RefreshHungryDisplay(IsHungry(curCardId), card);
+            RefreshPortalCatDisplay(IsPortalCat(curCardId), card);
+            RefreshPunchCatDisplay(IsPunchCat(curCardId), card);
 
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;
@@ -1247,6 +1290,7 @@ namespace CosmicChaosCat
 
             if (active)
             {
+                hungryWasActive = true;
                 hungryBaseSprite = card != null ? card.CardSprite : null;
                 hungryBiteSprite = card != null && card.BreakthroughSprites != null &&
                     card.BreakthroughSprites.Length > 0 ? card.BreakthroughSprites[0] : null;
@@ -1264,7 +1308,7 @@ namespace CosmicChaosCat
             }
             else
             {
-                if (mySocket == ClickSocketSlot.Center)
+                if (hungryWasActive && mySocket == ClickSocketSlot.Center)
                 {
                     rect.anchorMin = originalAnchorMin;
                     rect.anchorMax = originalAnchorMax;
@@ -1272,7 +1316,11 @@ namespace CosmicChaosCat
                     rect.anchoredPosition = originalAnchoredPosition;
                     if (hasOriginalRectSize) rect.sizeDelta = originalSizeDelta;
                 }
-                ClearHungryBiscuits();
+                if (hungryWasActive)
+                {
+                    ClearHungryBiscuits();
+                    hungryWasActive = false;
+                }
             }
         }
 
@@ -1358,6 +1406,389 @@ namespace CosmicChaosCat
                 StopCoroutine(hungryBiteRoutine);
                 hungryBiteRoutine = null;
             }
+        }
+
+        private void RefreshPortalCatDisplay(bool active, CardEntry card)
+        {
+            if (!active)
+            {
+                if (portalLeftImage != null) portalLeftImage.gameObject.SetActive(false);
+                if (portalRightImage != null) portalRightImage.gameObject.SetActive(false);
+                if (portalWasActive)
+                {
+                    RectTransform rect = cardImage != null ? cardImage.rectTransform : null;
+                    if (rect != null)
+                    {
+                        rect.anchorMin = originalAnchorMin;
+                        rect.anchorMax = originalAnchorMax;
+                        rect.pivot = originalPivot;
+                        rect.anchoredPosition = originalAnchoredPosition;
+                        if (hasOriginalRectSize) rect.sizeDelta = originalSizeDelta;
+                    }
+                    if (clickBounceRoutine == null) transform.localScale = originalScale;
+                    defaultTargetScale = originalScale;
+                    portalWasActive = false;
+                }
+                return;
+            }
+            if (cardImage == null || card == null || card.BreakthroughSprites == null ||
+                card.BreakthroughSprites.Length < 7) return;
+
+            portalCatSprites = new List<Sprite>();
+            for (int i = 0; i < 5; i++)
+                if (card.BreakthroughSprites[i] != null) portalCatSprites.Add(card.BreakthroughSprites[i]);
+            if (portalCatSprites.Count == 0) return;
+
+            if (portalCurrentCatSprite == null || !portalCatSprites.Contains(portalCurrentCatSprite))
+                portalCurrentCatSprite = portalCatSprites[0];
+            cardImage.sprite = portalCurrentCatSprite;
+            FitSubClickSpriteToBounds(portalCurrentCatSprite);
+
+            if (portalLeftImage == null)
+                portalLeftImage = CreateEffectImage("PortalCatLeft", cardImage.transform, card.BreakthroughSprites[5]);
+            if (portalRightImage == null)
+                portalRightImage = CreateEffectImage("PortalCatRight", cardImage.transform, card.BreakthroughSprites[6]);
+            portalLeftImage.gameObject.SetActive(true);
+            portalRightImage.gameObject.SetActive(true);
+            portalWasActive = true;
+            Vector3 portalScale = originalScale * 0.75f;
+            if (clickBounceRoutine == null) transform.localScale = portalScale;
+            defaultTargetScale = portalScale;
+            SetPortalLayout(portalLeftImage, card.BreakthroughSprites[5], -1f);
+            SetPortalLayout(portalRightImage, card.BreakthroughSprites[6], 1f);
+        }
+
+        private void SetPortalLayout(Image portal, Sprite sprite, float direction)
+        {
+            if (portal == null || sprite == null || cardImage == null) return;
+            portal.sprite = sprite;
+            RectTransform rect = portal.rectTransform;
+            float catWidth = cardImage.rectTransform.rect.width;
+            float scale = catWidth > 0f && cardImage.sprite != null && cardImage.sprite.rect.width > 0f
+                ? catWidth / cardImage.sprite.rect.width : 1f;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = sprite.rect.size * scale;
+            rect.anchoredPosition = new Vector2(direction * (catWidth * 0.5f + rect.sizeDelta.x * 0.62f), 0f);
+            portal.color = Color.white;
+            portal.raycastTarget = false;
+        }
+
+        private void TeleportPortalCat(CardEntry card)
+        {
+            if (cardImage == null || card == null || portalCatSprites == null || portalCatSprites.Count == 0) return;
+            var states = gameManager != null ? gameManager.GetCardStates() : null;
+            int stage = 1;
+            if (states != null && states.TryGetValue(card.Id, out var progress))
+                stage = Mathf.Clamp(progress.BreakthroughCount + 1, 1, 5);
+            if (gameManager != null)
+                stage = Mathf.Max(stage, gameManager.GetSocketSelectedStage(mySocket));
+            int candidateCount = Mathf.Min(stage, portalCatSprites.Count);
+            int previousIndex = portalCurrentCatSprite != null
+                ? portalCatSprites.IndexOf(portalCurrentCatSprite)
+                : -1;
+            int nextIndex = UnityEngine.Random.Range(0, candidateCount);
+            if (candidateCount > 1 && nextIndex == previousIndex)
+                nextIndex = (nextIndex + UnityEngine.Random.Range(1, candidateCount)) % candidateCount;
+            currentSpriteIndex = nextIndex;
+            portalCurrentCatSprite = portalCatSprites[nextIndex];
+            cardImage.sprite = portalCurrentCatSprite;
+            FitSubClickSpriteToBounds(portalCurrentCatSprite);
+            RefreshPortalCatDisplay(true, card);
+
+            RectTransform rect = cardImage.rectTransform;
+            RectTransform parentRect = rect.parent as RectTransform;
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (parentRect == null || canvasRect == null) return;
+            float halfWidth = Mathf.Max((rect.rect.width * 0.5f + 180f) * 0.75f, 40f);
+            float halfHeight = Mathf.Max(rect.rect.height * 0.5f * 0.75f, 40f);
+            Rect bounds = canvasRect.rect;
+            float minX = bounds.xMin + halfWidth;
+            float maxX = bounds.xMax - halfWidth;
+            float minY = bounds.yMin + halfHeight;
+            float maxY = bounds.yMax - halfHeight;
+            if (minX <= maxX && minY <= maxY)
+            {
+                Vector2 canvasPosition = new Vector2(
+                    UnityEngine.Random.Range(minX, maxX),
+                    UnityEngine.Random.Range(minY, maxY));
+                Vector3 worldPosition = canvasRect.TransformPoint(canvasPosition);
+                Vector3 parentPosition = parentRect.InverseTransformPoint(worldPosition);
+                rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+                Vector2 parentCenter = parentRect.rect.center;
+                rect.anchoredPosition = new Vector2(
+                    parentPosition.x - parentCenter.x,
+                    parentPosition.y - parentCenter.y);
+            }
+        }
+
+        private void RefreshPunchCatDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card == null) return;
+            if (card.BreakthroughSprites == null || card.BreakthroughSprites.Length < 5) return;
+            if (punchCurrentCatSprite == null) punchCurrentCatSprite = card.BreakthroughSprites[0];
+            cardImage.sprite = punchCurrentCatSprite;
+            FitSubClickSpriteToBounds(punchCurrentCatSprite);
+        }
+
+        private void AdvancePunchCat(CardEntry card)
+        {
+            if (cardImage == null || card == null || card.BreakthroughSprites == null ||
+                card.BreakthroughSprites.Length < 5 || punchDoorRoutine != null) return;
+
+            if (punchSequenceCompleted)
+            {
+                SetPunchCatSprite(card.BreakthroughSprites[0]);
+                punchSequenceCompleted = false;
+                punchPhase = 0;
+                return;
+            }
+
+            if (punchDoorImage == null)
+            {
+                EnsurePunchDoor(card.BreakthroughSprites[3]);
+                SetPunchCatSprite(card.BreakthroughSprites[0]);
+                punchPhase = 1;
+                punchDoorRoutine = StartCoroutine(MovePunchDoor(entering: true));
+                return;
+            }
+
+            if (punchPhase == 1)
+            {
+                SetPunchCatSprite(card.BreakthroughSprites[1]);
+                punchPhase = 2;
+                return;
+            }
+
+            int maxHoles = GetPunchMaxHoles(card.Id);
+            if (punchHoleObjects.Count >= maxHoles)
+            {
+                SetPunchCatSprite(card.BreakthroughSprites[2]);
+                punchDoorRoutine = StartCoroutine(MovePunchDoor(entering: false));
+                return;
+            }
+
+            SetPunchCatSprite(card.BreakthroughSprites[2]);
+            CreatePunchHole(card.BreakthroughSprites[4]);
+            punchPhase = 1;
+        }
+
+        private int GetPunchMaxHoles(string cardId)
+        {
+            var states = gameManager != null ? gameManager.GetCardStates() : null;
+            int stage = 1;
+            if (states != null && states.TryGetValue(cardId, out var progress))
+                stage = Mathf.Clamp(progress.BreakthroughCount + 1, 1, 5);
+            return stage * 4;
+        }
+
+        private void SetPunchCatSprite(Sprite sprite)
+        {
+            if (sprite == null || cardImage == null) return;
+            punchCurrentCatSprite = sprite;
+            cardImage.sprite = sprite;
+            FitSubClickSpriteToBounds(sprite);
+        }
+
+        private void EnsurePunchDoor(Sprite doorSprite)
+        {
+            punchDoorImage = CreateEffectImage("PunchCatDoor", cardImage.transform, doorSprite);
+            RectTransform doorRect = punchDoorImage.rectTransform;
+            doorRect.anchorMin = doorRect.anchorMax = new Vector2(0.5f, 0.5f);
+            doorRect.pivot = new Vector2(0.5f, 0.5f);
+            float targetHeight = Mathf.Max(cardImage.rectTransform.rect.height * 1.12f, 1f);
+            float scale = targetHeight / doorSprite.rect.height;
+            doorRect.sizeDelta = doorSprite.rect.size * scale;
+            doorRect.anchoredPosition = new Vector2(0f, GetPunchDoorTravel());
+            punchDoorImage.raycastTarget = false;
+            Shader holeShader = Resources.Load<Shader>("Shaders/UIPunchDoorHoles");
+            if (holeShader == null) holeShader = Shader.Find("CosmicChaosCat/UIPunchDoorHoles");
+            if (holeShader != null)
+            {
+                punchDoorMaterial = new Material(holeShader);
+                punchDoorImage.material = punchDoorMaterial;
+                for (int i = 0; i < 20; i++) punchDoorMaterial.SetVector("_Hole" + i, Vector4.zero);
+            }
+        }
+
+        private float GetPunchDoorTravel()
+        {
+            Canvas canvas = cardImage != null ? cardImage.canvas : null;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null || cardImage == null) return 1000f;
+            float scaleY = Mathf.Max(Mathf.Abs(cardImage.rectTransform.lossyScale.y), 0.001f);
+            return canvasRect.rect.height * Mathf.Abs(canvasRect.lossyScale.y) / scaleY;
+        }
+
+        private System.Collections.IEnumerator MovePunchDoor(bool entering)
+        {
+            if (punchDoorImage == null) { punchDoorRoutine = null; yield break; }
+            if (!entering)
+            {
+                yield return ShatterPunchDoor();
+                punchSequenceCompleted = true;
+                punchPhase = 0;
+                punchDoorRoutine = null;
+                yield break;
+            }
+            RectTransform rect = punchDoorImage.rectTransform;
+            Vector2 from = rect.anchoredPosition;
+            Vector2 to = Vector2.zero;
+            const float duration = 0.38f;
+            float elapsed = 0f;
+            while (elapsed < duration && rect != null)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = SmoothStep(elapsed / duration);
+                rect.anchoredPosition = Vector2.Lerp(from, to, t);
+                yield return null;
+            }
+            punchDoorRoutine = null;
+        }
+
+        private System.Collections.IEnumerator ShatterPunchDoor()
+        {
+            if (punchDoorImage == null || punchDoorImage.sprite == null) yield break;
+            RectTransform doorRect = punchDoorImage.rectTransform;
+            Sprite source = punchDoorImage.sprite;
+            const int columns = 4;
+            const int rows = 5;
+            int count = columns * rows;
+            var pieceObjects = new GameObject[count];
+            var pieceRects = new RectTransform[count];
+            var pieceImages = new Image[count];
+            var pieceSprites = new Sprite[count];
+            var velocities = new Vector2[count];
+            var angularSpeeds = new float[count];
+
+            float displayWidth = doorRect.rect.width / columns;
+            float displayHeight = doorRect.rect.height / rows;
+            float sourceWidth = source.rect.width / columns;
+            float sourceHeight = source.rect.height / rows;
+            Vector2 doorCenter = doorRect.anchoredPosition;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int column = 0; column < columns; column++)
+                {
+                    int index = row * columns + column;
+                    Rect sourceRect = new Rect(
+                        source.rect.x + column * sourceWidth,
+                        source.rect.y + row * sourceHeight,
+                        sourceWidth,
+                        sourceHeight);
+                    Sprite pieceSprite = Sprite.Create(source.texture, sourceRect, new Vector2(0.5f, 0.5f), source.pixelsPerUnit);
+                    pieceSprites[index] = pieceSprite;
+
+                    Image piece = CreateEffectImage("PunchDoorShard", doorRect.parent, pieceSprite);
+                    RectTransform pieceRect = piece.rectTransform;
+                    pieceRect.anchorMin = pieceRect.anchorMax = doorRect.anchorMin;
+                    pieceRect.pivot = new Vector2(0.5f, 0.5f);
+                    pieceRect.sizeDelta = new Vector2(displayWidth + 1f, displayHeight + 1f);
+                    Vector2 localOffset = new Vector2(
+                        (column + 0.5f - columns * 0.5f) * displayWidth,
+                        (row + 0.5f - rows * 0.5f) * displayHeight);
+                    pieceRect.anchoredPosition = doorCenter + localOffset;
+                    pieceRect.localScale = doorRect.localScale;
+                    piece.transform.SetSiblingIndex(doorRect.GetSiblingIndex() + 1);
+
+                    Vector2 outward = localOffset.sqrMagnitude > 0.01f ? localOffset.normalized : UnityEngine.Random.insideUnitCircle.normalized;
+                    velocities[index] = outward * UnityEngine.Random.Range(180f, 390f) +
+                        new Vector2(UnityEngine.Random.Range(-90f, 90f), UnityEngine.Random.Range(120f, 330f));
+                    angularSpeeds[index] = UnityEngine.Random.Range(-520f, 520f);
+                    pieceObjects[index] = piece.gameObject;
+                    pieceRects[index] = pieceRect;
+                    pieceImages[index] = piece;
+                }
+            }
+
+            punchDoorImage.enabled = false;
+            foreach (GameObject hole in punchHoleObjects)
+                if (hole != null) hole.SetActive(false);
+
+            const float duration = 0.72f;
+            const float gravity = 1050f;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                float dt = Time.unscaledDeltaTime;
+                elapsed += dt;
+                float fade = 1f - Mathf.Clamp01((elapsed - duration * 0.42f) / (duration * 0.58f));
+                for (int i = 0; i < count; i++)
+                {
+                    if (pieceRects[i] == null) continue;
+                    velocities[i] += Vector2.down * gravity * dt;
+                    pieceRects[i].anchoredPosition += velocities[i] * dt;
+                    pieceRects[i].Rotate(0f, 0f, angularSpeeds[i] * dt);
+                    Color color = pieceImages[i].color;
+                    color.a = fade;
+                    pieceImages[i].color = color;
+                }
+                yield return null;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                if (pieceObjects[i] != null) Destroy(pieceObjects[i]);
+                if (pieceSprites[i] != null) Destroy(pieceSprites[i]);
+            }
+            foreach (GameObject hole in punchHoleObjects)
+                if (hole != null) Destroy(hole);
+            punchHoleObjects.Clear();
+            if (punchDoorImage != null) Destroy(punchDoorImage.gameObject);
+            punchDoorImage = null;
+            if (punchDoorMaterial != null) Destroy(punchDoorMaterial);
+            punchDoorMaterial = null;
+        }
+
+        private void CreatePunchHole(Sprite rimSprite)
+        {
+            if (punchDoorImage == null || rimSprite == null) return;
+            RectTransform doorRect = punchDoorImage.rectTransform;
+            float radius = Mathf.Max(34f, Mathf.Min(doorRect.rect.width, doorRect.rect.height) * 0.09f);
+            float margin = radius * 1.4f;
+            Vector2 position = new Vector2(
+                UnityEngine.Random.Range(doorRect.rect.xMin + margin, doorRect.rect.xMax - margin),
+                UnityEngine.Random.Range(doorRect.rect.yMin + margin, doorRect.rect.yMax - margin));
+
+            Image hole = CreateEffectImage("PunchCatHole", doorRect, rimSprite);
+            RectTransform holeRect = hole.rectTransform;
+            holeRect.anchorMin = holeRect.anchorMax = new Vector2(0.5f, 0.5f);
+            holeRect.pivot = new Vector2(0.5f, 0.5f);
+            holeRect.sizeDelta = Vector2.one * radius * 2.65f;
+            holeRect.anchoredPosition = position;
+            // The source sprite is used only as shader mask data. Rendering it
+            // here would cover the exact pixels that were cut from the door.
+            hole.color = new Color(1f, 1f, 1f, 0f);
+            hole.raycastTarget = false;
+            if (punchDoorMaterial != null && punchHoleObjects.Count < 20)
+            {
+                float u = Mathf.InverseLerp(doorRect.rect.xMin, doorRect.rect.xMax, position.x);
+                float v = Mathf.InverseLerp(doorRect.rect.yMin, doorRect.rect.yMax, position.y);
+                float halfWidth = holeRect.sizeDelta.x * 0.5f / Mathf.Max(doorRect.rect.width, 1f);
+                float halfHeight = holeRect.sizeDelta.y * 0.5f / Mathf.Max(doorRect.rect.height, 1f);
+                punchDoorMaterial.SetTexture("_HoleTex", rimSprite.texture);
+                punchDoorMaterial.SetVector("_Hole" + punchHoleObjects.Count,
+                    new Vector4(u, v, halfWidth, halfHeight));
+            }
+            punchHoleObjects.Add(hole.gameObject);
+        }
+
+        private void ResetPunchCatDisplay()
+        {
+            if (punchDoorRoutine != null) StopCoroutine(punchDoorRoutine);
+            punchDoorRoutine = null;
+            foreach (GameObject hole in punchHoleObjects)
+                if (hole != null) Destroy(hole);
+            punchHoleObjects.Clear();
+            if (punchDoorImage != null) Destroy(punchDoorImage.gameObject);
+            punchDoorImage = null;
+            if (punchDoorMaterial != null) Destroy(punchDoorMaterial);
+            punchDoorMaterial = null;
+            punchPhase = 0;
+            punchSequenceCompleted = false;
+            punchCurrentCatSprite = null;
         }
 
         private Vector3 defaultTargetScale = Vector3.zero;

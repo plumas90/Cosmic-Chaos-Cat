@@ -6882,3 +6882,98 @@ MonoBehaviour:
     Description: "\uB108\uBB34 \uB208\uBD80\uC154\uC11C \uBC14\uB77C\uBCFC \uC218\uBC16\uC5D0
       \uC5C6\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: A dazzling single-illustration R-grade cat.
+  - Id: 0236
+    DisplayName: "\uD3EC\uD138 \uACE0\uC591\uC774"
+    DisplayName_EN: Portal Cat
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3532757503255309494, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -3532757503255309494, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: 7769992655682737521, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: -9155528180873773335, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: -3350813301599428091, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: 3526278515800463756, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: 4396959984767900288, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    - {fileID: -6691335781570204296, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uD3EC\uD138\uACFC \uD568\uAED8
+      \uC774\uB3D9\uD558\uBA70 \uD604\uC7AC \uD55C\uACC4\uB3CC\uD30C \uB2E8\uACC4\uC758
+      \uBAA8\uC2B5 \uC911 \uD558\uB098\uB85C \uBCC0\uD558\uB294 SSR \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR card that teleports on every click and randomly assumes
+      an appearance unlocked at its current breakthrough stage.
+  - Id: 0237
+    DisplayName: "\uD329\uB9E8 \uACE0\uC591\uC774"
+    DisplayName_EN: Pacman Cat
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2299037852840566683, guid: 01c44393b30921dd983a8ad4cf6d1032, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 2299037852840566683, guid: 01c44393b30921dd983a8ad4cf6d1032, type: 3}
+    - {fileID: -4188757240739705651, guid: 01c44393b30921dd983a8ad4cf6d1032, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uB450 \uBAA8\uC2B5\uC774
+      \uBC18\uBCF5\uB418\uB294 SR \uB4F1\uAE09 \uD329\uB9E8 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade Pacman Cat that alternates between two frames on
+      every click.
+  - Id: 0238
+    DisplayName: "\uD380\uCE58 \uACE0\uC591\uC774"
+    DisplayName_EN: Punch Cat
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1781925951881345715, guid: 9d2936e19e2631b40b95f34c490768ab, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 1781925951881345715, guid: 9d2936e19e2631b40b95f34c490768ab, type: 3}
+    - {fileID: 8428917677649260908, guid: 9d2936e19e2631b40b95f34c490768ab, type: 3}
+    - {fileID: 344899623396092761, guid: 9d2936e19e2631b40b95f34c490768ab, type: 3}
+    - {fileID: 571125135028768187, guid: 748c178ba81f5a867b7d9665e7f02efd, type: 3}
+    - {fileID: 8119338769497086870, guid: 537d7e9e222498eabaee746b22e91197, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBB38\uC744 \uC8FC\uBA39\uC73C\uB85C \uB6AB\uB294 SR \uB4F1\uAE09
+      \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade cat that punches holes through a door.
