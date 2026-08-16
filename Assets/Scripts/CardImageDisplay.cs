@@ -74,6 +74,10 @@ namespace CosmicChaosCat
         private Sprite hungryBiteSprite;
         private Coroutine hungryBiteRoutine;
         private bool hungryWasActive;
+        private readonly List<GameObject> rainbowCats = new List<GameObject>();
+        private int rainbowCatSequenceIndex;
+        private float rainbowButtonPressedUntil;
+        private bool rainbowWasActive;
         private Image portalLeftImage;
         private Image portalRightImage;
         private List<Sprite> portalCatSprites;
@@ -86,6 +90,7 @@ namespace CosmicChaosCat
         private Coroutine punchDoorRoutine;
         private Sprite punchCurrentCatSprite;
         private Material punchDoorMaterial;
+        private const float SeaCatBubbleRiseSpeed = 150f;
 
         public void CycleMemeCatImage()
         {
@@ -137,6 +142,12 @@ namespace CosmicChaosCat
                 return;
             }
 
+            if (IsRainbowButton(socketCardId))
+            {
+                SpawnRainbowCat(entry);
+                return;
+            }
+
             if (sprites != null && sprites.Count >= 2)
             {
                 currentSpriteIndex = (currentSpriteIndex + 1) % sprites.Count;
@@ -146,6 +157,8 @@ namespace CosmicChaosCat
                     cardImage.sprite = targetSp;
                     FitSubClickSpriteToBounds(targetSp);
                 }
+                if (IsSeaCat(socketCardId) && (currentSpriteIndex == 1 || currentSpriteIndex == 2))
+                    SpawnSeaCatBubble(entry);
             }
         }
 
@@ -172,6 +185,190 @@ namespace CosmicChaosCat
         private static bool IsHungry(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 233;
+        }
+
+        private static bool IsSeaCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 266;
+        }
+
+        private static bool IsRainbowButton(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 268;
+        }
+
+        private static float GetCardBaseScale(string cardId)
+        {
+            if (IsRainbowButton(cardId)) return 0.5f;
+            if (IsPortalCat(cardId)) return 0.75f;
+            return 1f;
+        }
+
+        private void SpawnRainbowCat(CardEntry card)
+        {
+            if (cardImage == null || card == null || card.EffectSprites == null ||
+                card.EffectSprites.Length < 8 || gameManager == null)
+                return;
+            if (!gameManager.TryGetCardProgress(card.Id, out var progress) || progress == null) return;
+
+            rainbowCats.RemoveAll(go => go == null);
+            int breakthroughStage = Mathf.Clamp(progress.BreakthroughCount + 1, 1, 5);
+            int maxRainbowCats = breakthroughStage * 3;
+            rainbowButtonPressedUntil = Time.unscaledTime + 0.12f;
+            if (rainbowCats.Count >= maxRainbowCats) return;
+
+            Sprite catSprite = card.EffectSprites[1 + rainbowCatSequenceIndex];
+            rainbowCatSequenceIndex = (rainbowCatSequenceIndex + 1) % 7;
+            if (catSprite == null) return;
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            Image projectile = CreateEffectImage("RainbowCatProjectile", canvasRect, catSprite);
+            RectTransform projectileRect = projectile.rectTransform;
+            projectileRect.anchorMin = projectileRect.anchorMax = new Vector2(0.5f, 0.5f);
+            projectileRect.pivot = new Vector2(0.5f, 0.5f);
+            float targetWidth = Mathf.Clamp(canvasRect.rect.width * 0.14f, 110f, 260f);
+            float aspect = catSprite.rect.height > 0f ? catSprite.rect.width / catSprite.rect.height : 1f;
+            projectileRect.sizeDelta = new Vector2(targetWidth, targetWidth / Mathf.Max(0.1f, aspect));
+            float margin = projectileRect.rect.height * 0.5f;
+            float spawnY = Random.Range(
+                canvasRect.rect.yMin + canvasRect.rect.height * 0.15f + margin,
+                canvasRect.rect.yMin + canvasRect.rect.height * 0.75f - margin);
+            projectileRect.anchoredPosition = new Vector2(
+                canvasRect.rect.xMin - projectileRect.rect.width * 0.55f,
+                spawnY);
+            projectileRect.localEulerAngles = new Vector3(0f, 0f, Random.Range(-18f, 18f));
+            projectile.raycastTarget = false;
+            projectile.color = Color.white;
+            projectileRect.SetAsLastSibling();
+
+            float launchAngle = Random.Range(12f, 38f) * Mathf.Deg2Rad;
+            float launchForce = canvasRect.rect.width * Random.Range(0.48f, 0.78f);
+            Vector2 velocity = new Vector2(Mathf.Cos(launchAngle), Mathf.Sin(launchAngle)) * launchForce;
+            float angularVelocity = Random.Range(-110f, 110f);
+            rainbowCats.Add(projectile.gameObject);
+            StartCoroutine(FlyRainbowCat(projectileRect, canvasRect, velocity, angularVelocity));
+        }
+
+        private System.Collections.IEnumerator FlyRainbowCat(
+            RectTransform projectile,
+            RectTransform canvasRect,
+            Vector2 velocity,
+            float angularVelocity)
+        {
+            float gravity = canvasRect.rect.height * 0.62f;
+            while (projectile != null)
+            {
+                float dt = Time.deltaTime;
+                projectile.anchoredPosition += velocity * dt;
+                velocity.y -= gravity * dt;
+                projectile.Rotate(0f, 0f, angularVelocity * dt);
+
+                Vector2 p = projectile.anchoredPosition;
+                float marginX = projectile.rect.width;
+                float marginY = projectile.rect.height;
+                if (p.x > canvasRect.rect.xMax + marginX ||
+                    p.y < canvasRect.rect.yMin - marginY ||
+                    p.y > canvasRect.rect.yMax + marginY)
+                    break;
+                yield return null;
+            }
+            if (projectile != null)
+            {
+                rainbowCats.Remove(projectile.gameObject);
+                Destroy(projectile.gameObject);
+            }
+        }
+
+        private void RefreshRainbowButton(bool active, CardEntry card)
+        {
+            if (active)
+            {
+                rainbowWasActive = true;
+                Vector3 rainbowScale = originalScale * 0.5f;
+                if (clickBounceRoutine == null)
+                {
+                    transform.localScale = rainbowScale;
+                    if (cardImage != null && cardImage.transform != transform)
+                        cardImage.transform.localScale = rainbowScale;
+                }
+                defaultTargetScale = rainbowScale;
+                if (cardImage != null && card?.EffectSprites != null && card.EffectSprites.Length > 0 &&
+                    Time.unscaledTime < rainbowButtonPressedUntil && card.EffectSprites[0] != null)
+                    cardImage.sprite = card.EffectSprites[0];
+            }
+            else if (rainbowWasActive)
+            {
+                foreach (GameObject rainbowCat in rainbowCats)
+                    if (rainbowCat != null) Destroy(rainbowCat);
+                rainbowCats.Clear();
+                rainbowCatSequenceIndex = 0;
+                Vector3 nextCardScale = originalScale * GetCardBaseScale(card != null ? card.Id : null);
+                if (clickBounceRoutine == null)
+                {
+                    transform.localScale = nextCardScale;
+                    if (cardImage != null && cardImage.transform != transform)
+                        cardImage.transform.localScale = nextCardScale;
+                }
+                defaultTargetScale = nextCardScale;
+                rainbowWasActive = false;
+            }
+        }
+
+        private void SpawnSeaCatBubble(CardEntry entry)
+        {
+            if (cardImage == null || entry?.EffectSprites == null ||
+                entry.EffectSprites.Length == 0 || entry.EffectSprites[0] == null)
+                return;
+
+            Canvas canvas = cardImage.GetComponentInParent<Canvas>();
+            if (canvas == null) return;
+
+            RectTransform cardRect = cardImage.rectTransform;
+            Rect bounds = cardRect.rect;
+            // All four Sea Cat slices share this mouth position within their local bounds.
+            Vector3 mouthLocal = new Vector3(
+                bounds.xMin + bounds.width * 0.24f,
+                bounds.yMin + bounds.height * 0.46f,
+                0f);
+            Vector3 mouthWorld = cardRect.TransformPoint(mouthLocal);
+
+            var bubbleObject = new GameObject("SeaCatBubble", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            RectTransform bubbleRect = bubbleObject.GetComponent<RectTransform>();
+            bubbleRect.SetParent(canvas.transform, false);
+            bubbleRect.position = mouthWorld;
+            bubbleRect.SetAsLastSibling();
+            float size = Mathf.Clamp(Mathf.Min(bounds.width, bounds.height) * 0.18f, 42f, 110f);
+            bubbleRect.sizeDelta = new Vector2(size, size);
+
+            Image bubbleImage = bubbleObject.GetComponent<Image>();
+            bubbleImage.sprite = entry.EffectSprites[0];
+            bubbleImage.preserveAspect = true;
+            bubbleImage.raycastTarget = false;
+            bubbleImage.color = Color.white;
+            StartCoroutine(RiseSeaCatBubble(bubbleRect, canvas));
+        }
+
+        private System.Collections.IEnumerator RiseSeaCatBubble(RectTransform bubble, Canvas canvas)
+        {
+            float elapsed = 0f;
+            float horizontalPhase = Random.Range(0f, Mathf.PI * 2f);
+            while (bubble != null && elapsed < 12f)
+            {
+                float dt = Time.deltaTime;
+                elapsed += dt;
+                float drift = Mathf.Sin(elapsed * 2.4f + horizontalPhase) * 22f;
+                bubble.anchoredPosition += new Vector2(drift * dt, SeaCatBubbleRiseSpeed * dt);
+
+                Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(
+                    canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+                    bubble.position);
+                if (screenPoint.y > Screen.height + bubble.rect.height) break;
+                yield return null;
+            }
+            if (bubble != null) Destroy(bubble.gameObject);
         }
 
         private static bool IsPortalCat(string cardId)
@@ -576,7 +773,7 @@ namespace CosmicChaosCat
                 float t = pulseTimer / pulseDuration;
                 float s = 1f + (pulseScale - 1f) * Mathf.Sin(t * Mathf.PI);
                 string pulseCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
-                float pulseBaseScale = IsPortalCat(pulseCardId) ? 0.75f : 1f;
+                float pulseBaseScale = GetCardBaseScale(pulseCardId);
                 transform.localScale = originalScale * pulseBaseScale * s;
                 if (pulseTimer >= pulseDuration)
                 {
@@ -592,7 +789,7 @@ namespace CosmicChaosCat
                 const float amp = 0.04f;
                 float s = 1f + amp * Mathf.Sin(Time.time * speed * Mathf.PI * 2f + breathPhaseOffset);
                 string breathingCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
-                float cardScale = IsPortalCat(breathingCardId) ? 0.75f : 1f;
+                float cardScale = GetCardBaseScale(breathingCardId);
                 transform.localScale = originalScale * cardScale * s;
             }
 
@@ -803,6 +1000,7 @@ namespace CosmicChaosCat
             RefreshHungryDisplay(IsHungry(curCardId), card);
             RefreshPortalCatDisplay(IsPortalCat(curCardId), card);
             RefreshPunchCatDisplay(IsPunchCat(curCardId), card);
+            RefreshRainbowButton(IsRainbowButton(curCardId), card);
 
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;

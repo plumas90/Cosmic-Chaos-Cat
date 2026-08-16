@@ -35,6 +35,7 @@ MonoBehaviour:
     - {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
     - {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
     - {fileID: -3577197028217183262, guid: c25adfdf7d492464d8f920beff853223, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -65,6 +66,7 @@ MonoBehaviour:
     - {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
     - {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
     - {fileID: 4220923862669965965, guid: bddcfdf6ffc59d04f98b303b03184afb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -95,6 +97,7 @@ MonoBehaviour:
     - {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
     - {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
     - {fileID: -2126313201628464401, guid: b6370d5f63983b3439745b2ce828e5fe, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -125,6 +128,7 @@ MonoBehaviour:
     - {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
     - {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
     - {fileID: 6403274611028261108, guid: 45f0fcf4f37b85a4d9a342cdb9de6525, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -155,6 +159,7 @@ MonoBehaviour:
     - {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
     - {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
     - {fileID: -7025259774704558450, guid: a1ad06ab97449de409f409cb3ed73d7d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -185,6 +190,7 @@ MonoBehaviour:
     - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
     - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
     - {fileID: -5063871307015312615, guid: ad432cc30245e0241b6e627da488b5e0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -215,6 +221,7 @@ MonoBehaviour:
     - {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
     - {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
     - {fileID: -5053713051221476619, guid: a84f9e24a6ec35b4aa6a9a52a50c36f7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -245,6 +252,7 @@ MonoBehaviour:
     - {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
     - {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
     - {fileID: 1536998297438963450, guid: 043f1b1f63f39db4da3e2ce51fdfbbee, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -275,6 +283,7 @@ MonoBehaviour:
     - {fileID: 7125238378244707169, guid: 9b823c1fabc8b294c8cb662ae626e16a, type: 3}
     - {fileID: 7125238378244707169, guid: 9b823c1fabc8b294c8cb662ae626e16a, type: 3}
     - {fileID: 7125238378244707169, guid: 9b823c1fabc8b294c8cb662ae626e16a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -305,6 +314,7 @@ MonoBehaviour:
     - {fileID: -6299459204188495125, guid: c3eb3e05637e2704cb9c5474d631e473, type: 3}
     - {fileID: -6299459204188495125, guid: c3eb3e05637e2704cb9c5474d631e473, type: 3}
     - {fileID: -6299459204188495125, guid: c3eb3e05637e2704cb9c5474d631e473, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -335,6 +345,7 @@ MonoBehaviour:
     - {fileID: 6234567029355957544, guid: c69dcd376bb29364c921d2b689218545, type: 3}
     - {fileID: 6234567029355957544, guid: c69dcd376bb29364c921d2b689218545, type: 3}
     - {fileID: 6234567029355957544, guid: c69dcd376bb29364c921d2b689218545, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -365,6 +376,7 @@ MonoBehaviour:
     - {fileID: 6696169535816684269, guid: a9d413fbf58e2e34f9dad7ba31600ce1, type: 3}
     - {fileID: -3095468961440387198, guid: 73ac895dab62f064191e3f6473efdf57, type: 3}
     - {fileID: -1934530168810041864, guid: ce664e35123060f4bacd0ccaa8bb74cb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -395,6 +407,7 @@ MonoBehaviour:
     - {fileID: 7308888128092512189, guid: fac3fdfcbc3189a4dab36144d531709b, type: 3}
     - {fileID: 933621286895922240, guid: 722cd376ab352aa4ba52b4d3ebf396a6, type: 3}
     - {fileID: -2690118091001412646, guid: 1f6d6d93e979e8c4286dc20b259874af, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -425,6 +438,7 @@ MonoBehaviour:
     - {fileID: -5325329821967838401, guid: a327edd2808513448969abe6c44c2c09, type: 3}
     - {fileID: 5614997872939745368, guid: 9d295995c56892d42a289eb6e9e813a2, type: 3}
     - {fileID: 2750241751596190621, guid: 3b33806e4d55a4547af3d9d5609e7b9d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -455,6 +469,7 @@ MonoBehaviour:
     - {fileID: -6447830751409005662, guid: 25849c48e40e29c4688f085089523a1b, type: 3}
     - {fileID: -6447830751409005662, guid: 25849c48e40e29c4688f085089523a1b, type: 3}
     - {fileID: -6447830751409005662, guid: 25849c48e40e29c4688f085089523a1b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -485,6 +500,7 @@ MonoBehaviour:
     - {fileID: -5078492549978649002, guid: 21756a80927421447a521b2fb35ff9d4, type: 3}
     - {fileID: -5078492549978649002, guid: 21756a80927421447a521b2fb35ff9d4, type: 3}
     - {fileID: -5078492549978649002, guid: 21756a80927421447a521b2fb35ff9d4, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -515,6 +531,7 @@ MonoBehaviour:
     - {fileID: 4064959150436951410, guid: 846c52ddbfd756e4da55d46d957e5edb, type: 3}
     - {fileID: 4064959150436951410, guid: 846c52ddbfd756e4da55d46d957e5edb, type: 3}
     - {fileID: 4064959150436951410, guid: 846c52ddbfd756e4da55d46d957e5edb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -545,6 +562,7 @@ MonoBehaviour:
     - {fileID: -2870436645723556058, guid: 571490b2f8ba01b40a288b47b976828c, type: 3}
     - {fileID: -2870436645723556058, guid: 571490b2f8ba01b40a288b47b976828c, type: 3}
     - {fileID: -2870436645723556058, guid: 571490b2f8ba01b40a288b47b976828c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -575,6 +593,7 @@ MonoBehaviour:
     - {fileID: -3351835795015529355, guid: a9cd8e1d7239b5c42b4b6305b8337184, type: 3}
     - {fileID: -3351835795015529355, guid: a9cd8e1d7239b5c42b4b6305b8337184, type: 3}
     - {fileID: -3351835795015529355, guid: a9cd8e1d7239b5c42b4b6305b8337184, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -605,6 +624,7 @@ MonoBehaviour:
     - {fileID: -4697672788147617693, guid: e88218383e0278943a411975d22c40e0, type: 3}
     - {fileID: -4697672788147617693, guid: e88218383e0278943a411975d22c40e0, type: 3}
     - {fileID: -4697672788147617693, guid: e88218383e0278943a411975d22c40e0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -635,6 +655,7 @@ MonoBehaviour:
     - {fileID: -1650184978739835375, guid: 381afa054e4c4994d9a215ca143a9283, type: 3}
     - {fileID: -1650184978739835375, guid: 381afa054e4c4994d9a215ca143a9283, type: 3}
     - {fileID: -1650184978739835375, guid: 381afa054e4c4994d9a215ca143a9283, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -665,6 +686,7 @@ MonoBehaviour:
     - {fileID: 4915405092596894788, guid: a20d62b22a3f30d488b49b5c55861c2e, type: 3}
     - {fileID: 4915405092596894788, guid: a20d62b22a3f30d488b49b5c55861c2e, type: 3}
     - {fileID: 4915405092596894788, guid: a20d62b22a3f30d488b49b5c55861c2e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -695,6 +717,7 @@ MonoBehaviour:
     - {fileID: -2121311184195362229, guid: da29d3baa68066141b0c632b8f4ef17a, type: 3}
     - {fileID: -2121311184195362229, guid: da29d3baa68066141b0c632b8f4ef17a, type: 3}
     - {fileID: -2121311184195362229, guid: da29d3baa68066141b0c632b8f4ef17a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -725,6 +748,7 @@ MonoBehaviour:
     - {fileID: -5582429285505540447, guid: 394350e84b11cbd4d9163485eed2315a, type: 3}
     - {fileID: -5582429285505540447, guid: 394350e84b11cbd4d9163485eed2315a, type: 3}
     - {fileID: -5582429285505540447, guid: 394350e84b11cbd4d9163485eed2315a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -755,6 +779,7 @@ MonoBehaviour:
     - {fileID: 3647119504326512902, guid: c5578c31cf03b81438a7c155de66dfae, type: 3}
     - {fileID: 3647119504326512902, guid: c5578c31cf03b81438a7c155de66dfae, type: 3}
     - {fileID: 3647119504326512902, guid: c5578c31cf03b81438a7c155de66dfae, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -785,6 +810,7 @@ MonoBehaviour:
     - {fileID: 1429843338134041148, guid: 2e90bee1cf99b2048ab49f5033e23fd7, type: 3}
     - {fileID: -3977110970829358212, guid: f22603331afdca747b4d3957dbc2c5d8, type: 3}
     - {fileID: 4155268077904882058, guid: 262dd4fe40f1e66479533dd183864633, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -815,6 +841,7 @@ MonoBehaviour:
     - {fileID: -911778026010289391, guid: 068baea5fd683444ea1022d7b8c77abd, type: 3}
     - {fileID: -5119276458628435446, guid: 98b59aeba5f37b44482ca9a97be77c96, type: 3}
     - {fileID: -1196150856426922136, guid: a02cd84cc7005104f8edfd51c63d24e9, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -845,6 +872,7 @@ MonoBehaviour:
     - {fileID: -4011030921258582351, guid: d0d5930b19c913d408f6fed6e5b8c0aa, type: 3}
     - {fileID: 4822671455028301365, guid: 813c2ef2f39400547a2dfa8b14fa034d, type: 3}
     - {fileID: 4795069465329196462, guid: 1a058060538245d4cbc3f866051f4b21, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -875,6 +903,7 @@ MonoBehaviour:
     - {fileID: 598541716916486125, guid: 108586202b5d9034aadcb522f034ea3e, type: 3}
     - {fileID: 598541716916486125, guid: 108586202b5d9034aadcb522f034ea3e, type: 3}
     - {fileID: 598541716916486125, guid: 108586202b5d9034aadcb522f034ea3e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -905,6 +934,7 @@ MonoBehaviour:
     - {fileID: -6138895176206741726, guid: bd079a573920b404aa84471dcbccd93a, type: 3}
     - {fileID: -6138895176206741726, guid: bd079a573920b404aa84471dcbccd93a, type: 3}
     - {fileID: -6138895176206741726, guid: bd079a573920b404aa84471dcbccd93a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -935,6 +965,7 @@ MonoBehaviour:
     - {fileID: -9088154906054805990, guid: e77eb85faf4de8b4b89c84b01df73941, type: 3}
     - {fileID: -9088154906054805990, guid: e77eb85faf4de8b4b89c84b01df73941, type: 3}
     - {fileID: -9088154906054805990, guid: e77eb85faf4de8b4b89c84b01df73941, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -965,6 +996,7 @@ MonoBehaviour:
     - {fileID: 7534220790757238807, guid: 0d49eabae892b6a4cbcd6229c7c6d48d, type: 3}
     - {fileID: 7534220790757238807, guid: 0d49eabae892b6a4cbcd6229c7c6d48d, type: 3}
     - {fileID: 7534220790757238807, guid: 0d49eabae892b6a4cbcd6229c7c6d48d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -995,6 +1027,7 @@ MonoBehaviour:
     - {fileID: -4349310348001564199, guid: 545aa2b741fc3d047a6f5bd1a950c82f, type: 3}
     - {fileID: -4349310348001564199, guid: 545aa2b741fc3d047a6f5bd1a950c82f, type: 3}
     - {fileID: -4349310348001564199, guid: 545aa2b741fc3d047a6f5bd1a950c82f, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1025,6 +1058,7 @@ MonoBehaviour:
     - {fileID: -2769202813752679297, guid: 84053487f95aac244b65c14e6d965061, type: 3}
     - {fileID: -2769202813752679297, guid: 84053487f95aac244b65c14e6d965061, type: 3}
     - {fileID: -2769202813752679297, guid: 84053487f95aac244b65c14e6d965061, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1055,6 +1089,7 @@ MonoBehaviour:
     - {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
     - {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
     - {fileID: -3139732091393871703, guid: 064048083720e934496590b50b41f365, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1085,6 +1120,7 @@ MonoBehaviour:
     - {fileID: 4300487954951230239, guid: df913e5c15c7c7c47a0940994fcc5f76, type: 3}
     - {fileID: 4300487954951230239, guid: df913e5c15c7c7c47a0940994fcc5f76, type: 3}
     - {fileID: 4300487954951230239, guid: df913e5c15c7c7c47a0940994fcc5f76, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1115,6 +1151,7 @@ MonoBehaviour:
     - {fileID: -4043838168089045726, guid: 1303ad798d650e34bae94b95341ce059, type: 3}
     - {fileID: -4043838168089045726, guid: 1303ad798d650e34bae94b95341ce059, type: 3}
     - {fileID: -4043838168089045726, guid: 1303ad798d650e34bae94b95341ce059, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1145,6 +1182,7 @@ MonoBehaviour:
     - {fileID: 5859027593282368907, guid: 0df7e8fa154e2d348881c04dd5259546, type: 3}
     - {fileID: 5859027593282368907, guid: 0df7e8fa154e2d348881c04dd5259546, type: 3}
     - {fileID: 5859027593282368907, guid: 0df7e8fa154e2d348881c04dd5259546, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1175,6 +1213,7 @@ MonoBehaviour:
     - {fileID: -1140081934663135952, guid: 81dbe7d5739d1364da5055d2b75f5232, type: 3}
     - {fileID: -1140081934663135952, guid: 81dbe7d5739d1364da5055d2b75f5232, type: 3}
     - {fileID: -1140081934663135952, guid: 81dbe7d5739d1364da5055d2b75f5232, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1205,6 +1244,7 @@ MonoBehaviour:
     - {fileID: 2543236973579000495, guid: ec4ec3621666fcf449c3316495ce0988, type: 3}
     - {fileID: 356669466974619898, guid: 2a2376211e94df74281b8e321209cc98, type: 3}
     - {fileID: 8035352610289296564, guid: 49971556cc91043439664357742bf568, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1235,6 +1275,7 @@ MonoBehaviour:
     - {fileID: 8797915093961198546, guid: 938d60028164d7d4bbbb4eff69d75a64, type: 3}
     - {fileID: -207937241415136982, guid: 610b1340c70a8924ea752ade23591e54, type: 3}
     - {fileID: -1337865908675584405, guid: 0e9f03da8bb48584090cf5ab6fbb5243, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1265,6 +1306,7 @@ MonoBehaviour:
     - {fileID: -8793190495605636392, guid: e8f55dd456587f8498e904b4fa199680, type: 3}
     - {fileID: -5486390551837936890, guid: c5765b8eeeccd234d8c92cc2c48280a8, type: 3}
     - {fileID: 6201775588204642320, guid: 56e6d974228d3914a89831cd8d1a9c9c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1295,6 +1337,7 @@ MonoBehaviour:
     - {fileID: -3363890200380225608, guid: 5ab903dc2da494b47a4339142f7addd4, type: 3}
     - {fileID: -3363890200380225608, guid: 5ab903dc2da494b47a4339142f7addd4, type: 3}
     - {fileID: -3363890200380225608, guid: 5ab903dc2da494b47a4339142f7addd4, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1325,6 +1368,7 @@ MonoBehaviour:
     - {fileID: -690558664212558695, guid: 252f64a10e4dcc94aba90199464f2117, type: 3}
     - {fileID: -690558664212558695, guid: 252f64a10e4dcc94aba90199464f2117, type: 3}
     - {fileID: -690558664212558695, guid: 252f64a10e4dcc94aba90199464f2117, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1355,6 +1399,7 @@ MonoBehaviour:
     - {fileID: 6228768241096040613, guid: b4071f3121355e045900042b428585a7, type: 3}
     - {fileID: 6228768241096040613, guid: b4071f3121355e045900042b428585a7, type: 3}
     - {fileID: 6228768241096040613, guid: b4071f3121355e045900042b428585a7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1385,6 +1430,7 @@ MonoBehaviour:
     - {fileID: -232832842420887298, guid: 5fd5dcf078b0a444fbbbb5d72829cf96, type: 3}
     - {fileID: -232832842420887298, guid: 5fd5dcf078b0a444fbbbb5d72829cf96, type: 3}
     - {fileID: -232832842420887298, guid: 5fd5dcf078b0a444fbbbb5d72829cf96, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1415,6 +1461,7 @@ MonoBehaviour:
     - {fileID: 1130931377579669439, guid: 358bf10e0a2cbd2418ce20d37d7f2c2a, type: 3}
     - {fileID: 1130931377579669439, guid: 358bf10e0a2cbd2418ce20d37d7f2c2a, type: 3}
     - {fileID: 1130931377579669439, guid: 358bf10e0a2cbd2418ce20d37d7f2c2a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1446,6 +1493,7 @@ MonoBehaviour:
     - {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
     - {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
     - {fileID: -3796373714247045610, guid: e925f0a529aef37488a52dd1fe32d451, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1476,6 +1524,7 @@ MonoBehaviour:
     - {fileID: 5020826799863134761, guid: d04afc204c35fc743a56a77a8de29f87, type: 3}
     - {fileID: 5020826799863134761, guid: d04afc204c35fc743a56a77a8de29f87, type: 3}
     - {fileID: 5020826799863134761, guid: d04afc204c35fc743a56a77a8de29f87, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1506,6 +1555,7 @@ MonoBehaviour:
     - {fileID: 178504356847497677, guid: 0d64057139678794db5a013745abc305, type: 3}
     - {fileID: 178504356847497677, guid: 0d64057139678794db5a013745abc305, type: 3}
     - {fileID: 178504356847497677, guid: 0d64057139678794db5a013745abc305, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1536,6 +1586,7 @@ MonoBehaviour:
     - {fileID: 9104084134299841754, guid: 148ce3b5131adf649a40cc9151e0e5b1, type: 3}
     - {fileID: 9104084134299841754, guid: 148ce3b5131adf649a40cc9151e0e5b1, type: 3}
     - {fileID: 9104084134299841754, guid: 148ce3b5131adf649a40cc9151e0e5b1, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1566,6 +1617,7 @@ MonoBehaviour:
     - {fileID: 716783192250818057, guid: c8363e074cfe27e44917aed962bfa436, type: 3}
     - {fileID: 716783192250818057, guid: c8363e074cfe27e44917aed962bfa436, type: 3}
     - {fileID: 716783192250818057, guid: c8363e074cfe27e44917aed962bfa436, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1596,6 +1648,7 @@ MonoBehaviour:
     - {fileID: 920550857230708003, guid: e900e136a49523b4194142a272159972, type: 3}
     - {fileID: 920550857230708003, guid: e900e136a49523b4194142a272159972, type: 3}
     - {fileID: 920550857230708003, guid: e900e136a49523b4194142a272159972, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1626,6 +1679,7 @@ MonoBehaviour:
     - {fileID: 4042627240149750964, guid: 2a92a44afd9711c48b3b48180fb8a211, type: 3}
     - {fileID: -906362331198828846, guid: faaaa1f3af43dcf4a8b667836b547799, type: 3}
     - {fileID: -1320768179175958719, guid: 4ae9d41859488814a8ff0c70b06a236c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1656,6 +1710,7 @@ MonoBehaviour:
     - {fileID: -2329098007189976992, guid: ace18648e6f64ca4b8152cbe4ae09075, type: 3}
     - {fileID: -2552837022339285876, guid: eab7f4d645f49894fa7c61f31691c5f4, type: 3}
     - {fileID: 6085048514798515508, guid: 0cf4a03266b2f784b885aa41ef3f6735, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1686,6 +1741,7 @@ MonoBehaviour:
     - {fileID: 582506750700452571, guid: 98515afc2d9bdc847a4ec620ddbccfb1, type: 3}
     - {fileID: -700749248105111214, guid: 610e5c4782f11de458092e4ea40ce037, type: 3}
     - {fileID: -381716168816778323, guid: baec6ef4d2ad2db4c8d6741ab9413687, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1716,6 +1772,7 @@ MonoBehaviour:
     - {fileID: -3208966271761190345, guid: fc3aabb59f27c244592ebf086de79ce5, type: 3}
     - {fileID: -3208966271761190345, guid: fc3aabb59f27c244592ebf086de79ce5, type: 3}
     - {fileID: -3208966271761190345, guid: fc3aabb59f27c244592ebf086de79ce5, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1747,6 +1804,7 @@ MonoBehaviour:
     - {fileID: 7229965477910575171, guid: c40ff66fd9334ae43aecfdb165d3901b, type: 3}
     - {fileID: 7229965477910575171, guid: c40ff66fd9334ae43aecfdb165d3901b, type: 3}
     - {fileID: 7229965477910575171, guid: c40ff66fd9334ae43aecfdb165d3901b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1778,6 +1836,7 @@ MonoBehaviour:
     - {fileID: 3484479248857261238, guid: 15806a223f6eb964e9fee9ff46cf0fc7, type: 3}
     - {fileID: 3484479248857261238, guid: 15806a223f6eb964e9fee9ff46cf0fc7, type: 3}
     - {fileID: 3484479248857261238, guid: 15806a223f6eb964e9fee9ff46cf0fc7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1808,6 +1867,7 @@ MonoBehaviour:
     - {fileID: 2005751689375486218, guid: 650c6cb8d116aee45be8f65bfd9f4c14, type: 3}
     - {fileID: 2005751689375486218, guid: 650c6cb8d116aee45be8f65bfd9f4c14, type: 3}
     - {fileID: 2005751689375486218, guid: 650c6cb8d116aee45be8f65bfd9f4c14, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1838,6 +1898,7 @@ MonoBehaviour:
     - {fileID: -2210115900580082746, guid: 742bc87572396eb4e9716bde4dfed871, type: 3}
     - {fileID: -2210115900580082746, guid: 742bc87572396eb4e9716bde4dfed871, type: 3}
     - {fileID: -2210115900580082746, guid: 742bc87572396eb4e9716bde4dfed871, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1868,6 +1929,7 @@ MonoBehaviour:
     - {fileID: 6809950908022592207, guid: b1c84fcf767f5a44d8529d90960dd1a2, type: 3}
     - {fileID: 6809950908022592207, guid: b1c84fcf767f5a44d8529d90960dd1a2, type: 3}
     - {fileID: 6809950908022592207, guid: b1c84fcf767f5a44d8529d90960dd1a2, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1898,6 +1960,7 @@ MonoBehaviour:
     - {fileID: -1353126186253318908, guid: 6b396e8a004cbdc4abed122afe409bb5, type: 3}
     - {fileID: -1353126186253318908, guid: 6b396e8a004cbdc4abed122afe409bb5, type: 3}
     - {fileID: -1353126186253318908, guid: 6b396e8a004cbdc4abed122afe409bb5, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1928,6 +1991,7 @@ MonoBehaviour:
     - {fileID: 5412741982480308563, guid: 0e9b1c37338c99e478e9b4d86c6913fb, type: 3}
     - {fileID: 5412741982480308563, guid: 0e9b1c37338c99e478e9b4d86c6913fb, type: 3}
     - {fileID: 5412741982480308563, guid: 0e9b1c37338c99e478e9b4d86c6913fb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1958,6 +2022,7 @@ MonoBehaviour:
     - {fileID: -2175300201750040950, guid: acd23860c69973747a4824b7418b91e7, type: 3}
     - {fileID: -2175300201750040950, guid: acd23860c69973747a4824b7418b91e7, type: 3}
     - {fileID: -2175300201750040950, guid: acd23860c69973747a4824b7418b91e7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -1988,6 +2053,7 @@ MonoBehaviour:
     - {fileID: -6971786423098719682, guid: b8400fa9e0e6a1943898c638347feec1, type: 3}
     - {fileID: -6971786423098719682, guid: b8400fa9e0e6a1943898c638347feec1, type: 3}
     - {fileID: -6971786423098719682, guid: b8400fa9e0e6a1943898c638347feec1, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2018,6 +2084,7 @@ MonoBehaviour:
     - {fileID: 161803905927293451, guid: c76cff6b4af5b744a9cdacc3da863c44, type: 3}
     - {fileID: 161803905927293451, guid: c76cff6b4af5b744a9cdacc3da863c44, type: 3}
     - {fileID: 161803905927293451, guid: c76cff6b4af5b744a9cdacc3da863c44, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2048,6 +2115,7 @@ MonoBehaviour:
     - {fileID: 2622210717186332789, guid: af86b667773d99740b6a5c9c4eea088d, type: 3}
     - {fileID: -3325709291337315232, guid: 065de52ae7889da4592d5e1b9bb8ff4d, type: 3}
     - {fileID: 252885692163602252, guid: 8b8fa0ce856193e46a453e660dc0fcc0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2079,6 +2147,7 @@ MonoBehaviour:
     - {fileID: -3451851314734366716, guid: 58d607dee77c365428a1004a724dbbfb, type: 3}
     - {fileID: -821526546650472394, guid: b2a36431ff5823844b9df4a0b0e6de4b, type: 3}
     - {fileID: 4189425394309729961, guid: f91e088a825cfb84fbc8d50319468710, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2109,6 +2178,7 @@ MonoBehaviour:
     - {fileID: 1064583279329008908, guid: f33a4530e2812614d95fc9e54d9cad52, type: 3}
     - {fileID: -5675561175557852147, guid: 71d0012349083564d844a5e13dc9c164, type: 3}
     - {fileID: 3528856878980736448, guid: 19b090035bf074f4e9d68f5dbd19c82a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2140,6 +2210,7 @@ MonoBehaviour:
     - {fileID: -1808762308219830901, guid: d1c27d2dc9e81334d961269c31d0b99e, type: 3}
     - {fileID: -1808762308219830901, guid: d1c27d2dc9e81334d961269c31d0b99e, type: 3}
     - {fileID: -1808762308219830901, guid: d1c27d2dc9e81334d961269c31d0b99e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2170,6 +2241,7 @@ MonoBehaviour:
     - {fileID: -7413441262261756365, guid: 9688e687d3b298e4ab9a9376c3e94ee8, type: 3}
     - {fileID: -7413441262261756365, guid: 9688e687d3b298e4ab9a9376c3e94ee8, type: 3}
     - {fileID: -7413441262261756365, guid: 9688e687d3b298e4ab9a9376c3e94ee8, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2200,6 +2272,7 @@ MonoBehaviour:
     - {fileID: 6081511511028213847, guid: c334fb8a8b9395b4986e293421e6681a, type: 3}
     - {fileID: 6081511511028213847, guid: c334fb8a8b9395b4986e293421e6681a, type: 3}
     - {fileID: 6081511511028213847, guid: c334fb8a8b9395b4986e293421e6681a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2230,6 +2303,7 @@ MonoBehaviour:
     - {fileID: -2695384098414888785, guid: 289911da544a6dc478cdecf061861d25, type: 3}
     - {fileID: -2695384098414888785, guid: 289911da544a6dc478cdecf061861d25, type: 3}
     - {fileID: -2695384098414888785, guid: 289911da544a6dc478cdecf061861d25, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2260,6 +2334,7 @@ MonoBehaviour:
     - {fileID: -1664073708258026668, guid: af3fcf6659d65954ea1e66686060819d, type: 3}
     - {fileID: -1664073708258026668, guid: af3fcf6659d65954ea1e66686060819d, type: 3}
     - {fileID: -1664073708258026668, guid: af3fcf6659d65954ea1e66686060819d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2290,6 +2365,7 @@ MonoBehaviour:
     - {fileID: 796899553089492237, guid: cfb244c0948823843be0e31345f4ec2b, type: 3}
     - {fileID: 796899553089492237, guid: cfb244c0948823843be0e31345f4ec2b, type: 3}
     - {fileID: 796899553089492237, guid: cfb244c0948823843be0e31345f4ec2b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2320,6 +2396,7 @@ MonoBehaviour:
     - {fileID: -3615114431104894633, guid: b3e8cbed961c6c1479811ec2d88d2959, type: 3}
     - {fileID: -3615114431104894633, guid: b3e8cbed961c6c1479811ec2d88d2959, type: 3}
     - {fileID: -3615114431104894633, guid: b3e8cbed961c6c1479811ec2d88d2959, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2350,6 +2427,7 @@ MonoBehaviour:
     - {fileID: -896258578649207782, guid: 7799bdd4895143f41b4acc10f6f82b77, type: 3}
     - {fileID: -896258578649207782, guid: 7799bdd4895143f41b4acc10f6f82b77, type: 3}
     - {fileID: -896258578649207782, guid: 7799bdd4895143f41b4acc10f6f82b77, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2380,6 +2458,7 @@ MonoBehaviour:
     - {fileID: -8605090079547523896, guid: 7a62bfd740d7fb94f84edeac9f786f56, type: 3}
     - {fileID: -8605090079547523896, guid: 7a62bfd740d7fb94f84edeac9f786f56, type: 3}
     - {fileID: -8605090079547523896, guid: 7a62bfd740d7fb94f84edeac9f786f56, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2410,6 +2489,7 @@ MonoBehaviour:
     - {fileID: 148740946431144941, guid: 506a028c37003644e86c0cbc8f45cd72, type: 3}
     - {fileID: 148740946431144941, guid: 506a028c37003644e86c0cbc8f45cd72, type: 3}
     - {fileID: 148740946431144941, guid: 506a028c37003644e86c0cbc8f45cd72, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2440,6 +2520,7 @@ MonoBehaviour:
     - {fileID: 6711331150931213964, guid: fc39dd8aacc6b884ab4a14584d6c949b, type: 3}
     - {fileID: 6711331150931213964, guid: fc39dd8aacc6b884ab4a14584d6c949b, type: 3}
     - {fileID: 6711331150931213964, guid: fc39dd8aacc6b884ab4a14584d6c949b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2470,6 +2551,7 @@ MonoBehaviour:
     - {fileID: 5906072025766640843, guid: 538c61b2578421a4d88bfd8f908edb90, type: 3}
     - {fileID: 7943277086766458150, guid: f4cd43e11bd9ea94caad4fc1c5732d98, type: 3}
     - {fileID: 2780428297410406265, guid: c69d471eed295eb4bbb1f9e89a7e18fb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2500,6 +2582,7 @@ MonoBehaviour:
     - {fileID: 497728573980316030, guid: 7bed4e69ea86ec846b3aa1d58cb24546, type: 3}
     - {fileID: 3711101917659538806, guid: c8266c095e5eb3c41924477afead676a, type: 3}
     - {fileID: -4803011296325552819, guid: 0b2581a4bcf995445b560b7e89485ebd, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2530,6 +2613,7 @@ MonoBehaviour:
     - {fileID: 6914163094726007987, guid: 76805c419fcba41419ce91131c586a4f, type: 3}
     - {fileID: -6452987758813140581, guid: fb2e9191e3b9f5a43bfb75084ccaa6b4, type: 3}
     - {fileID: -2406268811444313077, guid: 26dbd5a0d3547a94b9e71a3647477243, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2560,6 +2644,7 @@ MonoBehaviour:
     - {fileID: -4029450831246904612, guid: ae920b33a869a5144a62aa41389ce9b4, type: 3}
     - {fileID: -4029450831246904612, guid: ae920b33a869a5144a62aa41389ce9b4, type: 3}
     - {fileID: -4029450831246904612, guid: ae920b33a869a5144a62aa41389ce9b4, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2590,6 +2675,7 @@ MonoBehaviour:
     - {fileID: 3640465769129112223, guid: 644bcc43724001446b63ad16ab2c828d, type: 3}
     - {fileID: 3640465769129112223, guid: 644bcc43724001446b63ad16ab2c828d, type: 3}
     - {fileID: 3640465769129112223, guid: 644bcc43724001446b63ad16ab2c828d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2620,6 +2706,7 @@ MonoBehaviour:
     - {fileID: -8727393730017109208, guid: f27bffe243681d749a9f8ff762c8a6e3, type: 3}
     - {fileID: -8727393730017109208, guid: f27bffe243681d749a9f8ff762c8a6e3, type: 3}
     - {fileID: -8727393730017109208, guid: f27bffe243681d749a9f8ff762c8a6e3, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2650,6 +2737,7 @@ MonoBehaviour:
     - {fileID: -511980434820452939, guid: 28d16700cf766cb43bfe0661d4ad9285, type: 3}
     - {fileID: -511980434820452939, guid: 28d16700cf766cb43bfe0661d4ad9285, type: 3}
     - {fileID: -511980434820452939, guid: 28d16700cf766cb43bfe0661d4ad9285, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2680,6 +2768,7 @@ MonoBehaviour:
     - {fileID: 5750260743689596146, guid: ea3e06043f204ed43b01b09a4d8fac10, type: 3}
     - {fileID: 5750260743689596146, guid: ea3e06043f204ed43b01b09a4d8fac10, type: 3}
     - {fileID: 5750260743689596146, guid: ea3e06043f204ed43b01b09a4d8fac10, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2710,6 +2799,7 @@ MonoBehaviour:
     - {fileID: 3913049594329747393, guid: 7d13d796b626832418a1664f71ab34d3, type: 3}
     - {fileID: 3913049594329747393, guid: 7d13d796b626832418a1664f71ab34d3, type: 3}
     - {fileID: 3913049594329747393, guid: 7d13d796b626832418a1664f71ab34d3, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2740,6 +2830,7 @@ MonoBehaviour:
     - {fileID: 6005869051061648938, guid: 2ea06948247820e48ae6f96a5b4b5d12, type: 3}
     - {fileID: 6005869051061648938, guid: 2ea06948247820e48ae6f96a5b4b5d12, type: 3}
     - {fileID: 6005869051061648938, guid: 2ea06948247820e48ae6f96a5b4b5d12, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2770,6 +2861,7 @@ MonoBehaviour:
     - {fileID: -4149325901330202284, guid: 1de0f4de3b182ad4ca457ba6163b9780, type: 3}
     - {fileID: -4149325901330202284, guid: 1de0f4de3b182ad4ca457ba6163b9780, type: 3}
     - {fileID: -4149325901330202284, guid: 1de0f4de3b182ad4ca457ba6163b9780, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2800,6 +2892,7 @@ MonoBehaviour:
     - {fileID: 7893047041367202061, guid: 10c548689ee16914d926929e80b5e580, type: 3}
     - {fileID: 7893047041367202061, guid: 10c548689ee16914d926929e80b5e580, type: 3}
     - {fileID: 7893047041367202061, guid: 10c548689ee16914d926929e80b5e580, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2830,6 +2923,7 @@ MonoBehaviour:
     - {fileID: 7117188145525416789, guid: 35d73cd3c388f0e4ca5feb808a83d9fc, type: 3}
     - {fileID: 7117188145525416789, guid: 35d73cd3c388f0e4ca5feb808a83d9fc, type: 3}
     - {fileID: 7117188145525416789, guid: 35d73cd3c388f0e4ca5feb808a83d9fc, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2860,6 +2954,7 @@ MonoBehaviour:
     - {fileID: -4832464158068960397, guid: 65fd5fafee060964fbe0b63e46e1e550, type: 3}
     - {fileID: -4832464158068960397, guid: 65fd5fafee060964fbe0b63e46e1e550, type: 3}
     - {fileID: -4832464158068960397, guid: 65fd5fafee060964fbe0b63e46e1e550, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2890,6 +2985,7 @@ MonoBehaviour:
     - {fileID: 6367220617610210316, guid: 5c06731ae7fe95c4daf311b67e80d554, type: 3}
     - {fileID: -5724500487136942959, guid: a04169f28b7e685449cc39495bb63ce5, type: 3}
     - {fileID: 8188615004554518235, guid: ec87f85777905a1489562306a7d6a12a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2920,6 +3016,7 @@ MonoBehaviour:
     - {fileID: -5081851251298670311, guid: 80cb2feab79ae8a4f946c238c4c81943, type: 3}
     - {fileID: 2886059642112183162, guid: b578e5e7f98c5324c9d2e01b0289ce2d, type: 3}
     - {fileID: -3593578567306829919, guid: 48f53f477030365478d64dde6ef38ad9, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2950,6 +3047,7 @@ MonoBehaviour:
     - {fileID: 4861075765324594451, guid: 9fdeb286062dc834591ac70b92a43ab6, type: 3}
     - {fileID: -1109634815260235252, guid: 660ca7507ca51c24a8d24a3949f506b0, type: 3}
     - {fileID: 5211654626339647891, guid: d26ff48c48c9a484c82f8f31129e5aa4, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -2980,6 +3078,7 @@ MonoBehaviour:
     - {fileID: 5748012774135201731, guid: 9e4486b8d2b2e2c409f2783a42939595, type: 3}
     - {fileID: 5748012774135201731, guid: 9e4486b8d2b2e2c409f2783a42939595, type: 3}
     - {fileID: 5748012774135201731, guid: 9e4486b8d2b2e2c409f2783a42939595, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3010,6 +3109,7 @@ MonoBehaviour:
     - {fileID: -1408779021100990820, guid: c79bdceac837c50479415196434ff8da, type: 3}
     - {fileID: -1408779021100990820, guid: c79bdceac837c50479415196434ff8da, type: 3}
     - {fileID: -1408779021100990820, guid: c79bdceac837c50479415196434ff8da, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3040,6 +3140,7 @@ MonoBehaviour:
     - {fileID: 7096284636100414267, guid: aa315374656d8a147baaf3692ae7d320, type: 3}
     - {fileID: 7096284636100414267, guid: aa315374656d8a147baaf3692ae7d320, type: 3}
     - {fileID: 7096284636100414267, guid: aa315374656d8a147baaf3692ae7d320, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3070,6 +3171,7 @@ MonoBehaviour:
     - {fileID: 2488555510765284557, guid: 5e87a6b166df36f4bbb9313919717670, type: 3}
     - {fileID: 2488555510765284557, guid: 5e87a6b166df36f4bbb9313919717670, type: 3}
     - {fileID: 2488555510765284557, guid: 5e87a6b166df36f4bbb9313919717670, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3100,6 +3202,7 @@ MonoBehaviour:
     - {fileID: -9068346944411710357, guid: 068277182f8c43641990b895290009fb, type: 3}
     - {fileID: -9068346944411710357, guid: 068277182f8c43641990b895290009fb, type: 3}
     - {fileID: -9068346944411710357, guid: 068277182f8c43641990b895290009fb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3130,6 +3233,7 @@ MonoBehaviour:
     - {fileID: -7072383367612336633, guid: fa6361eb2a3f3b54c9614237bf26a917, type: 3}
     - {fileID: -7072383367612336633, guid: fa6361eb2a3f3b54c9614237bf26a917, type: 3}
     - {fileID: -7072383367612336633, guid: fa6361eb2a3f3b54c9614237bf26a917, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3160,6 +3264,7 @@ MonoBehaviour:
     - {fileID: -7037690886312317952, guid: abdf1968d5a163f48ad1727677ff741a, type: 3}
     - {fileID: -7037690886312317952, guid: abdf1968d5a163f48ad1727677ff741a, type: 3}
     - {fileID: -7037690886312317952, guid: abdf1968d5a163f48ad1727677ff741a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3190,6 +3295,7 @@ MonoBehaviour:
     - {fileID: -4899172708024425042, guid: b4bc185ce1d530e47940913279fe9bbd, type: 3}
     - {fileID: -4899172708024425042, guid: b4bc185ce1d530e47940913279fe9bbd, type: 3}
     - {fileID: -4899172708024425042, guid: b4bc185ce1d530e47940913279fe9bbd, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3220,6 +3326,7 @@ MonoBehaviour:
     - {fileID: -3115456334679049929, guid: cb367e83b7bcb8b4ba522976b1c3c543, type: 3}
     - {fileID: -3115456334679049929, guid: cb367e83b7bcb8b4ba522976b1c3c543, type: 3}
     - {fileID: -3115456334679049929, guid: cb367e83b7bcb8b4ba522976b1c3c543, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3251,6 +3358,7 @@ MonoBehaviour:
     - {fileID: 5564862385322807134, guid: e7bc44c8c000cef47bd0da83735e0526, type: 3}
     - {fileID: 5564862385322807134, guid: e7bc44c8c000cef47bd0da83735e0526, type: 3}
     - {fileID: 5564862385322807134, guid: e7bc44c8c000cef47bd0da83735e0526, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3281,6 +3389,7 @@ MonoBehaviour:
     - {fileID: 454866075610635361, guid: 589018ec7fc978b408b0d9df5c1b27fe, type: 3}
     - {fileID: 454866075610635361, guid: 589018ec7fc978b408b0d9df5c1b27fe, type: 3}
     - {fileID: 454866075610635361, guid: 589018ec7fc978b408b0d9df5c1b27fe, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3311,6 +3420,7 @@ MonoBehaviour:
     - {fileID: -4454603860777622155, guid: f3707aece136303448a61096f120f371, type: 3}
     - {fileID: 9067475979257273191, guid: 0502e013945264e418c9a52538557529, type: 3}
     - {fileID: -3196737318904043240, guid: 2d5c67337c6f82f4daf063e79d71181c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3342,6 +3452,7 @@ MonoBehaviour:
     - {fileID: 1313147111076042043, guid: 353bb261ac2f4c9469ea1b1d1d5eaade, type: 3}
     - {fileID: 3236266640328208764, guid: e55125ad0b7504a45a5f7d58f11c8729, type: 3}
     - {fileID: 8746454509988031985, guid: 8bd8edd66549c2c49af2d385e2a5fb55, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3372,6 +3483,7 @@ MonoBehaviour:
     - {fileID: 7706657729573536345, guid: 6bec1f7b3827cac46927592bab828c8b, type: 3}
     - {fileID: 7953884710857395095, guid: f31b3ac85553478429826f39d56bf2a6, type: 3}
     - {fileID: 1125418960870016953, guid: 4e1ddc2805241f14abfebde13fd8b686, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3403,6 +3515,7 @@ MonoBehaviour:
     - {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
     - {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
     - {fileID: 4606823548622665639, guid: 39e16173a4466d00d90628f273bddec0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3433,6 +3546,7 @@ MonoBehaviour:
     - {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
     - {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
     - {fileID: -4959324901371535777, guid: fbeb88b80bf6fc83cb0637406a735266, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3463,6 +3577,7 @@ MonoBehaviour:
     - {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
     - {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
     - {fileID: -176231049581995738, guid: b900698a6d8476be685a88476743f5b3, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3493,6 +3608,7 @@ MonoBehaviour:
     - {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
     - {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
     - {fileID: -7095454137755374677, guid: e5975d32a04a522fd9d86b3c91de8810, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3523,6 +3639,7 @@ MonoBehaviour:
     - {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
     - {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
     - {fileID: -4882261550968619373, guid: ffb7f19822b95c6528e2861231feec76, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3553,6 +3670,7 @@ MonoBehaviour:
     - {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
     - {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
     - {fileID: 2352770401074372523, guid: 690ac7510953a1f6f8e126f07ced4cf1, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3583,6 +3701,7 @@ MonoBehaviour:
     - {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
     - {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
     - {fileID: -7605220501254249819, guid: 9b5bc4fe57ba44154b75bce4c8a80c77, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3613,6 +3732,7 @@ MonoBehaviour:
     - {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
     - {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
     - {fileID: 77617485447148164, guid: 0b81badf37b10c9888d84ad9a10e34ee, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3643,6 +3763,7 @@ MonoBehaviour:
     - {fileID: -1641063795509877386, guid: da0b37b4d6e270f1fa75775c87704536, type: 3}
     - {fileID: -1641063795509877386, guid: da0b37b4d6e270f1fa75775c87704536, type: 3}
     - {fileID: -1641063795509877386, guid: da0b37b4d6e270f1fa75775c87704536, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3673,6 +3794,7 @@ MonoBehaviour:
     - {fileID: -8677512579612006488, guid: a7d1595b2cd5bdcc28a6501567534f09, type: 3}
     - {fileID: -8677512579612006488, guid: a7d1595b2cd5bdcc28a6501567534f09, type: 3}
     - {fileID: -8677512579612006488, guid: a7d1595b2cd5bdcc28a6501567534f09, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3703,6 +3825,7 @@ MonoBehaviour:
     - {fileID: 1130978830652198355, guid: ddfe131e7e86cbb95aa5c06bc403ad77, type: 3}
     - {fileID: 1130978830652198355, guid: ddfe131e7e86cbb95aa5c06bc403ad77, type: 3}
     - {fileID: 1130978830652198355, guid: ddfe131e7e86cbb95aa5c06bc403ad77, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3733,6 +3856,7 @@ MonoBehaviour:
     - {fileID: -4938822638006107188, guid: 8832638c67107a4c9b9470ef9e7f6784, type: 3}
     - {fileID: 6115094676178696346, guid: c07b5213feca57dc9bc79f9005b0fc6f, type: 3}
     - {fileID: -4714538132307618601, guid: 25f5e4ae0248c3a8aa936e84d2e2df6c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3763,6 +3887,7 @@ MonoBehaviour:
     - {fileID: 1736559225214916770, guid: bfb2279e545b9a36ab94d782e72d515d, type: 3}
     - {fileID: -97233179094238315, guid: 4d6104da4ad9d638aa42f914588826a3, type: 3}
     - {fileID: -1858618927481784208, guid: bafc9379550e65871832650ceedbe5ee, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3793,6 +3918,7 @@ MonoBehaviour:
     - {fileID: 4487426814865851646, guid: 074ffa31513342697ba21075bad83acc, type: 3}
     - {fileID: -204889136741261853, guid: b3ce3c0adafd8c711bb12c947390cd99, type: 3}
     - {fileID: -8780166578137770187, guid: 30c81c621ca05a7779e85ee2d8fa9075, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3823,6 +3949,7 @@ MonoBehaviour:
     - {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
     - {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
     - {fileID: 4039310195634460518, guid: 04ce4f5b2a9324d679daf875e7f95388, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3853,6 +3980,7 @@ MonoBehaviour:
     - {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
     - {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
     - {fileID: -8730266119814516528, guid: d9c04299996330ef3a9aa982f19b84e3, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3883,6 +4011,7 @@ MonoBehaviour:
     - {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
     - {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
     - {fileID: 2223245636767983173, guid: faa11b78e3341e060bf2dcd971df636e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3913,6 +4042,7 @@ MonoBehaviour:
     - {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
     - {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
     - {fileID: -7111888651591770795, guid: c17ed59eab1bfc38c9cb9877f3926062, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3943,6 +4073,7 @@ MonoBehaviour:
     - {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
     - {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
     - {fileID: -2663369134070930547, guid: 4ef4560233869ded8a24e84e750c6d3f, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -3973,6 +4104,7 @@ MonoBehaviour:
     - {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
     - {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
     - {fileID: 571125588849695560, guid: 996ac6f9e9eefde7f9fd0ad051ef1e16, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4003,6 +4135,7 @@ MonoBehaviour:
     - {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
     - {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
     - {fileID: -4467445891359185643, guid: ed4c34b9632696a138c18311769574f7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4033,6 +4166,7 @@ MonoBehaviour:
     - {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
     - {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
     - {fileID: -1856334405367552875, guid: 56707aaf5d2be8ba3ab778a75f99e4f3, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4063,6 +4197,7 @@ MonoBehaviour:
     - {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
     - {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
     - {fileID: -167351669377737183, guid: 2f2b6ab11cf8bdd72ae274f6a405ccb0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4093,6 +4228,7 @@ MonoBehaviour:
     - {fileID: -5140221285717622349, guid: 8ea3ec58ac78e0dc8875a7b4f3673cab, type: 3}
     - {fileID: -5140221285717622349, guid: 8ea3ec58ac78e0dc8875a7b4f3673cab, type: 3}
     - {fileID: -5140221285717622349, guid: 8ea3ec58ac78e0dc8875a7b4f3673cab, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4123,6 +4259,7 @@ MonoBehaviour:
     - {fileID: 8156397075585544577, guid: caed934a70a021db68de085562be5944, type: 3}
     - {fileID: 8156397075585544577, guid: caed934a70a021db68de085562be5944, type: 3}
     - {fileID: 8156397075585544577, guid: caed934a70a021db68de085562be5944, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4153,6 +4290,7 @@ MonoBehaviour:
     - {fileID: -4749759264763778899, guid: 5fb8cc6f89916859dbdd38a5caff524c, type: 3}
     - {fileID: -4749759264763778899, guid: 5fb8cc6f89916859dbdd38a5caff524c, type: 3}
     - {fileID: -4749759264763778899, guid: 5fb8cc6f89916859dbdd38a5caff524c, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4183,6 +4321,7 @@ MonoBehaviour:
     - {fileID: 4416220019922942620, guid: 79f9cf8133e6b08ebbcf574ef97e7647, type: 3}
     - {fileID: -5886086298742286499, guid: 3aecb988573525b3086ef8071dcaf9b3, type: 3}
     - {fileID: 7016594582836310699, guid: 7d3972d6dfca744c39fe5fbc85b2acd0, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4213,6 +4352,7 @@ MonoBehaviour:
     - {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
     - {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
     - {fileID: -7754931921335839740, guid: c5df374d5227a4fa09d67cfce4545a09, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4243,6 +4383,7 @@ MonoBehaviour:
     - {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
     - {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
     - {fileID: -5636313792967097867, guid: b13d77bda0940572d9f0b03d70fae396, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4273,6 +4414,7 @@ MonoBehaviour:
     - {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
     - {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
     - {fileID: -7562613445265015164, guid: 03644bc05b64909aea7c1f220a21b2eb, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4303,6 +4445,7 @@ MonoBehaviour:
     - {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
     - {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
     - {fileID: -9088152113406278962, guid: 396400018c69fd3faa5f9bf5f2251e9b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4333,6 +4476,7 @@ MonoBehaviour:
     - {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
     - {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
     - {fileID: -1080467477250231394, guid: e5fa7cba83501a4a3a6a32432eaf0e78, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4363,6 +4507,7 @@ MonoBehaviour:
     - {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
     - {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
     - {fileID: 7894039006165839716, guid: f180bc11bd74fedbbbef6d4992131641, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4393,6 +4538,7 @@ MonoBehaviour:
     - {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
     - {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
     - {fileID: -8574686572201443884, guid: a4843ad5abd05ba91bb15b9b71d9044a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4423,6 +4569,7 @@ MonoBehaviour:
     - {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
     - {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
     - {fileID: -905712559103039179, guid: dc076e3e6d96c01d59e8370c92b1b706, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4453,6 +4600,7 @@ MonoBehaviour:
     - {fileID: 7064812004572647735, guid: f9c2049bd6d7fede3a54671c5a6a54ef, type: 3}
     - {fileID: 7064812004572647735, guid: f9c2049bd6d7fede3a54671c5a6a54ef, type: 3}
     - {fileID: 7064812004572647735, guid: f9c2049bd6d7fede3a54671c5a6a54ef, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4483,6 +4631,7 @@ MonoBehaviour:
     - {fileID: -6099972990419091258, guid: 34edf64b1d2470d19ab40b3d485757f5, type: 3}
     - {fileID: -6099972990419091258, guid: 34edf64b1d2470d19ab40b3d485757f5, type: 3}
     - {fileID: -6099972990419091258, guid: 34edf64b1d2470d19ab40b3d485757f5, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4513,6 +4662,7 @@ MonoBehaviour:
     - {fileID: 877035343485320439, guid: 7df721bd6bb05731bb4f3af3fedffbfe, type: 3}
     - {fileID: 877035343485320439, guid: 7df721bd6bb05731bb4f3af3fedffbfe, type: 3}
     - {fileID: 877035343485320439, guid: 7df721bd6bb05731bb4f3af3fedffbfe, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4543,6 +4693,7 @@ MonoBehaviour:
     - {fileID: -231215048705971241, guid: cc4505bdaaee80fc38aae02d033df1fd, type: 3}
     - {fileID: 7442576520876429702, guid: b2a00b689e9d54e00923ab9a402fd188, type: 3}
     - {fileID: 2383279383575152934, guid: e705afe89da505ea1b5d006d7e09ae1b, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4573,6 +4724,7 @@ MonoBehaviour:
     - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
     - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
     - {fileID: -2300116448897117417, guid: 3207df103521c934eb183b7ad27da34a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4603,6 +4755,7 @@ MonoBehaviour:
     - {fileID: -5166885745946190411, guid: ce4f4b9d26573c905acc182fd6657a10, type: 3}
     - {fileID: 1286878692872044900, guid: 121dacf7fd3d0bd68aed8a19e46e78aa, type: 3}
     - {fileID: 64194487038872942, guid: 6e96de38f6c78286c96b6afb0f2868a2, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4633,6 +4786,7 @@ MonoBehaviour:
     - {fileID: -5819459247285404820, guid: c8853d841a34f837c8af41aa037b00d7, type: 3}
     - {fileID: -1555126228566369276, guid: 42795cfa63b5e56aba1179bae1a8653d, type: 3}
     - {fileID: 3203695224216268598, guid: 7eb59a05f2d3a7402886577180614107, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4663,6 +4817,7 @@ MonoBehaviour:
     - {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
     - {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
     - {fileID: -3907988428883220049, guid: 51909797f130bb0368bc2dfa86749274, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4693,6 +4848,7 @@ MonoBehaviour:
     - {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
     - {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
     - {fileID: 8666934278365649112, guid: 93fd9a6f80992ee19afe5572c2efa4a2, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4723,6 +4879,7 @@ MonoBehaviour:
     - {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
     - {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
     - {fileID: 2625820376989047319, guid: b4cb2a29ecd52889091c2201666e4ed6, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4753,6 +4910,7 @@ MonoBehaviour:
     - {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
     - {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
     - {fileID: -7802670567824419981, guid: 57f432ae2d315c06b927fe6663f727c2, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4783,6 +4941,7 @@ MonoBehaviour:
     - {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
     - {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
     - {fileID: -8068137736399214374, guid: a25cadcd0e609c49883c9a984469d963, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4813,6 +4972,7 @@ MonoBehaviour:
     - {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
     - {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
     - {fileID: 7644700606606418054, guid: 826f46c32490640e1832437255eb1cdf, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4843,6 +5003,7 @@ MonoBehaviour:
     - {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
     - {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
     - {fileID: -2730795169661492379, guid: 372cf06e9ebc3d63998cb70b51bf8b04, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4873,6 +5034,7 @@ MonoBehaviour:
     - {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
     - {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
     - {fileID: 4841546164793806763, guid: b25bc38d641a8107c969f4e1396a8a99, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4903,6 +5065,7 @@ MonoBehaviour:
     - {fileID: 2819097834325262549, guid: 3d8864c629cf02836b3b73863022dfb1, type: 3}
     - {fileID: 2819097834325262549, guid: 3d8864c629cf02836b3b73863022dfb1, type: 3}
     - {fileID: 2819097834325262549, guid: 3d8864c629cf02836b3b73863022dfb1, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4933,6 +5096,7 @@ MonoBehaviour:
     - {fileID: -4480507050534076270, guid: 49751744d663d42c2b5b82a05c2cba99, type: 3}
     - {fileID: -4480507050534076270, guid: 49751744d663d42c2b5b82a05c2cba99, type: 3}
     - {fileID: -4480507050534076270, guid: 49751744d663d42c2b5b82a05c2cba99, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4963,6 +5127,7 @@ MonoBehaviour:
     - {fileID: -5754587073123537175, guid: dc2ac1a7895754979aef8f90fe20c043, type: 3}
     - {fileID: -5754587073123537175, guid: dc2ac1a7895754979aef8f90fe20c043, type: 3}
     - {fileID: -5754587073123537175, guid: dc2ac1a7895754979aef8f90fe20c043, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -4993,6 +5158,7 @@ MonoBehaviour:
     - {fileID: 1831226033772552862, guid: 51447d944d9020a15953828c3cb27be6, type: 3}
     - {fileID: 1256891338148001751, guid: ced33bd972bc5f79196cefe1e3f10c9c, type: 3}
     - {fileID: -1794743464737851464, guid: 7b7089dc0d14d04fe8fdb2c1a5a0bd5d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5023,6 +5189,7 @@ MonoBehaviour:
     - {fileID: -1834006970093311328, guid: 376bf53ef91094e6c9c431fcadd30c4f, type: 3}
     - {fileID: 3057223243048076107, guid: f11e23aef30415cc58687799c165cac6, type: 3}
     - {fileID: 4124540962526643392, guid: f887be115329df751a17f927895dd8c7, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5053,6 +5220,7 @@ MonoBehaviour:
     - {fileID: -1183426981835718628, guid: 2edaa48df63a104c78bdca531208ad16, type: 3}
     - {fileID: -8823024264788829102, guid: 544127cef78c1a52faf528676d20ce3c, type: 3}
     - {fileID: 8367650896054130851, guid: 2d6f04fb57339849ca97290fa1f2bc35, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5083,6 +5251,7 @@ MonoBehaviour:
     - {fileID: 4521075937490599201, guid: 580d10e599f2798c443205b53c25406a, type: 3}
     - {fileID: 4521075937490599201, guid: 580d10e599f2798c443205b53c25406a, type: 3}
     - {fileID: 4521075937490599201, guid: 580d10e599f2798c443205b53c25406a, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5113,6 +5282,7 @@ MonoBehaviour:
     - {fileID: 5339716952679233545, guid: dd9973c68f8a9e8cd760301e6da8bffa, type: 3}
     - {fileID: 5339716952679233545, guid: dd9973c68f8a9e8cd760301e6da8bffa, type: 3}
     - {fileID: 5339716952679233545, guid: dd9973c68f8a9e8cd760301e6da8bffa, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5143,6 +5313,7 @@ MonoBehaviour:
     - {fileID: -467173753, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
     - {fileID: -467173753, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
     - {fileID: -467173753, guid: b383690dc2ad64e31cc7dd29dccc1274, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5173,6 +5344,7 @@ MonoBehaviour:
     - {fileID: 513356713865014613, guid: 42a81a124f2bb4e54222614d8dac7d87, type: 3}
     - {fileID: 513356713865014613, guid: 42a81a124f2bb4e54222614d8dac7d87, type: 3}
     - {fileID: 513356713865014613, guid: 42a81a124f2bb4e54222614d8dac7d87, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5203,6 +5375,7 @@ MonoBehaviour:
     - {fileID: 366342854624336646, guid: 78e360bab0c7baa22afbd87d6f135702, type: 3}
     - {fileID: 366342854624336646, guid: 78e360bab0c7baa22afbd87d6f135702, type: 3}
     - {fileID: 366342854624336646, guid: 78e360bab0c7baa22afbd87d6f135702, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5233,6 +5406,7 @@ MonoBehaviour:
     - {fileID: 8719092004623970541, guid: 4b73c6dbb21f4ea14c539978f84e6607, type: 3}
     - {fileID: 8719092004623970541, guid: 4b73c6dbb21f4ea14c539978f84e6607, type: 3}
     - {fileID: 8719092004623970541, guid: 4b73c6dbb21f4ea14c539978f84e6607, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5260,6 +5434,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: 7238030847020706711, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: -6812441263873712917, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5288,6 +5463,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: 9053567753236939946, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: 3430497986870726072, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5316,6 +5492,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: -1905406307316673891, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: 6325355470225590374, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5344,6 +5521,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: 1335125198396136695, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: -2602646907951096563, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5375,6 +5553,7 @@ MonoBehaviour:
     - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
     - {fileID: 883760371375059225, guid: 1906c76169b010dfc92171b955639b64, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5409,6 +5588,7 @@ MonoBehaviour:
     - {fileID: -8672706458361207736, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
     - {fileID: -3620508329699625879, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
     - {fileID: -2135440696289263694, guid: bfea433b0be5c964d83283561eabcbae, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5436,6 +5616,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5462,6 +5643,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5488,6 +5670,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5514,6 +5697,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5540,6 +5724,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5566,6 +5751,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5592,6 +5778,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5618,6 +5805,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5643,6 +5831,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5668,6 +5857,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5693,6 +5883,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5718,6 +5909,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5743,6 +5935,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5768,6 +5961,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5793,6 +5987,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5818,6 +6013,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5843,6 +6039,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5868,6 +6065,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5893,6 +6091,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5918,6 +6117,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5951,6 +6151,7 @@ MonoBehaviour:
     - {fileID: 3684672565919005833, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
     - {fileID: 402864236775618271, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
     - {fileID: 1064958208962536168, guid: a40b89ea9ef64ea48a4e953cfa29c463, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -5978,6 +6179,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6004,6 +6206,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6030,6 +6233,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6056,6 +6260,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6082,6 +6287,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6108,6 +6314,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6134,6 +6341,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6160,6 +6368,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6186,6 +6395,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6212,6 +6422,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6238,6 +6449,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6264,6 +6476,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6290,6 +6503,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6329,6 +6543,7 @@ MonoBehaviour:
     - {fileID: 9126241284607443225, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: -5512495268699000620, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
     - {fileID: -7544771174804558494, guid: 0738e12dab7784d51a139e82c4a0c2ea, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6358,6 +6573,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6384,6 +6600,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6410,6 +6627,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6436,6 +6654,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6462,6 +6681,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6493,6 +6713,7 @@ MonoBehaviour:
     - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
     - {fileID: -1836120431684336037, guid: 847b752526711995db250801bbbfb60d, type: 3}
     - {fileID: 2982371285946844767, guid: 572ae044014a23677b00ed1c0660705e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6520,6 +6741,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6546,6 +6768,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6574,6 +6797,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: 970999503608378909, guid: 021b362c23ea44db18312069c741da6e, type: 3}
     - {fileID: -2597496237920175439, guid: 021b362c23ea44db18312069c741da6e, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6602,6 +6826,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6628,6 +6853,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6654,6 +6880,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6680,6 +6907,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6706,6 +6934,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6732,6 +6961,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6758,6 +6988,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6787,6 +7018,7 @@ MonoBehaviour:
     - {fileID: 311376289544011034, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
     - {fileID: 1515007338021265971, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
     - {fileID: 4407484197649482513, guid: fc7fdcb6a19c60417816c69bd52deb67, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6816,6 +7048,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: -7002151755912908487, guid: a977fe7698a278236b5ec2b42f2faaa4, type: 3}
     - {fileID: 6978150929943743809, guid: fec302c288b28be07861f8a7b4ec52b4, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6847,6 +7080,7 @@ MonoBehaviour:
     - {fileID: 6703542069709601874, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
     - {fileID: -3916816356798808325, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
     - {fileID: 5819882299266781104, guid: 4844fc66eb7c4e9aba1cbdbad4519eec, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6873,6 +7107,7 @@ MonoBehaviour:
     GachaBgSprite: {fileID: 0}
     BreakthroughVariantStages: 
     BreakthroughSprites: []
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6906,6 +7141,7 @@ MonoBehaviour:
     - {fileID: 3526278515800463756, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
     - {fileID: 4396959984767900288, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
     - {fileID: -6691335781570204296, guid: 04a4ec8ba268411faa1cea9f55e5534d, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6936,6 +7172,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: 2299037852840566683, guid: 01c44393b30921dd983a8ad4cf6d1032, type: 3}
     - {fileID: -4188757240739705651, guid: 01c44393b30921dd983a8ad4cf6d1032, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6968,6 +7205,7 @@ MonoBehaviour:
     - {fileID: 344899623396092761, guid: 9d2936e19e2631b40b95f34c490768ab, type: 3}
     - {fileID: 571125135028768187, guid: 748c178ba81f5a867b7d9665e7f02efd, type: 3}
     - {fileID: 8119338769497086870, guid: 537d7e9e222498eabaee746b22e91197, type: 3}
+    EffectSprites: []
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
     BreakthroughDescriptions: []
@@ -6977,3 +7215,861 @@ MonoBehaviour:
     Description: "\uBB38\uC744 \uC8FC\uBA39\uC73C\uB85C \uB6AB\uB294 SR \uB4F1\uAE09
       \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: An SR-grade cat that punches holes through a door.
+  - Id: 0239
+    DisplayName: "\uCE58\uC988 \uACE0\uC591\uC774"
+    DisplayName_EN: Cheese Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6582011127417039112, guid: 80f3c49f4242204ab8db1954f8f1f323, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uCE58\uC988 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Cheese Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0240
+    DisplayName: "\uB125\uCE74\uB77C \uACE0\uC591\uC774"
+    DisplayName_EN: Elizabethan Collar Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2782490784195802376, guid: 4d4e5ec4a3c226b21957aa87234d922a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uB125\uCE74\uB77C \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Elizabethan Collar Cat, an R-grade single-illustration card without
+      evolution art.
+  - Id: 0241
+    DisplayName: "\uACE0\uC591\uC774 \uACE0\uC591\uC774 \uACE0\uC591\uC774"
+    DisplayName_EN: Cat Cat Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5660433014989993954, guid: f5a498ed2178b21009f7882a54b530d6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uACE0\uC591\uC774 \uACE0\uC591\uC774 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Cat Cat Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0242
+    DisplayName: "\uCE58\uC988\uC0C9 \uACE0\uC591\uC774"
+    DisplayName_EN: Cheese-Colored Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3655503761968249965, guid: fb2d31aadd0e58f138f7437ddc1cd3d1, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uCE58\uC988\uC0C9 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Cheese-Colored Cat, an R-grade single-illustration card without
+      evolution art.
+  - Id: 0243
+    DisplayName: "\uCFE8 \uACE0\uC591\uC774"
+    DisplayName_EN: Cool Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -425098067637742970, guid: ffe6f892b10ec39189e428d6c49d24e9, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uCFE8 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Cool Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0244
+    DisplayName: "\uCFE8 \uAC15\uC544\uC9C0"
+    DisplayName_EN: Cool Dog
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2345488489933633340, guid: de4a8ecc359ba223087c3ad414ff3a5c, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uCFE8 \uAC15\uC544\uC9C0\uC785\uB2C8\uB2E4."
+    Description_EN: Cool Dog, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0245
+    DisplayName: "\uBC18\uCABD \uACE0\uC591\uC774"
+    DisplayName_EN: Half Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4423661080833186558, guid: 7e74981c010a0bbfa844d90df6299fc3, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uBC18\uCABD \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Half Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0246
+    DisplayName: "\uD558\uC580 \uBAA8\uC790 \uACE0\uC591\uC774"
+    DisplayName_EN: White Hat Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5876243444599609527, guid: 86c54c7b0aada09cf9a6d83fb64f7130, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD558\uC580 \uBAA8\uC790 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: White Hat Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0247
+    DisplayName: "\uD638\uC5D0\uC5D0 \uACE0\uC591\uC774 1"
+    DisplayName_EN: Hoeeee Cat 1
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2818082938868009544, guid: d7fc5a693d8d5e902a294a191189cad2, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD638\uC5D0\uC5D0 \uACE0\uC591\uC774 1\uC785\uB2C8\uB2E4."
+    Description_EN: Hoeeee Cat 1, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0248
+    DisplayName: "\uD638\uC5D0\uC5D0 \uACE0\uC591\uC774 2"
+    DisplayName_EN: Hoeeee Cat 2
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -6662222527094811751, guid: ef46ac594d51ec2bda2b847050ecd6e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD638\uC5D0\uC5D0 \uACE0\uC591\uC774 2\uC785\uB2C8\uB2E4."
+    Description_EN: Hoeeee Cat 2, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0249
+    DisplayName: "\uD63C\uC885 \uACE0\uC591\uC774"
+    DisplayName_EN: Hybrid Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5993093154076980803, guid: 2aeb6488bca74ea40a679780c4c84482, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD63C\uC885 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Hybrid Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0250
+    DisplayName: "\uD56B \uCEA3"
+    DisplayName_EN: Hot Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -928608018990454196, guid: 8449a459806911cfc933e1f3f1ef4333, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD56B \uCEA3\uC785\uB2C8\uB2E4."
+    Description_EN: Hot Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0251
+    DisplayName: "\uD56B \uB3C4\uADF8"
+    DisplayName_EN: Hot Dog
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -6482574948328439097, guid: 5e4cd12f87dacc28eaae68c472126d8d, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD56B \uB3C4\uADF8\uC785\uB2C8\uB2E4."
+    Description_EN: Hot Dog, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0252
+    DisplayName: "\uC548\uC544\uC918 \uACE0\uC591\uC774"
+    DisplayName_EN: Hug Me Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5603990566280081434, guid: 43ce0f4cfbe30b32db3781850cebea13, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uC548\uC544\uC918 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Hug Me Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0253
+    DisplayName: "\uD568\uAED8 \uC548\uC544 \uACE0\uC591\uC774"
+    DisplayName_EN: Hug Together Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8306973442137644418, guid: d856c727bb8eb90de8ee78b40c10b9f0, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uD568\uAED8 \uC548\uC544 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Hug Together Cat, an R-grade single-illustration card without
+      evolution art.
+  - Id: 0254
+    DisplayName: "\uAE34 \uCF54 \uACE0\uC591\uC774"
+    DisplayName_EN: Long-Nosed Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7485445483063737843, guid: 3bd5a5e93f0ab81929dde05e2f55c423, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uAE34 \uCF54 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Long-Nosed Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0255
+    DisplayName: "\uAD6C\uB984 \uACE0\uC591\uC774"
+    DisplayName_EN: Cloud Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -156694153413823441, guid: a385600b19ab622809e25f5266b698f6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uAD6C\uB984 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Cloud Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0256
+    DisplayName: "\uC678\uC54C \uC548\uACBD \uACE0\uC591\uC774"
+    DisplayName_EN: Monocle Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8989716886821237260, guid: 5292ccdef34f98a5096d286dd754472f, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uC678\uC54C \uC548\uACBD \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Monocle Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0257
+    DisplayName: "\uAC80\uC740 \uBAA9 \uACE0\uC591\uC774"
+    DisplayName_EN: Black Neck Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3186242455072701120, guid: 71fdd7e7be4f04b658996bba3ee79bbf, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uAC80\uC740 \uBAA9 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Black Neck Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0258
+    DisplayName: "\uB465\uC9C0 \uACE0\uC591\uC774"
+    DisplayName_EN: Nest Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8232606217122121908, guid: 4e38cab66d5c727068804481b432a382, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uB465\uC9C0 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Nest Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0259
+    DisplayName: "\uBB34\uC11C\uC6B4 \uACE0\uC591\uC774"
+    DisplayName_EN: Scary Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1537169559337519811, guid: b063687285e46be10b77c862198255fd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uBB34\uC11C\uC6B4 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Scary Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0260
+    DisplayName: "\uC2A4\uCF00\uC774\uD2B8\uBCF4\uB4DC \uACE0\uC591\uC774"
+    DisplayName_EN: Skateboard Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 136868209992907757, guid: e1b6579c6e83d156284ff602ef148065, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 R \uB4F1\uAE09
+      \uC2F1\uAE00 \uCE74\uB4DC, \uC2A4\uCF00\uC774\uD2B8\uBCF4\uB4DC \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: Skateboard Cat, an R-grade single-illustration card without evolution
+      art.
+  - Id: 0261
+    DisplayName: "\uC120\uBB3C \uACE0\uC591\uC774"
+    DisplayName_EN: Gift Cat
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8099910098544019711, guid: 7c055dda3faa86fd8b22055c2b73171b, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 8099910098544019711, guid: 7c055dda3faa86fd8b22055c2b73171b, type: 3}
+    - {fileID: 7080732329622495333, guid: 7c055dda3faa86fd8b22055c2b73171b, type: 3}
+    - {fileID: -3045184840968694788, guid: 7c055dda3faa86fd8b22055c2b73171b, type: 3}
+    - {fileID: 3560204078145423042, guid: 7c055dda3faa86fd8b22055c2b73171b, type: 3}
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
+      \uB124 \uAC00\uC9C0 \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294
+      SR \uB4F1\uAE09 \uC120\uBB3C \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade Gift Cat that cycles through four sprites on click
+      without evolution art.
+  - Id: 0262
+    DisplayName: "\uBC14\uB2E4\uC18C"
+    DisplayName_EN: Sea Cow
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 15
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4341497874265126968, guid: a70f9d0f10843335e95ed0687069e620, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4 \uC138\uD2B8\uC758 R \uB4F1\uAE09
+      \uCE74\uB4DC, \uBC14\uB2E4\uC18C\uC785\uB2C8\uB2E4."
+    Description_EN: Sea Cow, an R-grade member of the Sea Friends set.
+  - Id: 0263
+    DisplayName: "\uD574\uB2EC"
+    DisplayName_EN: Sea Otter
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 15
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 5149366072732270298, guid: 01ceb0d30f8d1b4fda2f97d1be181db6, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4 \uC138\uD2B8\uC758 R \uB4F1\uAE09
+      \uCE74\uB4DC, \uD574\uB2EC\uC785\uB2C8\uB2E4."
+    Description_EN: Sea Otter, an R-grade member of the Sea Friends set.
+  - Id: 0264
+    DisplayName: "\uBC14\uB2E4\uAC70\uBD81"
+    DisplayName_EN: Sea Turtle
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 15
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 751418837642180111, guid: deb88d90e74a4d373bed8e1ac7dc1d64, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4 \uC138\uD2B8\uC758 R \uB4F1\uAE09
+      \uCE74\uB4DC, \uBC14\uB2E4\uAC70\uBD81\uC785\uB2C8\uB2E4."
+    Description_EN: Sea Turtle, an R-grade member of the Sea Friends set.
+  - Id: 0265
+    DisplayName: "\uD574\uB9C8"
+    DisplayName_EN: Seahorse
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 15
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2727363536787704940, guid: 8a1ab9b81f31abd53b5464aba65c4327, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4 \uC138\uD2B8\uC758 R \uB4F1\uAE09
+      \uCE74\uB4DC, \uD574\uB9C8\uC785\uB2C8\uB2E4."
+    Description_EN: Seahorse, an R-grade member of the Sea Friends set.
+  - Id: 0266
+    DisplayName: "\uBC14\uB2E4 \uACE0\uC591\uC774"
+    DisplayName_EN: Sea Cat
+    Rarity: 2
+    BaseWeight: 0
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1781696929417643292, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -1781696929417643292, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    - {fileID: -3166654998952745535, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    - {fileID: -2802895604193824923, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    - {fileID: 5593041632655935647, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    EffectSprites:
+    - {fileID: -5105745954985958543, guid: cb2027fef8795ff05b4eec2acd461cf8, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4 \uC138\uD2B8 \uBCF4\uC0C1\uC785\uB2C8\uB2E4.
+      \uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uB124 \uAC00\uC9C0
+      \uBAA8\uC2B5\uC774 \uBC18\uBCF5\uB418\uBA70 \uC785\uC5D0\uC11C \uBC84\uBE14\uC744
+      \uB0B4\uBFDC\uC2B5\uB2C8\uB2E4."
+    Description_EN: The Sea Friends set reward. It cycles through four click frames
+      and blows bubbles without evolution art.
+  - Id: 0267
+    DisplayName: "\uC804\uC790\uB808\uC778\uC9C0"
+    DisplayName_EN: Microwave
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4208126894944693974, guid: 62c35cc13f94da22c838d1c02a347de2, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC77C\uB7EC\uC2A4\uD2B8\uAC00 \uC5C6\uB294 \uC77C\uBC18
+      R \uB4F1\uAE09 \uC804\uC790\uB808\uC778\uC9C0 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: A standard R-grade Microwave card without evolution art.
+  - Id: 0268
+    DisplayName: "\uBB34\uC9C0\uAC1C \uBC84\uD2BC"
+    DisplayName_EN: Rainbow Button
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -9005298236559085469, guid: 25e66cb180e5c635a82b983ba0d37d72, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: 1696496672384994573, guid: 25e66cb180e5c635a82b983ba0d37d72, type: 3}
+    - {fileID: 8319913585257209171, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: -7033799623371915, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: 6224043344213650754, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: -2811178277248272938, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: 8065932847533001966, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: -8812662544215674508, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    - {fileID: 2888551190445347975, guid: c537b4f03a0f6ee37980500c07244ae5, type: 3}
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD558\uBA74 \uC67C\uCABD\uC5D0\uC11C \uBB34\uC9C0\uAC1C
+      \uACE0\uC591\uC774\uB97C \uC21C\uC11C\uB300\uB85C \uBC1C\uC0AC\uD558\uB294
+      SSR \uB4F1\uAE09 \uBC84\uD2BC\uC785\uB2C8\uB2E4. \uD654\uBA74 \uB0B4 \uACE0\uC591\uC774
+      \uC218\uB294 \uD55C\uACC4\uB3CC\uD30C \uB2E8\uACC4\uB9C8\uB2E4 3\uB9C8\uB9AC\uC529
+      \uC99D\uAC00\uD569\uB2C8\uB2E4."
+    Description_EN: An SSR button that launches Rainbow Cats from the left in sequence.
+      The on-screen limit increases by three per breakthrough stage.

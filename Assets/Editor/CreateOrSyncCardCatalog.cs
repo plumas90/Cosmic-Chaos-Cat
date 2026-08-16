@@ -226,6 +226,11 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsurePortalCatCard(cardsProp, existingCards);
             addedCount += EnsurePacmanCatCard(cardsProp, existingCards);
             addedCount += EnsurePunchCatCard(cardsProp, existingCards);
+            addedCount += EnsureSingleIllustrationCards(cardsProp, existingCards);
+            addedCount += EnsureGiftCatCard(cardsProp, existingCards);
+            addedCount += EnsureSeaSetCards(cardsProp, existingCards);
+            addedCount += EnsureMicrowaveAndRainbowCards(cardsProp, existingCards);
+            EnsureSeaSetCatalog();
 
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
@@ -233,6 +238,77 @@ namespace CosmicChaosCat.EditorTools
             AssetDatabase.Refresh();
 
             Debug.Log($"[CreateOrSyncCardCatalog] ✅ CardCatalog.asset successfully updated! Total cards: {cardsProp.arraySize} (Newly added: {addedCount})");
+        }
+
+        private static int EnsureSingleIllustrationCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            var cards = new[]
+            {
+                new[] { "0239", "Cheese",              "치즈 고양이",             "Cheese Cat" },
+                new[] { "0240", "Elizabethan_collar", "넥카라 고양이",           "Elizabethan Collar Cat" },
+                new[] { "0241", "cat_cat_cat",        "고양이 고양이 고양이",    "Cat Cat Cat" },
+                new[] { "0242", "cheese_color",       "치즈색 고양이",           "Cheese-Colored Cat" },
+                new[] { "0243", "cool_cat",           "쿨 고양이",               "Cool Cat" },
+                new[] { "0244", "cool_dog",           "쿨 강아지",               "Cool Dog" },
+                new[] { "0245", "half_cat",           "반쪽 고양이",             "Half Cat" },
+                new[] { "0246", "hat_white",          "하얀 모자 고양이",        "White Hat Cat" },
+                new[] { "0247", "hoeeee1",            "호에에 고양이 1",         "Hoeeee Cat 1" },
+                new[] { "0248", "hoeeee2",            "호에에 고양이 2",         "Hoeeee Cat 2" },
+                new[] { "0249", "honjong",            "혼종 고양이",             "Hybrid Cat" },
+                new[] { "0250", "hot_cat",            "핫 캣",                   "Hot Cat" },
+                new[] { "0251", "hot_dog",            "핫 도그",                 "Hot Dog" },
+                new[] { "0252", "hug_me",             "안아줘 고양이",           "Hug Me Cat" },
+                new[] { "0253", "hug_together",       "함께 안아 고양이",        "Hug Together Cat" },
+                new[] { "0254", "long_nose",          "긴 코 고양이",            "Long-Nosed Cat" },
+                new[] { "0255", "cloud_cat",          "구름 고양이",             "Cloud Cat" },
+                new[] { "0256", "monocle_cat",        "외알 안경 고양이",        "Monocle Cat" },
+                new[] { "0257", "neck_Black",         "검은 목 고양이",          "Black Neck Cat" },
+                new[] { "0258", "nest_cat",           "둥지 고양이",             "Nest Cat" },
+                new[] { "0259", "scary_cat",          "무서운 고양이",           "Scary Cat" },
+                new[] { "0260", "skateboard_cat",     "스케이트보드 고양이",     "Skateboard Cat" }
+            };
+
+            const string directory = "Assets/image/A_No/239_260_single_cards";
+            int added = 0;
+            foreach (string[] card in cards)
+            {
+                string id = card[0];
+                string imageName = card[1];
+                Sprite sprite = LoadFirstSprite($"{directory}/{id}_R_{imageName}.png");
+                if (sprite == null)
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing single-card sprite: {id}_R_{imageName}");
+                    continue;
+                }
+
+                bool isNew = !existingCards.TryGetValue(id, out var elem);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[id] = elem;
+                    added++;
+                }
+
+                elem.FindPropertyRelative("Id").stringValue = id;
+                elem.FindPropertyRelative("DisplayName").stringValue = card[2];
+                elem.FindPropertyRelative("DisplayName_EN").stringValue = card[3];
+                elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+                elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+                elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+                elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+                elem.FindPropertyRelative("MaxStacks").intValue = 6;
+                elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+                elem.FindPropertyRelative("IsHidden").boolValue = false;
+                elem.FindPropertyRelative("IsShop").boolValue = false;
+                elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprite;
+                elem.FindPropertyRelative("Description").stringValue = $"진화 일러스트가 없는 R 등급 싱글 카드, {card[2]}입니다.";
+                elem.FindPropertyRelative("Description_EN").stringValue = $"{card[3]}, an R-grade single-illustration card without evolution art.";
+                ClearCardVariants(elem);
+            }
+            return added;
         }
 
         private static int EnsureSpadeDeckCards(
@@ -284,6 +360,55 @@ namespace CosmicChaosCat.EditorTools
             return added;
         }
 
+        private static int EnsureGiftCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0261";
+            const string path = "Assets/image/A_No/261_gift_cat/0261_SR_gift_cat.png";
+            // gift_cat_ is the second frame (its intended "1" suffix is absent in the slice name).
+            string[] required = { "gift_cat_0", "gift_cat_", "gift_cat_2", "gift_cat_3" };
+            var sprites = new Dictionary<string, Sprite>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+                if (asset is Sprite sprite) sprites[sprite.name] = sprite;
+
+            foreach (string spriteName in required)
+                if (!sprites.ContainsKey(spriteName))
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Gift Cat sprite: {spriteName}");
+                    return 0;
+                }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "선물 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Gift Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 25f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[required[0]];
+            elem.FindPropertyRelative("Description").stringValue = "진화 없이 클릭할 때마다 네 가지 모습이 순서대로 반복되는 SR 등급 선물 고양이입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SR-grade Gift Cat that cycles through four sprites on click without evolution art.";
+            ClearCardVariants(elem);
+            var stored = elem.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = required.Length;
+            for (int i = 0; i < required.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = sprites[required[i]];
+            return isNew ? 1 : 0;
+        }
+
         private static int EnsureHwatuCards(
             SerializedProperty cardsProp,
             Dictionary<string, SerializedProperty> existingCards)
@@ -329,6 +454,228 @@ namespace CosmicChaosCat.EditorTools
                 elem.FindPropertyRelative("Description_EN").stringValue = $"R-grade Hwatu cat card {index}.";
                 ClearCardVariants(elem);
             }
+            return added;
+        }
+
+        private static int EnsureSeaSetCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/262_266_sea_set";
+            var members = new[]
+            {
+                new[] { "0262", "sea_cow",    "바다소",   "Sea Cow" },
+                new[] { "0263", "sea_otter",  "해달",     "Sea Otter" },
+                new[] { "0264", "sea_turtle", "바다거북", "Sea Turtle" },
+                new[] { "0265", "seahorse",   "해마",     "Seahorse" }
+            };
+
+            int added = 0;
+            foreach (string[] member in members)
+            {
+                string id = member[0];
+                Sprite sprite = LoadNamedSprite($"{directory}/{id}_R_{member[1]}.png", member[1] + "_0");
+                if (sprite == null)
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing sea-set sprite: {member[1]}_0");
+                    continue;
+                }
+
+                bool isNew = !existingCards.TryGetValue(id, out var elem);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[id] = elem;
+                    added++;
+                }
+                elem.FindPropertyRelative("Id").stringValue = id;
+                elem.FindPropertyRelative("DisplayName").stringValue = member[2];
+                elem.FindPropertyRelative("DisplayName_EN").stringValue = member[3];
+                elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+                elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+                elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+                elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+                elem.FindPropertyRelative("MaxStacks").intValue = 6;
+                elem.FindPropertyRelative("SetId").stringValue = "15";
+                elem.FindPropertyRelative("IsHidden").boolValue = false;
+                elem.FindPropertyRelative("IsShop").boolValue = false;
+                elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprite;
+                elem.FindPropertyRelative("Description").stringValue = $"바다 친구들 세트의 R 등급 카드, {member[2]}입니다.";
+                elem.FindPropertyRelative("Description_EN").stringValue = $"{member[3]}, an R-grade member of the Sea Friends set.";
+                ClearCardVariants(elem);
+                elem.FindPropertyRelative("EffectSprites").ClearArray();
+            }
+
+            const string rewardId = "0266";
+            const string rewardPath = directory + "/0266_SR_sea_cat.png";
+            string[] frameNames = { "sea_cat_0", "sea_cat_", "sea_cat_2", "sea_cat_3" };
+            var rewardSprites = new Dictionary<string, Sprite>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(rewardPath))
+                if (asset is Sprite sprite) rewardSprites[sprite.name] = sprite;
+            foreach (string spriteName in frameNames)
+                if (!rewardSprites.ContainsKey(spriteName))
+                {
+                    Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Sea Cat frame: {spriteName}");
+                    return added;
+                }
+            if (!rewardSprites.TryGetValue("sea_cat_bubble", out Sprite bubbleSprite))
+            {
+                Debug.LogWarning("[CreateOrSyncCardCatalog] Missing Sea Cat bubble sprite.");
+                return added;
+            }
+
+            bool rewardIsNew = !existingCards.TryGetValue(rewardId, out var reward);
+            if (rewardIsNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                reward = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[rewardId] = reward;
+                added++;
+            }
+            reward.FindPropertyRelative("Id").stringValue = rewardId;
+            reward.FindPropertyRelative("DisplayName").stringValue = "바다 고양이";
+            reward.FindPropertyRelative("DisplayName_EN").stringValue = "Sea Cat";
+            reward.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SR;
+            reward.FindPropertyRelative("BaseWeight").floatValue = 0f;
+            reward.FindPropertyRelative("ClickGold").floatValue = 25f;
+            reward.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            reward.FindPropertyRelative("MaxStacks").intValue = 6;
+            reward.FindPropertyRelative("SetId").stringValue = string.Empty;
+            reward.FindPropertyRelative("IsHidden").boolValue = true;
+            reward.FindPropertyRelative("IsShop").boolValue = false;
+            reward.FindPropertyRelative("CardSprite").objectReferenceValue = rewardSprites[frameNames[0]];
+            reward.FindPropertyRelative("Description").stringValue = "바다 친구들 세트 보상입니다. 진화 없이 클릭할 때마다 네 가지 모습이 반복되며 입에서 버블을 내뿜습니다.";
+            reward.FindPropertyRelative("Description_EN").stringValue = "The Sea Friends set reward. It cycles through four click frames and blows bubbles without evolution art.";
+            ClearCardVariants(reward);
+            var frames = reward.FindPropertyRelative("BreakthroughSprites");
+            frames.arraySize = frameNames.Length;
+            for (int i = 0; i < frameNames.Length; i++)
+                frames.GetArrayElementAtIndex(i).objectReferenceValue = rewardSprites[frameNames[i]];
+            var effects = reward.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 1;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = bubbleSprite;
+            return added;
+        }
+
+        private static void EnsureSeaSetCatalog()
+        {
+            const string path = "Assets/ScriptableObjects/SetCatalog.asset";
+            var catalog = AssetDatabase.LoadAssetAtPath<SetCatalogSO>(path);
+            if (catalog == null) return;
+            var so = new SerializedObject(catalog);
+            var sets = so.FindProperty("sets");
+            SerializedProperty entry = null;
+            for (int i = 0; i < sets.arraySize; i++)
+            {
+                var candidate = sets.GetArrayElementAtIndex(i);
+                if (candidate.FindPropertyRelative("SetId").stringValue == "15") { entry = candidate; break; }
+            }
+            if (entry == null)
+            {
+                sets.InsertArrayElementAtIndex(sets.arraySize);
+                entry = sets.GetArrayElementAtIndex(sets.arraySize - 1);
+            }
+            entry.FindPropertyRelative("SetId").stringValue = "15";
+            entry.FindPropertyRelative("SetName").stringValue = "바다 친구들";
+            entry.FindPropertyRelative("SetName_EN").stringValue = "Sea Friends";
+            entry.FindPropertyRelative("RewardGold").doubleValue = 0d;
+            entry.FindPropertyRelative("RewardShards").intValue = 0;
+            entry.FindPropertyRelative("CriticalChanceBonus").floatValue = 0f;
+            entry.FindPropertyRelative("FlatIncomeBonus").doubleValue = 0d;
+            entry.FindPropertyRelative("CriticalDamageBonus").floatValue = 0f;
+            entry.FindPropertyRelative("GachaDiscountBonus").floatValue = 0f;
+            entry.FindPropertyRelative("ShardBonusMultiplier").floatValue = 1f;
+            entry.FindPropertyRelative("RewardBackgroundId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardDecorationId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardCardId").stringValue = "0266";
+            entry.FindPropertyRelative("EffectDesc").stringValue = "바다 친구 네 장을 모두 모으면 SR 등급 바다 고양이를 획득합니다.";
+            entry.FindPropertyRelative("EffectDesc_EN").stringValue = "Collect all four Sea Friends to unlock the SR Sea Cat.";
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
+        }
+
+        private static int EnsureMicrowaveAndRainbowCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/267_268_rainbow";
+            int added = 0;
+
+            Sprite microwave = LoadNamedSprite(directory + "/0267_R_microwave.png", "microwave_0");
+            if (microwave != null)
+            {
+                const string id = "0267";
+                bool isNew = !existingCards.TryGetValue(id, out var elem);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[id] = elem;
+                    added++;
+                }
+                elem.FindPropertyRelative("Id").stringValue = id;
+                elem.FindPropertyRelative("DisplayName").stringValue = "전자레인지";
+                elem.FindPropertyRelative("DisplayName_EN").stringValue = "Microwave";
+                elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+                elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+                elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+                elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+                elem.FindPropertyRelative("MaxStacks").intValue = 6;
+                elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+                elem.FindPropertyRelative("IsHidden").boolValue = false;
+                elem.FindPropertyRelative("IsShop").boolValue = false;
+                elem.FindPropertyRelative("CardSprite").objectReferenceValue = microwave;
+                elem.FindPropertyRelative("Description").stringValue = "진화 일러스트가 없는 일반 R 등급 전자레인지 카드입니다.";
+                elem.FindPropertyRelative("Description_EN").stringValue = "A standard R-grade Microwave card without evolution art.";
+                ClearCardVariants(elem);
+                elem.FindPropertyRelative("EffectSprites").ClearArray();
+            }
+
+            const string rainbowId = "0268";
+            const string buttonPath = directory + "/0268_SSR_rainbow_btn.png";
+            const string catPath = directory + "/0268_SSR_rainbow_cat.png";
+            Sprite buttonUp = LoadNamedSprite(buttonPath, "rainbow_btn_0");
+            Sprite buttonDown = LoadNamedSprite(buttonPath, "rainbow_btn_1");
+            var cats = new Sprite[7];
+            for (int i = 0; i < cats.Length; i++)
+                cats[i] = LoadNamedSprite(catPath, "rainbow_cat_" + i);
+            bool complete = buttonUp != null && buttonDown != null;
+            foreach (Sprite cat in cats) complete &= cat != null;
+            if (!complete)
+            {
+                Debug.LogWarning("[CreateOrSyncCardCatalog] Missing Rainbow Button or Rainbow Cat sprite.");
+                return added;
+            }
+
+            bool rainbowIsNew = !existingCards.TryGetValue(rainbowId, out var rainbow);
+            if (rainbowIsNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                rainbow = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[rainbowId] = rainbow;
+                added++;
+            }
+            rainbow.FindPropertyRelative("Id").stringValue = rainbowId;
+            rainbow.FindPropertyRelative("DisplayName").stringValue = "무지개 버튼";
+            rainbow.FindPropertyRelative("DisplayName_EN").stringValue = "Rainbow Button";
+            rainbow.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SSR;
+            rainbow.FindPropertyRelative("BaseWeight").floatValue = 4f;
+            rainbow.FindPropertyRelative("ClickGold").floatValue = 125f;
+            rainbow.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            rainbow.FindPropertyRelative("MaxStacks").intValue = 6;
+            rainbow.FindPropertyRelative("SetId").stringValue = string.Empty;
+            rainbow.FindPropertyRelative("IsHidden").boolValue = false;
+            rainbow.FindPropertyRelative("IsShop").boolValue = false;
+            rainbow.FindPropertyRelative("CardSprite").objectReferenceValue = buttonUp;
+            rainbow.FindPropertyRelative("Description").stringValue = "클릭하면 왼쪽에서 무지개 고양이를 순서대로 발사하는 SSR 등급 버튼입니다. 화면 내 고양이 수는 한계돌파 단계마다 3마리씩 증가합니다.";
+            rainbow.FindPropertyRelative("Description_EN").stringValue = "An SSR button that launches Rainbow Cats from the left in sequence. The on-screen limit increases by three per breakthrough stage.";
+            ClearCardVariants(rainbow);
+            var effects = rainbow.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 1 + cats.Length;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = buttonDown;
+            for (int i = 0; i < cats.Length; i++)
+                effects.GetArrayElementAtIndex(i + 1).objectReferenceValue = cats[i];
             return added;
         }
 

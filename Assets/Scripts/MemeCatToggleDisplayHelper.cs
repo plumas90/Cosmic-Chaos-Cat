@@ -48,6 +48,8 @@ namespace CosmicChaosCat
             bool isSpadeDeck = num == 215;
             bool isFistClashReward = num == 224;
             bool isPacmanClickToggle = num == 237;
+            bool isGiftCatClickToggle = num == 261;
+            bool isSeaCatClickToggle = num == 266;
 
             // The reward stores its two movable halves in BreakthroughSprites,
             // but its normal/encyclopedia view must remain the combined artwork.
@@ -68,7 +70,7 @@ namespace CosmicChaosCat
                 // stored in separate files rather than per-stage variant groups.
                 if (num != 170 && num != 174 && !isBremenClickToggle &&
                     !isEarthCatSocietyAngleToggle && !isSevenDeadlySinsToggle && !isSpadeDeck &&
-                    !isPacmanClickToggle)
+                    !isPacmanClickToggle && !isGiftCatClickToggle && !isSeaCatClickToggle)
                 {
                     Sprite representative = entry.GetSpriteForStage(stage);
                     if (representative != null) sprites.Add(representative);

@@ -190,3 +190,19 @@ MonoBehaviour:
       \uBAA8\uB450 \uBAA8\uC73C\uBA74 SR \uB4F1\uAE09 \uC644\uC131 \uCE74\uB4DC\uB97C
       \uD68D\uB4DD\uD569\uB2C8\uB2E4."
     EffectDesc_EN: Bonus for collecting Music Cats!
+  - SetId: 15
+    SetName: "\uBC14\uB2E4 \uCE5C\uAD6C\uB4E4"
+    SetName_EN: Sea Friends
+    RewardGold: 0
+    RewardShards: 0
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
+    ShardBonusMultiplier: 1
+    RewardBackgroundId: 
+    RewardDecorationId: 
+    RewardCardId: 0266
+    EffectDesc: "\uBC14\uB2E4 \uCE5C\uAD6C \uB124 \uC7A5\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74
+      SR \uB4F1\uAE09 \uBC14\uB2E4 \uACE0\uC591\uC774\uB97C \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    EffectDesc_EN: Collect all four Sea Friends to unlock the SR Sea Cat.
