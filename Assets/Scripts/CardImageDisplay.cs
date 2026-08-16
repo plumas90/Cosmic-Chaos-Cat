@@ -90,6 +90,20 @@ namespace CosmicChaosCat
         private Coroutine punchDoorRoutine;
         private Sprite punchCurrentCatSprite;
         private Material punchDoorMaterial;
+        private Material thunderLightningMaterial;
+        private Image ooRollingImage;
+        private bool ooRollingActive;
+        private float ooRollingX;
+        private float ooRollingY;
+        private RectTransform ooRollingButtonRect;
+        private Vector2 ooRollingButtonOriginalPosition;
+        private Quaternion ooRollingButtonOriginalRotation;
+        private bool ooRollingButtonCaptured;
+        private int flyCatStageFiveSequenceIndex;
+        private Image blackEyesOverlay;
+        private Coroutine blackEyesBlinkRoutine;
+        private bool blackEyesWasActive;
+        private Coroutine perfectWorldFlashRoutine;
         private const float SeaCatBubbleRiseSpeed = 150f;
 
         public void CycleMemeCatImage()
@@ -124,6 +138,29 @@ namespace CosmicChaosCat
             if (IsMisfortune(socketCardId))
             {
                 MoveMisfortuneCat();
+                return;
+            }
+
+            if (IsFlyCat(socketCardId))
+            {
+                SpawnFlyCatProjectiles(entry);
+                return;
+            }
+
+            if (IsPerfectWorldCat(socketCardId))
+            {
+                TryFlashPerfectWorld(entry);
+                return;
+            }
+
+            if (IsRandomClickSingle(socketCardId))
+            {
+                if (sprites != null && sprites.Count >= 2 && cardImage != null)
+                {
+                    currentSpriteIndex = Random.Range(0, sprites.Count);
+                    cardImage.sprite = sprites[currentSpriteIndex];
+                    FitSubClickSpriteToBounds(cardImage.sprite);
+                }
                 return;
             }
 
@@ -180,6 +217,175 @@ namespace CosmicChaosCat
         private static bool IsMisfortune(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 232;
+        }
+
+        private static bool IsOORollingCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 279;
+        }
+
+        private static bool IsFlyCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 281;
+        }
+
+        private static bool IsRandomClickSingle(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber >= 289 && cardNumber <= 291;
+        }
+
+        private static bool IsBlackEyes(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 319;
+        }
+
+        private static bool IsPerfectWorldCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 321;
+        }
+
+        private void TryFlashPerfectWorld(CardEntry card)
+        {
+            if (card == null || card.EffectSprites == null || card.EffectSprites.Length == 0 ||
+                card.EffectSprites[0] == null || Random.value >= 0.01f) return;
+            if (perfectWorldFlashRoutine != null) StopCoroutine(perfectWorldFlashRoutine);
+            perfectWorldFlashRoutine = StartCoroutine(FlashPerfectWorld(card));
+        }
+
+        private System.Collections.IEnumerator FlashPerfectWorld(CardEntry card)
+        {
+            if (cardImage != null) cardImage.sprite = card.EffectSprites[0];
+            yield return new WaitForSecondsRealtime(0.5f);
+            string cardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (cardImage != null && IsPerfectWorldCat(cardId)) cardImage.sprite = card.CardSprite;
+            perfectWorldFlashRoutine = null;
+        }
+
+        private void TryBlinkBlackEyes(CardEntry card)
+        {
+            if (card == null || card.EffectSprites == null || card.EffectSprites.Length == 0 ||
+                Random.value >= 0.01f) return;
+            if (blackEyesBlinkRoutine != null) StopCoroutine(blackEyesBlinkRoutine);
+            blackEyesBlinkRoutine = StartCoroutine(BlinkBlackEyes(card.EffectSprites[0]));
+        }
+
+        private System.Collections.IEnumerator BlinkBlackEyes(Sprite openSprite)
+        {
+            if (blackEyesOverlay != null && openSprite != null) blackEyesOverlay.sprite = openSprite;
+            yield return new WaitForSecondsRealtime(0.5f);
+            string cardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            CardEntry card = gameManager != null ? gameManager.CardCatalog?.FindById(cardId) : null;
+            if (blackEyesOverlay != null && IsBlackEyes(cardId) && card != null)
+                blackEyesOverlay.sprite = card.CardSprite;
+            blackEyesBlinkRoutine = null;
+        }
+
+        private void RefreshBlackEyesDisplay(bool active, CardEntry card)
+        {
+            if (active && card != null && card.CardSprite != null && cardImage != null)
+            {
+                blackEyesWasActive = true;
+                Canvas canvas = cardImage.canvas;
+                RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+                if (canvasRect == null) return;
+                if (blackEyesOverlay == null)
+                {
+                    blackEyesOverlay = CreateEffectImage("BlackEyesBackgroundCover", canvasRect, card.CardSprite);
+                    blackEyesOverlay.raycastTarget = false;
+                    RectTransform overlayRect = blackEyesOverlay.rectTransform;
+                    overlayRect.anchorMin = Vector2.zero;
+                    overlayRect.anchorMax = Vector2.one;
+                    overlayRect.offsetMin = Vector2.zero;
+                    overlayRect.offsetMax = Vector2.zero;
+                    overlayRect.localScale = Vector3.one;
+                    overlayRect.localRotation = Quaternion.identity;
+                    int buttonSibling = transform.parent == canvasRect ? transform.GetSiblingIndex() : canvasRect.childCount - 1;
+                    overlayRect.SetSiblingIndex(Mathf.Max(0, buttonSibling));
+                }
+                blackEyesOverlay.sprite = blackEyesBlinkRoutine == null ? card.CardSprite : blackEyesOverlay.sprite;
+                blackEyesOverlay.color = Color.white;
+                blackEyesOverlay.preserveAspect = false;
+                blackEyesOverlay.enabled = true;
+                // Keep this transparent Image enabled so it remains the full-screen art's click target.
+                cardImage.color = new Color(1f, 1f, 1f, 0f);
+            }
+            else if (blackEyesWasActive)
+            {
+                if (blackEyesBlinkRoutine != null) StopCoroutine(blackEyesBlinkRoutine);
+                blackEyesBlinkRoutine = null;
+                if (blackEyesOverlay != null) Destroy(blackEyesOverlay.gameObject);
+                blackEyesOverlay = null;
+                if (cardImage != null) cardImage.color = Color.white;
+                blackEyesWasActive = false;
+            }
+        }
+
+        private void SpawnFlyCatProjectiles(CardEntry card)
+        {
+            if (card == null || card.EffectSprites == null || gameManager == null || cardImage == null)
+                return;
+            if (!gameManager.TryGetCardProgress(card.Id, out var progress) || progress == null)
+                return;
+
+            int stage = Mathf.Clamp(progress.BreakthroughCount + 1, 1, 5);
+            int split = Mathf.Clamp(card.EffectSpriteGroupSplit, 0, card.EffectSprites.Length);
+            if (stage < 3 || split <= 0) return;
+
+            Sprite randomStageThree = card.EffectSprites[Random.Range(0, split)];
+            SpawnFlyCatProjectile(randomStageThree);
+
+            int stageFiveCount = card.EffectSprites.Length - split;
+            if (stage >= 5 && stageFiveCount > 0)
+            {
+                Sprite sequential = card.EffectSprites[split + flyCatStageFiveSequenceIndex];
+                flyCatStageFiveSequenceIndex = (flyCatStageFiveSequenceIndex + 1) % stageFiveCount;
+                SpawnFlyCatProjectile(sequential);
+            }
+        }
+
+        private void SpawnFlyCatProjectile(Sprite sprite)
+        {
+            if (sprite == null || cardImage == null) return;
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            Image projectile = CreateEffectImage("FlyCatProjectile", canvasRect, sprite);
+            RectTransform rect = projectile.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            float width = Mathf.Clamp(canvasRect.rect.width * 0.16f, 130f, 310f);
+            float aspect = sprite.rect.width / Mathf.Max(1f, sprite.rect.height);
+            rect.sizeDelta = new Vector2(width, width / Mathf.Max(0.15f, aspect));
+            rect.anchoredPosition = new Vector2(
+                Random.Range(
+                    canvasRect.rect.xMin + width * 0.5f,
+                    canvasRect.rect.xMax + width * 1.5f),
+                canvasRect.rect.yMax + rect.sizeDelta.y * 0.55f);
+
+            float downLeftAngle = 225f + Random.Range(-15f, 15f);
+            float radians = downLeftAngle * Mathf.Deg2Rad;
+            float speed = canvasRect.rect.height * Random.Range(0.48f, 0.68f);
+            Vector2 velocity = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)) * speed;
+            rect.localEulerAngles = new Vector3(0f, 0f, downLeftAngle - 180f);
+            rect.SetAsLastSibling();
+            StartCoroutine(FallFlyCatProjectile(rect, canvasRect, velocity));
+        }
+
+        private System.Collections.IEnumerator FallFlyCatProjectile(
+            RectTransform projectile, RectTransform canvasRect, Vector2 velocity)
+        {
+            while (projectile != null)
+            {
+                projectile.anchoredPosition += velocity * Time.unscaledDeltaTime;
+                float margin = Mathf.Max(projectile.rect.width, projectile.rect.height);
+                Vector2 position = projectile.anchoredPosition;
+                if (position.x < canvasRect.rect.xMin - margin ||
+                    position.y < canvasRect.rect.yMin - margin)
+                    break;
+                yield return null;
+            }
+            if (projectile != null) Destroy(projectile.gameObject);
         }
 
         private static bool IsHungry(string cardId)
@@ -342,6 +548,7 @@ namespace CosmicChaosCat
             bubbleRect.SetAsLastSibling();
             float size = Mathf.Clamp(Mathf.Min(bounds.width, bounds.height) * 0.18f, 42f, 110f);
             bubbleRect.sizeDelta = new Vector2(size, size);
+            bubbleRect.localScale = Vector3.one * 2f;
 
             Image bubbleImage = bubbleObject.GetComponent<Image>();
             bubbleImage.sprite = entry.EffectSprites[0];
@@ -750,6 +957,8 @@ namespace CosmicChaosCat
                 gameManager.CardDrawn    += OnCardDrawn;
                 gameManager.CardClicked  -= TriggerClickBounce;
                 gameManager.CardClicked  += TriggerClickBounce;
+                gameManager.CardClickedAt -= PlayThunderCatLightning;
+                gameManager.CardClickedAt += PlayThunderCatLightning;
             }
             Refresh();
         }
@@ -760,6 +969,85 @@ namespace CosmicChaosCat
             {
                 gameManager.CardDrawn    -= OnCardDrawn;
                 gameManager.CardClicked  -= TriggerClickBounce;
+                gameManager.CardClickedAt -= PlayThunderCatLightning;
+            }
+            StopOORollingDisplay();
+        }
+
+        private void PlayThunderCatLightning(Vector2 screenPosition)
+        {
+            if (gameManager == null || cardImage == null)
+                return;
+
+            string socketCardId = gameManager.GetSocketCardId(mySocket);
+            if (!int.TryParse(socketCardId, out int cardNumber) || cardNumber != 271)
+                return;
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            Shader shader = Shader.Find("CosmicChaosCat/UIThunderCatLightning");
+            if (shader == null) shader = Resources.Load<Shader>("Shaders/UIThunderCatLightning");
+            if (shader == null) return;
+            if (thunderLightningMaterial == null || thunderLightningMaterial.shader != shader)
+                thunderLightningMaterial = new Material(shader) { name = "Thunder Cat Lightning (Runtime)" };
+
+            // Thunder Cat's raised paws sit at these normalized points in its illustration.
+            // The click position is intentionally ignored: every click discharges both paws.
+            RectTransform cardRect = cardImage.rectTransform;
+            Rect cardBounds = cardRect.rect;
+            Vector2 leftPaw = GetCanvasPointFromCardNormalized(cardRect, canvasRect, cardBounds, 0.15f, 0.83f);
+            Vector2 rightPaw = GetCanvasPointFromCardNormalized(cardRect, canvasRect, cardBounds, 0.85f, 0.80f);
+            SpawnThunderCatLightning(canvasRect, leftPaw);
+            SpawnThunderCatLightning(canvasRect, rightPaw);
+        }
+
+        private static Vector2 GetCanvasPointFromCardNormalized(
+            RectTransform cardRect, RectTransform canvasRect, Rect bounds, float normalizedX, float normalizedY)
+        {
+            Vector3 cardLocal = new Vector3(
+                Mathf.Lerp(bounds.xMin, bounds.xMax, normalizedX),
+                Mathf.Lerp(bounds.yMin, bounds.yMax, normalizedY),
+                0f);
+            Vector3 world = cardRect.TransformPoint(cardLocal);
+            return canvasRect.InverseTransformPoint(world);
+        }
+
+        private void SpawnThunderCatLightning(RectTransform canvasRect, Vector2 origin)
+        {
+            Image lightning = CreateEffectImage("ThunderCatLightning", canvasRect, null);
+            lightning.material = new Material(thunderLightningMaterial);
+            lightning.color = Color.white;
+            lightning.raycastTarget = false;
+            RectTransform rect = lightning.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = origin;
+            float size = Mathf.Clamp(Mathf.Min(canvasRect.rect.width, canvasRect.rect.height) * 0.52f, 320f, 780f);
+            rect.sizeDelta = new Vector2(size, size);
+            rect.SetAsLastSibling();
+            StartCoroutine(AnimateThunderCatLightning(lightning));
+        }
+
+        private System.Collections.IEnumerator AnimateThunderCatLightning(Image lightning)
+        {
+            const float duration = 0.42f;
+            float elapsed = 0f;
+            Material material = lightning != null ? lightning.material : null;
+            if (material != null) material.SetFloat("_Seed", Random.Range(0f, 100f));
+            while (lightning != null && elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                if (material != null) material.SetFloat("_Progress", t);
+                lightning.color = new Color(1f, 1f, 1f, 1f - t * t);
+                yield return null;
+            }
+            if (lightning != null)
+            {
+                if (lightning.material != null) Destroy(lightning.material);
+                Destroy(lightning.gameObject);
             }
         }
 
@@ -807,6 +1095,7 @@ namespace CosmicChaosCat
 
             // 152번 missing_cat 등 클릭 무관 자동 연속 프레임 루프 애니메이션
             UpdateAutoIdleAnimation();
+            UpdateOORollingAnimation();
 
             // Spade Deck rear cards share the same breathing/click motion as the front card.
             SyncSpadeDeckLayerMotion();
@@ -914,6 +1203,7 @@ namespace CosmicChaosCat
                 autoIdleTimer = 0f;
                 isSchrodingerSpecialSequence = false;
                 portalCurrentCatSprite = null;
+                flyCatStageFiveSequenceIndex = 0;
                 ResetPunchCatDisplay();
             }
 
@@ -1001,6 +1291,8 @@ namespace CosmicChaosCat
             RefreshPortalCatDisplay(IsPortalCat(curCardId), card);
             RefreshPunchCatDisplay(IsPunchCat(curCardId), card);
             RefreshRainbowButton(IsRainbowButton(curCardId), card);
+            RefreshOORollingDisplay(IsOORollingCat(curCardId), card);
+            RefreshBlackEyesDisplay(IsBlackEyes(curCardId), card);
 
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;
@@ -1367,6 +1659,92 @@ namespace CosmicChaosCat
             }
         }
 
+        private void RefreshOORollingDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card?.CardSprite == null)
+            {
+                StopOORollingDisplay();
+                return;
+            }
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            if (ooRollingImage == null)
+            {
+                RectTransform sourceRect = cardImage.rectTransform;
+                Clicker clicker = GetComponent<Clicker>() ?? GetComponentInParent<Clicker>();
+                ooRollingButtonRect = clicker != null ? clicker.transform as RectTransform : sourceRect;
+                if (ooRollingButtonRect != null && !ooRollingButtonCaptured)
+                {
+                    ooRollingButtonOriginalPosition = ooRollingButtonRect.anchoredPosition;
+                    ooRollingButtonOriginalRotation = ooRollingButtonRect.localRotation;
+                    ooRollingButtonCaptured = true;
+                }
+                Vector2 sourceCenter = canvasRect.InverseTransformPoint(sourceRect.TransformPoint(sourceRect.rect.center));
+                Vector3 left = canvasRect.InverseTransformPoint(sourceRect.TransformPoint(new Vector3(sourceRect.rect.xMin, sourceRect.rect.center.y)));
+                Vector3 right = canvasRect.InverseTransformPoint(sourceRect.TransformPoint(new Vector3(sourceRect.rect.xMax, sourceRect.rect.center.y)));
+                Vector3 bottom = canvasRect.InverseTransformPoint(sourceRect.TransformPoint(new Vector3(sourceRect.rect.center.x, sourceRect.rect.yMin)));
+                Vector3 top = canvasRect.InverseTransformPoint(sourceRect.TransformPoint(new Vector3(sourceRect.rect.center.x, sourceRect.rect.yMax)));
+
+                ooRollingImage = CreateEffectImage("OOCatRolling", canvasRect, card.CardSprite);
+                RectTransform rollingRect = ooRollingImage.rectTransform;
+                rollingRect.anchorMin = rollingRect.anchorMax = new Vector2(0.5f, 0.5f);
+                rollingRect.pivot = new Vector2(0.5f, 0.5f);
+                rollingRect.sizeDelta = new Vector2(
+                    Mathf.Max(1f, Mathf.Abs(right.x - left.x)),
+                    Mathf.Max(1f, Mathf.Abs(top.y - bottom.y)));
+                ooRollingX = sourceCenter.x;
+                ooRollingY = sourceCenter.y;
+                rollingRect.anchoredPosition = new Vector2(ooRollingX, ooRollingY);
+                rollingRect.SetAsLastSibling();
+            }
+
+            ooRollingImage.sprite = card.CardSprite;
+            ooRollingImage.color = Color.white;
+            ooRollingImage.raycastTarget = false;
+            ooRollingActive = true;
+            cardImage.enabled = true;
+            cardImage.color = new Color(1f, 1f, 1f, 0f);
+            cardImage.raycastTarget = mySocket == ClickSocketSlot.Center;
+        }
+
+        private void UpdateOORollingAnimation()
+        {
+            if (!ooRollingActive || ooRollingImage == null) return;
+            Canvas canvas = ooRollingImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            RectTransform rollingRect = ooRollingImage.rectTransform;
+            // UI gameplay can run while Time.timeScale is zero, so this autonomous
+            // card must use unscaled time or it appears completely stationary.
+            float dt = Time.unscaledDeltaTime;
+            ooRollingX += 180f * dt;
+            rollingRect.localEulerAngles += new Vector3(0f, 0f, -220f * dt);
+            float halfWidth = rollingRect.rect.width * 0.5f;
+            if (ooRollingX - halfWidth > canvasRect.rect.xMax)
+                ooRollingX = canvasRect.rect.xMin - halfWidth;
+            rollingRect.anchoredPosition = new Vector2(ooRollingX, ooRollingY);
+            if (ooRollingButtonRect != null)
+                ooRollingButtonRect.position = rollingRect.position;
+        }
+
+        private void StopOORollingDisplay()
+        {
+            ooRollingActive = false;
+            if (ooRollingButtonCaptured && ooRollingButtonRect != null)
+            {
+                ooRollingButtonRect.anchoredPosition = ooRollingButtonOriginalPosition;
+                ooRollingButtonRect.localRotation = ooRollingButtonOriginalRotation;
+            }
+            ooRollingButtonCaptured = false;
+            ooRollingButtonRect = null;
+            if (ooRollingImage != null) Destroy(ooRollingImage.gameObject);
+            ooRollingImage = null;
+        }
+
         private void RefreshMisfortuneDisplay(bool active, CardEntry card)
         {
             if (!active)
@@ -1459,27 +1837,34 @@ namespace CosmicChaosCat
             misfortuneCatX -= 100f;
 
             float halfCatWidth = misfortuneCat.rectTransform.rect.width * 0.5f;
-            float halfViewportWidth = GetMisfortuneViewportWidth() * 0.5f;
-            if (misfortuneCatX + halfCatWidth < -halfViewportWidth)
+            GetMisfortuneHorizontalBounds(out float viewportLeft, out float viewportRight);
+            if (misfortuneCatX + halfCatWidth < viewportLeft)
             {
                 // Re-enter already straddling the right edge instead of teleporting fully on-screen.
-                misfortuneCatX = halfViewportWidth + halfCatWidth * 0.5f;
+                misfortuneCatX = viewportRight + halfCatWidth * 0.5f;
             }
             misfortuneCat.rectTransform.anchoredPosition = new Vector2(misfortuneCatX, -70f);
         }
 
-        private float GetMisfortuneViewportWidth()
+        private void GetMisfortuneHorizontalBounds(out float left, out float right)
         {
+            left = misfortuneContainer != null ? misfortuneContainer.rect.xMin : -Screen.width * 0.5f;
+            right = misfortuneContainer != null ? misfortuneContainer.rect.xMax : Screen.width * 0.5f;
+            if (misfortuneContainer == null) return;
+
             Canvas canvas = cardImage != null ? cardImage.canvas : null;
             RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
-            if (canvasRect != null && canvasRect.rect.width > 0f)
-            {
-                Vector3 canvasScale = canvasRect.lossyScale;
-                Vector3 localScale = misfortuneContainer.lossyScale;
-                if (Mathf.Abs(localScale.x) > 0.0001f)
-                    return canvasRect.rect.width * Mathf.Abs(canvasScale.x / localScale.x);
-            }
-            return misfortuneContainer.rect.width > 0f ? misfortuneContainer.rect.width : Screen.width;
+            if (canvasRect == null || canvasRect.rect.width <= 0f) return;
+
+            // Convert the real canvas edges into this card's local coordinates.
+            // Sub-clicks are offset from screen center, so a symmetric width alone
+            // would detect the wrong exit/re-entry points for their moving cats.
+            Vector3 worldLeft = canvasRect.TransformPoint(new Vector3(canvasRect.rect.xMin, 0f, 0f));
+            Vector3 worldRight = canvasRect.TransformPoint(new Vector3(canvasRect.rect.xMax, 0f, 0f));
+            float localLeft = misfortuneContainer.InverseTransformPoint(worldLeft).x;
+            float localRight = misfortuneContainer.InverseTransformPoint(worldRight).x;
+            left = Mathf.Min(localLeft, localRight);
+            right = Mathf.Max(localLeft, localRight);
         }
 
         private void RefreshHungryDisplay(bool active, CardEntry card)
@@ -2014,6 +2399,12 @@ namespace CosmicChaosCat
             EnsureBaseScale(targetTf);
 
             string socketCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+
+            if (IsBlackEyes(socketCardId))
+            {
+                TryBlinkBlackEyes(gameManager.CardCatalog?.FindById(socketCardId));
+                return;
+            }
 
             bool is171Active = (longNeckContainer != null && longNeckContainer.gameObject.activeSelf);
             if (!is171Active && !string.IsNullOrEmpty(socketCardId))

@@ -119,6 +119,16 @@ namespace CosmicChaosCat
                 rectTransform.localRotation = Quaternion.identity;
                 UpdateLeftwardMovement();
             }
+            else
+            {
+                var entry = gameManager.DecorationCatalog?.FindById(decoId);
+                if (entry != null && entry.AnimationSprites != null && entry.AnimationSprites.Length > 0)
+                {
+                    int index = frameIndex % entry.AnimationSprites.Length;
+                    Sprite sprite = entry.AnimationSprites[index];
+                    if (sprite != null) decoImage.sprite = sprite;
+                }
+            }
         }
 
         private static int GetSequenceFrame(int index, int frameCount)
@@ -266,7 +276,9 @@ namespace CosmicChaosCat
 
             // StateChanged is raised for many unrelated game updates. Do not overwrite
             // an animated decoration with its catalog thumbnail unless the deco changed.
-            if (!decorationChanged && decoImage.enabled && (IsMouseToy(decoId) || IsFishToy(decoId)))
+            var animatedEntry = gameManager.DecorationCatalog?.FindById(decoId);
+            bool isCatalogAnimated = animatedEntry != null && animatedEntry.AnimationSprites != null && animatedEntry.AnimationSprites.Length > 0;
+            if (!decorationChanged && decoImage.enabled && (IsMouseToy(decoId) || IsFishToy(decoId) || isCatalogAnimated))
             {
                 return;
             }

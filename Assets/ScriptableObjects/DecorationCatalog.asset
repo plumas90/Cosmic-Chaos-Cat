@@ -17,6 +17,8 @@ MonoBehaviour:
     DisplayName: "\uC7A5\uC2DD \uC5C6\uC74C"
     DisplayName_EN: No Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -28,6 +30,8 @@ MonoBehaviour:
     DisplayName: "\uC950"
     DisplayName_EN: Mouse
     DecorationSprite: {fileID: 5092648374921186930, guid: 02b174cd1ef5e300da73993ae07f8905, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -39,6 +43,8 @@ MonoBehaviour:
     DisplayName: "\uBB3C\uACE0\uAE30"
     DisplayName_EN: Fish
     DecorationSprite: {fileID: -3085096251912770556, guid: 90ffddcc3b260bf57a451a9a676914ff, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -51,6 +57,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 1 \uC7A5\uC2DD A"
     DisplayName_EN: Set 1 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -62,6 +70,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 1 \uC7A5\uC2DD B"
     DisplayName_EN: Set 1 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -73,6 +83,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 1 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 1 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -85,6 +97,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 2 \uC7A5\uC2DD A"
     DisplayName_EN: Set 2 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -96,6 +110,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 2 \uC7A5\uC2DD B"
     DisplayName_EN: Set 2 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -107,6 +123,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 2 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 2 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -119,6 +137,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 3 \uC7A5\uC2DD A"
     DisplayName_EN: Set 3 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -130,6 +150,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 3 \uC7A5\uC2DD B"
     DisplayName_EN: Set 3 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -141,6 +163,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 3 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 3 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -153,6 +177,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 4 \uC7A5\uC2DD A"
     DisplayName_EN: Set 4 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -164,6 +190,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 4 \uC7A5\uC2DD B"
     DisplayName_EN: Set 4 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -175,6 +203,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 4 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 4 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -187,6 +217,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 5 \uC7A5\uC2DD A"
     DisplayName_EN: Set 5 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -198,6 +230,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 5 \uC7A5\uC2DD B"
     DisplayName_EN: Set 5 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -209,6 +243,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 5 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 5 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -221,6 +257,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 6 \uC7A5\uC2DD A"
     DisplayName_EN: Set 6 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -232,6 +270,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 6 \uC7A5\uC2DD B"
     DisplayName_EN: Set 6 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -243,6 +283,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 6 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 6 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -255,6 +297,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 7 \uC7A5\uC2DD A"
     DisplayName_EN: Set 7 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -266,6 +310,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 7 \uC7A5\uC2DD B"
     DisplayName_EN: Set 7 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -277,6 +323,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 7 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 7 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -289,6 +337,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 8 \uC7A5\uC2DD A"
     DisplayName_EN: Set 8 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -300,6 +350,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 8 \uC7A5\uC2DD B"
     DisplayName_EN: Set 8 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -311,6 +363,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 8 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 8 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -323,6 +377,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 9 \uC7A5\uC2DD A"
     DisplayName_EN: Set 9 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -334,6 +390,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 9 \uC7A5\uC2DD B"
     DisplayName_EN: Set 9 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -345,6 +403,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 9 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 9 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -357,6 +417,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 10 \uC7A5\uC2DD A"
     DisplayName_EN: Set 10 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -368,6 +430,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 10 \uC7A5\uC2DD B"
     DisplayName_EN: Set 10 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -379,6 +443,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 10 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 10 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -391,6 +457,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 11 \uC7A5\uC2DD A"
     DisplayName_EN: Set 11 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -402,6 +470,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 11 \uC7A5\uC2DD B"
     DisplayName_EN: Set 11 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -413,6 +483,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 11 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 11 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -425,6 +497,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 12 \uC7A5\uC2DD A"
     DisplayName_EN: Set 12 Decoration A
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -436,6 +510,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 12 \uC7A5\uC2DD B"
     DisplayName_EN: Set 12 Decoration B
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 0
     ShopCurrency: 0
@@ -447,6 +523,8 @@ MonoBehaviour:
     DisplayName: "\uC138\uD2B8 12 \uD2B9\uBCC4 \uC7A5\uC2DD"
     DisplayName_EN: Set 12 Special Decoration
     DecorationSprite: {fileID: 0}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
     IsHidden: 0
     IsShop: 1
     ShopCurrency: 0
@@ -454,4 +532,22 @@ MonoBehaviour:
     SetId: 12
     Description: "\uC0C1\uC810\uC5D0\uC11C 100\uACE8\uB4DC\uB85C \uAD6C\uB9E4 \uAC00\uB2A5\uD55C
       \uC804\uC6A9 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: 
+  - Id: deco-cat-wheel
+    DisplayName: "\uCEA3 \uD720"
+    DisplayName_EN: Cat Wheel
+    DecorationSprite: {fileID: 4887658694944204669, guid: a4be12c37995756d5a463ffc0eb468d4, type: 3}
+    AnimationSprites:
+    - {fileID: 4887658694944204669, guid: a4be12c37995756d5a463ffc0eb468d4, type: 3}
+    - {fileID: 3583777838671723820, guid: a4be12c37995756d5a463ffc0eb468d4, type: 3}
+    - {fileID: -8963543176388743158, guid: a4be12c37995756d5a463ffc0eb468d4, type: 3}
+    - {fileID: 1409502515699576384, guid: a4be12c37995756d5a463ffc0eb468d4, type: 3}
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 100
+    SetId: 
+    Description: "\uC7A5\uCC29\uD558\uBA74 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC790\uB3D9\uC73C\uB85C
+      \uBC14\uB00C\uB294 \uCEA3 \uD720 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
     Description_EN: 

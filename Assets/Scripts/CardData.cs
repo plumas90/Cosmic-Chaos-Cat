@@ -78,6 +78,8 @@ namespace CosmicChaosCat
         public Sprite[] BreakthroughSprites;     // Variant sprites corresponding to stages 1..5
         [Tooltip("클릭 연출 등에 사용하는 별도 효과 스프라이트")]
         public Sprite[] EffectSprites;
+        [Tooltip("EffectSprites 안에서 첫 번째 효과 묶음이 끝나는 위치. 0이면 묶음 구분 없음")]
+        public int EffectSpriteGroupSplit;
         [Tooltip("한 단계에 여러 이미지가 있을 때 사용하는 단계별 이미지 묶음")]
         public BreakthroughStageSpriteSet[] BreakthroughSpriteVariants;
 
@@ -169,7 +171,11 @@ namespace CosmicChaosCat
                 // These arrays contain click-effect frames and props, not
                 // breakthrough illustrations. Catalog/detail art stays fixed.
                 if (clickVariantCardNumber == 237 || clickVariantCardNumber == 238 ||
-                    clickVariantCardNumber == 261 || clickVariantCardNumber == 266 || clickVariantCardNumber == 268)
+                    clickVariantCardNumber == 261 || clickVariantCardNumber == 266 || clickVariantCardNumber == 268 ||
+                    clickVariantCardNumber == 288 || clickVariantCardNumber == 289 ||
+                    clickVariantCardNumber == 290 || clickVariantCardNumber == 291 ||
+                    clickVariantCardNumber == 312 || clickVariantCardNumber == 314 || clickVariantCardNumber == 315 ||
+                    clickVariantCardNumber == 320 || clickVariantCardNumber == 322)
                     return CardSprite;
             }
 

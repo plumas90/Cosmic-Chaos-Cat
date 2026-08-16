@@ -10,6 +10,8 @@ namespace CosmicChaosCat
         public string DisplayName;
         public string DisplayName_EN;
         public Sprite DecorationSprite;
+        public Sprite[] AnimationSprites;
+        public float AnimationFrameDuration = 0.25f;
         public bool IsHidden;
         public bool IsShop;
         public CardShopCurrency ShopCurrency = CardShopCurrency.Coin;

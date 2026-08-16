@@ -168,6 +168,7 @@ namespace CosmicChaosCat
         public event Action<string>  SetCompleted;           // setId
         public event Action          GameEnded;
         public event Action          CardClicked;
+        public event Action<Vector2> CardClickedAt;
 
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
@@ -269,6 +270,7 @@ namespace CosmicChaosCat
             if (IsGameEnded) return;
 
             CardClicked?.Invoke();
+            CardClickedAt?.Invoke(screenPos);
 
             if (Time.unscaledTime - lastClickTime <= ComboWindowSeconds)
                 comboCount++;
@@ -589,6 +591,11 @@ namespace CosmicChaosCat
             if (!IsSocketUnlocked(slot)) return;
             var entry = string.IsNullOrEmpty(cardId) ? null : cardCatalog?.FindById(cardId);
             string targetId = entry != null ? entry.Id : (cardId ?? "");
+            if (slot != ClickSocketSlot.Center && IsCenterOnlyCard(targetId))
+            {
+                Log("이 카드는 배경을 덮는 중앙 전용 카드라서 서브 소켓에 장착할 수 없어요.");
+                return;
+            }
             int targetStage = string.IsNullOrEmpty(targetId) ? 1 : Mathf.Clamp(selectedStage, 1, 5);
             switch (slot)
             {
@@ -604,6 +611,11 @@ namespace CosmicChaosCat
             EvaluateBremenHiddenEvolution();
             Save();
             NotifyState();
+        }
+
+        public static bool IsCenterOnlyCard(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 319;
         }
 
         public List<Sprite> GetHiddenReplacementSprites(string cardId)
@@ -1683,6 +1695,11 @@ namespace CosmicChaosCat
             SocketRightUpCardId   = data.SocketRightUpCardId ?? "";
             SocketLeftDownCardId  = data.SocketLeftDownCardId ?? "";
             SocketRightDownCardId = data.SocketRightDownCardId ?? "";
+            // Older/test saves may contain a background-cover card in a sub socket.
+            if (IsCenterOnlyCard(SocketLeftUpCardId)) SocketLeftUpCardId = "";
+            if (IsCenterOnlyCard(SocketRightUpCardId)) SocketRightUpCardId = "";
+            if (IsCenterOnlyCard(SocketLeftDownCardId)) SocketLeftDownCardId = "";
+            if (IsCenterOnlyCard(SocketRightDownCardId)) SocketRightDownCardId = "";
             SocketCenterStage    = data.SocketCenterStage > 0 ? Mathf.Clamp(data.SocketCenterStage, 1, 5) : 1;
             SocketLeftUpStage    = data.SocketLeftUpStage > 0 ? Mathf.Clamp(data.SocketLeftUpStage, 1, 5) : 1;
             SocketRightUpStage   = data.SocketRightUpStage > 0 ? Mathf.Clamp(data.SocketRightUpStage, 1, 5) : 1;
