@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8b8ce8e94afbce13387cff34b9ec61c6
+guid: c8211f3706c60211bbea185e8eaa1873
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 551710626475494529
-    second: saba_wheel-Photoroom_0
+      213: 5443449347516556211
+    second: thunder_cat1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: saba_wheel-Photoroom_0
+      name: thunder_cat1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1254
-        height: 1254
+        x: 85
+        y: 112
+        width: 381
+        height: 484
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18c41e544e118a700800000000000000
-      internalID: 551710626475494529
+      spriteID: 3b36e8747540b8b40800000000000000
+      internalID: 5443449347516556211
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      saba_wheel-Photoroom_0: 551710626475494529
+      thunder_cat1_0: 5443449347516556211
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
