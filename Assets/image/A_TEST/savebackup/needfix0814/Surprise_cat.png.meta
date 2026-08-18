@@ -1,31 +1,37 @@
 fileFormatVersion: 2
-guid: ed815b4da81b22c7e8467bf0ea5bb6ed
+guid: ec2cf9f56aaad6dd39b01c3c1ec97f71
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5478077517411653636
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_0
+      213: -8348797240661169941
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_0
   - first:
-      213: -900799903141070608
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_1
+      213: -7723529244231445608
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_1
   - first:
-      213: 8966573890823727023
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_2
+      213: -1593915083761774184
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_2
   - first:
-      213: 7211508111037238966
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_3
+      213: 8865763120392078681
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_3
   - first:
-      213: 6894704493784076952
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_4
+      213: -7101188077522029944
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_4
   - first:
-      213: -7465169231699260322
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_5
+      213: 3587996916202021816
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_5
   - first:
-      213: 7023124512003948806
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_6
+      213: 4144317740550504367
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_6
   - first:
-      213: 4643165577956529976
-    second: ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_7
+      213: 3026259335551127118
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_7
+  - first:
+      213: 7238953525968154502
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_8
+  - first:
+      213: -4178376856513314288
+    second: ChatGPT Image Aug 16, 2026, 12_46_22 PM_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -121,13 +127,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Miner1_1
+      name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_0
       rect:
         serializedVersion: 2
-        x: 599
-        y: 685
-        width: 439
-        height: 468
+        x: 0
+        y: 639
+        width: 615
+        height: 552
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +142,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 408106d5a7a060c40800000000000000
-      internalID: 5478077517411653636
+      spriteID: be821a8b42d132c80800000000000000
+      internalID: -8348797240661169941
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Miner1_2
+      name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_3
       rect:
         serializedVersion: 2
-        x: 677
-        y: 129
-        width: 493
-        height: 468
+        x: 626
+        y: 0
+        width: 673
+        height: 1183
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,8 +164,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa727de527baf6c70800000000000000
-      internalID: 8966573890823727023
+      spriteID: 9558abdc594890b70800000000000000
+      internalID: 8865763120392078681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_6
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 611
+        height: 662
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafbcd90703938930800000000000000
+      internalID: 4144317740550504367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_9
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 69
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0128fc1136c6306c0800000000000000
+      internalID: -4178376856513314288
       vertices: []
       indices: 
       edges: []
@@ -168,7 +218,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 908d4ab8bd72a2d30b43be18db535e15
+    spriteID: add698135c26e5214936668ae2271db2
     internalID: 0
     vertices: []
     indices: 
@@ -178,14 +228,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_1: -900799903141070608
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_3: 7211508111037238966
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_4: 6894704493784076952
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_5: -7465169231699260322
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_6: 7023124512003948806
-      ChatGPT Image Aug 8, 2026, 04_57_55 PM-Photoroom_7: 4643165577956529976
-      Miner1_1: 5478077517411653636
-      Miner1_2: 8966573890823727023
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_0: -8348797240661169941
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_1: -7723529244231445608
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_2: -1593915083761774184
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_3: 8865763120392078681
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_4: -7101188077522029944
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_5: 3587996916202021816
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_6: 4144317740550504367
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_7: 3026259335551127118
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_8: 7238953525968154502
+      ChatGPT Image Aug 16, 2026, 12_46_22 PM_9: -4178376856513314288
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

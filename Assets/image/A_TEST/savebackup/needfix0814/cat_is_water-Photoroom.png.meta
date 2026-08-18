@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 066e68978f88e3e6c9343d15043d6753
+guid: 92b934cc17b6eee8292153d76fe7d5f1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5486939058575824690
-    second: cat_is_water_0
+      213: 9100502275494573838
+    second: cat_is_water-Photoroom_0
+  - first:
+      213: -293012841568622829
+    second: cat_is_water-Photoroom_1
+  - first:
+      213: -430455776008171661
+    second: cat_is_water-Photoroom_2
+  - first:
+      213: -4591320850465155335
+    second: cat_is_water-Photoroom_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cat_is_water_0
+      name: cat_is_water-Photoroom_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1536
-        height: 1024
+        y: 582
+        width: 799
+        height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 237d0a2b006852c40800000000000000
-      internalID: 5486939058575824690
+      spriteID: e07fc706a9a7b4e70800000000000000
+      internalID: 9100502275494573838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_water-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 494
+        width: 616
+        height: 530
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 317acaf7f520febf0800000000000000
+      internalID: -293012841568622829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_water-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 619
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37f848b90c6b60af0800000000000000
+      internalID: -430455776008171661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_water-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 70
+        width: 449
+        height: 379
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f61e2a230a5840c0800000000000000
+      internalID: -4591320850465155335
       vertices: []
       indices: 
       edges: []
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cat_is_water_0: 5486939058575824690
+      cat_is_water-Photoroom_0: 9100502275494573838
+      cat_is_water-Photoroom_1: -293012841568622829
+      cat_is_water-Photoroom_2: -430455776008171661
+      cat_is_water-Photoroom_3: -4591320850465155335
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
