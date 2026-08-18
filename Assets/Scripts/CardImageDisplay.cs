@@ -104,6 +104,13 @@ namespace CosmicChaosCat
         private Coroutine blackEyesBlinkRoutine;
         private bool blackEyesWasActive;
         private Coroutine perfectWorldFlashRoutine;
+        private int ticklingSequenceStep;
+        private static readonly int[] TicklingSpriteSequence =
+        {
+            0,
+            1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+            3
+        };
         private const float SeaCatBubbleRiseSpeed = 150f;
 
         public void CycleMemeCatImage()
@@ -150,6 +157,12 @@ namespace CosmicChaosCat
             if (IsPerfectWorldCat(socketCardId))
             {
                 TryFlashPerfectWorld(entry);
+                return;
+            }
+
+            if (IsTicklingCat(socketCardId))
+            {
+                AdvanceTicklingSequence(sprites);
                 return;
             }
 
@@ -242,6 +255,24 @@ namespace CosmicChaosCat
         private static bool IsPerfectWorldCat(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 321;
+        }
+
+        private static bool IsTicklingCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 320;
+        }
+
+        private void AdvanceTicklingSequence(List<Sprite> sprites)
+        {
+            if (sprites == null || sprites.Count < 4 || cardImage == null) return;
+
+            ticklingSequenceStep = (ticklingSequenceStep + 1) % TicklingSpriteSequence.Length;
+            currentSpriteIndex = TicklingSpriteSequence[ticklingSequenceStep];
+            Sprite targetSprite = sprites[currentSpriteIndex];
+            if (targetSprite == null) return;
+
+            cardImage.sprite = targetSprite;
+            FitSubClickSpriteToBounds(targetSprite);
         }
 
         private void TryFlashPerfectWorld(CardEntry card)
@@ -1199,6 +1230,7 @@ namespace CosmicChaosCat
             {
                 lastEquippedId = curCardId;
                 currentSpriteIndex = 0;
+                ticklingSequenceStep = 0;
                 autoIdleFrameIndex = 0;
                 autoIdleTimer = 0f;
                 isSchrodingerSpecialSequence = false;
