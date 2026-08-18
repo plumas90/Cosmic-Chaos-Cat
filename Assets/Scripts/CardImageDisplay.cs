@@ -1222,7 +1222,12 @@ namespace CosmicChaosCat
             }
 
             // 스프라이트 및 색상
-            if (cardImage != null)
+            // 321's click flash uses the main card image. A click also triggers
+            // NotifyState -> Refresh in the same frame, so preserve the effect
+            // sprite until its 0.5-second coroutine restores the base sprite.
+            bool preservePerfectWorldFlash =
+                IsPerfectWorldCat(curCardId) && perfectWorldFlashRoutine != null;
+            if (cardImage != null && !preservePerfectWorldFlash)
             {
                 cardImage.preserveAspect = true;
                 if (isAutoIdleActive && autoIdleSprites != null && autoIdleSprites.Count > 0)
