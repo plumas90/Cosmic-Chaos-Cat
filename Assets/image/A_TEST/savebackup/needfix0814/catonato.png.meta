@@ -106,12 +106,12 @@ TextureImporter:
       name: catonato_0
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 584
-        height: 1024
+        x: 152
+        y: 512
+        width: 540
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,15 +125,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: catonato_1
+      name: catonato_3
       rect:
         serializedVersion: 2
-        x: 766
+        x: 872
         y: 0
-        width: 703
-        height: 1024
+        width: 540
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -146,11 +146,55 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: catonato_2
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 0
+        width: 540
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b00994b2f935f238bafcc953f00b1df6
+      internalID: -246529232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 512
+        width: 540
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3edbd537480a99629b39e55be5fbb71
+      internalID: 1251474258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3a24033a8b1e7f1c59b441c1274f99cb
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +204,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      catonato_: 1251474258
       catonato_0: -4699582867129013993
-      catonato_1: -5997838877545401563
+      catonato_2: -246529232
+      catonato_3: -5997838877545401563
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

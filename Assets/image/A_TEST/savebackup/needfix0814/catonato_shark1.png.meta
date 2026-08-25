@@ -1,0 +1,435 @@
+fileFormatVersion: 2
+guid: 7975168ee1e12923c8f9ef121a46b1f5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1472837559724993645
+    second: catonato_shark1_0
+  - first:
+      213: 3694736153665884878
+    second: catonato_shark1_1
+  - first:
+      213: 9061079215387165166
+    second: catonato_shark1_2
+  - first:
+      213: 6074955819805193693
+    second: catonato_shark1_3
+  - first:
+      213: -6558945237129096099
+    second: catonato_shark1_4
+  - first:
+      213: -4338797080587683304
+    second: catonato_shark1_5
+  - first:
+      213: 7071082229377227911
+    second: catonato_shark1_6
+  - first:
+      213: 9221265357052229956
+    second: catonato_shark1_7
+  - first:
+      213: -5070581174849141906
+    second: catonato_shark1_8
+  - first:
+      213: 4868118414391083509
+    second: catonato_shark1_9
+  - first:
+      213: 6705764872007846309
+    second: catonato_shark1_10
+  - first:
+      213: 4659425834032306542
+    second: catonato_shark1_11
+  - first:
+      213: -6877836771722704523
+    second: catonato_shark1_12
+  - first:
+      213: 7386435015183706357
+    second: catonato_shark1_13
+  - first:
+      213: 3637202084491367127
+    second: catonato_shark1_14
+  - first:
+      213: 5031575264077043959
+    second: catonato_shark1_15
+  - first:
+      213: 1988848306070816759
+    second: catonato_shark1_16
+  - first:
+      213: -7296509815330633897
+    second: catonato_shark1_17
+  - first:
+      213: -190757889386421856
+    second: catonato_shark1_18
+  - first:
+      213: 4231903965199570398
+    second: catonato_shark1_19
+  - first:
+      213: -8125687674025062668
+    second: catonato_shark1_20
+  - first:
+      213: 7002126482691180867
+    second: catonato_shark1_21
+  - first:
+      213: -4831825677062501858
+    second: catonato_shark1_22
+  - first:
+      213: -4850595458585449244
+    second: catonato_shark1_23
+  - first:
+      213: -1198534611568478307
+    second: catonato_shark1_24
+  - first:
+      213: -4320971081513321758
+    second: catonato_shark1_25
+  - first:
+      213: -9045304055063217898
+    second: catonato_shark1_26
+  - first:
+      213: 7471482572438572625
+    second: catonato_shark1_27
+  - first:
+      213: -6505421701281659747
+    second: catonato_shark1_28
+  - first:
+      213: -649247612261655102
+    second: catonato_shark1_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: catonato_shark1_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1153
+        width: 360
+        height: 336
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3931db8fa0e6f8be0800000000000000
+      internalID: -1472837559724993645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_1
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1172
+        width: 385
+        height: 291
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec25c0ac4f6564330800000000000000
+      internalID: 3694736153665884878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_3
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 1161
+        width: 396
+        height: 318
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd53ea1b1249e4450800000000000000
+      internalID: 6074955819805193693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_9
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 776
+        width: 357
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f1815ec7e70f8340800000000000000
+      internalID: 4868118414391083509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_10
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 764
+        width: 390
+        height: 297
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a902575f99af0d50800000000000000
+      internalID: 6705764872007846309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_11
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 771
+        width: 358
+        height: 286
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6916cefb1b99a040800000000000000
+      internalID: 4659425834032306542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_18
+      rect:
+        serializedVersion: 2
+        x: 1017
+        y: 359
+        width: 359
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a1e405d5ba4a5df0800000000000000
+      internalID: -190757889386421856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_21
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 276
+        width: 321
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 349c929efec8c2160800000000000000
+      internalID: 7002126482691180867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: catonato_shark1_22
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 269
+        width: 418
+        height: 340
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1a04169528e1fcb0800000000000000
+      internalID: -4831825677062501858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: dc857e82a26646c6db61639dd5eb83c4
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      catonato_shark1_0: -1472837559724993645
+      catonato_shark1_1: 3694736153665884878
+      catonato_shark1_10: 6705764872007846309
+      catonato_shark1_11: 4659425834032306542
+      catonato_shark1_12: -6877836771722704523
+      catonato_shark1_13: 7386435015183706357
+      catonato_shark1_14: 3637202084491367127
+      catonato_shark1_15: 5031575264077043959
+      catonato_shark1_16: 1988848306070816759
+      catonato_shark1_17: -7296509815330633897
+      catonato_shark1_18: -190757889386421856
+      catonato_shark1_19: 4231903965199570398
+      catonato_shark1_2: 9061079215387165166
+      catonato_shark1_20: -8125687674025062668
+      catonato_shark1_21: 7002126482691180867
+      catonato_shark1_22: -4831825677062501858
+      catonato_shark1_23: -4850595458585449244
+      catonato_shark1_24: -1198534611568478307
+      catonato_shark1_25: -4320971081513321758
+      catonato_shark1_26: -9045304055063217898
+      catonato_shark1_27: 7471482572438572625
+      catonato_shark1_28: -6505421701281659747
+      catonato_shark1_29: -649247612261655102
+      catonato_shark1_3: 6074955819805193693
+      catonato_shark1_4: -6558945237129096099
+      catonato_shark1_5: -4338797080587683304
+      catonato_shark1_6: 7071082229377227911
+      catonato_shark1_7: 9221265357052229956
+      catonato_shark1_8: -5070581174849141906
+      catonato_shark1_9: 4868118414391083509
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

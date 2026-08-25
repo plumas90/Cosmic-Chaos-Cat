@@ -130,10 +130,10 @@ TextureImporter:
       name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 639
-        width: 615
-        height: 552
+        x: 160
+        y: 736
+        width: 377
+        height: 401
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,10 +152,10 @@ TextureImporter:
       name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_3
       rect:
         serializedVersion: 2
-        x: 626
+        x: 656
         y: 0
-        width: 673
-        height: 1183
+        width: 643
+        height: 728
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,10 +174,10 @@ TextureImporter:
       name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_6
       rect:
         serializedVersion: 2
-        x: 16
+        x: 74
         y: 0
-        width: 611
-        height: 662
+        width: 553
+        height: 673
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,23 +193,23 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChatGPT Image Aug 16, 2026, 12_46_22 PM_9
+      name: Surprise_cat_0
       rect:
         serializedVersion: 2
-        x: 668
-        y: 69
-        width: 15
-        height: 14
+        x: 705
+        y: 761
+        width: 483
+        height: 536
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0128fc1136c6306c0800000000000000
-      internalID: -4178376856513314288
+      spriteID: 1ef66049cb1b935caab370f7e8e62b02
+      internalID: 1678644165
       vertices: []
       indices: 
       edges: []
@@ -238,6 +238,7 @@ TextureImporter:
       ChatGPT Image Aug 16, 2026, 12_46_22 PM_7: 3026259335551127118
       ChatGPT Image Aug 16, 2026, 12_46_22 PM_8: 7238953525968154502
       ChatGPT Image Aug 16, 2026, 12_46_22 PM_9: -4178376856513314288
+      Surprise_cat_0: 1678644165
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

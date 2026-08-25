@@ -1,0 +1,275 @@
+fileFormatVersion: 2
+guid: 5ce4e1295cc3701daafb6aef15badeac
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3075126952602840486
+    second: The_cat_whose_head_is_eating_a_red_fish_0
+  - first:
+      213: 2925768670793376222
+    second: The_cat_whose_head_is_eating_a_red_fish_1
+  - first:
+      213: 7961445483909467575
+    second: The_cat_whose_head_is_eating_a_red_fish_2
+  - first:
+      213: -9219915230556856479
+    second: The_cat_whose_head_is_eating_a_red_fish_3
+  - first:
+      213: 5655768748420168557
+    second: The_cat_whose_head_is_eating_a_red_fish_4
+  - first:
+      213: 2597201060013823746
+    second: The_cat_whose_head_is_eating_a_red_fish_5
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_0
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 108
+        width: 540
+        height: 536
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ad2f11bbab0daa20800000000000000
+      internalID: 3075126952602840486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_2
+      rect:
+        serializedVersion: 2
+        x: 1601
+        y: 99
+        width: 351
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bdcf0f6c7cbc7e60800000000000000
+      internalID: 7961445483909467575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_3
+      rect:
+        serializedVersion: 2
+        x: 2033
+        y: 96
+        width: 357
+        height: 554
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16fd17f62f74c0080800000000000000
+      internalID: -9219915230556856479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_5
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 132
+        width: 416
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20754608a9c1b0420800000000000000
+      internalID: 2597201060013823746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_6
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 126
+        width: 399
+        height: 355
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d76e16a0904b430f8ff1aa0d06e9988
+      internalID: -236611445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: The_cat_whose_head_is_eating_a_red_fish_7
+      rect:
+        serializedVersion: 2
+        x: 991
+        y: 338
+        width: 4
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8687cedd58ceaf4829420a185e31e46c
+      internalID: 1908470618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a5faa1835347b41d4af90b8712d1651e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      The_cat_whose_head_is_eating_a_red_fish_0: 3075126952602840486
+      The_cat_whose_head_is_eating_a_red_fish_1: 2925768670793376222
+      The_cat_whose_head_is_eating_a_red_fish_2: 7961445483909467575
+      The_cat_whose_head_is_eating_a_red_fish_3: -9219915230556856479
+      The_cat_whose_head_is_eating_a_red_fish_4: 5655768748420168557
+      The_cat_whose_head_is_eating_a_red_fish_5: 2597201060013823746
+      The_cat_whose_head_is_eating_a_red_fish_6: -236611445
+      The_cat_whose_head_is_eating_a_red_fish_7: 1908470618
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

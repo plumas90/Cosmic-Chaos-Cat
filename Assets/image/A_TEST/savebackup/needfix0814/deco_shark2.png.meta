@@ -1,0 +1,405 @@
+fileFormatVersion: 2
+guid: 18cd2869309eaf4f8b8f38add8035496
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3132953512935419807
+    second: deco_shark2_0
+  - first:
+      213: -7357411145765244373
+    second: deco_shark2_1
+  - first:
+      213: 5340447373572403191
+    second: deco_shark2_2
+  - first:
+      213: -3947910115190536550
+    second: deco_shark2_3
+  - first:
+      213: 8173259509603904672
+    second: deco_shark2_4
+  - first:
+      213: 6990941447347970593
+    second: deco_shark2_5
+  - first:
+      213: 445702038102432371
+    second: deco_shark2_6
+  - first:
+      213: 6360885350262118358
+    second: deco_shark2_7
+  - first:
+      213: -3904891234375462985
+    second: deco_shark2_8
+  - first:
+      213: -8914719385294020117
+    second: deco_shark2_9
+  - first:
+      213: -3513649259314397761
+    second: deco_shark2_10
+  - first:
+      213: 6800113794455979977
+    second: deco_shark2_11
+  - first:
+      213: -1553618389385666474
+    second: deco_shark2_12
+  - first:
+      213: 3509937076287610396
+    second: deco_shark2_13
+  - first:
+      213: 2993371345568380836
+    second: deco_shark2_14
+  - first:
+      213: -5174406058557282384
+    second: deco_shark2_15
+  - first:
+      213: -4870939987131057868
+    second: deco_shark2_16
+  - first:
+      213: -6098634237493803242
+    second: deco_shark2_17
+  - first:
+      213: -2053513483789543487
+    second: deco_shark2_18
+  - first:
+      213: -342598968687075274
+    second: deco_shark2_19
+  - first:
+      213: 4736984303355438599
+    second: deco_shark2_20
+  - first:
+      213: -6580985091298657623
+    second: deco_shark2_21
+  - first:
+      213: 4790074896768528820
+    second: deco_shark2_22
+  - first:
+      213: 4296370358956819390
+    second: deco_shark2_23
+  - first:
+      213: -553753093126179523
+    second: deco_shark2_24
+  - first:
+      213: -8640726951782422092
+    second: deco_shark2_25
+  - first:
+      213: 6903967337495366659
+    second: deco_shark2_26
+  - first:
+      213: 5192195270930424977
+    second: deco_shark2_27
+  - first:
+      213: 7362069913965799662
+    second: deco_shark2_28
+  - first:
+      213: -4986642863361223976
+    second: deco_shark2_29
+  - first:
+      213: 1980033330080471577
+    second: deco_shark2_30
+  - first:
+      213: 7417205631907119625
+    second: deco_shark2_31
+  - first:
+      213: 8315433651906188832
+    second: deco_shark2_32
+  - first:
+      213: 5803227254365759803
+    second: deco_shark2_33
+  - first:
+      213: 7471447714938717639
+    second: deco_shark2_34
+  - first:
+      213: -5605868896633972093
+    second: deco_shark2_35
+  - first:
+      213: 3288996969870482254
+    second: deco_shark2_36
+  - first:
+      213: -3625919362297930030
+    second: deco_shark2_37
+  - first:
+      213: 8972197734591500085
+    second: deco_shark2_38
+  - first:
+      213: -6840555014216865783
+    second: deco_shark2_39
+  - first:
+      213: 7917674201510292113
+    second: deco_shark2_40
+  - first:
+      213: 498089926658180173
+    second: deco_shark2_41
+  - first:
+      213: -1375013643887635237
+    second: deco_shark2_42
+  - first:
+      213: -4051110053280950174
+    second: deco_shark2_43
+  - first:
+      213: 8317419507438275340
+    second: deco_shark2_44
+  - first:
+      213: 592444824671079162
+    second: deco_shark2_45
+  - first:
+      213: -5396058796457807756
+    second: deco_shark2_46
+  - first:
+      213: -4952365649286849934
+    second: deco_shark2_47
+  - first:
+      213: 5616220925570908122
+    second: deco_shark2_48
+  - first:
+      213: 7872321862696286071
+    second: deco_shark2_49
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: deco_shark2_0
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 43
+        width: 638
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0ab6be11a37427eb9797a503544d7d4
+      internalID: -3132953512935419807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deco_shark2_1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 48
+        width: 638
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c11c0b6e01f1dc22d9949eb1fa9c11cb
+      internalID: -7357411145765244373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deco_shark2_2
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 526
+        width: 638
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a962a1eef47fcb9f3baaac63e49b2a10
+      internalID: 5340447373572403191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deco_shark2_3
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 521
+        width: 638
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e869dbc0655db72d894e7e6a7a613026
+      internalID: -3947910115190536550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 476da8a6af5dad8148ac636a68aebbcd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      deco_shark2_0: -3132953512935419807
+      deco_shark2_1: -7357411145765244373
+      deco_shark2_10: -3513649259314397761
+      deco_shark2_11: 6800113794455979977
+      deco_shark2_12: -1553618389385666474
+      deco_shark2_13: 3509937076287610396
+      deco_shark2_14: 2993371345568380836
+      deco_shark2_15: -5174406058557282384
+      deco_shark2_16: -4870939987131057868
+      deco_shark2_17: -6098634237493803242
+      deco_shark2_18: -2053513483789543487
+      deco_shark2_19: -342598968687075274
+      deco_shark2_2: 5340447373572403191
+      deco_shark2_20: 4736984303355438599
+      deco_shark2_21: -6580985091298657623
+      deco_shark2_22: 4790074896768528820
+      deco_shark2_23: 4296370358956819390
+      deco_shark2_24: -553753093126179523
+      deco_shark2_25: -8640726951782422092
+      deco_shark2_26: 6903967337495366659
+      deco_shark2_27: 5192195270930424977
+      deco_shark2_28: 7362069913965799662
+      deco_shark2_29: -4986642863361223976
+      deco_shark2_3: -3947910115190536550
+      deco_shark2_30: 1980033330080471577
+      deco_shark2_31: 7417205631907119625
+      deco_shark2_32: 8315433651906188832
+      deco_shark2_33: 5803227254365759803
+      deco_shark2_34: 7471447714938717639
+      deco_shark2_35: -5605868896633972093
+      deco_shark2_36: 3288996969870482254
+      deco_shark2_37: -3625919362297930030
+      deco_shark2_38: 8972197734591500085
+      deco_shark2_39: -6840555014216865783
+      deco_shark2_4: 8173259509603904672
+      deco_shark2_40: 7917674201510292113
+      deco_shark2_41: 498089926658180173
+      deco_shark2_42: -1375013643887635237
+      deco_shark2_43: -4051110053280950174
+      deco_shark2_44: 8317419507438275340
+      deco_shark2_45: 592444824671079162
+      deco_shark2_46: -5396058796457807756
+      deco_shark2_47: -4952365649286849934
+      deco_shark2_48: 5616220925570908122
+      deco_shark2_49: 7872321862696286071
+      deco_shark2_5: 6990941447347970593
+      deco_shark2_6: 445702038102432371
+      deco_shark2_7: 6360885350262118358
+      deco_shark2_8: -3904891234375462985
+      deco_shark2_9: -8914719385294020117
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

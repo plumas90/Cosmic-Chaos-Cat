@@ -438,6 +438,7 @@ namespace CosmicChaosCat
         {
             if (IsRainbowButton(cardId)) return 0.5f;
             if (IsPortalCat(cardId)) return 0.75f;
+            if (int.TryParse(cardId, out int cardNumber) && cardNumber == 324) return 0.75f;
             return 1f;
         }
 

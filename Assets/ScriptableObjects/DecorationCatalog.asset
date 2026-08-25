@@ -551,3 +551,16 @@ MonoBehaviour:
     Description: "\uC7A5\uCC29\uD558\uBA74 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC790\uB3D9\uC73C\uB85C
       \uBC14\uB00C\uB294 \uCEA3 \uD720 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
     Description_EN: 
+  - Id: deco-cat-tower
+    DisplayName: "\uACE0\uC591\uC774 \uD0C0\uC6CC"
+    DisplayName_EN: Cat Tower
+    DecorationSprite: {fileID: 7747960375568804478, guid: daa75e5d3dc1163f7989367b2288ed48, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uC591\uC774 \uD0C0\uC6CC \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A cat tower decoration.

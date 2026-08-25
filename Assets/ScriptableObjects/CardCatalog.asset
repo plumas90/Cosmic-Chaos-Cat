@@ -9702,8 +9702,8 @@ MonoBehaviour:
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
       \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
       R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: An R-grade set reward unlocked by collecting all four Monster
-      Cats.
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
   - Id: 0313
     DisplayName: "\uC0C1\uC790\uAC00 \uC788\uC5B4"
     DisplayName_EN: I Have a Box
@@ -9787,8 +9787,8 @@ MonoBehaviour:
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
       \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
       R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: An R-grade set reward unlocked by collecting all four Monster
-      Cats.
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
   - Id: 0315
     DisplayName: "\uAE34 \uAF2C\uB9AC\uAC00 \uC788\uC5B4"
     DisplayName_EN: I Have a Long Tail
@@ -9819,8 +9819,8 @@ MonoBehaviour:
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
       \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
       R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: An R-grade set reward unlocked by collecting all four Monster
-      Cats.
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
   - Id: 0316
     DisplayName: "\uC2EC \uC5F0"
     DisplayName_EN: Sim Kite
@@ -9978,9 +9978,8 @@ MonoBehaviour:
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
       \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
       R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: Covers the background and has a 1% chance to open its eyes for
-      0.5 seconds on click. As a background-type card, it cannot be equipped in a
-      sub socket.
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
   - Id: 0321
     DisplayName: "\uC644\uBCBD\uD55C \uACE0\uC591\uC774\uC758 \uC138\uACC4"
     DisplayName_EN: World of Perfect Cat
@@ -10041,5 +10040,71 @@ MonoBehaviour:
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
       \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
       R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: An SSR-grade cat with a 1% chance to show its second sprite for
-      0.5 seconds on click.
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
+  - Id: 0323
+    DisplayName: "\uACE0\uC591\uC774 \uBC1C\uD1B1 \uAC15\uD654"
+    DisplayName_EN: Cat Claw Upgrade
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -6692402538284319315, guid: 4604f34aa688d358d947df5a13879156, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -6692402538284319315, guid: 4604f34aa688d358d947df5a13879156, type: 3}
+    - {fileID: 6313458343670985677, guid: 4604f34aa688d358d947df5a13879156, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
+      \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
+      R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
+  - Id: 0324
+    DisplayName: "\uACE0\uC591\uC774 \uD0C0\uC6CC"
+    DisplayName_EN: Cat Tower
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7386702222956010056, guid: 83a10fb81525fc675b08b91cf94e1b71, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 7386702222956010056, guid: 83a10fb81525fc675b08b91cf94e1b71, type: 3}
+    - {fileID: 560747200250542905, guid: 83a10fb81525fc675b08b91cf94e1b71, type: 3}
+    - {fileID: -8858358767509994460, guid: 7de54d86848fc544da51492add8be9af, type: 3}
+    - {fileID: 3632550215699245430, guid: b1785f157ba87b5118e22d149c41f01e, type: 3}
+    - {fileID: -4728625227368297070, guid: caa9f3c1ea94475b7add00562d4203cf, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~5\uB2E8\uACC4\uB9C8\uB2E4 \uD0C0\uC6CC\uAC00
+      \uC131\uC7A5\uD558\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose tower grows at every breakthrough stage
+      from 1 to 5.

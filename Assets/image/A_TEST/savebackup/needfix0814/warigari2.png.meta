@@ -1,0 +1,291 @@
+fileFormatVersion: 2
+guid: c4b99793f6a4b33209524dc11f41d3b3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -191745513806099123
+    second: warigari2_0
+  - first:
+      213: -1020338298804607361
+    second: warigari2_1
+  - first:
+      213: -5049164671766514806
+    second: warigari2_2
+  - first:
+      213: 6840303357241660002
+    second: warigari2_3
+  - first:
+      213: -5538548604908430182
+    second: warigari2_4
+  - first:
+      213: -6153081611835016884
+    second: warigari2_5
+  - first:
+      213: 4037396397836100769
+    second: warigari2_6
+  - first:
+      213: -7615134081927707140
+    second: warigari2_7
+  - first:
+      213: -1447470068456638384
+    second: warigari2_8
+  - first:
+      213: 1126915990041413631
+    second: warigari2_9
+  - first:
+      213: -1292493960142219938
+    second: warigari2_10
+  - first:
+      213: 8671402018511963981
+    second: warigari2_11
+  - first:
+      213: -7528982680182327407
+    second: warigari2_12
+  - first:
+      213: 9219093627420033870
+    second: warigari2_13
+  - first:
+      213: -1150289999095427081
+    second: warigari2_14
+  - first:
+      213: 7894659229123094050
+    second: warigari2_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: warigari2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 555
+        width: 540
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4d005a9878c65df0800000000000000
+      internalID: -191745513806099123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: warigari2_1
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 536
+        width: 549
+        height: 478
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f76660529b707d1f0800000000000000
+      internalID: -1020338298804607361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: warigari2_2
+      rect:
+        serializedVersion: 2
+        x: 1385
+        y: 532
+        width: 733
+        height: 445
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a83b7ee8b73cde9b0800000000000000
+      internalID: -5049164671766514806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: warigari2_3
+      rect:
+        serializedVersion: 2
+        x: 2195
+        y: 450
+        width: 805
+        height: 574
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2621d4479a3adee50800000000000000
+      internalID: 6840303357241660002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: warigari2_4
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 17
+        width: 824
+        height: 493
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9c9239636f1323b0800000000000000
+      internalID: -5538548604908430182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b9228bf6a8b5751f6a527acced12ce87
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      warigari2_0: -191745513806099123
+      warigari2_1: -1020338298804607361
+      warigari2_10: -1292493960142219938
+      warigari2_11: 8671402018511963981
+      warigari2_12: -7528982680182327407
+      warigari2_13: 9219093627420033870
+      warigari2_14: -1150289999095427081
+      warigari2_15: 7894659229123094050
+      warigari2_2: -5049164671766514806
+      warigari2_3: 6840303357241660002
+      warigari2_4: -5538548604908430182
+      warigari2_5: -6153081611835016884
+      warigari2_6: 4037396397836100769
+      warigari2_7: -7615134081927707140
+      warigari2_8: -1447470068456638384
+      warigari2_9: 1126915990041413631
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

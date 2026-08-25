@@ -142,12 +142,12 @@ TextureImporter:
       name: Ball_of_yarn_touch_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 432
-        width: 678
-        height: 672
+        x: 77
+        y: 573
+        width: 601
+        height: 531
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,37 +161,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ball_of_yarn_touch_1
-      rect:
-        serializedVersion: 2
-        x: 89
-        y: 979
-        width: 7
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 84ecc01dc342baaa0800000000000000
-      internalID: -6148781022620365240
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Ball_of_yarn_touch_2
       rect:
         serializedVersion: 2
-        x: 697
-        y: 542
-        width: 690
-        height: 561
+        x: 760
+        y: 573
+        width: 626
+        height: 529
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -208,12 +186,12 @@ TextureImporter:
       name: Ball_of_yarn_touch_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 680
-        height: 573
+        x: 139
+        y: 23
+        width: 541
+        height: 550
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -227,59 +205,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ball_of_yarn_touch_4
-      rect:
-        serializedVersion: 2
-        x: 1005
-        y: 550
-        width: 11
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 43d579a30ffb9e180800000000000000
-      internalID: -9085519734747210444
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_5
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 536
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5a96c54ea769aaa30800000000000000
-      internalID: 4227356654802069925
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Ball_of_yarn_touch_6
       rect:
         serializedVersion: 2
-        x: 700
-        y: 0
-        width: 700
-        height: 543
+        x: 726
+        y: 20
+        width: 674
+        height: 523
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -292,165 +226,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_7
-      rect:
-        serializedVersion: 2
-        x: 91
-        y: 376
-        width: 67
-        height: 65
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1f21ae3725e0cbbe0800000000000000
-      internalID: -1460276431880056079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 293
-        width: 76
-        height: 78
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9c6b49f1da735b380800000000000000
-      internalID: -8956191067257653559
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_9
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 245
-        width: 19
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ecf71c37939dbca50800000000000000
-      internalID: 6542561724464201678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_10
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 241
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a7f6b99609f47e630800000000000000
-      internalID: 3956218279333949306
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_11
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 80
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 188d9467afc5b3d80800000000000000
-      internalID: -8269914059939653503
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_12
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 97
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 826be68c285fbc1d0800000000000000
-      internalID: -3329297557453097432
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ball_of_yarn_touch_13
-      rect:
-        serializedVersion: 2
-        x: 62
-        y: 85
-        width: 6
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eb716624bd63c27b0800000000000000
-      internalID: -5247759150453745730
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 72f60fa6d2cc50d36b21bd1e2b48e91a
     internalID: 0
     vertices: []
     indices: 

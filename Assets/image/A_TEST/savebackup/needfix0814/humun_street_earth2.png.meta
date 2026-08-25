@@ -1,0 +1,496 @@
+fileFormatVersion: 2
+guid: a86fb1abe9b3cf6e58508747d69e0faa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3398192463826497931
+    second: humun_street_earth2_0
+  - first:
+      213: 7695042926341206959
+    second: humun_street_earth2_1
+  - first:
+      213: -8556100925452862406
+    second: humun_street_earth2_2
+  - first:
+      213: 8790488872429524876
+    second: humun_street_earth2_3
+  - first:
+      213: 2491727044860066684
+    second: humun_street_earth2_4
+  - first:
+      213: -2267412584975987726
+    second: humun_street_earth2_5
+  - first:
+      213: 5574827931959851947
+    second: humun_street_earth2_6
+  - first:
+      213: 390885523416761186
+    second: humun_street_earth2_7
+  - first:
+      213: -1114655071659170055
+    second: humun_street_earth2_8
+  - first:
+      213: -2968043556997959857
+    second: humun_street_earth2_9
+  - first:
+      213: -9004938220790959197
+    second: humun_street_earth2_10
+  - first:
+      213: 8389304341447853975
+    second: humun_street_earth2_11
+  - first:
+      213: -8634682906686685610
+    second: humun_street_earth2_12
+  - first:
+      213: 432511578616327607
+    second: humun_street_earth2_13
+  - first:
+      213: 8936750824385633887
+    second: humun_street_earth2_14
+  - first:
+      213: -3973568678635408971
+    second: humun_street_earth2_15
+  - first:
+      213: -4977469331358744545
+    second: humun_street_earth2_16
+  - first:
+      213: 919837729974258184
+    second: humun_street_earth2_17
+  - first:
+      213: -4547230924358256305
+    second: humun_street_earth2_18
+  - first:
+      213: -2071719000201945674
+    second: humun_street_earth2_19
+  - first:
+      213: -2095616871622657010
+    second: humun_street_earth2_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: humun_street_earth_earth
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 342
+        width: 799
+        height: 853
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b81b9cc9a0ec82f20800000000000000
+      internalID: 3398192463826497931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_1
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 940
+        width: 250
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa333fb75c84aca60800000000000000
+      internalID: 7695042926341206959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_2
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 936
+        width: 250
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3cbdfb5a8f924980800000000000000
+      internalID: -8556100925452862406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_3
+      rect:
+        serializedVersion: 2
+        x: 1418
+        y: 926
+        width: 244
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bab7468a774cd5d40800000000000000
+      internalID: 5574827931959851947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_base
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 614
+        width: 250
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f6eaa63e13f780f0800000000000000
+      internalID: -1114655071659170055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_4
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 554
+        width: 250
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a3ba6df568080380800000000000000
+      internalID: -9004938220790959197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_8
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 4
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4974f9019df4e0c0800000000000000
+      internalID: -4547230924358256305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_7
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 271
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bd1986bb86cf33e0800000000000000
+      internalID: -2071719000201945674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_10
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 7
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b99e4e3c3f63f6ab9d27c4269bbd561
+      internalID: 1645174797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_6
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 264
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f3249c55dd23216f9d779c70d8fde78
+      internalID: -112308822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_5
+      rect:
+        serializedVersion: 2
+        x: 1422
+        y: 271
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a50eb9a79572ea2069bd015cc5093dd2
+      internalID: 1271358297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_9
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 4
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb88b98f1e04b91499abee6f5e1da71f
+      internalID: -947821322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: humun_street_earth_cat_11
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 6
+        width: 226
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1214085d83f878e438ece3dc8bbdceae
+      internalID: -1820967086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0ab1fd871fbd6774a9375cb1fb66bdfb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      humun_street_earth2_11: 8389304341447853975
+      humun_street_earth2_12: -8634682906686685610
+      humun_street_earth2_13: 432511578616327607
+      humun_street_earth2_14: 8936750824385633887
+      humun_street_earth2_15: -3973568678635408971
+      humun_street_earth2_16: -4977469331358744545
+      humun_street_earth2_17: 919837729974258184
+      humun_street_earth2_20: -2095616871622657010
+      humun_street_earth2_21: 2077463330
+      humun_street_earth2_25: -1634443341
+      humun_street_earth2_28: 1765338567
+      humun_street_earth2_29: -570850052
+      humun_street_earth2_3: 8790488872429524876
+      humun_street_earth2_4: 2491727044860066684
+      humun_street_earth2_5: -2267412584975987726
+      humun_street_earth2_7: 390885523416761186
+      humun_street_earth2_9: -2968043556997959857
+      humun_street_earth_cat_1: 7695042926341206959
+      humun_street_earth_cat_10: 1645174797
+      humun_street_earth_cat_11: -1820967086
+      humun_street_earth_cat_2: -8556100925452862406
+      humun_street_earth_cat_3: 5574827931959851947
+      humun_street_earth_cat_4: -9004938220790959197
+      humun_street_earth_cat_5: 1271358297
+      humun_street_earth_cat_6: -112308822
+      humun_street_earth_cat_7: -2071719000201945674
+      humun_street_earth_cat_8: -4547230924358256305
+      humun_street_earth_cat_9: -947821322
+      humun_street_earth_cat_base: -1114655071659170055
+      humun_street_earth_earth: 3398192463826497931
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

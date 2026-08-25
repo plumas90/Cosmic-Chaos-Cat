@@ -1,0 +1,582 @@
+fileFormatVersion: 2
+guid: 6f51fea121e008a34b1d98bd02228af4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -215530030239934478
+    second: find_the_cat_7_0
+  - first:
+      213: -8888147587013082527
+    second: find_the_cat_7_1
+  - first:
+      213: -7028972983817541887
+    second: find_the_cat_7_2
+  - first:
+      213: -8034399449243784258
+    second: find_the_cat_7_3
+  - first:
+      213: -594965553112371137
+    second: find_the_cat_7_4
+  - first:
+      213: -2287749611208041550
+    second: find_the_cat_7_5
+  - first:
+      213: -540545586438561488
+    second: find_the_cat_7_6
+  - first:
+      213: -8452219143074654461
+    second: find_the_cat_7_7
+  - first:
+      213: 9095756348977561336
+    second: find_the_cat_7_8
+  - first:
+      213: 4241638920392539548
+    second: find_the_cat_7_9
+  - first:
+      213: -5034718766806524029
+    second: find_the_cat_7_10
+  - first:
+      213: 4487180513758606546
+    second: find_the_cat_7_11
+  - first:
+      213: 4813088687310084176
+    second: find_the_cat_7_12
+  - first:
+      213: 8881968790367655102
+    second: find_the_cat_7_13
+  - first:
+      213: -7140742446446473165
+    second: find_the_cat_7_14
+  - first:
+      213: 2032223779583541788
+    second: find_the_cat_7_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: find_the_cat_7_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 1137
+        width: 335
+        height: 319
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f79e155498420df0800000000000000
+      internalID: -215530030239934478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_1
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 1158
+        width: 307
+        height: 318
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16207dc6cd4f6a480800000000000000
+      internalID: -8888147587013082527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_2
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 1133
+        width: 305
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 107ecb3ff42147e90800000000000000
+      internalID: -7028972983817541887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 783
+        width: 320
+        height: 324
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebbea3cd444108090800000000000000
+      internalID: -8034399449243784258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_5
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 750
+        width: 315
+        height: 343
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bb18e089d74040e0800000000000000
+      internalID: -2287749611208041550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_6
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 759
+        width: 318
+        height: 312
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 031ac6f27a89f78f0800000000000000
+      internalID: -540545586438561488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_7
+      rect:
+        serializedVersion: 2
+        x: 1127
+        y: 748
+        width: 295
+        height: 314
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 307574d987fa3ba80800000000000000
+      internalID: -8452219143074654461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_8
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 402
+        width: 309
+        height: 329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8febf40453e9a3e70800000000000000
+      internalID: 9095756348977561336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_10
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 382
+        width: 315
+        height: 339
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38f1188e4f5112ab0800000000000000
+      internalID: -5034718766806524029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_11
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 408
+        width: 306
+        height: 316
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d4f2a537eaa54e30800000000000000
+      internalID: 4487180513758606546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_12
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 378
+        width: 307
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 058919709a68bc240800000000000000
+      internalID: 4813088687310084176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_13
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 400
+        width: 11
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb458ff5e87134b70800000000000000
+      internalID: 8881968790367655102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_14
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 51
+        width: 334
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3301107049cf6ec90800000000000000
+      internalID: -7140742446446473165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_15
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 64
+        width: 317
+        height: 315
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c12cd26a2c8e33c10800000000000000
+      internalID: 2032223779583541788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_16
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 33
+        width: 319
+        height: 321
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75fc345c80d0d1abf8890a60bc193f8c
+      internalID: 1625259811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_17
+      rect:
+        serializedVersion: 2
+        x: 1417
+        y: 352
+        width: 19
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f6c11312dcf6314b92725343becb771
+      internalID: 331245727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_18
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 27
+        width: 301
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c480ca812926ec7c8842fca7b505356
+      internalID: 767225681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: find_the_cat_7_20
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 91
+        width: 4
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be1372456ac40cc0491e68e3439f5cc6
+      internalID: 977936665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 02bc4e50c26eca6a0804e5666fb127c5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      find_the_cat_7_0: -215530030239934478
+      find_the_cat_7_1: -8888147587013082527
+      find_the_cat_7_10: -5034718766806524029
+      find_the_cat_7_11: 4487180513758606546
+      find_the_cat_7_12: 4813088687310084176
+      find_the_cat_7_13: 8881968790367655102
+      find_the_cat_7_14: -7140742446446473165
+      find_the_cat_7_15: 2032223779583541788
+      find_the_cat_7_16: 1625259811
+      find_the_cat_7_17: 331245727
+      find_the_cat_7_18: 767225681
+      find_the_cat_7_19: -1960461297
+      find_the_cat_7_2: -7028972983817541887
+      find_the_cat_7_20: 977936665
+      find_the_cat_7_3: -8034399449243784258
+      find_the_cat_7_4: -594965553112371137
+      find_the_cat_7_5: -2287749611208041550
+      find_the_cat_7_6: -540545586438561488
+      find_the_cat_7_7: -8452219143074654461
+      find_the_cat_7_8: 9095756348977561336
+      find_the_cat_7_9: 4241638920392539548
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

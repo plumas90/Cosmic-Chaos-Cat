@@ -243,9 +243,12 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureBlackEyesCard(cardsProp, existingCards);
             // Ready batch 0320-0322 is synced after its sliced sprites finish importing.
             addedCount += EnsureReadyCards320To322(cardsProp, existingCards);
+            addedCount += EnsureCatClawUpgradeCard(cardsProp, existingCards);
+            addedCount += EnsureCatTowerCard(cardsProp, existingCards);
             EnsureSeaSetCatalog();
             EnsureCatMonsterSetCatalog();
             EnsureCatWheelDecoration();
+            EnsureCatTowerDecoration();
 
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
@@ -963,7 +966,83 @@ namespace CosmicChaosCat.EditorTools
             frames.arraySize = sprites.Count;
             for (int i = 0; i < sprites.Count; i++) frames.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
             card.FindPropertyRelative("Description").stringValue = "진화 없이 클릭할 때마다 스프라이트가 순서대로 바뀌는 R 등급 고양이입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue = "An R-grade cat whose sprites cycle in order with every click, without evolution.";
             return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCatClawUpgradeCard(SerializedProperty cardsProp, Dictionary<string, SerializedProperty> existingCards)
+        {
+            return WriteClickCycleCard(cardsProp, existingCards, "0323", "고양이 발톱 강화", "Cat Claw Upgrade",
+                LoadSpritesSorted("Assets/image/A_No/323_cat_claw_upgrade/cat_claw_upgrade.png"));
+        }
+
+        private static int EnsureCatTowerCard(SerializedProperty cardsProp, Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string dir = "Assets/image/A_No/324_cat_tower";
+            var firstStages = LoadSpritesSorted(dir + "/tower_1_2.png");
+            Sprite stageThree = LoadFirstSprite(dir + "/tower_3.png");
+            Sprite stageFour = LoadFirstSprite(dir + "/tower_4.png");
+            Sprite stageFive = LoadFirstSprite(dir + "/tower_5.png");
+            if (firstStages.Count < 2 || stageThree == null || stageFour == null || stageFive == null) return 0;
+
+            const string id = "0324";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "고양이 타워", "Cat Tower", CardRarity.R, firstStages[0]);
+            var sprites = card.FindPropertyRelative("BreakthroughSprites");
+            var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+            sprites.arraySize = stages.arraySize = 5;
+            Sprite[] stageSprites = { firstStages[0], firstStages[1], stageThree, stageFour, stageFive };
+            for (int i = 0; i < stageSprites.Length; i++)
+            {
+                sprites.GetArrayElementAtIndex(i).objectReferenceValue = stageSprites[i];
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+            }
+            card.FindPropertyRelative("Description").stringValue = "한계돌파 1~5단계마다 타워가 성장하는 R 등급 고양이입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue = "An R-grade cat whose tower grows at every breakthrough stage from 1 to 5.";
+            return isNew ? 1 : 0;
+        }
+
+        private static void EnsureCatTowerDecoration()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
+            Sprite sprite = LoadFirstSprite("Assets/image/A_Deco/Deco_tower.png");
+            if (catalog == null || sprite == null) return;
+
+            var so = new SerializedObject(catalog);
+            var entries = so.FindProperty("decorations");
+            SerializedProperty entry = null;
+            for (int i = 0; i < entries.arraySize; i++)
+            {
+                var candidate = entries.GetArrayElementAtIndex(i);
+                if (candidate.FindPropertyRelative("Id").stringValue == "deco-cat-tower") { entry = candidate; break; }
+            }
+            if (entry == null)
+            {
+                entries.InsertArrayElementAtIndex(entries.arraySize);
+                entry = entries.GetArrayElementAtIndex(entries.arraySize - 1);
+            }
+            entry.FindPropertyRelative("Id").stringValue = "deco-cat-tower";
+            entry.FindPropertyRelative("DisplayName").stringValue = "고양이 타워";
+            entry.FindPropertyRelative("DisplayName_EN").stringValue = "Cat Tower";
+            entry.FindPropertyRelative("DecorationSprite").objectReferenceValue = sprite;
+            entry.FindPropertyRelative("AnimationSprites").ClearArray();
+            entry.FindPropertyRelative("AnimationFrameDuration").floatValue = 0.25f;
+            entry.FindPropertyRelative("IsHidden").boolValue = false;
+            entry.FindPropertyRelative("IsShop").boolValue = false;
+            entry.FindPropertyRelative("ShopCurrency").enumValueIndex = (int)CardShopCurrency.Coin;
+            entry.FindPropertyRelative("ShopPrice").doubleValue = 1000d;
+            entry.FindPropertyRelative("SetId").stringValue = string.Empty;
+            entry.FindPropertyRelative("Description").stringValue = "고양이 타워 장식입니다.";
+            entry.FindPropertyRelative("Description_EN").stringValue = "A cat tower decoration.";
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
         }
 
         private static void EnsureCatWheelDecoration()
