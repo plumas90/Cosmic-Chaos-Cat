@@ -11,6 +11,18 @@ TextureImporter:
   - first:
       213: -3868122261227550873
     second: trinity_2
+  - first:
+      213: 2481798946598285270
+    second: trinity_3
+  - first:
+      213: -2613261414804700344
+    second: trinity_4
+  - first:
+      213: 2193266080506675007
+    second: trinity_5
+  - first:
+      213: 985254995496700320
+    second: trinity_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,10 +121,10 @@ TextureImporter:
       name: trinity_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 614
-        height: 1254
+        x: 8
+        y: 708
+        width: 613
+        height: 662
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,10 +143,10 @@ TextureImporter:
       name: trinity_1
       rect:
         serializedVersion: 2
-        x: 231
-        y: 0
-        width: 32
-        height: 5
+        x: 661
+        y: 1168
+        width: 8
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +165,10 @@ TextureImporter:
       name: trinity_2
       rect:
         serializedVersion: 2
-        x: 623
-        y: 0
-        width: 631
-        height: 1254
+        x: 676
+        y: 711
+        width: 652
+        height: 617
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,6 +179,94 @@ TextureImporter:
       bones: []
       spriteID: 76740cf2c4ba15ac0800000000000000
       internalID: -3868122261227550873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trinity_3
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 1115
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dfede72efe117220800000000000000
+      internalID: 2481798946598285270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trinity_4
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 972
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 843c451c694dbbbd0800000000000000
+      internalID: -2613261414804700344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trinity_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 708
+        width: 32
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3f738a31eb007e10800000000000000
+      internalID: 2193266080506675007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trinity_6
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 20
+        width: 620
+        height: 647
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a982c3c2345cad00800000000000000
+      internalID: 985254995496700320
       vertices: []
       indices: 
       edges: []
@@ -188,6 +288,10 @@ TextureImporter:
       trinity_0: -2403507003804411066
       trinity_1: -4116051708742468555
       trinity_2: -3868122261227550873
+      trinity_3: 2481798946598285270
+      trinity_4: -2613261414804700344
+      trinity_5: 2193266080506675007
+      trinity_6: 985254995496700320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
