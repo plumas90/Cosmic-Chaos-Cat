@@ -1763,6 +1763,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EncyclopediaPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 174327542021140137, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 894899506701543722, guid: fb92eddba0340fefe976eed5b3a86c0b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6450,12 +6454,12 @@ RectTransform:
   - {fileID: 2099728756}
   - {fileID: 1113799789}
   - {fileID: 1863682311}
+  - {fileID: 1572585744}
   - {fileID: 1511119161}
   - {fileID: 901757691}
   - {fileID: 1701177587}
   - {fileID: 144806628}
   - {fileID: 792971770}
-  - {fileID: 1572585744}
   - {fileID: 691084513}
   - {fileID: 851538683}
   - {fileID: 1261569905}
