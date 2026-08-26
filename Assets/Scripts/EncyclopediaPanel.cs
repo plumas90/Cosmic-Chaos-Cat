@@ -32,6 +32,8 @@ namespace CosmicChaosCat
         // No Tab – left page
         [SerializeField] private GameObject prevPageBtn;
         [SerializeField] private GameObject nextPageBtn;
+        [SerializeField] private GameObject prev10PageBtn;
+        [SerializeField] private GameObject next10PageBtn;
         [SerializeField] private TMP_Text   pageLabel;
         [SerializeField] private TMP_Text   collectionCounterLabel;
 
@@ -751,6 +753,8 @@ namespace CosmicChaosCat
             BindBtn(closeBtn,      OnClose);
             BindBtn(prevPageBtn,   () => ChangePage(-1));
             BindBtn(nextPageBtn,   () => ChangePage(1));
+            BindBtn(prev10PageBtn, () => ChangePage(-10));
+            BindBtn(next10PageBtn, () => ChangePage(10));
             BindBtn(prevSetPageBtn,() => ChangeSetPage(-1));
             BindBtn(nextSetPageBtn,() => ChangeSetPage(1));
 
@@ -1084,6 +1088,16 @@ namespace CosmicChaosCat
                 var b = nextPageBtn.GetComponent<Button>();
                 if (b != null) b.interactable = currentPageIdx < maxPage;
             }
+            if (prev10PageBtn != null)
+            {
+                var b = prev10PageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = currentPageIdx > 0;
+            }
+            if (next10PageBtn != null)
+            {
+                var b = next10PageBtn.GetComponent<Button>();
+                if (b != null) b.interactable = currentPageIdx < maxPage;
+            }
 
             // Fill slots
             int startIdx = currentPageIdx * SLOTS_PER_PAGE;
@@ -1095,7 +1109,7 @@ namespace CosmicChaosCat
                 if (ci < total)
                 {
                     slot.go.SetActive(true);
-                    if (slot.ui != null && slot.ui.GetComponentInParent<EquipPanel>() == null)
+                    if (slot.ui != null && slot.ui.GetComponentInParent<EquipPanel>(true) == null)
                     {
                         var card = filteredCards[ci];
                         cardStates.TryGetValue(card.Id, out var prog);
@@ -1268,7 +1282,8 @@ namespace CosmicChaosCat
             var searchRoot = (detailPanel ?? noPanel)?.transform;
 
             // ── 0. If detailPanel contains a CardSlotUI component (e.g. Slot_Detail) ─────
-            var detailSlotUI = detailPanel != null ? detailPanel.GetComponentInChildren<CardSlotUI>(true) : null;
+            var detailSlots = detailPanel != null ? GetEncyclopediaCardSlots(detailPanel) : null;
+            var detailSlotUI = detailSlots != null && detailSlots.Length > 0 ? detailSlots[0] : null;
             if (detailSlotUI != null)
             {
                 Sprite frameSp = unlocked && card != null ? GetFrameSpriteForRarity(card.Rarity) : spriteCardLocked;
@@ -1687,7 +1702,8 @@ namespace CosmicChaosCat
             }
 
             // Also update CardSlotUI inside detailPanel if present (e.g. Slot_Detail)
-            var detailSlotUI = detailPanel != null ? detailPanel.GetComponentInChildren<CardSlotUI>(true) : null;
+            var detailSlots = detailPanel != null ? GetEncyclopediaCardSlots(detailPanel) : null;
+            var detailSlotUI = detailSlots != null && detailSlots.Length > 0 ? detailSlots[0] : null;
             if (detailSlotUI != null)
                 detailSlotUI.SetArtSprite(stageSprite);
         }
@@ -2205,6 +2221,8 @@ namespace CosmicChaosCat
                 var noPanelTf = noPanel.transform;
                 if (prevPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_◀") ?? FindChildByNameRecursive(noPanelTf, "LeftBtn") ?? FindChildByNameRecursive(noPanelTf, "PrevBtn"); if (t != null) prevPageBtn = t.gameObject; }
                 if (nextPageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_▶") ?? FindChildByNameRecursive(noPanelTf, "RightBtn") ?? FindChildByNameRecursive(noPanelTf, "NextBtn"); if (t != null) nextPageBtn = t.gameObject; }
+                if (prev10PageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_◀◀") ?? FindChildByNameRecursive(noPanelTf, "Prev10Btn") ?? FindChildByNameRecursive(noPanelTf, "Btn_Prev10"); if (t != null) prev10PageBtn = t.gameObject; }
+                if (next10PageBtn == null) { var t = FindChildByNameRecursive(noPanelTf, "Btn_▶▶") ?? FindChildByNameRecursive(noPanelTf, "Next10Btn") ?? FindChildByNameRecursive(noPanelTf, "Btn_Next10"); if (t != null) next10PageBtn = t.gameObject; }
                 if (pageLabel   == null)
                 {
                     var t = FindChildByNameRecursive(noPanelTf, "PageText")
@@ -2829,7 +2847,9 @@ namespace CosmicChaosCat
             var list = new List<CardSlotUI>();
             foreach (var s in all)
             {
-                if (s != null && s.GetComponentInParent<EquipPanel>() == null)
+                // EquipPanel은 평소 비활성 상태이므로 includeInactive=true로 검사해야
+                // 그 아래 장착 슬롯이 도감 페이지 슬롯 풀에 섞이지 않는다.
+                if (s != null && s.GetComponentInParent<EquipPanel>(true) == null)
                     list.Add(s);
             }
             return list.ToArray();

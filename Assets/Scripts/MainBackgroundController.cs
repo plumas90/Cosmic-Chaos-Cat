@@ -11,6 +11,8 @@ namespace CosmicChaosCat
     {
         [SerializeField] private GameManager gameManager;
         [SerializeField] private Image bgImage;
+        private string lastAppliedBackgroundId;
+        private bool hasAppliedBackground;
 
         private void Awake()
         {
@@ -41,6 +43,10 @@ namespace CosmicChaosCat
             if (gameManager == null || bgImage == null) return;
 
             string bgId = gameManager.EquippedBackgroundId;
+            if (hasAppliedBackground && lastAppliedBackgroundId == bgId) return;
+            hasAppliedBackground = true;
+            lastAppliedBackgroundId = bgId;
+
             if (string.IsNullOrEmpty(bgId) || bgId == "bg-none")
             {
                 bgImage.sprite = null;

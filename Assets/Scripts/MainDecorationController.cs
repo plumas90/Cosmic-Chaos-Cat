@@ -101,22 +101,20 @@ namespace CosmicChaosCat
 
             if (IsMouseToy(decoId))
             {
-                LoadDecoSubSprites();
                 if (mouseSprites != null && mouseSprites.Length > 0)
                 {
-                    decoImage.sprite = mouseSprites[GetSequenceFrame(frameIndex, mouseSprites.Length)];
+                    Sprite sprite = mouseSprites[GetSequenceFrame(frameIndex, mouseSprites.Length)];
+                    if (decoImage.sprite != sprite) decoImage.sprite = sprite;
                 }
-                rectTransform.localRotation = Quaternion.identity;
                 UpdateLeftwardMovement();
             }
             else if (IsFishToy(decoId))
             {
-                LoadDecoSubSprites();
                 if (fishSprites != null && fishSprites.Length > 0)
                 {
-                    decoImage.sprite = fishSprites[GetSequenceFrame(frameIndex, fishSprites.Length)];
+                    Sprite sprite = fishSprites[GetSequenceFrame(frameIndex, fishSprites.Length)];
+                    if (decoImage.sprite != sprite) decoImage.sprite = sprite;
                 }
-                rectTransform.localRotation = Quaternion.identity;
                 UpdateLeftwardMovement();
             }
             else
@@ -126,7 +124,7 @@ namespace CosmicChaosCat
                 {
                     int index = frameIndex % entry.AnimationSprites.Length;
                     Sprite sprite = entry.AnimationSprites[index];
-                    if (sprite != null) decoImage.sprite = sprite;
+                    if (sprite != null && decoImage.sprite != sprite) decoImage.sprite = sprite;
                 }
             }
         }
@@ -154,11 +152,6 @@ namespace CosmicChaosCat
             float halfWidth = canvasWidth * 0.5f;
             float halfHeight = canvasHeight * 0.5f;
 
-            // 앵커 중앙 정렬
-            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rectTransform.pivot = new Vector2(0.5f, 0.5f);
-
             float itemWidth = rectTransform.rect.width * rectTransform.localScale.x;
             if (itemWidth < 10f) itemWidth = 120f;
 
@@ -175,7 +168,6 @@ namespace CosmicChaosCat
             // 화면 맨 아래 위치 (하단에서 35px 띄움)
             float bottomY = -halfHeight + (rectTransform.rect.height * rectTransform.localScale.y * 0.5f) + 35f;
             rectTransform.anchoredPosition = new Vector2(moveX, bottomY);
-            rectTransform.localRotation = Quaternion.identity;
         }
 
         private void ClampRectTransformToScreen(RectTransform canvasRT)
@@ -276,9 +268,7 @@ namespace CosmicChaosCat
 
             // StateChanged is raised for many unrelated game updates. Do not overwrite
             // an animated decoration with its catalog thumbnail unless the deco changed.
-            var animatedEntry = gameManager.DecorationCatalog?.FindById(decoId);
-            bool isCatalogAnimated = animatedEntry != null && animatedEntry.AnimationSprites != null && animatedEntry.AnimationSprites.Length > 0;
-            if (!decorationChanged && decoImage.enabled && (IsMouseToy(decoId) || IsFishToy(decoId) || isCatalogAnimated))
+            if (!decorationChanged && decoImage.enabled)
             {
                 return;
             }
@@ -312,6 +302,10 @@ namespace CosmicChaosCat
                 if (IsMouseToy(decoId) || IsFishToy(decoId))
                 {
                     rectTransform.localScale = DECORATION_SCALE;
+                    rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+                    rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+                    rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                    rectTransform.localRotation = Quaternion.identity;
                 }
 
                 var canvasRT = GetCanvasRectTransform();

@@ -58,11 +58,6 @@ namespace CosmicChaosCat
 
         // ── Lifecycle ─────────────────────────────────────────────────────────
 
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-
         private void OnEnable()
         {
             EnsureSetup();
@@ -93,6 +88,12 @@ namespace CosmicChaosCat
             encPanel      = encyclopedia;
             gm            = gameManager;
             selectedSlot  = ClickSocketSlot.Center;
+
+            // activeSelf가 이미 true인 상태에서는 SetActive(true)가 OnEnable을 다시
+            // 호출하지 않는다. 대표 설정을 누를 때마다 슬롯을 직접 복구/갱신한다.
+            EnsureSetup();
+            Refresh();
+            transform.SetAsLastSibling();
             gameObject.SetActive(true);
         }
 
@@ -169,10 +170,6 @@ namespace CosmicChaosCat
                 var go   = allSlotGOs[i];
                 var slot = allSlotKeys[i];
                 if (go == null) continue;
-
-                // CardSlotUI 컴포넌트가 슬롯에 있으면 파괴하여 EncyclopediaPanel의 카드 슬롯 풀 수집 대상에서 제외
-                var slotUI = go.GetComponent<CardSlotUI>();
-                if (slotUI != null) Destroy(slotUI);
 
                 var btn = go.GetComponent<Button>();
                 if (btn == null) btn = go.AddComponent<Button>();

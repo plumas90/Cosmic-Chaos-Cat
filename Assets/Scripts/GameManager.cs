@@ -170,6 +170,9 @@ namespace CosmicChaosCat
         public event Action          CardClicked;
         public event Action<Vector2> CardClickedAt;
 
+        private const float PeriodicSaveInterval = 60f;
+        private float periodicSaveTimer;
+
         // ── Lifecycle ──────────────────────────────────────────────────────────
         private void Awake()
         {
@@ -233,6 +236,13 @@ namespace CosmicChaosCat
 
         private void Update()
         {
+            periodicSaveTimer += Time.unscaledDeltaTime;
+            if (periodicSaveTimer >= PeriodicSaveInterval)
+            {
+                periodicSaveTimer %= PeriodicSaveInterval;
+                Save();
+            }
+
             if (IsGameEnded) return;
             ElapsedSeconds += Time.unscaledDeltaTime;
 
@@ -334,7 +344,6 @@ namespace CosmicChaosCat
             SpawnFloatingText(screenPos, income + comboReward, isCrit);
 
             CheckHiddenConditions();
-            Save();
             NotifyState();
         }
 
@@ -899,16 +908,19 @@ namespace CosmicChaosCat
 
             float interval = 1f / Mathf.Max(1, AutoClickerSpeedMultiplier);
             autoClickTimer += Time.unscaledDeltaTime;
+            bool incomeAdded = false;
             while (autoClickTimer >= interval)
             {
                 autoClickTimer -= interval;
                 autoClickerMinerSecondFrame = !autoClickerMinerSecondFrame;
                 RefreshAutoClickerMinerVisual();
-                AddAutoClickerIncome();
+                AddAutoClickerIncome(false);
+                incomeAdded = true;
             }
+            if (incomeAdded) NotifyState();
         }
 
-        private void AddAutoClickerIncome()
+        private void AddAutoClickerIncome(bool notifyState = true)
         {
             if (IsGameEnded) return;
 
@@ -946,8 +958,7 @@ namespace CosmicChaosCat
                 parent: autoClickerVisual != null ? autoClickerVisual.transform : null
             );
 
-            Save();
-            NotifyState();
+            if (notifyState) NotifyState();
         }
 
         public bool IsBackgroundUnlocked(string id) =>

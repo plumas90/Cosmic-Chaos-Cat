@@ -72,6 +72,7 @@ namespace CosmicChaosCat
 
         // 확인 다이얼로그 (코드로 생성)
         private GameObject confirmDialog;
+        private int lastDisplayedTimerSecond = -1;
 
         // ─── Style constants ───────────────────────────────────────────────
         private static readonly Color DlgBG     = new Color(0.07f, 0.09f, 0.15f, 0.97f);
@@ -230,10 +231,7 @@ namespace CosmicChaosCat
 
         private void Update()
         {
-            if (gameManager != null && timerText != null)
-            {
-                timerText.text = gameManager.GetTimerText();
-            }
+            UpdateTimerTextIfNeeded();
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -247,7 +245,7 @@ namespace CosmicChaosCat
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager == null) return;
 
-            if (timerText    != null) timerText.text    = gameManager.GetTimerText();
+            UpdateTimerTextIfNeeded();
             if (coinText     != null) coinText.text     = GameManager.FormatNumber(gameManager.Money);
             if (shardText    != null) shardText.text    = GameManager.FormatNumber(gameManager.Shards);
             if (progressText != null) progressText.text =
@@ -296,6 +294,15 @@ namespace CosmicChaosCat
                     endingTxt.text = (lang == "EN") ? "🏆 View Ending" : "🏆 엔딩 보기";
                 }
             }
+        }
+
+        private void UpdateTimerTextIfNeeded()
+        {
+            if (gameManager == null || timerText == null) return;
+            int currentSecond = Mathf.FloorToInt(gameManager.ElapsedSeconds);
+            if (currentSecond == lastDisplayedTimerSecond) return;
+            lastDisplayedTimerSecond = currentSecond;
+            timerText.text = gameManager.GetTimerText();
         }
 
         private void EnsureEndingButtonBuilt()

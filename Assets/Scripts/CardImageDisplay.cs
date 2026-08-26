@@ -39,6 +39,10 @@ namespace CosmicChaosCat
         private Vector3  originalScale;
         private Vector2  originalSizeDelta;
         private bool     hasOriginalRectSize;
+        private Sprite   lastSizedSprite;
+        private string   lastVisualCardId;
+        private int      lastVisualStage = -1;
+        private bool     lastHiddenReplacementActive;
         private float    pulseTimer;
         private bool     isPulsing;
 
@@ -524,9 +528,10 @@ namespace CosmicChaosCat
         {
             if (active)
             {
+                bool enteringRainbow = !rainbowWasActive;
                 rainbowWasActive = true;
                 Vector3 rainbowScale = originalScale * 0.5f;
-                if (clickBounceRoutine == null)
+                if (enteringRainbow && clickBounceRoutine == null)
                 {
                     transform.localScale = rainbowScale;
                     if (cardImage != null && cardImage.transform != transform)
@@ -982,6 +987,7 @@ namespace CosmicChaosCat
 
         private void OnEnable()
         {
+            lastVisualStage = -1;
             if (gameManager == null) gameManager = FindObjectOfType<GameManager>(true);
             if (gameManager != null)
             {
@@ -1227,9 +1233,17 @@ namespace CosmicChaosCat
             var states = gameManager.GetCardStates();
 
             string curCardId = card != null ? card.Id : null;
-            if (lastEquippedId != curCardId)
+            int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
+            bool hiddenReplacementActive = !string.IsNullOrEmpty(curCardId) &&
+                                           gameManager.GetHiddenReplacementSprites(curCardId) != null;
+            bool visualChanged = lastVisualCardId != curCardId ||
+                                 lastVisualStage != selectedStage ||
+                                 lastHiddenReplacementActive != hiddenReplacementActive;
+            bool equippedCardChanged = lastEquippedId != curCardId;
+            if (equippedCardChanged)
             {
                 lastEquippedId = curCardId;
+                lastSizedSprite = null;
                 currentSpriteIndex = 0;
                 ticklingSequenceStep = 0;
                 autoIdleFrameIndex = 0;
@@ -1238,48 +1252,44 @@ namespace CosmicChaosCat
                 portalCurrentCatSprite = null;
                 flyCatStageFiveSequenceIndex = 0;
                 ResetPunchCatDisplay();
-            }
 
-            if (curCardId != null && AutoIdleCatAnimationHelper.IsAutoIdleCat(curCardId))
-            {
-                isAutoIdleActive = true;
-                autoIdleSprites = AutoIdleCatAnimationHelper.GetAutoIdleSprites(curCardId, card);
-                isSchrodingerActive = int.TryParse(curCardId, out int autoCardNumber) && autoCardNumber == 201;
-            }
-            else
-            {
-                isAutoIdleActive = false;
-                autoIdleSprites = null;
-                isSchrodingerActive = false;
-                isSchrodingerSpecialSequence = false;
-            }
-
-            // 스프라이트 및 색상
-            // 321's click flash uses the main card image. A click also triggers
-            // NotifyState -> Refresh in the same frame, so preserve the effect
-            // sprite until its 0.5-second coroutine restores the base sprite.
-            bool preservePerfectWorldFlash =
-                IsPerfectWorldCat(curCardId) && perfectWorldFlashRoutine != null;
-            if (cardImage != null && !preservePerfectWorldFlash)
-            {
-                cardImage.preserveAspect = true;
-                if (isAutoIdleActive && autoIdleSprites != null && autoIdleSprites.Count > 0)
+                // 이전 특수 카드가 남긴 0.5/0.75 배율을 일반 카드가 이어받지 않게 한다.
+                if (mySocket == ClickSocketSlot.Center && clickBounceRoutine == null)
                 {
-                    if (autoIdleFrameIndex >= autoIdleSprites.Count) autoIdleFrameIndex = 0;
-                    Sprite currentSp = autoIdleSprites[autoIdleFrameIndex];
-                    if (currentSp == null) currentSp = defaultCardSprite;
-                    cardImage.sprite = currentSp;
-                    FitSubClickSpriteToBounds(currentSp);
-                    cardImage.color  = Color.white;
+                    transform.localScale = originalScale;
+                    if (cardImage != null && cardImage.transform != transform)
+                        cardImage.transform.localScale = originalScale;
+                    defaultTargetScale = originalScale;
+                }
+            }
+
+            if (visualChanged)
+            {
+                lastVisualCardId = curCardId;
+                lastVisualStage = selectedStage;
+                lastHiddenReplacementActive = hiddenReplacementActive;
+
+                if (curCardId != null && AutoIdleCatAnimationHelper.IsAutoIdleCat(curCardId))
+                {
+                    isAutoIdleActive = true;
+                    autoIdleSprites = AutoIdleCatAnimationHelper.GetAutoIdleSprites(curCardId, card);
+                    isSchrodingerActive = int.TryParse(curCardId, out int autoCardNumber) && autoCardNumber == 201;
                 }
                 else
                 {
-                    int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
-                    var sprites = GetActiveSpriteList(curCardId, card, selectedStage);
-                    if (sprites != null && sprites.Count >= 2)
+                    isAutoIdleActive = false;
+                    autoIdleSprites = null;
+                    isSchrodingerActive = false;
+                    isSchrodingerSpecialSequence = false;
+                }
+
+                if (cardImage != null)
+                {
+                    cardImage.preserveAspect = true;
+                    if (isAutoIdleActive && autoIdleSprites != null && autoIdleSprites.Count > 0)
                     {
-                        if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
-                        Sprite currentSp = sprites[currentSpriteIndex];
+                        if (autoIdleFrameIndex >= autoIdleSprites.Count) autoIdleFrameIndex = 0;
+                        Sprite currentSp = autoIdleSprites[autoIdleFrameIndex];
                         if (currentSp == null) currentSp = defaultCardSprite;
                         cardImage.sprite = currentSp;
                         FitSubClickSpriteToBounds(currentSp);
@@ -1287,50 +1297,51 @@ namespace CosmicChaosCat
                     }
                     else
                     {
-                        Sprite sprite = card != null
-                            ? card.GetSpriteForStage(selectedStage)
-                            : defaultCardSprite;
-                        if (sprite == null) sprite = defaultCardSprite;
-                        
-                        bool spriteChanged = cardImage.sprite != sprite;
-                        cardImage.sprite = sprite;
-                        FitSubClickSpriteToBounds(sprite);
-                        if (sprite != null)
+                        var sprites = GetActiveSpriteList(curCardId, card, selectedStage);
+                        if (sprites != null && sprites.Count >= 2)
                         {
+                            if (currentSpriteIndex >= sprites.Count) currentSpriteIndex = 0;
+                            Sprite currentSp = sprites[currentSpriteIndex];
+                            if (currentSp == null) currentSp = defaultCardSprite;
+                            cardImage.sprite = currentSp;
+                            FitSubClickSpriteToBounds(currentSp);
                             cardImage.color = Color.white;
-                            if (spriteChanged && mySocket == ClickSocketSlot.Center)
-                            {
-                                cardImage.SetNativeSize();
-                            }
+                        }
+                        else
+                        {
+                            Sprite sprite = card != null
+                                ? card.GetSpriteForStage(selectedStage)
+                                : defaultCardSprite;
+                            if (sprite == null) sprite = defaultCardSprite;
+
+                            cardImage.sprite = sprite;
+                            FitSubClickSpriteToBounds(sprite);
+                            if (sprite != null) cardImage.color = Color.white;
                         }
                     }
                 }
-            }
 
-            if (IsSpadeDeck(curCardId))
-            {
-                int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
-                SetSpadeDeckLayersVisible(true,
-                    MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage));
-            }
-            else
-            {
-                SetSpadeDeckLayersVisible(false);
-            }
+                if (IsSpadeDeck(curCardId))
+                {
+                    SetSpadeDeckLayersVisible(true,
+                        MemeCatToggleDisplayHelper.GetSpriteListForCard(curCardId, card, selectedStage));
+                }
+                else
+                {
+                    SetSpadeDeckLayersVisible(false);
+                }
 
-            // 171 롱넥캣 전용 커스텀 디스플레이 토글
-            RefreshLongNeckDisplay(card != null && card.Id == "0171");
+                // 카드/단계가 바뀔 때만 특수 레이아웃을 재구성한다.
+                RefreshLongNeckDisplay(card != null && card.Id == "0171");
 
-            // Run after Long Neck refresh because that helper restores the base
-            // image color. Misfortune must leave CenterClick transparent so only
-            // its dedicated walking-cat layer remains visible.
-            RefreshMisfortuneDisplay(IsMisfortune(curCardId), card);
-            RefreshHungryDisplay(IsHungry(curCardId), card);
-            RefreshPortalCatDisplay(IsPortalCat(curCardId), card);
-            RefreshPunchCatDisplay(IsPunchCat(curCardId), card);
-            RefreshRainbowButton(IsRainbowButton(curCardId), card);
-            RefreshOORollingDisplay(IsOORollingCat(curCardId), card);
-            RefreshBlackEyesDisplay(IsBlackEyes(curCardId), card);
+                RefreshMisfortuneDisplay(IsMisfortune(curCardId), card);
+                RefreshHungryDisplay(IsHungry(curCardId), card);
+                RefreshPortalCatDisplay(IsPortalCat(curCardId), card);
+                RefreshPunchCatDisplay(IsPunchCat(curCardId), card);
+                RefreshRainbowButton(IsRainbowButton(curCardId), card);
+                RefreshOORollingDisplay(IsOORollingCat(curCardId), card);
+                RefreshBlackEyesDisplay(IsBlackEyes(curCardId), card);
+            }
 
             // 등급 컬러
             Color rarityColor = card != null ? GetRarityColor(card.Rarity) : colorN;
@@ -1357,14 +1368,20 @@ namespace CosmicChaosCat
         }
 
         /// <summary>
-        /// Fits a sub-click illustration inside its scene-defined bounds while
-        /// preserving the sprite's native aspect ratio (equivalent to CSS contain).
-        /// Example: a 200x500 sprite in a 400x400 slot becomes 160x400.
+        /// 중앙 이미지는 최소 크기를 보정한 native size를 적용하고, 서브 슬롯 이미지는
+        /// 씬에 지정된 영역 안에 종횡비를 유지하며 맞춘다(CSS contain과 동일).
+        /// 예: 서브 슬롯의 200x500 이미지는 400x400 영역에서 160x400이 된다.
         /// </summary>
         private void FitSubClickSpriteToBounds(Sprite sprite)
         {
-            if (mySocket == ClickSocketSlot.Center || cardImage == null || sprite == null || !hasOriginalRectSize)
+            if (cardImage == null || sprite == null || !hasOriginalRectSize)
                 return;
+
+            if (mySocket == ClickSocketSlot.Center)
+            {
+                ApplyCenterNativeSizeWithMinimum();
+                return;
+            }
 
             float maxWidth = Mathf.Abs(originalSizeDelta.x);
             float maxHeight = Mathf.Abs(originalSizeDelta.y);
@@ -1376,6 +1393,38 @@ namespace CosmicChaosCat
             float scale = Mathf.Min(maxWidth / spriteWidth, maxHeight / spriteHeight);
             cardImage.rectTransform.sizeDelta = new Vector2(spriteWidth * scale, spriteHeight * scale);
             cardImage.preserveAspect = true;
+        }
+
+        /// <summary>
+        /// 중앙 카드는 native size를 사용하되, 원본의 가로/세로가 모두 씬의
+        /// 기본 크기(현재 400x400)보다 작으면 종횡비를 유지하며 최소 크기까지 확대한다.
+        /// </summary>
+        private void ApplyCenterNativeSizeWithMinimum()
+        {
+            if (cardImage == null || cardImage.sprite == null || !hasOriginalRectSize) return;
+
+            Sprite sprite = cardImage.sprite;
+            if (lastSizedSprite == sprite) return;
+
+            cardImage.SetNativeSize();
+
+            RectTransform rect = cardImage.rectTransform;
+            float nativeWidth = Mathf.Abs(rect.sizeDelta.x);
+            float nativeHeight = Mathf.Abs(rect.sizeDelta.y);
+            float minWidth = Mathf.Abs(originalSizeDelta.x);
+            float minHeight = Mathf.Abs(originalSizeDelta.y);
+
+            if (nativeWidth <= 0f || nativeHeight <= 0f || minWidth <= 0f || minHeight <= 0f)
+                return;
+
+            if (nativeWidth < minWidth && nativeHeight < minHeight)
+            {
+                float scale = Mathf.Max(minWidth / nativeWidth, minHeight / nativeHeight);
+                rect.sizeDelta = new Vector2(nativeWidth * scale, nativeHeight * scale);
+            }
+
+            cardImage.preserveAspect = true;
+            lastSizedSprite = sprite;
         }
 
         private List<Sprite> GetActiveSpriteList(string cardId, CardEntry entry, int stage)
@@ -1911,6 +1960,7 @@ namespace CosmicChaosCat
 
             if (active)
             {
+                bool enteringHungry = !hungryWasActive;
                 hungryWasActive = true;
                 hungryBaseSprite = card != null ? card.CardSprite : null;
                 hungryBiteSprite = card != null && card.BreakthroughSprites != null &&
@@ -1918,8 +1968,9 @@ namespace CosmicChaosCat
                 if (hungryBiteRoutine == null && hungryBaseSprite != null)
                     cardImage.sprite = hungryBaseSprite;
 
-                if (mySocket == ClickSocketSlot.Center)
+                if (enteringHungry && mySocket == ClickSocketSlot.Center)
                 {
+                    lastSizedSprite = null;
                     rect.anchorMin = new Vector2(0.5f, 0f);
                     rect.anchorMax = new Vector2(0.5f, 0f);
                     rect.pivot = new Vector2(0.5f, 0f);
@@ -1931,6 +1982,7 @@ namespace CosmicChaosCat
             {
                 if (hungryWasActive && mySocket == ClickSocketSlot.Center)
                 {
+                    lastSizedSprite = null;
                     rect.anchorMin = originalAnchorMin;
                     rect.anchorMax = originalAnchorMax;
                     rect.pivot = originalPivot;
@@ -2037,6 +2089,7 @@ namespace CosmicChaosCat
                 if (portalRightImage != null) portalRightImage.gameObject.SetActive(false);
                 if (portalWasActive)
                 {
+                    lastSizedSprite = null;
                     RectTransform rect = cardImage != null ? cardImage.rectTransform : null;
                     if (rect != null)
                     {
@@ -2071,9 +2124,10 @@ namespace CosmicChaosCat
                 portalRightImage = CreateEffectImage("PortalCatRight", cardImage.transform, card.BreakthroughSprites[6]);
             portalLeftImage.gameObject.SetActive(true);
             portalRightImage.gameObject.SetActive(true);
+            bool enteringPortal = !portalWasActive;
             portalWasActive = true;
             Vector3 portalScale = originalScale * 0.75f;
-            if (clickBounceRoutine == null) transform.localScale = portalScale;
+            if (enteringPortal && clickBounceRoutine == null) transform.localScale = portalScale;
             defaultTargetScale = portalScale;
             SetPortalLayout(portalLeftImage, card.BreakthroughSprites[5], -1f);
             SetPortalLayout(portalRightImage, card.BreakthroughSprites[6], 1f);
