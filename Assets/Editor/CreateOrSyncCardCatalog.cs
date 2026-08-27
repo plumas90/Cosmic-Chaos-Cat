@@ -245,8 +245,13 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureReadyCards320To322(cardsProp, existingCards);
             addedCount += EnsureCatClawUpgradeCard(cardsProp, existingCards);
             addedCount += EnsureCatTowerCard(cardsProp, existingCards);
+            addedCount += EnsureBallOfYarnTouchCard(cardsProp, existingCards);
+            addedCount += EnsureBurgerMakerCard(cardsProp, existingCards);
+            addedCount += EnsureCatInTheBoxCard(cardsProp, existingCards);
+            addedCount += EnsureCatonatoSetCards(cardsProp, existingCards);
             EnsureSeaSetCatalog();
             EnsureCatMonsterSetCatalog();
+            EnsureCatonatoSetCatalog();
             EnsureCatWheelDecoration();
             EnsureCatTowerDecoration();
 
@@ -1007,6 +1012,216 @@ namespace CosmicChaosCat.EditorTools
             card.FindPropertyRelative("Description").stringValue = "한계돌파 1~5단계마다 타워가 성장하는 R 등급 고양이입니다.";
             card.FindPropertyRelative("Description_EN").stringValue = "An R-grade cat whose tower grows at every breakthrough stage from 1 to 5.";
             return isNew ? 1 : 0;
+        }
+
+        private static int EnsureBallOfYarnTouchCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            return WriteClickCycleCard(
+                cardsProp,
+                existingCards,
+                "0325",
+                "털실 공",
+                "Ball of Yarn",
+                LoadSpritesSorted("Assets/image/A_No/325_ball_of_yarn_touch/Ball_of_yarn_touch.png"));
+        }
+
+        private static int EnsureBurgerMakerCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            var ingredients = LoadSpritesSorted("Assets/image/A_No/326_burger_maker/burger_maker.png");
+            if (ingredients.Count < 8) return 0;
+
+            const string id = "0326";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "버거 메이커", "Burger Maker", CardRarity.SSR, ingredients[0]);
+            card.FindPropertyRelative("BaseWeight").floatValue = 4f;
+            card.FindPropertyRelative("ClickGold").floatValue = 125f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 8;
+            for (int i = 0; i < 8; i++)
+                effects.GetArrayElementAtIndex(i).objectReferenceValue = ingredients[i];
+            card.FindPropertyRelative("Description").stringValue =
+                "중앙에는 완성된 버거가 표시됩니다. 클릭할 때마다 무작위 위치의 버거에 재료가 하나씩 떨어지며, 7번 재료가 낙하를 시작하면 다음 버거를 만들 수 있습니다. 콤보가 끝나면 생성된 버거는 사라집니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SSR-grade cat with a completed center burger. Each click drops one ingredient onto a burger at a random position; the next burger starts after ingredient 7 begins falling. Spawned burgers vanish when the combo ends.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCatInTheBoxCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/327_cat_in_the_box/cat_in_the_box1.png";
+            Sprite frame0 = LoadNamedSprite(path, "cat_in_the_box_0");
+            Sprite frame1 = LoadNamedSprite(path, "cat_in_the_box_1");
+            Sprite frame2 = LoadNamedSprite(path, "cat_in_the_box_2");
+            Sprite frame3 = LoadNamedSprite(path, "cat_in_the_box_3");
+            Sprite frame4Body = LoadNamedSprite(path, "cat_in_the_box_4_body");
+            Sprite frame4Cat = LoadNamedSprite(path, "cat_in_the_box_4_cat");
+            if (frame0 == null || frame1 == null || frame2 == null || frame3 == null ||
+                frame4Body == null || frame4Cat == null) return 0;
+
+            const string id = "0327";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "상자 속 고양이", "Cat in the Box", CardRarity.SR, frame0);
+            card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            card.FindPropertyRelative("ClickGold").floatValue = 25f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            Sprite[] frames = { frame0, frame1, frame2, frame3, frame4Body };
+            var stored = card.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = frames.Length;
+            for (int i = 0; i < frames.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = frames[i];
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 1;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = frame4Cat;
+            card.FindPropertyRelative("Description").stringValue =
+                "클릭할 때마다 상자 속 모습이 바뀝니다. 4번 모습에서는 열린 상자만 남고 고양이가 무작위 방향으로 날아가며, 왼쪽으로 날 때는 좌우가 반전되는 SR 등급 고양이입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SR-grade cat whose box changes on every click. On frame 4, the empty box remains while the cat flies away, flipping horizontally when it travels left.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCatonatoSetCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/328_336_catonato_set";
+            const string memberPath = directory + "/catonato_shark2.png";
+            int added = 0;
+            for (int type = 1; type <= 8; type++)
+            {
+                var images = new List<Sprite>();
+                for (int variant = 1; variant <= 3; variant++)
+                {
+                    Sprite sprite = LoadNamedSprite(memberPath, $"catonato_shark_cat_type{type}_{variant}");
+                    if (sprite != null) images.Add(sprite);
+                }
+                if (images.Count == 0)
+                {
+                    Sprite single = LoadNamedSprite(memberPath, $"catonato_shark_cat_type{type}");
+                    if (single != null) images.Add(single);
+                }
+                if (images.Count == 0) continue;
+
+                string id = (327 + type).ToString("D4");
+                bool isNew = !existingCards.TryGetValue(id, out var card);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[id] = card;
+                    added++;
+                }
+
+                WriteOOSingleCard(card, id, $"카토나토 상어 타입 {type}", $"Catonato Shark Type {type}", CardRarity.SR, images[0]);
+                card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+                card.FindPropertyRelative("ClickGold").floatValue = 25f;
+                card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+                card.FindPropertyRelative("SetId").stringValue = "17";
+                if (images.Count > 1)
+                {
+                    var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+                    var sprites = card.FindPropertyRelative("BreakthroughSprites");
+                    stages.arraySize = sprites.arraySize = images.Count;
+                    for (int imageIndex = 0; imageIndex < images.Count; imageIndex++)
+                    {
+                        int activationStage = images.Count == 2
+                            ? (imageIndex == 0 ? 1 : 5)
+                            : (imageIndex == 0 ? 1 : imageIndex == 1 ? 3 : 5);
+                        stages.GetArrayElementAtIndex(imageIndex).intValue = activationStage;
+                        sprites.GetArrayElementAtIndex(imageIndex).objectReferenceValue = images[imageIndex];
+                    }
+                }
+                card.FindPropertyRelative("Description").stringValue =
+                    $"카토나토 세트를 구성하는 SR 등급 상어 고양이 타입 {type}입니다.";
+                card.FindPropertyRelative("Description_EN").stringValue =
+                    $"Catonato Shark Type {type}, an SR-grade member of the Catonato set.";
+            }
+
+            const string rewardId = "0336";
+            Sprite reward0 = LoadNamedSprite(directory + "/catonato.png", "catonato_0");
+            Sprite reward1 = LoadNamedSprite(directory + "/catonato.png", "catonato_");
+            Sprite reward2 = LoadNamedSprite(directory + "/catonato.png", "catonato_2");
+            Sprite reward3 = LoadNamedSprite(directory + "/catonato.png", "catonato_3");
+            if (reward0 == null || reward1 == null || reward2 == null || reward3 == null) return added;
+            bool rewardIsNew = !existingCards.TryGetValue(rewardId, out var reward);
+            if (rewardIsNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                reward = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[rewardId] = reward;
+                added++;
+            }
+            WriteOOSingleCard(reward, rewardId, "카토나토", "Catonato", CardRarity.SSR, reward0);
+            reward.FindPropertyRelative("BaseWeight").floatValue = 0f;
+            reward.FindPropertyRelative("ClickGold").floatValue = 125f;
+            reward.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            reward.FindPropertyRelative("IsHidden").boolValue = true;
+            Sprite[] rewardFrames = { reward0, reward1, reward2, reward3 };
+            var rewardSprites = reward.FindPropertyRelative("BreakthroughSprites");
+            rewardSprites.arraySize = rewardFrames.Length;
+            for (int i = 0; i < rewardFrames.Length; i++)
+                rewardSprites.GetArrayElementAtIndex(i).objectReferenceValue = rewardFrames[i];
+            reward.FindPropertyRelative("Description").stringValue =
+                "카토나토 상어 타입 8종을 모두 모으면 해금되며, 클릭할 때마다 스프라이트가 바뀌는 SSR 등급 카토나토입니다.";
+            reward.FindPropertyRelative("Description_EN").stringValue =
+                "An SSR-grade Catonato unlocked by collecting all eight Catonato Shark types. Its sprite changes with every click.";
+            return added;
+        }
+
+        private static void EnsureCatonatoSetCatalog()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<SetCatalogSO>("Assets/ScriptableObjects/SetCatalog.asset");
+            if (catalog == null) return;
+            var so = new SerializedObject(catalog);
+            var sets = so.FindProperty("sets");
+            SerializedProperty entry = null;
+            for (int i = 0; i < sets.arraySize; i++)
+            {
+                var candidate = sets.GetArrayElementAtIndex(i);
+                if (candidate.FindPropertyRelative("SetId").stringValue == "17") { entry = candidate; break; }
+            }
+            if (entry == null)
+            {
+                sets.InsertArrayElementAtIndex(sets.arraySize);
+                entry = sets.GetArrayElementAtIndex(sets.arraySize - 1);
+            }
+            entry.FindPropertyRelative("SetId").stringValue = "17";
+            entry.FindPropertyRelative("SetName").stringValue = "카토나토 상어 8종";
+            entry.FindPropertyRelative("SetName_EN").stringValue = "Eight Catonato Sharks";
+            entry.FindPropertyRelative("RewardGold").doubleValue = 0d;
+            entry.FindPropertyRelative("RewardShards").intValue = 0;
+            entry.FindPropertyRelative("CriticalChanceBonus").floatValue = 0f;
+            entry.FindPropertyRelative("FlatIncomeBonus").doubleValue = 0d;
+            entry.FindPropertyRelative("CriticalDamageBonus").floatValue = 0f;
+            entry.FindPropertyRelative("GachaDiscountBonus").floatValue = 0f;
+            entry.FindPropertyRelative("ShardBonusMultiplier").floatValue = 1f;
+            entry.FindPropertyRelative("RewardBackgroundId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardDecorationId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardCardId").stringValue = "0336";
+            entry.FindPropertyRelative("EffectDesc").stringValue = "상어 고양이 타입 8종을 모두 모으면 SSR 카토나토를 획득합니다.";
+            entry.FindPropertyRelative("EffectDesc_EN").stringValue = "Collect all eight Shark Cat types to unlock the SSR Catonato.";
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
         }
 
         private static void EnsureCatTowerDecoration()

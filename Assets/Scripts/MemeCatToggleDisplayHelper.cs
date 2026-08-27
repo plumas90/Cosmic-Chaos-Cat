@@ -50,7 +50,8 @@ namespace CosmicChaosCat
             bool isPacmanClickToggle = num == 237;
             bool isGiftCatClickToggle = num == 261;
             bool isSeaCatClickToggle = num == 266;
-            bool isNewClickSingle = (num >= 288 && num <= 291) || num == 312 || num == 314 || num == 315 || num == 320 || num == 322 || num == 323;
+            bool isNewClickSingle = (num >= 288 && num <= 291) || num == 312 || num == 314 || num == 315 || num == 320 || num == 322 || num == 323 || num == 336;
+            bool isBallOfYarnTouch = entry != null && entry.IsBallOfYarnTouch();
 
             // The reward stores its two movable halves in BreakthroughSprites,
             // but its normal/encyclopedia view must remain the combined artwork.
@@ -71,7 +72,8 @@ namespace CosmicChaosCat
                 // stored in separate files rather than per-stage variant groups.
                 if (num != 170 && num != 174 && !isBremenClickToggle &&
                     !isEarthCatSocietyAngleToggle && !isSevenDeadlySinsToggle && !isSpadeDeck &&
-                    !isPacmanClickToggle && !isGiftCatClickToggle && !isSeaCatClickToggle && !isNewClickSingle)
+                    !isPacmanClickToggle && !isGiftCatClickToggle && !isSeaCatClickToggle &&
+                    !isNewClickSingle && !isBallOfYarnTouch)
                 {
                     Sprite representative = entry.GetSpriteForStage(stage);
                     if (representative != null) sprites.Add(representative);
@@ -90,6 +92,9 @@ namespace CosmicChaosCat
                     }
                 }
             }
+
+            if (isBallOfYarnTouch && entry.CardSprite != null && !sprites.Contains(entry.CardSprite))
+                sprites.Insert(0, entry.CardSprite);
 
             // 2. Editor / Fallback overrides for 170 / 174
             if (num == 170 || cardId == "0170" || cardId == "170")

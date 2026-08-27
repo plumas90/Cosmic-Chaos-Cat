@@ -109,6 +109,11 @@ namespace CosmicChaosCat
         private bool blackEyesWasActive;
         private Coroutine perfectWorldFlashRoutine;
         private int ticklingSequenceStep;
+        private GameObject burgerMakerCenterStack;
+        private readonly List<GameObject> spawnedBurgerStacks = new List<GameObject>();
+        private readonly List<GameObject> floatingOutBurgerStacks = new List<GameObject>();
+        private GameObject activeBurgerStack;
+        private int nextBurgerIngredientIndex;
         private static readonly int[] TicklingSpriteSequence =
         {
             0,
@@ -167,6 +172,18 @@ namespace CosmicChaosCat
             if (IsTicklingCat(socketCardId))
             {
                 AdvanceTicklingSequence(sprites);
+                return;
+            }
+
+            if (IsBurgerMaker(socketCardId))
+            {
+                DropNextBurgerIngredient(entry);
+                return;
+            }
+
+            if (IsCatInTheBox(socketCardId))
+            {
+                AdvanceCatInTheBox(entry);
                 return;
             }
 
@@ -264,6 +281,80 @@ namespace CosmicChaosCat
         private static bool IsTicklingCat(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 320;
+        }
+
+        private static bool IsBurgerMaker(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 326;
+        }
+
+        private static bool IsCatInTheBox(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 327;
+        }
+
+        private void AdvanceCatInTheBox(CardEntry card)
+        {
+            if (cardImage == null || card?.BreakthroughSprites == null ||
+                card.BreakthroughSprites.Length < 5) return;
+
+            currentSpriteIndex = (currentSpriteIndex + 1) % 5;
+            Sprite frame = card.BreakthroughSprites[currentSpriteIndex];
+            if (frame != null)
+            {
+                cardImage.sprite = frame;
+                FitSubClickSpriteToBounds(frame);
+            }
+
+            if (currentSpriteIndex == 4 && card.EffectSprites != null &&
+                card.EffectSprites.Length > 0 && card.EffectSprites[0] != null)
+                LaunchCatFromBox(card.EffectSprites[0]);
+        }
+
+        private void LaunchCatFromBox(Sprite catSprite)
+        {
+            Canvas canvas = cardImage != null ? cardImage.canvas : null;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null || cardImage == null || catSprite == null) return;
+
+            RectTransform cardRect = cardImage.rectTransform;
+            Vector2 origin = GetCanvasPointFromCardNormalized(cardRect, canvasRect, cardRect.rect, 0.5f, 0.62f);
+            bool flyLeft = Random.value < 0.5f;
+            float size = mySocket == ClickSocketSlot.Center ? 540f : 405f;
+            Rect bounds = canvasRect.rect;
+            float exitMargin = size * 0.5f + 20f;
+            float verticalMargin = Mathf.Min(size * 0.35f, bounds.height * 0.25f);
+            Vector2 target = new Vector2(
+                flyLeft ? bounds.xMin - exitMargin : bounds.xMax + exitMargin,
+                Random.Range(bounds.yMin + verticalMargin, bounds.yMax - verticalMargin));
+
+            Image flyingCat = CreateEffectImage("CatInTheBoxFlyingCat", canvasRect, catSprite);
+            RectTransform rect = flyingCat.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = origin;
+            rect.sizeDelta = new Vector2(size, size * catSprite.rect.height / catSprite.rect.width);
+            rect.localScale = new Vector3(flyLeft ? -1f : 1f, 1f, 1f);
+            rect.SetAsLastSibling();
+            StartCoroutine(AnimateCatFlyingAway(rect, origin, target));
+        }
+
+        private System.Collections.IEnumerator AnimateCatFlyingAway(
+            RectTransform flyingCat, Vector2 origin, Vector2 target)
+        {
+            const float duration = 0.75f;
+            const float arcHeight = 170f;
+            float elapsed = 0f;
+            while (flyingCat != null && elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                Vector2 position = Vector2.LerpUnclamped(origin, target, t);
+                position.y += Mathf.Sin(t * Mathf.PI) * arcHeight;
+                flyingCat.anchoredPosition = position;
+                yield return null;
+            }
+            if (flyingCat != null) Destroy(flyingCat.gameObject);
         }
 
         private void AdvanceTicklingSequence(List<Sprite> sprites)
@@ -781,6 +872,194 @@ namespace CosmicChaosCat
             return image;
         }
 
+        // CenterClick의 400x400 기준 완성 버거 좌표. 다른 크기는 width / 400 비율로 환산한다.
+        private static readonly float[] BurgerLayerY = { -62f, -22f, -10f, 10f, 82f, 95f, 136f, 185f };
+
+        private void RefreshBurgerMakerDisplay(bool active, CardEntry card)
+        {
+            if (!active || card?.EffectSprites == null ||
+                card.EffectSprites.Length < 8 || cardImage == null)
+            {
+                if (burgerMakerCenterStack != null) Destroy(burgerMakerCenterStack);
+                burgerMakerCenterStack = null;
+                if (cardImage != null)
+                {
+                    BurgerMakerDisplayHelper.Bind(cardImage, null, false);
+                    cardImage.color = Color.white;
+                }
+                if (!active) ClearSpawnedBurgers();
+                return;
+            }
+
+            if (mySocket != ClickSocketSlot.Center)
+            {
+                if (burgerMakerCenterStack != null) Destroy(burgerMakerCenterStack);
+                burgerMakerCenterStack = null;
+                BurgerMakerDisplayHelper.Bind(cardImage, card, true);
+                return;
+            }
+
+            BurgerMakerDisplayHelper.Bind(cardImage, null, false);
+            if (burgerMakerCenterStack == null)
+            {
+                cardImage.rectTransform.sizeDelta = new Vector2(
+                    Mathf.Max(400f, Mathf.Abs(originalSizeDelta.x)),
+                    Mathf.Max(400f, Mathf.Abs(originalSizeDelta.y)));
+                burgerMakerCenterStack = CreateBurgerStack(
+                    "BurgerMakerCenterStack", cardImage.transform, card.EffectSprites, 400f, Vector2.zero, true);
+                burgerMakerCenterStack.transform.SetAsLastSibling();
+            }
+            cardImage.color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        private GameObject CreateBurgerStack(
+            string objectName, Transform parent, Sprite[] ingredients, float width, Vector2 position, bool showAll)
+        {
+            GameObject root = new GameObject(objectName, typeof(RectTransform));
+            root.transform.SetParent(parent, false);
+            RectTransform rootRect = root.GetComponent<RectTransform>();
+            rootRect.anchorMin = rootRect.anchorMax = new Vector2(0.5f, 0.5f);
+            rootRect.pivot = new Vector2(0.5f, 0.5f);
+            rootRect.anchoredPosition = position;
+            rootRect.sizeDelta = new Vector2(width, width * 0.82f);
+
+            float scale = width / 400f;
+            for (int i = 0; i < 8; i++)
+            {
+                Sprite sprite = ingredients[i];
+                if (sprite == null) continue;
+                Image layer = CreateEffectImage($"BurgerIngredient_{i}", rootRect, sprite);
+                RectTransform rect = layer.rectTransform;
+                float layerWidth = width * Mathf.Clamp(sprite.rect.width / 808f, 0.7f, 1f);
+                rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+                rect.pivot = new Vector2(0.5f, 0.5f);
+                rect.sizeDelta = new Vector2(layerWidth, layerWidth * sprite.rect.height / sprite.rect.width);
+                rect.anchoredPosition = new Vector2(0f, BurgerLayerY[i] * scale);
+                layer.gameObject.SetActive(showAll);
+            }
+            return root;
+        }
+
+        private void DropNextBurgerIngredient(CardEntry card)
+        {
+            if (card?.EffectSprites == null || card.EffectSprites.Length < 8 || cardImage == null) return;
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            if (activeBurgerStack == null)
+            {
+                float width = mySocket == ClickSocketSlot.Center ? 220f : 165f;
+                float halfWidth = width * 0.55f;
+                float halfHeight = width * 0.6f;
+                Rect bounds = canvasRect.rect;
+                Vector2 target = new Vector2(
+                    Random.Range(bounds.xMin + halfWidth, bounds.xMax - halfWidth),
+                    Random.Range(bounds.yMin + halfHeight, bounds.yMax - halfHeight));
+                activeBurgerStack = CreateBurgerStack(
+                    "BurgerMakerSpawnedStack", canvasRect, card.EffectSprites, width, target, false);
+                activeBurgerStack.transform.SetAsLastSibling();
+                spawnedBurgerStacks.Add(activeBurgerStack);
+                nextBurgerIngredientIndex = 0;
+            }
+
+            RectTransform root = activeBurgerStack.GetComponent<RectTransform>();
+            int ingredientIndex = nextBurgerIngredientIndex;
+            StartCoroutine(DropBurgerIngredient(root, canvasRect, ingredientIndex));
+            nextBurgerIngredientIndex++;
+
+            // 7번 재료가 낙하를 시작한 순간 이 버거는 완성으로 간주한다.
+            if (nextBurgerIngredientIndex >= 8)
+            {
+                activeBurgerStack = null;
+                nextBurgerIngredientIndex = 0;
+            }
+        }
+
+        private System.Collections.IEnumerator DropBurgerIngredient(
+            RectTransform root, RectTransform canvasRect, int ingredientIndex)
+        {
+            if (root == null || canvasRect == null || ingredientIndex < 0 ||
+                ingredientIndex >= root.childCount) yield break;
+
+            RectTransform layer = root.GetChild(ingredientIndex) as RectTransform;
+            if (layer == null) yield break;
+            Vector2 target = layer.anchoredPosition;
+            float topInRoot = canvasRect.rect.yMax - root.anchoredPosition.y + 180f;
+            layer.anchoredPosition = new Vector2(target.x, topInRoot);
+            layer.gameObject.SetActive(true);
+
+            const float fallDuration = 0.28f;
+            Vector2 start = layer.anchoredPosition;
+            float elapsed = 0f;
+            while (root != null && layer != null && elapsed < fallDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / fallDuration);
+                float eased = 1f - (1f - t) * (1f - t);
+                layer.anchoredPosition = Vector2.LerpUnclamped(start, target, eased);
+                yield return null;
+            }
+            if (layer != null) layer.anchoredPosition = target;
+        }
+
+        private void ClearSpawnedBurgers(bool floatOut = false)
+        {
+            if (!floatOut)
+            {
+                foreach (GameObject burger in floatingOutBurgerStacks)
+                    if (burger != null) Destroy(burger);
+                floatingOutBurgerStacks.Clear();
+            }
+
+            foreach (GameObject burger in spawnedBurgerStacks)
+            {
+                if (burger == null) continue;
+                if (floatOut)
+                {
+                    floatingOutBurgerStacks.Add(burger);
+                    StartCoroutine(FloatBurgerOutOfScreen(burger.GetComponent<RectTransform>()));
+                }
+                else
+                    Destroy(burger);
+            }
+            spawnedBurgerStacks.Clear();
+            activeBurgerStack = null;
+            nextBurgerIngredientIndex = 0;
+        }
+
+        private System.Collections.IEnumerator FloatBurgerOutOfScreen(RectTransform burger)
+        {
+            if (burger == null) yield break;
+            RectTransform canvasRect = burger.GetComponentInParent<Canvas>()?.transform as RectTransform;
+            if (canvasRect == null)
+            {
+                Destroy(burger.gameObject);
+                yield break;
+            }
+
+            Vector2 start = burger.anchoredPosition;
+            // 재료 레이어가 루트 영역 위로 돌출되므로 루트 높이만큼 여유를 더해 완전히 퇴장시킨다.
+            float targetY = canvasRect.rect.yMax + burger.rect.height + 100f;
+            Vector2 target = new Vector2(start.x, targetY);
+            const float duration = 1.5f;
+            float elapsed = 0f;
+            while (burger != null && elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float eased = t * t * (3f - 2f * t);
+                burger.anchoredPosition = Vector2.LerpUnclamped(start, target, eased);
+                yield return null;
+            }
+
+            if (burger != null)
+            {
+                floatingOutBurgerStacks.Remove(burger.gameObject);
+                Destroy(burger.gameObject);
+            }
+        }
+
         private System.Collections.IEnumerator ShuffleSpadeDeck(List<Sprite> sprites)
         {
             if (cardImage == null) { spadeDeckShuffleRoutine = null; yield break; }
@@ -1010,6 +1289,7 @@ namespace CosmicChaosCat
                 gameManager.CardClickedAt -= PlayThunderCatLightning;
             }
             StopOORollingDisplay();
+            ClearSpawnedBurgers();
         }
 
         private void PlayThunderCatLightning(Vector2 screenPosition)
@@ -1137,6 +1417,9 @@ namespace CosmicChaosCat
 
             // Spade Deck rear cards share the same breathing/click motion as the front card.
             SyncSpadeDeckLayerMotion();
+
+            if (spawnedBurgerStacks.Count > 0 && gameManager != null && gameManager.ComboCount == 0)
+                ClearSpawnedBurgers(true);
         }
 
         private void UpdateAutoIdleAnimation()
@@ -1341,6 +1624,7 @@ namespace CosmicChaosCat
                 RefreshRainbowButton(IsRainbowButton(curCardId), card);
                 RefreshOORollingDisplay(IsOORollingCat(curCardId), card);
                 RefreshBlackEyesDisplay(IsBlackEyes(curCardId), card);
+                RefreshBurgerMakerDisplay(IsBurgerMaker(curCardId), card);
             }
 
             // 등급 컬러

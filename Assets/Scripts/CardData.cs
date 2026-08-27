@@ -100,6 +100,9 @@ namespace CosmicChaosCat
 
         public System.Collections.Generic.List<int> GetBreakthroughStages()
         {
+            if (IsBallOfYarnTouch())
+                return new System.Collections.Generic.List<int>();
+
             if (int.TryParse(Id, out int cardNumber) && cardNumber == 169)
                 return new System.Collections.Generic.List<int> { 1, 2, 3, 4, 5 };
             if (int.TryParse(Id, out cardNumber) && cardNumber == 236)
@@ -119,6 +122,11 @@ namespace CosmicChaosCat
 
         public Sprite GetSpriteForStage(int stage)
         {
+            // Ball_of_yarn_touch의 추가 프레임은 클릭 반복용이며 한계돌파 진화가 아니다.
+            // 도감/장착/단계 표시는 항상 대표 CardSprite를 유지한다.
+            if (IsBallOfYarnTouch())
+                return CardSprite;
+
             if (int.TryParse(Id, out int clickVariantCardNumber))
             {
                 // These multi-sprite cards change only through clicks, never through breakthrough.
@@ -175,7 +183,8 @@ namespace CosmicChaosCat
                     clickVariantCardNumber == 288 || clickVariantCardNumber == 289 ||
                     clickVariantCardNumber == 290 || clickVariantCardNumber == 291 ||
                     clickVariantCardNumber == 312 || clickVariantCardNumber == 314 || clickVariantCardNumber == 315 ||
-                    clickVariantCardNumber == 320 || clickVariantCardNumber == 322 || clickVariantCardNumber == 323)
+                    clickVariantCardNumber == 320 || clickVariantCardNumber == 322 || clickVariantCardNumber == 323 ||
+                    clickVariantCardNumber == 326 || clickVariantCardNumber == 327 || clickVariantCardNumber == 336)
                     return CardSprite;
             }
 
@@ -191,17 +200,41 @@ namespace CosmicChaosCat
             {
                 if (BreakthroughVariantStages != null && BreakthroughVariantStages.Length == BreakthroughSprites.Length)
                 {
+                    Sprite activeSprite = CardSprite;
+                    int activeStage = int.MinValue;
                     for (int i = 0; i < BreakthroughVariantStages.Length; i++)
                     {
-                        if (BreakthroughVariantStages[i] == stage && BreakthroughSprites[i] != null)
-                            return BreakthroughSprites[i];
+                        int mappedStage = BreakthroughVariantStages[i];
+                        if (mappedStage <= stage && mappedStage > activeStage && BreakthroughSprites[i] != null)
+                        {
+                            activeStage = mappedStage;
+                            activeSprite = BreakthroughSprites[i];
+                        }
                     }
+                    return activeSprite;
                 }
                 int idx = stage - 1;
                 if (idx >= 0 && idx < BreakthroughSprites.Length && BreakthroughSprites[idx] != null)
                     return BreakthroughSprites[idx];
             }
             return CardSprite;
+        }
+
+        public bool IsBallOfYarnTouch()
+        {
+            if (CardSprite != null &&
+                CardSprite.name.IndexOf("Ball_of_yarn_touch", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                return true;
+
+            if (BreakthroughSprites != null)
+            {
+                foreach (var sprite in BreakthroughSprites)
+                    if (sprite != null &&
+                        sprite.name.IndexOf("Ball_of_yarn_touch", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                        return true;
+            }
+
+            return false;
         }
 
         public System.Collections.Generic.List<Sprite> GetSpritesForStage(int stage)

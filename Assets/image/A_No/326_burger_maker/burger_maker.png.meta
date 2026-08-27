@@ -143,7 +143,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: burger_maker_1
+      name: burger_maker_5
       rect:
         serializedVersion: 2
         x: 761
@@ -168,8 +168,8 @@ TextureImporter:
       name: burger_maker_6
       rect:
         serializedVersion: 2
-        x: 85
-        y: 886
+        x: 82
+        y: 884
         width: 573
         height: 189
       alignment: 0
@@ -209,7 +209,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: burger_maker_5
+      name: burger_maker_3
       rect:
         serializedVersion: 2
         x: 28
@@ -253,7 +253,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: burger_maker_
+      name: burger_maker_0
       rect:
         serializedVersion: 2
         x: 27
@@ -275,7 +275,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: burger_maker_01
+      name: burger_maker_1
       rect:
         serializedVersion: 2
         x: 849
@@ -310,14 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      burger_maker_: 1155426789
-      burger_maker_01: -455672348
-      burger_maker_1: -1913189214959772977
+      burger_maker_0: 1155426789
+      burger_maker_1: -455672348
       burger_maker_11: -1351430491
       burger_maker_12: -794615845
       burger_maker_2: 669444157
+      burger_maker_3: -2798584759789457872
       burger_maker_4: 8157857906639548468
-      burger_maker_5: -2798584759789457872
+      burger_maker_5: -1913189214959772977
       burger_maker_6: -607414778743540321
       burger_maker_7: -180983927485937375
   mipmapLimitGroupName: 

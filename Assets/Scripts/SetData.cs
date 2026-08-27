@@ -16,7 +16,7 @@ namespace CosmicChaosCat
             string digits = System.Text.RegularExpressions.Regex.Match(setIdStr, @"\d+").Value;
             if (int.TryParse(digits, out int num))
             {
-                return num <= 2 || num == 9 || num == 13 || num == 14 || num == 15; // 기존 공개 세트와 특수 카드 세트
+                return num <= 2 || num == 9 || (num >= 13 && num <= 15) || num == 17; // 기존 공개 세트와 Catonato 세트
             }
             return true;
         }

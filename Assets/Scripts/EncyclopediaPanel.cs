@@ -1513,6 +1513,7 @@ namespace CosmicChaosCat
                     if (detailCardArt.color != new Color(0, 0, 0, 0)) detailCardArt.color  = new Color(0, 0, 0, 0);
                     if (detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(false);
                 }
+                BurgerMakerDisplayHelper.Bind(detailCardArt, card, unlocked);
             }
 
             // NumBtn (illustration variant buttons 1..5)
@@ -1522,6 +1523,7 @@ namespace CosmicChaosCat
             {
                 // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리 (모든 서브 갱신 후 최종적으로 적용!)
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
+                BurgerMakerDisplayHelper.Bind(detailCardArt, card, unlocked);
             }
 
             // Income stat (Description에 통합되었으므로 별도 항목은 숨김)
@@ -1680,6 +1682,7 @@ namespace CosmicChaosCat
 
                 // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
+                BurgerMakerDisplayHelper.Bind(detailCardArt, card, true);
             }
 
             // Also update detailDescription text corresponding to stage

@@ -112,12 +112,12 @@ TextureImporter:
       name: cat_is_water-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 164
         y: 582
-        width: 799
-        height: 442
+        width: 635
+        height: 297
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -136,10 +136,10 @@ TextureImporter:
         serializedVersion: 2
         x: 920
         y: 494
-        width: 616
+        width: 311
         height: 530
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: cat_is_water-Photoroom_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 619
-        height: 551
+        x: 285
+        y: 60
+        width: 334
+        height: 491
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,7 +183,7 @@ TextureImporter:
         width: 449
         height: 379
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 68828f21a9fc0e983b87429f27edeb05
     internalID: 0
     vertices: []
     indices: 

@@ -10108,3 +10108,391 @@ MonoBehaviour:
       \uC131\uC7A5\uD558\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
     Description_EN: An R-grade cat whose tower grows at every breakthrough stage
       from 1 to 5.
+  - Id: 0325
+    DisplayName: "\uD138\uC2E4 \uACF5"
+    DisplayName_EN: Ball of Yarn
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5937138083159347442, guid: 6f1db426df41619dd91bcf2896c66522, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -5937138083159347442, guid: 6f1db426df41619dd91bcf2896c66522, type: 3}
+    - {fileID: -3115029870613070668, guid: 6f1db426df41619dd91bcf2896c66522, type: 3}
+    - {fileID: -7320550304512084586, guid: 6f1db426df41619dd91bcf2896c66522, type: 3}
+    - {fileID: 4203030796762463717, guid: 6f1db426df41619dd91bcf2896c66522, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
+      \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
+      R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose sprites cycle in order with every click,
+      without evolution.
+  - Id: 0326
+    DisplayName: "\uBC84\uAC70 \uBA54\uC774\uCEE4"
+    DisplayName_EN: Burger Maker
+    Rarity: 3
+    BaseWeight: 4
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1155426789, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: 1155426789, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: -455672348, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: 669444157, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: -2798584759789457872, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: 8157857906639548468, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: -1913189214959772977, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: -607414778743540321, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    - {fileID: -180983927485937375, guid: a3843e7f0064c95e78d75d9ea91e3c75, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC911\uC559\uC5D0\uB294 \uC644\uC131\uB41C \uBC84\uAC70\uAC00
+      \uD45C\uC2DC\uB429\uB2C8\uB2E4. \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBB34\uC791\uC704
+      \uC704\uCE58\uC758 \uBC84\uAC70\uC5D0 \uC7AC\uB8CC\uAC00 \uD558\uB098\uC529
+      \uB5A8\uC5B4\uC9C0\uBA70, 7\uBC88 \uC7AC\uB8CC\uAC00 \uB099\uD558\uB97C \uC2DC\uC791\uD558\uBA74
+      \uB2E4\uC74C \uBC84\uAC70\uB97C \uB9CC\uB4E4 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+      \uCF64\uBCF4\uAC00 \uB05D\uB098\uBA74 \uC0DD\uC131\uB41C \uBC84\uAC70\uB294
+      \uC0AC\uB77C\uC9D1\uB2C8\uB2E4."
+    Description_EN: An SSR-grade cat with a completed center burger. Each click drops
+      one ingredient onto a burger at a random position; the next burger starts after
+      ingredient 7 begins falling. Spawned burgers vanish when the combo ends.
+  - Id: 0327
+    DisplayName: "\uC0C1\uC790 \uC18D \uACE0\uC591\uC774"
+    DisplayName_EN: Cat in the Box
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 9173319355986990954, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 9173319355986990954, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    - {fileID: 867251247165155767, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    - {fileID: 6776824475951081355, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    - {fileID: 6061256572614141000, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    - {fileID: 917215518, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    EffectSprites:
+    - {fileID: 457941814969697440, guid: 0c1dc8ab7dc272db1b14a5ff130add7b, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uC0C1\uC790 \uC18D \uBAA8\uC2B5\uC774
+      \uBC14\uB01D\uB2C8\uB2E4. 4\uBC88 \uBAA8\uC2B5\uC5D0\uC11C\uB294 \uC5F4\uB9B0
+      \uC0C1\uC790\uB9CC \uB0A8\uACE0 \uACE0\uC591\uC774\uAC00 \uBB34\uC791\uC704
+      \uBC29\uD5A5\uC73C\uB85C \uB0A0\uC544\uAC00\uBA70, \uC67C\uCABD\uC73C\uB85C
+      \uB0A0 \uB54C\uB294 \uC88C\uC6B0\uAC00 \uBC18\uC804\uB418\uB294 SR \uB4F1\uAE09
+      \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade cat whose box changes on every click. On frame 4,
+      the empty box remains while the cat flies away, flipping horizontally when
+      it travels left.
+  - Id: 0328
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 1"
+    DisplayName_EN: Catonato Shark Type 1
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7029113508314081147, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000005000000
+    BreakthroughSprites:
+    - {fileID: 7029113508314081147, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: -3798440828687141466, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 1\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 1, an SR-grade member of the Catonato set.
+  - Id: 0329
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 2"
+    DisplayName_EN: Catonato Shark Type 2
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8269799664778877023, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000005000000
+    BreakthroughSprites:
+    - {fileID: -8269799664778877023, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: -2061798712176809940, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 2\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 2, an SR-grade member of the Catonato set.
+  - Id: 0330
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 3"
+    DisplayName_EN: Catonato Shark Type 3
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4664006132883073098, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 010000000300000005000000
+    BreakthroughSprites:
+    - {fileID: -4664006132883073098, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: 664559646310978990, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: 5835495440170280487, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 3\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 3, an SR-grade member of the Catonato set.
+  - Id: 0331
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 4"
+    DisplayName_EN: Catonato Shark Type 4
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2785913370839432223, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 010000000300000005000000
+    BreakthroughSprites:
+    - {fileID: -2785913370839432223, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: 1310914273712476279, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: 6096302964642763697, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 4\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 4, an SR-grade member of the Catonato set.
+  - Id: 0332
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 5"
+    DisplayName_EN: Catonato Shark Type 5
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8274414472274859477, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000005000000
+    BreakthroughSprites:
+    - {fileID: -8274414472274859477, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    - {fileID: -1071405430, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 5\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 5, an SR-grade member of the Catonato set.
+  - Id: 0333
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 6"
+    DisplayName_EN: Catonato Shark Type 6
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1119371700454333584, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 6\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 6, an SR-grade member of the Catonato set.
+  - Id: 0334
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 7"
+    DisplayName_EN: Catonato Shark Type 7
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2189055528777630490, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 7\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 7, an SR-grade member of the Catonato set.
+  - Id: 0335
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 8"
+    DisplayName_EN: Catonato Shark Type 8
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 17
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -3954111920893849034, guid: a3d542dbe66c4ef11ac373acae77d8e4, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      SR \uB4F1\uAE09 \uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 8\uC785\uB2C8\uB2E4."
+    Description_EN: Catonato Shark Type 8, an SR-grade member of the Catonato set.
+  - Id: 0336
+    DisplayName: "\uCE74\uD1A0\uB098\uD1A0"
+    DisplayName_EN: Catonato
+    Rarity: 3
+    BaseWeight: 0
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4699582867129013993, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -4699582867129013993, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
+    - {fileID: 1251474258, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
+    - {fileID: -246529232, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
+    - {fileID: -5997838877545401563, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 8\uC885\uC744
+      \uBAA8\uB450 \uBAA8\uC73C\uBA74 \uD574\uAE08\uB418\uBA70, \uD074\uB9AD\uD560
+      \uB54C\uB9C8\uB2E4 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uBC14\uB00C\uB294
+      SSR \uB4F1\uAE09 \uCE74\uD1A0\uB098\uD1A0\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR-grade Catonato unlocked by collecting all eight Catonato
+      Shark types. Its sprite changes with every click.

@@ -247,6 +247,7 @@ namespace CosmicChaosCat
                     else artImg.sprite = null;
 
                     LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, null);
+                    BurgerMakerDisplayHelper.Bind(artImg, null, false);
                 }
                 if (nameTxt != null) nameTxt.text = "???";
                 return;
@@ -299,6 +300,7 @@ namespace CosmicChaosCat
                             artImg.preserveAspect = true;
 
                             LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, entry);
+                            BurgerMakerDisplayHelper.Bind(artImg, entry, true);
                         }
                         
                         if (nameTxt != null) nameTxt.text = entry.GetDisplayName();
@@ -323,6 +325,7 @@ namespace CosmicChaosCat
                         artImg.sprite = null;
                         artImg.gameObject.SetActive(false); // Art 이미지 꺼둠
                         LongNeckCatDisplayHelper.BindLongNeckCardSlot(artImg.transform, null);
+                        BurgerMakerDisplayHelper.Bind(artImg, null, false);
                     }
                     if (nameTxt != null) nameTxt.text = "";
                 }

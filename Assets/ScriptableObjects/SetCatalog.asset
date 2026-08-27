@@ -222,3 +222,19 @@ MonoBehaviour:
     EffectDesc: "\uBAAC\uC2A4\uD130 \uACE0\uC591\uC774 \uB124 \uC7A5\uC744 \uBAA8\uB450
       \uBAA8\uC73C\uBA74 R \uB4F1\uAE09 \uD3EC\uCF13 \uBAAC\uC2A4\uD130\uB97C \uD68D\uB4DD\uD569\uB2C8\uB2E4."
     EffectDesc_EN: Collect all four Monster Cats to unlock the R-grade Pocket Monster.
+  - SetId: 17
+    SetName: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 8\uC885"
+    SetName_EN: Eight Catonato Sharks
+    RewardGold: 0
+    RewardShards: 0
+    CriticalChanceBonus: 0
+    FlatIncomeBonus: 0
+    CriticalDamageBonus: 0
+    GachaDiscountBonus: 0
+    ShardBonusMultiplier: 1
+    RewardBackgroundId: 
+    RewardDecorationId: 
+    RewardCardId: 0336
+    EffectDesc: "\uC0C1\uC5B4 \uACE0\uC591\uC774 \uD0C0\uC785 8\uC885\uC744 \uBAA8\uB450
+      \uBAA8\uC73C\uBA74 SSR \uCE74\uD1A0\uB098\uD1A0\uB97C \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    EffectDesc_EN: Collect all eight Shark Cat types to unlock the SSR Catonato.

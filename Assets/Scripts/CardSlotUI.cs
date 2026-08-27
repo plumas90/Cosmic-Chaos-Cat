@@ -263,6 +263,7 @@ namespace CosmicChaosCat
 
                 // 171 롱넥캣 머리+몸통 결합 처리 (cardArtImage.transform 에 직격 연결)
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(cardArtImage.transform, card);
+                BurgerMakerDisplayHelper.Bind(cardArtImage, card, unlocked);
             }
 
             // ── Rarity Mark (rereMark / rareMark) ───────────────────────────
