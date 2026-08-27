@@ -184,7 +184,8 @@ namespace CosmicChaosCat
                     clickVariantCardNumber == 290 || clickVariantCardNumber == 291 ||
                     clickVariantCardNumber == 312 || clickVariantCardNumber == 314 || clickVariantCardNumber == 315 ||
                     clickVariantCardNumber == 320 || clickVariantCardNumber == 322 || clickVariantCardNumber == 323 ||
-                    clickVariantCardNumber == 326 || clickVariantCardNumber == 327 || clickVariantCardNumber == 336)
+                    clickVariantCardNumber == 326 || clickVariantCardNumber == 327 || clickVariantCardNumber == 336 ||
+                    clickVariantCardNumber == 339 || clickVariantCardNumber == 344)
                     return CardSprite;
             }
 

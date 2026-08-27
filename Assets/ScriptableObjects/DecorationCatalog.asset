@@ -564,3 +564,34 @@ MonoBehaviour:
     SetId: 
     Description: "\uACE0\uC591\uC774 \uD0C0\uC6CC \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
     Description_EN: A cat tower decoration.
+  - Id: deco-shark
+    DisplayName: "\uC0C1\uC5B4 \uC7A5\uC2DD"
+    DisplayName_EN: Shark Decoration
+    DecorationSprite: {fileID: -8723837468341339967, guid: c8e3fd1df654138ecb8b69b938eb18eb, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uC0C1\uC5B4 \uBAA8\uC2B5\uC758 \uC815\uC801 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A static shark decoration.
+  - Id: deco-shark-animated
+    DisplayName: "\uC6C0\uC9C1\uC774\uB294 \uC0C1\uC5B4 \uC7A5\uC2DD"
+    DisplayName_EN: Animated Shark Decoration
+    DecorationSprite: {fileID: -3132953512935419807, guid: 18cd2869309eaf4f8b8f38add8035496, type: 3}
+    AnimationSprites:
+    - {fileID: -3132953512935419807, guid: 18cd2869309eaf4f8b8f38add8035496, type: 3}
+    - {fileID: -7357411145765244373, guid: 18cd2869309eaf4f8b8f38add8035496, type: 3}
+    - {fileID: 5340447373572403191, guid: 18cd2869309eaf4f8b8f38add8035496, type: 3}
+    - {fileID: -3947910115190536550, guid: 18cd2869309eaf4f8b8f38add8035496, type: 3}
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uB124 \uAC1C\uC758 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC790\uB3D9\uC73C\uB85C
+      \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294 \uC0C1\uC5B4 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A shark decoration whose four sprites loop automatically in sequence.

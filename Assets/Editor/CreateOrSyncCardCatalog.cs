@@ -249,11 +249,18 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureBurgerMakerCard(cardsProp, existingCards);
             addedCount += EnsureCatInTheBoxCard(cardsProp, existingCards);
             addedCount += EnsureCatonatoSetCards(cardsProp, existingCards);
+            addedCount += EnsureFiftyBillionRainbowsCard(cardsProp, existingCards);
+            addedCount += EnsureSurpriseCatCard(cardsProp, existingCards);
+            addedCount += EnsureTailAnimationCard(cardsProp, existingCards);
+            addedCount += EnsureRedFishHeadCatCard(cardsProp, existingCards);
+            addedCount += EnsureTrinitySetCards(cardsProp, existingCards);
             EnsureSeaSetCatalog();
             EnsureCatMonsterSetCatalog();
             EnsureCatonatoSetCatalog();
+            EnsureTrinitySetCatalog();
             EnsureCatWheelDecoration();
             EnsureCatTowerDecoration();
+            EnsureSharkDecorations();
 
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
@@ -643,10 +650,10 @@ namespace CosmicChaosCat.EditorTools
                 elem.FindPropertyRelative("ShardValue").intValue = (int)(isSsr ? CardShardValue.Value_10 : CardShardValue.Value_5);
                 elem.FindPropertyRelative("Description").stringValue = isSsr
                     ? "진화 없이 클릭할 때마다 모습이 무작위로 바뀌는 SSR 등급 플라이 토스트입니다."
-                    : "진화 없이 클릭할 때마다 일곱 모습이 순서대로 반복되는 SR 등급 넥카라 고양이입니다.";
+                    : $"진화 없이 클릭할 때마다 {sprites.Count}가지 모습이 순서대로 반복되는 SR 등급 넥카라 고양이입니다.";
                 elem.FindPropertyRelative("Description_EN").stringValue = isSsr
                     ? "An SSR Fly Toast whose appearance changes randomly on every click without evolution."
-                    : "An SR Elizabethan Collar Cat whose seven appearances cycle on click without evolution.";
+                    : $"An SR Elizabethan Collar Cat whose {sprites.Count} appearances cycle on click without evolution.";
                 var clickSprites = elem.FindPropertyRelative("BreakthroughSprites");
                 clickSprites.arraySize = sprites.Count;
                 for (int i = 0; i < sprites.Count; i++)
@@ -1162,6 +1169,7 @@ namespace CosmicChaosCat.EditorTools
             Sprite reward1 = LoadNamedSprite(directory + "/catonato.png", "catonato_");
             Sprite reward2 = LoadNamedSprite(directory + "/catonato.png", "catonato_2");
             Sprite reward3 = LoadNamedSprite(directory + "/catonato.png", "catonato_3");
+            var flyingSharks = LoadSpritesSorted(directory + "/catonato_shark1.png");
             if (reward0 == null || reward1 == null || reward2 == null || reward3 == null) return added;
             bool rewardIsNew = !existingCards.TryGetValue(rewardId, out var reward);
             if (rewardIsNew)
@@ -1181,10 +1189,14 @@ namespace CosmicChaosCat.EditorTools
             rewardSprites.arraySize = rewardFrames.Length;
             for (int i = 0; i < rewardFrames.Length; i++)
                 rewardSprites.GetArrayElementAtIndex(i).objectReferenceValue = rewardFrames[i];
+            var rewardEffects = reward.FindPropertyRelative("EffectSprites");
+            rewardEffects.arraySize = flyingSharks.Count;
+            for (int i = 0; i < flyingSharks.Count; i++)
+                rewardEffects.GetArrayElementAtIndex(i).objectReferenceValue = flyingSharks[i];
             reward.FindPropertyRelative("Description").stringValue =
-                "카토나토 상어 타입 8종을 모두 모으면 해금되며, 클릭할 때마다 스프라이트가 바뀌는 SSR 등급 카토나토입니다.";
+                "카토나토 상어 타입 8종을 모두 모으면 해금됩니다. 클릭할 때마다 본체 모습이 바뀌고, 무작위 상어 고양이가 무작위 방향으로 날아가는 SSR 등급 카토나토입니다.";
             reward.FindPropertyRelative("Description_EN").stringValue =
-                "An SSR-grade Catonato unlocked by collecting all eight Catonato Shark types. Its sprite changes with every click.";
+                "An SSR-grade Catonato unlocked by collecting all eight Catonato Shark types. Each click changes its sprite and launches a random shark cat in a random direction.";
             return added;
         }
 
@@ -1224,6 +1236,301 @@ namespace CosmicChaosCat.EditorTools
             EditorUtility.SetDirty(catalog);
         }
 
+        private static int EnsureFiftyBillionRainbowsCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/337_fifty_billion_rainbows/Fifty_billion_rainbows.png";
+            Sprite image1 = LoadNamedSprite(path, "Fifty_billion rainbows_0");
+            Sprite image2 = LoadNamedSprite(path, "Fifty_billion rainbows_1");
+            Sprite image3 = LoadNamedSprite(path, "Fifty_billion rainbows_2");
+            Sprite image4 = LoadNamedSprite(path, "Fifty_billion rainbows_3");
+            if (image1 == null || image2 == null || image3 == null || image4 == null) return 0;
+
+            const string id = "0337";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "500억개의 무지개", "Fifty Billion Rainbows", CardRarity.R, image1);
+            Sprite[] images = { image1, image2, image3, image4 };
+            var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+            var sprites = card.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.arraySize = images.Length;
+            for (int i = 0; i < images.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                sprites.GetArrayElementAtIndex(i).objectReferenceValue = images[i];
+            }
+            card.FindPropertyRelative("Description").stringValue =
+                "한계돌파 1~4단계마다 무지개가 늘어나는 R 등급 고양이입니다. 5단계에서는 4단계 모습을 유지합니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An R-grade cat whose rainbows increase at breakthrough stages 1 through 4. Stage 5 keeps the stage 4 appearance.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureSurpriseCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/338_surprise_cat/Surprise_cat.png";
+            Sprite image1 = LoadNamedSprite(path, "ChatGPT Image Aug 16, 2026, 12_46_22 PM_0");
+            Sprite image2 = LoadNamedSprite(path, "Surprise_cat_0");
+            Sprite image3 = LoadNamedSprite(path, "ChatGPT Image Aug 16, 2026, 12_46_22 PM_6");
+            Sprite image4 = LoadNamedSprite(path, "ChatGPT Image Aug 16, 2026, 12_46_22 PM_3");
+            if (image1 == null || image2 == null || image3 == null || image4 == null) return 0;
+
+            const string id = "0338";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "깜짝 고양이", "Surprise Cat", CardRarity.R, image1);
+            Sprite[] images = { image1, image2, image3, image4 };
+            var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+            var sprites = card.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.arraySize = images.Length;
+            for (int i = 0; i < images.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                sprites.GetArrayElementAtIndex(i).objectReferenceValue = images[i];
+            }
+            card.FindPropertyRelative("Description").stringValue =
+                "한계돌파 1~4단계마다 더욱 크게 놀라는 R 등급 고양이입니다. 5단계에서는 4단계 모습을 유지합니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An R-grade cat that becomes increasingly surprised at breakthrough stages 1 through 4. Stage 5 keeps the stage 4 appearance.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureTailAnimationCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/339_tail_animation/tail1.png";
+            Sprite start = LoadNamedSprite(path, "tail1_start");
+            Sprite ing1 = LoadNamedSprite(path, "tail1_ing1");
+            Sprite ing2 = LoadNamedSprite(path, "tail1_ing2");
+            Sprite end1 = LoadNamedSprite(path, "tail1_end1");
+            Sprite end2 = LoadNamedSprite(path, "tail1_end2");
+            if (start == null || ing1 == null || ing2 == null || end1 == null || end2 == null) return 0;
+
+            const string id = "0339";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "꼬리 고양이", "Tail Cat", CardRarity.SR, start);
+            card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            card.FindPropertyRelative("ClickGold").floatValue = 25f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            Sprite[] frames = { start, ing1, ing2, end1, end2 };
+            var stored = card.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = frames.Length;
+            for (int i = 0; i < frames.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = frames[i];
+            card.FindPropertyRelative("Description").stringValue =
+                "클릭할 때마다 Start 다음 Ing 1·2를 세 번 반복하고, End 1 또는 End 2를 각각 50% 확률로 표시한 뒤 다음 클릭에 Start부터 반복하는 SR 등급 고양이입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SR-grade cat whose clicks advance from Start through three Ing 1/Ing 2 pairs, choose End 1 or End 2 with equal probability, then return to Start on the next click.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureRedFishHeadCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/340_red_fish_evolution/red_fish_head_cat.png";
+            Sprite stage1 = LoadNamedSprite(path, "The_cat_whose_head_is_eating_a_red_fish_5");
+            Sprite stage2 = LoadNamedSprite(path, "The_cat_whose_head_is_eating_a_red_fish_6");
+            Sprite stage3 = LoadNamedSprite(path, "The_cat_whose_head_is_eating_a_red_fish_0");
+            Sprite stage4 = LoadNamedSprite(path, "The_cat_whose_head_is_eating_a_red_fish_2");
+            Sprite stage5 = LoadNamedSprite(path, "The_cat_whose_head_is_eating_a_red_fish_3");
+            if (stage1 == null || stage2 == null || stage3 == null || stage4 == null || stage5 == null) return 0;
+
+            const string id = "0340";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "머리가 빨간 생선을 먹는 고양이", "The Cat Whose Head Is Eating a Red Fish", CardRarity.R, stage1);
+            Sprite[] stagesInOrder = { stage1, stage2, stage3, stage4, stage5 };
+            var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+            var sprites = card.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.arraySize = stagesInOrder.Length;
+            for (int i = 0; i < stagesInOrder.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                sprites.GetArrayElementAtIndex(i).objectReferenceValue = stagesInOrder[i];
+            }
+            card.FindPropertyRelative("Description").stringValue =
+                "한계돌파 1~5단계마다 머리와 물고기의 모습이 변하는 R 등급 고양이입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An R-grade cat whose head and fish change at every breakthrough stage from 1 through 5.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureTrinitySetCards(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/341_344_trinity_set";
+            var definitions = new[]
+            {
+                new
+                {
+                    Id = "0341", Korean = "트리니티 분노", English = "Trinity Angry",
+                    Path = directory + "/trinity_angry.png",
+                    Names = new[] { "trinity_angry_0", "trinity_angry_1", "trinity_angry_2", "trinity_angry_3", "trinity_angry_4" }
+                },
+                new
+                {
+                    Id = "0342", Korean = "트리니티 행복", English = "Trinity Happy",
+                    Path = directory + "/trinity_happy.png",
+                    Names = new[]
+                    {
+                        "ChatGPT Image Aug 16, 2026, 10_23_27 AM_2",
+                        "ChatGPT Image Aug 16, 2026, 10_23_27 AM_0",
+                        "ChatGPT Image Aug 16, 2026, 10_23_27 AM_3",
+                        "ChatGPT Image Aug 16, 2026, 10_23_27 AM_6",
+                        "ChatGPT Image Aug 16, 2026, 10_23_27 AM_8"
+                    }
+                },
+                new
+                {
+                    Id = "0343", Korean = "트리니티 슬픔", English = "Trinity Sad",
+                    Path = directory + "/trinity_sad.png",
+                    Names = new[]
+                    {
+                        "ChatGPT Image Aug 16, 2026, 10_21_40 AM_0",
+                        "ChatGPT Image Aug 16, 2026, 10_21_40 AM_1",
+                        "ChatGPT Image Aug 16, 2026, 10_21_40 AM_4",
+                        "ChatGPT Image Aug 16, 2026, 10_21_40 AM_10",
+                        "ChatGPT Image Aug 16, 2026, 10_21_40 AM_11"
+                    }
+                }
+            };
+
+            int added = 0;
+            foreach (var definition in definitions)
+            {
+                var images = new List<Sprite>();
+                foreach (string spriteName in definition.Names)
+                {
+                    Sprite sprite = LoadNamedSprite(definition.Path, spriteName);
+                    if (sprite != null) images.Add(sprite);
+                }
+                if (images.Count != 5) continue;
+
+                bool isNew = !existingCards.TryGetValue(definition.Id, out var card);
+                if (isNew)
+                {
+                    cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                    card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                    existingCards[definition.Id] = card;
+                    added++;
+                }
+                WriteOOSingleCard(card, definition.Id, definition.Korean, definition.English, CardRarity.SR, images[0]);
+                card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+                card.FindPropertyRelative("ClickGold").floatValue = 25f;
+                card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+                card.FindPropertyRelative("SetId").stringValue = "18";
+                var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+                var sprites = card.FindPropertyRelative("BreakthroughSprites");
+                stages.arraySize = sprites.arraySize = 5;
+                for (int i = 0; i < 5; i++)
+                {
+                    stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                    sprites.GetArrayElementAtIndex(i).objectReferenceValue = images[i];
+                }
+                card.FindPropertyRelative("Description").stringValue =
+                    $"한계돌파 1~5단계마다 모습이 변하는 SR 등급 {definition.Korean} 카드입니다.";
+                card.FindPropertyRelative("Description_EN").stringValue =
+                    $"An SR-grade {definition.English} card whose appearance changes at every breakthrough stage from 1 through 5.";
+            }
+
+            Sprite reward0 = LoadNamedSprite(directory + "/trinity.png", "trinity_0");
+            Sprite reward1 = LoadNamedSprite(directory + "/trinity.png", "trinity_2");
+            Sprite reward2 = LoadNamedSprite(directory + "/trinity.png", "trinity_6");
+            if (reward0 == null || reward1 == null || reward2 == null) return added;
+
+            const string rewardId = "0344";
+            bool rewardIsNew = !existingCards.TryGetValue(rewardId, out var reward);
+            if (rewardIsNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                reward = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[rewardId] = reward;
+                added++;
+            }
+            WriteOOSingleCard(reward, rewardId, "트리니티", "Trinity", CardRarity.SSR, reward0);
+            reward.FindPropertyRelative("BaseWeight").floatValue = 0f;
+            reward.FindPropertyRelative("ClickGold").floatValue = 125f;
+            reward.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            reward.FindPropertyRelative("IsHidden").boolValue = true;
+            Sprite[] rewardFrames = { reward0, reward1, reward2 };
+            var stored = reward.FindPropertyRelative("BreakthroughSprites");
+            stored.arraySize = rewardFrames.Length;
+            for (int i = 0; i < rewardFrames.Length; i++)
+                stored.GetArrayElementAtIndex(i).objectReferenceValue = rewardFrames[i];
+            reward.FindPropertyRelative("Description").stringValue =
+                "분노·행복·슬픔 트리니티 3종을 모두 모으면 해금되며, 클릭할 때마다 세 모습이 순서대로 바뀌는 SSR 등급 카드입니다.";
+            reward.FindPropertyRelative("Description_EN").stringValue =
+                "An SSR-grade reward unlocked by collecting Trinity Angry, Happy, and Sad. Its three appearances cycle on click.";
+            return added;
+        }
+
+        private static void EnsureTrinitySetCatalog()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<SetCatalogSO>("Assets/ScriptableObjects/SetCatalog.asset");
+            if (catalog == null) return;
+            var so = new SerializedObject(catalog);
+            var sets = so.FindProperty("sets");
+            SerializedProperty entry = null;
+            for (int i = 0; i < sets.arraySize; i++)
+            {
+                var candidate = sets.GetArrayElementAtIndex(i);
+                if (candidate.FindPropertyRelative("SetId").stringValue == "18") { entry = candidate; break; }
+            }
+            if (entry == null)
+            {
+                sets.InsertArrayElementAtIndex(sets.arraySize);
+                entry = sets.GetArrayElementAtIndex(sets.arraySize - 1);
+            }
+            entry.FindPropertyRelative("SetId").stringValue = "18";
+            entry.FindPropertyRelative("SetName").stringValue = "트리니티 감정 3종";
+            entry.FindPropertyRelative("SetName_EN").stringValue = "Three Trinity Emotions";
+            entry.FindPropertyRelative("RewardGold").doubleValue = 0d;
+            entry.FindPropertyRelative("RewardShards").intValue = 0;
+            entry.FindPropertyRelative("CriticalChanceBonus").floatValue = 0f;
+            entry.FindPropertyRelative("FlatIncomeBonus").doubleValue = 0d;
+            entry.FindPropertyRelative("CriticalDamageBonus").floatValue = 0f;
+            entry.FindPropertyRelative("GachaDiscountBonus").floatValue = 0f;
+            entry.FindPropertyRelative("ShardBonusMultiplier").floatValue = 1f;
+            entry.FindPropertyRelative("RewardBackgroundId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardDecorationId").stringValue = string.Empty;
+            entry.FindPropertyRelative("RewardCardId").stringValue = "0344";
+            entry.FindPropertyRelative("EffectDesc").stringValue = "트리니티 감정 3종을 모두 모으면 SSR 트리니티를 획득합니다.";
+            entry.FindPropertyRelative("EffectDesc_EN").stringValue = "Collect all three Trinity emotions to unlock the SSR Trinity.";
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
+        }
+
         private static void EnsureCatTowerDecoration()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
@@ -1258,6 +1565,80 @@ namespace CosmicChaosCat.EditorTools
             entry.FindPropertyRelative("Description_EN").stringValue = "A cat tower decoration.";
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
+        }
+
+        private static void EnsureSharkDecorations()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
+            Sprite staticShark = LoadNamedSprite("Assets/image/A_Deco/Deco_Shark.png", "deco_shark_0");
+            var animatedSharks = LoadSpritesSorted("Assets/image/A_Deco/Deco_Shark_Animated.png");
+            if (catalog == null || staticShark == null || animatedSharks.Count != 4) return;
+
+            var so = new SerializedObject(catalog);
+            var entries = so.FindProperty("decorations");
+            SerializedProperty staticEntry = null;
+            SerializedProperty animatedEntry = null;
+            for (int i = 0; i < entries.arraySize; i++)
+            {
+                var candidate = entries.GetArrayElementAtIndex(i);
+                string id = candidate.FindPropertyRelative("Id").stringValue;
+                if (id == "deco-shark") staticEntry = candidate;
+                else if (id == "deco-shark-animated") animatedEntry = candidate;
+            }
+            if (staticEntry == null)
+            {
+                entries.InsertArrayElementAtIndex(entries.arraySize);
+                staticEntry = entries.GetArrayElementAtIndex(entries.arraySize - 1);
+            }
+            WriteSharkDecoration(staticEntry, "deco-shark", "상어 장식", "Shark Decoration", staticShark, null);
+
+            // Array insertion can invalidate a previously captured SerializedProperty.
+            animatedEntry = null;
+            for (int i = 0; i < entries.arraySize; i++)
+            {
+                var candidate = entries.GetArrayElementAtIndex(i);
+                if (candidate.FindPropertyRelative("Id").stringValue == "deco-shark-animated")
+                {
+                    animatedEntry = candidate;
+                    break;
+                }
+            }
+            if (animatedEntry == null)
+            {
+                entries.InsertArrayElementAtIndex(entries.arraySize);
+                animatedEntry = entries.GetArrayElementAtIndex(entries.arraySize - 1);
+            }
+            WriteSharkDecoration(animatedEntry, "deco-shark-animated", "움직이는 상어 장식", "Animated Shark Decoration",
+                animatedSharks[0], animatedSharks);
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
+        }
+
+        private static void WriteSharkDecoration(
+            SerializedProperty entry, string id, string koreanName, string englishName,
+            Sprite representative, List<Sprite> animationFrames)
+        {
+            entry.FindPropertyRelative("Id").stringValue = id;
+            entry.FindPropertyRelative("DisplayName").stringValue = koreanName;
+            entry.FindPropertyRelative("DisplayName_EN").stringValue = englishName;
+            entry.FindPropertyRelative("DecorationSprite").objectReferenceValue = representative;
+            var animation = entry.FindPropertyRelative("AnimationSprites");
+            int frameCount = animationFrames != null ? animationFrames.Count : 0;
+            animation.arraySize = frameCount;
+            for (int i = 0; i < frameCount; i++)
+                animation.GetArrayElementAtIndex(i).objectReferenceValue = animationFrames[i];
+            entry.FindPropertyRelative("AnimationFrameDuration").floatValue = 0.25f;
+            entry.FindPropertyRelative("IsHidden").boolValue = false;
+            entry.FindPropertyRelative("IsShop").boolValue = false;
+            entry.FindPropertyRelative("ShopCurrency").enumValueIndex = (int)CardShopCurrency.Coin;
+            entry.FindPropertyRelative("ShopPrice").doubleValue = 1000d;
+            entry.FindPropertyRelative("SetId").stringValue = string.Empty;
+            entry.FindPropertyRelative("Description").stringValue = animationFrames == null
+                ? "상어 모습의 정적 장식입니다."
+                : "네 개의 스프라이트가 자동으로 순서대로 반복되는 상어 장식입니다.";
+            entry.FindPropertyRelative("Description_EN").stringValue = animationFrames == null
+                ? "A static shark decoration."
+                : "A shark decoration whose four sprites loop automatically in sequence.";
         }
 
         private static void EnsureCatWheelDecoration()

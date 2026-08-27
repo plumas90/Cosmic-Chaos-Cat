@@ -6,17 +6,11 @@ TextureImporter:
       213: 3075126952602840486
     second: The_cat_whose_head_is_eating_a_red_fish_0
   - first:
-      213: 2925768670793376222
-    second: The_cat_whose_head_is_eating_a_red_fish_1
-  - first:
       213: 7961445483909467575
     second: The_cat_whose_head_is_eating_a_red_fish_2
   - first:
       213: -9219915230556856479
     second: The_cat_whose_head_is_eating_a_red_fish_3
-  - first:
-      213: 5655768748420168557
-    second: The_cat_whose_head_is_eating_a_red_fish_4
   - first:
       213: 2597201060013823746
     second: The_cat_whose_head_is_eating_a_red_fish_5
@@ -224,28 +218,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: The_cat_whose_head_is_eating_a_red_fish_7
-      rect:
-        serializedVersion: 2
-        x: 991
-        y: 338
-        width: 4
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8687cedd58ceaf4829420a185e31e46c
-      internalID: 1908470618
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -261,13 +233,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       The_cat_whose_head_is_eating_a_red_fish_0: 3075126952602840486
-      The_cat_whose_head_is_eating_a_red_fish_1: 2925768670793376222
       The_cat_whose_head_is_eating_a_red_fish_2: 7961445483909467575
       The_cat_whose_head_is_eating_a_red_fish_3: -9219915230556856479
-      The_cat_whose_head_is_eating_a_red_fish_4: 5655768748420168557
       The_cat_whose_head_is_eating_a_red_fish_5: 2597201060013823746
       The_cat_whose_head_is_eating_a_red_fish_6: -236611445
-      The_cat_whose_head_is_eating_a_red_fish_7: 1908470618
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

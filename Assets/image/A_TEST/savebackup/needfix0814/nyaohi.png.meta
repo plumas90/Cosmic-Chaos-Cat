@@ -112,7 +112,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: nyaohi-Photoroom_0
+      name: nyaohi_band
       rect:
         serializedVersion: 2
         x: 51
@@ -235,11 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      nyaohi-Photoroom_0: -2854423107779627955
       nyaohi_0: 6115605864049100577
       nyaohi_1: 3614778248453954989
       nyaohi_2: -8546092636417486817
       nyaohi_3: 7133934138966669249
+      nyaohi_band: -2854423107779627955
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

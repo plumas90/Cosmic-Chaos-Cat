@@ -50,7 +50,7 @@ namespace CosmicChaosCat
             bool isPacmanClickToggle = num == 237;
             bool isGiftCatClickToggle = num == 261;
             bool isSeaCatClickToggle = num == 266;
-            bool isNewClickSingle = (num >= 288 && num <= 291) || num == 312 || num == 314 || num == 315 || num == 320 || num == 322 || num == 323 || num == 336;
+            bool isNewClickSingle = (num >= 288 && num <= 291) || num == 312 || num == 314 || num == 315 || num == 320 || num == 322 || num == 323 || num == 336 || num == 344;
             bool isBallOfYarnTouch = entry != null && entry.IsBallOfYarnTouch();
 
             // The reward stores its two movable halves in BreakthroughSprites,

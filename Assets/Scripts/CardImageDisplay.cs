@@ -58,6 +58,7 @@ namespace CosmicChaosCat
         private bool isAutoIdleActive = false;
         private bool isSchrodingerActive = false;
         private bool isSchrodingerSpecialSequence = false;
+        private int tailClickSequenceStep = 0;
         private Coroutine spadeDeckShuffleRoutine;
         private Coroutine fistClashRoutine;
         private readonly List<Image> spadeDeckLayers = new List<Image>();
@@ -187,6 +188,18 @@ namespace CosmicChaosCat
                 return;
             }
 
+            if (IsCatonato(socketCardId))
+            {
+                AdvanceCatonato(entry, sprites);
+                return;
+            }
+
+            if (IsTailClickAnimation(socketCardId))
+            {
+                AdvanceTailClickAnimation(entry);
+                return;
+            }
+
             if (IsRandomClickSingle(socketCardId))
             {
                 if (sprites != null && sprites.Count >= 2 && cardImage != null)
@@ -291,6 +304,113 @@ namespace CosmicChaosCat
         private static bool IsCatInTheBox(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 327;
+        }
+
+        private static bool IsCatonato(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 336;
+        }
+
+        private static bool IsTailClickAnimation(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 339;
+        }
+
+        private void AdvanceTailClickAnimation(CardEntry card)
+        {
+            if (cardImage == null || card?.BreakthroughSprites == null ||
+                card.BreakthroughSprites.Length < 5) return;
+
+            int frameIndex;
+            if (tailClickSequenceStep < 6)
+            {
+                tailClickSequenceStep++;
+                frameIndex = tailClickSequenceStep % 2 == 1 ? 1 : 2;
+            }
+            else if (tailClickSequenceStep == 6)
+            {
+                tailClickSequenceStep = 7;
+                frameIndex = Random.value < 0.5f ? 3 : 4;
+            }
+            else
+            {
+                tailClickSequenceStep = 0;
+                frameIndex = 0;
+            }
+
+            Sprite frame = card.BreakthroughSprites[frameIndex];
+            if (frame == null) return;
+            cardImage.sprite = frame;
+            FitSubClickSpriteToBounds(frame);
+        }
+
+        private void AdvanceCatonato(CardEntry card, List<Sprite> bodySprites)
+        {
+            if (cardImage != null && bodySprites != null && bodySprites.Count > 0)
+            {
+                currentSpriteIndex = (currentSpriteIndex + 1) % bodySprites.Count;
+                Sprite bodySprite = bodySprites[currentSpriteIndex];
+                if (bodySprite != null)
+                {
+                    cardImage.sprite = bodySprite;
+                    FitSubClickSpriteToBounds(bodySprite);
+                }
+            }
+
+            if (card?.EffectSprites == null || card.EffectSprites.Length == 0) return;
+            Sprite sharkSprite = card.EffectSprites[Random.Range(0, card.EffectSprites.Length)];
+            if (sharkSprite != null) LaunchCatonatoShark(sharkSprite);
+        }
+
+        private void LaunchCatonatoShark(Sprite sharkSprite)
+        {
+            Canvas canvas = cardImage != null ? cardImage.canvas : null;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null || cardImage == null || sharkSprite == null) return;
+
+            RectTransform cardRect = cardImage.rectTransform;
+            Vector2 origin = GetCanvasPointFromCardNormalized(cardRect, canvasRect, cardRect.rect, 0.5f, 0.5f);
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            Rect bounds = canvasRect.rect;
+            float size = mySocket == ClickSocketSlot.Center ? 420f : 315f;
+            float distanceX = Mathf.Abs(direction.x) > 0.001f
+                ? ((direction.x > 0f ? bounds.xMax : bounds.xMin) - origin.x) / direction.x
+                : float.PositiveInfinity;
+            float distanceY = Mathf.Abs(direction.y) > 0.001f
+                ? ((direction.y > 0f ? bounds.yMax : bounds.yMin) - origin.y) / direction.y
+                : float.PositiveInfinity;
+            float distance = Mathf.Min(distanceX, distanceY) + size;
+            Vector2 target = origin + direction * distance;
+
+            Image flyingShark = CreateEffectImage("CatonatoFlyingShark", canvasRect, sharkSprite);
+            RectTransform rect = flyingShark.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = origin;
+            rect.sizeDelta = new Vector2(size, size * sharkSprite.rect.height / sharkSprite.rect.width);
+            // Source illustrations face left. Mirror only when travelling right.
+            rect.localScale = new Vector3(direction.x > 0f ? -1f : 1f, 1f, 1f);
+            rect.SetAsLastSibling();
+            StartCoroutine(AnimateCatonatoShark(rect, direction, target));
+        }
+
+        private System.Collections.IEnumerator AnimateCatonatoShark(
+            RectTransform flyingShark, Vector2 direction, Vector2 target)
+        {
+            const float duration = 0.8f;
+            float elapsed = 0f;
+            Vector2 origin = flyingShark != null ? flyingShark.anchoredPosition : Vector2.zero;
+            float rotation = Random.Range(-18f, 18f);
+            while (flyingShark != null && elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                flyingShark.anchoredPosition = Vector2.LerpUnclamped(origin, target, t * t);
+                flyingShark.localRotation = Quaternion.Euler(0f, 0f, rotation * t + direction.y * 8f);
+                yield return null;
+            }
+            if (flyingShark != null) Destroy(flyingShark.gameObject);
         }
 
         private void AdvanceCatInTheBox(CardEntry card)
@@ -1532,6 +1652,7 @@ namespace CosmicChaosCat
                 autoIdleFrameIndex = 0;
                 autoIdleTimer = 0f;
                 isSchrodingerSpecialSequence = false;
+                tailClickSequenceStep = 0;
                 portalCurrentCatSprite = null;
                 flyCatStageFiveSequenceIndex = 0;
                 ResetPunchCatDisplay();

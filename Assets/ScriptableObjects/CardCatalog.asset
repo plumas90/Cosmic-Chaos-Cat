@@ -8940,10 +8940,7 @@ MonoBehaviour:
     BreakthroughSprites:
     - {fileID: -1704895421264295902, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
     - {fileID: -3481212581703140176, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
-    - {fileID: 6155000180926041579, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
-    - {fileID: -2197200368952833666, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
     - {fileID: 2060874728894133075, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
-    - {fileID: -7385875474538205512, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
     - {fileID: 8695312284787142758, guid: 4d732410b90d3614c9781d67345f0d6f, type: 3}
     EffectSprites: []
     EffectSpriteGroupSplit: 0
@@ -8954,10 +8951,10 @@ MonoBehaviour:
     SpecialEffect: 0
     SpecialEffectValue: 0
     Description: "\uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4
-      \uC77C\uACF1 \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294
+      4\uAC00\uC9C0 \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294
       SR \uB4F1\uAE09 \uB125\uCE74\uB77C \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
-    Description_EN: An SR Elizabethan Collar Cat whose seven appearances cycle on
-      click without evolution.
+    Description_EN: An SR Elizabethan Collar Cat whose 4 appearances cycle on click
+      without evolution.
   - Id: 0289
     DisplayName: "\uD50C\uB77C\uC774 \uD1A0\uC2A4\uD2B8"
     DisplayName_EN: Fly Toast
@@ -10482,7 +10479,16 @@ MonoBehaviour:
     - {fileID: 1251474258, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
     - {fileID: -246529232, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
     - {fileID: -5997838877545401563, guid: 8668d8b79a8be61ebbecc6a25a4f309a, type: 3}
-    EffectSprites: []
+    EffectSprites:
+    - {fileID: -1472837559724993645, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 3694736153665884878, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 6705764872007846309, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 4659425834032306542, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: -190757889386421856, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 7002126482691180867, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: -4831825677062501858, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 6074955819805193693, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
+    - {fileID: 4868118414391083509, guid: 7975168ee1e12923c8f9ef121a46b1f5, type: 3}
     EffectSpriteGroupSplit: 0
     BreakthroughSpriteVariants: []
     UseBreakthroughDescriptions: 0
@@ -10491,8 +10497,287 @@ MonoBehaviour:
     SpecialEffect: 0
     SpecialEffectValue: 0
     Description: "\uCE74\uD1A0\uB098\uD1A0 \uC0C1\uC5B4 \uD0C0\uC785 8\uC885\uC744
-      \uBAA8\uB450 \uBAA8\uC73C\uBA74 \uD574\uAE08\uB418\uBA70, \uD074\uB9AD\uD560
-      \uB54C\uB9C8\uB2E4 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uBC14\uB00C\uB294
-      SSR \uB4F1\uAE09 \uCE74\uD1A0\uB098\uD1A0\uC785\uB2C8\uB2E4."
+      \uBAA8\uB450 \uBAA8\uC73C\uBA74 \uD574\uAE08\uB429\uB2C8\uB2E4. \uD074\uB9AD\uD560
+      \uB54C\uB9C8\uB2E4 \uBCF8\uCCB4 \uBAA8\uC2B5\uC774 \uBC14\uB00C\uACE0, \uBB34\uC791\uC704
+      \uC0C1\uC5B4 \uACE0\uC591\uC774\uAC00 \uBB34\uC791\uC704 \uBC29\uD5A5\uC73C\uB85C
+      \uB0A0\uC544\uAC00\uB294 SSR \uB4F1\uAE09 \uCE74\uD1A0\uB098\uD1A0\uC785\uB2C8\uB2E4."
     Description_EN: An SSR-grade Catonato unlocked by collecting all eight Catonato
-      Shark types. Its sprite changes with every click.
+      Shark types. Each click changes its sprite and launches a random shark cat
+      in a random direction.
+  - Id: 0337
+    DisplayName: "500\uC5B5\uAC1C\uC758 \uBB34\uC9C0\uAC1C"
+    DisplayName_EN: Fifty Billion Rainbows
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 715901883355885581, guid: c514059d972f9cc0897d6399b1caf19c, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000020000000300000004000000
+    BreakthroughSprites:
+    - {fileID: 715901883355885581, guid: c514059d972f9cc0897d6399b1caf19c, type: 3}
+    - {fileID: -6927174636832361915, guid: c514059d972f9cc0897d6399b1caf19c, type: 3}
+    - {fileID: 8888478513308104238, guid: c514059d972f9cc0897d6399b1caf19c, type: 3}
+    - {fileID: 2298569929852656695, guid: c514059d972f9cc0897d6399b1caf19c, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~4\uB2E8\uACC4\uB9C8\uB2E4 \uBB34\uC9C0\uAC1C\uAC00
+      \uB298\uC5B4\uB098\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4.
+      5\uB2E8\uACC4\uC5D0\uC11C\uB294 4\uB2E8\uACC4 \uBAA8\uC2B5\uC744 \uC720\uC9C0\uD569\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose rainbows increase at breakthrough stages
+      1 through 4. Stage 5 keeps the stage 4 appearance.
+  - Id: 0338
+    DisplayName: "\uAE5C\uC9DD \uACE0\uC591\uC774"
+    DisplayName_EN: Surprise Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -8348797240661169941, guid: ec2cf9f56aaad6dd39b01c3c1ec97f71, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000020000000300000004000000
+    BreakthroughSprites:
+    - {fileID: -8348797240661169941, guid: ec2cf9f56aaad6dd39b01c3c1ec97f71, type: 3}
+    - {fileID: 1678644165, guid: ec2cf9f56aaad6dd39b01c3c1ec97f71, type: 3}
+    - {fileID: 4144317740550504367, guid: ec2cf9f56aaad6dd39b01c3c1ec97f71, type: 3}
+    - {fileID: 8865763120392078681, guid: ec2cf9f56aaad6dd39b01c3c1ec97f71, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~4\uB2E8\uACC4\uB9C8\uB2E4 \uB354\uC6B1
+      \uD06C\uAC8C \uB180\uB77C\uB294 R \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4.
+      5\uB2E8\uACC4\uC5D0\uC11C\uB294 4\uB2E8\uACC4 \uBAA8\uC2B5\uC744 \uC720\uC9C0\uD569\uB2C8\uB2E4."
+    Description_EN: An R-grade cat that becomes increasingly surprised at breakthrough
+      stages 1 through 4. Stage 5 keeps the stage 4 appearance.
+  - Id: 0339
+    DisplayName: "\uAF2C\uB9AC \uACE0\uC591\uC774"
+    DisplayName_EN: Tail Cat
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -982240106782292001, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -982240106782292001, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    - {fileID: 183248095846764880, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    - {fileID: 6785694077407166181, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    - {fileID: 124132774413735217, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    - {fileID: 6484634517391622928, guid: 7f34ed2ab788757dc9386f1b16acf445, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 Start \uB2E4\uC74C Ing 1\xB72\uB97C
+      \uC138 \uBC88 \uBC18\uBCF5\uD558\uACE0, End 1 \uB610\uB294 End 2\uB97C \uAC01\uAC01
+      50% \uD655\uB960\uB85C \uD45C\uC2DC\uD55C \uB4A4 \uB2E4\uC74C \uD074\uB9AD\uC5D0
+      Start\uBD80\uD130 \uBC18\uBCF5\uD558\uB294 SR \uB4F1\uAE09 \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade cat whose clicks advance from Start through three
+      Ing 1/Ing 2 pairs, choose End 1 or End 2 with equal probability, then return
+      to Start on the next click.
+  - Id: 0340
+    DisplayName: "\uBA38\uB9AC\uAC00 \uBE68\uAC04 \uC0DD\uC120\uC744 \uBA39\uB294
+      \uACE0\uC591\uC774"
+    DisplayName_EN: The Cat Whose Head Is Eating a Red Fish
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2597201060013823746, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 2597201060013823746, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    - {fileID: -236611445, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    - {fileID: 3075126952602840486, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    - {fileID: 7961445483909467575, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    - {fileID: -9219915230556856479, guid: 5ce4e1295cc3701daafb6aef15badeac, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~5\uB2E8\uACC4\uB9C8\uB2E4 \uBA38\uB9AC\uC640
+      \uBB3C\uACE0\uAE30\uC758 \uBAA8\uC2B5\uC774 \uBCC0\uD558\uB294 R \uB4F1\uAE09
+      \uACE0\uC591\uC774\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade cat whose head and fish change at every breakthrough
+      stage from 1 through 5.
+  - Id: 0341
+    DisplayName: "\uD2B8\uB9AC\uB2C8\uD2F0 \uBD84\uB178"
+    DisplayName_EN: Trinity Angry
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 18
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -459668746143163140, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: -459668746143163140, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    - {fileID: 8115697848928762080, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    - {fileID: 1649307124, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    - {fileID: -1165744088, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    - {fileID: 338598044, guid: a5263a2ee7d781e3da956c512d5b3c5a, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~5\uB2E8\uACC4\uB9C8\uB2E4 \uBAA8\uC2B5\uC774
+      \uBCC0\uD558\uB294 SR \uB4F1\uAE09 \uD2B8\uB9AC\uB2C8\uD2F0 \uBD84\uB178 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade Trinity Angry card whose appearance changes at every
+      breakthrough stage from 1 through 5.
+  - Id: 0342
+    DisplayName: "\uD2B8\uB9AC\uB2C8\uD2F0 \uD589\uBCF5"
+    DisplayName_EN: Trinity Happy
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 18
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8307738986387740347, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 8307738986387740347, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    - {fileID: -1724064644778715611, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    - {fileID: 3075740869563522693, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    - {fileID: -8187839827305434144, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    - {fileID: -7918729981744978637, guid: 1d980ef3a136550b78d9ff965442352a, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~5\uB2E8\uACC4\uB9C8\uB2E4 \uBAA8\uC2B5\uC774
+      \uBCC0\uD558\uB294 SR \uB4F1\uAE09 \uD2B8\uB9AC\uB2C8\uD2F0 \uD589\uBCF5 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade Trinity Happy card whose appearance changes at every
+      breakthrough stage from 1 through 5.
+  - Id: 0343
+    DisplayName: "\uD2B8\uB9AC\uB2C8\uD2F0 \uC2AC\uD514"
+    DisplayName_EN: Trinity Sad
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 18
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -9050287319658085878, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: -9050287319658085878, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    - {fileID: 1893746993666387746, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    - {fileID: 4370826465982607710, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    - {fileID: 400673609785966083, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    - {fileID: -3478664193786438641, guid: 282ab8c50e7d581ac8bfba68e23ae7e3, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1~5\uB2E8\uACC4\uB9C8\uB2E4 \uBAA8\uC2B5\uC774
+      \uBCC0\uD558\uB294 SR \uB4F1\uAE09 \uD2B8\uB9AC\uB2C8\uD2F0 \uC2AC\uD514 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade Trinity Sad card whose appearance changes at every
+      breakthrough stage from 1 through 5.
+  - Id: 0344
+    DisplayName: "\uD2B8\uB9AC\uB2C8\uD2F0"
+    DisplayName_EN: Trinity
+    Rarity: 3
+    BaseWeight: 0
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2403507003804411066, guid: fdf96c99e4270928eb4d617159bac5c2, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: -2403507003804411066, guid: fdf96c99e4270928eb4d617159bac5c2, type: 3}
+    - {fileID: -3868122261227550873, guid: fdf96c99e4270928eb4d617159bac5c2, type: 3}
+    - {fileID: 985254995496700320, guid: fdf96c99e4270928eb4d617159bac5c2, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uBD84\uB178\xB7\uD589\uBCF5\xB7\uC2AC\uD514 \uD2B8\uB9AC\uB2C8\uD2F0
+      3\uC885\uC744 \uBAA8\uB450 \uBAA8\uC73C\uBA74 \uD574\uAE08\uB418\uBA70, \uD074\uB9AD\uD560
+      \uB54C\uB9C8\uB2E4 \uC138 \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
+      SSR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR-grade reward unlocked by collecting Trinity Angry, Happy,
+      and Sad. Its three appearances cycle on click.
