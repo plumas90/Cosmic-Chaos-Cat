@@ -78,6 +78,20 @@ namespace CosmicChaosCat
         private Sprite hungryBaseSprite;
         private Sprite hungryBiteSprite;
         private Coroutine hungryBiteRoutine;
+        private Coroutine hairballReactionRoutine;
+        private Coroutine warigariRoutine;
+        private Vector2 warigariRestPosition;
+        private Vector3 warigariRestScale;
+        private bool warigariTransformCaptured;
+        private bool warigariNextMoveRight;
+        private bool warigariFacingRight;
+        private Image tasteFoodImage;
+        private int tasteFrameIndex;
+        private bool tasteUsesMeat;
+        private Image throwTableObjectImage;
+        private bool throwPushPose;
+        private Image humunStreetCatImage;
+        private int humunStreetCatIndex;
         private bool hungryWasActive;
         private readonly List<GameObject> rainbowCats = new List<GameObject>();
         private int rainbowCatSequenceIndex;
@@ -200,6 +214,36 @@ namespace CosmicChaosCat
                 return;
             }
 
+            if (IsHairballCat(socketCardId))
+            {
+                LaunchHairball(entry);
+                return;
+            }
+
+            if (IsWarigari2(socketCardId))
+            {
+                StartWarigariDash(selectedStage);
+                return;
+            }
+
+            if (IsTasteCat(socketCardId))
+            {
+                AdvanceTasteMeal(entry);
+                return;
+            }
+
+            if (IsThrowCat(socketCardId))
+            {
+                AdvanceThrowCat(entry);
+                return;
+            }
+
+            if (IsHumunStreetEarth(socketCardId))
+            {
+                AdvanceHumunStreetEarth(entry);
+                return;
+            }
+
             if (IsRandomClickSingle(socketCardId))
             {
                 if (sprites != null && sprites.Count >= 2 && cardImage != null)
@@ -314,6 +358,360 @@ namespace CosmicChaosCat
         private static bool IsTailClickAnimation(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 339;
+        }
+
+        private static bool IsHairballCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 345;
+        }
+
+        private static bool IsWarigari2(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 346;
+        }
+
+        private static bool IsTasteCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 347;
+        }
+
+        private static bool IsThrowCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 348;
+        }
+
+        private static bool IsHumunStreetEarth(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 349;
+        }
+
+        private void AdvanceHumunStreetEarth(CardEntry card)
+        {
+            if (humunStreetCatImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 12) return;
+            humunStreetCatIndex = (humunStreetCatIndex + 1) % card.EffectSprites.Length;
+            humunStreetCatImage.sprite = card.EffectSprites[humunStreetCatIndex];
+            humunStreetCatImage.preserveAspect = true;
+        }
+
+        private void RefreshHumunStreetEarthDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 12)
+            {
+                if (humunStreetCatImage != null) Destroy(humunStreetCatImage.gameObject);
+                humunStreetCatImage = null;
+                humunStreetCatIndex = 0;
+                return;
+            }
+
+            if (humunStreetCatImage == null)
+            {
+                humunStreetCatImage = CreateEffectImage("HumunStreetEarthCat", cardImage.transform, null);
+                RectTransform catRect = humunStreetCatImage.rectTransform;
+                catRect.anchorMin = catRect.anchorMax = new Vector2(0.5f, 0.5f);
+                catRect.pivot = new Vector2(0.5f, 0.5f);
+                catRect.SetAsLastSibling();
+            }
+            humunStreetCatIndex = 0;
+            humunStreetCatImage.sprite = card.EffectSprites[0];
+            humunStreetCatImage.preserveAspect = true;
+            RectTransform earthRect = cardImage.rectTransform;
+            RectTransform overlayRect = humunStreetCatImage.rectTransform;
+            float width = earthRect.rect.width * 0.31f;
+            Sprite catSprite = card.EffectSprites[0];
+            overlayRect.sizeDelta = new Vector2(width, width * catSprite.rect.height / catSprite.rect.width);
+            // The requested +270 offset is based on the 853-high source Earth slice.
+            // Scale the same ratio for center and sub-click displays.
+            const float sourceEarthHeight = 853f;
+            const float sourceCatOffsetY = 270f;
+            overlayRect.anchoredPosition = new Vector2(
+                0f,
+                earthRect.rect.height * (sourceCatOffsetY / sourceEarthHeight));
+        }
+
+        private void AdvanceThrowCat(CardEntry card)
+        {
+            if (cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 16) return;
+            if (!throwPushPose)
+            {
+                throwPushPose = true;
+                cardImage.sprite = card.EffectSprites[1];
+                FitSubClickSpriteToBounds(cardImage.sprite);
+                DropThrowTableObject();
+            }
+            else
+            {
+                throwPushPose = false;
+                cardImage.sprite = card.EffectSprites[0];
+                FitSubClickSpriteToBounds(cardImage.sprite);
+                SpawnThrowTableObject(card);
+            }
+        }
+
+        private void RefreshThrowCatDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 16)
+            {
+                if (throwTableObjectImage != null) Destroy(throwTableObjectImage.gameObject);
+                throwTableObjectImage = null;
+                throwPushPose = false;
+                return;
+            }
+
+            throwPushPose = false;
+            cardImage.sprite = card.EffectSprites[0];
+            FitSubClickSpriteToBounds(cardImage.sprite);
+            SpawnThrowTableObject(card);
+        }
+
+        private void SpawnThrowTableObject(CardEntry card)
+        {
+            if (cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 16) return;
+            if (throwTableObjectImage != null) Destroy(throwTableObjectImage.gameObject);
+
+            Sprite objectSprite = card.EffectSprites[Random.Range(2, 16)];
+            if (objectSprite == null) return;
+            throwTableObjectImage = CreateEffectImage("ThrowTableObject", cardImage.transform, objectSprite);
+            RectTransform cardRect = cardImage.rectTransform;
+            RectTransform objectRect = throwTableObjectImage.rectTransform;
+            objectRect.anchorMin = objectRect.anchorMax = new Vector2(0.5f, 0.5f);
+            objectRect.pivot = new Vector2(0.5f, 0.5f);
+            float size = Mathf.Min(cardRect.rect.width, cardRect.rect.height) * 0.22f;
+            objectRect.sizeDelta = new Vector2(size, size * objectSprite.rect.height / objectSprite.rect.width);
+            objectRect.anchoredPosition = new Vector2(
+                -cardRect.rect.width * 0.10f,
+                objectRect.sizeDelta.y * 0.25f);
+            objectRect.SetAsLastSibling();
+        }
+
+        private void DropThrowTableObject()
+        {
+            if (throwTableObjectImage == null || cardImage == null) return;
+            Image falling = throwTableObjectImage;
+            throwTableObjectImage = null;
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) { Destroy(falling.gameObject); return; }
+            RectTransform fallingRect = falling.rectTransform;
+            Vector3 worldPosition = fallingRect.position;
+            Vector3 worldScale = fallingRect.lossyScale;
+            fallingRect.SetParent(canvasRect, false);
+            fallingRect.anchorMin = fallingRect.anchorMax = new Vector2(0.5f, 0.5f);
+            fallingRect.pivot = new Vector2(0.5f, 0.5f);
+            fallingRect.anchoredPosition = canvasRect.InverseTransformPoint(worldPosition);
+            Vector3 canvasScale = canvasRect.lossyScale;
+            fallingRect.localScale = new Vector3(
+                worldScale.x / Mathf.Max(Mathf.Abs(canvasScale.x), 0.001f),
+                worldScale.y / Mathf.Max(Mathf.Abs(canvasScale.y), 0.001f), 1f);
+            fallingRect.SetAsLastSibling();
+            StartCoroutine(AnimateThrownObject(fallingRect, canvasRect));
+        }
+
+        private System.Collections.IEnumerator AnimateThrownObject(RectTransform falling, RectTransform canvasRect)
+        {
+            Vector2 velocity = new Vector2(-260f, -120f);
+            const float gravity = 1050f;
+            while (falling != null && falling.anchoredPosition.y > canvasRect.rect.yMin - falling.rect.height)
+            {
+                float dt = Time.unscaledDeltaTime;
+                velocity.y -= gravity * dt;
+                falling.anchoredPosition += velocity * dt;
+                falling.Rotate(0f, 0f, 300f * dt);
+                yield return null;
+            }
+            if (falling != null) Destroy(falling.gameObject);
+        }
+
+        private void AdvanceTasteMeal(CardEntry card)
+        {
+            if (cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 12) return;
+            tasteFrameIndex = (tasteFrameIndex + 1) % 4;
+            if (tasteFrameIndex == 0) tasteUsesMeat = Random.value < 0.5f;
+            ApplyTasteFrame(card);
+        }
+
+        private void RefreshTasteDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 12)
+            {
+                if (tasteFoodImage != null) Destroy(tasteFoodImage.gameObject);
+                tasteFoodImage = null;
+                tasteFrameIndex = 0;
+                return;
+            }
+
+            if (tasteFoodImage == null)
+            {
+                tasteFrameIndex = 0;
+                tasteUsesMeat = Random.value < 0.5f;
+                tasteFoodImage = CreateEffectImage("TasteFood", cardImage.transform, null);
+                RectTransform foodRect = tasteFoodImage.rectTransform;
+                foodRect.anchorMin = foodRect.anchorMax = new Vector2(0.5f, 0.5f);
+                foodRect.pivot = new Vector2(0.5f, 0.5f);
+                foodRect.SetAsLastSibling();
+            }
+            ApplyTasteFrame(card);
+        }
+
+        private void ApplyTasteFrame(CardEntry card)
+        {
+            if (cardImage == null || tasteFoodImage == null || card?.EffectSprites == null ||
+                card.EffectSprites.Length < 12) return;
+
+            Sprite catSprite = card.EffectSprites[tasteFrameIndex];
+            int foodStart = tasteUsesMeat ? 8 : 4;
+            Sprite foodSprite = card.EffectSprites[foodStart + tasteFrameIndex];
+            if (catSprite == null || foodSprite == null) return;
+
+            cardImage.sprite = catSprite;
+            FitSubClickSpriteToBounds(catSprite);
+            tasteFoodImage.sprite = foodSprite;
+            tasteFoodImage.preserveAspect = true;
+            RectTransform cardRect = cardImage.rectTransform;
+            RectTransform foodRect = tasteFoodImage.rectTransform;
+            float width = cardRect.rect.width * 0.72f;
+            foodRect.sizeDelta = new Vector2(width, width * foodSprite.rect.height / foodSprite.rect.width);
+            foodRect.anchoredPosition = new Vector2(-cardRect.rect.width * 0.10f, cardRect.rect.yMin);
+        }
+
+        private void StartWarigariDash(int selectedStage)
+        {
+            if (cardImage == null) return;
+            RectTransform rect = cardImage.rectTransform;
+            if (!warigariTransformCaptured)
+            {
+                warigariRestPosition = rect.anchoredPosition;
+                warigariRestScale = rect.localScale;
+                warigariTransformCaptured = true;
+                warigariNextMoveRight = false;
+                warigariFacingRight = false;
+            }
+            if (warigariRoutine != null)
+            {
+                StopCoroutine(warigariRoutine);
+                warigariRoutine = null;
+            }
+
+            int stage = Mathf.Clamp(selectedStage, 1, 5);
+            bool movingRight = warigariNextMoveRight;
+            warigariNextMoveRight = !warigariNextMoveRight;
+            warigariFacingRight = movingRight;
+            float distance = stage * 24f;
+            Vector2 target = warigariRestPosition + Vector2.right * (movingRight ? distance : -distance);
+            Vector3 scale = rect.localScale;
+            scale.x = Mathf.Abs(warigariRestScale.x) * (movingRight ? -1f : 1f);
+            rect.localScale = scale;
+            warigariRoutine = StartCoroutine(MoveWarigariOnce(rect, target));
+        }
+
+        private System.Collections.IEnumerator MoveWarigariOnce(RectTransform rect, Vector2 target)
+        {
+            const float duration = 0.085f;
+            Vector2 start = rect != null ? rect.anchoredPosition : Vector2.zero;
+            float elapsed = 0f;
+            while (rect != null && elapsed < duration)
+            {
+                string activeId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+                if (!IsWarigari2(activeId)) break;
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+                rect.anchoredPosition = Vector2.LerpUnclamped(start, target, t);
+                yield return null;
+            }
+            if (rect != null && IsWarigari2(gameManager != null ? gameManager.GetSocketCardId(mySocket) : null))
+                rect.anchoredPosition = target;
+            warigariRoutine = null;
+        }
+
+        private void RestoreWarigariTransform()
+        {
+            if (warigariTransformCaptured && cardImage != null)
+            {
+                RectTransform rect = cardImage.rectTransform;
+                rect.anchoredPosition = warigariRestPosition;
+                rect.localScale = warigariRestScale;
+                warigariTransformCaptured = false;
+                warigariNextMoveRight = false;
+                warigariFacingRight = false;
+            }
+            if (warigariRoutine != null)
+            {
+                StopCoroutine(warigariRoutine);
+                warigariRoutine = null;
+            }
+        }
+
+        private void LaunchHairball(CardEntry card)
+        {
+            if (cardImage == null || card?.CardSprite == null || card.EffectSprites == null ||
+                card.EffectSprites.Length < 2 || card.EffectSprites[0] == null || card.EffectSprites[1] == null)
+                return;
+
+            if (hairballReactionRoutine != null) StopCoroutine(hairballReactionRoutine);
+            hairballReactionRoutine = StartCoroutine(PlayHairballReaction(card));
+
+            Canvas canvas = cardImage.canvas;
+            RectTransform canvasRect = canvas != null ? canvas.transform as RectTransform : null;
+            if (canvasRect == null) return;
+
+            RectTransform cardRect = cardImage.rectTransform;
+            // Keep the horizontal coordinate aligned with cat2's mouth. Vertically,
+            // y=-125 on the 500-high source slice is 25% up from its bottom edge;
+            // preserve that ratio for every click socket and resolution.
+            const float mouthNormalizedX = 0.29f;
+            const float mouthNormalizedY = 0.25f;
+            Vector2 origin = GetCanvasPointFromCardNormalized(
+                cardRect, canvasRect, cardRect.rect, mouthNormalizedX, mouthNormalizedY);
+            // Screen coordinates use +Y upward. Vary the clockwise 110-degree launch
+            // slightly so repeated hairballs do not follow an identical trajectory.
+            float launchAngle = Random.Range(98f, 122f);
+            float radians = launchAngle * Mathf.Deg2Rad;
+            Vector2 direction = new Vector2(Mathf.Cos(radians), -Mathf.Sin(radians)).normalized;
+            float size = Mathf.Clamp(Mathf.Min(cardRect.rect.width, cardRect.rect.height) * 0.20f, 48f, 120f);
+            float distance = Mathf.Sqrt(
+                canvasRect.rect.width * canvasRect.rect.width +
+                canvasRect.rect.height * canvasRect.rect.height) + size;
+
+            Image projectile = CreateEffectImage("HairballProjectile", canvasRect, card.EffectSprites[1]);
+            RectTransform projectileRect = projectile.rectTransform;
+            projectileRect.anchorMin = projectileRect.anchorMax = new Vector2(0.5f, 0.5f);
+            projectileRect.pivot = new Vector2(0.5f, 0.5f);
+            projectileRect.anchoredPosition = origin;
+            projectileRect.sizeDelta = new Vector2(
+                size,
+                size * card.EffectSprites[1].rect.height / card.EffectSprites[1].rect.width);
+            projectileRect.SetAsLastSibling();
+            StartCoroutine(AnimateHairball(projectileRect, origin + direction * distance));
+        }
+
+        private System.Collections.IEnumerator PlayHairballReaction(CardEntry card)
+        {
+            cardImage.sprite = card.EffectSprites[0];
+            FitSubClickSpriteToBounds(cardImage.sprite);
+            yield return new WaitForSecondsRealtime(0.16f);
+            string activeId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (cardImage != null && IsHairballCat(activeId))
+            {
+                cardImage.sprite = card.CardSprite;
+                FitSubClickSpriteToBounds(cardImage.sprite);
+            }
+            hairballReactionRoutine = null;
+        }
+
+        private System.Collections.IEnumerator AnimateHairball(RectTransform projectile, Vector2 target)
+        {
+            const float duration = 1.35f;
+            float elapsed = 0f;
+            Vector2 origin = projectile != null ? projectile.anchoredPosition : Vector2.zero;
+            while (projectile != null && elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                projectile.anchoredPosition = Vector2.LerpUnclamped(origin, target, t);
+                projectile.Rotate(0f, 0f, -540f * Time.unscaledDeltaTime);
+                yield return null;
+            }
+            if (projectile != null) Destroy(projectile.gameObject);
         }
 
         private void AdvanceTailClickAnimation(CardEntry card)
@@ -1410,6 +1808,12 @@ namespace CosmicChaosCat
             }
             StopOORollingDisplay();
             ClearSpawnedBurgers();
+            if (hairballReactionRoutine != null)
+            {
+                StopCoroutine(hairballReactionRoutine);
+                hairballReactionRoutine = null;
+            }
+            RestoreWarigariTransform();
         }
 
         private void PlayThunderCatLightning(Vector2 screenPosition)
@@ -1540,6 +1944,17 @@ namespace CosmicChaosCat
 
             if (spawnedBurgerStacks.Count > 0 && gameManager != null && gameManager.ComboCount == 0)
                 ClearSpawnedBurgers(true);
+
+            // Sub-socket breathing and the shared click-bounce animation both write
+            // localScale. Reapply only Warigari's horizontal sign afterward so its
+            // last clicked facing direction remains visible until the next click.
+            string activeCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (warigariTransformCaptured && cardImage != null && IsWarigari2(activeCardId))
+            {
+                Vector3 scale = cardImage.rectTransform.localScale;
+                scale.x = Mathf.Abs(scale.x) * (warigariFacingRight ? -1f : 1f);
+                cardImage.rectTransform.localScale = scale;
+            }
         }
 
         private void UpdateAutoIdleAnimation()
@@ -1645,6 +2060,7 @@ namespace CosmicChaosCat
             bool equippedCardChanged = lastEquippedId != curCardId;
             if (equippedCardChanged)
             {
+                RestoreWarigariTransform();
                 lastEquippedId = curCardId;
                 lastSizedSprite = null;
                 currentSpriteIndex = 0;
@@ -1746,6 +2162,9 @@ namespace CosmicChaosCat
                 RefreshOORollingDisplay(IsOORollingCat(curCardId), card);
                 RefreshBlackEyesDisplay(IsBlackEyes(curCardId), card);
                 RefreshBurgerMakerDisplay(IsBurgerMaker(curCardId), card);
+                RefreshTasteDisplay(IsTasteCat(curCardId), card);
+                RefreshThrowCatDisplay(IsThrowCat(curCardId), card);
+                RefreshHumunStreetEarthDisplay(IsHumunStreetEarth(curCardId), card);
             }
 
             // 등급 컬러
@@ -2896,6 +3315,15 @@ namespace CosmicChaosCat
             EnsureBaseScale(targetTf);
 
             string socketCardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+
+            // CycleMemeCatImage moves Warigari before the ordinary click bounce runs.
+            // Carry its facing direction into the bounce's base scale so the bounce
+            // cannot reset a right-facing cat back to the source's left-facing pose.
+            if (IsWarigari2(socketCardId))
+            {
+                defaultTargetScale.x = Mathf.Abs(defaultTargetScale.x) *
+                                       (warigariFacingRight ? -1f : 1f);
+            }
 
             if (IsBlackEyes(socketCardId))
             {

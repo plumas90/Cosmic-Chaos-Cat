@@ -595,3 +595,185 @@ MonoBehaviour:
     Description: "\uB124 \uAC1C\uC758 \uC2A4\uD504\uB77C\uC774\uD2B8\uAC00 \uC790\uB3D9\uC73C\uB85C
       \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294 \uC0C1\uC5B4 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
     Description_EN: A shark decoration whose four sprites loop automatically in sequence.
+  - Id: deco-throw-yellow-cat-mug
+    DisplayName: "\uB178\uB780 \uACE0\uC591\uC774 \uBA38\uADF8"
+    DisplayName_EN: Yellow Cat Mug
+    DecorationSprite: {fileID: 1583679426350305292, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uB178\uB780 \uACE0\uC591\uC774 \uBA38\uADF8 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A yellow cat mug decoration.
+  - Id: deco-throw-bubble-tea
+    DisplayName: "\uBC84\uBE14\uD2F0"
+    DisplayName_EN: Bubble Tea
+    DecorationSprite: {fileID: -8393100071900292063, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uBC84\uBE14\uD2F0 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A bubble tea decoration.
+  - Id: deco-throw-potted-plant
+    DisplayName: "\uACE0\uC591\uC774 \uD654\uBD84"
+    DisplayName_EN: Cat Potted Plant
+    DecorationSprite: {fileID: 5737628238401696885, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uC591\uC774 \uD654\uBD84 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A cat potted plant decoration.
+  - Id: deco-throw-red-yarn
+    DisplayName: "\uBE68\uAC04 \uC2E4\uBB49\uCE58"
+    DisplayName_EN: Red Yarn Ball
+    DecorationSprite: {fileID: 3509975361506003321, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uBE68\uAC04 \uC2E4\uBB49\uCE58 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A red yarn ball decoration.
+  - Id: deco-throw-fish-can
+    DisplayName: "\uD30C\uB780 \uC0DD\uC120 \uCE94"
+    DisplayName_EN: Blue Fish Can
+    DecorationSprite: {fileID: -1085286503423674999, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uD30C\uB780 \uC0DD\uC120 \uCE94 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A blue fish can decoration.
+  - Id: deco-throw-snow-globe
+    DisplayName: "\uACE0\uC591\uC774 \uC2A4\uB178\uC6B0\uAE00\uB85C\uBE0C"
+    DisplayName_EN: Cat Snow Globe
+    DecorationSprite: {fileID: 8013519344854952530, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uC591\uC774 \uC2A4\uB178\uC6B0\uAE00\uB85C\uBE0C \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A cat snow globe decoration.
+  - Id: deco-throw-book-stack
+    DisplayName: "\uACE0\uC591\uC774 \uCC45 \uB354\uBBF8"
+    DisplayName_EN: Cat Book Stack
+    DecorationSprite: {fileID: 2150375078613822251, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uC591\uC774 \uCC45 \uB354\uBBF8 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A cat book stack decoration.
+  - Id: deco-throw-rubber-duck
+    DisplayName: "\uACE0\uBB34 \uC624\uB9AC"
+    DisplayName_EN: Rubber Duck
+    DecorationSprite: {fileID: 6732723148816927080, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uBB34 \uC624\uB9AC \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A rubber duck decoration.
+  - Id: deco-throw-fish-plush
+    DisplayName: "\uC0DD\uC120 \uC778\uD615"
+    DisplayName_EN: Fish Plush
+    DecorationSprite: {fileID: 3895548255536119401, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uC0DD\uC120 \uC778\uD615 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A fish plush decoration.
+  - Id: deco-throw-alarm-clock
+    DisplayName: "\uACE0\uC591\uC774 \uC54C\uB78C\uC2DC\uACC4"
+    DisplayName_EN: Cat Alarm Clock
+    DecorationSprite: {fileID: 9089049169276463398, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uACE0\uC591\uC774 \uC54C\uB78C\uC2DC\uACC4 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A cat alarm clock decoration.
+  - Id: deco-throw-crumpled-paper
+    DisplayName: "\uAD6C\uACA8\uC9C4 \uC885\uC774"
+    DisplayName_EN: Crumpled Paper
+    DecorationSprite: {fileID: -388178929225456212, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uAD6C\uACA8\uC9C4 \uC885\uC774 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A crumpled paper decoration.
+  - Id: deco-throw-cactus
+    DisplayName: "\uAF43 \uC120\uC778\uC7A5"
+    DisplayName_EN: Flowering Cactus
+    DecorationSprite: {fileID: -5867344755015282421, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uAF43 \uC120\uC778\uC7A5 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A flowering cactus decoration.
+  - Id: deco-throw-paw-mug
+    DisplayName: "\uBC1C\uBC14\uB2E5 \uBA38\uADF8"
+    DisplayName_EN: Paw Mug
+    DecorationSprite: {fileID: 8096051428122654905, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uBC1C\uBC14\uB2E5 \uBA38\uADF8 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A paw mug decoration.
+  - Id: deco-throw-black-cat-cushion
+    DisplayName: "\uAC80\uC740 \uACE0\uC591\uC774 \uCFE0\uC158"
+    DisplayName_EN: Black Cat Cushion
+    DecorationSprite: {fileID: 3459407414070866246, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    AnimationSprites: []
+    AnimationFrameDuration: 0.25
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    SetId: 
+    Description: "\uAC80\uC740 \uACE0\uC591\uC774 \uCFE0\uC158 \uC7A5\uC2DD\uC785\uB2C8\uB2E4."
+    Description_EN: A black cat cushion decoration.

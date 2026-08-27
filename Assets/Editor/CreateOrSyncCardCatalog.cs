@@ -254,6 +254,11 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureTailAnimationCard(cardsProp, existingCards);
             addedCount += EnsureRedFishHeadCatCard(cardsProp, existingCards);
             addedCount += EnsureTrinitySetCards(cardsProp, existingCards);
+            addedCount += EnsureHairballCard(cardsProp, existingCards);
+            addedCount += EnsureWarigari2Card(cardsProp, existingCards);
+            addedCount += EnsureTasteCard(cardsProp, existingCards);
+            addedCount += EnsureThrowCard(cardsProp, existingCards);
+            addedCount += EnsureHumunStreetEarthCard(cardsProp, existingCards);
             EnsureSeaSetCatalog();
             EnsureCatMonsterSetCatalog();
             EnsureCatonatoSetCatalog();
@@ -261,6 +266,7 @@ namespace CosmicChaosCat.EditorTools
             EnsureCatWheelDecoration();
             EnsureCatTowerDecoration();
             EnsureSharkDecorations();
+            EnsureThrowObjectDecorations();
 
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
@@ -1531,6 +1537,202 @@ namespace CosmicChaosCat.EditorTools
             EditorUtility.SetDirty(catalog);
         }
 
+        private static int EnsureHairballCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/345_hairball/hairball.png";
+            Sprite cat1 = LoadNamedSprite(path, "hairball_cat1");
+            Sprite cat2 = LoadNamedSprite(path, "hairball_cat2");
+            Sprite hairball = LoadNamedSprite(path, "hairball_hairball");
+            if (cat1 == null || cat2 == null || hairball == null) return 0;
+
+            const string id = "0345";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "헤어볼", "Hairball", CardRarity.SR, cat1);
+            card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            card.FindPropertyRelative("ClickGold").floatValue = 25f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 2;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = cat2;
+            effects.GetArrayElementAtIndex(1).objectReferenceValue = hairball;
+            card.FindPropertyRelative("Description").stringValue =
+                "기본 모습은 cat1이며, 클릭하면 잠시 cat2로 바뀌고 입에서 화면 왼쪽 아래 110도 방향으로 헤어볼을 발사하는 SR 등급 카드입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SR-grade card that briefly changes from cat1 to cat2 on click and launches a hairball from its mouth down-left at 110 degrees.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureWarigari2Card(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/346_warigari2/warigari2.png";
+            var images = new Sprite[5];
+            for (int i = 0; i < images.Length; i++)
+            {
+                images[i] = LoadNamedSprite(path, $"warigari2_{i}");
+                if (images[i] == null) return 0;
+            }
+
+            const string id = "0346";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "와리가리 2", "Warigari 2", CardRarity.R, images[0]);
+            var stages = card.FindPropertyRelative("BreakthroughVariantStages");
+            var sprites = card.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.arraySize = images.Length;
+            for (int i = 0; i < images.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                sprites.GetArrayElementAtIndex(i).objectReferenceValue = images[i];
+            }
+            card.FindPropertyRelative("Description").stringValue =
+                "한계돌파할 때마다 더 격렬하게 뛰는 모습으로 변합니다. 클릭할 때마다 왼쪽과 오른쪽으로 번갈아 빠르게 이동하며, 단계가 높을수록 이동 거리가 늘고 오른쪽으로 달릴 때는 이미지가 좌우 반전됩니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "Its running pose grows more intense at every breakthrough. Each click alternates a quick dash left or right; higher stages travel farther, and rightward dashes flip the image horizontally.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureTasteCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/347_taste";
+            var cats = new Sprite[4];
+            var fish = new Sprite[4];
+            var meat = new Sprite[4];
+            for (int i = 0; i < 4; i++)
+            {
+                cats[i] = LoadNamedSprite(directory + "/taste1.png", $"taste1_{i}");
+                fish[i] = LoadNamedSprite(directory + "/taste_fish.png", $"taste_fish_{i}");
+                meat[i] = LoadNamedSprite(directory + "/taste_meat.png", $"taste_meat_{i}");
+                if (cats[i] == null || fish[i] == null || meat[i] == null) return 0;
+            }
+
+            const string id = "0347";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "맛보기", "Taste", CardRarity.SR, cats[0]);
+            card.FindPropertyRelative("BaseWeight").floatValue = 10f;
+            card.FindPropertyRelative("ClickGold").floatValue = 25f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_5;
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 12;
+            for (int i = 0; i < 4; i++)
+            {
+                effects.GetArrayElementAtIndex(i).objectReferenceValue = cats[i];
+                effects.GetArrayElementAtIndex(4 + i).objectReferenceValue = fish[i];
+                effects.GetArrayElementAtIndex(8 + i).objectReferenceValue = meat[i];
+            }
+            card.FindPropertyRelative("EffectSpriteGroupSplit").intValue = 4;
+            card.FindPropertyRelative("Description").stringValue =
+                "식사가 시작될 때 생선과 고기 중 하나가 무작위로 정해집니다. 클릭할 때마다 고양이와 음식이 1~4단계로 함께 바뀌며, 4단계에서 모두 먹은 뒤 새 식사를 시작합니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "Each meal randomly begins with fish or meat. Every click advances both the cat and its food through eating frames 1 to 4, then starts a new meal after the food is finished.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureThrowCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string directory = "Assets/image/A_No/348_throw";
+            Sprite watching = LoadNamedSprite(directory + "/throw2.png", "throw2.png_0");
+            Sprite pushing = LoadNamedSprite(directory + "/throw2.png", "throw2.png_2");
+            if (watching == null || pushing == null) return 0;
+
+            var objects = new Sprite[14];
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i] = LoadNamedSprite(directory + "/throw1.png", $"throw1_{i}");
+                if (objects[i] == null) return 0;
+            }
+
+            const string id = "0348";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "밀어 떨어뜨리기", "Push It Off", CardRarity.SSR, watching);
+            card.FindPropertyRelative("BaseWeight").floatValue = 2f;
+            card.FindPropertyRelative("ClickGold").floatValue = 125f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 16;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = watching;
+            effects.GetArrayElementAtIndex(1).objectReferenceValue = pushing;
+            for (int i = 0; i < objects.Length; i++)
+                effects.GetArrayElementAtIndex(i + 2).objectReferenceValue = objects[i];
+            card.FindPropertyRelative("EffectSpriteGroupSplit").intValue = 2;
+            card.FindPropertyRelative("Description").stringValue =
+                "탁자 위의 무작위 물건을 바라보다가 클릭하면 앞발로 쳐서 왼쪽 아래로 떨어뜨립니다. 물건이 화면 아래로 사라진 뒤 다음 클릭에서 새 물건을 고릅니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SSR cat watches a random object on the table. Click to swat it down-left and off the bottom of the screen; the next click prepares a new object.";
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureHumunStreetEarthCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string path = "Assets/image/A_No/349_humun_street_earth/humun_street_earth2.png";
+            Sprite earth = LoadNamedSprite(path, "humun_street_earth_earth");
+            var cats = new Sprite[12];
+            cats[0] = LoadNamedSprite(path, "humun_street_earth_cat_base");
+            for (int i = 1; i < cats.Length; i++)
+                cats[i] = LoadNamedSprite(path, $"humun_street_earth_cat_{i}");
+            if (earth == null) return 0;
+            for (int i = 0; i < cats.Length; i++) if (cats[i] == null) return 0;
+
+            const string id = "0349";
+            bool isNew = !existingCards.TryGetValue(id, out var card);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                card = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = card;
+            }
+
+            WriteOOSingleCard(card, id, "휴먼 스트리트 어스", "Humun Street Earth", CardRarity.SSR, earth);
+            card.FindPropertyRelative("BaseWeight").floatValue = 2f;
+            card.FindPropertyRelative("ClickGold").floatValue = 125f;
+            card.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            var effects = card.FindPropertyRelative("EffectSprites");
+            effects.arraySize = cats.Length;
+            for (int i = 0; i < cats.Length; i++)
+                effects.GetArrayElementAtIndex(i).objectReferenceValue = cats[i];
+            card.FindPropertyRelative("Description").stringValue =
+                "지구 위에 고양이가 서 있으며, 클릭할 때마다 기본 모습부터 11가지 동작까지 순서대로 바뀌는 SSR 등급 카드입니다.";
+            card.FindPropertyRelative("Description_EN").stringValue =
+                "An SSR card with a cat layered over Earth. Each click cycles from the base pose through eleven cat poses in order.";
+            return isNew ? 1 : 0;
+        }
+
         private static void EnsureCatTowerDecoration()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
@@ -1610,6 +1812,72 @@ namespace CosmicChaosCat.EditorTools
             }
             WriteSharkDecoration(animatedEntry, "deco-shark-animated", "움직이는 상어 장식", "Animated Shark Decoration",
                 animatedSharks[0], animatedSharks);
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(catalog);
+        }
+
+        private static void EnsureThrowObjectDecorations()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<DecorationCatalogSO>("Assets/ScriptableObjects/DecorationCatalog.asset");
+            if (catalog == null) return;
+
+            var definitions = new[]
+            {
+                new { Id = "deco-throw-yellow-cat-mug", Korean = "노란 고양이 머그", English = "Yellow Cat Mug" },
+                new { Id = "deco-throw-bubble-tea", Korean = "버블티", English = "Bubble Tea" },
+                new { Id = "deco-throw-potted-plant", Korean = "고양이 화분", English = "Cat Potted Plant" },
+                new { Id = "deco-throw-red-yarn", Korean = "빨간 실뭉치", English = "Red Yarn Ball" },
+                new { Id = "deco-throw-fish-can", Korean = "파란 생선 캔", English = "Blue Fish Can" },
+                new { Id = "deco-throw-snow-globe", Korean = "고양이 스노우글로브", English = "Cat Snow Globe" },
+                new { Id = "deco-throw-book-stack", Korean = "고양이 책 더미", English = "Cat Book Stack" },
+                new { Id = "deco-throw-rubber-duck", Korean = "고무 오리", English = "Rubber Duck" },
+                new { Id = "deco-throw-fish-plush", Korean = "생선 인형", English = "Fish Plush" },
+                new { Id = "deco-throw-alarm-clock", Korean = "고양이 알람시계", English = "Cat Alarm Clock" },
+                new { Id = "deco-throw-crumpled-paper", Korean = "구겨진 종이", English = "Crumpled Paper" },
+                new { Id = "deco-throw-cactus", Korean = "꽃 선인장", English = "Flowering Cactus" },
+                new { Id = "deco-throw-paw-mug", Korean = "발바닥 머그", English = "Paw Mug" },
+                new { Id = "deco-throw-black-cat-cushion", Korean = "검은 고양이 쿠션", English = "Black Cat Cushion" }
+            };
+
+            var so = new SerializedObject(catalog);
+            var entries = so.FindProperty("decorations");
+            for (int definitionIndex = 0; definitionIndex < definitions.Length; definitionIndex++)
+            {
+                var definition = definitions[definitionIndex];
+                Sprite sprite = LoadNamedSprite(
+                    "Assets/image/A_No/348_throw/throw1.png", $"throw1_{definitionIndex}");
+                if (sprite == null) continue;
+
+                SerializedProperty entry = null;
+                for (int i = 0; i < entries.arraySize; i++)
+                {
+                    var candidate = entries.GetArrayElementAtIndex(i);
+                    if (candidate.FindPropertyRelative("Id").stringValue == definition.Id)
+                    {
+                        entry = candidate;
+                        break;
+                    }
+                }
+                if (entry == null)
+                {
+                    entries.InsertArrayElementAtIndex(entries.arraySize);
+                    entry = entries.GetArrayElementAtIndex(entries.arraySize - 1);
+                }
+
+                entry.FindPropertyRelative("Id").stringValue = definition.Id;
+                entry.FindPropertyRelative("DisplayName").stringValue = definition.Korean;
+                entry.FindPropertyRelative("DisplayName_EN").stringValue = definition.English;
+                entry.FindPropertyRelative("DecorationSprite").objectReferenceValue = sprite;
+                entry.FindPropertyRelative("AnimationSprites").ClearArray();
+                entry.FindPropertyRelative("AnimationFrameDuration").floatValue = 0.25f;
+                entry.FindPropertyRelative("IsHidden").boolValue = false;
+                entry.FindPropertyRelative("IsShop").boolValue = false;
+                entry.FindPropertyRelative("ShopCurrency").enumValueIndex = (int)CardShopCurrency.Coin;
+                entry.FindPropertyRelative("ShopPrice").doubleValue = 1000d;
+                entry.FindPropertyRelative("SetId").stringValue = string.Empty;
+                entry.FindPropertyRelative("Description").stringValue = $"{definition.Korean} 장식입니다.";
+                entry.FindPropertyRelative("Description_EN").stringValue = $"A {definition.English.ToLowerInvariant()} decoration.";
+            }
             so.ApplyModifiedProperties();
             EditorUtility.SetDirty(catalog);
         }

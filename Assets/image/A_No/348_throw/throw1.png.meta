@@ -142,7 +142,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: throw1_0
+      name: cup
       rect:
         serializedVersion: 2
         x: 65
@@ -164,7 +164,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_1
+      name: bubbletee
       rect:
         serializedVersion: 2
         x: 348
@@ -186,7 +186,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_2
+      name: firemin
       rect:
         serializedVersion: 2
         x: 594
@@ -208,7 +208,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_3
+      name: line
       rect:
         serializedVersion: 2
         x: 919
@@ -230,13 +230,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_4
+      name: can
       rect:
         serializedVersion: 2
-        x: 1264
-        y: 625
-        width: 205
-        height: 329
+        x: 1266
+        y: 654
+        width: 166
+        height: 278
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,12 +252,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_5
+      name: snowball
       rect:
         serializedVersion: 2
-        x: 26
+        x: 126
         y: 43
-        width: 417
+        width: 281
         height: 315
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -274,7 +274,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_6
+      name: book
       rect:
         serializedVersion: 2
         x: 41
@@ -296,13 +296,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_7
+      name: duck
       rect:
         serializedVersion: 2
         x: 407
-        y: 349
+        y: 385
         width: 221
-        height: 250
+        height: 214
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,13 +318,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_8
+      name: fishx
       rect:
         serializedVersion: 2
         x: 656
         y: 369
         width: 303
-        height: 259
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -340,13 +340,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_9
+      name: watch
       rect:
         serializedVersion: 2
         x: 1002
-        y: 327
+        y: 350
         width: 233
-        height: 290
+        height: 267
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,13 +362,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_10
+      name: rockpaper
       rect:
         serializedVersion: 2
         x: 1295
         y: 360
         width: 200
-        height: 224
+        height: 181
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -384,7 +384,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_11
+      name: sunhumunjang
       rect:
         serializedVersion: 2
         x: 493
@@ -406,7 +406,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_12
+      name: cu
       rect:
         serializedVersion: 2
         x: 771
@@ -428,7 +428,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: throw1_13
+      name: catmouse
       rect:
         serializedVersion: 2
         x: 1103
@@ -463,21 +463,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      throw1_0: 1583679426350305292
-      throw1_1: -8393100071900292063
-      throw1_10: -388178929225456212
-      throw1_11: -5867344755015282421
-      throw1_12: 8096051428122654905
-      throw1_13: 3459407414070866246
+      book: 2150375078613822251
+      bubbletee: -8393100071900292063
+      can: -1085286503423674999
+      catmouse: 3459407414070866246
+      cu: 8096051428122654905
+      cup: 1583679426350305292
+      duck: 6732723148816927080
+      firemin: 5737628238401696885
+      fishx: 3895548255536119401
+      line: 3509975361506003321
+      rockpaper: -388178929225456212
+      snowball: 8013519344854952530
+      sunhumunjang: -5867344755015282421
       throw1_14: -6445802253019675746
-      throw1_2: 5737628238401696885
-      throw1_3: 3509975361506003321
-      throw1_4: -1085286503423674999
-      throw1_5: 8013519344854952530
-      throw1_6: 2150375078613822251
-      throw1_7: 6732723148816927080
-      throw1_8: 3895548255536119401
-      throw1_9: 9089049169276463398
+      watch: 9089049169276463398
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

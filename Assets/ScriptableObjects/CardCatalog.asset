@@ -10781,3 +10781,212 @@ MonoBehaviour:
       SSR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: An SSR-grade reward unlocked by collecting Trinity Angry, Happy,
       and Sad. Its three appearances cycle on click.
+  - Id: 0345
+    DisplayName: "\uD5E4\uC5B4\uBCFC"
+    DisplayName_EN: Hairball
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -1517634986, guid: 8d38759afd57b6a32970c6a2ae314149, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: -960824926, guid: 8d38759afd57b6a32970c6a2ae314149, type: 3}
+    - {fileID: -1643223553, guid: 8d38759afd57b6a32970c6a2ae314149, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uAE30\uBCF8 \uBAA8\uC2B5\uC740 cat1\uC774\uBA70, \uD074\uB9AD\uD558\uBA74
+      \uC7A0\uC2DC cat2\uB85C \uBC14\uB00C\uACE0 \uC785\uC5D0\uC11C \uD654\uBA74
+      \uC67C\uCABD \uC544\uB798 110\uB3C4 \uBC29\uD5A5\uC73C\uB85C \uD5E4\uC5B4\uBCFC\uC744
+      \uBC1C\uC0AC\uD558\uB294 SR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade card that briefly changes from cat1 to cat2 on click
+      and launches a hairball from its mouth down-left at 110 degrees.
+  - Id: 0346
+    DisplayName: "\uC640\uB9AC\uAC00\uB9AC 2"
+    DisplayName_EN: Warigari 2
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -191745513806099123, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: -191745513806099123, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    - {fileID: -1020338298804607361, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    - {fileID: -5049164671766514806, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    - {fileID: 6840303357241660002, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    - {fileID: -5538548604908430182, guid: c4b99793f6a4b33209524dc11f41d3b3, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C\uD560 \uB54C\uB9C8\uB2E4 \uB354 \uACA9\uB82C\uD558\uAC8C
+      \uB6F0\uB294 \uBAA8\uC2B5\uC73C\uB85C \uBCC0\uD569\uB2C8\uB2E4. \uD074\uB9AD\uD560
+      \uB54C\uB9C8\uB2E4 \uC67C\uCABD\uACFC \uC624\uB978\uCABD\uC73C\uB85C \uBC88\uAC08\uC544
+      \uBE60\uB974\uAC8C \uC774\uB3D9\uD558\uBA70, \uB2E8\uACC4\uAC00 \uB192\uC744\uC218\uB85D
+      \uC774\uB3D9 \uAC70\uB9AC\uAC00 \uB298\uACE0 \uC624\uB978\uCABD\uC73C\uB85C
+      \uB2EC\uB9B4 \uB54C\uB294 \uC774\uBBF8\uC9C0\uAC00 \uC88C\uC6B0 \uBC18\uC804\uB429\uB2C8\uB2E4."
+    Description_EN: Its running pose grows more intense at every breakthrough. Each
+      click alternates a quick dash left or right; higher stages travel farther,
+      and rightward dashes flip the image horizontally.
+  - Id: 0347
+    DisplayName: "\uB9DB\uBCF4\uAE30"
+    DisplayName_EN: Taste
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 4521965643141519899, guid: 18d423fe0473685a0aaf1bec9681d41b, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: 4521965643141519899, guid: 18d423fe0473685a0aaf1bec9681d41b, type: 3}
+    - {fileID: 27454602, guid: 18d423fe0473685a0aaf1bec9681d41b, type: 3}
+    - {fileID: -558837515, guid: 18d423fe0473685a0aaf1bec9681d41b, type: 3}
+    - {fileID: 7081553421532692999, guid: 18d423fe0473685a0aaf1bec9681d41b, type: 3}
+    - {fileID: -8740765286290054215, guid: e56accc7e43a9541d879e21201fe1837, type: 3}
+    - {fileID: -4177098275915495155, guid: e56accc7e43a9541d879e21201fe1837, type: 3}
+    - {fileID: 4830010490444206136, guid: e56accc7e43a9541d879e21201fe1837, type: 3}
+    - {fileID: 3009882859632293860, guid: e56accc7e43a9541d879e21201fe1837, type: 3}
+    - {fileID: 8338864506902022854, guid: 869466a69b4dcf3b4b9ad36ecc328ba9, type: 3}
+    - {fileID: 1556666441, guid: 869466a69b4dcf3b4b9ad36ecc328ba9, type: 3}
+    - {fileID: -1759637323, guid: 869466a69b4dcf3b4b9ad36ecc328ba9, type: 3}
+    - {fileID: -165710453, guid: 869466a69b4dcf3b4b9ad36ecc328ba9, type: 3}
+    EffectSpriteGroupSplit: 4
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC2DD\uC0AC\uAC00 \uC2DC\uC791\uB420 \uB54C \uC0DD\uC120\uACFC
+      \uACE0\uAE30 \uC911 \uD558\uB098\uAC00 \uBB34\uC791\uC704\uB85C \uC815\uD574\uC9D1\uB2C8\uB2E4.
+      \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uACE0\uC591\uC774\uC640 \uC74C\uC2DD\uC774
+      1~4\uB2E8\uACC4\uB85C \uD568\uAED8 \uBC14\uB00C\uBA70, 4\uB2E8\uACC4\uC5D0\uC11C
+      \uBAA8\uB450 \uBA39\uC740 \uB4A4 \uC0C8 \uC2DD\uC0AC\uB97C \uC2DC\uC791\uD569\uB2C8\uB2E4."
+    Description_EN: Each meal randomly begins with fish or meat. Every click advances
+      both the cat and its food through eating frames 1 to 4, then starts a new meal
+      after the food is finished.
+  - Id: 0348
+    DisplayName: "\uBC00\uC5B4 \uB5A8\uC5B4\uB728\uB9AC\uAE30"
+    DisplayName_EN: Push It Off
+    Rarity: 3
+    BaseWeight: 2
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -6325012702908850353, guid: d44618d62899590ffa3207d801dec644, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: -6325012702908850353, guid: d44618d62899590ffa3207d801dec644, type: 3}
+    - {fileID: -4468365239107954938, guid: d44618d62899590ffa3207d801dec644, type: 3}
+    - {fileID: 1583679426350305292, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: -8393100071900292063, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 5737628238401696885, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 3509975361506003321, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: -1085286503423674999, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 8013519344854952530, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 2150375078613822251, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 6732723148816927080, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 3895548255536119401, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 9089049169276463398, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: -388178929225456212, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: -5867344755015282421, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 8096051428122654905, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    - {fileID: 3459407414070866246, guid: af41dc2c60941c793842cbc9b92d147c, type: 3}
+    EffectSpriteGroupSplit: 2
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD0C1\uC790 \uC704\uC758 \uBB34\uC791\uC704 \uBB3C\uAC74\uC744
+      \uBC14\uB77C\uBCF4\uB2E4\uAC00 \uD074\uB9AD\uD558\uBA74 \uC55E\uBC1C\uB85C
+      \uCCD0\uC11C \uC67C\uCABD \uC544\uB798\uB85C \uB5A8\uC5B4\uB728\uB9BD\uB2C8\uB2E4.
+      \uBB3C\uAC74\uC774 \uD654\uBA74 \uC544\uB798\uB85C \uC0AC\uB77C\uC9C4 \uB4A4
+      \uB2E4\uC74C \uD074\uB9AD\uC5D0\uC11C \uC0C8 \uBB3C\uAC74\uC744 \uACE0\uB985\uB2C8\uB2E4."
+    Description_EN: An SSR cat watches a random object on the table. Click to swat
+      it down-left and off the bottom of the screen; the next click prepares a new
+      object.
+  - Id: 0349
+    DisplayName: "\uD734\uBA3C \uC2A4\uD2B8\uB9AC\uD2B8 \uC5B4\uC2A4"
+    DisplayName_EN: Humun Street Earth
+    Rarity: 3
+    BaseWeight: 2
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3398192463826497931, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: -1114655071659170055, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: 7695042926341206959, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -8556100925452862406, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: 5574827931959851947, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -9004938220790959197, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: 1271358297, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -112308822, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -2071719000201945674, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -4547230924358256305, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -947821322, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: 1645174797, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    - {fileID: -1820967086, guid: a86fb1abe9b3cf6e58508747d69e0faa, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C0\uAD6C \uC704\uC5D0 \uACE0\uC591\uC774\uAC00 \uC11C \uC788\uC73C\uBA70,
+      \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uAE30\uBCF8 \uBAA8\uC2B5\uBD80\uD130
+      11\uAC00\uC9C0 \uB3D9\uC791\uAE4C\uC9C0 \uC21C\uC11C\uB300\uB85C \uBC14\uB00C\uB294
+      SSR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR card with a cat layered over Earth. Each click cycles
+      from the base pose through eleven cat poses in order.

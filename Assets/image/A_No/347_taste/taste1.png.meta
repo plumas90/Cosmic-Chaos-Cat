@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 4851e6cce7706c85cb495e919f942b0c
+guid: 18d423fe0473685a0aaf1bec9681d41b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2360780878837358122
-    second: taste2_0
+      213: -4060351804978056711
+    second: taste1_0
   - first:
-      213: 7974187088932187993
-    second: taste2_1
+      213: 4521965643141519899
+    second: taste1_1
   - first:
-      213: -8554696407911202195
-    second: taste2_2
+      213: -1277281910240841013
+    second: taste1_2
   - first:
-      213: 1853104416837760994
-    second: taste2_3
+      213: 7081553421532692999
+    second: taste1_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: taste2_3
+      name: taste1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 179
-        width: 5
-        height: 19
+        x: 526
+        y: 521
+        width: 498
+        height: 485
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e7725126ac87b910800000000000000
-      internalID: 1853104416837760994
+      spriteID: b1a98f54bcf31ce30800000000000000
+      internalID: 4521965643141519899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: taste1_3
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 497
+        width: 509
+        height: 509
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7028864315bb64260800000000000000
+      internalID: 7081553421532692999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: taste1_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 9
+        width: 493
+        height: 494
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c13042bc6bb47c05d9e1e92f63288de0
+      internalID: -558837515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: taste1_1
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 27
+        width: 476
+        height: 495
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21c5f05eef12fff8aa8a39d8c5240974
+      internalID: 27454602
       vertices: []
       indices: 
       edges: []
@@ -134,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2ae6eb152b1aa736f9480b49dae0752f
+    spriteID: 583b0399800e85148919bc7a3d0f942d
     internalID: 0
     vertices: []
     indices: 
@@ -144,10 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      taste2_0: -2360780878837358122
-      taste2_1: 7974187088932187993
-      taste2_2: -8554696407911202195
-      taste2_3: 1853104416837760994
+      taste1_0: 4521965643141519899
+      taste1_1: 27454602
+      taste1_2: -558837515
+      taste1_3: 7081553421532692999
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
