@@ -266,6 +266,10 @@ namespace CosmicChaosCat.EditorTools
             addedCount += EnsureServalCard(cardsProp, existingCards);
             addedCount += EnsureWalkingWalkwalkCard(cardsProp, existingCards);
             addedCount += EnsureStretchCard(cardsProp, existingCards);
+            addedCount += EnsureCatInTheCatCard(cardsProp, existingCards);
+            addedCount += EnsureCornCatCard(cardsProp, existingCards);
+            addedCount += EnsureCornDoubleCard(cardsProp, existingCards);
+            addedCount += EnsureNyaohiCard(cardsProp, existingCards);
             EnsureSeaSetCatalog();
             EnsureCatMonsterSetCatalog();
             EnsureCatonatoSetCatalog();
@@ -2719,6 +2723,224 @@ namespace CosmicChaosCat.EditorTools
                 variants.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
             }
             elem.FindPropertyRelative("EffectSprites").ClearArray();
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCatInTheCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0361";
+            const string path = "Assets/image/A_No/361_cat_in_the_cat/0361_R_cat_in_the_cat.png";
+            var sprites = new Sprite[5];
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i] = LoadNamedSprite(path, "cat_in_the_cat_" + i);
+                if (sprites[i] != null) continue;
+                Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Cat In The Cat evolution sprite {i}.");
+                return 0;
+            }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "고양이 속의 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Cat In The Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[0];
+            elem.FindPropertyRelative("Description").stringValue = "한계돌파할 때마다 고양이 속에서 새로운 고양이의 모습이 드러나는 R 등급 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An R-grade card that reveals a new cat form with each breakthrough.";
+            ClearCardVariants(elem);
+            var stages = elem.FindPropertyRelative("BreakthroughVariantStages");
+            var variants = elem.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.Length;
+            variants.arraySize = sprites.Length;
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                variants.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+            }
+            elem.FindPropertyRelative("EffectSprites").ClearArray();
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCornCatCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0362";
+            const string path = "Assets/image/A_No/362_corn_cat/0362_R_corn_cat.png";
+            var sprites = new Sprite[5];
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i] = LoadNamedSprite(path, "corn_needfix_" + i);
+                if (sprites[i] != null) continue;
+                Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Corn Cat evolution sprite {i}.");
+                return 0;
+            }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "콘 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Corn Cat";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[0];
+            elem.FindPropertyRelative("Description").stringValue = "한계돌파할 때마다 다음 모습으로 하나씩 진화하는 R 등급 콘 고양이 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An R-grade Corn Cat that advances to the next sprite with each breakthrough.";
+            ClearCardVariants(elem);
+            var stages = elem.FindPropertyRelative("BreakthroughVariantStages");
+            var variants = elem.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.Length;
+            variants.arraySize = sprites.Length;
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                variants.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+            }
+            elem.FindPropertyRelative("EffectSprites").ClearArray();
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureCornDoubleCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0363";
+            const string path = "Assets/image/A_No/363_corn_double/0363_R_corn_double.png";
+            string[] spriteNames = { "corn_double_0", "corn_double_1", "corn_double_3", "corn_double_4" };
+            var sprites = new Sprite[spriteNames.Length];
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i] = LoadNamedSprite(path, spriteNames[i]);
+                if (sprites[i] != null) continue;
+                Debug.LogWarning($"[CreateOrSyncCardCatalog] Missing Corn Double evolution sprite: {spriteNames[i]}.");
+                return 0;
+            }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "더블 콘 고양이";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Corn Double";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.R;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 40f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 5f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_3;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = sprites[0];
+            elem.FindPropertyRelative("Description").stringValue = "한계돌파 1단계부터 4단계까지 모습이 하나씩 진화하고, 5단계에는 마지막 모습을 유지하는 R 등급 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An R-grade card that evolves at breakthrough stages 1 through 4 and keeps its final form at stage 5.";
+            ClearCardVariants(elem);
+            var stages = elem.FindPropertyRelative("BreakthroughVariantStages");
+            var variants = elem.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.Length;
+            variants.arraySize = sprites.Length;
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                variants.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+            }
+            elem.FindPropertyRelative("EffectSprites").ClearArray();
+            return isNew ? 1 : 0;
+        }
+
+        private static int EnsureNyaohiCard(
+            SerializedProperty cardsProp,
+            Dictionary<string, SerializedProperty> existingCards)
+        {
+            const string id = "0364";
+            const string path = "Assets/image/A_No/364_nyaohi/0364_SSR_nyaohi.png";
+            Sprite stage0 = LoadNamedSprite(path, "nyaohi_0");
+            Sprite stage2 = LoadNamedSprite(path, "nyaohi_2");
+            Sprite stage3 = LoadNamedSprite(path, "nyaohi_3");
+            Sprite stage4 = LoadNamedSprite(path, "nyaohi_4");
+            Sprite band = LoadNamedSprite(path, "nyaohi_band");
+            if (stage0 == null || stage2 == null || stage3 == null || stage4 == null || band == null)
+            {
+                Debug.LogWarning("[CreateOrSyncCardCatalog] Missing Nyaohi evolution or band sprite.");
+                return 0;
+            }
+
+            bool isNew = !existingCards.TryGetValue(id, out var elem);
+            if (isNew)
+            {
+                cardsProp.InsertArrayElementAtIndex(cardsProp.arraySize);
+                elem = cardsProp.GetArrayElementAtIndex(cardsProp.arraySize - 1);
+                existingCards[id] = elem;
+            }
+            elem.FindPropertyRelative("Id").stringValue = id;
+            elem.FindPropertyRelative("DisplayName").stringValue = "냐오히";
+            elem.FindPropertyRelative("DisplayName_EN").stringValue = "Nyaohi";
+            elem.FindPropertyRelative("Rarity").enumValueIndex = (int)CardRarity.SSR;
+            elem.FindPropertyRelative("BaseWeight").floatValue = 2f;
+            elem.FindPropertyRelative("ClickGold").floatValue = 125f;
+            elem.FindPropertyRelative("ShardValue").intValue = (int)CardShardValue.Value_10;
+            elem.FindPropertyRelative("MaxStacks").intValue = 6;
+            elem.FindPropertyRelative("SetId").stringValue = string.Empty;
+            elem.FindPropertyRelative("IsHidden").boolValue = false;
+            elem.FindPropertyRelative("IsShop").boolValue = false;
+            elem.FindPropertyRelative("CardSprite").objectReferenceValue = stage0;
+            elem.FindPropertyRelative("Description").stringValue = "1단계는 아기 고양이, 2단계는 양쪽 발에 밴드를 붙인 모습이며, 이후 단계마다 성장하는 SSR 등급 카드입니다.";
+            elem.FindPropertyRelative("Description_EN").stringValue = "An SSR card that starts as a kitten, wears bandages on both paws at stage 2, and grows with each later stage.";
+            ClearCardVariants(elem);
+
+            Sprite[] sprites = { stage0, stage0, stage2, stage3, stage4 };
+            var stages = elem.FindPropertyRelative("BreakthroughVariantStages");
+            var breakthroughSprites = elem.FindPropertyRelative("BreakthroughSprites");
+            stages.arraySize = sprites.Length;
+            breakthroughSprites.arraySize = sprites.Length;
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                stages.GetArrayElementAtIndex(i).intValue = i + 1;
+                breakthroughSprites.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
+            }
+
+            var effects = elem.FindPropertyRelative("EffectSprites");
+            effects.arraySize = 1;
+            effects.GetArrayElementAtIndex(0).objectReferenceValue = band;
+
+            var groups = elem.FindPropertyRelative("BreakthroughSpriteVariants");
+            groups.arraySize = 1;
+            var stageTwo = groups.GetArrayElementAtIndex(0);
+            stageTwo.FindPropertyRelative("Stage").intValue = 2;
+            var stageTwoSprites = stageTwo.FindPropertyRelative("Sprites");
+            stageTwoSprites.arraySize = 3;
+            stageTwoSprites.GetArrayElementAtIndex(0).objectReferenceValue = stage0;
+            stageTwoSprites.GetArrayElementAtIndex(1).objectReferenceValue = band;
+            stageTwoSprites.GetArrayElementAtIndex(2).objectReferenceValue = band;
             return isNew ? 1 : 0;
         }
 

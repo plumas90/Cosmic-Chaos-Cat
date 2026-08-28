@@ -145,12 +145,12 @@ TextureImporter:
       name: corn_double_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 539
-        width: 741
-        height: 524
+        x: 76
+        y: 551
+        width: 665
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -167,10 +167,10 @@ TextureImporter:
       name: corn_double_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 25
-        width: 697
-        height: 512
+        x: 110
+        y: 27
+        width: 590
+        height: 509
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,37 +186,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: corn_double_2
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 537
-        width: 17
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 100b81111c5368090800000000000000
-      internalID: -8032673782036910079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: corn_double_3
       rect:
         serializedVersion: 2
-        x: 704
+        x: 839
         y: 62
-        width: 785
+        width: 622
         height: 488
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -233,12 +211,12 @@ TextureImporter:
       name: corn_double_4
       rect:
         serializedVersion: 2
-        x: 784
-        y: 533
-        width: 733
-        height: 563
+        x: 869
+        y: 602
+        width: 521
+        height: 494
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -251,231 +229,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: corn_double_5
-      rect:
-        serializedVersion: 2
-        x: 44
-        y: 479
-        width: 57
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f6591f1e22a336b00800000000000000
-      internalID: 820563478605567343
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_6
-      rect:
-        serializedVersion: 2
-        x: 710
-        y: 450
-        width: 23
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bf624275f986a3820800000000000000
-      internalID: 2898744343737411323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_7
-      rect:
-        serializedVersion: 2
-        x: 740
-        y: 479
-        width: 29
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4d9c3b5e4a3a26a80800000000000000
-      internalID: -8475031620134123052
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_8
-      rect:
-        serializedVersion: 2
-        x: 718
-        y: 445
-        width: 43
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d2525dff8da83150800000000000000
-      internalID: 5852618549709918935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_9
-      rect:
-        serializedVersion: 2
-        x: 1458
-        y: 391
-        width: 7
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ddf33e02722a76900800000000000000
-      internalID: 677688557881737181
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_10
-      rect:
-        serializedVersion: 2
-        x: 44
-        y: 349
-        width: 29
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5fbb0edf913435f20800000000000000
-      internalID: 3410143121762204661
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_11
-      rect:
-        serializedVersion: 2
-        x: 1468
-        y: 373
-        width: 23
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 79feaa852318936b0800000000000000
-      internalID: -5316075831898214505
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_12
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 327
-        width: 33
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dee65b186791b4080800000000000000
-      internalID: -9202233416828490003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_13
-      rect:
-        serializedVersion: 2
-        x: 848
-        y: 284
-        width: 20
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6d8d4cbd58cb26850800000000000000
-      internalID: 6368860106159085782
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: corn_double_14
-      rect:
-        serializedVersion: 2
-        x: 750
-        y: 269
-        width: 7
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d47d2e9e33d45dba0800000000000000
-      internalID: -6064856437821876403
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ba1411a7d46b8e6599916ac838ec69fb
     internalID: 0
     vertices: []
     indices: 

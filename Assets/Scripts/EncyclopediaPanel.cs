@@ -1514,6 +1514,7 @@ namespace CosmicChaosCat
                     if (detailCardArt.gameObject.activeSelf) detailCardArt.gameObject.SetActive(false);
                 }
                 BurgerMakerDisplayHelper.Bind(detailCardArt, card, unlocked);
+                NyaohiBandDisplayHelper.Bind(detailCardArt, card, selectedIllustrationStage, unlocked);
             }
 
             // NumBtn (illustration variant buttons 1..5)
@@ -1524,6 +1525,7 @@ namespace CosmicChaosCat
                 // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리 (모든 서브 갱신 후 최종적으로 적용!)
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
                 BurgerMakerDisplayHelper.Bind(detailCardArt, card, unlocked);
+                NyaohiBandDisplayHelper.Bind(detailCardArt, card, selectedIllustrationStage, unlocked);
             }
 
             // Income stat (Description에 통합되었으므로 별도 항목은 숨김)
@@ -1683,6 +1685,7 @@ namespace CosmicChaosCat
                 // 171 롱넥캣 도감 상세페이지 머리+몸통 결합 처리
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(detailCardArt.transform, card);
                 BurgerMakerDisplayHelper.Bind(detailCardArt, card, true);
+                NyaohiBandDisplayHelper.Bind(detailCardArt, card, stage, true);
             }
 
             // Also update detailDescription text corresponding to stage
@@ -1708,7 +1711,10 @@ namespace CosmicChaosCat
             var detailSlots = detailPanel != null ? GetEncyclopediaCardSlots(detailPanel) : null;
             var detailSlotUI = detailSlots != null && detailSlots.Length > 0 ? detailSlots[0] : null;
             if (detailSlotUI != null)
+            {
                 detailSlotUI.SetArtSprite(stageSprite);
+                detailSlotUI.SetNyaohiBandOverlay(card, stage);
+            }
         }
 
         private void OnDetailEquip()

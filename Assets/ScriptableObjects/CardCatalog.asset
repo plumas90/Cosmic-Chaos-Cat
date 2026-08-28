@@ -11348,3 +11348,149 @@ MonoBehaviour:
       \uBC18\uBCF5\uD558\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: An R-grade card that evolves through five sprites and cycles
       through them on click after reaching maximum breakthrough.
+  - Id: 0361
+    DisplayName: "\uACE0\uC591\uC774 \uC18D\uC758 \uACE0\uC591\uC774"
+    DisplayName_EN: Cat In The Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 8580333531728588554, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 8580333531728588554, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    - {fileID: 7401533905304282969, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    - {fileID: -1247232940780107843, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    - {fileID: 5030722928761851443, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    - {fileID: -2365691630794170749, guid: d32ee642e8224c423ab09e9d9a8c2904, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C\uD560 \uB54C\uB9C8\uB2E4 \uACE0\uC591\uC774
+      \uC18D\uC5D0\uC11C \uC0C8\uB85C\uC6B4 \uACE0\uC591\uC774\uC758 \uBAA8\uC2B5\uC774
+      \uB4DC\uB7EC\uB098\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card that reveals a new cat form with each breakthrough.
+  - Id: 0362
+    DisplayName: "\uCF58 \uACE0\uC591\uC774"
+    DisplayName_EN: Corn Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3334856253373955893, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 3334856253373955893, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    - {fileID: -5825315160394500198, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    - {fileID: 6060992340521380070, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    - {fileID: 136021826979154553, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    - {fileID: 1334435545627988109, guid: a2c1db7b7f5c038fda06f0b3715a3d42, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C\uD560 \uB54C\uB9C8\uB2E4 \uB2E4\uC74C
+      \uBAA8\uC2B5\uC73C\uB85C \uD558\uB098\uC529 \uC9C4\uD654\uD558\uB294 R \uB4F1\uAE09
+      \uCF58 \uACE0\uC591\uC774 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade Corn Cat that advances to the next sprite with each
+      breakthrough.
+  - Id: 0363
+    DisplayName: "\uB354\uBE14 \uCF58 \uACE0\uC591\uC774"
+    DisplayName_EN: Corn Double
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -2570104135522783981, guid: c85beb317253b661a9698478a51d9415, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 01000000020000000300000004000000
+    BreakthroughSprites:
+    - {fileID: -2570104135522783981, guid: c85beb317253b661a9698478a51d9415, type: 3}
+    - {fileID: -8493170921342487395, guid: c85beb317253b661a9698478a51d9415, type: 3}
+    - {fileID: 1898274507108535314, guid: c85beb317253b661a9698478a51d9415, type: 3}
+    - {fileID: -6755518188405252627, guid: c85beb317253b661a9698478a51d9415, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C 1\uB2E8\uACC4\uBD80\uD130 4\uB2E8\uACC4\uAE4C\uC9C0
+      \uBAA8\uC2B5\uC774 \uD558\uB098\uC529 \uC9C4\uD654\uD558\uACE0, 5\uB2E8\uACC4\uC5D0\uB294
+      \uB9C8\uC9C0\uB9C9 \uBAA8\uC2B5\uC744 \uC720\uC9C0\uD558\uB294 R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card that evolves at breakthrough stages 1 through
+      4 and keeps its final form at stage 5.
+  - Id: 0364
+    DisplayName: "\uB0D0\uC624\uD788"
+    DisplayName_EN: Nyaohi
+    Rarity: 3
+    BaseWeight: 2
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 6115605864049100577, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 6115605864049100577, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    - {fileID: 6115605864049100577, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    - {fileID: 3614778248453954989, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    - {fileID: -8546092636417486817, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    - {fileID: 7133934138966669249, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    EffectSprites:
+    - {fileID: -2854423107779627955, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants:
+    - Stage: 2
+      Sprites:
+      - {fileID: 6115605864049100577, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+      - {fileID: -2854423107779627955, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+      - {fileID: -2854423107779627955, guid: dc7f4535c165916d285b37d31080931c, type: 3}
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "1\uB2E8\uACC4\uB294 \uC544\uAE30 \uACE0\uC591\uC774, 2\uB2E8\uACC4\uB294
+      \uC591\uCABD \uBC1C\uC5D0 \uBC34\uB4DC\uB97C \uBD99\uC778 \uBAA8\uC2B5\uC774\uBA70,
+      \uC774\uD6C4 \uB2E8\uACC4\uB9C8\uB2E4 \uC131\uC7A5\uD558\uB294 SSR \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR card that starts as a kitten, wears bandages on both paws
+      at stage 2, and grows with each later stage.

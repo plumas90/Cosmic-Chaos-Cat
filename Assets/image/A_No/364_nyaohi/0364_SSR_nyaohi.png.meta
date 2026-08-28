@@ -134,7 +134,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: nyaohi_2
+      name: nyaohi_3
       rect:
         serializedVersion: 2
         x: 748
@@ -156,13 +156,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: nyaohi_3
+      name: nyaohi_4
       rect:
         serializedVersion: 2
         x: 1049
         y: 195
         width: 487
-        height: 829
+        height: 672
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,7 +200,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: nyaohi_1
+      name: nyaohi_2
       rect:
         serializedVersion: 2
         x: 383
@@ -236,9 +236,9 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       nyaohi_0: 6115605864049100577
-      nyaohi_1: 3614778248453954989
-      nyaohi_2: -8546092636417486817
-      nyaohi_3: 7133934138966669249
+      nyaohi_2: 3614778248453954989
+      nyaohi_3: -8546092636417486817
+      nyaohi_4: 7133934138966669249
       nyaohi_band: -2854423107779627955
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

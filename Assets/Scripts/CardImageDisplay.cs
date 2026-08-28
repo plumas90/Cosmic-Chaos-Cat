@@ -2566,6 +2566,7 @@ namespace CosmicChaosCat
                 RefreshThrowCatDisplay(IsThrowCat(curCardId), card);
                 RefreshHumunStreetEarthDisplay(IsHumunStreetEarth(curCardId), card);
                 RefreshMatryosikaDisplay(IsMatryosika(curCardId), card);
+                NyaohiBandDisplayHelper.Bind(cardImage, card, selectedStage);
             }
 
             // 등급 컬러

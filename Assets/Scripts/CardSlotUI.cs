@@ -177,6 +177,12 @@ namespace CosmicChaosCat
             }
         }
 
+        public void SetNyaohiBandOverlay(CardEntry card, int stage)
+        {
+            EnsureInit();
+            NyaohiBandDisplayHelper.Bind(cardArtImage, card, stage, cardArtImage != null && cardArtImage.gameObject.activeSelf);
+        }
+
         // ── 메인 데이터 적용 ─────────────────────────────────────────────────
         public void SetData(CardEntry card, int cardIndex, CardProgress progress,
             GameManager gameManager, System.Action<string> onSlotClicked)
@@ -264,6 +270,8 @@ namespace CosmicChaosCat
                 // 171 롱넥캣 머리+몸통 결합 처리 (cardArtImage.transform 에 직격 연결)
                 LongNeckCatDisplayHelper.BindLongNeckCardSlot(cardArtImage.transform, card);
                 BurgerMakerDisplayHelper.Bind(cardArtImage, card, unlocked);
+                int nyaohiStage = (progress != null && progress.SelectedStage > 0) ? progress.SelectedStage : 1;
+                NyaohiBandDisplayHelper.Bind(cardArtImage, card, nyaohiStage, unlocked);
             }
 
             // ── Rarity Mark (rereMark / rareMark) ───────────────────────────
