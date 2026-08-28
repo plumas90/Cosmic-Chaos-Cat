@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: a2c1db7b7f5c038fda06f0b3715a3d42
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5825315160394500198
+    second: corn_needfix_0
+  - first:
+      213: 6060992340521380070
+    second: corn_needfix_1
+  - first:
+      213: 1334435545627988109
+    second: corn_needfix_2
+  - first:
+      213: -1178137679850648157
+    second: corn_needfix_3
+  - first:
+      213: 3105585713149423627
+    second: corn_needfix_4
+  - first:
+      213: 7291937584285081635
+    second: corn_needfix_5
+  - first:
+      213: -6152987176385910291
+    second: corn_needfix_6
+  - first:
+      213: -328836746608013733
+    second: corn_needfix_7
+  - first:
+      213: -3227187991177935525
+    second: corn_needfix_8
+  - first:
+      213: 3334856253373955893
+    second: corn_needfix_9
+  - first:
+      213: 136021826979154553
+    second: corn_needfix_10
+  - first:
+      213: 4482299680861983673
+    second: corn_needfix_11
+  - first:
+      213: -9190665947162531891
+    second: corn_needfix_12
+  - first:
+      213: -6910286926934333113
+    second: corn_needfix_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: corn_needfix_0
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 450
+        width: 695
+        height: 566
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a97fcf7b9b2582fa0800000000000000
+      internalID: -5825315160394500198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_1
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 525
+        width: 596
+        height: 499
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e8e323db68fc1450800000000000000
+      internalID: 6060992340521380070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_2
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 474
+        width: 677
+        height: 531
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d809fc00f0ed48210800000000000000
+      internalID: 1334435545627988109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_3
+      rect:
+        serializedVersion: 2
+        x: 1533
+        y: 939
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3adcfffa50a66afe0800000000000000
+      internalID: -1178137679850648157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_4
+      rect:
+        serializedVersion: 2
+        x: 1557
+        y: 955
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00bcc380c1491b20800000000000000
+      internalID: 3105585713149423627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_5
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 958
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 320e1ab399a223560800000000000000
+      internalID: 7291937584285081635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_6
+      rect:
+        serializedVersion: 2
+        x: 1604
+        y: 953
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de9ebf353c23c9aa0800000000000000
+      internalID: -6152987176385910291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_7
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 917
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5e8551a8bcbf6bf0800000000000000
+      internalID: -328836746608013733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_8
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 457
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b55ce62de99b633d0800000000000000
+      internalID: -3227187991177935525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_9
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 0
+        width: 679
+        height: 520
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53f3857f71ac74e20800000000000000
+      internalID: 3334856253373955893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_10
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 0
+        width: 667
+        height: 452
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97acac6812f33e100800000000000000
+      internalID: 136021826979154553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_11
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 439
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b310aebfc3543e30800000000000000
+      internalID: 4482299680861983673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_12
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 306
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc7291ae302347080800000000000000
+      internalID: -9190665947162531891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_needfix_13
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 295
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 749ad08f6aab910a0800000000000000
+      internalID: -6910286926934333113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      corn_needfix_0: -5825315160394500198
+      corn_needfix_1: 6060992340521380070
+      corn_needfix_10: 136021826979154553
+      corn_needfix_11: 4482299680861983673
+      corn_needfix_12: -9190665947162531891
+      corn_needfix_13: -6910286926934333113
+      corn_needfix_2: 1334435545627988109
+      corn_needfix_3: -1178137679850648157
+      corn_needfix_4: 3105585713149423627
+      corn_needfix_5: 7291937584285081635
+      corn_needfix_6: -6152987176385910291
+      corn_needfix_7: -328836746608013733
+      corn_needfix_8: -3227187991177935525
+      corn_needfix_9: 3334856253373955893
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10990,3 +10990,361 @@ MonoBehaviour:
       SSR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
     Description_EN: An SSR card with a cat layered over Earth. Each click cycles
       from the base pose through eleven cat poses in order.
+  - Id: 0350
+    DisplayName: "\uACE0\uC591\uC774\uB294 \uBB3C 1"
+    DisplayName_EN: Cat Is Water 1
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 19
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 9100502275494573838, guid: 92b934cc17b6eee8292153d76fe7d5f1, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uACE0\uC591\uC774\uB294 \uBB3C \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      R \uB4F1\uAE09 \uCE74\uB4DC 1\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade card 1 from the Cat Is Water set.
+  - Id: 0351
+    DisplayName: "\uACE0\uC591\uC774\uB294 \uBB3C 2"
+    DisplayName_EN: Cat Is Water 2
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 19
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -293012841568622829, guid: 92b934cc17b6eee8292153d76fe7d5f1, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uACE0\uC591\uC774\uB294 \uBB3C \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      R \uB4F1\uAE09 \uCE74\uB4DC 2\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade card 2 from the Cat Is Water set.
+  - Id: 0352
+    DisplayName: "\uACE0\uC591\uC774\uB294 \uBB3C 3"
+    DisplayName_EN: Cat Is Water 3
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 19
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -430455776008171661, guid: 92b934cc17b6eee8292153d76fe7d5f1, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uACE0\uC591\uC774\uB294 \uBB3C \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      R \uB4F1\uAE09 \uCE74\uB4DC 3\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade card 3 from the Cat Is Water set.
+  - Id: 0353
+    DisplayName: "\uACE0\uC591\uC774\uB294 \uBB3C 4"
+    DisplayName_EN: Cat Is Water 4
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 19
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -4591320850465155335, guid: 92b934cc17b6eee8292153d76fe7d5f1, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uACE0\uC591\uC774\uB294 \uBB3C \uC138\uD2B8\uB97C \uAD6C\uC131\uD558\uB294
+      R \uB4F1\uAE09 \uCE74\uB4DC 4\uC785\uB2C8\uB2E4."
+    Description_EN: R-grade card 4 from the Cat Is Water set.
+  - Id: 0354
+    DisplayName: "\uACE0\uC591\uC774\uB294 \uC9C4\uC9DC \uBB3C"
+    DisplayName_EN: Cat Is Real Water
+    Rarity: 2
+    BaseWeight: 0
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 1
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 2658241712537294135, guid: 65a9440d109f3232e9301782ae0872dd, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 2658241712537294135, guid: 65a9440d109f3232e9301782ae0872dd, type: 3}
+    - {fileID: 7411191708194298060, guid: 65a9440d109f3232e9301782ae0872dd, type: 3}
+    - {fileID: -8535594420205293449, guid: 65a9440d109f3232e9301782ae0872dd, type: 3}
+    - {fileID: -4440018957832519547, guid: 65a9440d109f3232e9301782ae0872dd, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uACE0\uC591\uC774\uB294 \uBB3C \uC138\uD2B8 \uBCF4\uC0C1\uC785\uB2C8\uB2E4.
+      \uC9C4\uD654 \uC5C6\uC774 \uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uB124 \uAC00\uC9C0
+      \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB429\uB2C8\uB2E4."
+    Description_EN: The Cat Is Water set reward. Each click cycles through four sprites
+      in order, without evolution art.
+  - Id: 0355
+    DisplayName: "\uAC74\uBC30"
+    DisplayName_EN: Cheers
+    Rarity: 2
+    BaseWeight: 10
+    ClickGold: 25
+    ShardValue: 5
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5974961957991862231, guid: 23725492ae8329515b4af55b4a24e945, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: 3461576666880843572, guid: 23725492ae8329515b4af55b4a24e945, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD558\uBA74 \uC7A0\uAE50 \uB450 \uBC88\uC9F8 \uBAA8\uC2B5\uC73C\uB85C
+      \uBCC0\uD588\uB2E4\uAC00 \uB3CC\uC544\uC624\uB294 SR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SR-grade card that briefly changes to its second sprite when
+      clicked, then returns to normal.
+  - Id: 0356
+    DisplayName: "\uD3C9\uBC94\uD55C \uACE0\uC591\uC774"
+    DisplayName_EN: Ordinary Cat
+    Rarity: 3
+    BaseWeight: 2
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -7506255537322710539, guid: 13dc79e7b908c4335a32b158d57ae7af, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: -7506255537322710539, guid: 13dc79e7b908c4335a32b158d57ae7af, type: 3}
+    - {fileID: 294697233082658893, guid: 13dc79e7b908c4335a32b158d57ae7af, type: 3}
+    - {fileID: -6173884688661170298, guid: 13dc79e7b908c4335a32b158d57ae7af, type: 3}
+    - {fileID: -3359940325182643879, guid: 13dc79e7b908c4335a32b158d57ae7af, type: 3}
+    - {fileID: -8551142800665463911, guid: b61f54a6b665e7f868e1c9ce56198164, type: 3}
+    EffectSprites:
+    - {fileID: -3749308537712206804, guid: 2b382e45ca4b330d39cd5089556282e3, type: 3}
+    - {fileID: -4315820970259427979, guid: 2b382e45ca4b330d39cd5089556282e3, type: 3}
+    - {fileID: -6823540554660473582, guid: 2b382e45ca4b330d39cd5089556282e3, type: 3}
+    - {fileID: -1890682214513918701, guid: 2b382e45ca4b330d39cd5089556282e3, type: 3}
+    - {fileID: -1298935985168509041, guid: b61f54a6b665e7f868e1c9ce56198164, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC5B4\uB290 \uB2E8\uACC4\uC5D0\uC11C\uB3C4 \uD3C9\uBC94\uD55C
+      \uACE0\uC591\uC774\uCC98\uB7FC \uBCF4\uC774\uB294 SSR \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An SSR-grade card that looks like an ordinary cat at every stage.
+  - Id: 0357
+    DisplayName: "\uB9C8\uD2B8\uB8CC\uC2DC\uCE74 \uACE0\uC591\uC774"
+    DisplayName_EN: Matryosika Cat
+    Rarity: 3
+    BaseWeight: 2
+    ClickGold: 125
+    ShardValue: 10
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 1697930241, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites:
+    - {fileID: 1697930241, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 1353164769, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 433637726, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 2139266300, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 1395661131, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -999004536, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -1275015008, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -1235095319, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 1571060216, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -1066599770, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 1630776376, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -2133385473, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: -979501617, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    - {fileID: 213068834, guid: f15fa3fcda70d18c6856ffc753059615, type: 3}
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uBC14\uAE65 \uC778\uD615\uC758
+      \uBA38\uB9AC\uAC00 \uC5F4\uB824 \uC548\uCABD \uC778\uD615\uC774 \uCC28\uB840\uB85C
+      \uB4DC\uB7EC\uB098\uBA70, \uB9C8\uC9C0\uB9C9\uC5D0\uB294 \uC9C4\uC9DC \uACE0\uC591\uC774\uAC00
+      \uB098\uD0C0\uB0A9\uB2C8\uB2E4."
+    Description_EN: Each click opens the next outer doll, revealing the nested dolls
+      in order and finally the real cat.
+  - Id: 0358
+    DisplayName: "\uC11C\uBC8C"
+    DisplayName_EN: Serval
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: -5526864956412425009, guid: 663004a3de41f5d68a011013a5d1a4e3, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites: []
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uC9C4\uD654 \uBC0F \uD074\uB9AD \uD2B9\uC218\uD6A8\uACFC\uAC00
+      \uC5C6\uB294 \uB2E8\uC77C R \uB4F1\uAE09 \uC11C\uBC8C \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: A single R-grade Serval card without evolution art or a click
+      effect.
+  - Id: 0359
+    DisplayName: "\uC6CC\uD0B9 \uC6CC\uD06C\uC6CC\uD06C"
+    DisplayName_EN: Walking Walkwalk
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 3754495209453317653, guid: 4513b8e9bd3b83958acbdd00899b37f7, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 
+    BreakthroughSprites:
+    - {fileID: 3754495209453317653, guid: 4513b8e9bd3b83958acbdd00899b37f7, type: 3}
+    - {fileID: -2468557667388411947, guid: 4513b8e9bd3b83958acbdd00899b37f7, type: 3}
+    - {fileID: -8601063421750331555, guid: 4513b8e9bd3b83958acbdd00899b37f7, type: 3}
+    - {fileID: -5552816529407247834, guid: 4513b8e9bd3b83958acbdd00899b37f7, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD074\uB9AD\uD560 \uB54C\uB9C8\uB2E4 \uB124 \uAC00\uC9C0 \uAC77\uB294
+      \uBAA8\uC2B5\uC774 \uC21C\uC11C\uB300\uB85C \uBC18\uBCF5\uB418\uB294 R \uB4F1\uAE09
+      \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card that cycles through four walking sprites in order
+      with each click.
+  - Id: 0360
+    DisplayName: "\uCB49\uCB49 \uACE0\uC591\uC774"
+    DisplayName_EN: Stretch Cat
+    Rarity: 1
+    BaseWeight: 40
+    ClickGold: 5
+    ShardValue: 3
+    MaxStacks: 6
+    SetId: 
+    IsHidden: 0
+    IsShop: 0
+    ShopCurrency: 0
+    ShopPrice: 1000
+    CardSprite: {fileID: 7374421748310740285, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    GachaBgSprite: {fileID: 0}
+    BreakthroughVariantStages: 0100000002000000030000000400000005000000
+    BreakthroughSprites:
+    - {fileID: 7374421748310740285, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    - {fileID: 1042967590529495045, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    - {fileID: 2957782138939263669, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    - {fileID: -7289649254704666289, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    - {fileID: 3080197857949841215, guid: be1b0db7b1cd1b5088adff54d343dbcf, type: 3}
+    EffectSprites: []
+    EffectSpriteGroupSplit: 0
+    BreakthroughSpriteVariants: []
+    UseBreakthroughDescriptions: 0
+    BreakthroughDescriptions: []
+    BreakthroughDescriptions_EN: []
+    SpecialEffect: 0
+    SpecialEffectValue: 0
+    Description: "\uD55C\uACC4\uB3CC\uD30C\uD560 \uB54C\uB9C8\uB2E4 \uBAA8\uC2B5\uC774
+      \uBCC0\uD558\uBA70, \uCD5C\uB300 \uD55C\uACC4\uB3CC\uD30C \uD6C4\uC5D0\uB294
+      \uD074\uB9AD\uC73C\uB85C \uB2E4\uC12F \uBAA8\uC2B5\uC744 \uC21C\uC11C\uB300\uB85C
+      \uBC18\uBCF5\uD558\uB294 R \uB4F1\uAE09 \uCE74\uB4DC\uC785\uB2C8\uB2E4."
+    Description_EN: An R-grade card that evolves through five sprites and cycles
+      through them on click after reaching maximum breakthrough.

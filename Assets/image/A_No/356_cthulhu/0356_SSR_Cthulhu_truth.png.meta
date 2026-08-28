@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: 2b382e45ca4b330d39cd5089556282e3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3749308537712206804
+    second: Cthulhu_Cthulhu_0
+  - first:
+      213: -1890682214513918701
+    second: Cthulhu_Cthulhu_1
+  - first:
+      213: -6823540554660473582
+    second: Cthulhu_Cthulhu_2
+  - first:
+      213: -4315820970259427979
+    second: Cthulhu_Cthulhu_3
+  - first:
+      213: 6091233008674662296
+    second: Cthulhu_Cthulhu_4
+  - first:
+      213: 2484225864039915184
+    second: Cthulhu_Cthulhu_5
+  - first:
+      213: -3826543339697100841
+    second: Cthulhu_Cthulhu_6
+  - first:
+      213: 2508682443669924249
+    second: Cthulhu_Cthulhu_7
+  - first:
+      213: -7319704745210999130
+    second: Cthulhu_Cthulhu_8
+  - first:
+      213: 5346497768160507513
+    second: Cthulhu_Cthulhu_9
+  - first:
+      213: -394153053988202337
+    second: Cthulhu_Cthulhu_10
+  - first:
+      213: -1230470828184880349
+    second: Cthulhu_Cthulhu_11
+  - first:
+      213: 5268365839884290156
+    second: Cthulhu_Cthulhu_12
+  - first:
+      213: 7313877150635223479
+    second: Cthulhu_Cthulhu_13
+  - first:
+      213: 8964970726786045074
+    second: Cthulhu_Cthulhu_14
+  - first:
+      213: 2059556095864798872
+    second: Cthulhu_Cthulhu_15
+  - first:
+      213: -5549771866532291476
+    second: Cthulhu_Cthulhu_16
+  - first:
+      213: -3920162222427522554
+    second: Cthulhu_Cthulhu_17
+  - first:
+      213: -2067827490596245498
+    second: Cthulhu_Cthulhu_18
+  - first:
+      213: 8153120140933110309
+    second: Cthulhu_Cthulhu_19
+  - first:
+      213: -4603081828760968854
+    second: Cthulhu_Cthulhu_20
+  - first:
+      213: -8764074264550263069
+    second: Cthulhu_Cthulhu_21
+  - first:
+      213: 8866726639177786275
+    second: Cthulhu_Cthulhu_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cthulhu_Cthulhu_0
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 477
+        width: 672
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e58b1d06bc4eaff6a9baa1795f7668c8
+      internalID: -3749308537712206804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cthulhu_Cthulhu_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 24
+        width: 649
+        height: 379
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d28716b214c19d9a36c1b90360a142
+      internalID: -1890682214513918701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cthulhu_Cthulhu_2
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 496
+        width: 691
+        height: 528
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fed40e25dc062306963676cb16231ee
+      internalID: -6823540554660473582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cthulhu_Cthulhu_3
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 0
+        width: 723
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9efbbc7cab57ef4758419984677f1646
+      internalID: -4315820970259427979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9f2b53a0357ebad16b1e74838f16b106
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cthulhu_Cthulhu_0: -3749308537712206804
+      Cthulhu_Cthulhu_1: -1890682214513918701
+      Cthulhu_Cthulhu_10: -394153053988202337
+      Cthulhu_Cthulhu_11: -1230470828184880349
+      Cthulhu_Cthulhu_12: 5268365839884290156
+      Cthulhu_Cthulhu_13: 7313877150635223479
+      Cthulhu_Cthulhu_14: 8964970726786045074
+      Cthulhu_Cthulhu_15: 2059556095864798872
+      Cthulhu_Cthulhu_16: -5549771866532291476
+      Cthulhu_Cthulhu_17: -3920162222427522554
+      Cthulhu_Cthulhu_18: -2067827490596245498
+      Cthulhu_Cthulhu_19: 8153120140933110309
+      Cthulhu_Cthulhu_2: -6823540554660473582
+      Cthulhu_Cthulhu_20: -4603081828760968854
+      Cthulhu_Cthulhu_21: -8764074264550263069
+      Cthulhu_Cthulhu_22: 8866726639177786275
+      Cthulhu_Cthulhu_3: -4315820970259427979
+      Cthulhu_Cthulhu_4: 6091233008674662296
+      Cthulhu_Cthulhu_5: 2484225864039915184
+      Cthulhu_Cthulhu_6: -3826543339697100841
+      Cthulhu_Cthulhu_7: 2508682443669924249
+      Cthulhu_Cthulhu_8: -7319704745210999130
+      Cthulhu_Cthulhu_9: 5346497768160507513
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

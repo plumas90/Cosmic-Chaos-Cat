@@ -1,52 +1,31 @@
 fileFormatVersion: 2
-guid: f15fa3fcda70d18c6856ffc753059615
+guid: 663004a3de41f5d68a011013a5d1a4e3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6279934961894089577
-    second: matryosika_0
+      213: -4605633604816582379
+    second: serval_0
   - first:
-      213: -1501121892863762531
-    second: matryosika_1
+      213: -5526864956412425009
+    second: serval_1
   - first:
-      213: 1623143688948291659
-    second: matryosika_2
+      213: 3163146506310562908
+    second: serval_2
   - first:
-      213: -412210223424985593
-    second: matryosika_3
+      213: 4892209532950258337
+    second: serval_3
   - first:
-      213: -4883751305413550548
-    second: matryosika_4
+      213: -2831095587870545702
+    second: serval_4
   - first:
-      213: 4490483086491699287
-    second: matryosika_5
+      213: -5263000119449971805
+    second: serval_5
   - first:
-      213: -337894049417649014
-    second: matryosika_6
+      213: 1817676999958759785
+    second: serval_6
   - first:
-      213: -4292011610070753499
-    second: matryosika_7
-  - first:
-      213: 3297875264581980195
-    second: matryosika_8
-  - first:
-      213: -8495917211379090639
-    second: matryosika_9
-  - first:
-      213: -3567963782772227895
-    second: matryosika_10
-  - first:
-      213: 9206177197154952630
-    second: matryosika_11
-  - first:
-      213: -3768391335343329000
-    second: matryosika_12
-  - first:
-      213: 676383817500733470
-    second: matryosika_13
-  - first:
-      213: 6692969885796609126
-    second: matryosika_14
+      213: -8987597378575614126
+    second: serval_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -142,221 +121,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: matryosika_0_head
+      name: serval_0
       rect:
         serializedVersion: 2
-        x: 82
-        y: 721
-        width: 313
-        height: 285
+        x: 24
+        y: 1069
+        width: 86
+        height: 14
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 963e048439fc62750800000000000000
-      internalID: 6279934961894089577
+      spriteID: 5194e4b53a08510c0800000000000000
+      internalID: -4605633604816582379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_1_head
+      name: serval_1
       rect:
         serializedVersion: 2
-        x: 465
-        y: 706
-        width: 243
-        height: 280
+        x: 48
+        y: 0
+        width: 1181
+        height: 1205
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d9f1b4b7791fa2be0800000000000000
-      internalID: -1501121892863762531
+      spriteID: fcc8b7fca91ac43b0800000000000000
+      internalID: -5526864956412425009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_2_head
+      name: serval_2
       rect:
         serializedVersion: 2
-        x: 775
-        y: 687
-        width: 211
-        height: 218
+        x: 287
+        y: 86
+        width: 16
+        height: 11
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b481e27d590968610800000000000000
-      internalID: 1623143688948291659
+      spriteID: c54b8290df0c5eb20800000000000000
+      internalID: 3163146506310562908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_3_head
+      name: serval_3
       rect:
         serializedVersion: 2
-        x: 1038
-        y: 673
-        width: 174
-        height: 183
+        x: 313
+        y: 55
+        width: 10
+        height: 13
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 70628fb5cf8874af0800000000000000
-      internalID: -412210223424985593
+      spriteID: 1a2a74276ae94e340800000000000000
+      internalID: 4892209532950258337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_0_body
+      name: serval_4
       rect:
         serializedVersion: 2
-        x: 82
-        y: 468
-        width: 313
-        height: 246
+        x: 315
+        y: 67
+        width: 21
+        height: 17
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 758cc385396615e30800000000000000
-      internalID: 4490483086491699287
+      spriteID: ad8ecc7009de5b8d0800000000000000
+      internalID: -2831095587870545702
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_1_body
+      name: serval_5
       rect:
         serializedVersion: 2
-        x: 459
-        y: 472
-        width: 253
-        height: 218
+        x: 673
+        y: 25
+        width: 9
+        height: 24
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a842ebcf62f8f4bf0800000000000000
-      internalID: -337894049417649014
+      spriteID: 3a39853a64116f6b0800000000000000
+      internalID: -5263000119449971805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_2_body
+      name: serval_6
       rect:
         serializedVersion: 2
-        x: 769
-        y: 471
-        width: 218
-        height: 196
+        x: 681
+        y: 29
+        width: 9
+        height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 52f51e14e26bf64c0800000000000000
-      internalID: -4292011610070753499
+      spriteID: 96980fad99fa93910800000000000000
+      internalID: 1817676999958759785
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: matryosika_3_body
+      name: serval_7
       rect:
         serializedVersion: 2
-        x: 1032
-        y: 471
-        width: 186
-        height: 181
+        x: 689
+        y: 37
+        width: 11
+        height: 19
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 320d4fa841864cd20800000000000000
-      internalID: 3297875264581980195
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: matryosika_4_open
-      rect:
-        serializedVersion: 2
-        x: 1273
-        y: 467
-        width: 156
-        height: 354
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 13b3f9e3f40781a80800000000000000
-      internalID: -8495917211379090639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: matryosika_4_close
-      rect:
-        serializedVersion: 2
-        x: 1270
-        y: 22
-        width: 146
-        height: 245
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 66c2b4776a432ec50800000000000000
-      internalID: 6692969885796609126
+      spriteID: 25fb4c17dc3a54380800000000000000
+      internalID: -8987597378575614126
       vertices: []
       indices: 
       edges: []
@@ -365,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1161bee35a644c13fa3c8cc98bf5013f
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -375,20 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      matryosika_0_body: 4490483086491699287
-      matryosika_0_head: 6279934961894089577
-      matryosika_10: -3567963782772227895
-      matryosika_11: 9206177197154952630
-      matryosika_12: -3768391335343329000
-      matryosika_13: 676383817500733470
-      matryosika_1_body: -337894049417649014
-      matryosika_1_head: -1501121892863762531
-      matryosika_2_body: -4292011610070753499
-      matryosika_2_head: 1623143688948291659
-      matryosika_3_body: 3297875264581980195
-      matryosika_3_head: -412210223424985593
-      matryosika_4_close: 6692969885796609126
-      matryosika_4_open: -8495917211379090639
+      serval_0: -4605633604816582379
+      serval_1: -5526864956412425009
+      serval_2: 3163146506310562908
+      serval_3: 4892209532950258337
+      serval_4: -2831095587870545702
+      serval_5: -5263000119449971805
+      serval_6: 1817676999958759785
+      serval_7: -8987597378575614126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

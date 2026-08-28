@@ -123,6 +123,21 @@ namespace CosmicChaosCat
         private Coroutine blackEyesBlinkRoutine;
         private bool blackEyesWasActive;
         private Coroutine perfectWorldFlashRoutine;
+        private Coroutine cheersFlashRoutine;
+        private Coroutine cthulhuRevealRoutine;
+        private RectTransform matryosikaRoot;
+        private readonly List<Image> matryosikaHeads = new List<Image>();
+        private readonly List<Vector2> matryosikaHeadClosedPositions = new List<Vector2>();
+        private readonly List<Image> matryosikaBodies = new List<Image>();
+        private readonly List<Vector2> matryosikaBodyClosedPositions = new List<Vector2>();
+        private readonly List<Image> matryosikaBacks = new List<Image>();
+        private readonly List<Vector2> matryosikaBackClosedPositions = new List<Vector2>();
+        private RectTransform matryosikaFinalBodyMask;
+        private int matryosikaOpenCount;
+        private bool matryosikaClosing;
+        private Coroutine matryosikaOpenRoutine;
+        private int matryosikaActiveMotionCount;
+        private int matryosikaMotionGeneration;
         private int ticklingSequenceStep;
         private GameObject burgerMakerCenterStack;
         private readonly List<GameObject> spawnedBurgerStacks = new List<GameObject>();
@@ -181,6 +196,30 @@ namespace CosmicChaosCat
             if (IsPerfectWorldCat(socketCardId))
             {
                 TryFlashPerfectWorld(entry);
+                return;
+            }
+
+            if (IsCheers(socketCardId))
+            {
+                FlashCheers(entry);
+                return;
+            }
+
+            if (IsCthulhu(socketCardId))
+            {
+                TryRevealCthulhu(entry);
+                return;
+            }
+
+            if (IsMatryosika(socketCardId))
+            {
+                AdvanceMatryosika();
+                return;
+            }
+
+            if (IsStretchCat(socketCardId))
+            {
+                AdvanceStretchCat(entry);
                 return;
             }
 
@@ -333,6 +372,26 @@ namespace CosmicChaosCat
         private static bool IsPerfectWorldCat(string cardId)
         {
             return int.TryParse(cardId, out int cardNumber) && cardNumber == 321;
+        }
+
+        private static bool IsCheers(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 355;
+        }
+
+        private static bool IsCthulhu(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 356;
+        }
+
+        private static bool IsMatryosika(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 357;
+        }
+
+        private static bool IsStretchCat(string cardId)
+        {
+            return int.TryParse(cardId, out int cardNumber) && cardNumber == 360;
         }
 
         private static bool IsTicklingCat(string cardId)
@@ -903,6 +962,347 @@ namespace CosmicChaosCat
             string cardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
             if (cardImage != null && IsPerfectWorldCat(cardId)) cardImage.sprite = card.CardSprite;
             perfectWorldFlashRoutine = null;
+        }
+
+        private void FlashCheers(CardEntry card)
+        {
+            if (card == null || card.EffectSprites == null || card.EffectSprites.Length == 0 ||
+                card.EffectSprites[0] == null) return;
+            if (cheersFlashRoutine != null) StopCoroutine(cheersFlashRoutine);
+            cheersFlashRoutine = StartCoroutine(FlashCheersRoutine(card));
+        }
+
+        private System.Collections.IEnumerator FlashCheersRoutine(CardEntry card)
+        {
+            if (cardImage != null)
+            {
+                cardImage.sprite = card.EffectSprites[0];
+                FitSubClickSpriteToBounds(cardImage.sprite);
+            }
+            yield return new WaitForSecondsRealtime(0.5f);
+            string cardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (cardImage != null && IsCheers(cardId))
+            {
+                cardImage.sprite = card.CardSprite;
+                FitSubClickSpriteToBounds(cardImage.sprite);
+            }
+            cheersFlashRoutine = null;
+        }
+
+        private void TryRevealCthulhu(CardEntry card)
+        {
+            if (gameManager == null || cardImage == null || card == null ||
+                card.EffectSprites == null || card.EffectSprites.Length < 5) return;
+            if (!gameManager.TryGetCardProgress(card.Id, out var progress) ||
+                progress == null || progress.BreakthroughCount < 4) return;
+
+            int selectedStage = gameManager.GetSocketSelectedStage(mySocket);
+            Sprite truthSprite = card.EffectSprites[Mathf.Clamp(selectedStage, 1, 5) - 1];
+            if (truthSprite == null) return;
+            Sprite ordinarySprite = card.GetSpriteForStage(Mathf.Clamp(selectedStage, 1, 5));
+            if (ordinarySprite == null) ordinarySprite = card.CardSprite;
+            if (cthulhuRevealRoutine != null) StopCoroutine(cthulhuRevealRoutine);
+            cthulhuRevealRoutine = StartCoroutine(RevealCthulhuBriefly(card, truthSprite, ordinarySprite));
+        }
+
+        private System.Collections.IEnumerator RevealCthulhuBriefly(
+            CardEntry card, Sprite truthSprite, Sprite ordinarySprite)
+        {
+            cardImage.sprite = truthSprite;
+            FitSubClickSpriteToBounds(cardImage.sprite);
+            yield return new WaitForSecondsRealtime(0.3f);
+            string cardId = gameManager != null ? gameManager.GetSocketCardId(mySocket) : null;
+            if (cardImage != null && IsCthulhu(cardId))
+            {
+                cardImage.sprite = ordinarySprite != null ? ordinarySprite : card.CardSprite;
+                FitSubClickSpriteToBounds(cardImage.sprite);
+            }
+            cthulhuRevealRoutine = null;
+        }
+
+        private void AdvanceMatryosika()
+        {
+            if (matryosikaRoot == null || matryosikaHeads.Count < 5)
+                return;
+
+            int index;
+            bool opening;
+            if (!matryosikaClosing)
+            {
+                if (matryosikaOpenCount >= 5) return;
+                index = matryosikaOpenCount++;
+                opening = true;
+            }
+            else
+            {
+                if (matryosikaOpenCount <= 0) return;
+                index = --matryosikaOpenCount;
+                opening = false;
+            }
+            matryosikaActiveMotionCount++;
+            matryosikaOpenRoutine = StartCoroutine(
+                MoveMatryosikaLayer(index, opening, matryosikaMotionGeneration));
+        }
+
+        private void AdvanceStretchCat(CardEntry card)
+        {
+            if (gameManager == null || cardImage == null || card?.BreakthroughSprites == null ||
+                card.BreakthroughSprites.Length < 5) return;
+            if (!gameManager.TryGetCardProgress(card.Id, out var progress) ||
+                progress == null || progress.BreakthroughCount < 4) return;
+
+            int visibleIndex = System.Array.IndexOf(card.BreakthroughSprites, cardImage.sprite);
+            if (visibleIndex < 0) visibleIndex = currentSpriteIndex;
+            currentSpriteIndex = (visibleIndex + 1) % card.BreakthroughSprites.Length;
+            Sprite nextSprite = card.BreakthroughSprites[currentSpriteIndex];
+            if (nextSprite == null) return;
+            cardImage.sprite = nextSprite;
+            FitSubClickSpriteToBounds(nextSprite);
+        }
+
+        private System.Collections.IEnumerator MoveMatryosikaLayer(
+            int index, bool opening, int motionGeneration)
+        {
+            Image head = index >= 0 && index < matryosikaHeads.Count ? matryosikaHeads[index] : null;
+            if (head == null)
+            {
+                CompleteMatryosikaMotion(motionGeneration);
+                matryosikaOpenRoutine = null;
+                yield break;
+            }
+            RectTransform rect = head.rectTransform;
+            RectTransform bodyRect = index < matryosikaBodies.Count && matryosikaBodies[index] != null
+                ? matryosikaBodies[index].rectTransform : null;
+            RectTransform backRect = index < matryosikaBacks.Count && matryosikaBacks[index] != null
+                ? matryosikaBacks[index].rectTransform : null;
+            Vector2 headClosed = matryosikaHeadClosedPositions[index];
+            Vector2 bodyClosed = index < matryosikaBodyClosedPositions.Count
+                ? matryosikaBodyClosedPositions[index] : Vector2.zero;
+            Vector2 backClosed = index < matryosikaBackClosedPositions.Count
+                ? matryosikaBackClosedPositions[index] : Vector2.zero;
+            bool finalDoll = index == 4;
+            float halfHeight = matryosikaRoot != null ? matryosikaRoot.rect.height * 0.5f : 300f;
+            RectTransform canvasRect = cardImage != null && cardImage.canvas != null
+                ? cardImage.canvas.transform as RectTransform : null;
+            float exitDistance = Mathf.Max(halfHeight * 3f,
+                canvasRect != null ? canvasRect.rect.height : halfHeight * 3f);
+            Vector2 headOpen = finalDoll
+                ? headClosed + Vector2.up * rect.rect.height * 1.24f
+                : headClosed + Vector2.up * exitDistance;
+            Vector2 bodyOpen = finalDoll
+                ? bodyClosed + Vector2.up * Mathf.Max(12f, bodyRect != null ? bodyRect.rect.height * 0.12f : 12f)
+                : bodyClosed + Vector2.down * exitDistance;
+            Vector2 backOpen = finalDoll
+                ? backClosed
+                : backClosed + Vector2.down * exitDistance;
+            Vector2 headStart = opening ? headClosed : headOpen;
+            Vector2 headTarget = opening ? headOpen : headClosed;
+            Vector2 bodyStart = opening ? bodyClosed : bodyOpen;
+            Vector2 bodyTarget = opening ? bodyOpen : bodyClosed;
+            Vector2 backStart = opening ? backClosed : backOpen;
+            Vector2 backTarget = opening ? backOpen : backClosed;
+            float elapsed = 0f;
+            const float duration = 0.72f;
+            while (elapsed < duration && rect != null)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float eased = 1f - Mathf.Pow(1f - t, 3f);
+                rect.anchoredPosition = Vector2.Lerp(headStart, headTarget, eased);
+                if (finalDoll && matryosikaFinalBodyMask != null)
+                    SetMatryosikaFinalBodyRevealFollowingHead(
+                        Vector2.Lerp(bodyStart, bodyTarget, eased),
+                        rect.anchoredPosition.y - rect.rect.height * 0.5f);
+                else if (bodyRect != null)
+                    bodyRect.anchoredPosition = Vector2.Lerp(bodyStart, bodyTarget, eased);
+                if (backRect != null) backRect.anchoredPosition = Vector2.Lerp(backStart, backTarget, eased);
+                yield return null;
+            }
+            if (rect != null) rect.anchoredPosition = headTarget;
+            if (finalDoll && matryosikaFinalBodyMask != null)
+                SetMatryosikaFinalBodyRevealFollowingHead(
+                    bodyTarget,
+                    rect.anchoredPosition.y - rect.rect.height * 0.5f);
+            else if (bodyRect != null) bodyRect.anchoredPosition = bodyTarget;
+            if (backRect != null) backRect.anchoredPosition = backTarget;
+            CompleteMatryosikaMotion(motionGeneration);
+            matryosikaOpenRoutine = null;
+        }
+
+        private void CompleteMatryosikaMotion(int motionGeneration)
+        {
+            if (motionGeneration != matryosikaMotionGeneration) return;
+            matryosikaActiveMotionCount = Mathf.Max(0, matryosikaActiveMotionCount - 1);
+            if (matryosikaActiveMotionCount > 0) return;
+            if (matryosikaOpenCount >= 5) matryosikaClosing = true;
+            else if (matryosikaOpenCount <= 0) matryosikaClosing = false;
+        }
+
+        private void RefreshMatryosikaDisplay(bool active, CardEntry card)
+        {
+            if (!active || cardImage == null || card?.EffectSprites == null || card.EffectSprites.Length < 14)
+            {
+                if (matryosikaOpenRoutine != null) StopCoroutine(matryosikaOpenRoutine);
+                matryosikaOpenRoutine = null;
+                if (matryosikaRoot != null) Destroy(matryosikaRoot.gameObject);
+                matryosikaRoot = null;
+                matryosikaHeads.Clear();
+                matryosikaHeadClosedPositions.Clear();
+                matryosikaBodies.Clear();
+                matryosikaBodyClosedPositions.Clear();
+                matryosikaBacks.Clear();
+                matryosikaBackClosedPositions.Clear();
+                matryosikaFinalBodyMask = null;
+                matryosikaOpenCount = 0;
+                matryosikaClosing = false;
+                matryosikaActiveMotionCount = 0;
+                matryosikaMotionGeneration++;
+                if (cardImage != null) cardImage.color = Color.white;
+                return;
+            }
+
+            if (matryosikaRoot != null) Destroy(matryosikaRoot.gameObject);
+            var rootObject = new GameObject("MatryosikaLayers", typeof(RectTransform));
+            matryosikaRoot = rootObject.GetComponent<RectTransform>();
+            matryosikaRoot.SetParent(cardImage.transform, false);
+            matryosikaRoot.anchorMin = matryosikaRoot.anchorMax = new Vector2(0.5f, 0.5f);
+            matryosikaRoot.pivot = new Vector2(0.5f, 0.5f);
+
+            Vector2 bounds = hasOriginalRectSize ? originalSizeDelta : cardImage.rectTransform.rect.size;
+            if (bounds.x <= 0f || bounds.y <= 0f) bounds = new Vector2(311f, 520f);
+            matryosikaRoot.sizeDelta = bounds;
+            // Sprite pieces fit their 311x520 source composition, while the
+            // supplied anchored positions were tuned in the default 400x400 UI.
+            // Keep these scales separate so -44 stays -44 at the reference size.
+            float scale = Mathf.Min(bounds.x / 311f, bounds.y / 520f);
+            float positionScale = Mathf.Min(bounds.x / 400f, bounds.y / 400f);
+            Sprite outerHeadSprite = card.EffectSprites[0];
+            Sprite outerBodySprite = card.EffectSprites[1];
+            float outerBodyHeight = outerBodySprite.rect.height * scale;
+            float outerHeadY = 16f * positionScale;
+            float outerBodyY = -148f * positionScale;
+            float bottom = outerBodyY - outerBodyHeight * 0.5f;
+            float[] headReferenceY = { 16f, -13f, -37f, -58f, -109f };
+            float[] backReferenceY = { -78f, -91.5f, -104f, -114.5f };
+
+            matryosikaHeads.Clear();
+            matryosikaHeadClosedPositions.Clear();
+            matryosikaBodies.Clear();
+            matryosikaBodyClosedPositions.Clear();
+            matryosikaBacks.Clear();
+            matryosikaBackClosedPositions.Clear();
+            var headsByIndex = new Image[5];
+            var positionsByIndex = new Vector2[5];
+            var bodiesByIndex = new Image[5];
+            var bodyPositionsByIndex = new Vector2[5];
+            var backsByIndex = new Image[5];
+            var backPositionsByIndex = new Vector2[5];
+            // The added back pieces close the transparent cavity behind each
+            // nested doll. They must render before every doll/front piece.
+            for (int i = 0; i < 4; i++)
+            {
+                Sprite backSprite = card.EffectSprites[10 + i];
+                Image back = CreateEffectImage($"MatryosikaBodyBack_{i}", matryosikaRoot, backSprite);
+                float backWidth = backSprite.rect.width * scale;
+                float backHeight = backSprite.rect.height * scale;
+                back.rectTransform.sizeDelta = new Vector2(backWidth, backHeight);
+                Vector2 backPosition = new Vector2(
+                    0f,
+                    backReferenceY[i] * positionScale);
+                back.rectTransform.anchoredPosition = backPosition;
+                back.raycastTarget = false;
+                backsByIndex[i] = back;
+                backPositionsByIndex[i] = backPosition;
+            }
+            for (int i = 4; i >= 0; i--)
+            {
+                Sprite headSprite = card.EffectSprites[i * 2];
+                Sprite bodySprite = card.EffectSprites[i * 2 + 1];
+                Image body;
+                if (i == 4)
+                {
+                    var maskObject = new GameObject("MatryosikaFinalBodyMask", typeof(RectTransform), typeof(RectMask2D));
+                    matryosikaFinalBodyMask = maskObject.GetComponent<RectTransform>();
+                    matryosikaFinalBodyMask.SetParent(matryosikaRoot, false);
+                    matryosikaFinalBodyMask.anchorMin = matryosikaFinalBodyMask.anchorMax = new Vector2(0.5f, 0.5f);
+                    matryosikaFinalBodyMask.pivot = new Vector2(0.5f, 0.5f);
+                    body = CreateEffectImage($"MatryosikaBody_{i}", matryosikaFinalBodyMask, bodySprite);
+                }
+                else
+                {
+                    body = CreateEffectImage($"MatryosikaBody_{i}", matryosikaRoot, bodySprite);
+                }
+                Image head = CreateEffectImage($"MatryosikaHead_{i}", matryosikaRoot, headSprite);
+                float bodyWidth = bodySprite.rect.width * scale;
+                float bodyHeight = bodySprite.rect.height * scale;
+                float headWidth = headSprite.rect.width * scale;
+                float headHeight = headSprite.rect.height * scale;
+                float stageRatio = bodySprite.rect.width / outerBodySprite.rect.width;
+                body.rectTransform.sizeDelta = new Vector2(bodyWidth, bodyHeight);
+                head.rectTransform.sizeDelta = new Vector2(headWidth, headHeight);
+                Vector2 bodyPosition = new Vector2(0f, bottom + bodyHeight * 0.5f);
+                body.rectTransform.anchoredPosition = bodyPosition;
+                Vector2 closedPosition = i < headReferenceY.Length
+                    ? new Vector2(i == 2 ? positionScale : 0f, headReferenceY[i] * positionScale)
+                    : new Vector2(0f, bodyPosition.y + (outerHeadY - outerBodyY) * stageRatio);
+                head.rectTransform.anchoredPosition = closedPosition;
+                body.raycastTarget = false;
+                head.raycastTarget = false;
+                headsByIndex[i] = head;
+                positionsByIndex[i] = closedPosition;
+                bodiesByIndex[i] = body;
+                bodyPositionsByIndex[i] = body.rectTransform.anchoredPosition;
+                if (i == 4)
+                {
+                    bodyPositionsByIndex[i] = bodyPosition;
+                }
+            }
+            matryosikaHeads.AddRange(headsByIndex);
+            matryosikaHeadClosedPositions.AddRange(positionsByIndex);
+            matryosikaBodies.AddRange(bodiesByIndex);
+            matryosikaBodyClosedPositions.AddRange(bodyPositionsByIndex);
+            matryosikaBacks.AddRange(backsByIndex);
+            matryosikaBackClosedPositions.AddRange(backPositionsByIndex);
+            SetMatryosikaFinalBodyReveal(bodyPositionsByIndex[4], 0f);
+            matryosikaOpenCount = 0;
+            matryosikaClosing = false;
+            matryosikaActiveMotionCount = 0;
+            matryosikaMotionGeneration++;
+            cardImage.color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        private void SetMatryosikaFinalBodyReveal(Vector2 fullBodyCenter, float revealProgress)
+        {
+            if (matryosikaFinalBodyMask == null || matryosikaBodies.Count <= 4 || matryosikaBodies[4] == null)
+                return;
+            RectTransform bodyRect = matryosikaBodies[4].rectTransform;
+            float bodyWidth = bodyRect.sizeDelta.x;
+            float bodyHeight = bodyRect.sizeDelta.y;
+            float visibleRatio = Mathf.Lerp(0.55f, 1f, Mathf.Clamp01(revealProgress));
+            float visibleHeight = bodyHeight * visibleRatio;
+            float bodyBottom = fullBodyCenter.y - bodyHeight * 0.5f;
+            Vector2 maskCenter = new Vector2(fullBodyCenter.x, bodyBottom + visibleHeight * 0.5f);
+            matryosikaFinalBodyMask.sizeDelta = new Vector2(bodyWidth, visibleHeight);
+            matryosikaFinalBodyMask.anchoredPosition = maskCenter;
+            bodyRect.anchoredPosition = new Vector2(0f, fullBodyCenter.y - maskCenter.y);
+        }
+
+        private void SetMatryosikaFinalBodyRevealFollowingHead(Vector2 fullBodyCenter, float headBottomY)
+        {
+            if (matryosikaFinalBodyMask == null || matryosikaBodies.Count <= 4 || matryosikaBodies[4] == null)
+                return;
+            RectTransform bodyRect = matryosikaBodies[4].rectTransform;
+            float bodyWidth = bodyRect.sizeDelta.x;
+            float bodyHeight = bodyRect.sizeDelta.y;
+            float bodyBottom = fullBodyCenter.y - bodyHeight * 0.5f;
+            float bodyTop = fullBodyCenter.y + bodyHeight * 0.5f;
+            float minimumTop = bodyBottom + bodyHeight * 0.55f;
+            float visibleTop = Mathf.Clamp(Mathf.Max(minimumTop, headBottomY), minimumTop, bodyTop);
+            float visibleHeight = visibleTop - bodyBottom;
+            Vector2 maskCenter = new Vector2(fullBodyCenter.x, bodyBottom + visibleHeight * 0.5f);
+            matryosikaFinalBodyMask.sizeDelta = new Vector2(bodyWidth, visibleHeight);
+            matryosikaFinalBodyMask.anchoredPosition = maskCenter;
+            bodyRect.anchoredPosition = new Vector2(0f, fullBodyCenter.y - maskCenter.y);
         }
 
         private void TryBlinkBlackEyes(CardEntry card)
@@ -2165,6 +2565,7 @@ namespace CosmicChaosCat
                 RefreshTasteDisplay(IsTasteCat(curCardId), card);
                 RefreshThrowCatDisplay(IsThrowCat(curCardId), card);
                 RefreshHumunStreetEarthDisplay(IsHumunStreetEarth(curCardId), card);
+                RefreshMatryosikaDisplay(IsMatryosika(curCardId), card);
             }
 
             // 등급 컬러

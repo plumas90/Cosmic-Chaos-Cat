@@ -1,0 +1,507 @@
+fileFormatVersion: 2
+guid: c85beb317253b661a9698478a51d9415
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2570104135522783981
+    second: corn_double_0
+  - first:
+      213: -8493170921342487395
+    second: corn_double_1
+  - first:
+      213: -8032673782036910079
+    second: corn_double_2
+  - first:
+      213: 1898274507108535314
+    second: corn_double_3
+  - first:
+      213: -6755518188405252627
+    second: corn_double_4
+  - first:
+      213: 820563478605567343
+    second: corn_double_5
+  - first:
+      213: 2898744343737411323
+    second: corn_double_6
+  - first:
+      213: -8475031620134123052
+    second: corn_double_7
+  - first:
+      213: 5852618549709918935
+    second: corn_double_8
+  - first:
+      213: 677688557881737181
+    second: corn_double_9
+  - first:
+      213: 3410143121762204661
+    second: corn_double_10
+  - first:
+      213: -5316075831898214505
+    second: corn_double_11
+  - first:
+      213: -9202233416828490003
+    second: corn_double_12
+  - first:
+      213: 6368860106159085782
+    second: corn_double_13
+  - first:
+      213: -6064856437821876403
+    second: corn_double_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: corn_double_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 539
+        width: 741
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31de66ed7e7255cd0800000000000000
+      internalID: -2570104135522783981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 25
+        width: 697
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9434b8bb02322a80800000000000000
+      internalID: -8493170921342487395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 537
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 100b81111c5368090800000000000000
+      internalID: -8032673782036910079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_3
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 62
+        width: 785
+        height: 488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21c42625b96085a10800000000000000
+      internalID: 1898274507108535314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_4
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 533
+        width: 733
+        height: 563
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ded1a6afff39f32a0800000000000000
+      internalID: -6755518188405252627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_5
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 479
+        width: 57
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6591f1e22a336b00800000000000000
+      internalID: 820563478605567343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_6
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 450
+        width: 23
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf624275f986a3820800000000000000
+      internalID: 2898744343737411323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_7
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 479
+        width: 29
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d9c3b5e4a3a26a80800000000000000
+      internalID: -8475031620134123052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_8
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 445
+        width: 43
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d2525dff8da83150800000000000000
+      internalID: 5852618549709918935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_9
+      rect:
+        serializedVersion: 2
+        x: 1458
+        y: 391
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddf33e02722a76900800000000000000
+      internalID: 677688557881737181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_10
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 349
+        width: 29
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fbb0edf913435f20800000000000000
+      internalID: 3410143121762204661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_11
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 373
+        width: 23
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79feaa852318936b0800000000000000
+      internalID: -5316075831898214505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_12
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 327
+        width: 33
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee65b186791b4080800000000000000
+      internalID: -9202233416828490003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_13
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 284
+        width: 20
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d8d4cbd58cb26850800000000000000
+      internalID: 6368860106159085782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corn_double_14
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 269
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d47d2e9e33d45dba0800000000000000
+      internalID: -6064856437821876403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      corn_double_0: -2570104135522783981
+      corn_double_1: -8493170921342487395
+      corn_double_10: 3410143121762204661
+      corn_double_11: -5316075831898214505
+      corn_double_12: -9202233416828490003
+      corn_double_13: 6368860106159085782
+      corn_double_14: -6064856437821876403
+      corn_double_2: -8032673782036910079
+      corn_double_3: 1898274507108535314
+      corn_double_4: -6755518188405252627
+      corn_double_5: 820563478605567343
+      corn_double_6: 2898744343737411323
+      corn_double_7: -8475031620134123052
+      corn_double_8: 5852618549709918935
+      corn_double_9: 677688557881737181
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

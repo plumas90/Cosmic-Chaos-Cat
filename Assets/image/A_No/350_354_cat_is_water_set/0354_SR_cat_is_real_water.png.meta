@@ -1,0 +1,425 @@
+fileFormatVersion: 2
+guid: 65a9440d109f3232e9301782ae0872dd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2658241712537294135
+    second: cat_is_real_water_0
+  - first:
+      213: 7411191708194298060
+    second: cat_is_real_water_1
+  - first:
+      213: -8535594420205293449
+    second: cat_is_real_water_2
+  - first:
+      213: -4440018957832519547
+    second: cat_is_real_water_3
+  - first:
+      213: 5709295618882458288
+    second: cat_is_real_water_4
+  - first:
+      213: 8186609984816878113
+    second: cat_is_real_water_5
+  - first:
+      213: 5702778469530384097
+    second: cat_is_real_water_6
+  - first:
+      213: 6284664884522189984
+    second: cat_is_real_water_7
+  - first:
+      213: -7794936391706930680
+    second: cat_is_real_water_8
+  - first:
+      213: 4316078927414245705
+    second: cat_is_real_water_9
+  - first:
+      213: 1149694526795339067
+    second: cat_is_real_water_10
+  - first:
+      213: 8199409074111880465
+    second: cat_is_real_water_11
+  - first:
+      213: -5634148823905326264
+    second: cat_is_real_water_12
+  - first:
+      213: 3500884761736868304
+    second: cat_is_real_water_13
+  - first:
+      213: 2888310257314204258
+    second: cat_is_real_water_14
+  - first:
+      213: -5654438201044444530
+    second: cat_is_real_water_15
+  - first:
+      213: -6347497176873548818
+    second: cat_is_real_water_16
+  - first:
+      213: -2518997683736135502
+    second: cat_is_real_water_17
+  - first:
+      213: 6871630588193924534
+    second: cat_is_real_water_18
+  - first:
+      213: -7570622121204151168
+    second: cat_is_real_water_19
+  - first:
+      213: -1587204591273838020
+    second: cat_is_real_water_20
+  - first:
+      213: 7594824375231409449
+    second: cat_is_real_water_21
+  - first:
+      213: 7839072458280979271
+    second: cat_is_real_water_22
+  - first:
+      213: 2808245275427137721
+    second: cat_is_real_water_23
+  - first:
+      213: 3493372861069414746
+    second: cat_is_real_water_24
+  - first:
+      213: 356020552736070888
+    second: cat_is_real_water_25
+  - first:
+      213: 1326205236391960588
+    second: cat_is_real_water_26
+  - first:
+      213: -3626076695904182501
+    second: cat_is_real_water_27
+  - first:
+      213: -6425676079475008255
+    second: cat_is_real_water_28
+  - first:
+      213: 6036925193798596361
+    second: cat_is_real_water_29
+  - first:
+      213: 4635817778361487154
+    second: cat_is_real_water_30
+  - first:
+      213: -4227758151665859715
+    second: cat_is_real_water_31
+  - first:
+      213: 8955502154660898622
+    second: cat_is_real_water_32
+  - first:
+      213: 2904152477823311040
+    second: cat_is_real_water_33
+  - first:
+      213: 6165427967075744068
+    second: cat_is_real_water_34
+  - first:
+      213: -7727213703727725516
+    second: cat_is_real_water_35
+  - first:
+      213: 6528570561686329545
+    second: cat_is_real_water_36
+  - first:
+      213: -2485981022537387889
+    second: cat_is_real_water_37
+  - first:
+      213: 7331798217994512579
+    second: cat_is_real_water_38
+  - first:
+      213: -5622167546770934239
+    second: cat_is_real_water_39
+  - first:
+      213: -1956937207892336301
+    second: cat_is_real_water_40
+  - first:
+      213: 5283280046852000464
+    second: cat_is_real_water_41
+  - first:
+      213: -5454968920482697653
+    second: cat_is_real_water_42
+  - first:
+      213: -1535725876073193362
+    second: cat_is_real_water_43
+  - first:
+      213: -7335124015246531463
+    second: cat_is_real_water_44
+  - first:
+      213: -4402655946174022257
+    second: cat_is_real_water_45
+  - first:
+      213: 889963748762078352
+    second: cat_is_real_water_46
+  - first:
+      213: 2223972803261234288
+    second: cat_is_real_water_47
+  - first:
+      213: 5884666981283104199
+    second: cat_is_real_water_48
+  - first:
+      213: 6866168604175837046
+    second: cat_is_real_water_49
+  - first:
+      213: 8224030670732244365
+    second: cat_is_real_water_50
+  - first:
+      213: -2473202980348979562
+    second: cat_is_real_water_51
+  - first:
+      213: -1252017423816440705
+    second: cat_is_real_water_52
+  - first:
+      213: 8211975913796418031
+    second: cat_is_real_water_53
+  - first:
+      213: 7256223941771315833
+    second: cat_is_real_water_54
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cat_is_real_water_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 514
+        width: 737
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73559eae0c8f3e420800000000000000
+      internalID: 2658241712537294135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_real_water_1
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 514
+        width: 737
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc8dd39a797d9d660800000000000000
+      internalID: 7411191708194298060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_real_water_2
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 40
+        width: 737
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7707bdc291a7b8980800000000000000
+      internalID: -8535594420205293449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cat_is_real_water_3
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 40
+        width: 737
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58084663842e162c0800000000000000
+      internalID: -4440018957832519547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a1e95687ca9c13c4393def820d66eeea
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      cat_is_real_water_0: 2658241712537294135
+      cat_is_real_water_1: 7411191708194298060
+      cat_is_real_water_10: 1149694526795339067
+      cat_is_real_water_11: 8199409074111880465
+      cat_is_real_water_12: -5634148823905326264
+      cat_is_real_water_13: 3500884761736868304
+      cat_is_real_water_14: 2888310257314204258
+      cat_is_real_water_15: -5654438201044444530
+      cat_is_real_water_16: -6347497176873548818
+      cat_is_real_water_17: -2518997683736135502
+      cat_is_real_water_18: 6871630588193924534
+      cat_is_real_water_19: -7570622121204151168
+      cat_is_real_water_2: -8535594420205293449
+      cat_is_real_water_20: -1587204591273838020
+      cat_is_real_water_21: 7594824375231409449
+      cat_is_real_water_22: 7839072458280979271
+      cat_is_real_water_23: 2808245275427137721
+      cat_is_real_water_24: 3493372861069414746
+      cat_is_real_water_25: 356020552736070888
+      cat_is_real_water_26: 1326205236391960588
+      cat_is_real_water_27: -3626076695904182501
+      cat_is_real_water_28: -6425676079475008255
+      cat_is_real_water_29: 6036925193798596361
+      cat_is_real_water_3: -4440018957832519547
+      cat_is_real_water_30: 4635817778361487154
+      cat_is_real_water_31: -4227758151665859715
+      cat_is_real_water_32: 8955502154660898622
+      cat_is_real_water_33: 2904152477823311040
+      cat_is_real_water_34: 6165427967075744068
+      cat_is_real_water_35: -7727213703727725516
+      cat_is_real_water_36: 6528570561686329545
+      cat_is_real_water_37: -2485981022537387889
+      cat_is_real_water_38: 7331798217994512579
+      cat_is_real_water_39: -5622167546770934239
+      cat_is_real_water_4: 5709295618882458288
+      cat_is_real_water_40: -1956937207892336301
+      cat_is_real_water_41: 5283280046852000464
+      cat_is_real_water_42: -5454968920482697653
+      cat_is_real_water_43: -1535725876073193362
+      cat_is_real_water_44: -7335124015246531463
+      cat_is_real_water_45: -4402655946174022257
+      cat_is_real_water_46: 889963748762078352
+      cat_is_real_water_47: 2223972803261234288
+      cat_is_real_water_48: 5884666981283104199
+      cat_is_real_water_49: 6866168604175837046
+      cat_is_real_water_5: 8186609984816878113
+      cat_is_real_water_50: 8224030670732244365
+      cat_is_real_water_51: -2473202980348979562
+      cat_is_real_water_52: -1252017423816440705
+      cat_is_real_water_53: 8211975913796418031
+      cat_is_real_water_54: 7256223941771315833
+      cat_is_real_water_6: 5702778469530384097
+      cat_is_real_water_7: 6284664884522189984
+      cat_is_real_water_8: -7794936391706930680
+      cat_is_real_water_9: 4316078927414245705
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

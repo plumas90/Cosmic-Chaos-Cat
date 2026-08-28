@@ -16,7 +16,11 @@ namespace CosmicChaosCat
             string digits = System.Text.RegularExpressions.Regex.Match(setIdStr, @"\d+").Value;
             if (int.TryParse(digits, out int num))
             {
-                return num <= 2 || num == 9 || (num >= 13 && num <= 15) || num == 17 || num == 18;
+                // Only sets explicitly disabled by design stay hidden. New set IDs
+                // are visible by default until they are deliberately added here.
+                return !(num >= 3 && num <= 8) &&
+                       !(num >= 10 && num <= 12) &&
+                       num != 16;
             }
             return true;
         }
